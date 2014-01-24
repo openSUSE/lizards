@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; XML</title>
+	<atom:link href="http://lizards.opensuse.org/tag/xml/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>Editing KIWI configurations with Emacs</title>
+		<link>http://lizards.opensuse.org/2012/08/31/editing-kiwi-configurations-with-emacs/</link>
+		<comments>http://lizards.opensuse.org/2012/08/31/editing-kiwi-configurations-with-emacs/#comments</comments>
+		<pubDate>Fri, 31 Aug 2012 16:17:00 +0000</pubDate>
+		<dc:creator><![CDATA[Togan Muftuoglu]]></dc:creator>
+				<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Emacs]]></category>
+		<category><![CDATA[KIWI]]></category>
+		<category><![CDATA[XML]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8961</guid>
+		<description><![CDATA[I recently decided to do all my work in emacs and even though the learning speed is a bit slow, I thought I would share what I discoverd regarding editing the KIWI config files. Kiwi has the schema file for the elements and their attributes but unfortunately by default Emacs is unaware of it&#8217;s schema [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I recently decided to do all my work in emacs and even though the learning speed is a bit slow, I thought I would share what I discoverd regarding editing the KIWI config files. Kiwi has the schema file for the elements and their attributes but unfortunately by default Emacs is unaware of it&#8217;s schema location. So first create a schema location file as below and save it.<br />
+<code><br />
+&lt;locatingRules xmlns="http://thaiopensource.com/ns/locating-rules/1.0"&gt;<br />
+&lt;transformURI fromPattern="*.xml" toPattern="*.rnc"/&gt;</code></p>
+<p>&lt;uri pattern=&#8221;*.kiwi&#8221; typeId=&#8221;KIWI&#8221;/&gt;<br />
+&lt;typeId id=&#8221;KIWI&#8221; uri=&#8221;/usr/share/kiwi/modules/KIWISchema.rnc&#8221;/&gt;<br />
+&lt;/locatingRules&gt;</p>
+<p>I saved it as $HOME/.emacs.d/data/myschemas.xml. Now add this to your Emac&#8217;s init file for autoloading the nxml mode for kiwi files in addition to the xml files<br />
+<code><br />
+(setq auto-mode-alist<br />
+(cons '("\\.\\(xml\\|kiwi\\|xsl\\|rng\\|xhtml\\)\\'" . nxml-mode)<br />
+auto-mode-alist))<br />
+</code><br />
+and add this code for nxml mode to locate the kiwi schema file when you edit a kiwi config file<br />
+<code><br />
+(eval-after-load 'rng-loc<br />
+'(add-to-list 'rng-schema-locating-files (concat user-emacs-directory "data/myschemas.xml")))<br />
+</code><br />
+Now have fun with Emacs, Kiwi and your openSUSE</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/08/31/editing-kiwi-configurations-with-emacs/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Zippl again &#8211; now in the package</title>
+		<link>http://lizards.opensuse.org/2011/07/12/zippl-again-now-in-the-package/</link>
+		<comments>http://lizards.opensuse.org/2011/07/12/zippl-again-now-in-the-package/#comments</comments>
+		<pubDate>Tue, 12 Jul 2011 20:16:00 +0000</pubDate>
+		<dc:creator><![CDATA[Klaas Freitag]]></dc:creator>
+				<category><![CDATA[Boosters]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Office]]></category>
+		<category><![CDATA[Presentation]]></category>
+		<category><![CDATA[Prezi]]></category>
+		<category><![CDATA[XML]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7624</guid>
+		<description><![CDATA[some might remember my hackweek project Zippl. I blogged about it more than a year ago. Zippl is a lightweigt presentation tool, a bit like prezi, a hipp tool for that purpose, where all &#8216;slides&#8217; sit on one large canvas and during the presentation a kind of camera moves over the canvas. I liked the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<div id="attachment_7625" style="width: 201px" class="wp-caption alignright"><a href="http://lizards.opensuse.org/wp-content/uploads/2011/07/zippl_logo.png"><img class="size-full wp-image-7625" title="zippl_logo" src="http://lizards.opensuse.org/wp-content/uploads/2011/07/zippl_logo.png" alt="Zippl" width="191" height="239" /></a><p class="wp-caption-text">lightweight presentations</p></div>
+<p>some might remember my hackweek project Zippl. I <a href="http://lizards.opensuse.org/2010/06/11/zippl-a-lightweigth-presentation-tool/">blogged about</a> it more than a year ago. Zippl is a lightweigt presentation tool, a bit like <a href="http://prezi.com">prezi</a>, a hipp tool for that purpose, where all &#8216;slides&#8217; sit on one large canvas and during the presentation a kind of camera moves over the canvas.</p>
+<p>I liked the idea and did Zippl as I wanted to play with Qt&#8217;s QGraphicsView. It takes a simple xml file as input which describes the presentation and animates it as shown in the video in my <a href="http://lizards.opensuse.org/2010/06/11/zippl-a-lightweigth-presentation-tool/">older blog.</a></p>
+<p>First I thought it doesn&#8217;t make sense to continue that project. But recently, somebody asked if I have built in the feature <em>back to the previous spot</em> as I promised almost a year ago, as he wanted to do a presentation with Zippl. I couldn&#8217;t believe, and so I spent an evening in the weekend to polish Zippl a bit. And because its easy with OBS, I quickly built an rpm package for various openSUSEs.</p>
+<p>Now that I worked on it a bit again I found it could also make sense on tablet devices, for example to run cool <em>Hello New User</em> animations or small presentations for ant Tilly to get some sponsorship for the new bike. Could be fun.</p>
+<p>If you want to check it, please install from <a href="http://download.opensuse.org/repositories/home:/kfreitag/">my home repository</a>.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/07/12/zippl-again-now-in-the-package/feed/</wfw:commentRss>
+		<slash:comments>9</slash:comments>
+		</item>
+		<item>
+		<title>KIWI RELAX NG Schema Explained</title>
+		<link>http://lizards.opensuse.org/2009/12/06/kiwi-relaxng-schema-explained/</link>
+		<comments>http://lizards.opensuse.org/2009/12/06/kiwi-relaxng-schema-explained/#comments</comments>
+		<pubDate>Sun, 06 Dec 2009 19:20:29 +0000</pubDate>
+		<dc:creator><![CDATA[Thomas Schraitle]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[KIWI]]></category>
+		<category><![CDATA[RELAX NG]]></category>
+		<category><![CDATA[XML]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=2724</guid>
+		<description><![CDATA[KIWI, invented by Marcus Schäfer, is a magnificent tool to build your own SUSE Linux distribution. It is also the backend of SUSE Studio. For those who has used KIWI manually already know the details: KIWI&#8217;s configuration file is XML and based on a RELAX NG schema. This article give developers a little background of [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><a href="http://en.opensuse.org/Kiwi">KIWI</a>, invented by Marcus Schäfer, is a magnificent tool to build your own SUSE Linux distribution. It is also the backend of <a href="http://susestudio.com/">SUSE Studio</a>.</p>
+<p>For those who has used KIWI manually already know the details: KIWI&#8217;s configuration file is XML and based on a RELAX NG schema. This article give developers a little background of the history, a short overview of some design decisions around KIWI&#8217;s RELAX NG schema, and how to customize it to your needs.<br />
+<span id="more-2724"></span></p>
+<h2>Invent it—The History</h2>
+<p>When KIWI was young, it used a <a href="http://en.wikipedia.org/wiki/XML_Schema_%28W3C%29" target="_blank">W3C XML schema</a> to validate its configuration file. Well, for several reasons (which is unimportant for this post) I don&#8217;t really like this schema language. Some time ago I discovered RELAX NG, a schema language which was used to develop DocBook 5.<br />
+RELAX NG has less than 30 elements, can be written in XML or in a compact syntax and is surprisingly simple. To become more familiar with this schema language, I thought it would be a good idea to rewrite KIWI&#8217;s W3C XML Schema into RELAX NG.</p>
+<p>Although there are tools that can convert it, it is much more fun to do it manually. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' />   Well, the old schema was also partely documented, so I thought this could be integrated as well. Well, after some testing I&#8217;ve sent the first draft of the RELAX NG schema to Marcus on November 11, 2007. I never thought he would integrate it into his production code. Well, you know the result. Thanks Marcus! <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </p>
+<h2>Design it—What We Need</h2>
+<p>Based on Marcus&#8217; former W3C schema, the RELAX NG schema had the following design decisions in mind:</p>
+<ul>
+<li>The <a title="http://relaxng.org/compact-tutorial-20030326.html" href="http://" target="_blank">Compact syntax</a> (also known as RNC) was used.</li>
+<li>Elements were defined as <a href="http://relaxng.org/compact-tutorial-20030326.html#id2814516" target="_blank">named patterns</a> for easier customization.</li>
+<li>Single attributes were also definied as named patterns.</li>
+<li>A group of attributes were collected as named pattern.</li>
+<li>A convention (naming schema) made the RELAX NG schema much more consistent. This naming schema is borrowed from DocBook 5.</li>
+<li>Datatypes were used, if possible.</li>
+<li><a href="http://relaxng.org/compact-20021121.html#annotations" target="_blank">Annotations</a> were integrated to document KIWI&#8217;s elements, attributes, and attribute values.</li>
+</ul>
+<p>I will just focus on some principles. This makes it easier to find your way through the schema, if needed. To explain the complete schema would be too boring.</p>
+<h2>Investigate It—The Technical Details</h2>
+<p>Ok, let&#8217;s consider the <tt>image</tt> element, KIWI&#8217;s root element. <a href="http://gitorious.org/kiwi/kiwi/blobs/master/modules/KIWISchema.rnc">KIWI&#8217;s RNC schema</a> says:</p>
+<pre>k.image =
+    ## The root element of the configuration file
+    [
+      db:para [
+        "Each KIWI configuration file consists of a root element\x{a}" ~
+        "        image."
+      ]
+    ]
+    element image {
+      k.image.attlist
+      &amp; k.description
+      &amp; k.preferences+
+      &amp; k.profiles?
+      &amp; k.instsource?
+      &amp; k.users*
+      &amp; k.drivers*
+      &amp; k.repository+
+      &amp; k.pxedeploy?
+      &amp; k.split?
+      &amp; k.packages*
+      &amp; k.vmwareconfig?
+      &amp; k.xenconfig?
+    }</pre>
+<p>What does that mean?? Let&#8217;s go through it step by step:</p>
+<ul>
+<li> <tt>k.image =</tt><br />
+This is a definition of a named pattern. I used the convention <tt>k.<em>ELEMENTNAME</em></tt> for each element in the schema.</li>
+<li> <tt>## The root element of the configuration file</tt><br />
+Although it looks like a comment, it is an annotation actually. Annotations are used to document the corresponding object, which is always a good idea. In this case this is even better: any XML editor which supports annotations can read it and displays it as tool tips or the like on request. Usually annotations are short.</li>
+<li><tt>[<br />
+db:para [ "Each KIWI configuration file ..." ]<br />
+]</tt></p>
+<p>RELAX NG allows you to insert elements from foreign namespaces. The  <a href="http://www.docbook.org/tdg5/en/html/para.html"><tt>db:para</tt></a> element is from <a href="http://www.docbook.org/schemas/5x">DocBook 5</a>.  I used it to insert more descriptions or example when the object needs a more elaborate explanation. This element can also be create a kind of &#8220;API documentation&#8221;.</li>
+<li><tt>element image { ... }</tt><br />
+We want an <tt>image</tt> element and this line defines it. The KIWI elements do not belong to a namespace at the moment.</li>
+</ul>
+<ul>
+<li><tt>k.image.attlist</tt><br />
+This refers to all attributes of the image element. I used the convention <tt>k.<em>ELEMENTNAME</em>.attlist</tt> to group all attributes for the element ELEMENTNAME. A single attribute is named <tt>k.<em>ELEMENTNAME</em>.<em>ATTRIBUTENAME</em>.attribute</tt>. In its full beauty, the <tt>k.image.attlist</tt> pattern looks like this:</p>
+<pre>k.image.attlist = k.image.name.attribute
+		&amp; k.image.displayname.attribute?
+		&amp; k.image.inherit.attribute?
+		&amp; k.image.kiwirevision.attribute?
+		&amp; k.image.id?
+		&amp; k.image.schemaversion.attribute
+		&amp; ( k.image.noNamespaceSchemaLocation.attribute?
+		  | k.image.schemaLocation.attribute? )?</pre>
+<p>As you can see, the <tt>image</tt> element contains several attributes, some of them are optional (flagged with the &#8220;?&#8221; character.) Attributes in XML have no order. The compact syntax expresses this with the interleave pattern, available as &#8220;&amp;&#8221; character.</li>
+<li><tt>k.description &amp; k.preferences+ &amp; ...</tt><br />
+The content model (relationships and structure) of the <tt>image</tt> element. The schema allows an unordered modell which is expressed with the interleave pattern (&amp;).</li>
+</ul>
+<p>To summerize it: each element in the KIWI schema contains a short annotation, a more verbose documentation in DocBook 5, and the corresponding content modell. Attributes have a similar structure.</p>
+<h2>Customize it—Modify The Schema</h2>
+<p>Why this effort you might ask? I made the KIWI RELAX NG schema extensible and added lots of named patterns so it is very easy to customize it.</p>
+<p>Maybe you program a new functionality and need a new element or attribute. However, you still need the original, unchanged schema. How can you do this? One solution to this problem is to customize the KIWI schema: include the original schema and overwrite the named patterns with your changes. Some of these named patterns are introduced in the above list and it is straightforward to derive the name of a certain element or attribute according to the naming convention.</p>
+<p>It is pretty easy to add or remove elements, attributes, or attribute values. For example, the following lines adds an optional <tt>remote</tt> attribute (definied in <tt>k.user.remote.attribute</tt>) to <tt>k.user.attlist</tt> which belongs to the <tt>user</tt> element:</p>
+<pre>include "KIWISchema.rnc"
+
+k.user.remote.attribute =
+  ## Is user a remote user?
+  attribute remote { xsd:boolean }
+
+k.user.attlist &amp;= k.user.remote.attribute?</pre>
+<p>So what happens here?</p>
+<p>First, the original KIWI RELAX NG schema is incorporated with <tt>include</tt>. As we want to add a new attribute, we define a new pattern and name it <tt>k.user.remote.attribute</tt>. There we insert the annotation and define the attribute <tt>remote</tt>.<br />
+Finally, we just extend the existing attribute collection <tt>k.user.attlist</tt> with our new attribute. This is done with the <tt>&amp;=</tt> notation. If you used <tt>=</tt> you would <em>overwrite</em> the <tt>k.user.remote.attribute</tt> named pattern. The result is one attribute <tt>remote</tt> in the element <tt>user</tt> which is not what we intended.</p>
+<p>I know, the example is a bit artifical. Normally you don&#8217;t need to touch the KIWI schema. However, if you need it, the article has demonstrated how you can extend the schema with just a few lines of code.</p>
+<p>Save the above lines in a file and move it into the directory where the KIWI RNC schema is stored. Use the customization file in your code instead of the original schema to &#8220;activate&#8221; it. Your configuration file validates with the new, optional <tt>remote</tt> attribute in the <tt>user</tt> element.</p>
+<p>Enjoy! <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/12/06/kiwi-relaxng-schema-explained/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Playing With XPath Expressions in The xmllint Shell</title>
+		<link>http://lizards.opensuse.org/2009/11/23/playing-with-xpath-expressions-in-the-xmllint-shell/</link>
+		<comments>http://lizards.opensuse.org/2009/11/23/playing-with-xpath-expressions-in-the-xmllint-shell/#comments</comments>
+		<pubDate>Mon, 23 Nov 2009 09:22:06 +0000</pubDate>
+		<dc:creator><![CDATA[Thomas Schraitle]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[KIWI]]></category>
+		<category><![CDATA[namespace]]></category>
+		<category><![CDATA[RELAX NG]]></category>
+		<category><![CDATA[XML]]></category>
+		<category><![CDATA[xpath]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=2589</guid>
+		<description><![CDATA[When XML is transformed into something else, in most cases XSLT comes to play. One of the challenges of XSLT is to select just the nodes you are interested in. This task is done by XPath, &#8220;a query language for selecting nodes from a XML document.&#8221; However, it can be tedious to create a XPath [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>When XML is transformed into something else, in most cases <a title="XSLT" href="http://en.wikipedia.org/wiki/XSLT">XSLT</a> comes to play. One of the challenges of XSLT is to select just the nodes you are interested in. This task is done by <a title="XPath" href="http://en.wikipedia.org/wiki/XPath">XPath</a>, &#8220;a query language for selecting nodes from a XML document.&#8221;</p>
+<p>However, it can be tedious to create a XPath expression, run the transformation, and check if you got the expected result. After hours of debugging you find out: It&#8217;s the wrong XPath expression!</p>
+<p>To make it easier: Test your XPath expressions in the internal <a href="http://xmlsoft.org/">xmllint</a> shell!</p>
+<p><span id="more-2589"></span></p>
+<h1>Using Easy XPath Expressions</h1>
+<p>Generally, xmllint is known as a popular tool to validate your XML structure. Mostly unknown is its internal shell. With this shell you can make some spiffy XPath tests and check if it returns exactly what you want. Let&#8217;s consider the following DocBook 4 document:</p>
+<pre>&lt;book lang="en"&gt;
+  &lt;title&gt;Dancing with Penguins&lt;/title&gt;
+  &lt;bookinfo&gt;
+    &lt;author&gt;
+      &lt;firstname&gt;Tux&lt;/firstname&gt;
+     &lt;surname&gt;Penguin&lt;/surname&gt;
+    &lt;/author&gt;
+  &lt;/bookinfo&gt;
+  &lt;chapter id="know.penguins"&gt;
+    &lt;title&gt;Getting to Know Penguins&lt;/title&gt;
+    &lt;abstract&gt;
+      &lt;para&gt;Penguins are cute.&lt;/para&gt;
+    &lt;/abstract&gt;
+    &lt;sect1&gt;
+      &lt;title&gt;The Head&lt;/title&gt;
+      &lt;para&gt;...&lt;/para&gt;
+    &lt;/sect1&gt;
+    &lt;!-- A small comment --&gt;
+    &lt;sect1 id="penguin.coat"&gt;
+      &lt;title&gt;The Coat&lt;/title&gt;
+      &lt;para&gt;...&lt;/para&gt;
+    &lt;/sect1&gt;
+  &lt;/chapter&gt;
+&lt;/book&gt;</pre>
+<p>The content is not so important than the structure. To examine some XPath features of xmllint, we load the document into its shell using its <tt>--shell</tt> option:</p>
+<pre>xmllint --shell penguin-dance.xml</pre>
+<p>You first see the prompt:</p>
+<pre>/ &gt;</pre>
+<p>The prompt shows you the path to your current node. After loading you just see the root node, which is indicated as <tt>/</tt>. Pretty similar than a Linux path notation.</p>
+<p>Use <tt>help</tt> to list all available commands. For this little post, we focus on the <tt>xpath</tt> command. It evaluates an XPath expression in the context and prints the result. Let&#8217;s try an absolute XPath:</p>
+<pre>/ &gt; <span style="color: #339966">xpath</span> /book
+Object is a Node Set :
+Set contains 1 nodes:
+1  ELEMENT book
+    ATTRIBUTE lang
+      TEXT
+        content=en</pre>
+<p>Well, that was to be expected.  The interesting part is, you can change the context. For example, we could change it to the first chapter:</p>
+<pre>/ &gt; <span style="color: #339966">cd</span> book/chapter
+  chapter &gt;</pre>
+<p>Surprised we didn&#8217;t use an absolute XPath? Well, our context was already the root node, containing the book node. In this case, it doesn&#8217;t matter to use a relative or absolute XPath. Both lead to the same node. However, this is not always the case.</p>
+<p>Let&#8217;s see what we have inside book:</p>
+<pre>chapter &gt; <span style="color: #339966">xpath</span> *
+  1  ELEMENT title
+  2  ELEMENT abstract
+  3  ELEMENT sect1
+  4  ELEMENT sect1</pre>
+<p>Yes, that&#8217;s right. Ok, we want all sections in this chapter, that don&#8217;t have an <tt>id</tt> attribute. This can be achieved by using a <a href="http://www.w3.org/TR/xpath#NT-Predicate">XPath predicate</a> and the XPath function <tt>not</tt>:</p>
+<pre>chapter &gt; <span style="color: #339966">xpath</span> sect1[not(@id)]
+  Object is a Node Set :
+  Set contains 1 nodes:
+  1  ELEMENT sect1</pre>
+<p>We need the title, so we just append <tt>/title</tt> after the previous expression:</p>
+<pre>chapter &gt; <span style="color: #339966">xpath</span> sect1[not(@id)]/title
+  1  ELEMENT title</pre>
+<p>and we want the content so we wrap it into the <tt>string</tt> XPath function:</p>
+<pre>chapter &gt; <span style="color: #339966">xpath</span> string(sect1[not(@id)]/title)
+  Object is a string : The Head</pre>
+<p>We could use a lot more expressions to get the previous or following nodes, the parent nodes or the child nodes. For now, this section is enough and I make it a bit more difficult.</p>
+<p><!-- ********** --></p>
+<h1>Using Namespaces in XPath Expressions</h1>
+<p>When dealing with XML it is not uncommon that documents contain one or more <a href="http://en.wikipedia.org/wiki/XML_Namespace">XML namespaces</a>. To work with such structures, it is not enough to reuse the previous expressions. They will not work. Before you can work with namespaces, you have to define it first.</p>
+<p>Let&#8217;s consider <a href="http://en.opensuse.org/KIWI">KIWI</a>. The configuration is a XML file, based on a <a href="http://en.wikipedia.org/wiki/RELAX_NG">RELAX NG</a> schema. The RELAX NG schema are bound to a namespace. Load the KIWI schema with the following command:</p>
+<pre>xmllint --shell http://gitorious.org/kiwi/kiwi/blobs/raw/master/modules/KIWISchema.rng</pre>
+<p>As the KIWI schema can (and probably will) change, your results might be a little different than mine. But the principle is the same.</p>
+<p>Now we want to know, what contains the root element. As we do not know (yet) the root element&#8217;s name, we use a <em>wildcard</em>:</p>
+<pre>/ &gt; <span style="color: #339966">xpath</span> *
+Object is a Node Set :
+Set contains 1 nodes:
+1  ELEMENT grammar
+namespace db href=http://docbook.org/ns/docbook
+namespace a href=http://relaxng.org/ns/compatibility/anno...
+namespace rng href=http://relaxng.org/ns/structure/1.0
+namespace xsi href=http://www.w3.org/2001/XMLSchema-instanc...
+default namespace href=http://relaxng.org/ns/structure/1.0
+ATTRIBUTE datatypeLibrary
+TEXT
+content=http://www.w3.org/2001/XMLSchema-datatyp...</pre>
+<p>As you can see, the KIWI schema defines 5 namespaces in the <tt>grammar</tt> element. A RELAX NG schema uses the namespace <tt>http://relaxng.org/ns/structure/1.0</tt> which is bound to the <tt>rng</tt> prefix in our case. For convenience reason, we define it with the <tt>setns</tt> command just as <tt>r</tt>:</p>
+<pre>/ &gt; <span style="color: #339966">setns</span> r=http://relaxng.org/ns/structure/1.0</pre>
+<p>The prefix is unimportant, important is the namespace. We could use the one which is definied in the schema, it wouldn&#8217;t matter. But &#8220;r&#8221; is shorter than &#8220;rng&#8221;. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' />  After you have definied the XML namespace, you can enter all XPath expressions. However, you have to insert the prefix in front of your element names. For example, we can count all definied elements in the KIWI schema. RELAX NG uses the name <tt>element</tt> (surprise!) for this. To get the number of all definied elements, apply the XPath function <tt>count</tt> on the <tt>//</tt> expression:</p>
+<pre>/ &gt; <span style="color: #339966">xpath</span> count(//r:element)
+Object is a number : 80</pre>
+<p>Generally, every RELAX NG schema contains a <tt>start</tt> element. What contains it?</p>
+<pre>/ &gt; <span style="color: #339966">xpath</span> /r:grammar/r:start/*
+Object is a Node Set :
+Set contains 1 nodes:
+1  ELEMENT ref
+    ATTRIBUTE name
+      TEXT
+        content=k.image</pre>
+<p>Aha, there is a <tt>ref</tt> element. This element contains an attribute <tt>name</tt>. We could also use an absolute path. Let&#8217;s try it:</p>
+<pre>/ &gt; <span style="color: #339966">xpath</span> /r:grammar/r:start/r:ref/@name
+Object is a Node Set :
+Set contains 1 nodes:
+1  ATTRIBUTE name
+    TEXT
+      content=k.image</pre>
+<p>In RELAX NG, every <tt>ref</tt> element has to point to a  <tt>define</tt> element. Let&#8217;s see what we get, when we want it all, using the <tt>//</tt> expression again:</p>
+<pre>/ &gt; <span style="color: #339966">xpath</span> //r:define
+Object is a Node Set :
+Set contains 310 nodes:
+1  ELEMENT define
+    ATTRIBUTE name
+      TEXT
+        content=k.image.name.attribute
+...
+310  ELEMENT define
+    ATTRIBUTE name
+      TEXT
+        content=k.users</pre>
+<p>Ohh, that&#8217;s a bit too much. We want to know just the one from <tt>/r:grammar/r:start/r:ref/@name</tt>. The good news is: you can combine both with a predicate:</p>
+<pre>/ &gt; <span style="color: #339966">xpath</span> //r:define[@name=/r:grammar/r:start/r:ref/@name ]
+Object is a Node Set :
+Set contains 1 nodes:
+1  ELEMENT define
+    ATTRIBUTE name
+      TEXT
+        content=k.image</pre>
+<p>What&#8217;s inside?</p>
+<pre>/ &gt; <span style="color: #339966">xpath</span> //r:define[@name=/r:grammar/r:start/r:ref/@name ]/*
+Object is a Node Set :
+Set contains 1 nodes:
+1  ELEMENT element
+    ATTRIBUTE name
+      TEXT
+        content=image</pre>
+<p>An <tt>image</tt> element! This element appears as root element in every KIWI configuration (which you guessed already.) And what&#8217;s the definition?</p>
+<pre>/ &gt; <span style="color: #339966">xpath</span> //r:define[@name=/r:grammar/r:start/r:ref/@name ]/r:element/*
+Object is a Node Set :
+Set contains 3 nodes:
+1  ELEMENT a:documentation
+2  ELEMENT db:para
+3  ELEMENT interleave</pre>
+<p>The first two elements (<tt>a:documentation</tt>, <tt>db:para</tt>) are just for documentation. Interesting part is <tt>interleave</tt>. I leave it up to you, to investigate XPath and the KIWI schema. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </p>
+<p>This was just an overview of the xmllint shell. It is very helpful to test some XPath expressions before you integrate them in XSLT or in programs.</p>
+<p>Happy XPath-ing! <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/11/23/playing-with-xpath-expressions-in-the-xmllint-shell/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>DocBook-XML die Zweite!</title>
+		<link>http://lizards.opensuse.org/2009/09/21/docbook-xml-die-zweite/</link>
+		<comments>http://lizards.opensuse.org/2009/09/21/docbook-xml-die-zweite/#comments</comments>
+		<pubDate>Mon, 21 Sep 2009 01:00:59 +0000</pubDate>
+		<dc:creator><![CDATA[Thomas Schraitle]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[docbook]]></category>
+		<category><![CDATA[ebook]]></category>
+		<category><![CDATA[pdf]]></category>
+		<category><![CDATA[RELAX NG]]></category>
+		<category><![CDATA[XML]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=2170</guid>
+		<description><![CDATA[(Disclaimer: This post is mainly intended for a German audience and describes my book about DocBook XML. For this reason, as an exception, the following text is written in German only.) Nach ca. 1½ Jahren und unzähligen Stunden, dem Verschleiß von hunderten von Korrekturseiten und Stiften, einer überstandenen Druckerei-Pleite, viel verbrauchtem Gehirnschmalz, einem unwilligem PC [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>(Disclaimer: This post is mainly intended for a German audience and describes my book about <a href="http://www.docbook.org" target="_blank">DocBook XML</a>. For this reason, as an exception, the following text is written in German only.)</p>
+<p style="margin: 0px;text-indent: 0px">Nach ca. 1½ Jahren und unzähligen Stunden, dem Verschleiß von hunderten von Korrekturseiten und Stiften, einer überstandenen Druckerei-Pleite, viel verbrauchtem Gehirnschmalz, einem unwilligem PC und über 1000 Revisionen im SVN-Repository, ist jetzt die 2. Auflage meines Buches  &#8220;<strong>DocBook-XML &#8212; Medienneutrales und plattformunabhängiges Publizieren</strong>&#8221; beim <a title="Millin-Verlag" href="http://www.millin.de/" target="_blank">Millin-Verlag</a> erschienen. 5 Jahre nach der ersten Auflage.<!--EndFragment--></p>
+<p><span id="more-2170"></span></p>
+<p><a title="DocBook-Cover" href="http://www.millin.de/index.php?page=shop.product_details&amp;flypage=shop.flypage&amp;product_id=18&amp;category_id=3&amp;manufacturer_id=0&amp;option=com_virtuemart&amp;Itemid=83" target="_blank"><img class="size-full wp-image-2173 alignright" style="border: 1px solid black;margin-left: 20pt;margin-right: 10pt" src="http://lizards.opensuse.org/wp-content/uploads/2009/09/DocBook-Cover.jpg" alt="DocBook-Cover" width="300" height="435" /></a></p>
+<h1>Was ist neu?</h1>
+<p>Eine Menge! Hier eine kleine Übersicht der Neuerungen:</p>
+<ul>
+<li>Das Buch beschreibt sowohl die neue DocBook 5-Spezifikation als auch die ältere DocBook 4.x Version. Das komplette Buch habe ich für beide Versionen entsprechend angepasst.</li>
+<li>Die Installation und Konfiguration von DocBook für Linux und Windows wird Schritt für Schritt beschrieben.</li>
+<li>Es gibt viele neue Kapitel zu folgenden Themen:
+<ul>
+<li>ein Kapitel zu den Unterschieden zwischen Version 4 und 5.</li>
+<li><a href="http://www.relaxng.org" target="_blank"><em>RELAX NG</em></a> beschreibt die Schemasprache, in der DocBook 5 geschrieben ist.</li>
+<li><em>Modulare Dokumente</em> zeigt, wie Dokumente in DocBook aufgeteilt werden.</li>
+<li><em>Konditionale Elemente (Profiling)</em>, demonstriert die Fähigkeiten von Profiling, einer Methode um DocBook-Elemente auszublenden.</li>
+<li><em>E-Book-Format EPUB erzeugen</em>, beschreibt, wie Sie aus Ihrem Dokument ein E-Book erstellen, das Sie  auf jedem E-Book-Lesegerät anzeigen können, sofern es Formate wie EPUB oder  Mobipocket versteht.</li>
+</ul>
+<ul>
+<li><em>Tipps und Tricks</em>, gibt verschiedene Hilfestellungen und Tipps zu DocBook.</li>
+</ul>
+<ul>
+<li><em>Migration nach DocBook</em>, erklärt wie Sie von einem älteren Format nach DocBook gelangen.</li>
+</ul>
+</li>
+<li>Viele Kapitel wurden überarbeitet. Beispielsweise wurde das alte Kapitel <em>DocBook anwenden</em> in vier separate Kapitel aufgeteilt: <em>Strukturelemente</em>, <em>Block-Elemente</em>, <em>Inline-Elemente</em> und <em>Querverweise und Links</em>.</li>
+<li>Wie DocBook 4/5 angepasst werden kann wird selbstverständlich ebenso gezeigt.</li>
+<li>Es gibt eine praktische Übersicht über alle DocBook-Elemente, in welcher Version sie erscheinen, wo sie angewendet werden usw.  Für die tägliche Arbeit sehr nützlich zum Nachschlagen!</li>
+<li>Der Index wurde stark erweitert und umfasst jetzt 18 Seiten.</li>
+</ul>
+<p>Interessiert? Eine <a href="http://www.millin.de/lp-978-3-938626-14-6.pdf" target="_blank">Leseprobe</a> ist als PDF erhältlich.</p>
+<h1>Technisches</h1>
+<p>Beim Erstellen des Buches wurde nahezu ausschließlich Programme       aus kontrolliertem Open-Source-Anbau verwendet. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';-)' class='wp-smiley' />  Einzige       Ausnahmen waren der XML-Editor und der FO-Formatierer.</p>
+<p>In der ersten Auflage wurde der DocBook 4-Quellcode noch nach       LaTeX transformiert und daraus PDF bzw. PostScript erzeugt. Für       die zweite Auflage wurde zuerst der vorhandene Quellcode mittels       XSLT nach DocBook 5 umgewandelt. Mit Hilfe einer       XSLT-Transformation wurde eine XSL-FO-Datei erstellt, die von       einem FO-Formatierer eingelesen und in PDF umgewandelt wurde.</p>
+<p>Als Textschrift wird die <a title="Charis Font" href="http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&amp;id=CharisSILFont" target="_blank">Charis</a> von SIL International verwendet, für Überschriften die <a title="TheSans Font" href="http://www.lucasfonts.com/fonts/thesans/" target="_blank">TheSans</a> und für Listings die <a title="TheSans Monospaced Condensed Font" href="http://www.lucasfonts.com/fonts/thesansmono/thesansmono-condensed/" target="_blank">TheSansMono Condensed</a>; die beiden Letzteren stammen von <a title="Fontdesigner" href="http://www.lucasfonts.com/" target="_blank">Lucas de Groot</a>. Die Grafiken wurden entweder direkt in SVG mit <a href="http://www.inkscape.org" target="_blank">Inkscape</a> gezeichnet oder in <a title="OpenOffice.org Draw" href="http://de.openoffice.org/doc/howto/draw/index.html" target="_blank">OpenOffice.org Draw</a> erstellt, nach PDF exportiert und im DocBook-Code entsprechend referenziert. Das Cover-Bild wurde mit <a title="DTP Programm" href="http://www.scribus.net" target="_blank">Scribus</a> erstellt und für die Druckerei nach TIFF exportiert.</p>
+<p>Noch eine kleine Statistik: Das Buch enthält 23 Kapitel, 3       Anhänge, 230 Beispiele, 40 Abbildungen, 64 Tabellen, 65 Schritt-für-Schritt-Anleitungen, über 900 kleine und große Listings, 252       Links, 27 Zitate und über 970 Querverweise.</p>
+<h1>Wo erhältlich?</h1>
+<p>Das Buch können Sie in drei Versionen bestellen:</p>
+<ul>
+<li>Als 662 Seiten starkes <a title="DocBook-XML Buch" href="http://www.millin.de/index.php?page=shop.product_details&amp;flypage=shop.flypage&amp;product_id=18&amp;category_id=3&amp;manufacturer_id=0&amp;option=com_virtuemart&amp;Itemid=83" target="_blank">gedrucktes Buch</a> (ISBN-13-Nummer: 978-3-938626-14-6) oder</li>
+<li>als <a title="DocBook-XML Buch als EPUB, PDF und HTML" href="http://www.vorkon.de/index.php?page=shop.product_details&amp;flypage=shop.flypage&amp;product_id=129&amp;category_id=31&amp;manufacturer_id=0&amp;option=com_virtuemart&amp;Itemid=83" target="_blank">Online-Paket</a>, bestehend aus <a title="EPUB-Format (E-Books)" href="http://de.wikipedia.org/wiki/EPUB" target="_blank">EPUB</a>, PDF und HTML zu <em>einem</em> Preis! Somit steht einem Einsatz auf E-Book-Readern, Laptops oder Browsern nichts im Wege. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </li>
+<li>In Planung ist derzeit, dass einzelne Kapitel separat         heruntergeladen werden können. Somit können Sie sich nur die         Kapitel heraussuchen, für die Sie sich interessieren.</li>
+</ul>
+<p>Alle im Buch besprochenen Programme befinden sich bereits als einfach zu installierende Pakete für openSUSE. Weitere können von meinem <a title="Toms' Buildserver Repo" href="http://download.opensuse.org/repositories/home:/thomas-schraitle/" target="_blank">Buildserver Repository </a>nachinstalliert werden.</p>
+<p>Vielen Dank an Alle, die daran ihren Anteil hatten!</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/09/21/docbook-xml-die-zweite/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Why Ant Sucks (Somehow)</title>
+		<link>http://lizards.opensuse.org/2009/02/16/why-ant-sucks-somehow/</link>
+		<comments>http://lizards.opensuse.org/2009/02/16/why-ant-sucks-somehow/#comments</comments>
+		<pubDate>Mon, 16 Feb 2009 12:44:17 +0000</pubDate>
+		<dc:creator><![CDATA[Thomas Schraitle]]></dc:creator>
+				<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Ant]]></category>
+		<category><![CDATA[RELAX NG]]></category>
+		<category><![CDATA[Schema Design]]></category>
+		<category><![CDATA[XML]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=429</guid>
+		<description><![CDATA[What is Ant? According to Ant&#8217;s webpage: &#8220;Ant is a Java-based build tool. In theory, it is kind of like Make, without Make&#8217;s wrinkles and with the full portability of pure Java code.&#8221; Sounds nice, isn&#8217;t it? But XML design problems make Ant nearly unusable which this post becomes kind of a rant&#8230; The Current [&#8230;]]]></description>
+				<content:encoded><![CDATA[<h2>What is Ant?</h2>
+<p>According to <a href="http://ant.apache.org/faq.html#what-is-ant">Ant&#8217;s webpage</a>:</p>
+<p style="30px;">&#8220;Ant is a Java-based build tool. In theory, it is kind of         like Make, without Make&#8217;s wrinkles and with the full         portability of pure Java code.&#8221;</p>
+<p>Sounds nice, isn&#8217;t it? But XML design problems make Ant nearly unusable which this post becomes kind of a rant&#8230;</p>
+<p><span id="more-429"></span></p>
+<h2>The Current Situation</h2>
+<p>It started some time ago when I tried to use Ant for building a book. So I&#8217;ve looked into the documentation and saw Ant uses XML for their build files. &#8220;Great!&#8221;, I thought, &#8220;I start my XML editor and I&#8217;m ready to go!&#8221;</p>
+<p>A good XML user should use a Schema whenever possible. So I searched for some <a title="Document Type Definition">DTD</a>, <a title="RELAX NG">RNG</a>, or W3C Schema which my XML editor can use. However, I found this <a href="http://ant.apache.org/faq.html#dtd">notice</a> from the FAQ (cited from this page):</p>
+<hr />An incomplete DTD can be created by the <tt>&lt;antstructure&gt;</tt> task &#8211; but this one has a few problems:</p>
+<ul>
+<li>It doesn&#8217;t know about required attributes.  Only manual tweaking of this file can help here.</li>
+<li>It is not complete &#8211; if you add new tasks via <tt>&lt;taskdef&gt;</tt> it won&#8217;t know about it.  See  <a href="http://www.sdv.fr/pages/casa/html/ant-dtd.en.html">this page</a> by Michel Casabianca for a solution to this problem. Note that the DTD you can download at this page             is based on Ant 0.3.1.</li>
+<li>It may even be an invalid DTD.  As Ant allows tasks writers to define arbitrary elements, name collisions will happen quite frequently &#8211; if your version of Ant contains the optional <tt>&lt;test&gt;</tt> and <tt>&lt;junit&gt;</tt> tasks, there are two XML elements named <tt>test</tt> (the task and the nested child element of <tt>&lt;junit&gt;</tt>) with different attribute lists.  This problem cannot be solved; DTDs don&#8217;t give a syntax rich enough to support this.</li>
+</ul>
+<hr />(Hint: The DTD is not accessible through this link anymore&#8212;it can be found in the <a href="http://wiki.apache.org/ant/AntDTD">Ant-Wiki</a> now.)</p>
+<p>So with a XML editor on one hand, and with no schema on the other, Ant left me in the dark.</p>
+<h2>The Problem</h2>
+<p>So why then use XML? Why not use another syntax? The reason to use XML is not only it is easy to parse its syntax, it is also for its ability to validate your XML file. I don&#8217;t know the decisions that drove the Ant team to XML. However, it seems to me, Ant uses XML only halfhearted. This wouldn&#8217;t be bad per se. The bad thing is, that it <em>circumvents</em> XML good practices!</p>
+<p>So what&#8217;s exactly my problem with Ant? I have these:</p>
+<ol>
+<li><strong>A XML Structure Without Schema is Useless</strong><br />
+Ok, to be fair, not every XML structure needs a Schema. Very easy ones does not probably need one. However, if your structure becomes a bit more complicated, it is very important to have a Schema. It is even more important when your structure are used by other people and becomes widespread. How can people know if something is wrong when there is no Schema? Impossible! They have to run Ant every time or look into the documentation.</li>
+<li><strong>Redefining the XML Structure is Breaking XML</strong><br />
+The taskdef is probably one of the worst elements in Ant. I have never seen this concept in any other XML structure before. Even when you have a Schema, it <em>circumvents</em> the structure by introducing new elements just &#8220;accidentally&#8221;. This makes the whole concept of your validation useless.</li>
+<li><strong>No Official Schema</strong><br />
+Why using such &#8220;complicated&#8221; XML when no Schema is available? This seems not very userfriendly to offer XML without an underlying fundament.</li>
+<li><strong>Why XML?</strong><br />
+Although you can tell me a &#8220;fan&#8221; of XML, I don&#8217;t think it is useful in every case. There are certainly reasons why the Ant team chooses XML over another syntax. However, then it should take into account of a schema too. I&#8217;m not fully convinced of the advantages of XML as a building tool (with the lack of a good schema.)</li>
+</ol>
+<h2>A Possible Solution</h2>
+<p>To improve the situation for XML users, I think the following should be interesting:</p>
+<ol>
+<li><strong>Provide a RELAX NG Schema (RNG)</strong><br />
+In my humble opinion, this is the absolute minimum to work efficiently with Ant&#8217;s XML structure. The RNG should contain the core elements of Ant&#8217;s structure. Weather the RNG is liberal enough to allow further elements from other namespaces or not, is a matter of design.<br />
+If your XML editor does not support RNG, there should be a DTD or W3C Schema available. However, the semantic power is not always the same with these schema languages.</li>
+<li><strong>Use The Expressive Power of RELAX NG</strong><br />
+Ant&#8217;s XML structure contains sometimes conditions like: &#8220;Use only one attribute from this list.&#8221; This condition can be expressed with RNG&#8217;s <tt>choice</tt> element. The advantage of this approach: your XML editor helps you in creating valid XML during your writing.</li>
+<li><strong>Get Rid of taskdef (And The Like)</strong><br />
+This was not only totally unexpected, it is a nightmare for every XML editor (as described above). No Schema should be fooled with this &#8220;broken by design&#8221; method. There are other methods to introduce further elements, be it in a separate namespace or, for example, with an element usetask with an attribute name. This might be not as short as <tt>taskdef</tt>, but it is much more safer.</li>
+<li><strong>Document The RELAX NG Schema</strong><br />
+With documenting I mean not only a decent HTML page, but also some helpful tips <em>inside</em> the RELAX NG schema too. Modern XML editors which support annotations, can show a small tool tip to provide  users with helpful information. This is <em>very</em> useful as the user does not have to find the information-the information comes automatically through the XML editor.<br />
+Another advantage: You can extract the annotation to create a separate HTML page, for example.</li>
+<li><strong>Provide a Conversation Tool</strong><br />
+You can only make these &#8220;radical&#8221; steps, when there is a good conversion tool from major version n to n+1 available. This could be a XSLT stylesheet that converts the <tt>taskdef</tt> into something more useful.</li>
+<li><strong>Offer a &#8220;Compact Syntax</strong>&#8221;<br />
+RELAX NG schemas can be written in two forms: as XML and as a compact syntax. This is very, very useful, as it allows users to take part when they don&#8217;t like XML. It is also possible to convert the two without problems. If you still need the validation structure, convert it into XML, validate it and you are done.</li>
+</ol>
+<p>Schema design is not as easy as it looks. There are lots of problems that you only see after some time. That&#8217;s probably the reason, why the World Wide Web Consortium needs some time to declare a specification a <em>W3C Recommendation</em>.</p>
+<p>XML can be good. But it can also be broken when it is badly designed.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/02/16/why-ant-sucks-somehow/feed/</wfw:commentRss>
+		<slash:comments>7</slash:comments>
+		</item>
+		<item>
+		<title>Query your XML with xpathgrep.py</title>
+		<link>http://lizards.opensuse.org/2008/06/09/query-your-xml-with-xpathgreppy/</link>
+		<comments>http://lizards.opensuse.org/2008/06/09/query-your-xml-with-xpathgreppy/#comments</comments>
+		<pubDate>Mon, 09 Jun 2008 13:32:16 +0000</pubDate>
+		<dc:creator><![CDATA[Thomas Schraitle]]></dc:creator>
+				<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[lxml]]></category>
+		<category><![CDATA[Python]]></category>
+		<category><![CDATA[XML]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=52</guid>
+		<description><![CDATA[Maybe you know this problem: You have a couple of XML files and you need a specific information. Probably everybody would think of grep or similar tools first. But maybe your query is a bit more complicated than just a simple piece of text. What do do?]]></description>
+				<content:encoded><![CDATA[<p>Maybe you know this problem: You have a couple of XML files and you need a specific information. Probably everybody would think of grep or similar tools first. But maybe your query is a bit more complicated than just a simple piece of text. What do do?</p>
+<p>Recently I&#8217;ve found a very useful command line utility, which is probably not very known. It&#8217;s named xpathgrep.py and you can get it from the <a href="http://codespeak.net/svn/lxml/trunk/tools/xpathgrep.py">lxml repository</a> (you need lxml too). Let&#8217;s assume we have the following DocBook file:</p>
+<pre><em>File db.xml</em>
+&lt;?xml version="1.0"?&gt;
+&lt;book&gt;
+  &lt;title&gt;My Cooking Book&lt;/title&gt;
+  &lt;chapter&gt;
+    &lt;title&gt;Ingredients&lt;/title&gt;
+    &lt;para&gt;...&lt;/para&gt;
+  &lt;/chapter&gt;
+  &lt;chapter id="howtocook"&gt;
+    &lt;title&gt;How to cook&lt;/title&gt;
+    &lt;para&gt;...&lt;/para&gt;
+  &lt;/chapter&gt;
+&lt;/book&gt;</pre>
+<p>Now, if I want to get all the titles I have to use a <a href="http://www.w3.org/TR/xpath">XPath</a> (which is a <span>path description language for XML</span>, similar to Unix/Linux paths, but more powerful). To get all title elements all I have to do is to write <span style="mono;">//title</span>, regardless of the level:</p>
+<p><code>$ <strong>xpathgrep.py</strong> //title db.xml</code></p>
+<p>and I get this:</p>
+<p><code>&lt;title&gt;My Cooking Book&lt;/title&gt;<br />
+<br />
+&lt;title&gt;Ingredients&lt;/title&gt;<br />
+<br />
+&lt;title&gt;How to cook&lt;/title&gt;<br />
+</code></p>
+<p>Nice, isn&#8217;t it? Probably you say: &#8220;But, hey, I can get this with grep too!&#8221; Yes, but if you want just all chapter titles, you have a problem with grep. With XPath and xpathgrep.py I only modify my XPath expression a bit:</p>
+<p><code>$ <strong>xpathgrep.py</strong> //chapter/title db.xml</code></p>
+<p>Now this reduces the above output just to the wanted chapter titles. And I can extent my query just for all chapters that doesn&#8217;t have an id attribute:</p>
+<p><code>$ <strong>xpathgrep.py</strong> '//chapter[not(@id)]/title' db.xml</code></p>
+<p>(You need the apostroph because of the shell.) The tool outputs this:</p>
+<p><code>&lt;title&gt;Ingredients&lt;/title&gt;</code></p>
+<p>That&#8217;s nice, isn&#8217;t it? There are a lot of more to discover. A few hours ago I send a small patch to the lxml-devel mailinglist to support namespaces. Hopefully, it will be accepted. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2008/06/09/query-your-xml-with-xpathgreppy/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>

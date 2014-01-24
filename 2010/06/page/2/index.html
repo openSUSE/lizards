@@ -1,0 +1,794 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" itemscope itemtype="http://schema.org/Blog">
+<head>
+
+
+  <!-- include local CSS file -->
+  <link rel="stylesheet" href="//lizards.opensuse.org/wp-content/themes/bento/style.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="//static.opensuse.org/themes/bento/css/print.css" type="text/css" media="print" />
+
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <!-- opengraph metadata -->
+  <meta property="og:site_name" content="openSUSE Lizards" />
+  <meta itemprop="name" content="openSUSE News Blog">
+  <meta itemprop="description" content="openSUSE News Blog">
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Hackweek V: osc bash completion" />
+  <meta property="og:url" content="//lizards.opensuse.org/2010/06/15/hackweek-v-osc-bash-completion/" />
+  <meta property="og:description" content="" />
+
+  <!-- include JS from static.opensuse.org -->
+  <script src="//static.opensuse.org/themes/bento/js/jquery.js" type="text/javascript" charset="utf-8"></script>
+  <script src="//static.opensuse.org/themes/bento/js/script.js" type="text/javascript" charset="utf-8"></script>
+  <!-- This is for local development:
+  <script src="//lizards.opensuse.org/wp-content/themes/bento/js/script.js" type="text/javascript" charset="utf-8"></script>
+  -->
+
+  <!-- translated global navigation -->
+  <script src="//static.opensuse.org/themes/bento/js/l10n/global-navigation-data-en_US.js" type="text/javascript" charset="utf-8"></script>
+  <script src="//static.opensuse.org/themes/bento/js/global-navigation.js" type="text/javascript" charset="utf-8"></script>
+
+  <!-- social service scripts -->
+  <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
+  <script type="text/javascript">
+ 	 (function() 
+		{
+  	  		var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    			po.src = 'https://apis.google.com/js/plusone.js';
+    			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  		})();
+  </script>
+
+  <link rel="alternate" type="application/rss+xml" href="//lizards.opensuse.org/feed/" title="openSUSE Lizards latest posts" />
+  <link rel="alternate" type="application/rss+xml" href="//lizards.opensuse.org/comments/feed/" title="openSUSE Lizards latest comments" />
+  <link rel="pingback" href="//lizards.opensuse.org/xmlrpc.php" />
+  
+    <link rel="EditURI" type="application/rsd+xml" title="RSD" href="//lizards.opensuse.org/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="//lizards.opensuse.org/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 3.7.1" />
+<script type='text/javascript' src='//lizards.opensuse.org/wp-content/plugins/anti-captcha/anti-captcha-0.3.js.php?ver=cd163419a5f4df0ba7e252841f95fcc1'></script>
+<style type="text/css">
+.avatar {vertical-align:middle}
+.credit {font-size: 50%;}
+</style>
+		  
+  <link rel="icon" type="image/png" href="//static.opensuse.org/themes/bento/images/favicon.png" />
+  <title>openSUSE Lizards</title>
+  
+</head>
+
+<body>
+  
+  <!-- include header from static -->
+    
+  <!-- Start: Header -->
+  <div id="header">
+    
+    <div id="header-content" class="container_12">
+      
+      <a id="header-logo" href="http://www.opensuse.org">
+        <img src="//static.opensuse.org/themes/bento/images/header-logo.png" width="46" height="26" alt="Header Logo" />
+      </a>
+      
+            
+            <ul id="global-navigation">
+        <li id="item-downloads"><a href="http://opensuse.org/sitemap#downloads">Downloads</a></li>
+        <li id="item-support"><a href="http://opensuse.org/sitemap#support">Support</a></li>
+        <li id="item-community"><a href="http://opensuse.org/sitemap#community">Community</a></li>
+        <li id="item-development"><a href="http://opensuse.org/sitemap#development">Development</a></li>
+      </ul>
+      
+      
+<form role="search" method="get" id="searchform" action="//lizards.opensuse.org" >
+  <div>
+    <!-- TODO: use Label as action indicator ==> JS needed -->
+    <label class="screen-reader-text layer-label" for="s">Search</label>
+    <input type="text" value="" name="s" id="s" />
+    <input type="submit" id="searchsubmit" class="hidden" value="Search" />
+  </div>
+</form>    
+    </div>
+  </div>
+  <!-- End: Header -->
+
+  <div id="subheader" class="container_12">
+    <div id="breadcrump" class="grid_8 alpha">
+      <a href="/"><img src="//static.opensuse.org/themes/bento/images/home_grey.png" width="16" height="16" alt="Home" /></a> <a class="navCrumb lnk" href="//lizards.opensuse.org">Home</a> &gt; <a class="navCrumb lnk" href="//lizards.opensuse.org/2010/">2010</a> &gt; <a class="navCrumb lnk" href="//lizards.opensuse.org/2010/06/">06</a>    </div>
+    
+          
+          <div class="grid_4" id="login-wrapper">
+        <a href="#signup-page">Sign up</a> | 
+        <!-- <a id="login-trigger" href="" title="Login">Login</a> -->
+        <!-- wp_login_form() ==> http://codex.wordpress.org/Function_Reference/wp_login_form -->
+        <a href="//lizards.opensuse.org/wp-login.php" title="Login">Login</a>
+      </div>
+      </div>
+
+
+<!-- Start: Main Content Area -->
+<div id="content" class="container_16 ui-oo-content-wrapper">
+  <div class="box box-shadow grid_12 alpha main">
+
+     
+      
+                  <h2 class="pagetitle">Archive for June, 2010</h2>
+      
+      <div class="navigation page-navigation">
+        <div class="alignleft"><a href="//lizards.opensuse.org/2010/06/page/3/" >&laquo; Older Entries</a></div>
+        <div class="alignright"><a href="//lizards.opensuse.org/2010/06/" >Newer Entries &raquo;</a></div>
+        <div class="clearfix"></div>
+      </div>
+
+            <div class="post-4406 post type-post status-publish format-standard hentry category-build-service category-hackweek tag-osc-completion-hackweek">
+          <h3 id="post-4406"><a href="//lizards.opensuse.org/2010/06/15/hackweek-v-osc-bash-completion/" rel="bookmark" title="Permanent Link to Hackweek V: osc bash completion">Hackweek V: osc bash completion</a></h3>
+          <small>June 15th, 2010 by <a href="//lizards.opensuse.org/author/puzel/" title="Posts by Petr Uzel" rel="author">Petr Uzel</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="//lizards.opensuse.org/2010/06/15/hackweek-v-osc-bash-completion/"
+                data-text="openSUSE News: Hackweek V: osc bash completion"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=http%3A%2F%2Flizards.opensuse.org%2F2010%2F06%2F15%2Fhackweek-v-osc-bash-completion%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>During last week , I was working on my Hackweek V project: <a title="bash completion for osc" href="https://fate.novell.com/309588">bash completion for osc</a>. It&#8217;s still far from being complete, but IMHO it is usable already, so here we go.</p>
+<h2>Download</h2>
+<p>The project is hosted on <a title="gitorious.org" href="http://gitorious.org/opensuse/osc-bash-completion">gitorious.org</a>. To get the sources, use git:</p>
+<p><code>git clone git://gitorious.org/opensuse/osc-bash-completion.git </code></p>
+<h2>Installation</h2>
+<p>You need working and configured osc. I have tested the completion with osc-0.126git, but it should more or less work with older/newer versions too. Naturally, your shell has to be bash (I used bash-4.x). The easiest way how to try the completion is simply to do<br />
+<code>~&gt; source osc.sh</code>This will enable the completion for the given shell only &#8211; see <a title="README" href="http://gitorious.org/opensuse/osc-bash-completion/blobs/master/README">README</a> for more &#8220;persistent&#8221; ways how to enable the osc completion.</p>
+<h2>Features</h2>
+<p>The script provides support for completing:</p>
+<ul>
+<li>osc subcommand names (checkout, commit, &#8230;)</li>
+<li>global long osc options (e.g. &#8211;quiet, &#8211;debug, &#8230;)</li>
+<li>long subcommand options</li>
+<li>project names</li>
+<li>package names (in given project)</li>
+<li>file names (in given project/package)</li>
+<li>repository names (openSUSE_Factory, &#8230;)</li>
+<li>architectures (i586, x86_64, &#8230;)</li>
+<li>&#8230;</li>
+</ul>
+<p>Some examples:<br />
+<code>osc com&lt;tab&gt;&lt;tab&gt; =&gt; osc commit</code><br />
+<code>osc --ht&lt;tab&gt;&lt;tab&gt; =&gt; osc --http-debug</code><br />
+<code>osc build --a&lt;tab&gt;&lt;tab&gt; =&gt; osc build --alternative-project</code><br />
+<code>osc ls Ar&lt;tab&gt;&lt;tab&gt; =&gt; osc ls Archiving</code><br />
+<code>osc ls Base:System pa&lt;tab&gt;&lt;tab&gt; =&gt; osc ls Base:System parted</code><br />
+<code>osc cat Base:System parted ba&lt;tab&gt;&lt;tab&gt; =&gt; osc cat Base:System parted baselibs.conf</code><br />
+<code>osc buildlog openSUSE_&lt;tab&gt;&lt;tab&gt; =&gt; osc buildlog openSUSE_<br />
+openSUSE_Factory  openSUSE_11.0     openSUSE_11.1     openSUSE_11.2</code><br />
+<code>osc buildlog openSUSE_Factory x&lt;tab&gt;&lt;tab&gt; =&gt; osc buildlog openSUSE_Factory x86_64</code><br />
+<code>osc createrequest -a&lt;tab&gt;&lt;tab&gt; =&gt; osc createrequest -a<br />
+add_role delete change_devel set_bugowner submit</code><br />
+<code>osc ? d&lt;tab&gt;&lt;tab&gt; =&gt; osc ?<br />
+delete deleterequest dependson dif</code><br />
+<code>osc meta a&lt;tab&gt;&lt;tab&gt; =&gt; osc meta attribute</code><br />
+<code>osc my &lt;tab&gt;&lt;tab&gt; =&gt; osc my<br />
+pkg prj rq sr</code><br />
+<code>osc request &lt;tab&gt;&lt;tab&gt; =&gt; osc request<br />
+accept approvenew co       decline  checkout<br />
+list       log             revoke show    wipe</code><br />
+<code>osc getpac for&lt;tab&gt;&lt;tab&gt; =&gt; osc gepac fortune</code></p>
+<p>At the moment, the script DOES NOT provide support for completing</p>
+<ul>
+<li>short options</li>
+<li>arguments for most of the options</li>
+<li>some complex combinations of arguments</li>
+</ul>
+<h2>Caching</h2>
+<p>To avoid long delays and spamming OBS server too much, the script caches several information:</p>
+<ul>
+<li>list of projects in OBS</li>
+<li>list of packages in individual projects (only in those that have been accessed by osc)</li>
+<li>output of &#8220;osc repos prj&#8221; (dtto)</li>
+</ul>
+<p>Please <strong>see the <a title="README" href="http://gitorious.org/opensuse/osc-bash-completion/blobs/master/README">README</a></strong> file for more information about how the caching works and how to customize it (to <strong>make the completion significantly faster</strong>).</p>
+<h2>Known issues, TODO</h2>
+<ul>
+<li>The script does not work correctly if there is a long option with argument and there is &#8216;=&#8217; between the option and argument (&#8211;long-option=arg). Please use the &#8216;&#8211;long-option arg&#8217; form instead.</li>
+<li>For the time being, the script does not recognize alternative apiurl (-A|&#8211;apiurl) and thus it works only with default (https://api.opensuse.org) api.</li>
+<li>Sourcing the script removes the colon from COMP_WORDBREAKS variable to make completion of Build Service projects easier. This was known to break e.g. git completion in the past (however, I didn&#8217;t notice any issues). In the future, the script should be fixed so that modifying of COMP_WORDBREAKS is not necessary.</li>
+<li>The script should dynamically create list of osc subcommands and lists of their options by parsing osc help output (or something similar). Now the lists and logic are hardcoded in the script, which will make it maintenance nightmare when osc changes.</li>
+<li>Completing of &#8220;osc {chroot,build}&#8221; is not yet implemented.</li>
+<li>See TODO file</li>
+</ul>
+<h2>Testing and feedback</h2>
+<p>The completion script is very new, tested only by me and mvyskocil for a while, so it definitely has a lot of bugs. Before releasing it as a separate package, I&#8217;d like to collect some feedback first (and fix the already known problems and TODOs), so, if you are interested, please give it a try and report any bugs, suggestions or <strong>patches</strong> directly to me (petr.uzel@suse.cz). Also, feel free to ping me on IRC: ptr_uzl @ freenode.net.</p>
+<p>I hope at least somebody (except me <img src='//lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' />  ) will find the completion useful. Thanks and happy completing.</p>
+          </div>
+
+          <p class="postmetadata">Tags: <a href="//lizards.opensuse.org/tag/osc-completion-hackweek/" rel="tag">osc completion hackweek</a><br /> Posted in <a href="//lizards.opensuse.org/category/build-service/" title="View all posts in Build Service" rel="category tag">Build Service</a>, <a href="//lizards.opensuse.org/category/hackweek/" title="View all posts in Hackweek" rel="category tag">Hackweek</a> |   <a href="//lizards.opensuse.org/2010/06/15/hackweek-v-osc-bash-completion/#comments" title="Comment on Hackweek V: osc bash completion">4 Comments &#187;</a></p>
+
+        </div>
+
+            <div class="post-4402 post type-post status-publish format-standard hentry category-lizardsopensuseorg">
+          <h3 id="post-4402"><a href="//lizards.opensuse.org/2010/06/14/hello-word/" rel="bookmark" title="Permanent Link to Hello Word">Hello Word</a></h3>
+          <small>June 14th, 2010 by <a href="//lizards.opensuse.org/author/cabelo/" title="Posts by Alessandro de Oliveira Faria" rel="author">Alessandro de Oliveira Faria</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="//lizards.opensuse.org/2010/06/14/hello-word/"
+                data-text="openSUSE News: Hello Word"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=http%3A%2F%2Flizards.opensuse.org%2F2010%2F06%2F14%2Fhello-word%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>Hello Word&#8230;I&#8217;m the new openSUSE  Member.</p>
+<p style="text-align: center"><img class="aligncenter" style="border: 0pt none" src="http://pt.opensuse.org/images/8/87/CabeloSuse.jpg" alt="" width="340" height="286" /></p>
+<p style="text-align: center">Use the forçe, USE openSUSE!</p>
+<p style="text-align: center">&#8220;Collaborate attract friends, compete attract enemy&#8221;</p>
+<p style="text-align: right">http://pt.opensuse.org/Usuario:Cabelo</p>
+          </div>
+
+          <p class="postmetadata"> Posted in <a href="//lizards.opensuse.org/category/lizardsopensuseorg/" title="View all posts in lizards.openSUSE.org" rel="category tag">lizards.openSUSE.org</a> |   <span>Comments Off</span></p>
+
+        </div>
+
+            <div class="post-4400 post type-post status-publish format-standard hentry category-network tag-caching tag-cifs tag-fscache tag-hackweek tag-hackweek-v tag-kernel">
+          <h3 id="post-4400"><a href="//lizards.opensuse.org/2010/06/14/hackweek-v-local-caching-for-cifs-network-file-system/" rel="bookmark" title="Permanent Link to Hackweek V: Local caching for CIFS network file system">Hackweek V: Local caching for CIFS network file system</a></h3>
+          <small>June 14th, 2010 by <a href="//lizards.opensuse.org/author/sjayaraman/" title="Posts by Suresh Jayaraman" rel="author">Suresh Jayaraman</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="//lizards.opensuse.org/2010/06/14/hackweek-v-local-caching-for-cifs-network-file-system/"
+                data-text="openSUSE News: Hackweek V: Local caching for CIFS network file system"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=http%3A%2F%2Flizards.opensuse.org%2F2010%2F06%2F14%2Fhackweek-v-local-caching-for-cifs-network-file-system%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>Hackweek</p>
+<p>It&#8217;s that time of the year when SUSE/Novell developers use their Innovation Time-off to do a project of their interest/wish &#8211; called as Hackweek. Last week was Hackweek V. I worked on making the Common Internet File System (CIFS) cache aware, i.e. local caching for CIFS Network File System.</p>
+<p>Linux FS-Cache</p>
+<p>Caching can result in performance improvements in network filesystems where access to network and media is slow. The cache can indirectly improve performance of the network and the server by reduced network calls. Caching can be also viewed as a preparatory work for making disconnected operation (Offline) work with network filesystems.</p>
+<p>The Linux Kernel recently added a generic caching facility (FS-Cache) that any network filesystem like NFS or CIFS or other service can use to cache data locally. FS-Cache supports a variety of cache backends i.e. different types of cache that have different trade-offs (like CacheFiles, CacheFS etc.) FS-Cache mediates between cache backends and the network filesystems. Some of the network filesystems such as NFS and AFS are already integrated with FS-Cache.</p>
+<p>Making CIFS FS-Cache capable</p>
+<p>To make any network filesystem FS-Cache aware, there are a few things to consider. Let&#8217;s consider them step by step (though not in detail):</p>
+<p>* First, we need to define the network filesystem and it should be able to register/unregister with the FS-Cache interface.<br />
+* The network filesystem has to define the index hierarchy which could be used to locate a file object or discard a certain subset of all the files cached.<br />
+* We need to define the objects and the methods associated.<br />
+* All the indices in the index hierarchy and the data file need to be registered. This could be done by requesting a cookie for each index or data file. Upon successful registration, a corresponding cookie is returned.<br />
+* Functions to store and retrieve pages in the cache.<br />
+* Way to identify whether the cache for a file is valid or not.<br />
+* Function to release any in-memory representation for the network filesystem page.<br />
+* Way to invalidate a data file or index subtree and relinquish cookies.</p>
+<p>Implementation</p>
+<p>I wanted to get the prototype working within a week. So the way I have implemented it is rudimentary and has lot of room for improvement.</p>
+<p>The index hierarchy is not very deep. It has three levels &#8211; Server, Share and Inode. The only way that I know of identifying files with CIFS is by &#8216;UniqueId&#8217; which is supposed to be unique. However, some server do not ensure that the &#8216;UniqueId&#8217; is always unique (for example when there is more than one filesystem in the exported share). The cache coherency is currently ensured by verifying the &#8216;LastWriteTime&#8217; and size of the file. This is not a reliable way of detecting changes as some CIFS servers will not update the time until the filehandle is closed.</p>
+<p>The rudimentary implementation is ready and the cumulative patch can be found here:</p>
+<p>http://www.kernel.org/pub/linux/kernel/people/jays/patches/</p>
+<p>[WARNING: The patch is lightly tested and of prototype quality.]</p>
+<p>Here are some initial performance numbers with the patch:</p>
+<p>Copying one big file of size ~150 MB.</p>
+<p>$time cp /mnt/cifs/amuse.zip .<br />
+(Cache initialized)</p>
+<p>real 1m18.603s<br />
+user 0m0.016s<br />
+sys 0m8.569s</p>
+<p>$time cp /mnt/cifs/amuse.zip /<br />
+(Read from Cache)</p>
+<p>real 0m28.055s<br />
+user 0m0.008s<br />
+sys 0m1.140s</p>
+          </div>
+
+          <p class="postmetadata">Tags: <a href="//lizards.opensuse.org/tag/caching/" rel="tag">caching</a>, <a href="//lizards.opensuse.org/tag/cifs/" rel="tag">cifs</a>, <a href="//lizards.opensuse.org/tag/fscache/" rel="tag">fscache</a>, <a href="//lizards.opensuse.org/tag/hackweek/" rel="tag">Hackweek</a>, <a href="//lizards.opensuse.org/tag/hackweek-v/" rel="tag">hackweek V</a>, <a href="//lizards.opensuse.org/tag/kernel/" rel="tag">Kernel</a><br /> Posted in <a href="//lizards.opensuse.org/category/base-system/network/" title="View all posts in Network" rel="category tag">Network</a> |   <span>Comments Off</span></p>
+
+        </div>
+
+            <div class="post-4394 post type-post status-publish format-standard hentry category-artwork category-derivative category-education category-gnome category-hackweek category-kde">
+          <h3 id="post-4394"><a href="//lizards.opensuse.org/2010/06/14/opensuse-edu-li-f-e-theme-for-11-3/" rel="bookmark" title="Permanent Link to openSUSE Edu: Li-f-e theme for 11.3">openSUSE Edu: Li-f-e theme for 11.3</a></h3>
+          <small>June 14th, 2010 by <a href="//lizards.opensuse.org/author/cyberorg/" title="Posts by Jigish Gohil" rel="author">Jigish Gohil</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="//lizards.opensuse.org/2010/06/14/opensuse-edu-li-f-e-theme-for-11-3/"
+                data-text="openSUSE News: openSUSE Edu: Li-f-e theme for 11.3"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=http%3A%2F%2Flizards.opensuse.org%2F2010%2F06%2F14%2Fopensuse-edu-li-f-e-theme-for-11-3%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>For <a href="http://en.opensuse.org/Education">openSUSE Edu</a>: Linux for Education based on <a href="http://wiki.opensuse.org/Product_highlights_11.3">openSUSE 11.3</a> we will be going with great new default openSUSE 11.3 theme by <a href="http://jimmac.musichall.cz/">Jakub &#8220;Jimmac&#8221;  Steiner</a> with small addition of our own, here is how it looks.</p>
+<p> <a href="//lizards.opensuse.org/2010/06/14/opensuse-edu-li-f-e-theme-for-11-3/#more-4394" class="more-link">(more&hellip;)</a></p>
+          </div>
+
+          <p class="postmetadata"> Posted in <a href="//lizards.opensuse.org/category/artwork/" title="View all posts in Artwork" rel="category tag">Artwork</a>, <a href="//lizards.opensuse.org/category/distribution/derivative/" title="View all posts in Derivative" rel="category tag">Derivative</a>, <a href="//lizards.opensuse.org/category/education/" title="View all posts in Education" rel="category tag">Education</a>, <a href="//lizards.opensuse.org/category/desktop/gnome/" title="View all posts in GNOME" rel="category tag">GNOME</a>, <a href="//lizards.opensuse.org/category/hackweek/" title="View all posts in Hackweek" rel="category tag">Hackweek</a>, <a href="//lizards.opensuse.org/category/desktop/kde/" title="View all posts in KDE" rel="category tag">KDE</a> |   <span>Comments Off</span></p>
+
+        </div>
+
+            <div class="post-4376 post type-post status-publish format-standard hentry category-boosters category-build-service category-distribution category-events category-marketing">
+          <h3 id="post-4376"><a href="//lizards.opensuse.org/2010/06/14/some-wrap-up-from-linuxtag/" rel="bookmark" title="Permanent Link to Some wrap-up from LinuxTag">Some wrap-up from LinuxTag</a></h3>
+          <small>June 14th, 2010 by <a href="//lizards.opensuse.org/author/michl19/" title="Posts by Michael Löffler" rel="author">Michael Löffler</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="//lizards.opensuse.org/2010/06/14/some-wrap-up-from-linuxtag/"
+                data-text="openSUSE News: Some wrap-up from LinuxTag"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=http%3A%2F%2Flizards.opensuse.org%2F2010%2F06%2F14%2Fsome-wrap-up-from-linuxtag%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>Just traveling back by train from LinuxTag, Berlin to Nürnberg. How was LinuxTag? In general it seems to me that LinuxTag may should change their motto &#8220;Were .com meets .org&#8221; as the event changed over the years more and more to an community project events with a few companies attending and a few business visitors passing by. I wonder who&#8217;s willing to pay the bill for LinuxTag ongoing? But that&#8217;s not of my business. Apart of the trade show the LinuxTag team served a pretty broad and high quality 4 days conference. For the community guys and girls I&#8217;d say it was a pretty good event with much conversation and meeting of people you normally just meet on mailingslists, forums or IRC and with a bunch of poeple new or intersted in Linux and open source.</p>
+<p>We had big fun at the openSUSE booth showing mainly the <a title="Build Service 2.0" href="http://news.opensuse.org/2010/06/09/opensuse-build-service-1-8-and-2-0-announced/" target="_blank">openSUSE Build Service 2.0</a> and milestone 7 of <a title="Milestone 7" href="http://news.opensuse.org/2010/05/26/opensuse-11-3-milestone-7-preparing-for-rc-phase/" target="_blank">openSUSE 11.3</a>. Additional of this usual trade show program we served daily 3-4 small hack sessions on the booth to teach people in things like, Roll your first package in the Build Service, Insights into GNOME 3.0 or learning some Inkscape magic.  They all were well attended and gave room for intensive 1:few conversations. The biggest fun we had with &#8220;Henne&#8217;s handicraft workshop&#8221; which took place daily at 5pm at the booth and covered stuff like creating your openSUSE bag, match LinuxNacht dress cody by wearing an openSUSE pin etc.</p>
+<p>In the conference I visited a few presentation to get more knowledge about SUSE Studio, Mono, open sourc in companies etc. I visited as well Microsoft&#8217;s keynote and I was not alone in the room <img src='//lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';-)' class='wp-smiley' /><br />
+The keynote was given by James Utzschneider who&#8217;s heading the open source department at Microsoft since less then a year but is with Microsoft for over 15 years. He&#8217;s a good talker and it looks to me that he&#8217;s a smart guy as well. He was pretty clear on the open source strategy Microsoft is following:</p>
+<ul>
+<li>Microsoft changed heavily. Everything can be put on the table for disussion today but should be backed with good arguments.</li>
+<li>Customer are asking that Microsoft products work seamlessly with open source products where ever they are used at customers location. So, main goal here is to follow common standards and improve the interoperability in literally all areas to make the customers confident and stay with Microsoft products.</li>
+<li>Microsoft is a business company and is mainly driven through business cases &#8211; if the open source path is beneficial in $ for Microsoft &#8211; Microsoft will take it further down. Its pretty unlikely that things are done for the open source community just to make them happy.</li>
+</ul>
+<p>We might get in touch with James as Microsoft could spice up the openSUSE conference in October. Ahh, with regards to that we informed pretty many other projects and developers at LinuxTag about the openSUSE conference and this years motto &#8220;Collaboration accross borders&#8221; and it was well received and we should be able to cover a number of interesting topics working together with communities other then the openSUSE one. Now it the time to shape the conference, <a title="openSUSE Conference" href="http://news.opensuse.org/2010/05/31/opensuse-conference-2010-call-for-papers-2/" target="_blank">call for papers</a> is open till July 31.</p>
+<p>Pavol put up a collection of <a title="Pavol's blog" href="http://stick.gk2.sk/blog/2010/06/linuxtag-2010/" target="_blank">photos</a> which give a good summary of openSUSE @ LinuxTag 2010. We had fun at LinuxTag 2010, had many good conversations, got new valuable input in many areas and are keen on how LinuxTag evolves in the future.</p>
+          </div>
+
+          <p class="postmetadata"> Posted in <a href="//lizards.opensuse.org/category/boosters/" title="View all posts in Boosters" rel="category tag">Boosters</a>, <a href="//lizards.opensuse.org/category/build-service/" title="View all posts in Build Service" rel="category tag">Build Service</a>, <a href="//lizards.opensuse.org/category/distribution/" title="View all posts in Distribution" rel="category tag">Distribution</a>, <a href="//lizards.opensuse.org/category/events/" title="View all posts in Events" rel="category tag">Events</a>, <a href="//lizards.opensuse.org/category/marketing/" title="View all posts in Marketing" rel="category tag">Marketing</a> |   <span>Comments Off</span></p>
+
+        </div>
+
+            <div class="post-4370 post type-post status-publish format-standard hentry category-boosters category-build-service category-events">
+          <h3 id="post-4370"><a href="//lizards.opensuse.org/2010/06/13/some-linuxtag-2010-impressions/" rel="bookmark" title="Permanent Link to Some LinuxTag 2010 impressions">Some LinuxTag 2010 impressions</a></h3>
+          <small>June 13th, 2010 by <a href="//lizards.opensuse.org/author/adriansuse/" title="Posts by Adrian Schröter" rel="author">Adrian Schröter</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="//lizards.opensuse.org/2010/06/13/some-linuxtag-2010-impressions/"
+                data-text="openSUSE News: Some LinuxTag 2010 impressions"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=http%3A%2F%2Flizards.opensuse.org%2F2010%2F06%2F13%2Fsome-linuxtag-2010-impressions%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>LinuxTag 2010 has ended, openSUSE had a booth in the community area and we had a number talks. We also released OBS 2.0 on LinuxTag. You know this of course already, but <a href="http://www.flickr.com/photos/adrianschroeter/sets/72157624249983092/">here are some impressions.</a>
+<p>openSUSE booth was very well visited. Various workshops and activities created several times actually a big swarm around it. Many people were interessted about OBS in special and I hope we won some more OBS users and developers.</p>
+<p>Hennes and mine talk about &#8220;how to escape the free software hell&#8221; was provocant enough to get quite some people into our room directly after the keynote. I hope we were able to show off the coolness of OBS there.</p>
+<p>
+Read the comments in the picture gallery for some background information.</p>
+          </div>
+
+          <p class="postmetadata"> Posted in <a href="//lizards.opensuse.org/category/boosters/" title="View all posts in Boosters" rel="category tag">Boosters</a>, <a href="//lizards.opensuse.org/category/build-service/" title="View all posts in Build Service" rel="category tag">Build Service</a>, <a href="//lizards.opensuse.org/category/events/" title="View all posts in Events" rel="category tag">Events</a> |   <a href="//lizards.opensuse.org/2010/06/13/some-linuxtag-2010-impressions/#comments" title="Comment on Some LinuxTag 2010 impressions">2 Comments &#187;</a></p>
+
+        </div>
+
+            <div class="post-4363 post type-post status-publish format-standard hentry category-build-service category-factory category-quality-assurance">
+          <h3 id="post-4363"><a href="//lizards.opensuse.org/2010/06/12/improve-software-quality/" rel="bookmark" title="Permanent Link to Improve Software Quality">Improve Software Quality</a></h3>
+          <small>June 12th, 2010 by <a href="//lizards.opensuse.org/author/bmwiedemann/" title="Posts by bmwiedemann" rel="author">bmwiedemann</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="//lizards.opensuse.org/2010/06/12/improve-software-quality/"
+                data-text="openSUSE News: Improve Software Quality"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=http%3A%2F%2Flizards.opensuse.org%2F2010%2F06%2F12%2Fimprove-software-quality%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>Today I and some hundred others on LinuxTag in Berlin attended a keynote by Mark Shuttleworth, the &#8220;head dreamer&#8221; of the ubuntu Linux distribution.</p>
+<p>He had pretty few slides with hardly any words on it. The headlines were &#8220;Cadence&#8221;, &#8220;Quality&#8221; and &#8220;Design&#8221;. As I have been working towards openSUSE quality, this interested me most &#8211; so this is what this text is going to be about. His thoughts were mostly what I was thinking anyway.</p>
+<p>Quality works like this: if Factory (equivalent of Debian/sid or whatever it is called in ubuntu) breaks horribly every other week, few people will feel inclined to keep running on Factory or even on factory-snapshot. Mark spoke about a difference in number of testers of &#8220;one or two orders of magnitude&#8221; (which would mean a factor of 10-100 in mathematical terms). And having fewer testers during development can only mean lower quality for the final release.</p>
+<p>This is why efforts should be taken to ensure a working Factory. Automated testsuites and reviews were specifically mentioned, among others. Some packages like gcc include own test-suites, but most do not. When asked how that was handled in ubuntu, he described an approach with scripts using computer vision, recognizing/clicking buttons which most likely referred to <a href="https://launchpad.net/sikuli">sikuli</a> which has many similarities to what I did, just with a different focus (more <a href="http://www.youtube.com/watch?v=FxDOlhysFcM">user-friendliness</a>) and quite some sophistication. Also for text-mode there is still good old &#8220;expect&#8221;.</p>
+<p>Another thing that was not mentioned there, but which I was always thinking of as an odd shortcoming of openSUSE is that Debian has a &#8220;testing&#8221; distribution which is not like factory-snapshot. Debian/testing contains only packages migrated from sid after a certain time with no bugs above a certain criticality threshold. Of course, this needs a way to track automatically which bug applies to which package (something that ubuntu does in launchpad).</p>
+<p>Launchpad is also nicely integrated with bazaar, so that adding &#8220;(LP: #12345)&#8221; into a changelog will cause the bug to have a link to the proposed fix and later be automatically closed, once the branch was merged into the main trunk.</p>
+<p>This is not only cool, but plain useful. It can save a lot of work and frustration. I think Adrian Schröter will be working into that direction with better integration of buildservice into bugzilla and other openSUSE tools.</p>
+<p>There is also a big human component. Especially with testers which are non-technicians. It is not so much about motivating them, but about not demotivating them (which can happen surprisingly easy in some cases). I have seen crash messages along the lines of &#8220;xxx has crashed. This is in no way your fault. You could help us by &#8230;&#8221; which is a very good thing in this regard.</p>
+<p>Yet another related note: there are openSUSE-Promo and openSUSE-Biarch DVD iso variants which are so well hidden, that few people even know about their existence, so that there can not be much public testing. However, those are the variants that are given away to hordes of interested people at openSUSE booths around the world, but those are also the variants that are least tested. I still have bad memories of the 11.1 or 11.0 one which was degraded to coaster after three unsuccessful tries on different machines. If bandwidth or mirror-space is a problem, offering them only via bittorrent could be a solution.</p>
+<p>Overall, still some way to go, but IMHO we are moving into the right direction.</p>
+          </div>
+
+          <p class="postmetadata"> Posted in <a href="//lizards.opensuse.org/category/build-service/" title="View all posts in Build Service" rel="category tag">Build Service</a>, <a href="//lizards.opensuse.org/category/distribution/factory/" title="View all posts in Factory" rel="category tag">Factory</a>, <a href="//lizards.opensuse.org/category/quality-assurance/" title="View all posts in Quality Assurance" rel="category tag">Quality Assurance</a> |   <a href="//lizards.opensuse.org/2010/06/12/improve-software-quality/#comments" title="Comment on Improve Software Quality">1 Comment &#187;</a></p>
+
+        </div>
+
+            <div class="post-4310 post type-post status-publish format-standard hentry category-events">
+          <h3 id="post-4310"><a href="//lizards.opensuse.org/2010/06/12/linuxtag-2010-in-berlin/" rel="bookmark" title="Permanent Link to Linuxtag 2010 in Berlin">Linuxtag 2010 in Berlin</a></h3>
+          <small>June 12th, 2010 by <a href="//lizards.opensuse.org/author/a_jaeger/" title="Posts by Andreas Jaeger" rel="author">Andreas Jaeger</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="//lizards.opensuse.org/2010/06/12/linuxtag-2010-in-berlin/"
+                data-text="openSUSE News: Linuxtag 2010 in Berlin"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=http%3A%2F%2Flizards.opensuse.org%2F2010%2F06%2F12%2Flinuxtag-2010-in-berlin%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>Thursday morning at 5am I woke up, had a quick breakfast and traveled via Nürnberg to Berlin for LinuxTag 2010.  I arrived around 12:00 at the fair and was surprised to see it the back occupied by around 7 persons.  We had a small booth, so it was full.  They were taking part in the workshop &#8220;Build your own multi-distro package&#8221; held by Michal.  The openSUSE boosters had organized these workshops as practical hands-on experience sessions.</p>
+<p> <a href="//lizards.opensuse.org/2010/06/12/linuxtag-2010-in-berlin/#more-4310" class="more-link">(more&hellip;)</a></p>
+          </div>
+
+          <p class="postmetadata"> Posted in <a href="//lizards.opensuse.org/category/events/" title="View all posts in Events" rel="category tag">Events</a> |   <span>Comments Off</span></p>
+
+        </div>
+
+            <div class="post-4339 post type-post status-publish format-standard hentry category-boosters category-desktop category-hackweek tag-application tag-presentation tag-qt">
+          <h3 id="post-4339"><a href="//lizards.opensuse.org/2010/06/11/zippl-a-lightweigth-presentation-tool/" rel="bookmark" title="Permanent Link to Zippl &#8211; a Lightweigth Presentation Tool">Zippl &#8211; a Lightweigth Presentation Tool</a></h3>
+          <small>June 11th, 2010 by <a href="//lizards.opensuse.org/author/kfreitag/" title="Posts by Klaas Freitag" rel="author">Klaas Freitag</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="//lizards.opensuse.org/2010/06/11/zippl-a-lightweigth-presentation-tool/"
+                data-text="openSUSE News: Zippl &#8211; a Lightweigth Presentation Tool"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=http%3A%2F%2Flizards.opensuse.org%2F2010%2F06%2F11%2Fzippl-a-lightweigth-presentation-tool%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>Recently people played around a lot with a new kind of presentations. The pages in the classical presentation tool sense seem to lie around on a large canvas and while the presentation running, the focus moves over the canvas and stops by interesting points. Zooming allows to go more in detail and other cool graphics effects make it fun to watch these presentations.</p>
+<p>This week was the <a href="//lizards.opensuse.org/2010/05/28/novell-hackweek-fife/">fifth Hackweek</a> at Novell where we can pick an interesting topic and work on it. I am always interested in cool applications and I wanted to investigate a bit on Qts GraphicsView anyway so I decided to go for a proof of concept implementation of a lightweight but cool presentation tool following these concepts.</p>
+<p>The tool is called Zippl (for no specific reason). It is implemented in C++ with Qt 4.6. Via a XML file the user can specify so called spots on the Zippl-canvas. During a presentation one after the other canvas is displayed with an animated move from one to the other.</p>
+<p>Spots can consist of text in various fonts and sizes, geometric forms and images. Colors and line widths and stuff can be specified for each item. It is amazing what can already be done with these few elements.</p>
+<p>But decide yourself by checking the following out, its the first little presentation done with Zippl:</p>
+<p><object width="425" height="344"><param name="movie" value="http://www.youtube.com/v/0FMAGDO9ecc&#038;hl=de&#038;fs=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/0FMAGDO9ecc&#038;hl=de&#038;fs=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="425" height="344"></embed></object> </p>
+<p>With Qt its again fun to work on this kind of applications and the GraphicsView framework is awesome. If you want to see code, it is in the KDE svn, module playground/office.</p>
+<p>What do you think? Is that something to investigate more on? You can give me feedback in <a href="https://features.opensuse.org/309584">openFATE</a> about it if you want and rate it.</p>
+          </div>
+
+          <p class="postmetadata">Tags: <a href="//lizards.opensuse.org/tag/application/" rel="tag">application</a>, <a href="//lizards.opensuse.org/tag/presentation/" rel="tag">Presentation</a>, <a href="//lizards.opensuse.org/tag/qt/" rel="tag">QT</a><br /> Posted in <a href="//lizards.opensuse.org/category/boosters/" title="View all posts in Boosters" rel="category tag">Boosters</a>, <a href="//lizards.opensuse.org/category/desktop/" title="View all posts in Desktop" rel="category tag">Desktop</a>, <a href="//lizards.opensuse.org/category/hackweek/" title="View all posts in Hackweek" rel="category tag">Hackweek</a> |   <a href="//lizards.opensuse.org/2010/06/11/zippl-a-lightweigth-presentation-tool/#comments" title="Comment on Zippl &#8211; a Lightweigth Presentation Tool">7 Comments &#187;</a></p>
+
+        </div>
+
+            <div class="post-4326 post type-post status-publish format-standard hentry category-kernel tag-kernel">
+          <h3 id="post-4326"><a href="//lizards.opensuse.org/2010/06/11/guest-blog-rares-aioanei-weekly-kernel-review-opensuse-flavor/" rel="bookmark" title="Permanent Link to Guest Blog: Rares Aioanei &#8211; Weekly Kernel Review (openSUSE Flavor)">Guest Blog: Rares Aioanei &#8211; Weekly Kernel Review (openSUSE Flavor)</a></h3>
+          <small>June 11th, 2010 by <a href="//lizards.opensuse.org/author/saigkill/" title="Posts by Sascha Manns" rel="author">Sascha Manns</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="//lizards.opensuse.org/2010/06/11/guest-blog-rares-aioanei-weekly-kernel-review-opensuse-flavor/"
+                data-text="openSUSE News: Guest Blog: Rares Aioanei &#8211; Weekly Kernel Review (openSUSE Flavor)"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=http%3A%2F%2Flizards.opensuse.org%2F2010%2F06%2F11%2Fguest-blog-rares-aioanei-weekly-kernel-review-opensuse-flavor%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p><strong>Guest Blog from Rares Aioanei</strong></p>
+<p>Welcome to another edition of openSUSE&#8217;s kernel weekly news!<br />
+This week sees the launch of 2.6.35-rc2, plus other goodies, so let&#8217;s dive into it!</p>
+<p>-Takashi Iwai pushed sound fixes for -rc2, mainly for the USB audio stack, v4l/dvb fixes were pushed by Mauro Carvalho Chehab (-rc1), Len Brown has patches for the SFI and ACPI trees targetting -rc1 and openSUSE&#8217;s Greg Kroah-Hartman also posted multiple fixes for USB, driver-core, staging and TTY and serial targetting 2.6.35-git.</p>
+<p>-Grant Likely has fixes for the sparc architecture : &#8220;This patch moves SPARC architecture specific data members out of struct of_device and into the pdev_archdata structure. The reason for this change is to unify the struct of_device definition amongst all the architectures.  It also remvoes the .sysdata, .slot, .portid and .clock_freq properties because they aren&#8217;t actually used by anything.</p>
+<p>A subsequent patch will replace struct of_device entirely with struct platform_device and the of_platform support code will share common routines with the platform bus (but the bus instances themselves can remain separate).</p>
+<p>This patch also adds &#8216;struct resources *resource&#8217; and num_resources to match the fields defined in struct platform_device.  After this change, &#8216;struct platform_device&#8217; can be used as a drop-in replacement for &#8216;struct of_platform&#8217;.</p>
+<p>This change is in preparation for merging the of_platform_bus_type with the platform_bus_type.&#8221;</p>
+<p>-Al Viro posted fixes for the vfs tree targetting -rc2, while Ryusuke Konishi and David Miller posted patches for the nilfs2 and networking trees, respectively. Alex Elder updated the XFS tree  for -rc2, Jens Axboe updated block for -rc1, Michal Simek updated the arch/microblaze tree with fixes targetting 2.6.35-rc3 and Jeff Garzik updated the libata tree with some quirk fixes.</p>
+<p>-Jeffrey Merkey announced Merkey&#8217;s Kernel Debugger 2.6.34 :  &#8220;Have not tested the APIC IPI calls yet but should work.  Let me know if there are problems.  I disable the hw_breakpoints interface with MDB is loaded because it is not well designed and to be honest, virtualizing DR6 and trying to handle these types of events outside of a debugger core causes a lot of problems.  Has support for x86_64 and works under it however, I have not completed the dissassembler with the newer x86_64 instructions, so some of them do not display properly and do not detect the 64 bit flag, but will finish this at a later date as I need it.  I do most of my work on 32 bit anyway and will work on it as I have time.  Someone else is welcome to add it and send me back the changes since this is the only thing missing for full<br />
+x86_64 features &#8212; finished everything else.&#8221;</p>
+<p>-Mr. Torvalds, Linus Torvalds, announced the release of 2.6.35-rc2 thusly :<br />
+&#8220;So -rc2 is out there, and hopefully fixes way more problems than it introduces. I&#8217;m slightly unhappy with its size &#8211; admittedly it&#8217;s not nearly as big as rc2 was the last release cycle, but that was an unusually big -rc2. And I really hoped for a calmer release cycle this time.</p>
+<p>In fact, for once I&#8217;m going to enforce -rc3 being sane, because the  upcoming week is the last week of school for my kids. And when the kids get out of school, I&#8217;m going be offline for a while. And as a result, I _really_ don&#8217;t want to pull anything even half-way scary in the next week for -rc3.</p>
+<p>So any pull requests had better be obvious fixes only, and this time I&#8217;m not going to let things slide.</p>
+<p>Anyway, the biggest patches in -rc2 are some staging drivers (70% of the patch is just that), so while it&#8217;s still biggish, at least most of it is clearly staging.</p>
+<p>Of the remaining non-staging 30%, half of _that_ is just the regular drivers (drm: i915 and radeon, along with some dvb updates is a noticeable chunk), with a new Core i7 EDAC driver that I had gotten a pull request for before -rc1, but just hadn&#8217;t had the energy to pull until -rc2 (same goes for a build system update &#8211; the pull request predated -rc1).</p>
+<p>And some late powerpc changes that I do _not_ think predated -rc1. Tssk.  I&#8217;m really not going to let things like that slide next -rc, as mentioned.</p>
+<p>But the most important part is obviously the regression fixes, which tend to be small and not show up much in the patch statistics. A number of reverts, a number of fixes, hopefully things are all rosy.</p>
+<p>And it really isn&#8217;t _that_ bad &#8211; the -rc2 shortlog is almost never small  enough to be worth posting on the mailing list, but I think it&#8217;s doable this time, even if it&#8217;s borderline. So ShortLog appended if people care<br />
+about the (summary of) details.</p>
+<p>Linus &#8221;</p>
+<p>-Dave Airlie updated the drm tree with some fixes as he explains in his mail : &#8220;3 regressions fixes, one radeon loading on IGP, one i865 loading, one and  an evergreen userspace interaction workaround.</p>
+<p>It adds hwmon support for a temperature sensor on r600 cards, later PM patches were build on this and Alex had tested them in one so I didn&#8217;t want to cherry-pick around it. Also its useful to report the gpu temp to check if power management is helping cooling it down.&#8221;</p>
+<p>-Stefan Richter came up with a single update/fix for Firewire, Martin Schwidefsky posted three bug fixes and a defconfig update for the s390 architecture targetting-rc2, Tejun Heo has also some fixes, this time for sched/core and Frederic Weisbecker updated the perf and tracing trees with various fixes.</p>
+<p>-Karel Zak of Redhat announces util-linux-ng version 2.18-rc1, posting also the release notes, stating the updates, fixes and improvements specific to this version.</p>
+<p>-Artem Bityutskiy posted a pull request for the UBI tree targetting -rc3, David Miller pushed another series of networking updates, Jesse Barnes updated the PCI tree, while Takashi Iwai targeted -rc3 with updates to the sound tree; other updates include perf (Ingo Molnar), perf for 2.6.36 (Arnaldo Carvalho de Melo) and block/io (Jens Axboe).</p>
+<p>-Rafael Wysocki posted a list of reported regressions from 2.6.33.4 (related to-rc2-git2), comprised of 15 regressions, from which 13 are pending and 10 are unresolved.</p>
+<p>-Thomas Gleixner announced 2.6.33.5-rt23, a new kernel from the preempt-rt series &#8211; changelog to be found in the lkml archive.</p>
+<p>-Avi Kivity has updates for the kvm tree targetted at -rc2, Jeff Garzik updated the libata tree with some fixes, Sage Weil, as usual, updated the ceph tree (for -rc3) and Steven Rostedt updated the perf tree (2.6.35).</p>
+<p><em>That would be it for this week, take care and enjoy your weekend!</em></p>
+          </div>
+
+          <p class="postmetadata">Tags: <a href="//lizards.opensuse.org/tag/kernel/" rel="tag">Kernel</a><br /> Posted in <a href="//lizards.opensuse.org/category/base-system/kernel/" title="View all posts in Kernel" rel="category tag">Kernel</a> |   <span>Comments Off</span></p>
+
+        </div>
+
+      
+      <div class="navigation page-navigation">
+        <div class="alignleft"><a href="//lizards.opensuse.org/2010/06/page/3/" >&laquo; Older Entries</a></div>
+        <div class="alignright"><a href="//lizards.opensuse.org/2010/06/" >Newer Entries &raquo;</a></div>
+      </div>
+      </div>
+
+    
+<div class="grid_4 omega aside">
+  <!-- <div class="box box-shadow"> -->
+    <ul>
+      <li id="text-3" class="widget box box-shadow widget_text"><h3 class="box-subheader">Advertisement</h3>			<div class="textwidget"><center><a href="http://counter.opensuse.org/link/" alt="counter" title="Get it!"><img src="//counter.opensuse.org/small"></a></center></div>
+		</li><li id="tag_cloud-3" class="widget box box-shadow widget_tag_cloud"><h3 class="box-subheader">Tags</h3><div class="tagcloud"><a href='//lizards.opensuse.org/tag/11-3/' class='tag-link-380' title='15 topics' style='font-size: 13.821782178218pt;'>11.3</a>
+<a href='//lizards.opensuse.org/tag/11-4/' class='tag-link-414' title='34 topics' style='font-size: 18.534653465347pt;'>11.4</a>
+<a href='//lizards.opensuse.org/tag/12-1/' class='tag-link-482' title='21 topics' style='font-size: 15.762376237624pt;'>12.1</a>
+<a href='//lizards.opensuse.org/tag/12-2/' class='tag-link-549' title='12 topics' style='font-size: 12.574257425743pt;'>12.2</a>
+<a href='//lizards.opensuse.org/tag/12-3/' class='tag-link-559' title='8 topics' style='font-size: 10.356435643564pt;'>12.3</a>
+<a href='//lizards.opensuse.org/tag/amd/' class='tag-link-434' title='29 topics' style='font-size: 17.70297029703pt;'>amd</a>
+<a href='//lizards.opensuse.org/tag/arm/' class='tag-link-279' title='7 topics' style='font-size: 9.6633663366337pt;'>ARM</a>
+<a href='//lizards.opensuse.org/tag/ati/' class='tag-link-384' title='28 topics' style='font-size: 17.425742574257pt;'>ATI</a>
+<a href='//lizards.opensuse.org/tag/beta/' class='tag-link-343' title='6 topics' style='font-size: 8.970297029703pt;'>Beta</a>
+<a href='//lizards.opensuse.org/tag/build-service/' class='tag-link-16' title='13 topics' style='font-size: 13.128712871287pt;'>Build Service</a>
+<a href='//lizards.opensuse.org/tag/buildservice/' class='tag-link-45' title='6 topics' style='font-size: 8.970297029703pt;'>buildservice</a>
+<a href='//lizards.opensuse.org/tag/c-language/' class='tag-link-575' title='8 topics' style='font-size: 10.356435643564pt;'>C-Language</a>
+<a href='//lizards.opensuse.org/tag/collaboration/' class='tag-link-59' title='7 topics' style='font-size: 9.6633663366337pt;'>Collaboration</a>
+<a href='//lizards.opensuse.org/tag/community/' class='tag-link-173' title='24 topics' style='font-size: 16.594059405941pt;'>Community</a>
+<a href='//lizards.opensuse.org/tag/conference/' class='tag-link-355' title='7 topics' style='font-size: 9.6633663366337pt;'>conference</a>
+<a href='//lizards.opensuse.org/tag/education/' class='tag-link-214' title='15 topics' style='font-size: 13.821782178218pt;'>Education</a>
+<a href='//lizards.opensuse.org/tag/event/' class='tag-link-37' title='7 topics' style='font-size: 9.6633663366337pt;'>event</a>
+<a href='//lizards.opensuse.org/tag/events/' class='tag-link-21' title='7 topics' style='font-size: 9.6633663366337pt;'>Events</a>
+<a href='//lizards.opensuse.org/tag/factory/' class='tag-link-288' title='12 topics' style='font-size: 12.574257425743pt;'>Factory</a>
+<a href='//lizards.opensuse.org/tag/fglrx/' class='tag-link-385' title='28 topics' style='font-size: 17.425742574257pt;'>fglrx</a>
+<a href='//lizards.opensuse.org/tag/fun/' class='tag-link-200' title='14 topics' style='font-size: 13.544554455446pt;'>fun</a>
+<a href='//lizards.opensuse.org/tag/gnome/' class='tag-link-6' title='12 topics' style='font-size: 12.574257425743pt;'>GNOME</a>
+<a href='//lizards.opensuse.org/tag/gsoc/' class='tag-link-261' title='11 topics' style='font-size: 12.158415841584pt;'>gsoc</a>
+<a href='//lizards.opensuse.org/tag/hackweek/' class='tag-link-102' title='7 topics' style='font-size: 9.6633663366337pt;'>Hackweek</a>
+<a href='//lizards.opensuse.org/tag/kde/' class='tag-link-5' title='21 topics' style='font-size: 15.762376237624pt;'>KDE</a>
+<a href='//lizards.opensuse.org/tag/kde4/' class='tag-link-52' title='5 topics' style='font-size: 8pt;'>KDE4</a>
+<a href='//lizards.opensuse.org/tag/kernel/' class='tag-link-14' title='28 topics' style='font-size: 17.425742574257pt;'>Kernel</a>
+<a href='//lizards.opensuse.org/tag/kraft/' class='tag-link-247' title='8 topics' style='font-size: 10.356435643564pt;'>Kraft</a>
+<a href='//lizards.opensuse.org/tag/linux/' class='tag-link-362' title='6 topics' style='font-size: 8.970297029703pt;'>Linux</a>
+<a href='//lizards.opensuse.org/tag/lxde/' class='tag-link-287' title='11 topics' style='font-size: 12.158415841584pt;'>LXDE</a>
+<a href='//lizards.opensuse.org/tag/marketing/' class='tag-link-26' title='5 topics' style='font-size: 8pt;'>Marketing</a>
+<a href='//lizards.opensuse.org/tag/obs/' class='tag-link-218' title='6 topics' style='font-size: 8.970297029703pt;'>obs</a>
+<a href='//lizards.opensuse.org/tag/open-source/' class='tag-link-350' title='6 topics' style='font-size: 8.970297029703pt;'>open source</a>
+<a href='//lizards.opensuse.org/tag/opensuse/' class='tag-link-38' title='61 topics' style='font-size: 22pt;'>openSUSE</a>
+<a href='//lizards.opensuse.org/tag/opensuse-id/' class='tag-link-50' title='6 topics' style='font-size: 8.970297029703pt;'>openSUSE-ID</a>
+<a href='//lizards.opensuse.org/tag/opensuse-lxde/' class='tag-link-386' title='5 topics' style='font-size: 8pt;'>openSUSE-LXDE</a>
+<a href='//lizards.opensuse.org/tag/opensuse-12-1/' class='tag-link-470' title='6 topics' style='font-size: 8.970297029703pt;'>openSUSE 12.1</a>
+<a href='//lizards.opensuse.org/tag/package/' class='tag-link-58' title='7 topics' style='font-size: 9.6633663366337pt;'>Package</a>
+<a href='//lizards.opensuse.org/tag/postgresql/' class='tag-link-367' title='7 topics' style='font-size: 9.6633663366337pt;'>PostgreSQL</a>
+<a href='//lizards.opensuse.org/tag/python/' class='tag-link-67' title='6 topics' style='font-size: 8.970297029703pt;'>Python</a>
+<a href='//lizards.opensuse.org/tag/rpm/' class='tag-link-269' title='6 topics' style='font-size: 8.970297029703pt;'>rpm</a>
+<a href='//lizards.opensuse.org/tag/ruby/' class='tag-link-381' title='5 topics' style='font-size: 8pt;'>Ruby</a>
+<a href='//lizards.opensuse.org/tag/xml/' class='tag-link-69' title='7 topics' style='font-size: 9.6633663366337pt;'>XML</a>
+<a href='//lizards.opensuse.org/tag/xorg-2/' class='tag-link-444' title='19 topics' style='font-size: 15.207920792079pt;'>xorg</a>
+<a href='//lizards.opensuse.org/tag/yast/' class='tag-link-11' title='12 topics' style='font-size: 12.574257425743pt;'>YaST</a></div>
+</li>		<li id="authors-2" class="widget box box-shadow widget_authors">			<h3 class="box-subheader">Lizards</h3>			<ul><li><img alt='' src='http://1.gravatar.com/avatar/35d487679042b24f99c321ae8e6f28b0?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/adriansuse/" title="Posts by Adrian Schröter">Adrian Schröter</a> (12)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/6b405d89e8a498ae6a52f60246bb1cb3?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/dj_ubun_1/" title="Posts by Agustin Chavarria">Agustin Chavarria</a> (6)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/7b57f7098bdcac987fbd479b48c600cd?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/cabelo/" title="Posts by Alessandro de Oliveira Faria">Alessandro de Oliveira Faria</a> (9)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/9c20c306e84e644f7437fbea954c56c0?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/alexbariv/" title="Posts by Alex Barrios">Alex Barrios</a> (12)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/cbae0a6b288a060e2f4f83897dbc62f5?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/alexander_naumov/" title="Posts by Alexander Naumov">Alexander Naumov</a> (10)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/c04c73736241252ce1748dcb0b4af496?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/aorlovskyy/" title="Posts by Alexander Orlovskyy">Alexander Orlovskyy</a> (3)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/1091099af3cd8b684eaba8124c063c45?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/ealin/" title="Posts by Alin M Elena">Alin M Elena</a> (5)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/12b8b4d0de48863920df21b576b12e89?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/anubisg1/" title="Posts by Andrea Florio">Andrea Florio</a> (27)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/f15a600d57849d9dc3e0d23539212583?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/a_jaeger/" title="Posts by Andreas Jaeger">Andreas Jaeger</a> (70)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/802ba86ab03110fb142eef689aa16533?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/AndreasStieger/" title="Posts by AndreasStieger">Andreas Stieger</a> (8)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/0c18cf5651bb5ad3c8c6cd10467be536?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/funkypenguin/" title="Posts by Andrew Wafaa">Andrew Wafaa</a> (31)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/17c5d6b91957787db64c3d65c9a9b234?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/aschnell/" title="Posts by Arvin Schnell">Arvin Schnell</a> (9)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/33b7ed7d1a68409cffbb4fce216c410c?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/badshah400/" title="Posts by badshah400">Atri Bhattacharya</a> (3)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/c57258b3faac137a43ddcc63deb22517?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/bmwiedemann/" title="Posts by bmwiedemann">Bernhard Wiedemann</a> (16)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/3081cb247a705dcb3c912cce12ccb986?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/kurniawan-007/" title="Posts by Bonnie Kurniawan">Bonnie Kurniawan</a> (1)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/482b6c0369f4709de8faa6843cd6b347?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/bruno_friedmann/" title="Posts by Bruno Friedmann">Bruno Friedmann</a> (70)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/83f40d98130b1fd3a741b9f01b2f76b1?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/calumma/" title="Posts by calumma">Calumma Brevicorne</a> (21)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/5fb81daf243732ab579b45f3bb261041?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/caf4926/" title="Posts by Carl Fletcher">Carl Fletcher</a> (1)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/5f12ccab9a5217492279b93dc338f8a3?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/hobbsc/" title="Posts by Christopher Hobbs">Christopher Hobbs</a> (17)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/7a36aa34f42120643cfd761f32ddceca?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/babelworx/" title="Posts by Ciaran Farrell">Ciaran Farrell</a> (3)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/e4e8389140088920840a562d3ea05469?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/coolo/" title="Posts by coolo">Stephan Kulow</a> (17)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/fb0d26953f70732c2058750961e0b792?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/cyberiad/" title="Posts by cyberiad">Stephan Barth</a> (1)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/ced20b885a7272cd73a486554652cefc?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/digitaltomm/" title="Posts by digitaltomm">Tom Schmidt</a> (2)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/9290fc65d0c9fa221a298d9db6629aed?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/k0da/" title="Posts by Dinar Valeev">Dinar Valeev</a> (1)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/c13f6726c52ab070fa80fa59a08f5c7c?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/dirkmueller/" title="Posts by Dirk Müller">Dirk Müller</a> (2)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/cf1abc404bab4754fa7a15627fe1a3e0?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/dmitry_serpokryl/" title="Posts by Dmitry Serpokryl">Dmitry Serpokryl</a> (7)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/ba9a8bde051ca69ad1d24b565d907482?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/fabiomux/" title="Posts by FabioMux">Fabio Mucciante</a> (3)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/3feb252147c4c69e4de152006c0b3fce?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/flucifredi/" title="Posts by Federico Lucifredi">Federico Lucifredi</a> (9)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/31e251b53e7c41d1fd130ae3809c0092?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/holgisms/" title="Posts by Holgi">Holger Sickenberg</a> (2)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/26505b78e4a5b312c389b578093f6fa6?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/wiederda/" title="Posts by Hubert Mantel">Hubert Mantel</a> (1)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/a04dfb1adae5db8df437ae769c263ca7?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/ansus/" title="Posts by Ilya Chernykh">Ilya Chernykh</a> (5)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/ae3a82716dc7b3f4b8ef9b7508d80c5e?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/namtrac/" title="Posts by Ismail Donmez">Ismail Donmez</a> (1)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/cafe9fb55db0cc3f1f68a327ba1d9eee?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/jdsn/" title="Posts by J. Daniel Schmidt">J. Daniel Schmidt</a> (2)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/d79616993dab466bee3456e8ac46bfee?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/jasujt/" title="Posts by James Tremblay">James Tremblay</a> (7)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/c6ce61b8d0a3569ef85184dda1570590?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/janblunck/" title="Posts by Jan Blunck">Jan Blunck</a> (4)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/175c7154a5704e340a373531fa9d342f?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/jloeser/" title="Posts by Jan Loeser">Jan Loeser</a> (3)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/9eb4acd92a9546fbb0b0a269e08cf810?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/jan-portugal/" title="Posts by Jan Madsen">Jan Madsen</a> (1)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/9dbacbc8f5a66d9a6f99c828312bf910?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/helcaraxe/" title="Posts by Jan-Christoph Bornschlegel">Jan-Christoph Bornschlegel</a> (3)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/a73d94bc71ab9211ed8a31e3ede4fbfe?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/dl9pf/" title="Posts by Jan-Simon Möller">Jan-Simon Möller</a> (20)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/8b42838e6dccf7eb90a8ba362e7de858?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/javierllorente/" title="Posts by Javier Llorente">Javier Llorente</a> (12)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/8b6e7e1e33323b1499e01776ea5ce307?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/cyberorg/" title="Posts by Jigish Gohil">Jigish Gohil</a> (61)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/aa223e3df0b558eb11d7ffa614e1d309?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/jsrain/" title="Posts by Jiri Srain">Jiri Srain</a> (1)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/248d14d0cc663817e9ea2e5d3915d81d?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/jsuchome/" title="Posts by Jiří Suchomel">Jiří Suchomel</a> (3)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/abd6ad5514475b1ebfa926808c403ad1?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/gogga/" title="Posts by Johan Kotze">Johan Kotze</a> (5)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/20896f1aedb65d7bec41c256479a8c51?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/jaom7/" title="Posts by José Oramas M.">José Oramas M.</a> (6)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/5d601001fada5a97a0c12f3914a23056?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/jreidinger/" title="Posts by Josef Reidinger">Josef Reidinger</a> (15)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/c0b2bd9e77ad555fd152d1f1e6ba941c?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/jnweiger/" title="Posts by Juergen Weigert">Juergen Weigert</a> (1)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/6741359d1ed61956c5a97b0abcb38ac2?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/ungaman/" title="Posts by Julio Vannini">Julio Vannini</a> (9)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/e99d62a139171d890638196c4f4a1454?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/eri_zaq/" title="Posts by k0da">Dinar Valeev</a> (5)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/35442b494f156dc790d0991e4f6b3a60?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/kdupuy9/" title="Posts by Kevin Yeaux">Kevin "Yeaux" Dupuy</a> (11)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/f1370548d8ba45fc5601d5398f443e2a?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/kfreitag/" title="Posts by Klaas Freitag">Klaas Freitag</a> (55)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/dd04d885c1ff480b45dc654071c7db18?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/lrupp/" title="Posts by kl_eisbaer">Lars Vogdt</a> (11)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/f9fb86af86ef66b34b610f49ebc61f39?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/lnussel/" title="Posts by lnussel">Ludwig Nussel</a> (10)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/9b1772f92b6518e084164c28075868dc?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/medwin/" title="Posts by M. Edwin Zakaria">M. Edwin Zakaria</a> (2)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/8f947802c8278f7de589d948d49d1c97?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/marcus_h/" title="Posts by Marcus Hüwe">Marcus Hüwe</a> (38)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/a7c3995461464bff8fc20e6f908abadd?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/msmeissn/" title="Posts by Marcus Meissner">Marcus Meissner</a> (2)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/0165e588414858c88d99b90227280b1f?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/marcusmoeller/" title="Posts by Marcus Moeller">Marcus Moeller</a> (2)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/5f320b472b5d1c5ca6e446953cb3d371?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/sax2/" title="Posts by Marcus Schaefer">Marcus Schaefer</a> (4)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/ecd8f651819469eaf51b8b530255f341?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/mlasars/" title="Posts by Martin Lasarsch">Martin Lasarsch</a> (8)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/ab07ba0fd8f0c45b93e0bdbacc3ef144?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/martinmohring/" title="Posts by Martin Mohring">Martin Mohring</a> (11)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/9619e4fc93c7d6573592b1cd384fa56a?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/vavai/" title="Posts by Masim &quot;Vavai&quot; Sugianto">Masim "Vavai" Sugianto</a> (20)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/e245b64d557ff67adb3f20638e1c9817?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/mlandres/" title="Posts by Michael Andres">Michael Andres</a> (1)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/7db9f4f49d947c634b116b5b22d0d11d?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/michl19/" title="Posts by Michael Löffler">Michael Löffler</a> (7)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/c6829cd04b1947a249504274a3b8954f?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/michal-m/" title="Posts by Michal Marek">Michal Marek</a> (7)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/43f1417e56acda517176e140478ce3d6?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/mvyskocil/" title="Posts by Michal Vyskocil">Michal Vyskocil</a> (12)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/4f67ab763c02707130c404ff6bc35bc0?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/migbarajas/" title="Posts by Miguel Angel Barajas Hernandez">Miguel Angel Barajas Hernandez</a> (2)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/65d0312af3cbf6a8278893b299b60be8?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/mrdocs/" title="Posts by mrdocs">Peter Linnell</a> (1)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/d83ba9917b5c73d8ea6dc40e13828a2a?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/ketheriel/" title="Posts by Nelson Marques">Nelson Marques</a> (55)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/24d359e8a9d8c616e55d7f4f348c6f1c?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/nikanth/" title="Posts by Nikanth Karthikesan">Nikanth Karthikesan</a> (2)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/0f4da55be111d6640f56f3b5166b64b0?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/poeml/" title="Posts by Peter Pöml">Peter Pöml</a> (4)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/4cffa1847e71bcce43d34a86fa63a47e?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/pmladek/" title="Posts by Petr Mladek">Petr Mladek</a> (60)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/b38a833149d2d81ac3ce73dc868f20f6?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/puzel/" title="Posts by Petr Uzel">Petr Uzel</a> (5)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/9c79fcaede7330f7e30d200100df9194?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/rawang/" title="Posts by Ray Wang">Ray Wang</a> (1)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/0f2a44ee48448ded558b90d55ed52b28?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/rwooninck/" title="Posts by Raymond Wooninck">Raymond Wooninck</a> (1)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/1df0fbf4b7fb2b10e93b8d84795a6b4a?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/amonthoth/" title="Posts by Ricardo Chung">Ricardo Chung</a> (7)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/fdd7251cf3e8f4d193e4f7f59238303a?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/ricardovarassantana/" title="Posts by Ricardo Varas Santana">Ricardo Varas Santana</a> (7)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/c0cff57a7e00b3ad4107e5627460b153?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/rbos/" title="Posts by Richard Bos">Richard Bos</a> (11)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/827ee21ead846a2cf124ba6683ce885f?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/rjschwei/" title="Posts by rjschwei">Robert Schweikert</a> (10)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/6c9af0fa89f64b30eb228ee80c30595b?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/g0nz0/" title="Posts by Rossana Motta">Rossana Motta</a> (1)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/abcd749a57b47babab9ac7c8e35ae13a?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/rhorstkoetter/" title="Posts by Rupert Horstkötter">Rupert Horstkötter</a> (10)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/9d46eeed4de01dd50e3fd70bd660969b?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/saigkill/" title="Posts by Sascha Manns">Sascha Manns</a> (66)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/4da4097a3ca6d06d5c5c2423c257e7c5?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/idulk/" title="Posts by Saydul Akram">Saydul Akram</a> (3)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/be78d27ac14d16135e3f35e8612fa87c?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/sts301/" title="Posts by Sebastian Schöbinger">Sebastian Schöbinger</a> (4)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/b75fc92bf436b8b99b404093eb5959e6?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/visnov/" title="Posts by Stanislav Visnovsky">Stanislav Visnovsky</a> (7)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/f5946c6a23476d528795084f5c2013a8?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/haass/" title="Posts by Stefan Haas">Stefan Haas</a> (1)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/be695f4500ece3e8a9acc31270099de1?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/sh-sh-sh/" title="Posts by Stefan Hundhammer">Stefan Hundhammer</a> (5)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/922d00b5cf8398f512c781a792598d23?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/schubi2/" title="Posts by Stefan Schubert">Stefan Schubert</a> (7)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/8b5badfd72c932cf36698242b1610836?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/snwint/" title="Posts by Steffen Winterfeldt">Steffen Winterfeldt</a> (4)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/ff345c5a6b06ad0889db1f1ff52a6489?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/sjayaraman/" title="Posts by Suresh Jayaraman">Suresh Jayaraman</a> (3)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/713186a58c872c6bdfd2888469037921?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/froh/" title="Posts by Susanne Oberhauser">Susanne Oberhauser</a> (3)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/ab332ba11182affd7a59e701ac43e622?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/tgoettlicher/" title="Posts by Thomas Göttlicher">Thomas Göttlicher</a> (6)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/100154b0e5aba0626e8db6191e264783?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/thomasrjones/" title="Posts by Thomas Jones">Thomas Jones</a> (1)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/a2ab55809fc9fc1cde1c4a519e283ef8?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/thomas-schraitle/" title="Posts by Thomas Schraitle">Thomas Schraitle</a> (25)</li>
+<li><img alt='' src='http://1.gravatar.com/avatar/926aae47e9d1677af3799a66f39f330d?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/toganm/" title="Posts by Togan Muftuoglu">Togan Muftuoglu</a> (3)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/8389419eead797f59285b4da04d33e3d?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/illuusio/" title="Posts by Tuukka Pasanen">Tuukka Pasanen</a> (12)</li>
+<li><img alt='' src='http://0.gravatar.com/avatar/ae5863e449a99ef82a76b2778262c9d7?s=32&amp;d=http%3A%2F%2F0.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="//lizards.opensuse.org/author/wstephenson/" title="Posts by Will Stephenson">Will Stephenson</a> (22)</li>
+</ul>					</li>	<li id="archives-4" class="widget box box-shadow widget_archive"><h3 class="box-subheader">Archives</h3>		<ul>
+			<li><a href='//lizards.opensuse.org/2014/01/'>January 2014</a>&nbsp;(5)</li>
+	<li><a href='//lizards.opensuse.org/2013/12/'>December 2013</a>&nbsp;(9)</li>
+	<li><a href='//lizards.opensuse.org/2013/11/'>November 2013</a>&nbsp;(10)</li>
+	<li><a href='//lizards.opensuse.org/2013/10/'>October 2013</a>&nbsp;(10)</li>
+	<li><a href='//lizards.opensuse.org/2013/09/'>September 2013</a>&nbsp;(6)</li>
+	<li><a href='//lizards.opensuse.org/2013/08/'>August 2013</a>&nbsp;(7)</li>
+	<li><a href='//lizards.opensuse.org/2013/07/'>July 2013</a>&nbsp;(3)</li>
+	<li><a href='//lizards.opensuse.org/2013/06/'>June 2013</a>&nbsp;(7)</li>
+	<li><a href='//lizards.opensuse.org/2013/05/'>May 2013</a>&nbsp;(4)</li>
+	<li><a href='//lizards.opensuse.org/2013/04/'>April 2013</a>&nbsp;(4)</li>
+	<li><a href='//lizards.opensuse.org/2013/03/'>March 2013</a>&nbsp;(7)</li>
+	<li><a href='//lizards.opensuse.org/2013/02/'>February 2013</a>&nbsp;(6)</li>
+	<li><a href='//lizards.opensuse.org/2013/01/'>January 2013</a>&nbsp;(3)</li>
+	<li><a href='//lizards.opensuse.org/2012/12/'>December 2012</a>&nbsp;(3)</li>
+	<li><a href='//lizards.opensuse.org/2012/10/'>October 2012</a>&nbsp;(6)</li>
+	<li><a href='//lizards.opensuse.org/2012/09/'>September 2012</a>&nbsp;(6)</li>
+	<li><a href='//lizards.opensuse.org/2012/08/'>August 2012</a>&nbsp;(5)</li>
+	<li><a href='//lizards.opensuse.org/2012/07/'>July 2012</a>&nbsp;(12)</li>
+	<li><a href='//lizards.opensuse.org/2012/06/'>June 2012</a>&nbsp;(6)</li>
+	<li><a href='//lizards.opensuse.org/2012/05/'>May 2012</a>&nbsp;(4)</li>
+	<li><a href='//lizards.opensuse.org/2012/04/'>April 2012</a>&nbsp;(4)</li>
+	<li><a href='//lizards.opensuse.org/2012/03/'>March 2012</a>&nbsp;(5)</li>
+	<li><a href='//lizards.opensuse.org/2012/02/'>February 2012</a>&nbsp;(2)</li>
+	<li><a href='//lizards.opensuse.org/2012/01/'>January 2012</a>&nbsp;(5)</li>
+	<li><a href='//lizards.opensuse.org/2011/12/'>December 2011</a>&nbsp;(10)</li>
+	<li><a href='//lizards.opensuse.org/2011/11/'>November 2011</a>&nbsp;(6)</li>
+	<li><a href='//lizards.opensuse.org/2011/10/'>October 2011</a>&nbsp;(5)</li>
+	<li><a href='//lizards.opensuse.org/2011/09/'>September 2011</a>&nbsp;(9)</li>
+	<li><a href='//lizards.opensuse.org/2011/08/'>August 2011</a>&nbsp;(12)</li>
+	<li><a href='//lizards.opensuse.org/2011/07/'>July 2011</a>&nbsp;(14)</li>
+	<li><a href='//lizards.opensuse.org/2011/06/'>June 2011</a>&nbsp;(11)</li>
+	<li><a href='//lizards.opensuse.org/2011/05/'>May 2011</a>&nbsp;(18)</li>
+	<li><a href='//lizards.opensuse.org/2011/04/'>April 2011</a>&nbsp;(16)</li>
+	<li><a href='//lizards.opensuse.org/2011/03/'>March 2011</a>&nbsp;(26)</li>
+	<li><a href='//lizards.opensuse.org/2011/02/'>February 2011</a>&nbsp;(16)</li>
+	<li><a href='//lizards.opensuse.org/2011/01/'>January 2011</a>&nbsp;(23)</li>
+	<li><a href='//lizards.opensuse.org/2010/12/'>December 2010</a>&nbsp;(27)</li>
+	<li><a href='//lizards.opensuse.org/2010/11/'>November 2010</a>&nbsp;(18)</li>
+	<li><a href='//lizards.opensuse.org/2010/10/'>October 2010</a>&nbsp;(21)</li>
+	<li><a href='//lizards.opensuse.org/2010/09/'>September 2010</a>&nbsp;(16)</li>
+	<li><a href='//lizards.opensuse.org/2010/08/'>August 2010</a>&nbsp;(21)</li>
+	<li><a href='//lizards.opensuse.org/2010/07/'>July 2010</a>&nbsp;(20)</li>
+	<li><a href='//lizards.opensuse.org/2010/06/'>June 2010</a>&nbsp;(33)</li>
+	<li><a href='//lizards.opensuse.org/2010/05/'>May 2010</a>&nbsp;(29)</li>
+	<li><a href='//lizards.opensuse.org/2010/04/'>April 2010</a>&nbsp;(24)</li>
+	<li><a href='//lizards.opensuse.org/2010/03/'>March 2010</a>&nbsp;(29)</li>
+	<li><a href='//lizards.opensuse.org/2010/02/'>February 2010</a>&nbsp;(22)</li>
+	<li><a href='//lizards.opensuse.org/2010/01/'>January 2010</a>&nbsp;(20)</li>
+	<li><a href='//lizards.opensuse.org/2009/12/'>December 2009</a>&nbsp;(15)</li>
+	<li><a href='//lizards.opensuse.org/2009/11/'>November 2009</a>&nbsp;(21)</li>
+	<li><a href='//lizards.opensuse.org/2009/10/'>October 2009</a>&nbsp;(17)</li>
+	<li><a href='//lizards.opensuse.org/2009/09/'>September 2009</a>&nbsp;(22)</li>
+	<li><a href='//lizards.opensuse.org/2009/08/'>August 2009</a>&nbsp;(28)</li>
+	<li><a href='//lizards.opensuse.org/2009/07/'>July 2009</a>&nbsp;(37)</li>
+	<li><a href='//lizards.opensuse.org/2009/06/'>June 2009</a>&nbsp;(41)</li>
+	<li><a href='//lizards.opensuse.org/2009/05/'>May 2009</a>&nbsp;(40)</li>
+	<li><a href='//lizards.opensuse.org/2009/04/'>April 2009</a>&nbsp;(30)</li>
+	<li><a href='//lizards.opensuse.org/2009/03/'>March 2009</a>&nbsp;(20)</li>
+	<li><a href='//lizards.opensuse.org/2009/02/'>February 2009</a>&nbsp;(21)</li>
+	<li><a href='//lizards.opensuse.org/2009/01/'>January 2009</a>&nbsp;(27)</li>
+	<li><a href='//lizards.opensuse.org/2008/12/'>December 2008</a>&nbsp;(23)</li>
+	<li><a href='//lizards.opensuse.org/2008/11/'>November 2008</a>&nbsp;(12)</li>
+	<li><a href='//lizards.opensuse.org/2008/10/'>October 2008</a>&nbsp;(23)</li>
+	<li><a href='//lizards.opensuse.org/2008/09/'>September 2008</a>&nbsp;(40)</li>
+	<li><a href='//lizards.opensuse.org/2008/08/'>August 2008</a>&nbsp;(24)</li>
+	<li><a href='//lizards.opensuse.org/2008/07/'>July 2008</a>&nbsp;(12)</li>
+	<li><a href='//lizards.opensuse.org/2008/06/'>June 2008</a>&nbsp;(28)</li>
+	<li><a href='//lizards.opensuse.org/2008/05/'>May 2008</a>&nbsp;(26)</li>
+	<li><a href='//lizards.opensuse.org/2008/04/'>April 2008</a>&nbsp;(1)</li>
+		</ul>
+</li>      
+    <!-- </div> -->
+
+</div>
+</div>
+<!-- End: Main Content Area -->
+
+  
+    
+  
+</body>
+</html>

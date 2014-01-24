@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; Petr Uzel</title>
+	<atom:link href="http://lizards.opensuse.org/author/puzel/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>Hackweek V: osc bash completion</title>
+		<link>http://lizards.opensuse.org/2010/06/15/hackweek-v-osc-bash-completion/</link>
+		<comments>http://lizards.opensuse.org/2010/06/15/hackweek-v-osc-bash-completion/#comments</comments>
+		<pubDate>Tue, 15 Jun 2010 11:05:03 +0000</pubDate>
+		<dc:creator><![CDATA[Petr Uzel]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[osc completion hackweek]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=4406</guid>
+		<description><![CDATA[During last week , I was working on my Hackweek V project: bash completion for osc. It&#8217;s still far from being complete, but IMHO it is usable already, so here we go. Download The project is hosted on gitorious.org. To get the sources, use git: git clone git://gitorious.org/opensuse/osc-bash-completion.git Installation You need working and configured osc. [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>During last week , I was working on my Hackweek V project: <a title="bash completion for osc" href="https://fate.novell.com/309588">bash completion for osc</a>. It&#8217;s still far from being complete, but IMHO it is usable already, so here we go.</p>
+<h2>Download</h2>
+<p>The project is hosted on <a title="gitorious.org" href="http://gitorious.org/opensuse/osc-bash-completion">gitorious.org</a>. To get the sources, use git:</p>
+<p><code>git clone git://gitorious.org/opensuse/osc-bash-completion.git </code></p>
+<h2>Installation</h2>
+<p>You need working and configured osc. I have tested the completion with osc-0.126git, but it should more or less work with older/newer versions too. Naturally, your shell has to be bash (I used bash-4.x). The easiest way how to try the completion is simply to do<br />
+<code>~&gt; source osc.sh</code>This will enable the completion for the given shell only &#8211; see <a title="README" href="http://gitorious.org/opensuse/osc-bash-completion/blobs/master/README">README</a> for more &#8220;persistent&#8221; ways how to enable the osc completion.</p>
+<h2>Features</h2>
+<p>The script provides support for completing:</p>
+<ul>
+<li>osc subcommand names (checkout, commit, &#8230;)</li>
+<li>global long osc options (e.g. &#8211;quiet, &#8211;debug, &#8230;)</li>
+<li>long subcommand options</li>
+<li>project names</li>
+<li>package names (in given project)</li>
+<li>file names (in given project/package)</li>
+<li>repository names (openSUSE_Factory, &#8230;)</li>
+<li>architectures (i586, x86_64, &#8230;)</li>
+<li>&#8230;</li>
+</ul>
+<p>Some examples:<br />
+<code>osc com&lt;tab&gt;&lt;tab&gt; =&gt; osc commit</code><br />
+<code>osc --ht&lt;tab&gt;&lt;tab&gt; =&gt; osc --http-debug</code><br />
+<code>osc build --a&lt;tab&gt;&lt;tab&gt; =&gt; osc build --alternative-project</code><br />
+<code>osc ls Ar&lt;tab&gt;&lt;tab&gt; =&gt; osc ls Archiving</code><br />
+<code>osc ls Base:System pa&lt;tab&gt;&lt;tab&gt; =&gt; osc ls Base:System parted</code><br />
+<code>osc cat Base:System parted ba&lt;tab&gt;&lt;tab&gt; =&gt; osc cat Base:System parted baselibs.conf</code><br />
+<code>osc buildlog openSUSE_&lt;tab&gt;&lt;tab&gt; =&gt; osc buildlog openSUSE_<br />
+openSUSE_Factory  openSUSE_11.0     openSUSE_11.1     openSUSE_11.2</code><br />
+<code>osc buildlog openSUSE_Factory x&lt;tab&gt;&lt;tab&gt; =&gt; osc buildlog openSUSE_Factory x86_64</code><br />
+<code>osc createrequest -a&lt;tab&gt;&lt;tab&gt; =&gt; osc createrequest -a<br />
+add_role delete change_devel set_bugowner submit</code><br />
+<code>osc ? d&lt;tab&gt;&lt;tab&gt; =&gt; osc ?<br />
+delete deleterequest dependson dif</code><br />
+<code>osc meta a&lt;tab&gt;&lt;tab&gt; =&gt; osc meta attribute</code><br />
+<code>osc my &lt;tab&gt;&lt;tab&gt; =&gt; osc my<br />
+pkg prj rq sr</code><br />
+<code>osc request &lt;tab&gt;&lt;tab&gt; =&gt; osc request<br />
+accept approvenew co       decline  checkout<br />
+list       log             revoke show    wipe</code><br />
+<code>osc getpac for&lt;tab&gt;&lt;tab&gt; =&gt; osc gepac fortune</code></p>
+<p>At the moment, the script DOES NOT provide support for completing</p>
+<ul>
+<li>short options</li>
+<li>arguments for most of the options</li>
+<li>some complex combinations of arguments</li>
+</ul>
+<h2>Caching</h2>
+<p>To avoid long delays and spamming OBS server too much, the script caches several information:</p>
+<ul>
+<li>list of projects in OBS</li>
+<li>list of packages in individual projects (only in those that have been accessed by osc)</li>
+<li>output of &#8220;osc repos prj&#8221; (dtto)</li>
+</ul>
+<p>Please <strong>see the <a title="README" href="http://gitorious.org/opensuse/osc-bash-completion/blobs/master/README">README</a></strong> file for more information about how the caching works and how to customize it (to <strong>make the completion significantly faster</strong>).</p>
+<h2>Known issues, TODO</h2>
+<ul>
+<li>The script does not work correctly if there is a long option with argument and there is &#8216;=&#8217; between the option and argument (&#8211;long-option=arg). Please use the &#8216;&#8211;long-option arg&#8217; form instead.</li>
+<li>For the time being, the script does not recognize alternative apiurl (-A|&#8211;apiurl) and thus it works only with default (https://api.opensuse.org) api.</li>
+<li>Sourcing the script removes the colon from COMP_WORDBREAKS variable to make completion of Build Service projects easier. This was known to break e.g. git completion in the past (however, I didn&#8217;t notice any issues). In the future, the script should be fixed so that modifying of COMP_WORDBREAKS is not necessary.</li>
+<li>The script should dynamically create list of osc subcommands and lists of their options by parsing osc help output (or something similar). Now the lists and logic are hardcoded in the script, which will make it maintenance nightmare when osc changes.</li>
+<li>Completing of &#8220;osc {chroot,build}&#8221; is not yet implemented.</li>
+<li>See TODO file</li>
+</ul>
+<h2>Testing and feedback</h2>
+<p>The completion script is very new, tested only by me and mvyskocil for a while, so it definitely has a lot of bugs. Before releasing it as a separate package, I&#8217;d like to collect some feedback first (and fix the already known problems and TODOs), so, if you are interested, please give it a try and report any bugs, suggestions or <strong>patches</strong> directly to me (petr.uzel@suse.cz). Also, feel free to ping me on IRC: ptr_uzl @ freenode.net.</p>
+<p>I hope at least somebody (except me <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' />  ) will find the completion useful. Thanks and happy completing.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/06/15/hackweek-v-osc-bash-completion/feed/</wfw:commentRss>
+		<slash:comments>4</slash:comments>
+		</item>
+		<item>
+		<title>openSUSE @ Chemnitzer Linux Tage 2010</title>
+		<link>http://lizards.opensuse.org/2010/03/18/opensuse-chemnitzer-linux-tage-2010/</link>
+		<comments>http://lizards.opensuse.org/2010/03/18/opensuse-chemnitzer-linux-tage-2010/#comments</comments>
+		<pubDate>Thu, 18 Mar 2010 14:16:25 +0000</pubDate>
+		<dc:creator><![CDATA[Petr Uzel]]></dc:creator>
+				<category><![CDATA[Boosters]]></category>
+		<category><![CDATA[Events]]></category>
+		<category><![CDATA[clt2010]]></category>
+		<category><![CDATA[event]]></category>
+		<category><![CDATA[openSUSE]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=3505</guid>
+		<description><![CDATA[Last weekend, I was boosting at Chemnitzer Linux Tage where we ran openSUSE booth with Jan Weber, Kai-Uwe Behrmann and Sirko Kemter. Jan and Sirko already wrote reports at their blogs, so I&#8217;ll add just some personal thoughts and remarks. It all started on Friday at the Greek restaurant. There was about ten of us, [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Last weekend, I was boosting at <a href="http://chemnitzer.linux-tage.de/2010/info/">Chemnitzer Linux Tage</a> where we ran openSUSE booth with <a href="http://www.luckylemon.de/?p=88">Jan Weber</a>, <a href="http://www.behrmann.name/">Kai-Uwe Behrmann</a> and <a href="http://karl-tux-stadt.de/ktuxs/?p=2155">Sirko Kemter</a>. Jan and Sirko already wrote reports at their blogs, so I&#8217;ll add just some personal thoughts and remarks.<br />
+It all started on Friday at the Greek restaurant. There was about ten of us, including all the guys mentioned above, <a href="http://www.invis-server.org/">invis-server</a> people and others (sorry, I suck at remembering names). We had nice evening with some greek food (surprisingly), German beer and free ouzo refill. Yes free. Caused me troubles later&#8230;</p>
+<p>On Saturday morning, we went to the TU where the event took place and finished the booth with table clothes I brought from Prague. I have to thank my girlfriend&#8217;s brother, who work in a restaurant, for providing these (I will rather not thank the restaurant &#8211; I doubt they are aware of their contribution). Both touchscreens were ready, running 11.2, one GNOME and the second one KDE 4.4.1 IIRC. We had also bunch of DVDs to hand out, some stickers and similar stuff.</p>
+<p>The event officialy started at 9 o&#8217;clock. I was surprised that so many people showed up.  Many of them came to the our booth, either just to take the DVD or to ask for help with their openSUSE installation. It was a bit funny when somebody started to talk to me in German (which I have completely forgot since the secondary school), so I always had to ask for switching to English &#8211; about 95% of cases this was no problem, and in the rest of cases I simply Fwd:ed the people to Jan or Kai-Uwe.</p>
+<p>I have talked to several people doing server solutions based on openSUSE and asked what&#8217;s their biggest issue with using openSUSE and what can we do better. There seemed to be a consensus that it&#8217;s packages dropped from the distribution without communicating it enough to the community. Perhaps we could think about some centralized place (mailinglist) where packages that are due to be dropped were communicated to the community, so interested people could step in and take over of their maintenance?</p>
+<p>Late in the afternoon, I attended Frederic Weisbecker&#8217;s talk called <a href="http://chemnitzer.linux-tage.de/2010/vortraege/detail.html?idx=515">Instrumentation with perf events and ftrace</a>, which was AFAIK the only lecture held in English. Frederic gave an overview about recently included tracing subsystem in linux kernel and how can it be used to gather various information from the running system.</p>
+<p>On Sunday, things were more quiet as not so many people as on Saturday came. It was quite funny when I talked with some guy from Fedora at our booth when internet connection at the touchscreens broke up. I suspect it was some problem at AP&#8217;s side, but he seemed to be quite amused by openSUSE&#8217;s &#8220;instability&#8221; nevertheless. Hmm&#8230;</p>
+<p>I left at about 15:30 and headed back to Prague.</p>
+<p>In general, I think it was nice event and our booth was quite successful, because we handed out about 800 DVDs and also managed to solve most of the problems people asked us to help them with (KDE 4.4 desktop appereance, non working internet connection and VirtualBox installation are just few of them). I was happy to meet new people as well as those I know from IRC or changelog entries.</p>
+<p>I took few photos, which can be found at <a href="http://picasaweb.google.com/uzelp99/CLT2010#">picasaweb</a>.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/03/18/opensuse-chemnitzer-linux-tage-2010/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>Tip: transparent editing of gpg encrypted files with vim</title>
+		<link>http://lizards.opensuse.org/2010/01/29/tip-transparent-editing-of-gpg-encrypted-files-with-vim/</link>
+		<comments>http://lizards.opensuse.org/2010/01/29/tip-transparent-editing-of-gpg-encrypted-files-with-vim/#comments</comments>
+		<pubDate>Fri, 29 Jan 2010 14:03:15 +0000</pubDate>
+		<dc:creator><![CDATA[Petr Uzel]]></dc:creator>
+				<category><![CDATA[Contrib]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Security]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=3138</guid>
+		<description><![CDATA[If you are vim user and also use gpg to encrypt stuff, you might appreciate that you can teach vim to transparently open gpg encrypted files with vim gnupg plugin. Just install vim-plugin-gnupg from Contrib repository: # zypper install vim-plugin-gnupg Also, you should add following two lines to your .bashrc to make the plugin work [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>If you are vim user and also use gpg to encrypt stuff, you might appreciate that you can teach vim to transparently open gpg encrypted files with vim <a href="http://www.vim.org/scripts/script.php?script_id=661" target="_blank">gnupg plugin</a>. Just install <a href="http://software.opensuse.org/search?baseproject=ALL&amp;p=1&amp;q=vim-plugin-gnupg">vim-plugin-gnupg</a> from Contrib repository:</p>
+<p><code># zypper install vim-plugin-gnupg</code></p>
+<p>Also, you should add following two lines to your .bashrc to make the plugin work properly:<br />
+<code>GPG_TTY=`tty`<br />
+export GPG_TTY<br />
+</code></p>
+<p>Then, if you tell vim to open gpg encrypted file, it will ask for passphrase, transparently decrypts it and after you make changes, it will encrypt the file again.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/01/29/tip-transparent-editing-of-gpg-encrypted-files-with-vim/feed/</wfw:commentRss>
+		<slash:comments>5</slash:comments>
+		</item>
+		<item>
+		<title>Report from openSUSE 11.2 Release Party in Prague</title>
+		<link>http://lizards.opensuse.org/2009/11/24/report-from-opensuse-11-2-release-party-in-prague/</link>
+		<comments>http://lizards.opensuse.org/2009/11/24/report-from-opensuse-11-2-release-party-in-prague/#comments</comments>
+		<pubDate>Tue, 24 Nov 2009 14:09:18 +0000</pubDate>
+		<dc:creator><![CDATA[Petr Uzel]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Events]]></category>
+		<category><![CDATA[openSUSE 11.2]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=2632</guid>
+		<description><![CDATA[On November 20th, the Czech members of the openSUSE Boosters Team organized openSUSE 11.2 Release Party. The party took place in the nice building of Faculty of Mathematics and Physics. We have prepared installation DVDs, which we&#8217;ve burnt with Pavol the day before the party &#8211; about 20 32bit and the same amount of 64bit [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>On November 20th, the Czech members of the <a href="http://en.opensuse.org/Boosters">openSUSE Boosters Team</a> organized openSUSE 11.2 Release Party. The party took place in the nice building of <a href="http://www.mff.cuni.cz">Faculty of Mathematics and Physics</a>.</p>
+<p><img class="size-full wp-image-2646 alignnone" src="http://lizards.opensuse.org/wp-content/uploads/2009/11/building.JPG" alt="MFF" width="819" height="614" /></p>
+<p>We have prepared installation DVDs, which we&#8217;ve burnt with Pavol the day before the party &#8211; about 20 32bit and the same amount of 64bit DVDs together with some promo DVDs. It was interesting that the 32bit DVDs were taken before the 64bit ones &#8211; we expected it to be the other way round. We had also some promotional stuff like T-shirts, caps, stickers etc. Everything disappeared in several minutes, so it seems that people enjoy wearing T-shirts with that little green creatures. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';)' class='wp-smiley' /> </p>
+<p><img class="alignnone size-full wp-image-2659" src="http://lizards.opensuse.org/wp-content/uploads/2009/11/promo2.JPG" alt="promo" width="819" height="614" /></p>
+<p>It was hard to estimate how many people will come &#8211; we have expected something around 20 participants. However, to our pleasant surprise, about 40 people showed up. Moreover, not only students and young people were present, but also two or three colleagues born a bit earlier.</p>
+<p><img class="alignnone size-full wp-image-2660" src="http://lizards.opensuse.org/wp-content/uploads/2009/11/people1.JPG" alt="people" width="819" height="614" /></p>
+<p>After Pavol&#8217;s quick introduction of members of Czech openSUSE Boosters Team, Michal Hrusecky started his talk about new features in openSUSE 11.2 and new look and feel. Finally, Michal noted opening of Factory, new development model with devel projects, the Contrib repository and Junior Jobs.</p>
+<p><img class="alignnone size-full wp-image-2663" src="http://lizards.opensuse.org/wp-content/uploads/2009/11/michal1.JPG" alt="michal" width="614" height="819" /></p>
+<p>After a short snack break, Lubos talked about new KDE in openSUSE 11.2. It seems that the rotating cube effect never bores, so Lubos was asked to rotate his desktop. After having some troubles with figuring out how to switch the cube on, he of course succeeded and the cube worked &#8211; WOW! Next, Lubos exhumed his about two years old presentation named &#8216;What will be new in KDE 4.0&#8242; (or something like that) and retroactively evaluated what the KDE developers achieved or not.</p>
+<p><img class="alignnone size-full wp-image-2664" src="http://lizards.opensuse.org/wp-content/uploads/2009/11/lubos.JPG" alt="lubos" width="614" height="819" /></p>
+<p>The rest of the party was rather interactive. Boosters and other participants helped with installation of 11.2, solving problems, answered questions and helped with creating bugzilla accounts and reporting bugs in case we had no clue. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';)' class='wp-smiley' /> </p>
+<p><img class="alignnone size-full wp-image-2650" src="http://lizards.opensuse.org/wp-content/uploads/2009/11/int2.JPG" alt="int2" width="819" height="614" /></p>
+<p><img class="alignnone size-full wp-image-2665" src="http://lizards.opensuse.org/wp-content/uploads/2009/11/int1.JPG" alt="int1" width="819" height="614" /></p>
+<p>Our thanks belong to Faculty of Mathematics and Physics for allowing us to use classroom, <a href="http://www.suse.cz">SUSE CZ</a> for sponsoring the promotional stuff and snacks and last but not least, to everybody who showed up at the party. Thanks!</p>
+<p>For more photos from the party, please visit <a href="http://picasaweb.google.com/uzelp99/OpenSUSE112PragueReleaseParty?feat=directlink">picasaweb</a>.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/11/24/report-from-opensuse-11-2-release-party-in-prague/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>Branching Contrib for 11.2</title>
+		<link>http://lizards.opensuse.org/2009/10/21/branching-contrib-for-11-2/</link>
+		<comments>http://lizards.opensuse.org/2009/10/21/branching-contrib-for-11-2/#comments</comments>
+		<pubDate>Wed, 21 Oct 2009 10:43:58 +0000</pubDate>
+		<dc:creator><![CDATA[Petr Uzel]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Contrib]]></category>
+		<category><![CDATA[openSUSE 11.2]]></category>
+		<category><![CDATA[Packaging]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=2358</guid>
+		<description><![CDATA[As you might know, Contrib is a universal repository for third-party packages. Branching of this repository to openSUSE:11.2:Contrib is going to happen on October, 30, so if you want to have your favorite application or tool included in openSUSE:11.2:Contrib, please submit your request as soon as possible. If you already maintain some package(s) in Contrib, [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>As you might know, <a href="http://en.opensuse.org/Contrib">Contrib</a> is a  universal repository for third-party packages. Branching of this repository to openSUSE:11.2:Contrib is going to happen on October, 30, so if you want to have your favorite application or tool included in openSUSE:11.2:Contrib, please <a href="http://en.opensuse.org/Contrib#New_Packages_to_openSUSE:Factory:Contrib">submit your request</a> as soon as possible.</p>
+<p>If you already maintain some package(s) in Contrib, please spend a few minutes by <a href="https://build.opensuse.org/project/monitor?project=openSUSE%3AFactory%3AContrib">checking</a> that the package builds fine, has properly set metadata (maintainer, bugowner) etc.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/10/21/branching-contrib-for-11-2/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; Jiří Suchomel</title>
+	<atom:link href="http://lizards.opensuse.org/author/jsuchome/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>YaST++: next step in system management</title>
+		<link>http://lizards.opensuse.org/2012/02/15/yast-next-step-in-system-management/</link>
+		<comments>http://lizards.opensuse.org/2012/02/15/yast-next-step-in-system-management/#comments</comments>
+		<pubDate>Wed, 15 Feb 2012 10:07:46 +0000</pubDate>
+		<dc:creator><![CDATA[Jiří Suchomel]]></dc:creator>
+				<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+		<category><![CDATA[Ruby]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8523</guid>
+		<description><![CDATA[All of you probably know YaST, the installation and system configuration tool for openSUSE. With current YaST, plenty of tasks that system administrator could image are doable using understandable UI: creating users, bootloader configuration, network setup and even Apache configuration. However, it has its drabacks. While being do-it-all tool, it comes with large package dependency [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>All of you probably know <a title="YaST" href="http://en.opensuse.org/Portal:YaST">YaST</a>, the installation and system configuration tool for openSUSE.</p>
+<p>With current YaST, plenty of tasks that system administrator could image are doable using understandable UI: creating users, bootloader configuration, network setup and even Apache configuration. However, it has its drabacks. While being do-it-all tool, it comes with large package dependency even for only simple tasks. It is largely written in an outdated language which has its roots in last century and only few people in the world know it. It lacks the testing abilities of modern languages. It is SUSE specific and lacks larger developer community.</p>
+<p>So last year, we (actually, <a href="http://lizards.opensuse.org/author/jreidinger/">Josef</a>) came with the idea for YaST++: new configuration library that could be a common layer for configuration tools in SUSE (and beyond). Such library should provide simple and understandable API for all tools around. Written in up-to-date language many people know and like, so they can join the development (spoiler: we chose Ruby). Offering bindings  to various other languages, so different tools could benefit from it,</p>
+<p>Now, this &#8220;YaST++&#8221; does not actually mean to be replacement of current YaST (with its Qt/GTK/ncurses UI), but it could replace the lower layer of YaST, which is doing the real system configuration. And it would be open for other library users as well: the obvious targets for now are <a href="http://en.opensuse.org/Portal:WebYaST">WebYaST</a> and <a href="http://en.opensuse.org/Portal:SUSE_Studio">SUSE Studio</a>, but we&#8217;d like to see if other tools are interested: even from non-SUSE world.</p>
+<p>From architecture point, YaST++ is itself divided into two layers, we call them YLib and config agents. YLib is the high-level library, providing the API (like &#8216;create user&#8217;, &#8216;set new time zone&#8217; etc.). Config agents form the lower layer, that is actually touching the system. This low level consits of D-BUS services, which are running as a root (thus have the full access to the system) but are started only for users with proper permissions (we are using polkit for policies definition). So YaST++ offers role based access management, where specific users can be allowed to do specific sets of actions. For more, check our <a title="Architecture document" href="https://github.com/yast/yast--/blob/master/doc/architecture.txt">architecture document</a> (still WIP).</p>
+<p>We&#8217;ve started to work on several modules (none of them is finished, though). Let&#8217;s look at example in module for users configuration (packages yast++lib-users and config_agent-passwd). Look at example code in &#8216;users_read&#8217; script of <a href="https://github.com/yast/yast--/tree/master/yast++lib-users/examples">examples</a> subdirectory. With simple ruby call of</p>
+<blockquote><p>YLib::Users::read({})</p></blockquote>
+<p>you get the list of current users. If the script gets additional parameters, it can list e.g. all data about selected user, or only specific information about all:</p>
+<blockquote><p>&gt; ./users_read root<br />
+{&#8220;gid&#8221;=&gt;&#8221;0&#8243;, &#8220;name&#8221;=&gt;&#8221;root&#8221;, &#8220;uid&#8221;=&gt;&#8221;0&#8243;, &#8220;shell&#8221;=&gt;&#8221;/bin/bash&#8221;, &#8220;password&#8221;=&gt;&#8221;x&#8221;, &#8220;home&#8221;=&gt;&#8221;/root&#8221;}</p>
+<p>&gt; ./users_read only name<br />
+{&#8220;result&#8221;=&gt;["Batch jobs daemon", "User for Avahi", "bin", "Daemon", "dnsmasq", "FTP account", "Games account", "User for haldaemon", "User for OpenLDAP", "LightDM daemon", "Printing daemon", "Mailer daemon", "Manual pages viewer", "User for D-Bus", "MySQL database admin", "News system", "user for nginx", "nobody", "NTP daemon", "User for build service backend", "openslp daemon", "PolicyKit", "Postfix Daemon", "PulseAudio daemon", "qemu user", "Router ADVertisement Daemon for", "root", "RealtimeKit", "Smart Card Reader", "user for smolt", "SSH daemon", "NFS statd daemon", "Novell Customer Center User", "TFTP account", "usbmuxd daemon", "Unix-to-Unix CoPy system", "WWW daemon apache", "User for YaST-Webservice", "LXDE Display Manager daemon"]}</p></blockquote>
+<p>YaST++ developement is in its early stage (even the name is not final), but we already have something to offer.</p>
+<p>Check the code and documentation at <a href="https://github.com/yast/yast--">github project</a>. There&#8217;s already a simple <a href="https://github.com/yast/yast--/wiki/Tutorial">tutorial</a> for those who want to try writing new parts.</p>
+<p>Download packages from <a href="https://build.opensuse.org/project/show?project=YaST%3AHead%3AYaST%2B%2B">Build Service project</a>.</p>
+<p>Comment/propose/oppose in public <a href="http://lists.opensuse.org/yast-devel/">YaST mailing list</a>.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/02/15/yast-next-step-in-system-management/feed/</wfw:commentRss>
+		<slash:comments>12</slash:comments>
+		</item>
+		<item>
+		<title>Your own OEM configuration: YaST Firstboot</title>
+		<link>http://lizards.opensuse.org/2010/05/13/your-own-oem-configuration-yast-firstboot/</link>
+		<comments>http://lizards.opensuse.org/2010/05/13/your-own-oem-configuration-yast-firstboot/#comments</comments>
+		<pubDate>Thu, 13 May 2010 12:34:41 +0000</pubDate>
+		<dc:creator><![CDATA[Jiří Suchomel]]></dc:creator>
+				<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=4028</guid>
+		<description><![CDATA[Have you ever thought how users should configure their systems, deployed by AutoYaST or kiwi? One of possible answers is called YaST Firstboot. The YaST firstboot utility is a special kind of configuration workflow that can be run after the basic system is installed. It is started on the first boot of the system and [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Have you ever thought how users should configure their systems, deployed by AutoYaST or kiwi? One of possible answers is called YaST Firstboot.</p>
+<p>The YaST firstboot utility is a special kind of configuration workflow that can be run after the basic system is installed. It is started on the first boot of the system and guides a user through a series of steps that allow for easier configuration of their desktops. YaST firstboot does not run by default and has to be configured to run by the user or the system administrator. It is useful for image deployments where the system in the image is already configured (read: <a title="AutoYaST" href="http://en.opensuse.org/AutoYaST">AutoYaST</a>, <a title="SUSE Studio" href="http://en.opensuse.org/SUSE_Studio">SUSE_Studio</a>, <a title="KIWI" href="http://en.opensuse.org/KIWI">KIWI</a>), and end-user should do only the last few steps, like setting the root password.</p>
+<h2>Enabling Firstboot</h2>
+<p>To enable running firstboot configuration sequence on the machine, it is necessary to:</p>
+<ul>
+<li> Have yast2-firstboot package installed. Depending on your installation method, this means adding the package to the list of packages to be installed (e.g. for AutoYaST) or that are part of installation image.</li>
+</ul>
+<ul>
+<li> Create the empty file /var/lib/YaST2/reconfig_system. If this file is present on system boot, firstboot configuration sequence is started. YaST Firstboot removes the file when the configuration is done.</li>
+</ul>
+<h2>Customizing YaST Firstboot</h2>
+<p>There are two files that control the behavior of Firstboot: the firstboot control file (firstboot.xml) and the sysconfig file /etc/sysconfig/firstboot. The control file defines the steps that should be part of your configuration sequence, in the sysconfig file it is possible to define custom messages and paths to various files.</p>
+<h3>Customized  Messages</h3>
+<p>Most important texts configurable in sysconfig file is the text shown in the License Agreement screens. For license texts, there are sysconfig variables FIRSTBOOT_LICENSE_DIR and FIRSTBOOT_NOVELL_LICENSE_DIR.</p>
+<p>The license text is read from the file &#8216;license.txt&#8217; or from &#8216;license_&lt;locale&gt;.txt&#8217;. The license texts of the Novell base product are by default installed to the directory /etc/YaST2/licenses/base/ &#8212; you can set different value to FIRSTBOOT_NOVELL_LICENSE_DIR if they are elsewhere. Use FIRSTBOOT_LICENSE_DIR to indicate a path to directory containing vendor licence texts; it is preferred to put these license texts into another subdirectory of /etc/YaST2/licenses/.</p>
+<p>To show two license texts in one dialog (typically the one from vendor and one from Novell), use &#8216;firstboot_license_novell&#8217; step in your firstboot.xml file. This client will use the license texts specified by both FIRSTBOOT_LICENSE_DIR and FIRSTBOOT_NOVELL_LICENSE_DIR.</p>
+<h3>Customized Workflow</h3>
+<p>The default firstboot workflow can be controled using one single file which uses the same syntax as the control.xml file used to control the complete installation. The firstboot control file consists of workflow and proposal configurations and can be used to add or remove configuration screens depending on the end configuration of the system. The file firstboot.xml is installed with the yast2-firstboot package and can be found at the following location: /etc/YaST2/firstboot.xml.</p>
+<p>This file can be modified to match the post installation requirements of the product in question. In addition to the default and pre-installed components, custom screens can be added to enable maximal flexiblity during post installation. Look into the example firstboot.xml file coming with your yast2-firstboot package for more available steps.</p>
+<h2>Custom Scripts</h2>
+<p>Not everything can be achieved with already prepared steps, and it is usually not necessary to write your own ycp dialogs.</p>
+<p>You can add schell scripts to be executed at the end of the firstboot configuration. Scripts should be placed in /usr/share/firstboot/scripts or in a custom location that can be set using the variable SCRIPT_DIR of /etc/sysconfig/firstboot configuration file. The scripts are executed in alphabetical order of their names.</p>
+<h2>AutoYaST Support</h2>
+<p>It is possible to configure the firstboot process as a part of autoinstallation, so the system can be installed with most of the default values set via <a title="AutoYaST" href="http://en.opensuse.org/AutoYaST">AutoYaST</a> profile, leaving the rest to the end user during the firstboot sequence.</p>
+<p>As a part of autoinstallation configuration, you need to provide all the changes mentioned above:</p>
+<ul>
+<li> Customize /etc/sysconfig/firstboot: it can be done e.g. via Sysconfig Editor in System section of AutoYaST configuration module.</li>
+</ul>
+<ul>
+<li> Provide customized firstboot.xml file and point to its location in FIRSTBOOT_CONTROL_FILE value of /etc/sysconfig/firstboot.</li>
+</ul>
+<ul>
+<li> Enable Firstboot: do it via GUI in Misc/Firstboot section of AutoYaST configuration module or manually by adding the section</li>
+</ul>
+<pre>&lt;firstboot&gt;
+   &lt;firstboot_enabled config:type="boolean"&gt;true&lt;/firstboot_enabled&gt;
+&lt;/firstboot&gt;</pre>
+<p>to your AutoYaST profile.</p>
+<p>This is the shortened version of the article published at <a href="http://en.opensuse.org/YaST_Firstboot">http://en.opensuse.org/YaST_Firstboot</a></p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/05/13/your-own-oem-configuration-yast-firstboot/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>User readable logging of YaST modules</title>
+		<link>http://lizards.opensuse.org/2009/04/06/user-readable-logging-of-yast-modules/</link>
+		<comments>http://lizards.opensuse.org/2009/04/06/user-readable-logging-of-yast-modules/#comments</comments>
+		<pubDate>Mon, 06 Apr 2009 14:38:53 +0000</pubDate>
+		<dc:creator><![CDATA[Jiří Suchomel]]></dc:creator>
+				<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=684</guid>
+		<description><![CDATA[For quite some time, we had user requests (fate #100386) to provide the logging that would be readable to users (= not only YaST developers). Such logs should provide the information what certain YaST action is really doing to the system and exclude all the internal debug info our y2logs are full of. Martin and [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>For quite some time, we had user requests (<a title="Fate 100386" href="http://features.opensuse.org/100386">fate #100386</a>) to provide the logging that would be readable to users (= not only YaST developers). Such logs should provide the information what certain YaST action is really doing to the system and exclude all the internal debug info our y2logs are full of.</p>
+<p><a href="http://en.opensuse.org/User:Mvidner">Martin</a> and <a href="http://en.opensuse.org/User:Visnov">Stano</a> created some concept and added new logging functions y2usernote and y2useritem. These log to the new log file, /var/log/YaST2/y2changes (or $HOME/.y2changes).</p>
+<p>The question which is still not resolved is how should we use these functions? Which events our modules produce should provide description as &#8220;note&#8221; and which should provide &#8220;items&#8221;? What level of complexity should be presented to user? Should we log the real actions, just like commands passed to system agent or rather the explanations of the actions taken? Or both?</p>
+<p>Let&#8217;s go to the example. The changes are already in FACTORY version of yast2-users packages (yast2-perl-bindings needed as well), so you may even try yourself.</p>
+<p>At first, I started logging actions done in Write function. I deleted one user and renamed another. See:</p>
+<blockquote><p>2009-02-05 15:15:55 &lt;item&gt; rivendell User and Group Management module started<br />
+2009-02-05 15:16:12 &lt;note&gt; rivendell File written: &#8216;/etc/group&#8217;<br />
+2009-02-05 15:16:12 &lt;note&gt; rivendell User pre-deletion script called: &#8216;/usr/sbin/userdel-pre.local cc 1003 100 /local/home/cc&#8217;<br />
+2009-02-05 15:16:12 &lt;note&gt; rivendell File written: &#8216;/etc/passwd&#8217;<br />
+2009-02-05 15:16:12 &lt;note&gt; rivendell User &#8216;aa&#8217; renamed to &#8216;bb&#8217;<br />
+2009-02-05 15:16:12 &lt;note&gt; rivendell Home directory moved: &#8216;/bin/mv /local/home/aa /local/home/bb&#8217;<br />
+2009-02-05 15:16:12 &lt;note&gt; rivendell File written: &#8216;/etc/shadow&#8217;<br />
+2009-02-05 15:16:12 &lt;note&gt; rivendell nscd cache invalidated: &#8216;/usr/sbin/nscd -i passwd&#8217;<br />
+2009-02-05 15:16:12 &lt;note&gt; rivendell nscd cache invalidated: &#8216;/usr/sbin/nscd -i group&#8217;<br />
+2009-02-05 15:16:12 &lt;note&gt; rivendell Group &#8216;dialout&#8217; modified<br />
+2009-02-05 15:16:12 &lt;note&gt; rivendell Group &#8216;video&#8217; modified<br />
+2009-02-05 15:16:12 &lt;note&gt; rivendell Home directory removed: &#8216;/bin/rm -rf /local/home/cc&#8217;<br />
+2009-02-05 15:16:12 &lt;note&gt; rivendell User post-deletion script called: &#8216;/usr/sbin/userdel-post.local cc 1003 100 /local/home/cc&#8217;<br />
+2009-02-05 15:16:13 &lt;item&gt; rivendell User and Group Management module finished</p></blockquote>
+<p>Now, it is not bad, but the item &#8220;File written: &#8216;/etc/group&#8217;&#8221; doesn&#8217;t give much detailed info about what was done to that file. Stano proposed printing the diffs of the original and modified one, it could look this way:</p>
+<blockquote><p>2009-02-09 10:05:50 &lt;item&gt; rivendell User and Group Management module started<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell Backup created: &#8216;/bin/cp /etc/group /etc/group.YaST2save&#8217;<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell File written: &#8216;/etc/group&#8217;<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell Comparing original and new version:<br />
+&#8212; /etc/group.YaST2save    2009-02-09 11:05:49.000000000 +0100<br />
++++ /etc/group    2009-02-09 11:05:49.000000000 +0100<br />
+@@ -8,3 +8,3 @@<br />
+daemon:x:2:<br />
+-dialout:x:16:bb,hh,linux,zz<br />
++dialout:x:16:aa,hh,linux<br />
+disk:x:6:<br />
+@@ -45,3 +45,3 @@<br />
+vboxusers:!:113:jsuchome<br />
+-video:x:33:bb,hh,linux,zz<br />
++video:x:33:aa,hh,linux<br />
+wheel:x:10:<br />
+`<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell User pre-deletion script called: &#8216;/usr/sbin/userdel-pre.local zz 1003 100 /local/home/zz&#8217;<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell Backup created: &#8216;/bin/cp /etc/passwd /etc/passwd.YaST2save&#8217;<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell File written: &#8216;/etc/passwd&#8217;<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell Comparing original and new version:<br />
+&#8212; /etc/passwd.YaST2save    2009-02-09 11:05:49.000000000 +0100<br />
++++ /etc/passwd    2009-02-09 11:05:49.000000000 +0100<br />
+@@ -28,6 +28,5 @@<br />
+wwwrun:x:30:8:WWW daemon apache:/var/lib/wwwrun:/bin/false<br />
+-bb:x:1002:100:AAA:/local/home/bb:/bin/bash<br />
++aa:x:1002:100:AAA:/local/home/aa:/bin/bash<br />
+hh:x:1000:100:hhh:/local/home/hh:/bin/bash<br />
+linux:x:1001:100:linux:/local/home/linux:/bin/bash<br />
+-zz:x:1003:100:zz:/local/home/zz:/bin/bash<br />
++::::::<br />
+`<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell User &#8216;bb&#8217; renamed to &#8216;aa&#8217;<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell Home directory moved: &#8216;/bin/mv /local/home/bb /local/home/aa&#8217;<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell Backup created: &#8216;/bin/cp /etc/shadow /etc/shadow.YaST2save&#8217;<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell File written: &#8216;/etc/shadow&#8217;<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell nscd cache invalidated: &#8216;/usr/sbin/nscd -i passwd&#8217;<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell nscd cache invalidated: &#8216;/usr/sbin/nscd -i group&#8217;<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell Group &#8216;dialout&#8217; modified<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell Group &#8216;video&#8217; modified<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell Home directory removed: &#8216;/bin/rm -rf /local/home/zz&#8217;<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell User post-deletion script called: &#8216;/usr/sbin/userdel-post.local zz 1003 100 /local/home/zz&#8217;<br />
+2009-02-09 11:05:50 &lt;item&gt; rivendell User and Group Management module finished</p></blockquote>
+<p>Here, the user knows more about the real changes, but the log file is getting a bit less readable again&#8230; still I think I&#8217;d prefer it.</p>
+<p>You could see on examples that I don&#8217;t really use the advantage of having 2 logging functions. AFAIK Martin&#8217;s original proposal was to use items to tell what actions are we going to perform and notes to log the details of such action. This is hardly achievable in yast2-users module (may be better with<br />
+others), since at the time of writing we don&#8217;t know the &#8220;user actions&#8221; taken, this is the info which is known when user is clicking in the UI (*). So another idea is to log directly when users is using UI and not at the time of write. See the last example (this is not a full log this time, just part of it):</p>
+<blockquote><p>2009-02-06 15:54:02 &lt;item&gt; rivendell User and Group Management module started<br />
+2009-02-06 15:54:11 &lt;note&gt; rivendell (UI info) User &#8216;bb&#8217; removed from group &#8216;dialout&#8217;<br />
+2009-02-06 15:54:11 &lt;note&gt; rivendell (UI info) User &#8216;aa&#8217; added to group &#8216;dialout&#8217;<br />
+2009-02-06 15:54:11 &lt;note&gt; rivendell (UI info) User &#8216;bb&#8217; removed from group &#8216;video&#8217;<br />
+2009-02-06 15:54:11 &lt;note&gt; rivendell (UI info) User &#8216;aa&#8217; added to group &#8216;video&#8217;<br />
+2009-02-06 15:54:11 &lt;note&gt; rivendell (UI info) User &#8216;bb&#8217; renamed to &#8216;aa&#8217;<br />
+2009-02-06 15:54:11 &lt;item&gt; rivendell (UI info) User modified: &#8216;aa&#8217;<br />
+2009-02-06 16:03:10 &lt;item&gt; rivendell User and Group Management module finished</p></blockquote>
+<p>I think the last method is getting more talkative and actually is not more helpful.</p>
+<p>So &#8211; comments? Proposals?</p>
+<p>(*) Actually it would need to be cached during the UI-clicking and logged at the time of writing only if user doesn&#8217;t cancel the actions.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/04/06/user-readable-logging-of-yast-modules/feed/</wfw:commentRss>
+		<slash:comments>7</slash:comments>
+		</item>
+	</channel>
+</rss>

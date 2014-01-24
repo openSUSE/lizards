@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; Alexander Naumov</title>
+	<atom:link href="http://lizards.opensuse.org/author/alexander_naumov/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>osc plugin &#8211; changes</title>
+		<link>http://lizards.opensuse.org/2011/03/23/osc-plugin-changes/</link>
+		<comments>http://lizards.opensuse.org/2011/03/23/osc-plugin-changes/#comments</comments>
+		<pubDate>Wed, 23 Mar 2011 12:21:27 +0000</pubDate>
+		<dc:creator><![CDATA[Alexander Naumov]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[fun]]></category>
+		<category><![CDATA[hacking]]></category>
+		<category><![CDATA[Python]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=6817</guid>
+		<description><![CDATA[OSC is a powerful tool for packaging experts, exposing all the latest and greats features of the Build Service. It&#8217;s written on python and easy in studying and using. However there are situations when its functionality is not enough; sometimes we need something special. In this case to us will help plug-in mechanism, which in [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><img class="alignright size-full wp-image-6818" src="http://lizards.opensuse.org/wp-content/uploads/2011/03/osc_plugin_and_lego.jpeg" alt="" width="161" height="207" /><a href="http://en.opensuse.org/openSUSE:OSC">OSC</a> is a powerful tool for packaging experts, exposing all the latest and greats features of the <a href="https://build.opensuse.org/">Build Service</a>. It&#8217;s written on python and easy in studying and using. However there are situations when its functionality is not enough; sometimes we need something special. In this case to us will help plug-in mechanism, which in osc is realised very simply.<br />
+<a href="http://en.opensuse.org/openSUSE:OSC_plugins">Plugin</a> can use all of the features, which already implemented osc, as well as provide an output in a convenient format for you. For example, if I want to check changes in kdelibs4 between openSUSE:11.3 and openSUSE:11.4, I can do something like this:</p>
+<pre>&gt; osc rdiff openSUSE:11.3 kdelibs4 openSUSE:Factory kdelibs4</pre>
+<p>After that I will receive a detailed output about all changes. Yes, that&#8217;s great… but not always it&#8217;s convenient. For example, in this case output will contain more than 2000 strings, and I need time to find, say, a *.changes file if I want quickly to understand that has been changed. In case if I want to transfer output to processing to another program (as often happens in practice), I have to shape this data. Unfortunately osc is not as intelligent and can&#8217;t show changes from one file (from *.changes, for example) only&#8230;</p>
+<h2 style="text-align: right">Hello world</h2>
+<p>Let&#8217;s me show how we can create a very simple osc-plugin. In the derectory /var/lib/osc-plugins/ we create a new file tell_me_something.py with such content:</p>
+<pre>@cmdln.alias('say')
+def do_say_something(self, subcmd, opts, *args):
+    if sys.argv[2] == "something":
+        print "openSUSE rulezzz"
+    else:
+        print sys.argv[2]</pre>
+<p>At start, osc will check this directory and will register all found there plugins. In that case, if in the plugin&#8217;s content there are errors, osc will report about it immediately. If now we run</p>
+<pre>&gt; osc help</pre>
+<p>we will see in the list our function <strong>say_something</strong> and the key to start it &#8211; <strong>say</strong>. Let&#8217;s test:</p>
+<pre>&gt; osc say "hello"
+hello
+&gt; osc say GNU/Linux
+GNU/Linux
+&gt; osc say something
+openSUSE rulezzz
+&gt;</pre>
+<p>As you can see, it&#8217;s very easy &#8211; just python and nothing else. Let&#8217;s go back to the output of the function rdiff(), which we mentioned at the beginning.</p>
+<h2 style="text-align: right">show me changes</h2>
+<p>In output of rdiff() nothing wrong, but I would like to immediately get information about what exactly has been done and, for example, which bugzilla-reports (related to this package) have been closed, etc. All what I need, are in rdiff&#8217;s output. It means that all what I have to do is just to shape this output.</p>
+<p>In 40 minutes of hacking I got such output:</p>
+<pre>&gt; osc changes kdelibs4 openSUSE:11.3 openSUSE:11.4
+PACKAGE: kdelibs4
+BUGZILLA_NOVELL: 668185, 670426, 644236, 596021
+BUGZILLA_OTHER: 246652, 170806, 149991, 221989, 252280, 253387, 253294, 193364, 253414
+CHANGES:
+
+- work around random error on first startup, bnc#668185,
+  kubuntu has a similiar patch applied
+- call update-mime-database in pre/post install scripts
+- don't show synthetic volume label when none is really available,
+  allow kio_sysinfo to fall back to device path (bnc#670426)
+- update to KDE Platform 4.6.0
+  * Plasma applets can be written in QML
+  * Plasma data engines can be written in Javascript
+  * Plasma data engines can use generic cache for offline mode
+  * udev, udisks, upower replace HAL in Solid
+  * For more details, see http://kde.org/announcements/4.6
+- add patch from 4.6 branch to fix plasma crash on exit
+- Add dependencies on udisks and upower for 11.3 and up for Solid
+- update to 4.5.95
+  * KDE 4.6 RC2
+  * no upstream changelog available.
+- update to 4.5.90
+  * KDE 4.6 RC1
+  * no upstream changelog available.
+- For 11.2 and 11.3 only : Will build now with polkit-qt-1
+  v 0.99.1, which is an official requirement of KDE 4.6
+- update to 4.5.85
+  * KDE 4.6 Beta2
+  * Final Beta before RC, various fixes from Beta1
+  * no upstream changelog available.
+- For 11.2 and 11.3 only : Added patch to revert changes that
+  requires a higher version of polkit-qt-1
+- update to 4.5.80
+  * KDE 4.6 Beta1
+  * no upstream changelog available.
+-  Closing the shell via CTRL+D crashes [bko#246652]
+- fix build with gcc 4.6
+- tighten qt4 dependencies
+- update to 4.5.3
+  * see http://kde.org/announcements/changelogs/changelog4_5_2to4_5_3.php for details
+- update branch diff for various bugs in 4.5:
+  * Crash on configure toolbars (bko#170806)
+  * KCookieJar can't read cookies from another port (bko#149991)
+  * Fix oversized number input widgets (bko#221989)
+  * CSS conformance issue (bko#252280)
+  * Fix helper protocols such as mailto: and telnet:
+  * Plasma crash on comic applet switch (bko#253387)
+  * HTTPS urls in KMail do not open properly in browser (bko#253294)
+  * Mailto: links in FireFox started by kmailservice fail (bnc#644236)
+  * Crash in directory listings when toggling
+    show hidden files flag (bko#193364)
+- Upstream patch added for kmail issue (bko#253414)
+- update to 4.5.2
+  * see http://kde.org/announcements/changelogs/changelog4_5_1to4_5_2.php for details
+- build apidocs separately to reduce build time
+- BuildRequire utempter-devel
+- update to 4.5.1
+  * see http://kde.org/announcements/changelogs/changelog4_5_0to4_5_1.php for details
+- new package: kdelibs4-apidocs (bnc#596021)
+- update to 4.5.0
+  * KDE 4.5.0 final (version bump over RC3)
+- update to 4.4.95
+  * KDE 4.5 RC3 (not announced)
+  * critical fixes for 4.5.0 release
+- Add libsoprano-devel Require to libkde4-devel
+- update to 4.4.93svn1149349
+- update to 4.4.5
+  * bugfixes over 4.4.4
+  * see http://kde.org/announcements/changelogs/changelog4_4_4to4_4_5.php for details</pre>
+<p>and between 11.4 and factory:</p>
+<pre>&gt; osc changes kdelibs4 openSUSE:11.4 openSUSE:Factory
+PACKAGE: kdelibs4
+CHANGES:
+
+- update to 4.6.1
+  * Bugfixes over KDE 4.6.0
+  *  see http://kde.org/announcements/changelogs/changelog4_6_0to4_6_1.php for details
+- remove upstreamed patches</pre>
+<p>aha&#8230; and what&#8217;s about vim between 11.2 and 11.3?</p>
+<pre>&gt; osc changes vim openSUSE:11.2 openSUSE:11.3
+PACKAGE: vim
+BUGZILLA_NOVELL: 598903
+CHANGES:
+
+- Add screen control sequences to inputrc (bnc#598903)
+- Use the icon from the tarball instead of our custom icon. It
+  looks much better.
+- Drop gvim.png from the source package.
+- build data subpackage as noarch
+- updated patches to apply with fuzz=0</pre>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2011/03/lego2.jpg"><img class="alignright size-full wp-image-6869" src="http://lizards.opensuse.org/wp-content/uploads/2011/03/lego2.jpg" alt="" width="161" height="117" /></a>Now we can see exactly what was has been done and which bugzilla-reports was fixed/closed. Yes, we have bnc# and bko# reports: reports from bugzilla.novell.com and bugs.kde.org (it cut be also bugs.kernel.org). Second group will be always different (KDE/Gnome/Mozilla/Kernel&#8230;).</p>
+<p>Source code of plugin is <a href="http://paste.opensuse.org/80006482">here</a>, and I hope this post will be useful for you if you&#8217;ve never written a plugin before.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/03/23/osc-plugin-changes/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>BugDay</title>
+		<link>http://lizards.opensuse.org/2010/11/22/bugday/</link>
+		<comments>http://lizards.opensuse.org/2010/11/22/bugday/#comments</comments>
+		<pubDate>Mon, 22 Nov 2010 12:20:16 +0000</pubDate>
+		<dc:creator><![CDATA[Alexander Naumov]]></dc:creator>
+				<category><![CDATA[Contrib]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[Usability]]></category>
+		<category><![CDATA[Community]]></category>
+		<category><![CDATA[fun]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=5893</guid>
+		<description><![CDATA[At the last openSUSE project meeting and after the discussion about &#8220;zombie&#8221; bugs on the opensuse-project mailing list, a small team of volunteers agreed to organize a Bug Day on Saturday, November 27th. What is a Bug Day? This is a day when many people from the community help to triage bugs in Bugzilla. It [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>At the last <a href="http://community.opensuse.org/meetings/opensuse-project/2010/opensuse-project.2010-11-17-16.08.html">openSUSE project meeting</a> and after the discussion about &#8220;zombie&#8221; bugs on the opensuse-project mailing list, a small team of volunteers agreed to organize a Bug Day on Saturday, November 27th. What is a Bug Day? This is a day when many people from the community help to triage bugs in <a href="bugzilla.novell.com">Bugzilla</a>. It is a good and easy way to get involved in the openSUSE project!</p>
+<p>Here is what you need to participate:<br />
+ &#8211; a recent version of openSUSE (11.3 or a milestone of 11.4). It&#8217;s okay to run openSUSE in a virtual machine.<br />
+ &#8211; an IRC client to interact with the other participants<br />
+ &#8211; good mood <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </p>
+<p>A small team will organize the event by providing lists of bugs, and will be available to guide new contributors if needed. So it will be easy to help!</p>
+<p>For this specific Bug Day, we will focus on the &#8220;zombie&#8221; bug reports: those are reports against old versions of openSUSE (openSUSE 10.x and 11.0). As some reports might still be valid, we don&#8217;t want to close all of them automatically. We will therefore check all those reports to see if they are still valid in the latest version of openSUSE (11.3 or a milestone of 11.4). The goal is to close those bug reports if possible, or, if they are still valid, to move them to a current version of openSUSE so that they&#8217;re not lost in limbo. So during a full day, people come on irc and help each other triage bugs.</p>
+<p>Please note that this is only for openSUSE bugs (living in bugzilla.novell.com), but a solution for some bugs might be to forward them upstream.</p>
+<p>Come on #opensuse-bug (freenode) on a Saturday 27.11.2010, we&#8217;ll be glad to have you join the fun! <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';)' class='wp-smiley' /> </p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/11/22/bugday/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Documentation</title>
+		<link>http://lizards.opensuse.org/2010/10/13/documentation/</link>
+		<comments>http://lizards.opensuse.org/2010/10/13/documentation/#comments</comments>
+		<pubDate>Wed, 13 Oct 2010 18:53:43 +0000</pubDate>
+		<dc:creator><![CDATA[Alexander Naumov]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Contrib]]></category>
+		<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Usability]]></category>
+		<category><![CDATA[fun]]></category>
+		<category><![CDATA[hacking]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=5474</guid>
+		<description><![CDATA[Hi folks, this post is just request for all obs-packagers. Please, don&#8217;t forget write some documentation about your projects (which you maintain or develop). I mean, documentation for developers. This make more easy to understand logic of program, connection between some modules inside or interfaces between widget/applet and &#8220;system/hardware part&#8221;. For sure, comments in source [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi folks,</p>
+<p>this post is just request for all obs-packagers. Please, don&#8217;t forget write some documentation about your projects (which you maintain or develop). I mean, documentation for developers. This make more easy to understand logic of program, connection between some modules inside or interfaces between widget/applet and &#8220;system/hardware part&#8221;. For sure, comments in source code (or in changelog) help, but some times they give not so much clarity.</p>
+<p>This is not so complicated to write one-two pages about project, which you hack. This also can save time of new developers. They will not ask you about architecture of project, and that will save your time too <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';)' class='wp-smiley' /> </p>
+<p>I don&#8217;t know how will be better to do it: use wiki (create a new page) or add just text-file in source project. Anyway it&#8217;s not so important where will be this documentation, main things that this documentation will be exist <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/10/13/documentation/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Free BEER for free people</title>
+		<link>http://lizards.opensuse.org/2010/09/17/free-beer-for-free-people/</link>
+		<comments>http://lizards.opensuse.org/2010/09/17/free-beer-for-free-people/#comments</comments>
+		<pubDate>Fri, 17 Sep 2010 14:38:26 +0000</pubDate>
+		<dc:creator><![CDATA[Alexander Naumov]]></dc:creator>
+				<category><![CDATA[Events]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Usability]]></category>
+		<category><![CDATA[Community]]></category>
+		<category><![CDATA[conference]]></category>
+		<category><![CDATA[fun]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=5229</guid>
+		<description><![CDATA[When we call beer “free”, we mean that it respects the users&#8217; essential freedoms: the freedom to drink it, to study and change it, and to return empties with or without some changes. This is a matter of freedom, not price, so think of “free speech”&#8230; but in this case also “free beer” too. Why [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><img class="size-large wp-image-5234 alignleft" style="border: 0pt none" src="http://lizards.opensuse.org/wp-content/uploads/2010/09/freebeer-1024x766.jpg" alt="" width="409" height="305" />When we call beer “free”, we mean that it respects the users&#8217; essential freedoms: the freedom to drink it, to study and change it, and to return empties with or without some changes. This is a matter of freedom, not price, so think of “free speech”&#8230;  but in this case also “free beer” too.</p>
+<p>Why man have to choose a free beer? Because it&#8217;s open and free to use. Everybody can give some feedback on the freebeer&#8217;s <a href="//twitter.com/freebeerch">twitter page</a>.</p>
+<p>The project was started by Wädi Bräu in Switzerland like &#8220;open source beer&#8221; project. On the <a href="http://freebeer.ch/">home page</a> you can get more information about this project, for example, news and last updates.</p>
+<p>License: creative commons.<br />
+Alcogol vol: 4.8 %<br />
+Size: 0.33 L</p>
+<p>Be free&#8230; drink free beer <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';)' class='wp-smiley' /> </p>
+<p>p.s. Who know, maybe Novell will be sponsored this great open source project (?) <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';)' class='wp-smiley' /> </p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/09/17/free-beer-for-free-people/feed/</wfw:commentRss>
+		<slash:comments>4</slash:comments>
+		</item>
+		<item>
+		<title>Hacking for Freedom</title>
+		<link>http://lizards.opensuse.org/2010/06/07/hacking-for-freedom/</link>
+		<comments>http://lizards.opensuse.org/2010/06/07/hacking-for-freedom/#comments</comments>
+		<pubDate>Mon, 07 Jun 2010 11:26:16 +0000</pubDate>
+		<dc:creator><![CDATA[Alexander Naumov]]></dc:creator>
+				<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Network]]></category>
+		<category><![CDATA[fun]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=4276</guid>
+		<description><![CDATA[Hi developers! These are first hours of hackweek. A lot of people in Novell and in the community are starting to work on different projects. What can I give for free software in this week? Sure, my favorite project is NetworkManagement. As you can see, NetworkManagement don&#8217;t work well. For example, it can&#8217;t see WiFi [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi developers!</p>
+<p>These are first hours of hackweek. A lot of people in Novell and in the community are starting to work on different projects. What can I give for free software in this week? Sure, my favorite project is NetworkManagement.</p>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2010/06/pnm1.png"><img class="aligncenter size-full wp-image-5373" src="http://lizards.opensuse.org/wp-content/uploads/2010/06/pnm1.png" alt="" width="650" height="346" /></a></p>
+<p>As you can see, NetworkManagement don&#8217;t work well. For example, it can&#8217;t see WiFi connection and don&#8217;t show wired connetcion. Yes, right now we have one bug with module &#8220;networkmanagement&#8221;.</p>
+<p style="text-align: center">
+<p>This module must be loaded after start NetworkManagement, but this is not happening <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_sad.gif' alt=':(' class='wp-smiley' /> </p>
+<p>If you check it, you will see:</p>
+<pre>anaumov@pizza:~/plasma/networkmanagement&gt; qdbus --system org.freedesktop.NetworkManagerUserSettings
+Service 'org.freedesktop.NetworkManagerUserSettings' does not exist.</pre>
+<p>Why it&#8217;s happening? Problem is in connection between plasmoid and deamon NM (via DBus).</p>
+<pre>anaumov@pizza:~/plasma/networkmanagement&gt; qdbus org.kde.kded /kded loadModule networkmanagement
+true
+anaumov@pizza:~/plasma/networkmanagement&gt; qdbus --system org.freedesktop.NetworkManagerUserSettings
+/
+/org
+/org/freedesktop
+/org/freedesktop/NetworkManagerSettings
+/org/freedesktop/NetworkManagerSettings/0
+/org/freedesktop/NetworkManagerSettings/1
+/org/freedesktop/NetworkManagerSettings/2
+/org/freedesktop/NetworkManagerSettings/3
+/org/freedesktop/NetworkManagerSettings/4
+/org/freedesktop/NetworkManagerSettings/5
+/org/freedesktop/NetworkManagerSettings/6
+/org/freedesktop/NetworkManagerSettings/7
+/org/freedesktop/NetworkManagerSettings/8
+anaumov@pizza:~/plasma/networkmanagement&gt;</pre>
+<p>So, now we can see WiFi interface:</p>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2010/06/pnm11.png"><img class="aligncenter size-full wp-image-5375" src="http://lizards.opensuse.org/wp-content/uploads/2010/06/pnm11.png" alt="" width="650" height="340" /></a></p>
+<p>And WiFi interface can see WiFi connections:</p>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2010/06/pnm2.png"><img src="http://lizards.opensuse.org/wp-content/uploads/2010/06/pnm2.png" alt="" width="650" height="338" class="aligncenter size-full wp-image-5377" /></a></p>
+<p>Good, but this works not automaticly. It&#8217;s first what I want to hack on this week.</p>
+<p>And what do you want to do on this week? <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';)' class='wp-smiley' /> </p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/06/07/hacking-for-freedom/feed/</wfw:commentRss>
+		<slash:comments>5</slash:comments>
+		</item>
+		<item>
+		<title>Qt Developer Days 2010</title>
+		<link>http://lizards.opensuse.org/2010/06/04/qt-developer-days-2010/</link>
+		<comments>http://lizards.opensuse.org/2010/06/04/qt-developer-days-2010/#comments</comments>
+		<pubDate>Fri, 04 Jun 2010 21:19:55 +0000</pubDate>
+		<dc:creator><![CDATA[Alexander Naumov]]></dc:creator>
+				<category><![CDATA[Events]]></category>
+		<category><![CDATA[KDE]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=4262</guid>
+		<description><![CDATA[Today I got a email about registration for &#8220;Qt Developer Days 2010&#8243;. This conference will be in Munich (October 11-13) and in San Francisco (November 1-3). I think this is the biggest and best Qt-event. Last time there was more than 700 people. It&#8217;s very interesting for me as the KDE developer, but it&#8217;s not [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><img class="alignnone" src="http://blog.qt.nokia.com/files/2010/05/DevDays10.jpg" alt="" width="288" height="116" /></p>
+<p>Today I got a email about registration for &#8220;Qt Developer Days 2010&#8243;. This conference will be in Munich (October 11-13) and in San Francisco (November 1-3). I think this is the biggest and best Qt-event. Last time there was more than 700 people. It&#8217;s very interesting for me as the KDE developer, but it&#8217;s <strong>not free</strong> like <a href="http://fosdem.org/2010/">FOSDEM</a> or <a href="http://en.opensuse.org/OpenSUSE_Conf_2010">openSUSE Conference</a> <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_sad.gif' alt=':(' class='wp-smiley' /> </p>
+<p>For example, 3 days in Munich <a href="http://qt.nokia.com/qtdevdays2010/registration">cost 499€</a> (if you pay befor 15th september and 699€ if you pay after). Ok, I know that Qt/Nokia makes very good coffee, but anyway this event is very costly for students like me <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';)' class='wp-smiley' /> </p>
+<p>I will wait for the openSUSE Conference and meet the Qt/KDE hackers there.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/06/04/qt-developer-days-2010/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>Russian openSUSE community</title>
+		<link>http://lizards.opensuse.org/2010/03/30/russian-opensuse-community/</link>
+		<comments>http://lizards.opensuse.org/2010/03/30/russian-opensuse-community/#comments</comments>
+		<pubDate>Tue, 30 Mar 2010 11:27:11 +0000</pubDate>
+		<dc:creator><![CDATA[Alexander Naumov]]></dc:creator>
+				<category><![CDATA[Contrib]]></category>
+		<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Forums]]></category>
+		<category><![CDATA[Localization]]></category>
+		<category><![CDATA[Wiki]]></category>
+		<category><![CDATA[Community]]></category>
+		<category><![CDATA[fun]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=3625</guid>
+		<description><![CDATA[Hello everybody, I want to share some ideas about the success of the Russian openSUSE community, and try to answer the question about its popularity. As you can see it is one of the top places: The reason for the high popularity of this distribution in Germany is of course the fact that the German [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hello everybody,</p>
+<p>I want to share some ideas about the success of the Russian openSUSE community, and try to answer the question about its <a href="http://en.opensuse.org/Statistics">popularity</a>. As you can see it is one of the top places:</p>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2010/03/russian_comminity.jpeg"><img class="aligncenter size-full wp-image-5369" src="http://lizards.opensuse.org/wp-content/uploads/2010/03/russian_comminity.jpeg" alt="" width="657" height="369" /></a></p>
+<p>The reason for the high popularity of this distribution in Germany is of course the fact that the German SuSE distribution and the main branch of development is located in Nuremberg. Popularity in the U.S. is due Novell &#8211; an American company, and of course the language is English. But why are so many people in Russia choosing openSUSE?</p>
+<p>Good question. One of the main things that influence the choice of distribution &#8211; the quality and localization. The global community plays a top role for quality of distribution and local make it appropriate for Russian language users (of course a local community can be as part of a global community).</p>
+<p><img class="aligncenter" src="http://thefreecountry.files.wordpress.com/2010/03/opensuse_rtt.png" alt="" width="400" height="110" /></p>
+<p>Perhaps most important is the documentation. And of course, not everyone wants (or can) read the documentation in English. Everyone wants to read the documentation in their native language. The distribution may be in a good shape and stable, nice and convenient, but without documentation it will use very few. Translated documentation is very important to the community. The translation must have a high quality, understandable, and as it must be kept up to date.</p>
+<p>For the community its also profitable that 2 guys from the community working for Novell (in Nuremberg and in Prague). This provides better communication between &#8220;developers &#8211; community&#8221;. It helps to be closer to the project. This allows you to always be aware of all the major news of the project. And of course the translation is much better if they are engaged not just as a translator, but the employee who works on the distribution.</p>
+<p>Of course this also applys for software. Although it is not as important as documentation, it still makes an impression on the quality of distribution. Everyone wants to work with the software in their native language %)</p>
+<p>A successful community is a group of people who love openSUSE, who understands why the software should be free, who wants to make openSUSE better and better&#8230; every day.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/03/30/russian-opensuse-community/feed/</wfw:commentRss>
+		<slash:comments>5</slash:comments>
+		</item>
+		<item>
+		<title>Tokamak4</title>
+		<link>http://lizards.opensuse.org/2010/02/27/tokamak_4/</link>
+		<comments>http://lizards.opensuse.org/2010/02/27/tokamak_4/#comments</comments>
+		<pubDate>Sat, 27 Feb 2010 11:02:24 +0000</pubDate>
+		<dc:creator><![CDATA[Alexander Naumov]]></dc:creator>
+				<category><![CDATA[Events]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Network]]></category>
+		<category><![CDATA[fun]]></category>
+		<category><![CDATA[hacking]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=5441</guid>
+		<description><![CDATA[On this week the leading KDE developers met together again. This time it was held in Nürnberg, in the openSUSE premises and was kindly made possible by Novell and KDE e.V. 26 hackers, who make KDE better. For me it was first time, where I met hackers not for drinking a cup of beer, but [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><img class="alignright" src="http://techbase.kde.org/images.techbase/6/67/Plasma_logo.jpg" alt="" width="200" height="100" />On this week the leading KDE developers met <a href="http://techbase.kde.org/Projects/Plasma/Tokamak4">together again</a>. This time it was held in Nürnberg, in the openSUSE premises and was kindly made possible by Novell and KDE e.V.<br />
+26 hackers, who make KDE better.</p>
+<p>For me it was first time, where I met hackers not for drinking a cup of beer, but for working, for hacking, for learning&#8230; and I think in this time I got much more fun.</p>
+<p>We started at 9-10 am and finished it at 1-2 am. Yes, these two days we hacked like crazy. I&#8217;m not so good in KDE, I mean &#8211; I&#8217;m just trainee in SUSE/Novell, but in these two days I took a lot of information about KDE (arhitecture), Solid, Plasma, methods of project&#8217;s buildings (cmake), etc.</p>
+<p>I have uploaded photos. You can find these <a href="http://picasaweb.google.com/posix.ru/MeetTheKDEPlasmaDevelopersAtSUSE#">here</a>.</p>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2010/10/KDE_Plasma.jpg"><img class="aligncenter size-full wp-image-5445" src="http://lizards.opensuse.org/wp-content/uploads/2010/10/KDE_Plasma.jpg" alt="" width="650" height="396" /></a></p>
+<p>I have worked before on KNetworkManager. It was just a couple of patches (Qt/KDE3 based), and KNM has another aspects of integration with hardware as we have now in KDE4. In KDE4 we have <a href="http://solid.kde.org/">SOLID</a>, and this makes more easy to asking for such things like, for example, wired connection or to find hidden SSID wi-fi&#8230; </p>
+<p>Yes, my current project is <a href="http://userbase.kde.org/NetworkManagement">Network Management</a> plasma applet.</p>
+<p>With Sebastian Kügler and Will Stephenson, we worked together on functionality to easily connect to wired, wireless and mobile broadband networks and also to VPNs. As I said, I don&#8217;t did so much, but I started working on support for connection. Maybe next month I will be able to show that I did.</p>
+<p>I would like to thank everyone with whom I spent those 2 days. Especially Will, who always supports and helps me to become a KDE developer.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/02/27/tokamak_4/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>FOSDEM&#8217;10</title>
+		<link>http://lizards.opensuse.org/2010/02/13/fosdem10/</link>
+		<comments>http://lizards.opensuse.org/2010/02/13/fosdem10/#comments</comments>
+		<pubDate>Sat, 13 Feb 2010 09:39:44 +0000</pubDate>
+		<dc:creator><![CDATA[Alexander Naumov]]></dc:creator>
+				<category><![CDATA[Contrib]]></category>
+		<category><![CDATA[Events]]></category>
+		<category><![CDATA[Community]]></category>
+		<category><![CDATA[conference]]></category>
+		<category><![CDATA[fun]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=5432</guid>
+		<description><![CDATA[Just laptop and headphones, book and a bit eat/drink for trip time and of course rube’s cube are in my rucksack On last weekend I was on FOSDEM. FOSDEM is probably the most developer-oriented European Free and Open Source conference/event. As usual it was in Bruxelles, Belgium on first weekend of February. I was there [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><img class="alignright" src="http://planet.fosdem.org/images/faces/fosdem.png" alt="" width="85" height="86" />Just laptop and headphones, book and a bit eat/drink for trip time and of course rube’s cube are in my rucksack <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' />  On last weekend I was on <a href="http://archive.fosdem.org/2010/">FOSDEM</a>.</p>
+<p>FOSDEM is probably the most developer-oriented European Free and Open Source conference/event. As usual it was in Bruxelles, Belgium on first weekend of February. I was there with another Novell/SUSE employees. Majority of they are responsible for work with community. For example, <a href="http://en.opensuse.org/openSUSE:Boosters_team">boosters team</a>.</p>
+<p>On 5th February we went from Nuremberg at 12 am (by bus) and was in Brussel at 9 pm. At half past ten we (Holgi, Dinar and me) were on the <a href="http://fosdem.org/2010/beerevent">beer event</a>. What can I say about this evening? It was really nice to meet and speak with another developers for a cup of beer <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+<p>The main thing that happens on conferences is learning. This was main reason why I was there and why Novell/SUSE help me to visit FOSDEM. A lot of presentation/talks about KDE, or packaging (RPM), or BuildService or&#8230; a lot about another open source projects&#8230; </p>
+<p>I like such events <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' />  It&#8217;s not only interesting presentations through which you open/learn a lot of new, but also possibility to get acquainted with other developers or is simple with enthusiasts whom it is unconditional as bring the contribution to development free and open source software.</p>
+<p>The next evening I have devoted to walk across Bruxelles. It was very interesting to speak with people there. I have made a lot of <a href="http://picasaweb.google.com/posix.ru/FOSDEM10#">photos</a>.</p>
+<p>For sure, I&#8217;m going to visit FOSDEM in next year, but for next time it will be depends on money. Anyway I will recomend to visit this event for every Linux-/*BSD- user/developer.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/02/13/fosdem10/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Russian openSUSE forum</title>
+		<link>http://lizards.opensuse.org/2010/01/08/russian-opensuse-forum/</link>
+		<comments>http://lizards.opensuse.org/2010/01/08/russian-opensuse-forum/#comments</comments>
+		<pubDate>Fri, 08 Jan 2010 14:43:16 +0000</pubDate>
+		<dc:creator><![CDATA[Alexander Naumov]]></dc:creator>
+				<category><![CDATA[Education]]></category>
+		<category><![CDATA[Localization]]></category>
+		<category><![CDATA[Community]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=2867</guid>
+		<description><![CDATA[Hello community! As agreed at the meeting &#8211; Russian commutiny needs a forum. Also&#8230; Fixed&#8230; I would like to introduce a new Russian openSUSE forum %) Right now we have a small problem with encoding and want to add Russian buttons, but it&#8217;s trifle and we will fix it in next days. In the past [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hello community!</p>
+<p>As agreed <a href="http://lizards.opensuse.org/2009/03/06/trying-to-bring-russian-community-together/">at the meeting</a> &#8211; Russian commutiny needs a forum.</p>
+<p>Also&#8230; Fixed&#8230; I would like to introduce a new <a href="http://forums.opensuse.org/language-specific-forums/p-russian/">Russian openSUSE forum</a> %)</p>
+<p>Right now we have a small problem with encoding and want to add Russian buttons, but it&#8217;s trifle and we will fix it in next days.</p>
+<p>In the past Russian community meet on another linux_universal forums like <a href="http://linuxforum.ru">linuxforum.ru</a> or <a href="http://linux.org.ru">linux.org.ru</a>, but these forums are not related to openSUSE project. And now I hope our community gradually will start to join the global.</p>
+<p>In this forum we are closer to the draft openSUSE: in the same domain is located and Wiki, and the openSUSE Build Service, and much more.</p>
+<p>So&#8230; you are welcome %)</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/01/08/russian-opensuse-forum/feed/</wfw:commentRss>
+		<slash:comments>5</slash:comments>
+		</item>
+	</channel>
+</rss>

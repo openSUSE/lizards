@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; Bonnie Kurniawan</title>
+	<atom:link href="http://lizards.opensuse.org/author/kurniawan-007/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>OPENSUSE 11.3/SLES 11 ** INTEGRATING FREERADIUS TO LDAP SERVER</title>
+		<link>http://lizards.opensuse.org/2010/11/12/opensuse-11-3sles-11-integrating-freeradius-to-ldap-server/</link>
+		<comments>http://lizards.opensuse.org/2010/11/12/opensuse-11-3sles-11-integrating-freeradius-to-ldap-server/#comments</comments>
+		<pubDate>Fri, 12 Nov 2010 15:19:12 +0000</pubDate>
+		<dc:creator><![CDATA[Bonnie Kurniawan]]></dc:creator>
+				<category><![CDATA[Server]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=5855</guid>
+		<description><![CDATA[FreeRADIUS is a modular, high performance free RADIUS suite developed and distributed under the GNU General Public License, version 2, and is free for download and use. The FreeRADIUS Suite includes a RADIUS server, a BSD-licensed RADIUS client library, a PAM library, anApache module, and numerous additional RADIUS related utilities and development libraries (wikipedia) Remote [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><strong><em>FreeRADIUS</em></strong><em> is a </em><em>modular</em><em>, high performance free </em><em>RADIUS</em><em> suite developed and distributed under the </em><em>GNU General Public License, version 2</em><em>, and is free for download and use. The FreeRADIUS Suite includes a </em><em>RADIUS</em><em> server, a </em><em>BSD-licensed</em><em> RADIUS client library, a </em><em>PAM</em><em> library, an</em><em>Apache</em><em> </em><em>module</em><em>, and numerous additional RADIUS related utilities and development libraries </em>(<a href="http://en.wikipedia.org/wiki/FreeRADIUS" target="_self">wikipedia</a>)</p>
+<p><strong><em>Remote Authentication Dial In User Service</em></strong><em> (</em><strong><em>RADIUS</em></strong><em>) is a networking </em><em>protocol</em><em> that provides centralized Authentication, Authorization, and Accounting (</em><em>AAA</em><em>) management for computers to connect and use a network service. RADIUS was developed by Livingston Enterprises, Inc., in 1991 as an access server authentication and accounting protocol and later brought into the </em><em>Internet Engineering Task Force</em><em> (IETF) standards</em>(<a href="http://en.wikipedia.org/wiki/RADIUS" target="_self">wikipedia</a>)</p>
+<p><em>Well, then again a bit of introduction about &#8220;what is RADIUS ?&#8221; and the FreeRADIUS, the most popular OpenSource RADIUS Server <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_biggrin.gif' alt=':D' class='wp-smiley' /> .</em></p>
+<p>This tutorial based on an existing LDAP Server Configuration ( you can read this <a href="http://malayin.net/?p=152" target="_blank">post</a>) and it already has 1-2 users on it ( you can read this <a href="http://malayin.net/?p=373" target="_blank">post </a>again <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' />  ),  and this post is explain how-to integrate FreeRADIUS to read and use existing user on LDAP Server.</p>
+<p>you can install the FreeRadius server on the<strong> same server</strong> or on a<strong> seperate server</strong> ( it&#8217;s your choice :p )</p>
+<ul>
+<li>Add the FreeRADIUS repository from software.opensuse.org</li>
+</ul>
+<address><strong># zypper ar </strong><a href="http://download.opensuse.org/repositories/network:/aaa/SLE_11/"><strong>http://download.opensuse.org/repositories/network:/aaa/SLE_11/</strong></a><strong> FreeRadius</strong></address>
+<address><strong># zypper ref </strong></address>
+<ul>
+<li>Install the FreeRADIUS Server Package</li>
+</ul>
+<address><strong><em># zypper in freeradius-server freeradius-client freeradius-server-utils</em></strong></address>
+<address> </address>
+<address><strong><em><a href="http://malayin.net/wp-content/uploads/2010/11/radius1.png"><img src="http://malayin.net/wp-content/uploads/2010/11/radius1.png" alt="" width="657" height="459" /></a></em></strong></address>
+<address> </address>
+<address> </address>
+<ul>
+<li>After Installing the FreeRADIUS Packages, edit <strong>/etc/raddb/modules/ldap </strong>file, and then find and edit following lines (in my case : dc=malayin,dc=net) :</li>
+</ul>
+<div><em>ldap {</em></div>
+<div><em><br />
+</em></div>
+<div><em><strong>server = &#8220;192.168.0.30&#8243; </strong>&#8211; </em><strong>the LDAP Server</strong></div>
+<div><em>#identity = &#8220;cn=Adminstrator,dc=malayin,dc=net&#8221;</em></div>
+<div><em>#password = admin</em></div>
+<div><em><strong>basedn = &#8220;dc=malayin,dc=net&#8221; &#8211; The Base DN LDAP Server</strong></em></div>
+<div><em>#filter = &#8220;(uid=%{Stripped-User-Name:-%{User-Name}})&#8221;</em></div>
+<div><em><strong>filter = &#8220;(uid=%u)&#8221;</strong></em></div>
+<div><em>#base_filter = &#8220;(objectclass=radiusprofile)&#8221;</em></div>
+<div><em>ldap_connections_number = 5</em></div>
+<div><em>timeout = 4</em></div>
+<div><em>timelimit = 3</em></div>
+<div><em>net_timeout = 1</em></div>
+<div><em><br />
+</em></div>
+<div><em>tls {</em></div>
+<div><em>start_tls = no</em></div>
+<div><em>}</em></div>
+<div><em><em>access_attr = &#8220;uid&#8221;</em></em></div>
+<div><em><strong>edir_account_policy_check = yes</strong></em></div>
+<div><em>}</em></div>
+<div>
+<ul>
+<li>After editing the ldap file, save it and then edit /etc/raddb/sites-available/default. FIND THE LINES that contain LDAP word and uncomment the lines :</li>
+</ul>
+</div>
+<p><em> </em></p>
+<div>
+<div><em>authorize {</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  The preprocess module takes care of sanitizing some bizarre</em></div>
+<div><em> </em><em>#  attributes in the request, and turning them into attributes</em></div>
+<div><em> </em><em>#  which are more standard.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  It takes care of processing the &#8216;raddb/hints&#8217; and the</em></div>
+<div><em> </em><em>#  &#8217;raddb/huntgroups&#8217; files.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  It also adds the %{Client-IP-Address} attribute to the request.</em></div>
+<div><em> </em><em>#preprocess</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  If you want to have a log of authentication requests,</em></div>
+<div><em> </em><em>#  un-comment the following line, and the &#8216;detail auth_log&#8217;</em></div>
+<div><em> </em><em>#  section, above.</em></div>
+<div><em># auth_log</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  The chap module will set &#8216;Auth-Type := CHAP&#8217; if we are</em></div>
+<div><em> </em><em>#  handling a CHAP request and Auth-Type has not already been set</em></div>
+<div><em> </em><em>#chap</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  If the users are logging in with an MS-CHAP-Challenge</em></div>
+<div><em> </em><em>#  attribute for authentication, the mschap module will find</em></div>
+<div><em> </em><em>#  the MS-CHAP-Challenge attribute, and add &#8216;Auth-Type := MS-CHAP&#8217;</em></div>
+<div><em> </em><em>#  to the request, which will cause the server to then use</em></div>
+<div><em> </em><em>#  the mschap module for authentication.</em></div>
+<div><em> </em><em>#mschap</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  If you have a Cisco SIP server authenticating against</em></div>
+<div><em> </em><em>#  FreeRADIUS, uncomment the following line, and the &#8216;digest&#8217;</em></div>
+<div><em> </em><em>#  line in the &#8216;authenticate&#8217; section.</em></div>
+<div><em># digest</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Look for IPASS style &#8216;realm/&#8217;, and if not found, look for</em></div>
+<div><em> </em><em>#  &#8217;@realm&#8217;, and decide whether or not to proxy, based on</em></div>
+<div><em> </em><em>#  that.</em></div>
+<div><em># IPASS</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  If you are using multiple kinds of realms, you probably</em></div>
+<div><em> </em><em>#  want to set &#8220;ignore_null = yes&#8221; for all of them.</em></div>
+<div><em> </em><em>#  Otherwise, when the first style of realm doesn&#8217;t match,</em></div>
+<div><em> </em><em>#  the other styles won&#8217;t be checked.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#suffix</em></div>
+<div><em># ntdomain</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  This module takes care of EAP-MD5, EAP-TLS, and EAP-LEAP</em></div>
+<div><em> </em><em>#  authentication.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  It also sets the EAP-Type attribute in the request</em></div>
+<div><em> </em><em>#  attribute list to the EAP type from the packet.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  As of 2.0, the EAP module returns &#8220;ok&#8221; in the authorize stage</em></div>
+<div><em> </em><em>#  for TTLS and PEAP.  In 1.x, it never returned &#8220;ok&#8221; here, so</em></div>
+<div><em> </em><em>#  this change is compatible with older configurations.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  The example below uses module failover to avoid querying all</em></div>
+<div><em> </em><em>#  of the following modules if the EAP module returns &#8220;ok&#8221;.</em></div>
+<div><em> </em><em>#  Therefore, your LDAP and/or SQL servers will not be queried</em></div>
+<div><em> </em><em>#  for the many packets that go back and forth to set up TTLS</em></div>
+<div><em> </em><em>#  or PEAP.  The load on those servers will therefore be reduced.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#eap {</em></div>
+<div><em> </em><em># ok = return</em></div>
+<div><em> </em><em>#}</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Pull crypt&#8217;d passwords from /etc/passwd or /etc/shadow,</em></div>
+<div><em> </em><em>#  using the system API&#8217;s to get the password.  If you want</em></div>
+<div><em> </em><em>#  to read /etc/passwd or /etc/shadow directly, see the</em></div>
+<div><em> </em><em>#  passwd module in radiusd.conf.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#unix</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Read the &#8216;users&#8217; file</em></div>
+<div><em> </em><em>#files</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Look in an SQL database.  The schema of the database</em></div>
+<div><em> </em><em>#  is meant to mirror the &#8220;users&#8221; file.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  See &#8220;Authorization Queries&#8221; in sql.conf</em></div>
+<div><em># sql</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  If you are using /etc/smbpasswd, and are also doing</em></div>
+<div><em> </em><em>#  mschap authentication, the un-comment this line, and</em></div>
+<div><em> </em><em>#  configure the &#8216;etc_smbpasswd&#8217; module, above.</em></div>
+<div><em># etc_smbpasswd</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  The ldap module will set Auth-Type to LDAP if it has not</em></div>
+<div><em> </em><em>#  already been set</em></div>
+<div><em><strong> </strong></em><em><strong>ldap</strong></em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Enforce daily limits on time spent logged in.</em></div>
+<div><em># daily</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em># Use the checkval module</em></div>
+<div><em># checkval</em></div>
+<div><em> </em><em>expiration</em></div>
+<div><em> </em><em>logintime</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  If no other module has claimed responsibility for</em></div>
+<div><em> </em><em>#  authentication, then try to use PAP.  This allows the</em></div>
+<div><em> </em><em>#  other modules listed above to add a &#8220;known good&#8221; password</em></div>
+<div><em> </em><em>#  to the request, and to do nothing else.  The PAP module</em></div>
+<div><em> </em><em>#  will then see that password, and use it to do PAP</em></div>
+<div><em> </em><em>#  authentication.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  This module should be listed last, so that the other modules</em></div>
+<div><em> </em><em>#  get a chance to set Auth-Type for themselves.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#pap</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  If &#8220;status_server = yes&#8221;, then Status-Server messages are passed</em></div>
+<div><em> </em><em>#  through the following section, and ONLY the following section.</em></div>
+<div><em> </em><em>#  This permits you to do DB queries, for example.  If the modules</em></div>
+<div><em> </em><em>#  listed here return &#8220;fail&#8221;, then NO response is sent.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em># Autz-Type Status-Server {</em></div>
+<div><em>#</em></div>
+<div><em># }</em></div>
+<div><em>}</em></div>
+<div><em>#  Authentication.</em></div>
+<div><em>#</em></div>
+<div><em>#</em></div>
+<div><em>#  This section lists which modules are available for authentication.</em></div>
+<div><em>#  Note that it does NOT mean &#8216;try each module in order&#8217;.  It means</em></div>
+<div><em>#  that a module from the &#8216;authorize&#8217; section adds a configuration</em></div>
+<div><em>#  attribute &#8216;Auth-Type := FOO&#8217;.  That authentication type is then</em></div>
+<div><em>#  used to pick the apropriate module from the list below.</em></div>
+<div><em>#</em></div>
+<div><em>#  In general, you SHOULD NOT set the Auth-Type attribute.  The server</em></div>
+<div><em>#  will figure it out on its own, and will do the right thing.  The</em></div>
+<div><em>#  most common side effect of erroneously setting the Auth-Type</em></div>
+<div><em>#  attribute is that one authentication method will work, but the</em></div>
+<div><em>#  others will not.</em></div>
+<div><em>#</em></div>
+<div><em>#  The common reasons to set the Auth-Type attribute by hand</em></div>
+<div><em>#  is to either forcibly reject the user (Auth-Type := Reject),</em></div>
+<div><em>#  or to or forcibly accept the user (Auth-Type := Accept).</em></div>
+<div><em>#</em></div>
+<div><em>#  Note that Auth-Type := Accept will NOT work with EAP.</em></div>
+<div><em>#</em></div>
+<div><em>#  Please do not put &#8220;unlang&#8221; configurations into the &#8220;authenticate&#8221;</em></div>
+<div><em>#  section.  Put them in the &#8220;post-auth&#8221; section instead.  That&#8217;s what</em></div>
+<div><em>#  the post-auth section is for.</em></div>
+<div><em>#</em></div>
+<div><em>authenticate {</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  PAP authentication, when a back-end database listed</em></div>
+<div><em> </em><em>#  in the &#8216;authorize&#8217; section supplies a password.  The</em></div>
+<div><em> </em><em>#  password can be clear-text, or encrypted.</em></div>
+<div><em> </em><em>#Auth-Type PAP {</em></div>
+<div><em># pap</em></div>
+<div><em> </em><em>#}</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Most people want CHAP authentication</em></div>
+<div><em> </em><em>#  A back-end database listed in the &#8216;authorize&#8217; section</em></div>
+<div><em> </em><em>#  MUST supply a CLEAR TEXT password.  Encrypted passwords</em></div>
+<div><em> </em><em>#  won&#8217;t work.</em></div>
+<div><em> </em><em>#Auth-Type CHAP {</em></div>
+<div><em># chap</em></div>
+<div><em># }</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  MSCHAP authentication.</em></div>
+<div><em> </em><em>#Auth-Type MS-CHAP {</em></div>
+<div><em> </em><em># mschap</em></div>
+<div><em> </em><em>#}</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  If you have a Cisco SIP server authenticating against</em></div>
+<div><em> </em><em>#  FreeRADIUS, uncomment the following line, and the &#8216;digest&#8217;</em></div>
+<div><em> </em><em>#  line in the &#8216;authorize&#8217; section.</em></div>
+<div><em># digest</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Pluggable Authentication Modules.</em></div>
+<div><em># pam</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  See &#8216;man getpwent&#8217; for information on how the &#8216;unix&#8217;</em></div>
+<div><em> </em><em>#  module checks the users password.  Note that packets</em></div>
+<div><em> </em><em>#  containing CHAP-Password attributes CANNOT be authenticated</em></div>
+<div><em> </em><em>#  against /etc/passwd!  See the FAQ for details.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#unix</em></div>
+<div><em> </em><em># Uncomment it if you want to use ldap for authentication</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em># Note that this means &#8220;check plain-text password against</em></div>
+<div><em> </em><em># the ldap database&#8221;, which means that EAP won&#8217;t work,</em></div>
+<div><em> </em><em># as it does not supply a plain-text password.</em></div>
+<div><em> </em><em><strong>Auth-Type LDAP {</strong></em></div>
+<div><em><strong> </strong></em><em><strong>ldap</strong></em></div>
+<div><em><strong> </strong></em><em><strong>}</strong></em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Allow EAP authentication.</em></div>
+<div><em># eap</em></div>
+<div><em>}</em></div>
+<div><em>#</em></div>
+<div><em>#  Pre-accounting.  Decide which accounting type to use.</em></div>
+<div><em>#</em></div>
+<div><em>preacct {</em></div>
+<div><em> </em><em>preprocess</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Ensure that we have a semi-unique identifier for every</em></div>
+<div><em> </em><em>#  request, and many NAS boxes are broken.</em></div>
+<div><em> </em><em>acct_unique</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Look for IPASS-style &#8216;realm/&#8217;, and if not found, look for</em></div>
+<div><em> </em><em>#  &#8217;@realm&#8217;, and decide whether or not to proxy, based on</em></div>
+<div><em> </em><em>#  that.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Accounting requests are generally proxied to the same</em></div>
+<div><em> </em><em>#  home server as authentication requests.</em></div>
+<div><em># IPASS</em></div>
+<div><em> </em><em>suffix</em></div>
+<div><em># ntdomain</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Read the &#8216;acct_users&#8217; file</em></div>
+<div><em> </em><em>files</em></div>
+<div><em>}</em></div>
+<div><em>#</em></div>
+<div><em>#  Accounting.  Log the accounting data.</em></div>
+<div><em>#</em></div>
+<div><em>accounting {</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Create a &#8216;detail&#8217;ed log of the packets.</em></div>
+<div><em> </em><em>#  Note that accounting requests which are proxied</em></div>
+<div><em> </em><em>#  are also logged in the detail file.</em></div>
+<div><em> </em><em>detail</em></div>
+<div><em># daily</em></div>
+<div><em> </em><em>#  Update the wtmp file</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  If you don&#8217;t use &#8220;radlast&#8221;, you can delete this line.</em></div>
+<div><em> </em><em>unix</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  For Simultaneous-Use tracking.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Due to packet losses in the network, the data here</em></div>
+<div><em> </em><em>#  may be incorrect.  There is little we can do about it.</em></div>
+<div><em> </em><em>radutmp</em></div>
+<div><em># sradutmp</em></div>
+<div><em> </em><em>#  Return an address to the IP Pool when we see a stop record.</em></div>
+<div><em># main_pool</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Log traffic to an SQL database.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  See &#8220;Accounting queries&#8221; in sql.conf</em></div>
+<div><em># sql</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Instead of sending the query to the SQL server,</em></div>
+<div><em> </em><em>#  write it into a log file.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em># sql_log</em></div>
+<div><em> </em><em>#  Cisco VoIP specific bulk accounting</em></div>
+<div><em># pgsql-voip</em></div>
+<div><em> </em><em>#  Filter attributes from the accounting response.</em></div>
+<div><em> </em><em>attr_filter.accounting_response</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  See &#8220;Autz-Type Status-Server&#8221; for how this works.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em># Acct-Type Status-Server {</em></div>
+<div><em>#</em></div>
+<div><em># }</em></div>
+<div><em>}</em></div>
+<div><em>#  Session database, used for checking Simultaneous-Use. Either the radutmp</em></div>
+<div><em>#  or rlm_sql module can handle this.</em></div>
+<div><em>#  The rlm_sql module is *much* faster</em></div>
+<div><em>session {</em></div>
+<div><em> </em><em>radutmp</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  See &#8220;Simultaneous Use Checking Queries&#8221; in sql.conf</em></div>
+<div><em># sql</em></div>
+<div><em>}</em></div>
+<div><em>#  Post-Authentication</em></div>
+<div><em>#  Once we KNOW that the user has been authenticated, there are</em></div>
+<div><em>#  additional steps we can take.</em></div>
+<div><em>post-auth {</em></div>
+<div><em> </em><em>#  Get an address from the IP Pool.</em></div>
+<div><em># main_pool</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  If you want to have a log of authentication replies,</em></div>
+<div><em> </em><em>#  un-comment the following line, and the &#8216;detail reply_log&#8217;</em></div>
+<div><em> </em><em>#  section, above.</em></div>
+<div><em># reply_log</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  After authenticating the user, do another SQL query.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  See &#8220;Authentication Logging Queries&#8221; in sql.conf</em></div>
+<div><em># sql</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Instead of sending the query to the SQL server,</em></div>
+<div><em> </em><em>#  write it into a log file.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em># sql_log</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Un-comment the following if you have set</em></div>
+<div><em> </em><em>#  &#8217;edir_account_policy_check = yes&#8217; in the ldap module sub-section of</em></div>
+<div><em> </em><em>#  the &#8216;modules&#8217; section.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em><strong> </strong></em><em><strong>ldap</strong></em></div>
+<div><em> </em><em>#exec</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Access-Reject packets are sent through the REJECT sub-section of the</em></div>
+<div><em> </em><em>#  post-auth section.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Add the ldap module name (or instance) if you have set</em></div>
+<div><em> </em><em>#  &#8217;edir_account_policy_check = yes&#8217; in the ldap module configuration</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>Post-Auth-Type REJECT {</em></div>
+<div><em> </em><em>attr_filter.access_reject</em></div>
+<div><em> </em><em>}</em></div>
+<div><em>}</em></div>
+</div>
+<div>
+<ul>
+<li><em>save the file, then add these line to /etc/raddb/clients.conf filem to decide which network is <strong>ALLOWED </strong>to use and access FreeRADIUS service (in my case : 192.168.0.0/24)  :</em></li>
+</ul>
+</div>
+<p><em><strong>client 192.168.0.0/24 {</strong></em></p>
+<p><em><strong> </strong></em><em><strong>secret</strong><strong> </strong><strong>= testing123-1</strong></em></p>
+<p><em><strong> </strong></em><em><strong>shortname</strong><strong> </strong><strong>= testing123-1</strong></em></p>
+<p><em><strong>}</strong></em></p>
+<ul>
+<li><em>After finish editing clients.conf file, save it and then test the connectivity by using <strong>radtest</strong> command</em></li>
+</ul>
+<p>You can see detail http://www.malayin.net</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/11/12/opensuse-11-3sles-11-integrating-freeradius-to-ldap-server/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>

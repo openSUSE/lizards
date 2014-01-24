@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; Arvin Schnell</title>
+	<atom:link href="http://lizards.opensuse.org/author/aschnell/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>Snapper for Everyone</title>
+		<link>http://lizards.opensuse.org/2012/10/16/snapper-for-everyone/</link>
+		<comments>http://lizards.opensuse.org/2012/10/16/snapper-for-everyone/#comments</comments>
+		<pubDate>Tue, 16 Oct 2012 12:24:10 +0000</pubDate>
+		<dc:creator><![CDATA[Arvin Schnell]]></dc:creator>
+				<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[snapper]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9053</guid>
+		<description><![CDATA[With the release of snapper 0.1.0 also non-root users are able to manage snapshots. On the technical side this is achieved by splitting snapper into a client and server that communicate via D-Bus. As a user you should not notice any difference. So how can you make use of it? Suppose the subvolume /home/tux is [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>With the release of <a href="http://snapper.io">snapper</a> 0.1.0 also non-root users are able to manage snapshots. On the technical side this is achieved by splitting snapper into a client and server that communicate via <a href="http://www.freedesktop.org/wiki/Software/dbus">D-Bus</a>. As a user you should not notice any difference.</p>
+<p>So how can you make use of it? Suppose the subvolume /home/tux is already configured for snapper and you want to allow the user tux to manage the snapshots for her home directory. This is done in two easy steps:</p>
+<ol>
+<li>Edit /etc/snapper/configs/home-tux and add ALLOW_USERS=&#8221;tux&#8221;. Currently the server snapperd does not reload the configuration so if it&#8217;s running either kill it or wait for it to terminate by itself.</li>
+<li>Give the user permissions to read and access the .snapshots directory, &#8216;chmod a+rx /home/tux/.snapshots&#8217;.</li>
+</ol>
+<p>For details consult the snapper man-page.</p>
+<p>Now tux can play with snapper:</p>
+<pre>
+  tux&gt; alias snapper="snapper -c home-tux"
+
+  tux&gt; snapper create --description test
+
+  tux&gt; snapper list
+  Type   | # | Pre # | Date                             | User | Cleanup  | Description | Userdata
+  -------+---+-------+----------------------------------+------+----------+-------------+---------
+  single | 0 |       |                                  | root |          | current     |         
+  single | 1 |       | Tue 16 Oct 2012 12:15:01 PM CEST | root | timeline | timeline    |         
+  single | 2 |       | Tue 16 Oct 2012 12:21:38 PM CEST | tux  |          | test        |
+</pre>
+<p>Snapper packages are available for various distributions in the <a href="https://build.opensuse.org/project/show?project%3Dfilesystems%3Asnapper">filesystems:snapper</a> project.</p>
+<p>So long and see you at the <a href="http://conference.opensuse.org/">openSUSE Conference</a> 2012 in Prague.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/10/16/snapper-for-everyone/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Snapper and LVM thin-provisioned Snapshots</title>
+		<link>http://lizards.opensuse.org/2012/07/25/snapper-lvm/</link>
+		<comments>http://lizards.opensuse.org/2012/07/25/snapper-lvm/#comments</comments>
+		<pubDate>Wed, 25 Jul 2012 08:52:42 +0000</pubDate>
+		<dc:creator><![CDATA[Arvin Schnell]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[lvm]]></category>
+		<category><![CDATA[snapper]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8837</guid>
+		<description><![CDATA[SUSEs Hackweek 8 allowed me to implement support for LVM thin-provisioned snapshots in snapper. Since thin-provisioned snapshots themself are new I will shortly show their usage. Unfortunately openSUSE 12.2 RC1 does not include LVM tools with thin-provisioning so you have to compile them on your own. First install the thin-provisioning-tools. Then install LVM with thin-provisioning [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>SUSEs Hackweek 8 allowed me to implement support for LVM thin-provisioned snapshots in <a href="http://en.opensuse.org/Portal:Snapper">snapper</a>. Since thin-provisioned snapshots themself are new I will shortly show their usage.</p>
+<p>Unfortunately openSUSE 12.2 RC1 does not include LVM tools with thin-provisioning so you have to compile them on your own. First install the <a href="https://github.com/jthornber/thin-provisioning-tools"> thin-provisioning-tools</a>. Then install <a href="ftp://sources.redhat.com/pub/lvm2/LVM2.2.02.96.tgz">LVM</a> with thin-provisioning enabled (configure option &#8211;with-thin=internal).</p>
+<p>To setup LVM we first have to create a volume group either using the LVM tools or YaST. I assume it&#8217;s named <i>test</i>. Then we create a storage pool with 3GB space.</p>
+<pre>
+  # modprobe dm-thin-pool
+  # lvcreate --thin test/pool --size 3G
+</pre>
+<p>Now we can create a thin-provisioned logical volume named <i>thin</i> with a size of 5GB. The size can be larger than the pool since data is only allocated from the pool when needed.
+<pre>
+  # lvcreate --thin test/pool --virtualsize 5G --name thin
+
+  # mkfs.ext4 /dev/test/thin
+  # mkdir /thin
+  # mount /dev/test/thin /thin
+</pre>
+<p>Finally we can create a snapshot from the logical volume.</p>
+<pre>
+  # lvcreate --snapshot --name thin-snap1 /dev/test/thin
+
+  # mkdir /thin-snapshot
+  # mount /dev/test/thin-snap1 /thin-snapshot
+</pre>
+<p>Space for the snapshot is also allocated from the pool when needed. The command lvs gives an overview of the allocated space.</p>
+<pre>
+  # lvs
+  LV         VG   Attr     LSize Pool Origin Data%  Move Log Copy%  Convert
+  pool       test twi-a-tz 3.00g               4.24
+  thin       test Vwi-aotz 5.00g pool          2.54
+  thin-snap1 test Vwi-a-tz 5.00g pool thin     2.54
+</pre>
+<p>After installing <a href="https://build.opensuse.org/project/show?project%3Dfilesystems%3Asnapper">snapper version 0.0.12</a> or later we can create a config for the logical volume <i>thin</i>.</p>
+<pre>
+  # snapper -c thin create-config --fstype="lvm(ext4)" /thin
+</pre>
+<p>As a simple test we can create a new file and see that snapper detects its creation.</p>
+<pre>
+  # snapper -c thin create --command "touch /thin/lenny"
+
+  # snapper -c thin list
+  Type   | # | Pre # | Date                          | Cleanup | Description | Userdata
+  -------+---+-------+-------------------------------+---------+-------------+---------
+  single | 0 |       |                               |         | current     |
+  pre    | 1 |       | Tue 24 Jul 2012 15:49:51 CEST |         |             |
+  post   | 2 | 1     | Tue 24 Jul 2012 15:49:51 CEST |         |             |
+
+  # snapper -c thin status 1..2
+  +... /thin/lenny
+</pre>
+<p>So now you can use snapper even if you don&#8217;t trust btrfs. Feedback is welcomed.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/07/25/snapper-lvm/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Introducing snapper: A tool for managing btrfs snapshots</title>
+		<link>http://lizards.opensuse.org/2011/04/01/introducing-snapper/</link>
+		<comments>http://lizards.opensuse.org/2011/04/01/introducing-snapper/#comments</comments>
+		<pubDate>Fri, 01 Apr 2011 10:11:53 +0000</pubDate>
+		<dc:creator><![CDATA[Arvin Schnell]]></dc:creator>
+				<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+		<category><![CDATA[btrfs]]></category>
+		<category><![CDATA[rollback]]></category>
+		<category><![CDATA[snapper]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=6972</guid>
+		<description><![CDATA[Today we want to present the current development of snapper, a tool for managing btrfs snapshots. For years we had the request to provide rollbacks for YaST and zypper but things never got far due to various technical problems. With the rise of btrfs snapshots we finally saw the possibility for a usable solution. The [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Today we want to present the current development of snapper, a tool for managing btrfs snapshots.</p>
+<p>For years we had the request to provide rollbacks for YaST and zypper but things never got far due to various technical problems. With the rise of btrfs snapshots we finally saw the possibility for a usable solution. The basic idea is to create a snapshot before and after running YaST or zypper, compare the two snapshots and finally provide a tool to revert the differences between the two snapshots. That was the birth of snapper. Soon the idea was extended to create hourly snapshots as a backup system against general user mistakes.</p>
+<p>The tool is now in a state where you can play with it. On the other hand there is still room and time for modifications and new features.</p>
+<h3>Overview</h3>
+<p>We provide a command line tool and a YaST UI module. Here is a brief tour:</p>
+<p>First we manually create a snapshot:</p>
+<pre># snapper create --description "initial"</pre>
+<p>Running YaST automatically creates two snapshots:</p>
+<pre># yast2 users</pre>
+<p>Now we can list our snapshots:</p>
+<pre># snapper list
+Type   | # | Pre # | Date                     | Cleanup  | Description
+-------+---+-------+--------------------------+----------+-------------
+single | 0 |       |                          |          | current
+single | 1 |       | Wed Mar 30 14:52:17 2011 |          | initial
+pre    | 2 |       | Wed Mar 30 14:57:10 2011 | number   | yast users
+post   | 3 | 2     | Wed Mar 30 14:57:35 2011 | number   |
+single | 4 |       | Wed Mar 30 15:00:01 2011 | timeline | timeline</pre>
+<p>Snapshot #0 always refers to the current system. Snapshot #2 and #3 were created by YaST. Snapshot #4 was created by an hourly cronjob.
+<p>Getting the list of modified files between to snapshots is easy:</p>
+<pre># snapper diff 2 3
+c... /etc/group
+c... /etc/group.YaST2save
+c... /etc/passwd
+c... /etc/passwd.YaST2save
+c... /etc/shadow
+c... /etc/shadow.YaST2save
+c... /etc/sysconfig/displaymanager
+c... /var/tmp/kdecache-linux/icon-cache.kcache
+c... /var/tmp/kdecache-linux/plasma_theme_openSUSEdefault.kcache</pre>
+<p>You can also compare a single file between two snapshots:</p>
+<pre># snapper diff --file /etc/passwd 2 3
+--- /snapshots/2/snapshot/etc/passwd    2011-03-30 14:41:45.943000001 +0200
++++ /snapshots/3/snapshot/etc/passwd    2011-03-30 14:57:33.916000003 +0200
+@@ -22,3 +22,4 @@
+ uucp:x:10:14:Unix-to-Unix CoPy system:/etc/uucp:/bin/bash
+ wwwrun:x:30:8:WWW daemon apache:/var/lib/wwwrun:/bin/false
+ linux:x:1000:100:linux:/home/linux:/bin/bash
++tux:x:1001:100:tux:/home/tux:/bin/bash</pre>
+<p>The main feature of course is to revert the changes between two snapshots:</p>
+<pre># snapper rollback 2 3</pre>
+<p>Finally yast2-snapper provides a YaST UI for snapper.</p>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2011/04/snapper.png"><img class="size-full wp-image-6977 alignnone" src="http://lizards.opensuse.org/wp-content/uploads/2011/04/snapper.png" alt="" width="580" height="426" /></a></p>
+<h3>Testing</h3>
+<p>Playing with snapper should only be done on test machines. Both btrfs and snapper are not finished and included known bugs. Here is a <a href="http://en.opensuse.org/openSUSE:Snapper_install">step-by-step manual</a> for installing and configuring snapper for openSUSE 11.4.</p>
+<h3>Feedback</h3>
+<p>We would like to get feedback, esp. about general problems and further ideas. There are also tasks everybody can work on, e.g. the <a href="http://en.opensuse.org/Portal:Snapper">snapper wiki page</a> or a man-page for snapper.</p>
+<p>For the time being there is no dedicated mailing-list so just use opensuse-factory@opensuse.org.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/04/01/introducing-snapper/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>28 Partitions on a Single Disk? No Problem!</title>
+		<link>http://lizards.opensuse.org/2009/08/05/28-partitions-on-a-single-disk/</link>
+		<comments>http://lizards.opensuse.org/2009/08/05/28-partitions-on-a-single-disk/#comments</comments>
+		<pubDate>Wed, 05 Aug 2009 09:39:31 +0000</pubDate>
+		<dc:creator><![CDATA[Arvin Schnell]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[openSUSE 11.2]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1857</guid>
+		<description><![CDATA[So far it was only possible to have upto 16 device nodes for a single disks. This restricted the number of usable partitions. As a workaround kpartx could be used to create device mapper mappings for further partitions but that was never fully integrated in openSUSE. With version 2.6.28 the kernel supports upto 256 device [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>So far it was only possible to have upto 16 device nodes for a single disks. This restricted the number of usable partitions. As a workaround kpartx could be used to create device mapper mappings for further partitions but that was never fully integrated in openSUSE.</p>
+<p>With version 2.6.28 the kernel supports upto 256 device nodes per disk, much more than the partition table allows. But since the implementation is not straightforward, the <a href="http://article.gmane.org/gmane.linux.kernel/701825">additional device nodes are assigned dynamically</a>, user-space programs may need to be adapted.</p>
+<p>For openSUSE 11.2 Milestone 5 <a href="https://features.opensuse.org/305584">YaST was extended</a> to support this new kernel feature.</p>
+<p>Some quick tests showed only <a href="https://bugzilla.novell.com/show_bug.cgi?id=525060">problems with LVM</a>. If you are interested in this feature and have the possibility please give it a try so that we find remaining bugs.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/08/05/28-partitions-on-a-single-disk/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Introducing Libstorage</title>
+		<link>http://lizards.opensuse.org/2009/07/20/introducing-libstorage/</link>
+		<comments>http://lizards.opensuse.org/2009/07/20/introducing-libstorage/#comments</comments>
+		<pubDate>Mon, 20 Jul 2009 15:08:00 +0000</pubDate>
+		<dc:creator><![CDATA[Arvin Schnell]]></dc:creator>
+				<category><![CDATA[Systems Management]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1545</guid>
+		<description><![CDATA[Libstorage is a C++ library for managing Linux storage devices. So far it was developed as part of YaST but since a few weeks it is an independent project. Here is a code example creating a 1GB partition on /dev/sdb. Environment env(false); StorageInterface* s = createStorageInterface(env); string name; // Create 1GB partition on /dev/sdb and [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Libstorage is a C++ library for managing Linux storage devices. So far it was developed as part of YaST but since a few weeks it is an independent project.</p>
+<p>Here is a code example creating a 1GB partition on /dev/sdb.</p>
+<pre>  Environment env(<span style="color: #3366ff;">false</span>);
+  StorageInterface* s = createStorageInterface(env);
+
+  string name;
+
+  <span style="color: #ff0000;">// Create 1GB partition on /dev/sdb and format it with Ext4.</span>
+  s-&gt;createPartitionAny(<span style="color: #3366ff;">"/dev/sdb"</span>, <span style="color: #3366ff;">1048576</span>, name);
+  s-&gt;changeFormatVolume(name, <span style="color: #3366ff;">true</span>, <span style="color: #3366ff;">EXT4</span>);
+
+  <span style="color: #ff0000;">// Set mount-point to "/home" and fstab option to "relatime".</span>
+  s-&gt;changeMountPoint(name, <span style="color: #3366ff;">"/home"</span>);
+  s-&gt;changeFstabOptions(name, <span style="color: #3366ff;">"relatime"</span>);
+
+  <span style="color: #ff0000;">// Set filesystem label to "HOME" and mount filesystem by label.</span>
+  s-&gt;changeLabelVolume(name, <span style="color: #3366ff;">"HOME"</span>);
+  s-&gt;changeMountBy(name, <span style="color: #3366ff;">MOUNTBY_LABEL</span>);
+
+  <span style="color: #ff0000;">// Commit the change to the system. This will create the partition,
+  // format and mount it and update /etc/fstab.</span>
+  s-&gt;commit();
+
+  destroyStorageInterface(s);</pre>
+<p>Besides of hard-disks libstorage handles RAID, LVM, NFS, various filesystems and encryption. Swig generated Python bindings are also provided. Libstorage has no dependencies on YaST, neither for building nor runtime. We hope libstorage will also be useful for other projects.</p>
+<p>More <a href="http://en.opensuse.org/Libstorage">information</a> is available in the openSUSE Wiki, including a list of useful <a href="http://en.opensuse.org/Libstorage/Ideas">features</a> people would love to see implemented in the near future.</p>
+<p>Comments are as always welcome.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/07/20/introducing-libstorage/feed/</wfw:commentRss>
+		<slash:comments>5</slash:comments>
+		</item>
+		<item>
+		<title>YaST and Compiz during Installation</title>
+		<link>http://lizards.opensuse.org/2009/04/01/yast-and-compiz-during-installation/</link>
+		<comments>http://lizards.opensuse.org/2009/04/01/yast-and-compiz-during-installation/#comments</comments>
+		<pubDate>Wed, 01 Apr 2009 00:01:21 +0000</pubDate>
+		<dc:creator><![CDATA[Arvin Schnell]]></dc:creator>
+				<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=634</guid>
+		<description><![CDATA[We (Thomas Göttlicher, J. Daniel Schmidt and Arvin Schnell) have use all our remaining ITO for this really cool feature. Normally compiz (more precisely the cube module) shows each desktop on the surface of a cuboid. Since we don&#8217;t have several desktops during installation we decided to show the &#8220;wizard&#8221; steps on the cuboid. Pressing [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>We (Thomas Göttlicher, J. Daniel Schmidt and Arvin Schnell) have use all our<br />
+remaining ITO for this really cool feature.</p>
+<p>Normally compiz (more precisely the cube module) shows each desktop on the<br />
+surface of a cuboid. Since we don&#8217;t have several desktops during installation<br />
+we decided to show the &#8220;wizard&#8221; steps on the cuboid. Pressing &#8220;Next&#8221; or &#8220;Back&#8221;<br />
+rotates the cuboid around the y-axis:</p>
+<p><img class="alignnone size-full wp-image-635" src="http://lizards.opensuse.org/wp-content/uploads/2009/03/screenshot1.png" alt="screenshot1" width="600" height="450" /></p>
+<p>Entering a &#8220;subwizard&#8221; rotates the cuboid around the x-axis:</p>
+<p><img class="alignnone size-full wp-image-636" src="http://lizards.opensuse.org/wp-content/uploads/2009/03/screenshot2.png" alt="screenshot2" width="600" height="450" /></p>
+<p>Fortunately most computers are fast enough to render the 3D-scene even without<br />
+special hardware support that we lack during installation.</p>
+<p>Will be available in Factory within the next weeks. Comments are welcome.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/04/01/yast-and-compiz-during-installation/feed/</wfw:commentRss>
+		<slash:comments>14</slash:comments>
+		</item>
+		<item>
+		<title>Context Menus in YaST Partitioner</title>
+		<link>http://lizards.opensuse.org/2009/03/06/context-menus-in-yast-partitioner/</link>
+		<comments>http://lizards.opensuse.org/2009/03/06/context-menus-in-yast-partitioner/#comments</comments>
+		<pubDate>Fri, 06 Mar 2009 17:10:33 +0000</pubDate>
+		<dc:creator><![CDATA[Arvin Schnell]]></dc:creator>
+				<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[Usability]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=551</guid>
+		<description><![CDATA[We received some complains that the redesigned partitioner on openSUSE 11.1 is tedious to use. To remedy these shortcomings I&#8217;m adding context menus to the tables so that it is no longer required to select the correct view using the navigation tree to perform some operation. Almost all operation should be available via context menus [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>We received some complains that the redesigned partitioner on openSUSE 11.1 is<br />
+tedious to use. To remedy these shortcomings I&#8217;m adding context menus to the<br />
+tables so that it is no longer required to select the correct view using the<br />
+navigation tree to perform some operation. Almost all operation should be<br />
+available via context menus in the main view listing all devices.</p>
+<p><img class="alignnone size-full wp-image-552" src="http://lizards.opensuse.org/wp-content/uploads/2009/03/screenshot.png" alt="screenshot" width="766" height="553" /></p>
+<p>As usual comments are welcome.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/03/06/context-menus-in-yast-partitioner/feed/</wfw:commentRss>
+		<slash:comments>11</slash:comments>
+		</item>
+		<item>
+		<title>Graph of Storage Devices</title>
+		<link>http://lizards.opensuse.org/2009/01/19/graph-of-storage-devices/</link>
+		<comments>http://lizards.opensuse.org/2009/01/19/graph-of-storage-devices/#comments</comments>
+		<pubDate>Mon, 19 Jan 2009 16:08:39 +0000</pubDate>
+		<dc:creator><![CDATA[Arvin Schnell]]></dc:creator>
+				<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[Usability]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=368</guid>
+		<description><![CDATA[With openSUSE 11.1 on the road we developers can use some time for new ideas. One idea on my mind for month was to show the dependencies of storage devices in a graph. Using graphviz and QGraphicsScene a first version was running within few days. It&#8217;s far from finished. Some items still missing are: Use [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>With openSUSE 11.1 on the road we developers can use some time for new ideas. One idea on my mind for month was to show the dependencies of storage devices in a graph. Using <a href="http://graphviz.org/">graphviz</a> and <a href="http://doc.trolltech.com/4.4/qgraphicsscene.html">QGraphicsScene</a> a first version was running within few days.</p>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2009/01/screenshot-cursor.png"><img class="alignnone size-medium wp-image-367" src="http://lizards.opensuse.org/wp-content/uploads/2009/01/screenshot-cursor.png" alt="" /></a></p>
+<p>It&#8217;s far from finished. Some items still missing are:</p>
+<ul>
+<li>Use different shapes and colors for different devices types.</li>
+</ul>
+<ul>
+<li>Some basic user-interaction.</li>
+</ul>
+<p>Will be available in Factory within the next weeks. Further improvements are welcome.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/01/19/graph-of-storage-devices/feed/</wfw:commentRss>
+		<slash:comments>8</slash:comments>
+		</item>
+		<item>
+		<title>Redesign of YaST Expert Partitioner</title>
+		<link>http://lizards.opensuse.org/2008/05/16/22/</link>
+		<comments>http://lizards.opensuse.org/2008/05/16/22/#comments</comments>
+		<pubDate>Fri, 16 May 2008 15:16:41 +0000</pubDate>
+		<dc:creator><![CDATA[Arvin Schnell]]></dc:creator>
+				<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[Usability]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=22</guid>
+		<description><![CDATA[We are redesigning the YaST Expert Partitioner for openSUSE 11.1 and SLE11. The main idea is to have a navigation tree with all available storage devices on the left side and to display information on the right side along with buttons to perform appropriate actions. See the screenshot. RPMs are available in the openSUSE Build [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>We are redesigning the YaST Expert Partitioner for openSUSE 11.1 and SLE11. The main idea is to have a navigation tree with all available storage devices on the left side and to display information on the right side along with buttons to perform appropriate actions. See the <a href="http://lizards.opensuse.org/wp-content/uploads/2008/05/new-expert-partitioner.png">screenshot</a>.</p>
+<p>RPMs are available in the openSUSE Build Server in the repository home:aschnell. They are far from finished by you can already navigate in the tree and inspect you storage system. It should be possible to see where we are heading with the redesign. You can install them on your openSUSE 11.0 Beta 3.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2008/05/16/22/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+	</channel>
+</rss>

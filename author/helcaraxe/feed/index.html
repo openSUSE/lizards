@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; Jan-Christoph Bornschlegel</title>
+	<atom:link href="http://lizards.opensuse.org/author/helcaraxe/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>Product Creation with the openSUSE Build Service</title>
+		<link>http://lizards.opensuse.org/2009/02/11/product-creation-with-the-opensuse-build-service/</link>
+		<comments>http://lizards.opensuse.org/2009/02/11/product-creation-with-the-opensuse-build-service/#comments</comments>
+		<pubDate>Wed, 11 Feb 2009 18:36:46 +0000</pubDate>
+		<dc:creator><![CDATA[Jan-Christoph Bornschlegel]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Software Management]]></category>
+		<category><![CDATA[Systems Management]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=305</guid>
+		<description><![CDATA[Product First of all, what is a &#8220;Product&#8221;? The openSUSE Wiki has the following statement on the Product Definition Article: &#8220;A product is a defined set of packages plus extra information&#8221; In the most simple interpretation this means a set of RPM files plus a set of metadata which contains the installation kernel, information about [&#8230;]]]></description>
+				<content:encoded><![CDATA[<h3>Product</h3>
+<p>First of all, what is a &#8220;Product&#8221;? The openSUSE Wiki has the following statement on the <a title="Product Definition on openSUSE wiki" href="http://en.opensuse.org/Build_Service/Concepts/Product_Definition" target="_blank">Product Definition Article</a>:</p>
+<p>&#8220;A product is a defined set of packages plus extra information&#8221;</p>
+<p>In the most simple interpretation this means a set of RPM files plus a set of metadata which contains the installation kernel, information about the installation work flow, hardware detection, languages, licenses, slide shows and the like.</p>
+<p>Thus the most simple product imaginable is a basic set of RPM files for the system to be installed and a minimum set of metadata: an installation system consisting of kernel, initrd and the packages necessary for installation.</p>
+<p><span id="more-305"></span></p>
+<h3>kiwi</h3>
+<p>The <a title="KIWI Imaging System" href="http://kiwi.berlios.de" target="_blank">kiwi</a> imaging system allows creation of all kinds of live media: live DVDs, CDs, USB sticks and VMware and XEN bootable images. Those images are extremely useful for systems where a regular setup of equal hosts is required. The build client farm of the <a title="Build Service" href="http://en.opensuse.org/Build_Service" target="_blank">openSUSE Build Service</a> is just one popular example.</p>
+<p>kiwi is used in several popular projects, among which you can find several <a title="KDE Live DVD" href="http://home.kde.org/~binner/kde-four-live/" target="_blank">project based live DVDs</a>, terminal server, <a title="SLETC product" href="http://www.novell.com/products/thinclient/" target="_blank">thin clients</a> and preload images. It is also relatively easy to create a personal custom image to boot different machines from USB stick or live CD, for instance to fix crashed machines and save or recover data.</p>
+<h3>kiwi-instsource module</h3>
+<p>A weakness of the images is that it is not possible to install from them as easy and complete as it is from installable media. The reason therefore is the way in which the image is created. As explained in depth in the official kiwi documentation (available from the <a title="KIWI Imaging System" href="http://kiwi.berlios.de" target="_blank">project web site</a> and delivered with the kiwi-doc package) kiwi creates a so called <em>root tree </em>(&#8220;physical extent&#8221;) where packages are installed into. After finishing the installation an image (&#8220;logical extent&#8221;) is created from that root tree. The same root tree can be used for multiple image types (usb, iso, xen, &#8230;) and can even be tweaked manually after the physical extent is created.</p>
+<p>This means several things. First of all, the installation process makes choices. It is not possible to have conflicting packages installed in parallel and hence there is no choice later (in case there is no other installation source available). Secondly, the system can only install on one compatible platform. Which means you can&#8217;t use a x86_64 image to boot and install an i386 machine. And only with regressions vice versa.</p>
+<p>All those problems are solvable by using an <em>installation source</em>. This term refers to official online repositories (such as <a title="openSUSE-11.1 repository" href="http://download.opensuse.org/distribution/11.1/repo/oss/" target="_blank">openSUSE:11.1</a>), product media (boxes, downloadable iso images) and update channels.</p>
+<p>These repositories were created by the autobuild team in the past and are created by kiwi-instsource as imaging back end in the openSUSE Build Service since openSUSE-11.1. In principle everybody can brew his or her own linux distribution that way. I presented several talks on that topic, one on <a title="FOSDEM 08" href="http://archive.fosdem.org/2008/schedule/events/opensuse_kiwi" target="_blank">FOSDEM 2008 </a>about imaging in general, then an interim talk which was held in the Nürnberg SuSE office and is available through <a title="internally held talk" href="http://en.opensuse.org/Talks" target="_blank">tube.opensuse.org</a>, and finally about installation source creation on <a title="FOSDEM 09 talk about product creation" href="http://fosdem.org/2009/schedule/events/opensuse_create_your_own" target="_blank">FOSDEM 2009</a>.</p>
+<p>All three talks were recorded and can be found at [1] and [2].</p>
+<p>kiwi-instsource is a subpackage to kiwi and maintained in the openSUSE:Tools build service project [3]. Its devel project is my home project at home:helcaraxe [4].</p>
+<h3>FOSDEM Talk</h3>
+<p>Preparing and delivering this talk was really fun, thanks a lot to all attendees. I was amazed how many people attended the talk, the openSUSE DevRoom was nicknamed openSAUNA later. It is always very interesting to know possible users and contributors face to face. I met several people I knew from mailing lists before and we got some nice discussions on what is needed in the community.</p>
+<p>Please feel free to comment on that.</p>
+<p>One mayor feedback to me is that we have to document what needs to be done to customise installation sources. I will add some information to the openSUSE wiki at this article: <a title="Installation Source" href="http://en.opensuse.org/Installation_Source" target="_blank">Installation_Source</a></p>
+<p>FOSDEM is always a great event, thanks to all the organisation around it. Unfortunately I could not attend as many talks as I intended but got at least to the <a title="Ext4 filesystem talk" href="http://fosdem.org/2009/schedule/speakers/theodore+tso" target="_blank">ext4 talk</a> and the <a title="Syslinux talk" href="http://fosdem.org/2009/schedule/events/syslinux" target="_blank">syslinux talk</a> on the main track and some of my colleagues&#8217; talks in the <a title="openSUSE DevRoom at FOSDEM 09" href="http://fosdem.org/2009/schedule/devrooms/opensuse" target="_blank">openSUSE DevRoom</a>.</p>
+<p>Plus I discovered some very nice locations for dinner and good belgian beers thanks to the people of the <a title="X.Org DevRoom at FOSDEM 09" href="http://fosdem.org/2009/schedule/devrooms/xorg" target="_blank">X.org team</a>.</p>
+<h3>Further Reading</h3>
+<p>[1] FOSDEM talks linked in openSUSE Wiki: <a title="FOSDEM 09 talks" href="http://en.opensuse.org/FOSDEM2009" target="_blank">FOSDEM 09</a>, <a title="FOSDEM 08 talks" href="http://en.opensuse.org/FOSDEM2008" target="_blank">FOSDEM 08</a></p>
+<p>[2] <a title="Interim talks in SuSE office" href="http://en.opensuse.org/Talks" target="_blank">Interim talks</a> aggregated in openSUSE Wiki</p>
+<p>[3] Development project for kiwi in Build Service: <a title="Tools project" href="http://download.opensuse.org/repositories/openSUSE:/Tools/" target="_blank">openSUSE:Tools</a></p>
+<p>[4] My home project in Build Service: <a title="helcaraxe" href="http://download.opensuse.org/repositories/home:/helcaraxe/" target="_blank">home:helcaraxe</a></p>
+<p>[5] My user page: <a title="helcaraxe" href="http://en.opensuse.org/User:Helcaraxe" target="_blank">User:helcaraxe</a></p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/02/11/product-creation-with-the-opensuse-build-service/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Funny Output For Some</title>
+		<link>http://lizards.opensuse.org/2008/09/03/funny-output-for-some/</link>
+		<comments>http://lizards.opensuse.org/2008/09/03/funny-output-for-some/#comments</comments>
+		<pubDate>Wed, 03 Sep 2008 15:19:24 +0000</pubDate>
+		<dc:creator><![CDATA[Jan-Christoph Bornschlegel]]></dc:creator>
+				<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=159</guid>
+		<description><![CDATA[Last week (aka Hackweek 3) I worked on a Linux From Scratch system. A colleague dropped by and asked me what kind of power supply were sufficient for a certain machine. I thought &#8220;ok, let&#8217;s just ask lshal&#124;grep battery My hope was that the hardware would not only measure the voltage of the battery but [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Last week (aka Hackweek 3) I worked on a  <a href="http://linuxfromscratch.org"><em>Linux From Scratch</em></a> system.</p>
+<p>A colleague dropped by and asked me what kind of power supply were sufficient for a certain machine. I thought &#8220;ok, let&#8217;s just ask <code>lshal|grep battery</code><br />
+My hope was that the hardware would not only measure the voltage of the battery but also the current drained from it.</p>
+<p>What I found was kinda funny from an Electrical Engineer&#8217;s point of view:</p>
+<p style="center;"><a href="http://lizards.opensuse.org/wp-content/uploads/2008/09/lshal.jpg"><img class="size-full wp-image-160 aligncenter" src="http://lizards.opensuse.org/wp-content/uploads/2008/09/lshal.jpg" alt="lshal output for laptop battery" width="500" height="213" /></a></p>
+<p>So what? &#8220;voltage.current&#8221;? Voltage? Or current? Or multiplied?</p>
+<p>After laughing a bit I thought seriously about bug report, but it isn&#8217;t a bug apparently.<br />
+I find those things funny, can&#8217;t help it. I therefore consider this an Easter Egg of HAL.</p>
+<p>Still, if anyone knows if a laptop can tell me the current current (SCNR), let me know.</p>
+<p>Cheers,<br />
+Jan</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2008/09/03/funny-output-for-some/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Installation Source creation status</title>
+		<link>http://lizards.opensuse.org/2008/06/06/instsource-creation/</link>
+		<comments>http://lizards.opensuse.org/2008/06/06/instsource-creation/#comments</comments>
+		<pubDate>Fri, 06 Jun 2008 15:17:32 +0000</pubDate>
+		<dc:creator><![CDATA[Jan-Christoph Bornschlegel]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Software Management]]></category>
+		<category><![CDATA[Imaging]]></category>
+		<category><![CDATA[Installation Source]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=48</guid>
+		<description><![CDATA[There is some work going on to put installation source creation functionality into kiwi. At the moment kiwi can use prepared installation sources such as: BuildService Repositories mounted DVDs FTP trees But what if you have a local Build Service building some binary only packages and you wish tp make a installable media set from, [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>There is some work going on to put installation source creation functionality into <strong>kiwi</strong>.<br />
+At the moment kiwi can use prepared installation sources such as:</p>
+<ul>
+<li>BuildService Repositories</li>
+<li>mounted DVDs</li>
+<li>FTP trees</li>
+</ul>
+<p>But what if you have a local Build Service building some binary only packages and you wish tp make a installable media set from, say, &#8220;SLES + binary only drivers&#8221;?<br />
+You can use the inter-BS-Connectivity feature to only build the drivers (and not the whole distribution) in your BS and then create an installation source from your main BS project.</p>
+<p>This is possible since release of the package <strong>kiwi-instsource</strong> which extends the functionality of the <em>config.xml</em>file to allow the compilation of an installation source from scratch.<br />
+Hereby &#8220;scratch&#8221; means directories containing <em>.rpm</em> and <em>.spm</em> files. Of course some information must be provided for the metadata creation &#8212; but this is also all in the config file (with one known exception &#8212; the PDB data).</p>
+<p>The rest is figuring out which packages must be on the installation source.<br />
+Since it is perfectly ok to have conflicting packages in instsources, there is no dependency check or package resolving in this stage. The information must come from the user.</p>
+<p>Therefore the package list may become rather long and I already plan to implement some simplification.<br />
+These plans include:</p>
+<ul>
+<li>allowing more than one &lt;repopackages&gt; section</li>
+<li>implement outsourcing blocks in separate files using XML functionality</li>
+</ul>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2008/06/06/instsource-creation/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+	</channel>
+</rss>

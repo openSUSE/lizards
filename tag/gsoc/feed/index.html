@@ -1,0 +1,2685 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; gsoc</title>
+	<atom:link href="http://lizards.opensuse.org/tag/gsoc/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>[gsoc] summary of week 2</title>
+		<link>http://lizards.opensuse.org/2011/06/03/gsoc-summary-of-week-2/</link>
+		<comments>http://lizards.opensuse.org/2011/06/03/gsoc-summary-of-week-2/#comments</comments>
+		<pubDate>Fri, 03 Jun 2011 22:51:42 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Hüwe]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[GSOC]]></category>
+		<category><![CDATA[buildservice]]></category>
+		<category><![CDATA[gsoc]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7486</guid>
+		<description><![CDATA[Hi, here&#8217;s a small summary of the 2nd (coding) week. This week I spent most of my time with working on an OO-style class for doing http requests: it&#8217;s possible to switch the http(s) implementation without touching any library code supports response validation (if a schema was specified for the request) Currently I&#8217;m still working [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi,</p>
+<p>here&#8217;s a small summary of the 2nd (coding) week. This<br />
+week I spent most of my time with working on an OO-style class<br />
+for doing http requests:</p>
+<ul>
+<li>it&#8217;s possible to switch the http(s) implementation without touching any<br />
+library code</li>
+<li>supports response validation (if a schema was specified for the request)</li>
+</ul>
+<p>Currently I&#8217;m still working on the &#8220;remote models&#8221;:</p>
+<ul>
+<li>decided to use <a href="http://lxml.de/objectify.html">lxml.objectify</a>:</li>
+<li> &#8211; goal is to encapsulate the xml logic solely into the object itself</li>
+<li> &#8211; example workflow:<br />
+prj = RemoteProject(&#8216;some_name&#8217;)<br />
+prj.title = &#8216;dummy&#8217;<br />
+prj.description = &#8216;foo bar&#8217;<br />
+repo = prj.add_repository(name=&#8217;openSUSE_Factory&#8217;)<br />
+repo.add_path(project=&#8217;openSUSE:Factory&#8217;, repository=&#8217;standard&#8217;)<br />
+repo.add_arch(&#8216;i586&#8242;)<br />
+# change arch to x86_64<br />
+repo.arch[0] = &#8216;x86_64&#8242;<br />
+repo.save()</li>
+</ul>
+<p>Minor stuff:</p>
+<ul>
+<li>decided to use the &#8220;logging&#8221; module:<br />
+this way we can easily add &#8220;debug&#8221; and &#8220;info&#8221; etc. messages and it&#8217;s up to<br />
+the &#8220;client&#8221; which messages it wants to display (I&#8217;m not talking about<br />
+the messages which are displayed when &#8220;osc up&#8221; is called or something like<br />
+that)</li>
+</ul>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/06/03/gsoc-summary-of-week-2/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>GSoC &#8211; new osc user interface proposal</title>
+		<link>http://lizards.opensuse.org/2011/05/23/gsoc-new-osc-user-interface-proposal/</link>
+		<comments>http://lizards.opensuse.org/2011/05/23/gsoc-new-osc-user-interface-proposal/#comments</comments>
+		<pubDate>Mon, 23 May 2011 16:45:31 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Hüwe]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[gsoc]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7366</guid>
+		<description><![CDATA[Hi, as a part of our Google Summer of Code Project to cleanup osc our first task was to define a new commandline user interface for osc. The current user interface is quite &#8220;inconsistent&#8221; (with regard to the expected arguments for different commands) and has some other &#8220;flaws&#8221;. Here are some examples to show some [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi,</p>
+<p>as a part of our Google Summer of Code Project to <a href="http://www.google-melange.com/gsoc/project/google/gsoc2011/mhuewe/13001">cleanup osc</a> our<br />
+first task was to define a new commandline user interface for osc.<br />
+The current user interface is quite &#8220;inconsistent&#8221; (with regard to<br />
+the expected arguments for different commands) and has some other<br />
+&#8220;flaws&#8221;.<br />
+Here are some examples to show some flaws of the current user<br />
+interface:</p>
+<p>* inconsistent ui:<br />
+- osc results project package &#8211;repo repo &#8211;arch arch<br />
+- osc rebuild project package repo arch<br />
+- osc build repo arch<br />
+- osc ls project package repo arch -b<br />
+- osc ls project package -r repo -a arch -b<br />
+- osc undelete project package_1 &#8230; package_N<br />
+- osc rdelete project package_1</p>
+<p>* counterintuitive commands:<br />
+- osc abortbuild project package<br />
+- osc abortbuild project package repo arch<br />
+- osc abortbuild (in a package working copy)<br />
+- osc abortbuild &#8211;repo repo &#8211;arch arch (in a package working copy)<br />
+- osc abortbuild repo arch (in a package working copy)<br />
+=&gt; treats &#8220;repo&#8221; &#8220;arch&#8221; as &#8220;project&#8221; &#8220;package&#8221;</p>
+<p>* &#8220;duplicated&#8221; commands:<br />
+- diff, rdiff<br />
+- buildlog, remotebuildlog, localbuildlog<br />
+- delete, rdelete, rremove</p>
+<p>Additionally we support lots of commands and the output of﻿<br />
+&#8220;osc &#8211;help&#8221;is quite long. In order to tackle this problem we decided<br />
+to introduce &#8220;groups&#8221; with subcommands, for instance:<br />
+attribute list<br />
+attribute create&#8230;<br />
+attribute set&#8230;<br />
+&#8230;</p>
+<p>As a result we get rid of &#8220;god commands&#8221; (commands which supported<br />
+lots of different options for different things (like osc meta)) and<br />
+the new commands are easier to use because they support less arguments<br />
+and/or options (note: this doesn&#8217;t mean we lose functionality &#8211; the<br />
+functionality is just moved to another command/command group).</p>
+<p>The attached table is just a _proposal_ for a new commandline user<br />
+interface.</p>
+<p>Some additional explanations:</p>
+<p>The biggest change with regard to our current user interface is the<br />
+introduction of an url-like syntax:<br />
+For example:<br />
+osc ls api://project/package<br />
+instead of<br />
+osc ls project package</p>
+<p>In this case &#8220;api&#8221; means that the request is issued to the default<br />
+apiurl (in most cases https://api.opensuse.org) which can be<br />
+configured in the ~/.oscrc.<br />
+To issue the &#8220;list&#8221; request to a different obs instance one can use:<br />
+osc ls https://api.somehost/project/package<br />
+or<br />
+osc ls alias://project/package<br />
+&#8220;alias&#8221; is an alias for this apiurl which can be configured in the<br />
+~/.oscrc.</p>
+<p>If you see this url-like syntax for the first time you might think<br />
+that it makes things much more complicated (and even more to type)<br />
+but it is advantageous:</p>
+<p>- in most cases it is obvious if a command is a remote command or<br />
+local working copy command<br />
+- this way we get rid of ambiguities:<br />
+Suppose we support the following command (&#8220;&lt;foo&gt;&#8221; indicate that<br />
+&#8220;foo&#8221; is an optional argument):<br />
+<em> binaries get api://project/package &lt;repo/arch&gt;<br />
+binaries get &lt;repo/arch&gt;</em> (if $PWD is a package working copy<br />
+the project and package arguments will be read from it)</p>
+<p>Possible invocations are:<br />
+<em>osc binaries get api://foo/bar standard/i586 </em># get all binaries<br />
+for this repo and arch<br />
+<em>osc binaries get api://foo/bar</em> # get all binaries for all repos<br />
+and all arches</p>
+<p># now suppose $PWD is a package working copy:<br />
+<em>osc binaries get standard/i586</em> # get all binaries for this repo<br />
+and arch (project and package are read from the working copy)</p>
+<p><em>osc binaries get api://foo/bar</em> # gets all binaries for all repos<br />
+and all arches (project is &#8220;foo&#8221; and package is &#8220;bar&#8221;)</p>
+<p>In the latter invocation we&#8217;re still in a package working copy<br />
+but ignore it and use the project and package arguments which<br />
+were specified.</p>
+<p>Note: in this case a special (like the url-like) syntax is required<br />
+otherwise osc is unable to distinguish between a project/package and<br />
+repo/arch argument.</p>
+<p>Once again this is just a _proposal_ &#8211; feedback is very welcome!<br />
+(please send the feedback to the opensuse-buildservice@opensuse.org mailinglist &#8211; <a href="http://lists.opensuse.org/opensuse-buildservice/2011-05/msg00118.html">thread</a>)</p>
+<p>Marcus</p>
+<p><a href="#init">init</a>, <a href="#list">list</a>, <a href="#meta">meta</a>, <a href="#attribute">attribute</a>, <a href="#request">request</a>, <a href="#submitrequest">submitrequest</a>, <a href="#review">review</a>, <a href="#link">link</a>, <a href="#copy">copy</a>, <a href="#maintenance">maintenance</a>, <a href="#branch">branch</a>, <a href="#delete">delete</a>, <a href="#undelete">undelete</a>, <a href="#diff">diff</a>, <a href="#checkout">checkout</a>, <a href="#status">status</a>, <a href="#add">add</a>, <a href="#addremove">addremove</a>, <a href="#commit">commit</a>, <a href="#update">update</a>, <a href="#resolved">resolved</a>, <a href="#distributions">distributions</a>, <a href="#results">results</a>, <a href="#buildlog">buildlog</a>, <a href="#buildmeta">buildmeta</a>, <a href="#build">build</a>, <a href="#chroot">chroot</a>, <a href="#log">log</a>, <a href="#service">service</a>, <a href="#abortbuild">abortbuild</a>, <a href="#rebuild">rebuild</a>, <a href="#binaries">binaries</a>, <a href="#search">search</a>, <a href="#my">my</a>,<br />
+<a href="#importsrcpkg">importsrcpkg</a>, <a href="#person">person</a>, <a href="#cat">cat</a>, <a href="#less">less</a>, <a href="#repair">repair</a>, <a href="#pull">pull</a>, <a href="#signkey">signkey</a>, <a href="#vc">vc</a>, <a href="#mv">mv</a>, <a href="#config">config</a>, <a href="#revert">revert</a>, <a href="#api">api</a>, <a href="#aggregate">aggregate</a>, <a href="#mkpac">mkpac</a>, <a href="#setlinkrev">setlinkrev</a>, <a href="#linktobranch">linktobranch</a>, <a href="#detachbranch">detachbranch</a></p>
+<p>setlinkrev, linktobranch and detachbranch might be grouped into group &#8220;other&#8221;.<br />
+Deleted commands:</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>replacement</th>
+<th>reason</th>
+</tr>
+<tr>
+<td>deleterequest args</td>
+<td>request create &#8211;delete args</td>
+<td></td>
+</tr>
+<tr>
+<td>reqeuestmaintainership args</td>
+<td>request create &#8211;role maintainer args</td>
+<td></td>
+</tr>
+<tr>
+<td>changedevelrequest args</td>
+<td>request create &#8211;changedevel args</td>
+<td></td>
+</tr>
+<tr>
+<td>request approvenew project &lt;package&gt;</td>
+<td></td>
+<td>request &#8211;interactive-review could be used (but it&#8217;s no real replacement)</td>
+</tr>
+<tr>
+<td>request log id</td>
+<td>request show id &#8211;log</td>
+<td></td>
+</tr>
+<tr>
+<td>linkpac</td>
+<td>link</td>
+<td></td>
+</tr>
+<tr>
+<td>copypac</td>
+<td>copy</td>
+<td></td>
+</tr>
+<tr>
+<td>releaserequest</td>
+<td>maintenance releaserequest</td>
+<td></td>
+</tr>
+<tr>
+<td>createincident</td>
+<td>maintenance createincident</td>
+<td></td>
+</tr>
+<tr>
+<td>maintenancerequest</td>
+<td>maintenance request</td>
+<td></td>
+</tr>
+<tr>
+<td>mbranch</td>
+<td>maintenance branch</td>
+<td></td>
+</tr>
+<tr>
+<td>getpac</td>
+<td></td>
+<td>use branch</td>
+</tr>
+<tr>
+<td>rdelete</td>
+<td>delete</td>
+<td></td>
+</tr>
+<tr>
+<td>updatepacmetafromspec</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>rdiff</td>
+<td>diff</td>
+<td></td>
+</tr>
+<tr>
+<td>linkdiff</td>
+<td></td>
+<td>no replacement atm (current implementation partly broken); diff could support it</td>
+</tr>
+<tr>
+<td>repourls</td>
+<td></td>
+<td>isn&#8217;t needed IMHO</td>
+</tr>
+<tr>
+<td>prjresults</td>
+<td>results</td>
+<td></td>
+</tr>
+<tr>
+<td>remotebuildlog</td>
+<td>buildlog</td>
+<td></td>
+</tr>
+<tr>
+<td>localbuildlog</td>
+<td>buildlog &#8211;local</td>
+<td></td>
+</tr>
+<tr>
+<td>buildinfo</td>
+<td>buildmeta info</td>
+<td></td>
+</tr>
+<tr>
+<td>buildconfig</td>
+<td>buildmeta config</td>
+<td></td>
+</tr>
+<tr>
+<td>triggerreason</td>
+<td>buildmeta triggerreason</td>
+<td></td>
+</tr>
+<tr>
+<td>dependson</td>
+<td>buildmeta dependson</td>
+<td></td>
+</tr>
+<tr>
+<td>buildhistory</td>
+<td>buildmeta history</td>
+<td></td>
+</tr>
+<tr>
+<td>jobhistory</td>
+<td>buildmeta jobhistory</td>
+<td></td>
+</tr>
+<tr>
+<td>info</td>
+<td></td>
+<td>not needed anymore</td>
+</tr>
+<tr>
+<td>getbinaries</td>
+<td>binaries get</td>
+<td></td>
+</tr>
+<tr>
+<td>wipebinaries</td>
+<td>binaries wipe</td>
+<td></td>
+</tr>
+<tr>
+<td>list &#8211;binaries</td>
+<td>binaries list</td>
+<td></td>
+</tr>
+<tr>
+<td>search &#8211;binary</td>
+<td>binaries search</td>
+<td></td>
+</tr>
+<tr>
+<td>bugowner</td>
+<td></td>
+<td>no real replacement use person maintainer -b (if we support this)</td>
+</tr>
+<tr>
+<td>maintainer</td>
+<td>person maintainer</td>
+<td></td>
+</tr>
+<tr>
+<td>maintainer project &#8211;add user &#8211;role role</td>
+<td>person add api://project role user</td>
+<td></td>
+</tr>
+<tr>
+<td>maintainer project &#8211;delete user</td>
+<td>person delete api://project user</td>
+<td></td>
+</tr>
+<tr>
+<td>whois</td>
+<td>person meta</td>
+<td></td>
+</tr>
+<tr>
+<td>meta user</td>
+<td>person meta</td>
+<td></td>
+</tr>
+<tr>
+<td>cat/less http://api/source/project/package/file</td>
+<td></td>
+<td>not needed (IMHO)</td>
+</tr>
+<tr>
+<td>repairlink</td>
+<td>repair link</td>
+<td></td>
+</tr>
+<tr>
+<td>repairwc</td>
+<td>repair wc</td>
+<td></td>
+</tr>
+<tr>
+<td>signkey</td>
+<td>signkey</td>
+<td>it&#8217;s not context-sensitive anymore</td>
+</tr>
+<tr>
+<td>rremove</td>
+<td></td>
+<td>do we really need this?</td>
+</tr>
+<tr>
+<td>aggregatepac</td>
+<td>aggregate</td>
+<td></td>
+</tr>
+<tr>
+<td>develproject</td>
+<td>meta</td>
+<td>meta should display the xml in a nice way so that it&#8217;s easy to see whether a develprj is defined or not</td>
+</tr>
+<tr>
+<td>repositories</td>
+<td>meta</td>
+<td>meta should display the xml in a nice way so that all repos are displayed</td>
+</tr>
+</tbody>
+</table>
+<p>new commandline user interface</p>
+<p>init</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="init">init</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://project</td>
+<td></td>
+</tr>
+<tr>
+<td>init</td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://project/package</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>list</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="list">ls</a></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td></td>
+<td>list all remote packages for the wc project</td>
+</tr>
+<tr>
+<td>ls</td>
+<td></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td>list all remote files for the wc package</td>
+</tr>
+<tr>
+<td>ls</td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://</td>
+<td></td>
+</tr>
+<tr>
+<td>ls</td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://project</td>
+<td></td>
+</tr>
+<tr>
+<td>ls</td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://project/package</td>
+<td></td>
+</tr>
+<tr>
+<td>ls</td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://project/package/file</td>
+<td>just for backward compatibility</td>
+</tr>
+</tbody>
+</table>
+<p>meta</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="meta">meta</a></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td></td>
+<td>shows/edits project meta</td>
+</tr>
+<tr>
+<td>meta</td>
+<td></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td>shows/edits package meta</td>
+</tr>
+<tr>
+<td>meta</td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://project</td>
+<td></td>
+</tr>
+<tr>
+<td>meta</td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://project/package</td>
+<td></td>
+</tr>
+<tr>
+<td>meta</td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://project/_prjconf</td>
+<td></td>
+</tr>
+<p><!-- ADDED: attribute --></tbody>
+</table>
+<p>attribute</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td colspan="6">attribute is <strong>not</strong> context sensitive</td>
+</tr>
+<tr>
+<td><a name="attribute">attribute</a></td>
+<td>list</td>
+<td></td>
+<td></td>
+<td>api://project</td>
+<td>show all attributes</td>
+</tr>
+<tr>
+<td>attribute</td>
+<td>list</td>
+<td></td>
+<td></td>
+<td>api://project attribute</td>
+<td>show specific attribute</td>
+</tr>
+<tr>
+<td>attribute</td>
+<td>set</td>
+<td></td>
+<td></td>
+<td>api://project attribute newval</td>
+<td>set attribute to newval</td>
+</tr>
+<tr>
+<td>attribute</td>
+<td>create</td>
+<td></td>
+<td></td>
+<td>api://project attribute</td>
+<td>create new attribute</td>
+</tr>
+<tr>
+<td>attribute</td>
+<td>delete</td>
+<td></td>
+<td></td>
+<td>api://project attribute</td>
+<td>delete attribute</td>
+</tr>
+<tr>
+<td>attribute</td>
+<td>list</td>
+<td></td>
+<td></td>
+<td>api://project/package</td>
+<td>show all attributes</td>
+</tr>
+<tr>
+<td>attribute</td>
+<td>list</td>
+<td></td>
+<td></td>
+<td>api://project/package/binary</td>
+<td>show all attributes &#8211; /binary works for all commands below, too</td>
+</tr>
+<tr>
+<td>attribute</td>
+<td>list</td>
+<td></td>
+<td></td>
+<td>api://project/package attribute</td>
+<td>show specific attribute</td>
+</tr>
+<tr>
+<td>attribute</td>
+<td>set</td>
+<td></td>
+<td></td>
+<td>api://project/package attribute newval</td>
+<td>set attribute to newval</td>
+</tr>
+<tr>
+<td>attribute</td>
+<td>create</td>
+<td></td>
+<td></td>
+<td>api://project/package attribute</td>
+<td>create new attribute</td>
+</tr>
+<tr>
+<td>attribute</td>
+<td>delete</td>
+<td></td>
+<td></td>
+<td>api://project/package attribute</td>
+<td>delete attribute</td>
+</tr>
+</tbody>
+</table>
+<p><!-- DELETED: submitrequest (for now) --></p>
+<p>request</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td colspan="6">request is <strong>not</strong> context sensitive</td>
+</tr>
+<tr>
+<td><a name="request">request</a></td>
+<td>create</td>
+<td></td>
+<td></td>
+<td>&#8211;submit api://project/package api://tgt_projet/&lt;package&gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>request</td>
+<td>create</td>
+<td></td>
+<td></td>
+<td>&#8211;submit api://project/package api://tgt_projet/&lt;package&gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>request</td>
+<td>create</td>
+<td></td>
+<td></td>
+<td>&#8211;changedevel api://project/package api://tgt_projet/&lt;package&gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>request</td>
+<td>create</td>
+<td></td>
+<td></td>
+<td>&#8211;role role user api://project/&lt;package&gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>request</td>
+<td>create</td>
+<td></td>
+<td></td>
+<td>&#8211;grouprole role group api://project/&lt;package&gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>request</td>
+<td>create</td>
+<td></td>
+<td></td>
+<td>&#8211;bugowner user api://project/&lt;package&gt;</td>
+<td>alternatively we treat bugowner as a &#8220;role&#8221; and use &#8211;role bugowner&#8230;</td>
+</tr>
+<tr>
+<td>request</td>
+<td>create</td>
+<td></td>
+<td></td>
+<td>&#8211;delete api://project/&lt;package&gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>request</td>
+<td>list</td>
+<td></td>
+<td></td>
+<td>api://&lt;project&gt;/&lt;package&gt;</td>
+<td>list all/project/package requests</td>
+</tr>
+<tr>
+<td colspan="6">in the following we support both: &#8220;api://id&#8221; and &#8220;id&#8221; (if the latter format is specified the default apiurl is used &#8211; regardless if the cmd is executed in a wc)</td>
+</tr>
+<tr>
+<td>request</td>
+<td>show</td>
+<td></td>
+<td></td>
+<td>api://id</td>
+<td>apart from &#8211;brief also support &#8211;log which just shows the statehistory + current state</td>
+</tr>
+<tr>
+<td>request</td>
+<td>supersede</td>
+<td></td>
+<td></td>
+<td>api://id api://supersede_id</td>
+<td></td>
+</tr>
+<tr>
+<td>request</td>
+<td>accept</td>
+<td></td>
+<td></td>
+<td>api://id</td>
+<td></td>
+</tr>
+<tr>
+<td>request</td>
+<td>decline</td>
+<td></td>
+<td></td>
+<td>api://id</td>
+<td></td>
+</tr>
+<tr>
+<td>request</td>
+<td>revoke</td>
+<td></td>
+<td></td>
+<td>api://id</td>
+<td></td>
+</tr>
+<tr>
+<td>request</td>
+<td>reopen</td>
+<td></td>
+<td></td>
+<td>api://id</td>
+<td></td>
+</tr>
+<tr>
+<td>request</td>
+<td>wipe</td>
+<td></td>
+<td></td>
+<td>api://id</td>
+<td></td>
+</tr>
+<tr>
+<td>request</td>
+<td>checkout</td>
+<td>(x)</td>
+<td></td>
+<td>api://id</td>
+<td>if the package&#8217;s package belongs to the wc&#8217;s project the package will be added to this project (if it already exists an error will be printed)</td>
+</tr>
+</tbody>
+</table>
+<p>submitrequest</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="submitrequest">submitrequest</a></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td></td>
+<td>semantic change: creates a sr for all local packages (instead of all remote)</td>
+</tr>
+<tr>
+<td>submitrequest</td>
+<td></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td>wc has to be a source link</td>
+</tr>
+<tr>
+<td>submitrequest</td>
+<td></td>
+<td></td>
+<td>x</td>
+<td>api://tgt_project/&lt;tgt_package&gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>submitrequest</td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://project/package api://tgt_project/&lt;tgt_package&gt;</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>review</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="review">review</a></td>
+<td>accept</td>
+<td></td>
+<td></td>
+<td>api://id</td>
+<td></td>
+</tr>
+<tr>
+<td>review</td>
+<td>decline</td>
+<td></td>
+<td></td>
+<td>api://id</td>
+<td></td>
+</tr>
+<tr>
+<td>review</td>
+<td>reopen</td>
+<td></td>
+<td></td>
+<td>api://id</td>
+<td></td>
+</tr>
+<tr>
+<td>review</td>
+<td>susersede</td>
+<td></td>
+<td></td>
+<td>api://id api://supsersede_id</td>
+<td></td>
+</tr>
+<tr>
+<td>review</td>
+<td>add</td>
+<td></td>
+<td></td>
+<td>api://id &#8211;user user &#8211;group group &#8211;package package &#8211;project project</td>
+<td>at least one option is required</td>
+</tr>
+<tr>
+<td>review</td>
+<td>list</td>
+<td></td>
+<td></td>
+<td>api://&lt;project&gt;/&lt;package&gt;</td>
+<td>just for convenience; &#8220;request list &#8211;state review&#8221; should lead to the same result</td>
+</tr>
+</tbody>
+</table>
+<p>link</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<p><!-- ADDED: link --></p>
+<tr>
+<td><a name="link">link</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://link_project api://project</td>
+<td></td>
+</tr>
+<tr>
+<td>link</td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://link_project/link_package api://project/&amp;tl;package&gt;</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>copy</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<p><!-- ADDED: copy --></p>
+<tr>
+<td><a name="copy">copy</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://copy_project api://project</td>
+<td>could be supported</td>
+</tr>
+<tr>
+<td>copy</td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://copy_project/copy_package api://project/&amp;tl;package&gt;</td>
+<td></td>
+</tr>
+<p><!-- ADDED: maintenance --></tbody>
+</table>
+<p>maintenance</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="maintenance">maintenance</a></td>
+<td>releaserequest</td>
+<td>x</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>maintenance</td>
+<td>releaserequest</td>
+<td></td>
+<td></td>
+<td>api://project</td>
+<td></td>
+</tr>
+<tr>
+<td>maintenance</td>
+<td>createincident</td>
+<td></td>
+<td></td>
+<td>&lt;api://project&gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>maintenance</td>
+<td>request</td>
+<td></td>
+<td></td>
+<td>api://project &lt;api://tgt_project&gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>maintenance</td>
+<td>branch</td>
+<td></td>
+<td></td>
+<td>package &lt;tgt_project&gt;</td>
+<td><strong>XXX:</strong> this voilates the url schema</td>
+</tr>
+</tbody>
+</table>
+<p>branch</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="branch">branch</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://project/package &lt;api://tgt_project/tgt_package&gt;</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>undelete</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="undelete">undelete</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://project/&lt;package&gt;</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>delete</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="delete">delete</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://project/&lt;package&gt;</td>
+<td>multiple arguments can be specified</td>
+</tr>
+<tr>
+<td>delete</td>
+<td></td>
+<td></td>
+<td></td>
+<td>/path/to/package</td>
+<td></td>
+</tr>
+<tr>
+<td>delete</td>
+<td></td>
+<td></td>
+<td></td>
+<td>/path/to/file</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>diff</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="diff">diff</a></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>diff</td>
+<td></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>diff</td>
+<td></td>
+<td></td>
+<td></td>
+<td>/path/to/file</td>
+<td>multiple args are supported</td>
+</tr>
+<tr>
+<td>diff</td>
+<td></td>
+<td></td>
+<td></td>
+<td>/path/to/package</td>
+<td></td>
+</tr>
+<tr>
+<td>diff</td>
+<td></td>
+<td></td>
+<td></td>
+<td>/path/to/project</td>
+<td></td>
+</tr>
+<tr>
+<td>diff</td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://project/package</td>
+<td></td>
+</tr>
+<tr>
+<td>diff</td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://project/package api://original_project/original_package</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>checkout</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="checkout">checkout</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://project/&lt;package&gt;</td>
+<td>checking out a file is not supported anymore</td>
+</tr>
+<tr>
+<td>checkout</td>
+<td></td>
+<td>x</td>
+<td></td>
+<td>package</td>
+<td>adds the package to the wc</td>
+</tr>
+<tr>
+<td>checkout</td>
+<td></td>
+<td>x</td>
+<td></td>
+<td>package</td>
+<td>adds the package to the wc</td>
+</tr>
+</tbody>
+</table>
+<p>status</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="status">status</a></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>status</td>
+<td></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>status</td>
+<td></td>
+<td></td>
+<td></td>
+<td>/path/to/project_or_package_or_file</td>
+<td>multiple arguments are supported</td>
+</tr>
+</tbody>
+</table>
+<p>add</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="add">add</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>/path/to/dir_or_file</td>
+<td>multiple arguments are supported</td>
+</tr>
+<tr>
+<td>add</td>
+<td></td>
+<td></td>
+<td></td>
+<td>URL</td>
+<td>create a _service file</td>
+</tr>
+</tbody>
+</table>
+<p>addremove</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="addremove">addremove</a></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>addremove</td>
+<td></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>addremove</td>
+<td></td>
+<td></td>
+<td></td>
+<td>/path/to/package</td>
+<td>multiple arguments are supported</td>
+</tr>
+</tbody>
+</table>
+<p>commit</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="commit">commit</a></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>commit</td>
+<td></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>commit</td>
+<td></td>
+<td></td>
+<td></td>
+<td>/path/to/project_or_package_or_file</td>
+<td>multiple arguments are supported</td>
+</tr>
+</tbody>
+</table>
+<p>update</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="update">update</a></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>update</td>
+<td></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>update</td>
+<td></td>
+<td></td>
+<td></td>
+<td>/path/to/project_or_package</td>
+<td>multiple arguments are supported</td>
+</tr>
+</tbody>
+</table>
+<p>resolved</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="resolved">resolved</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>/path/to/file</td>
+<td>multiple arguments are supported</td>
+</tr>
+</tbody>
+</table>
+<p>distributions</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="distributions">distributions</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>results</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="results">results</a></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>results</td>
+<td></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>results</td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://project/&lt;package&gt;</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>buildlog<br />
+if repo/arch is not specified the config values will be used (default_repo, default_arch)</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="buildlog">buildlog</a></td>
+<td></td>
+<td></td>
+<td>x</td>
+<td>&lt;repo/arch&gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>buildlog</td>
+<td></td>
+<td></td>
+<td>x</td>
+<td>&lt;repo/arch&gt; &#8211;local</td>
+<td></td>
+</tr>
+<tr>
+<td>buildlog</td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://project/package &lt;repo/arch&gt;</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><!-- ADDED: buildmeta --></p>
+<p>buildmeta<br />
+if repo/arch is not specified the config values will be used (default_repo, default_arch)</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="buildmeta">buildmeta</a></td>
+<td>info</td>
+<td></td>
+<td>x</td>
+<td>&lt;repo/arch&gt; &lt;build_descr&gt;</td>
+<td>distingiush between repo/arch build_descr, /arch build_descr via the file extension of build_descr</td>
+</tr>
+<tr>
+<td>buildmeta</td>
+<td>info</td>
+<td></td>
+<td></td>
+<td>api://project/package &lt;repo/arch&gt; &lt;build_descr&gt;</td>
+<td>distingiush between repo/arch build_descr, /arch build_descr via the file extension of build_descr</td>
+</tr>
+<tr>
+<td>buildmeta</td>
+<td>config</td>
+<td></td>
+<td>x</td>
+<td>&lt;repo/arch&gt; &lt;build_descr&gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>buildmeta</td>
+<td>config</td>
+<td></td>
+<td></td>
+<td>api://project/package &lt;repo&gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>buildmeta</td>
+<td>triggerreason</td>
+<td></td>
+<td>x</td>
+<td>&lt;repo/arch&gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>buildmeta</td>
+<td>triggerreason</td>
+<td></td>
+<td></td>
+<td>api://project/package &lt;repo/arch&gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>buildmeta</td>
+<td>dependson</td>
+<td></td>
+<td>x</td>
+<td>&lt;repo/arch&gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>buildmeta</td>
+<td>dependson</td>
+<td></td>
+<td></td>
+<td>api://project/package &lt;repo/arch&gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>buildmeta</td>
+<td>log</td>
+<td></td>
+<td>x</td>
+<td>&lt;repo/arch&gt;</td>
+<td>same as buildlog (just for consistency)</td>
+</tr>
+<tr>
+<td>buildmeta</td>
+<td>log</td>
+<td></td>
+<td>x</td>
+<td>&lt;repo/arch&gt; &#8211;local</td>
+<td>same as buildlog (just for consistency)</td>
+</tr>
+<tr>
+<td>buildmeta</td>
+<td>log</td>
+<td></td>
+<td></td>
+<td>api://project/package &lt;repo/arch&gt;</td>
+<td>same as buildlog (just for consistency)</td>
+</tr>
+<tr>
+<td>buildmeta</td>
+<td>history</td>
+<td></td>
+<td>x</td>
+<td>&lt;repo/arch&gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>buildmeta</td>
+<td>history</td>
+<td></td>
+<td></td>
+<td>api://project/package &lt;repo/arch&gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>buildmeta</td>
+<td>jobhistory</td>
+<td></td>
+<td>x</td>
+<td>&lt;repo/arch&gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>buildmeta</td>
+<td>jobhistory</td>
+<td>x</td>
+<td></td>
+<td>&lt;repo/arch&gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>buildmeta</td>
+<td>jobhistory</td>
+<td></td>
+<td></td>
+<td>api://project/&lt;package&gt; &lt;repo/arch&gt;</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>build<br />
+if repo/arch is not specified the config values will be used (default_repo, default_arch)</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="build">build</a></td>
+<td></td>
+<td></td>
+<td>x</td>
+<td>&lt;repo/arch&gt; &lt;build_descr&gt;</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>chroot<br />
+if repo/arch is not specified the config values will be used (default_repo, default_arch)</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="chroot">chroot</a></td>
+<td></td>
+<td></td>
+<td>x</td>
+<td>&lt;repo/arch&gt; &lt;build_descr&gt;</td>
+<td>build_descr is not needed for the command itself</td>
+</tr>
+</tbody>
+</table>
+<p><!-- TODO: repositories --></p>
+<p>log</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="log">log</a></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>log</td>
+<td></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>log</td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://project/&lt;package&gt;</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>service</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="service">service</a></td>
+<td>run</td>
+<td></td>
+<td>x</td>
+<td>&lt;service_name&gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>service</td>
+<td>disabledrun</td>
+<td></td>
+<td>x</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>service</td>
+<td>remoterun</td>
+<td></td>
+<td></td>
+<td>api://project/package</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>abortbuild<br />
+if repo/arch is not specified the config values will be used (default_repo, default_arch)</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="abortbuild">abortbuild</a></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td>&lt;repo/arch&gt;</td>
+<td>to abort all builds specifiy &#8211;all</td>
+</tr>
+<tr>
+<td>abortbuild</td>
+<td></td>
+<td></td>
+<td>x</td>
+<td>&lt;repo/arch&gt;</td>
+<td>to abort all builds specifiy &#8211;all</td>
+</tr>
+<tr>
+<td>abortbuild</td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://project/&lt;package&gt; &lt;repo/arch&gt;</td>
+<td>to abort all builds specifiy &#8211;all</td>
+</tr>
+</tbody>
+</table>
+<p>rebuild<br />
+if repo/arch is not specified the config values will be used (default_repo, default_arch)</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="rebuild">rebuild</a></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td>&lt;repo/arch&gt;</td>
+<td>to rebuild all packages specifiy &#8211;all</td>
+</tr>
+<tr>
+<td>rebuild</td>
+<td></td>
+<td></td>
+<td>x</td>
+<td>&lt;repo/arch&gt;</td>
+<td>to rebuild all packages specifiy &#8211;all</td>
+</tr>
+<tr>
+<td>rebuild</td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://project/&lt;package&gt; &lt;repo/arch&gt;</td>
+<td>to rebuild all packages specifiy &#8211;all</td>
+</tr>
+<p><!-- ADDED: binaries --></tbody>
+</table>
+<p>rebuild<br />
+if repo/arch is not specified the config values will be used (default_repo, default_arch)</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="binaries">binaries</a></td>
+<td>get</td>
+<td>x</td>
+<td></td>
+<td>&lt;repo/arch&gt;</td>
+<td>to get all binaries specifiy &#8211;all</td>
+</tr>
+<tr>
+<td>binaries</td>
+<td>get</td>
+<td></td>
+<td>x</td>
+<td>&lt;repo/arch&gt;</td>
+<td>to get all binaries specifiy &#8211;all</td>
+</tr>
+<tr>
+<td>binaries</td>
+<td>get</td>
+<td></td>
+<td></td>
+<td>api://project/&lt;package&gt; &lt;repo/arch&gt;</td>
+<td>to get all binaries specifiy &#8211;all</td>
+</tr>
+<tr>
+<td>binaries</td>
+<td>list</td>
+<td>x</td>
+<td></td>
+<td>&lt;repo/arch&gt;</td>
+<td>to list all binaries specifiy &#8211;all</td>
+</tr>
+<tr>
+<td>binaries</td>
+<td>list</td>
+<td></td>
+<td>x</td>
+<td>&lt;repo/arch&gt;</td>
+<td>to list all binaries specifiy &#8211;all</td>
+</tr>
+<tr>
+<td>binaries</td>
+<td>list</td>
+<td></td>
+<td></td>
+<td>api://project/&lt;package&gt; &lt;repo/arch&gt;</td>
+<td>to list all binaries specifiy &#8211;all</td>
+</tr>
+<tr>
+<td>binaries</td>
+<td>wipe</td>
+<td>x</td>
+<td></td>
+<td>&lt;repo/arch&gt;</td>
+<td>to wipe all binaries specifiy &#8211;all</td>
+</tr>
+<tr>
+<td>binaries</td>
+<td>search</td>
+<td></td>
+<td></td>
+<td>api://&lt;project&gt; search_term</td>
+<td></td>
+</tr>
+<tr>
+<td>binaries</td>
+<td>wipe</td>
+<td></td>
+<td></td>
+<td>api://project/&lt;package&gt; &lt;repo/arch&gt;</td>
+<td>to wipe all binaries specifiy &#8211;all</td>
+</tr>
+</tbody>
+</table>
+<p>my</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="my">my</a></td>
+<td>requests</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>my</td>
+<td>submitrequests</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>my</td>
+<td>projects</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>my</td>
+<td>packages</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>search</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="search">search</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>search_term</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>importsrcpkg</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="importsrcpkg">importsrcpkg</a></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td>/path/to/srpm</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><!-- ADDED: person --></p>
+<p>person<br />
+For groups we can add a new &#8220;group&#8221; command</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="person">person</a></td>
+<td>meta</td>
+<td></td>
+<td></td>
+<td>api://username &lt;&#8211;edit&gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>person</td>
+<td>maintainer</td>
+<td></td>
+<td></td>
+<td>api://project/&lt;package&gt;</td>
+<td>show maintainer of the project/package</td>
+</tr>
+<tr>
+<td>person</td>
+<td>maintainer</td>
+<td></td>
+<td></td>
+<td>api://project/&lt;package&gt;</td>
+<td>show maintainer of the project/package</td>
+</tr>
+<tr>
+<td>person</td>
+<td>add</td>
+<td></td>
+<td></td>
+<td>api://project/&lt;package&gt; user role</td>
+<td></td>
+</tr>
+<tr>
+<td>person</td>
+<td>delete</td>
+<td></td>
+<td></td>
+<td>api://project/&lt;package&gt; user &lt;role&gt;</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>cat</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="cat">cat</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://project/package/file</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>less</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="less">cat</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://project/package/file</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><!-- ADDED: repair --></p>
+<p>repair</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="repair">repair</a></td>
+<td>link</td>
+<td></td>
+<td>x</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>repair</td>
+<td>link</td>
+<td></td>
+<td></td>
+<td>api://project/package &lt;api://into_project/&lt;into_package&gt;&gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>repair</td>
+<td>wc</td>
+<td>x</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>repair</td>
+<td>wc</td>
+<td></td>
+<td>x</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>pull</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="pull">pull</a></td>
+<td></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>signkey</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="signkey">signkey</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://project</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>vc</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="vc">vc</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>mv</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="mv">mv</a></td>
+<td></td>
+<td></td>
+<td>x</td>
+<td>filename new_filename</td>
+<td>should we support this for packages, too?</td>
+</tr>
+</tbody>
+</table>
+<p>config</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="config">config</a></td>
+<td></td>
+<td></td>
+<td>section option</td>
+<td></td>
+</tr>
+<tr>
+<td>config</td>
+<td></td>
+<td></td>
+<td></td>
+<td>section option value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>revert</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="revert">revert</a></td>
+<td></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>revert</td>
+<td></td>
+<td></td>
+<td></td>
+<td>/path/to/file</td>
+<td>multiple arguments are supported</td>
+</tr>
+</tbody>
+</table>
+<p>api</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="api">api</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://path/to/something</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>aggregate</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="aggregate">aggregate</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://project/package api://tgt_project/&lt;tgt_packge&gt;</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>mkpac</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="mkpac">mkpac</a></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td>package_name</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>setlinkrev</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="setlinkrev">setlinkrev</a></td>
+<td></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>setlinkrev</td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://project/&lt;package&gt;</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>linktobranch</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="linktobranch">linktobranch</a></td>
+<td></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>linktobranch</td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://project/package</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>detachbranch</p>
+<table border="1" cellpadding="0">
+<tbody>
+<tr>
+<th>cmd</th>
+<th>subcmd</th>
+<th>prj wc</th>
+<th>pkg wc</th>
+<th>params/opts</th>
+<th>note</th>
+</tr>
+<tr>
+<td><a name="detachbranch">detachbranch</a></td>
+<td></td>
+<td></td>
+<td>x</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>detachbranch</td>
+<td></td>
+<td></td>
+<td></td>
+<td>api://project/package</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>(please send the feedback to the opensuse-buildservice@opensuse.org mailinglist &#8211; <a href="http://lists.opensuse.org/opensuse-buildservice/2011-05/msg00118.html">thread</a>)</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/05/23/gsoc-new-osc-user-interface-proposal/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>GSoC Idea: Build Service Plasma Widget Suite</title>
+		<link>http://lizards.opensuse.org/2011/03/24/gsoc-idea-build-service-plasma-widget-suite/</link>
+		<comments>http://lizards.opensuse.org/2011/03/24/gsoc-idea-build-service-plasma-widget-suite/#comments</comments>
+		<pubDate>Thu, 24 Mar 2011 21:14:53 +0000</pubDate>
+		<dc:creator><![CDATA[Will Stephenson]]></dc:creator>
+				<category><![CDATA[Boosters]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[gsoc]]></category>
+		<category><![CDATA[openSUSE]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=6902</guid>
+		<description><![CDATA[I&#8217;m blatantly abusing GSoC for a project that I would like to see in openSUSE but that I&#8217;ve never had time to work on. But really it&#8217;s a worthwhile thing to have: a set of Plasma widgets that users and developers can add to their workspace to make it easy to see what&#8217;s going on [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I&#8217;m blatantly abusing GSoC for a project that I would like to see in openSUSE but that I&#8217;ve never had time to work on.  But really it&#8217;s a worthwhile thing to have: a set of Plasma widgets that users and developers can add to their workspace to make it easy to see what&#8217;s going on in OBS in the projects that matter to them.  If you want to work on a fun project with cutting edge technologies such as Qt, QML, Plasma then head on over to the <a href="http://en.opensuse.org/openSUSE:GSOC_2011_Ideas#Build_Service_Plasma_Widgets">GSoC 2011 Ideas Page</a>.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/03/24/gsoc-idea-build-service-plasma-widget-suite/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>openSUSE &amp; Google Summer of Code 2010</title>
+		<link>http://lizards.opensuse.org/2010/03/01/opensuse-google-summer-of-code-2010/</link>
+		<comments>http://lizards.opensuse.org/2010/03/01/opensuse-google-summer-of-code-2010/#comments</comments>
+		<pubDate>Mon, 01 Mar 2010 09:56:21 +0000</pubDate>
+		<dc:creator><![CDATA[Andrew Wafaa]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Events]]></category>
+		<category><![CDATA[Marketing]]></category>
+		<category><![CDATA[gsoc]]></category>
+		<category><![CDATA[openSUSE]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=3371</guid>
+		<description><![CDATA[The wonderful Vincent has already sent the initial call for participation, so who&#8217;s up for it then? OK I&#8217;ll take it that there are several hands raised in the audience (I reckon I&#8217;m being overly cautious, I&#8217;m sure there are loads of hands up but as I don&#8217;t have my glasses on I can only [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The wonderful <a href="http://www.vuntz.net/journal/">Vincent</a> has already sent the <a href="http://lists.opensuse.org/opensuse-project/2010-02/msg00094.html">initial call for participation</a>, so who&#8217;s up for it then?</p>
+<p>OK I&#8217;ll take it that there are several hands raised in the audience (I reckon I&#8217;m being overly cautious, I&#8217;m sure there are loads of hands up but as I don&#8217;t have my glasses on I can only see the first two rows).  So what do we need from our lovely community to help make GSoC 2010 a success?</p>
+<p>* We need some admins for openSUSE in GSoC 2010. This mainly involves making sure that we do everything we need to participate in GSoC; making sure students feel comfortable in the project, and push our contributors a bit to publish ideas and mentor students.  Basically the GoTo contact points.</p>
+<p>* We need people to maintain the GSoC 2010 wiki page.  I have already started the <a href="http://en.opensuse.org/Summer_of_Code_2010">GSoC 2010</a> page on the wiki, yes it is pretty much a  copy/paste of last years but it gets the ball rolling <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';-)' class='wp-smiley' /> </p>
+<p>* We need people to start thinking about ideas that students could work on.  If you have a good idea, why not put it in openFATE and put it on the wiki too (with a link to the openFate entry)?  That way we can utilise the voting feature of openFate and gauge how much the community would appreciate the student&#8217;s hard work.</p>
+<p>So there&#8217;s nothing stopping you from joining in, so get to it!  Oh and if you&#8217;re looking for a way to contribute to openSUSE but aren&#8217;t a coder this is a great way to get your feet wet with the community <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/03/01/opensuse-google-summer-of-code-2010/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>GSoC &#8211; summary of this week&#8217;s meeting</title>
+		<link>http://lizards.opensuse.org/2009/08/12/gsoc-summary-of-this-weeks-meeting-7/</link>
+		<comments>http://lizards.opensuse.org/2009/08/12/gsoc-summary-of-this-weeks-meeting-7/#comments</comments>
+		<pubDate>Wed, 12 Aug 2009 12:38:13 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Hüwe]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[gsoc]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1919</guid>
+		<description><![CDATA[Since the rails oauth-plugin got support for oauth 1.0a I started to migrate the frontend so that it also supports 1.0a. This was a nice exercise to learn how certain things are done with rails. Additionally I did some code cleanups, bugfixing etc. The goal for this week is more testing, bugfixing and writing a [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Since the rails <a href="http://code.google.com/p/oauth-plugin/">oauth-plugin</a> got support for oauth 1.0a I started to migrate the frontend so that it also supports 1.0a. This was a nice exercise to learn how certain things are done with rails. Additionally I did some code cleanups, bugfixing etc.</p>
+<p>The goal for this week is more testing, bugfixing and writing a user documentation.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/08/12/gsoc-summary-of-this-weeks-meeting-7/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>GSoC &#8211; summary of this week&#8217;s meeting</title>
+		<link>http://lizards.opensuse.org/2009/06/26/gsoc-summary-of-this-weeks-meeting-5/</link>
+		<comments>http://lizards.opensuse.org/2009/06/26/gsoc-summary-of-this-weeks-meeting-5/#comments</comments>
+		<pubDate>Fri, 26 Jun 2009 20:29:02 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Hüwe]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[gsoc]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1409</guid>
+		<description><![CDATA[The task for this week was to add support to the frontend so that desktop clients like osc can add the oauth specific parameters to the http &#8220;Authorization&#8221; header. The ruby library was already able to handle this and therefore I only needed to do a very small change in our urllib2 OAuthHandler which is [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The task for this week was to add support to the frontend so that desktop clients like osc can add the oauth specific parameters to the http &#8220;Authorization&#8221; header. The ruby library was already able to handle this and therefore I only needed to do a very small change in our urllib2 OAuthHandler which is used by osc.</p>
+<p>Using the Authorization header has one drawback:<br />
+- the current flow looks like the following: a client makes an unauthorized API request, the API sends back a 401 to tell the client that it needs to authenticate. Therefore the response also contains the following http header: &#8216;WWW-Authenticate: basic realm=&#8221;Frontend login&#8221; &#8216;. This indicates that the client should use basic auth to authenticate with the API. The question is how we can tell the client that it could also use oauth? Sending back something like &#8216;WWW-Authenticate: basic, oauth realm=&#8221;Frontend login&#8221;&#8216; will probably break some clients. Fortunately darix had a great idea: the client simply tells the server which auth methods it supports. This can be done by adding a new http header like &#8216;Accept-Authentication: OpenID; OAuth;q=0.8, digest;q=0.7, Basic;q=0.5&#8243; &#8216; to each request (q indicates which method is preferred, see other http headers like &#8216;Accept-Language&#8217; for the details). If the API needs authorization it looks at this header and picks the &#8220;preferred&#8221; method from this list and sends back &#8216;WWW-Authenticate: &lt;preferred_and_supported_method&gt;, realm=&#8221;Frontend login&#8221;&#8216; &#8216;. In case the Accept-Authentication header is omitted the application&#8217;s default method is used (in our case basic auth). Another thing which needs to be discussed is how the API should behave if the client only accepts methods which aren&#8217;t supported by the API (e.g. should the API send back a 401 or 406?).</p>
+<p>Apart from thinking about this the other task for this week(end) is to add an UI for managing oauth tokens etc. The first part of this task is to decide which tasks the UI should support (like revoking tokens, authorize tokens etc.).</p>
+<p>The next meeting will be on monday to discuss the first results.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/06/26/gsoc-summary-of-this-weeks-meeting-5/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>GSoC &#8211; summary of this week&#8217;s meeting</title>
+		<link>http://lizards.opensuse.org/2009/06/18/gsoc-summary-of-this-weeks-meeting-4/</link>
+		<comments>http://lizards.opensuse.org/2009/06/18/gsoc-summary-of-this-weeks-meeting-4/#comments</comments>
+		<pubDate>Thu, 18 Jun 2009 20:56:56 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Hüwe]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[gsoc]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1373</guid>
+		<description><![CDATA[The goals for the last week were to implement oauth support into osc and add something like a &#8220;ttl&#8221; so that an access token expires after some time. In order to implement it into osc I decided to write a simple OAuthHandler class which can be added as an &#8220;opener&#8221; to urllib2. So it should [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The goals for the last week were to implement oauth support into osc and add something like a &#8220;ttl&#8221; so that an access token expires after some time.</p>
+<p>In order to implement it into osc I decided to write a simple OAuthHandler class which can be added as an &#8220;opener&#8221; to urllib2. So it should be possible to add custom &#8220;openers&#8221; for other protocols (but the interface might change again).</p>
+<p>The next action item was to add a ttl for an access token. In fact this was just a &#8220;one-liner&#8221; (apart from a small migration script). I&#8217;m really impressed how easy it was to do this with rails.</p>
+<p>One note about the osc integration:<br />
+At the moment osc sends all required authentification stuff (e.g. oauth_token etc.) via url parameters: http://0.0.0.0:3000/source/home:Admin?oauth_consumer_key=&lt;key&gt;&amp;oauth_signature_method=HMAC-SHA1&#8230; because we cannot use POST requests. It might be &#8220;nicer&#8221; to add this kind of parameters to the http header &#8211; so our plan is to use the standard http authorization or www-authenticate headers (see also <a href="http://oauth.net/core/1.0/#auth_header">here</a>).</p>
+<p>Action item for the next week:</p>
+<ul>
+<li>add support to the frontend so that it can handle oauth via the authorization header.</li>
+</ul>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/06/18/gsoc-summary-of-this-weeks-meeting-4/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>openSUSE@ARM/GSoC: Cross-compilation &amp; speedup</title>
+		<link>http://lizards.opensuse.org/2009/06/16/opensusearmgsoc-cross-compilation-speedup/</link>
+		<comments>http://lizards.opensuse.org/2009/06/16/opensusearmgsoc-cross-compilation-speedup/#comments</comments>
+		<pubDate>Tue, 16 Jun 2009 14:13:04 +0000</pubDate>
+		<dc:creator><![CDATA[Jan-Simon Möller]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[cross-compilation]]></category>
+		<category><![CDATA[cross-development]]></category>
+		<category><![CDATA[embedded]]></category>
+		<category><![CDATA[gsoc]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[openSUSE@ARM]]></category>
+		<category><![CDATA[Toolchain]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1282</guid>
+		<description><![CDATA[This weeks topic was the integration of the cross-compilation mode into the build environment. But it&#8217;s more than just a cross-toolchain &#8211; it&#8217;s a speed-boost for our ARM build environment. As of today, the source is deployed in the repository Base:build:arm:cross. It&#8217;s not fully bootstrapped because of the current high load and the upcoming downtime [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>This weeks topic was the integration of the cross-compilation mode into the build environment. But it&#8217;s more than just a cross-toolchain &#8211; it&#8217;s a speed-boost for our ARM build environment. As of today, the source is deployed in the repository Base:build:arm:cross. It&#8217;s not fully bootstrapped because of the current high load and the upcoming downtime &#8211; so watch out for changes there and in Base:build:arm.</p>
+<p>But what are these &#8220;speedup&#8217;s&#8221; ? First, you&#8217;ve to know that in our build environment the ARM binaries are executed through an emulation-layer. This works on the cost of speed. The goal is now, to exchange some key parts in a transparent manner with native x86 binaries: no emulation, no slowdown. Sounds reasonable, but is it easily possible ?<br />
+I had to take care not to mix stuff too much because the environment would break. But now I&#8217;ve to say:  WOW, this worked incredibly well  <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';)' class='wp-smiley' />  .</p>
+<p>The distinctive feature of our approach in comparison to usual cross-build environments is that we use the best of native environment emulation and the speed of cross-compilation. <em>Because of this combination we don&#8217;t have to patch the individual packages to make them cross-compilation ready</em>. This is a <em>new way of cross-compiling</em> suitable also for large number of packages. A detailed overview about the different crossbuild types can be found on <a href="http://en.opensuse.org/Build_Service/Concepts/CrossDevelopment" target="_blank">this page</a>.<br />
+Another feature to note is that <em>the exchanged binaries</em> (replacing ARM with x86 in the build environment) <em>also don&#8217;t need heavy patching and there&#8217;s no need to compile them as static binaries</em>. All of them are normal distribution packages.</p>
+<p>A switch in the project enables/disables the new features. With the new changes in place, the speed could be vastly increased. Some figures:<br />
+* package rpm<br />
+* package glibc w/o locales</p>
+<table border="0" cellspacing="0" rules="none">
+<col width="86"></col>
+<col width="86"></col>
+<col width="136"></col>
+<col width="128"></col>
+<col width="86"></col>
+<col width="86"></col>
+<col width="110"></col>
+<tbody>
+<tr>
+<td colspan="7" width="717" height="17" align="center" valign="middle">Build time in minutes</td>
+</tr>
+<tr>
+<td height="17" align="center"></td>
+<td align="center">x86 native</td>
+<td align="center">armv5tel native</td>
+<td align="center">armv5tel cross</td>
+<td align="center"></td>
+<td align="center">factor native</td>
+<td align="center">factor cross</td>
+</tr>
+<tr>
+<td height="17" align="left">rpm</td>
+<td align="center">8</td>
+<td align="center">107</td>
+<td align="center">17</td>
+<td align="center"></td>
+<td align="center">13,38</td>
+<td align="center">2,13</td>
+</tr>
+<tr>
+<td height="17" align="left">glibc</td>
+<td align="center">33</td>
+<td align="center">505</td>
+<td align="center">63</td>
+<td align="center"></td>
+<td align="center">15,3</td>
+<td align="center">1,91</td>
+</tr>
+</tbody>
+</table>
+<p><img class="aligncenter size-full wp-image-1331" src="http://lizards.opensuse.org/wp-content/uploads/2009/06/stats_html_46617482.jpg" alt="overview cross-environment" width="663" height="636" /></p>
+<p>Thats a drop from about x15 to x2 in comparison to the native x86 build-time !! See it yourself when the &#8220;crosscompiled&#8221; repo in Base:build:arm is up and running.</p>
+<p>In other words: &#8220;Warp 5, Mr. Sulu !&#8221; <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';)' class='wp-smiley' /> </p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/06/16/opensusearmgsoc-cross-compilation-speedup/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>GSoC &#8211; summary of this week&#8217;s meeting</title>
+		<link>http://lizards.opensuse.org/2009/05/29/gsoc-summary-of-this-weeks-meeting-2/</link>
+		<comments>http://lizards.opensuse.org/2009/05/29/gsoc-summary-of-this-weeks-meeting-2/#comments</comments>
+		<pubDate>Fri, 29 May 2009 20:08:47 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Hüwe]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[gsoc]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1152</guid>
+		<description><![CDATA[In the last days I had a closer look at the oauth rails plugin which requires some methods from the restful_authentification module. As the obs frontend doesn&#8217;t use this module we need to provide our own implementations of these methods. Fortunately it only uses a handful of methods (like authorized?, login_required, logged_in?, current_user etc.) so [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>In the last days I had a closer look at the oauth rails plugin which requires some methods from the restful_authentification module. As the obs frontend doesn&#8217;t use this module we need to provide our own implementations of these methods. Fortunately it only uses a handful of methods (like authorized?, login_required, logged_in?, current_user etc.) so it shouldn&#8217;t be too hard to get it working without the restful_authentication module.</p>
+<p>Another thing on my todo list was to look for possible workarounds for the <a href="http://www.hueniverse.com/hueniverse/2009/04/explaining-the-oauth-session-fixation-attack.html">session fixation attack</a>. According to this <a href="http://groups.google.com/group/oauth/browse_thread/thread/b0345ad5b5466587">thread</a> it&#8217;ll be fixed in a new revision of the oauth spec. So after the user grants access to a specific application the oauth provider redirects the user to a callback url (if it&#8217;s specified by the consumer). Additionally it adds a parameter to this url (called oauth_verifier) which has an unpredictable value &#8211; so an attacker has no chance to &#8220;take over the session&#8221; (this is just a short summary &#8211; for more details have a look at the <a href="http://oauth.googlecode.com/svn/spec/core/1.0a/drafts/3/oauth-core-1_0a.html#auth_step2">spec</a>).</p>
+<p>Last but not least I finished the test application and played around with it.</p>
+<p>TODO:</p>
+<ul>
+<li>start integrating oauth into the frontend</li>
+<li>play around with the python library</li>
+</ul>
+<p>Btw. my mentor pointed me to an interesting <a href="http://railscasts.com/episodes/160-authlogic">railscast</a> about authlogic &#8211; it gives a great overview about this module.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/05/29/gsoc-summary-of-this-weeks-meeting-2/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>GSoC &#8211; summary of this week&#8217;s meeting</title>
+		<link>http://lizards.opensuse.org/2009/05/21/gsoc-summary-of-this-weeks-meeting/</link>
+		<comments>http://lizards.opensuse.org/2009/05/21/gsoc-summary-of-this-weeks-meeting/#comments</comments>
+		<pubDate>Thu, 21 May 2009 21:24:58 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Hüwe]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[gsoc]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1079</guid>
+		<description><![CDATA[My mentor suggested to do a weekly meeting in order to discuss the current state of the project. I&#8217;m going to post a small summary after each meeting. in progress: build small rails test application in order to simulate a small environment to test the ruby libraries used the &#8220;restful_authentication&#8221; module because it is required [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>My mentor suggested to do a weekly meeting in order to discuss the current state of the project. I&#8217;m going to post a small summary after each meeting.</p>
+<p>in progress:</p>
+<ul>
+<li>build small rails test application in order to simulate a small environment to test the ruby libraries</li>
+<li>used the &#8220;restful_authentication&#8221; module because it is required by the <a href="http://code.google.com/p/oauth-plugin/">rails plugin generator</a></li>
+</ul>
+<p>The test application is more or less working and it&#8217;s already possible to get an access token.</p>
+<p>TODO:</p>
+<ul>
+<li>find more information and possible workarounds for the <a href="http://www.hueniverse.com/hueniverse/2009/04/explaining-the-oauth-session-fixation-attack.html">session fixation attack</a></li>
+<li>finish the test application</li>
+<li>find out which method&#8217;s from the &#8220;restful_authentication&#8221; module are required by the oauth rails plugin. The plan is to &#8220;fake&#8221; this methods so that the rails plugin can be used.</li>
+</ul>
+<p>Additionally we talked a bit about <a href="http://authlogic.rubyforge.org/">authlogic</a> &#8211; we decided that we won&#8217;t use authlogic for this project but it might be useful for the future.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/05/21/gsoc-summary-of-this-weeks-meeting/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>

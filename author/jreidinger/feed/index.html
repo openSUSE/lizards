@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; Josef Reidinger</title>
+	<atom:link href="http://lizards.opensuse.org/author/jreidinger/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>No forgotten patch to YaST anymore</title>
+		<link>http://lizards.opensuse.org/2014/01/17/no-forgotten-patch-to-yast-anymore/</link>
+		<comments>http://lizards.opensuse.org/2014/01/17/no-forgotten-patch-to-yast-anymore/#comments</comments>
+		<pubDate>Fri, 17 Jan 2014 13:58:34 +0000</pubDate>
+		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
+				<category><![CDATA[Uncategorized]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10432</guid>
+		<description><![CDATA[As I wrote in the last blog post, we try try to open YaST development as much as possible. When I thought what is the most annoying thing for me when contributing to an open source project, then it is when my contribution is ignored. So if I send a patch and do not get [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>As I wrote in <a href="http://lizards.opensuse.org/2013/12/16/continuing-opening-yast/" title="last blog post" target="_blank">the last blog post</a>, we try try to open YaST development as much as possible. When I thought what is the most annoying thing for me when contributing to an open source project, then it is when my contribution is ignored. So if I send a patch and do not get any response or I get response, but my patch is not merged without any reason, then I do not contribute again as I see it as a waste of time. To prevent such situation in YaST I&#8217;ve created an automatic reminder of pending pull requests for the <a href="http://github.com/yast" title="GitHub" target="_blank">YaST repos at GitHub</a>.<span id="more-10432"></span></p>
+<p>How it is done? I want to have it transparent, reusable and automatic. The core component is a <a href="https://github.com/jreidinger/pull_requests_reminder" target="_blank">small ruby script</a> I wrote to fetch pending requests  for an organization on GitHub. It uses the GitHub API and tries to find any  pull request without activity for three working days.</p>
+<p>This script is handled by our <a href="http://ci.opensuse.org/view/Yast" target="_blank">public Jenkins server</a> where it pulls the latest version of the script every working day and if there is any pending pull request it will send an <a href="http://lists.opensuse.org/yast-devel/2014-01/msg00065.html" target="_blank">email with its result</a> to the YaST mailing list.</p>
+<p>After a month of sending emails we have handled all longer running pull requests we have for YaST, so none of them have gone without activity longer than a month. I hope it encourages developers to create more pull requests as they will not be forgotten. We plan also to deploy such reminder for the <a href="http://github.com/libyui" title="libyui" target="_blank">libyui organization</a>.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2014/01/17/no-forgotten-patch-to-yast-anymore/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Continuing Opening YaST</title>
+		<link>http://lizards.opensuse.org/2013/12/16/continuing-opening-yast/</link>
+		<comments>http://lizards.opensuse.org/2013/12/16/continuing-opening-yast/#comments</comments>
+		<pubDate>Mon, 16 Dec 2013 11:58:14 +0000</pubDate>
+		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
+				<category><![CDATA[Programming]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10277</guid>
+		<description><![CDATA[YaST switched to the GPL license back in 2004, but there were still a lot of obstacles to easy contributions to the project. There was a bunch of changes in the past to improve contribution to the project, like switching from the openSUSE subversion server to GitHub, generating documentation to doc.opensuse.org or having public IRC. [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>YaST switched to the GPL license back in 2004, but there were still a lot of obstacles to easy contributions to the project. There was a bunch of changes in the past to improve contribution to the project, like switching from the openSUSE subversion server to <a href="http://github.com/yast" title="GitHub">GitHub</a>, generating documentation to doc.opensuse.org or having public IRC. But we are not satisfied and do even more steps to make it easy to contribute to YaST.<br />
+<span id="more-10277"></span><br /> The most visible action in the last year was the conversion from YCP to Ruby. We found that having a special language just for YaST made some sense in the past, but now becomes useless and makes obstacles for newcomers which must at first learn a language before they can change anything. Ruby is a well known language with a nice ecosystem around including benchmarking, profiling, debugging or testing frameworks. The latest mentioned testing framework is quite important, because good test coverage allows reducing of fear from changes. For tests we chose the well known framework <a href="http://rspec.info/" target="_blank">RSpec</a>, so people coming from the Ruby world know it and others find it intuitive.</p>
+<p>Related to tests are also continuous integration that tests code after each code change and automatically sends new packages to the devel project and to Factory if needed. We make our CI node publicly visible on the <a href="http://ci.opensuse.org/view/Yast" title="openSUSE CI server" target="_blank">openSUSE CI server</a>, so everyone can see if build succeeded and what is the reason if it failed.</p>
+<p>We also decided to help newcomers with a quick introductory <a href="https://en.opensuse.org/openSUSE:YaST_development" title="documentation" target="_blank">documentation</a>. One page recently updated to reflect the current state is about <a href="https://en.opensuse.org/openSUSE:YaST:_Code_Organization" target="_blank">code organization</a> which helps newcomers to orient in current YaST modules. The content is a bit terse and a minority of pages links to some old tutorials and documentation, but we take care to quickly react to questions and suggestions.
+</p>
+<p>Another change is deletion of the internal YaST IRC channel and now all communication happens on the <a href="http://webchat.freenode.net/?channels=%23yast" target="_blank">#yast</a> Freenode channel. This change really increases the chance that you catch YaST developers on IRC. Others ways are the <a href="http://lists.opensuse.org/yast-devel/" target="_blank">YaST mailing list</a>, <a href="https://en.opensuse.org/openSUSE:Report_a_YaST_bug" target="_blank">Bugzilla</a>, <a href="https://github.com/organizations/yast" target="_blank">GitHub</a> or <a href="https://features.opensuse.org/" target="_blank">openSUSE feature tracker</a>.</p>
+<p>So let&#8217;s start hacking YaST and if you find any obstacle, contact us, so we can remove it.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2013/12/16/continuing-opening-yast/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Ruby: Why to use symbols as Hash keys ( and why not )</title>
+		<link>http://lizards.opensuse.org/2012/05/24/ruby-why-use-symbols-in-hash-instead-of-strings-and-when-dont-do-it/</link>
+		<comments>http://lizards.opensuse.org/2012/05/24/ruby-why-use-symbols-in-hash-instead-of-strings-and-when-dont-do-it/#comments</comments>
+		<pubDate>Thu, 24 May 2012 11:57:03 +0000</pubDate>
+		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
+				<category><![CDATA[Uncategorized]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8678</guid>
+		<description><![CDATA[I have often read that for hash keys it is better to use symbols than strings. So I was interested why and what is performance impact. It is quite easy to create a test scenario to measure it. The blog post also contains technical explanation and shows potential security problem. My test scenario is quite [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I have often read that for hash keys it is better to use symbols than strings. So I was interested why and what is performance impact. It is quite easy to create a test scenario to measure it. The blog post also contains technical explanation and shows potential security problem.<span id="more-8678"></span><br />
+My test scenario is quite easy. Let&#8217;s create simple hash and lookup for a key in the hash. Lets have the keys of four different kind: short string, short symbol, long string and long symbol. For measuring I use internal ruby measuring library Benchmark. Here is code:</p>
+<pre><code>require "benchmark"
+
+precomputed_string = "Very long string value"*1000 
+precomputed_symbol = precomputed_string.to_sym
+MAP = {
+  "key1" =&gt; true,
+  :key2 =&gt; true,
+  precomputed_string =&gt; true,
+  precomputed_symbol =&gt; true
+}
+Benchmark.bm(20) do |x|
+  x.report("string") do
+    10000000.times { MAP["key1"] }
+  end
+  x.report("symbol") do
+    10000000.times { MAP[:key2] }
+  end
+  x.report("long string/100") do
+    100000.times { MAP[precomputed_string] }
+  end
+  x.report("long symbol") do
+    10000000.times { MAP[precomputed_symbol] }
+  end
+end
+</code></pre>
+<p>Please note that for long string key I&#8217;m using less iterations, because it would be too. And here is result from my machine:</p>
+<pre><code>
+string                4.360000   0.000000   4.360000 (  4.365123)
+symbol                2.870000   0.000000   2.870000 (  2.868708)
+long string/100       8.460000   0.000000   8.460000 (  8.471581)
+long symbol           2.890000   0.000000   2.890000 (  2.884652)
+</code></pre>
+<p>As you can see, even for short string it is faster to use symbol then string. For longer symbol keys, the time does not grow, so the speed of hash lookup doesn’t depend on key length. As you can see, the situation is different for string keys.<br />
+Why it is?  The reason is hidden in the hash implementation. Hash uses a hashing function for the lookup ( ted mI agree that it is little confusing to name in ruby Map as Hash). Symbols have this value &#8220;precomputed&#8221;, but for string you need to compute it again for whole string. For symbol its hash value is simple object_id which never changes, but string have different object for each instance ( string is not immutable like in java ), so to compare if two strings have same hash you need to compute it. Short demonstration about object_id difference:</p>
+<pre><code>
+"test".object_id
+"test".object_id
+:test.object_id
+:test.object_id
+</code></pre>
+<p>So should you use symbol always? There is one disadvantage. To keep symbol value always same (in one ruby process), unused symbol is not removed during run of garbage collector. Here&#8217;s the code that demonstrates it:</p>
+<pre><code>
+#for string
+def test val
+  map = {}
+  1000.times do |i|
+    value = val*(i+1)
+    map[value] = true
+  end
+  return nil
+end
+
+100.times do |i|
+  test "test#{i}"
+  GC.start
+end
+puts `cat /proc/#{$$}/status | grep 'VmSize:'`
+</code></pre>
+<pre><code>
+#for symbol
+def test val
+  map = {}
+  1000.times do |i|
+    value = val*(i+1)
+    map[value.to_sym] = true
+  end
+end
+
+100.times do |i|
+  test "test#{i}"
+  GC.start
+end
+puts `cat /proc/#{$$}/status | grep 'VmSize:'`
+</code></pre>
+<p>My results:</p>
+<pre><code>
+String: VmSize:	   24856 kB
+Symbol: VmSize:	  343324 kB
+</code></pre>
+<p>So it is a trade-off between memory and speed. It is very important for long running tasks to have control about what is stored in symbols. Consider this code snapshot for long running server:</p>
+<pre><code>
+#get option value
+VALUE_TO_DB_MAP = { :external =&gt; 1, :internal =&gt; 2, :both =&gt; 3 }
+def update params
+  db_value = VALUE_TO_DB_MAP[params[:option1].to_sym]
+end
+</code></pre>
+<p>And now consider what happens if attacker sends there non-friendly long string. He can easily cause DOS from one machine.<br />
+I welcome any questions or suggestions in your comments.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/05/24/ruby-why-use-symbols-in-hash-instead-of-strings-and-when-dont-do-it/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>CLI to upload image to openstack cloud</title>
+		<link>http://lizards.opensuse.org/2012/04/18/cli-to-upload-image-to-openstack-cloud/</link>
+		<comments>http://lizards.opensuse.org/2012/04/18/cli-to-upload-image-to-openstack-cloud/#comments</comments>
+		<pubDate>Wed, 18 Apr 2012 11:18:39 +0000</pubDate>
+		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
+				<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[Uncategorized]]></category>
+		<category><![CDATA[Virtualization]]></category>
+		<category><![CDATA[Diablo]]></category>
+		<category><![CDATA[glance]]></category>
+		<category><![CDATA[openstack]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8635</guid>
+		<description><![CDATA[I work on automatic testing of one of our products that creates other projects. And because there is a lot of clouds everywhere I want to use them too. We have internally an OpenStack cloud (still Diablo release). So I need to solve automatic uploading of images built in the Build Service. Below I describe [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I work on automatic testing of one of our products that creates other projects.<br />
+And because there is a lot of clouds everywhere I want to use them too. We<br />
+have internally an OpenStack cloud (still Diablo release). So I need to solve<br />
+  automatic uploading of images built in the Build Service. Below I describe my working version.</p>
+<p><span id="more-8635"></span></p>
+<p>At first, for other cloud related tasks we are using the <tt>nova</tt> command (which<br />
+e.g. has also <tt>image-delete</tt>, but not <tt>add</tt>).  For uploading we use<br />
+<tt>glance</tt>. I found a few obstacles which I separately describe and also provide<br />
+a solution.</p>
+<h4>Authentication</h4>
+<p>The first chalenge is authentication, as glance doesn`t use <TT>NOVA_*</TT><br />
+environment variables. But it allows to use an authentication token. So we<br />
+just need to get such a token. With help of Martin Vidner we have this script,<br />
+  that returns a valid token.</p>
+<blockquote><pre># cloud_auth_token.sh
+OS_AUTH_URL="http://cloud.example.com:5000/v2.0"
+OS_TENANT_NAME=$NOVA_USERNAME
+OS_USERNAME=$NOVA_USERNAME
+OS_PASSWORD=$NOVA_API_KEY
+AUTH_JSON="{\"auth\":{\"passwordCredentials\":{\"username\": \"$OS_USERNAME\", \"password\":\"$OS_PASSWORD\"}, \"tenantName\":\"$OS_TENANT_NAME\"}}"
+curl -s \
+    -d "$AUTH_JSON" -H "Content-type: application/json" \
+    $OS_AUTH_URL/tokens \
+    | python -c "import sys; import json; tok = json.loads(sys.stdin.read()); print tok['access']['token']['id'];"</pre>
+</blockquote>
+<p>What does it do? It calls OpenStack Identity API, passes credentials encoded<br />
+as JSON. The response is also JSON, so we use python that is already on the<br />
+system to parse the response and get the token.</p>
+<h4>Compressing the Image</h4>
+<p>The next challenge is compression of the image. We get a raw disk from the<br />
+  build service and we extend it to have more than 15GB (we mirror there rpms<br />
+  so we need this space). For resizing we use <tt>qemu-img</tt> from<br />
+  virt-utils. If we simply upload this image it means that we send the whole<br />
+  15GB over the network. Which is fine for one-time tasks, but for regular<br />
+  testing it is a problem. Thanks to Christoph Thiel we solved it with the<br />
+  conversion to qcow2. Qcow2 is also supported in OpenStack and qcow2 allows<br />
+  compression. The final script for conversion:</p>
+<blockquote><pre>qemu-img convert -c -f raw -O qcow2 img.raw img.qcow2
+qemu-img resize img.qcow2 +10G</pre>
+</blockquote>
+<h4>Using it Together</h4>
+<p>Now we have prepared an image and a helper script to get a cloud auth<br />
+  token. So let&#8217;s upload the image.</p>
+<blockquote><pre>cat img.qcow2 | glance -H cloud.example.com -A `sh cloud_auth_token.sh` add name='testing_img' is_public=False disk_format=qcow2 container_format=bare</pre>
+</blockquote>
+<h4>Cleaning Up After Testing</h4>
+<p>We use it for testing and release new versions of the testing appliance often,<br />
+  therefore we need cleaning up. It is quite simple with unix text utils:</p>
+<blockquote><pre>for i in `nova image-list | grep "image_name" | sed "s/^|[[:space:]]\+\([[:xdigit:]-]\+\).*$/\1/"`; do nova image-delete $i; done</pre>
+</blockquote>
+<p>I hope that it helps you with automatic uploading of images to<br />
+  OpenStack. It works for me with the Diablo release and there is no guarantee that it is the best way <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/04/18/cli-to-upload-image-to-openstack-cloud/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Temporary overwrite method for specific task</title>
+		<link>http://lizards.opensuse.org/2011/03/18/temporary-overwrite-method-for-specific-task/</link>
+		<comments>http://lizards.opensuse.org/2011/03/18/temporary-overwrite-method-for-specific-task/#comments</comments>
+		<pubDate>Fri, 18 Mar 2011 12:37:01 +0000</pubDate>
+		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
+				<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Rails]]></category>
+		<category><![CDATA[Ruby]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=6810</guid>
+		<description><![CDATA[Hi, today I must solve issue with not well structured code. Problem is that one method return last correct version, but in one specific case it needs to return newest version (even incorrect). There is many calls between top level method which know what needs to call and target method which is called from generic [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi,<br />
+today I must solve issue with not well structured code. Problem is that one method return last correct version, but in one specific case it needs to return newest version (even incorrect). There is many calls between top level method which know what needs to call and target method which is called from generic code. Now I need to fix it and code is not well tested and quite sensitive to changes ( this fix is fix of another fix <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> . So what is the safest way to change it?<br />
+I decide that the best solution which doesn&#8217;t change almost nothing ( but is suitable just for maintenance update, for trunk I create better solution ) is temporary overwrite of target method to change its behavior. Now how to do it?<br />
+There is simple example:</p>
+<pre>
+class T
+  def test
+    puts "test"
+  end
+
+  def lest
+    puts "lest"
+  end
+
+  def m
+    test
+  end
+end
+
+
+T.new.m
+T.send(:define_method,:m_a) { lest }
+T.send(:alias_method, :m_old, :m)
+T.send(:alias_method, :m, :m_a)
+T.new.m
+T.send(:alias_method, :m, :m_old)
+T.send(:undef_method, :m_a)
+T.send(:undef_method, :m_old)
+T.new.m
+</pre>
+<p>as you can see after modification class is exact same as before ( except if there is method a, but it is possible to handle it via introspection and dynamic choose of method). I don&#8217;t need to change whole stack of calls to add parameter or introduce new singleton class which can have flag.<br />
+I hope it help someone with his fix of not so well written piece of software.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/03/18/temporary-overwrite-method-for-specific-task/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>Easy scripting actions with susestudio alias new rubygem studio_api</title>
+		<link>http://lizards.opensuse.org/2010/12/23/rubygem-studio_api/</link>
+		<comments>http://lizards.opensuse.org/2010/12/23/rubygem-studio_api/#comments</comments>
+		<pubDate>Thu, 23 Dec 2010 17:37:45 +0000</pubDate>
+		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
+				<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Ruby]]></category>
+		<category><![CDATA[studio api]]></category>
+		<category><![CDATA[susestudio]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=6208</guid>
+		<description><![CDATA[Hi, Now I work for SLMS ( Suse Lifecycle Management Server ) project. It cooperate with SuSE studio and use its API. I get idea that more people could benefit from easy access to studio API from ruby so I extract functionality and improve behavior, documentation and testing and now there is new rubygem studio_api. [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi,<br />
+Now I work for SLMS ( Suse Lifecycle Management Server ) project. It cooperate with SuSE studio and use its API. I get idea that more people could benefit from easy access to studio API from ruby so I extract functionality and improve behavior, documentation and testing and now there is new rubygem studio_api.<br />
+Why you should use this gem?</p>
+<ul>
+<li> ActiveResource Behavior</li>
+<li> Actively maintained ( and will be due to SLMS support )</li>
+<li> Tightly developed with guys from studio team</li>
+<li> Well documented with yard</li>
+<li> Good test coverage</li>
+</ul>
+<p><span id="more-6208"></span><br />
+I think then a lot of glory words is better to show example. It is example based on example from documentation.<br />
+Example goal is simple. Create new appliance in studio, add own cool rpm and build appliance with it. It can be useful to test your new version of software in stable environment and have automatic appliance in which you can test it.</p>
+<pre>
+  require 'rubygems'
+  require 'studio_api'
+
+  # Fill up Studio credentials (user name, API key, API URL)
+  # See https://susestudio.com/user/show_api_key if you are using SUSE Studio online
+  connection = StudioApi::Connection.new('user', 'pwd', 'https://susestudio.com/api/v1/user')
+  # Setup the connection for all ActiveResource based class
+  StudioApi::Util.configure_studio_connection connection
+
+  # Find template with KDE4 for SLE11SP1
+  templates = StudioApi::TemplateSet.find(:all).find {|s| s.name == "default" }.template
+  template = templates.find { |t| t.name == "SLED 11 SP1, KDE 4 desktop" }
+  # clone template to new appliance
+  appliance = StudioApi::Appliance.clone template.appliance_id, :name =&gt; "New cool appliance", :arch =&gt; "i686"
+  puts "Created appliance #{appliance.inspect}"
+
+  #add own rpm built agains SLED11_SP1
+  File.open("/home/jreidinger/rpms/cool_rpm-1.0-1.60.noarch.rpm","r") do |f|
+    StudioApi::Rpm.upload f, "SLED11_SP1"
+  end
+  # and choose it in appliance ( and of course add repository with own rpms)
+  appliance.add_user_repository
+  appliance.add_package "cool_rpm", :version =&gt; "1.0-1.60"
+  #check if appliance is OK, like dependency problems with new rpm
+  if appliance.status.state != "ok"
+    raise "appliance is not OK - #{appliance.status.issues.inspect}"
+  end
+  
+  build = StudioApi::RunningBuild.new(:appliance_id =&gt; appliance.id, :image_type =&gt; "xen")
+  build.save
+  build.reload
+  while build.state != "finished"
+    puts "building (#{build.state}) - #{build.percent}%"
+    sleep 5
+    build.reload
+  end
+
+  final_build = StudioApi::Build.find build.id
+  puts "Appliance to download: #{final_build.download_url}"
+</pre>
+<p>So I hope that you like interface how I design it. Of course I welcome any suggestion how to improve it. You can use comments here, novell bugzilla or issues on github.<br />
+How to install it:</p>
+<ul>
+<li> In opensuse: <a href="http://software.opensuse.org/ymp/devel:languages:ruby:extensions/openSUSE_11.3/rubygem-studio_api.ymp?base=openSUSE%3A11.3&amp;query=rubygem-studio_api">1-click for 11.3</a> and <a href="http://software.opensuse.org/ymp/devel:languages:ruby:extensions/openSUSE_Factory/rubygem-studio_api.ymp?base=openSUSE%3AFactory&amp;query=rubygem-studio_api">1-click for factory</a></li>
+<li> alternative possible everywhere is to use<br />
+<code>gem install studio_api</code>
+</li>
+</ul>
+<p>At the end few useful links if you are interested:<br />
+<a href="https://github.com/jreidinger/studio_api">repository on github</a><br />
+<a href="http://rdoc.info/github/jreidinger/studio_api/master/frames">yard documentation</a><br />
+<a href="http://rubygems.org/gems/studio_api">gem at rubygems.org</a></p>
+<p>Thanks for attention and I welcome any comments</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/12/23/rubygem-studio_api/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Hackweek 5 &#8211; LXDE</title>
+		<link>http://lizards.opensuse.org/2010/06/08/hackweek5/</link>
+		<comments>http://lizards.opensuse.org/2010/06/08/hackweek5/#comments</comments>
+		<pubDate>Tue, 08 Jun 2010 14:10:04 +0000</pubDate>
+		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
+				<category><![CDATA[Desktop]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=4291</guid>
+		<description><![CDATA[Hi, as hackweek continue I want to present my contribution for this year event. My plan is to support our the youngest supported desktop environment LXDE. So I contact our LXDE guy Andrea Florio and he ask lxde developers. Then we communicate directly and I found as the most intersting idea to replace gnome gvfs [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi,</p>
+<p>as hackweek continue I want to present my contribution for this year event. My plan is to support our the youngest supported desktop environment LXDE. So I contact our LXDE guy Andrea Florio and he ask lxde developers. Then we communicate directly and I found as the most intersting idea to replace gnome gvfs which is needed to have usable gio interface in glib ( geek-deserialization: allow easy access remote systems, zip archives  in file manager like it is part of filesystem). Motivation for replacement is quite big gvfs dependency and system resource requirements. It choose it because I can learn something new, can return to programming in C from Ruby on Rails which is used for webyast and last not least I think it is usable also for another lightweight environment xfce4.</p>
+<p>Code can be located in <a href="http://pcmanfm.git.sourceforge.net/git/gitweb.cgi?p=pcmanfm/gfusevfs;a=summary"> pcman git repository</a>. Idea of implementation is quite simple. Don&#8217;t use daemons and special code to handle different backends. Instead use fuse and its already written fs based on fuse. As first I start with ftps and its sshfs implementation. Code for single fs is simple and short. Today I finish first working proof of concept of gvfs extension and its gfile extension. It can query and copy file on gvfs as you can see in file gfusevfs.c where is testing program. Main problem which I still see is that fs is not umounted so it takes some sources, but umount it after file operation can lead to annoying behavior like passing password on each file operation.</p>
+<p>I welcome any comments and ideas about this project.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/06/08/hackweek5/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Encrypted directory</title>
+		<link>http://lizards.opensuse.org/2009/12/03/encrypted-directory/</link>
+		<comments>http://lizards.opensuse.org/2009/12/03/encrypted-directory/#comments</comments>
+		<pubDate>Thu, 03 Dec 2009 14:40:12 +0000</pubDate>
+		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=2697</guid>
+		<description><![CDATA[I have notebook which contain private data and I don&#8217;t want anyone to read it even if my notebook will be stolen. Encrypted whole home partition is too much as my home directory contains also svn or git repositories which could anybody read. So I create encrypted directory in home directory which contain all private [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I have notebook which contain private data and I don&#8217;t want anyone to read it even if my notebook will be stolen. Encrypted whole home partition is too much as my home directory contains also svn or git repositories which could anybody read. So I create encrypted directory in home directory which contain all private data and rest is normal accessible. So how to do it?<span id="more-2697"></span><br />
+At first install user space crypted filesystem <em>encfs</em>. Then create two directories. First one for encrypted data and second one for accessible data. It is up to you how it is named e.g. encrypted and .encrypted or .Xcache and data (if your government feel that you must give him your data, so encrypted data is not so visible). Then create filesystem for it:<br />
+<code><br />
+mkdir .encrypted encrypted<br />
+encfs /home/jreidinger/.encrypted /home/jreidinger/encrypted<br />
+</code><br />
+Easy, not? Then encrypted directory contain your data. you can unmount it by <em>fusermount -u encrypted</em>.<br />
+After reboot you must attach it again. Maybe it is possible to do it easier, but I need that data only if I work from home, so I mount it manually. It is same as if you create <em> encfs /home/jreidinger/.encrypted /home/jreidinger/encrypted</em></p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/12/03/encrypted-directory/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Ruby on rails, Ajax and memory watching</title>
+		<link>http://lizards.opensuse.org/2009/05/14/ruby-on-rails-ajax-and-memory-watching/</link>
+		<comments>http://lizards.opensuse.org/2009/05/14/ruby-on-rails-ajax-and-memory-watching/#comments</comments>
+		<pubDate>Thu, 14 May 2009 14:44:09 +0000</pubDate>
+		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
+				<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=996</guid>
+		<description><![CDATA[As work on webinterface for YaST is in progress we must learn new technologies suitable for web development. WebYast will be written in ruby and ruby on rails framework. Also because WebYast is new interface it could contain AJAX features for better user comfort. Today I found that ajax support in RoR is on good [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>As work on webinterface for YaST is in progress we must learn new technologies suitable for web development. WebYast will be written in ruby and ruby on rails framework. Also because WebYast is new interface it could contain AJAX features for better user comfort.  Today I found that ajax support in RoR is on good level and with documentation it takes few minutes to create first example which show current used memory on server. It is not connected anyhow to YaST because I want to focus on AJAX.<br />
+And here is a code. It update page every fifth second (but not refresh only update div, on bigger page it is really significant):<br />
+<code>/views/home/index.html.erb:<br />
+&lt;%= javascript_include_tag :defaults %&gt;<br />
+&lt;h1&gt;Hello world!&lt;/h1&gt;<br />
+&lt;%= periodically_call_remote(:url =&gt; { :action =&gt; 'get_averages' }, :update =&gt; 'avg',:frequency =&gt; '5') %&gt;<br />
+&lt;div id="avg"&gt;<br />
+Memory usage is X MB &lt;/div&gt;<br />
+</code><code>controllers/home_controller.rb:<br />
+class HomeController &lt; ApplicationController<br />
+&nbsp;&nbsp;  def index<br />
+&nbsp;&nbsp;  end<br />
+&nbsp;&nbsp;  def get_averages<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    output = `free -m` # bash solution - | sed 's/Mem:[^0-9]+[0-9]+[^0-9]+([0-9]+).*$/1/;2q;1d'`<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    output = $1 if (output =~ /.*n(.*)n.*n.*n/) #let live second line<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    output = $1 if (output =~ /.*:s+S+s+(S+)s+/) #second field<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    render :text  =&gt; "Usage mem is "+output+"MB RAM."<br />
+&nbsp;&nbsp;  end<br />
+end<br />
+</code></p>
+<p>And thats all to watch your server usage.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/05/14/ruby-on-rails-ajax-and-memory-watching/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Edit system on iso image</title>
+		<link>http://lizards.opensuse.org/2009/04/02/edit-system-on-iso-image/</link>
+		<comments>http://lizards.opensuse.org/2009/04/02/edit-system-on-iso-image/#comments</comments>
+		<pubDate>Thu, 02 Apr 2009 12:37:55 +0000</pubDate>
+		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Systems Management]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=671</guid>
+		<description><![CDATA[I start maintaining yast2-repair and first bug which I start solving is that repair from DVD menu doesn&#8217;t work same as from installation menu. Find where is problem and also test if fix is correct is not trivial. I describe below how to modify inst-sys on DVD or software on LiveCD. I found useful information [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I start maintaining yast2-repair and first bug which I start solving is that repair from DVD menu doesn&#8217;t work same as from installation menu. Find where is problem and also test if fix is correct is not trivial. I describe below how to modify inst-sys on DVD or software on LiveCD.</p>
+<p><span id="more-671"></span>
+<p>I found useful information on our wiki &#8211; <a href="http://en.opensuse.org/Linuxrc/Creating_Modified_Installation_System"> Creating modified installation system</a>. But I don&#8217;t want install from network, as it doesn&#8217;t shown same menu as on DVD. I try use mkisofs, but it is not easy set same boot sector as have original iso image. And there I found good software &#8211; isomaster. This allows you to replace file on iso image and remember from original iso image where it has its boot sector. This iso should be easily tested in e.g. Virtual Box and I can verify, that my fix work before we release first DVD with opensuse 11.2. Just sidenote &#8211; linuxrc show warning, that your inst-sys doesn&#8217;t match checksum.</p>
+<p>Same way is possible edit whole LiveCD. Simple mount and copy content of live system to your disc and with zypper &#8211;root you can change software in your LiveCD. Then create squashfs ( I use <em>mksquashfs live_root  openSUSE-kde-11.1-read-only.i686-2.7.0 -no-duplicates -noappend</em> ) and with isomaster replace file openSUSE-* and you have your modified liveCD.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/04/02/edit-system-on-iso-image/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+	</channel>
+</rss>

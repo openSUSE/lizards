@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; Alexander Orlovskyy</title>
+	<atom:link href="http://lizards.opensuse.org/author/aorlovskyy/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>Trainee small project</title>
+		<link>http://lizards.opensuse.org/2009/03/09/trainee-small-project/</link>
+		<comments>http://lizards.opensuse.org/2009/03/09/trainee-small-project/#comments</comments>
+		<pubDate>Mon, 09 Mar 2009 11:02:27 +0000</pubDate>
+		<dc:creator><![CDATA[Alexander Orlovskyy]]></dc:creator>
+				<category><![CDATA[Miscellaneous]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=570</guid>
+		<description><![CDATA[Hi all! Well ,  beginning from this week i will start to work on one small project  (one week). Probably it would be a YaST or QT application,  so if you had a really good idea,  give me simple  feedback.]]></description>
+				<content:encoded><![CDATA[<p>Hi all!</p>
+<p>Well ,  beginning from this week i will start to work on one small project  (one week).</p>
+<p>Probably it would be a YaST or QT application,  so if you had a really good idea,  give me simple  feedback. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';)' class='wp-smiley' /> </p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/03/09/trainee-small-project/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>Writing first YCP program</title>
+		<link>http://lizards.opensuse.org/2009/02/13/writing-first-ycp-program/</link>
+		<comments>http://lizards.opensuse.org/2009/02/13/writing-first-ycp-program/#comments</comments>
+		<pubDate>Fri, 13 Feb 2009 10:18:26 +0000</pubDate>
+		<dc:creator><![CDATA[Alexander Orlovskyy]]></dc:creator>
+				<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+		<category><![CDATA[YCP]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=424</guid>
+		<description><![CDATA[Hi folks! It was a long time since my last blog. Today, i will show you my first program, it`s a simple test program which shows basic functions of YCP Let`s start!! first of all, you need all core development YaST and QT packages (All mentioned bottom steps, can be made with normal user ) [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi folks!</p>
+<p>It was a long time since my last blog. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';)' class='wp-smiley' /> </p>
+<p>Today, i will show you my first program, it`s a simple test program which shows basic functions of YCP</p>
+<p><strong>Let`s start!!</strong></p>
+<p>first of all, you need all core development YaST and QT packages</p>
+<p><strong>(All mentioned bottom steps, can be made with normal user </strong>)</p>
+<p>second , you must create a  symlink to /usr/lib/YaST2/bin/y2base</p>
+<p><strong>$ ln -s &lt;destination&gt; &lt;linkname&gt;</strong></p>
+<p><strong>(In my case name of symlink is y2base</strong>.)</p>
+<p>third , you need two console`s , one for program writing and one for monitoring .y2log (where you can see all debug messages)</p>
+<p>if you wish more detailed debug output <strong>during root session</strong>, than type in console following :</p>
+<p><strong>$ su</strong></p>
+<p><strong>$ export Y2DEBUG=1</strong></p>
+<p><strong>$ exit</strong></p>
+<p><strong>(switching back to normal user)</strong></p>
+<p>Ok, lets see the code of PushButton.ycp !</p>
+<p>{<br />
+// Build a dialog with one button and two labels.<br />
+// Wait until that button is clicked,<br />
+// then close the dialog and terminate.</p>
+<p>UI::OpenDialog( `VBox(<br />
+`Label(`opt(`boldFont),&#8221;PushButton TEST!!!!!!!!&#8221;),<br />
+`PushButton( &#8220;&amp;OK&#8221; ),<br />
+`Label(`opt(`boldFont),&#8221;JUST SIMPLE TEST&#8221;)<br />
+)<br />
+);</p>
+<p>UI::UserInput();<br />
+UI::CloseDialog();<br />
+}</p>
+<p>Than:</p>
+<p><strong>$ chmod 765 PushButton.ycp<br />
+</strong></p>
+<p>After you have written the program  , type in the console:</p>
+<p><strong>$ ./y2base ./PushButton.ycp qt</strong></p>
+<p>You will get following window:</p>
+<p><img src="http://lizards.opensuse.org/wp-content/uploads/2009/02/pushbutton.png" alt="PushButton" width="178" height="126" /></p>
+<p>What is amazing at YCP, that this code can be interpreted into ncurses</p>
+<p>Try following command:</p>
+<p><strong>$</strong> <strong>./y2base ./PushButton.ycp ncurses</strong></p>
+<p><img src="http://lizards.opensuse.org/wp-content/uploads/2009/02/pushbutton1.png" alt="" /></p>
+<p><em>Result:</em></p>
+<p><strong>You have written only one code , which can be used in two different gui environments graphical and  text mode!</strong></p>
+<p>In my next blog i will write about creating own SCR Agent.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/02/13/writing-first-ycp-program/feed/</wfw:commentRss>
+		<slash:comments>7</slash:comments>
+		</item>
+		<item>
+		<title>Learning YaST (YCP language)</title>
+		<link>http://lizards.opensuse.org/2008/09/12/learning-yast-ycp-language/</link>
+		<comments>http://lizards.opensuse.org/2008/09/12/learning-yast-ycp-language/#comments</comments>
+		<pubDate>Fri, 12 Sep 2008 10:02:59 +0000</pubDate>
+		<dc:creator><![CDATA[Alexander Orlovskyy]]></dc:creator>
+				<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+		<category><![CDATA[trainee]]></category>
+		<category><![CDATA[y2base]]></category>
+		<category><![CDATA[YaST2]]></category>
+		<category><![CDATA[YCP]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=175</guid>
+		<description><![CDATA[My name is Alexander i`m a trainee at SUSE. In my blog i will write about my experience with learning YCP (YaST Control Language) First of all, most important part of learning is to have a good manual. Here you have some links to start: YCP book -&#62;must read! (up to date) YCP Reference book [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>My name is Alexander i`m a trainee at SUSE.</p>
+<p>In my blog i will write about my experience with learning YCP (<span class="emphasis"><em>YaST Control 		Language</em></span>)</p>
+<p>First of all, most important part of learning is to have a good manual.</p>
+<p>Here you have some links to start:</p>
+<p><a href="http://forgeftp.novell.com/yast/doc/SL11.1/tdg/index.html">YCP book -&gt;must read! (up to date)</a></p>
+<p><a href="http://forgeftp.novell.com/yast/doc/SL11.0/tdg/Book-YaSTReference.html">YCP Reference book </a></p>
+<p><a href="http://forgeftp.novell.com/yast/doc/SL11.0/tdg/Book-UIReference.html">YCP User interface referece book</a></p>
+<p><a href="http://en.opensuse.org/YaST/Tutorials/YaST_Development_in_General"> YaST Development in General</a></p>
+<p>Later i add additional info &#8230;..</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2008/09/12/learning-yast-ycp-language/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+	</channel>
+</rss>

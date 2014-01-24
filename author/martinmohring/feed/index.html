@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; Martin Mohring</title>
+	<atom:link href="http://lizards.opensuse.org/author/martinmohring/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>OBS 2.1: Status of SuperH (sh4) support with QEMU</title>
+		<link>http://lizards.opensuse.org/2010/10/24/obs-2-1-status-of-superh-sh4-support-with-qemu/</link>
+		<comments>http://lizards.opensuse.org/2010/10/24/obs-2-1-status-of-superh-sh4-support-with-qemu/#comments</comments>
+		<pubDate>Sun, 24 Oct 2010 20:13:41 +0000</pubDate>
+		<dc:creator><![CDATA[Martin Mohring]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Toolchain]]></category>
+		<category><![CDATA[Virtualization]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=5576</guid>
+		<description><![CDATA[With established ARM support in OBS the as well as emulated MIPS and PowerPC is getting more mature, the last big embedded architecture not working in OBS with QEMU user mode was SH4. QEMU developers community had done a lot of work in improving QEMU user mode during the last months, so I can proudly [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>With established <a href="http://lizards.opensuse.org/2008/11/18/arm-support-for-opensuse-buildservice-and-opensuse/">ARM</a>  support in OBS the as well as emulated <a href="http://lizards.opensuse.org/2010/08/22/obs-2-1-status-of-powerpc-and-mips-support-with-qemu/">MIPS and PowerPC </a> is getting more mature, the last big embedded architecture not working in OBS with QEMU user mode was SH4. QEMU developers community had done a lot of work in improving QEMU user mode during the last months, so I can proudly present with currently only a few patches to QEMU git master OBS builds working with the SH4 port of Debian Sid. The new <a href="http://wiki.qemu.org/Main_Page">QEMU 0.13</a> released recently is a big milestone for this.</p>
+<p>Another news is that I had fixed the bugs in Virtual Machine builds (build script) when using them with some architectures like PowerPC 32bit and SH4. So now also the combination of using for example KVM (XEN should also work) in a worker together with ARM, MIPS, PowerPC and SH4 is working. The appropriate fixes are in one of the next build script releases (if not even released already now with OBS 2.1, I have to check that). You can select architecture &#8220;sh4&#8243; with OBS 2.1 and also start a scheduler with &#8220;sh4&#8243;. </p>
+<p>With the use of the QEMU User Mode, you can build also accelerated native cross toolchains for your host architecture so time critical parts like the compiler can run without the emulator. This works with .deb as well as with .rpm based backages. The <a href="https://www.meego.com">MeeGo Project</a> as well as the openSUSE Port to ARM uses this technique to provide an optimum between compatibility and performance. It means you can mix natively build packages and use cross toolchains on it. The &#8220;CBinstall:&#8221; feature helps you to use native or cross builds automatically depending on if your build host is a native machine or a x86 machine with cross build. In summary, <strong>we have the current classics of linux embedded archs</strong> together now in OBS: <strong>ARM, x86, MIPS 32, PowerPC 32 and SH4</strong>.</p>
+<p>I have uploaded the fixed QEMU package to the OBS project <a href="https://build.opensuse.org/project/show?project=openSUSE%3ATools%3AUnstable">openSUSE:Tools:Unstable</a> inside the package &#8220;qemu-devel&#8221; after some more testing. I have of course also a OBS meta prjconf file working with Debian Sid. The SH4 port of Debian Sid you can find at <a href="http://ftp.debian-ports.org/debian"> Debian Ports Site</a>.</p>
+<p>And last but not least I would like to thank Riku Voipio of the Debian Project, QEMU project and MeeGo project and other major contributors during the QEMU 0.13 development cycle for the restless work on QEMU user mode improvements. In case of KVM, QEMU is used even twice, with QEMU-KVM as well as QEMU User Mode. I am sure I had forgotten other important people, so thanks to them also.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/10/24/obs-2-1-status-of-superh-sh4-support-with-qemu/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>OBS 2.1: Status of PowerPC and MIPS support with QEMU</title>
+		<link>http://lizards.opensuse.org/2010/08/22/obs-2-1-status-of-powerpc-and-mips-support-with-qemu/</link>
+		<comments>http://lizards.opensuse.org/2010/08/22/obs-2-1-status-of-powerpc-and-mips-support-with-qemu/#comments</comments>
+		<pubDate>Sun, 22 Aug 2010 21:57:37 +0000</pubDate>
+		<dc:creator><![CDATA[Martin Mohring]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=5037</guid>
+		<description><![CDATA[Now that ARM support in the OBS is getting more mature, here a report on the Status of PowerPC and MIPS builds using QEMU. They are implemented similiar to the ARM solution, and use QEMU Usermode (to allow speedup with x86 based cross compilers like we do for ARM). First of all, PowerPC native builds [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Now that ARM support in the <a href="http://lizards.opensuse.org/2008/11/18/arm-support-for-opensuse-buildservice-and-opensuse/">OBS</a> is getting more mature, here a report on the Status of PowerPC and MIPS builds using QEMU. They are implemented similiar to the ARM solution, and use QEMU Usermode (to allow speedup with x86 based cross compilers like we do for ARM).</p>
+<p>First of all, PowerPC native builds do work since a long time (3+ years). At the beginning, only XEN virtualization was available for OBS, and XEN did not work on PowerPC hardware. Recently, KVM autosetup was added to OBS with release 1.8. KVM also works on PowerPC machines, so there are now fully functional PowerPC native builds with virtual machine support available.</p>
+<p>QEMU Usermode builds for PowerPC are working on 32bit targets. They had been tested on all linux distribution targets using 32bit PowerPC mode (all Debian or Ubuntu PowerPC have working builds). Due to the lack of some functions in QEMU, these builds do not work with QEMU inside a KVM virtual machine (the build results cannot be extracted due to a missing ioctl emulation on PowerPC). Since currently Fedora as well as openSUSE have dropped PowerPC support in their distros, this leaves only 32bit targets on Debian based packaging to be supported. Anyway, should someone need 64bit support, he can use a native machine to work with that.</p>
+<p>QEMU Usermode builds for MIPS had also made the first beep inside OBS. They support currently Debian 4.0 mips and mipsel 32bit builds, and Debian 5.0 mips builds (mipsel currently fails on QEMU). It seems there is no RPM based distro available anywhere, so I had no chance to test this case. 64bit MIPS Usermode seems to be broken in QEMU, so it would need fixing. Also, QEMU Usermode hangs for MIPS builds when running in a KVM virtual machine.</p>
+<p>A QEMU used for both the above cases is available now for quite a while in the OBS project <a href="https://build.opensuse.org/project/show?project=openSUSE%3ATools%3AMeeGo">openSUSE:Tools:MeeGo</a>. The qemu package there is named qemu-deploy. The other small changes in osc, build and obs-server code needed <strong>are already in git master and will roll out with OBS 2.1</strong>.</p>
+<p><strong>In case you would like to help me enhance the support for PowerPC or MIPS and close missing parts</strong> (get MIPSEL working, fix KVM builds), feel free to contact me.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/08/22/obs-2-1-status-of-powerpc-and-mips-support-with-qemu/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>OBS 2.1: ACL Feature and Status</title>
+		<link>http://lizards.opensuse.org/2010/08/15/obs-2-1-features-and-status/</link>
+		<comments>http://lizards.opensuse.org/2010/08/15/obs-2-1-features-and-status/#comments</comments>
+		<pubDate>Sun, 15 Aug 2010 19:37:54 +0000</pubDate>
+		<dc:creator><![CDATA[Martin Mohring]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[Toolchain]]></category>
+		<category><![CDATA[Virtualization]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=4936</guid>
+		<description><![CDATA[One and a half year is now gone since I posted about my work for ARM support in the OBS and the work for a port of openSUSE to ARM. Lots of things had happened in the meantime that are related, from my limited view most notably Nokia and Intel joining Moblin and Maemo to [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>One and a half year is now gone since I posted about my work for <a href="http://www.arm.com/">ARM</a> support in the <a href="http://lizards.opensuse.org/2008/11/18/arm-support-for-opensuse-buildservice-and-opensuse/">OBS</a>  and the work for a port of openSUSE to ARM. Lots of things had happened in the meantime that are related, from my limited view most notably Nokia and Intel joining Moblin and Maemo to <a href="http://www.meego.com/">MeeGo</a> (MeeGo is currently working on a number of Atom and ARM based devices), chosing to use OBS as build system and last but not least myself joining The Linuxfoundation (you will be not surprised to hear that I work at LF on OBS). In the meantime there had also been a major new OBS release 1.8/2.0 with a <a href="http://news.opensuse.org/2010/06/09/opensuse-build-service-1-8-and-2-0-announced/">bunch of new features</a>.</p>
+<p>Interesting is the fact that we adapted the cross build system for OBS to MeeGo, first developed for use in Maemo and openSUSE @ ARM. An improved version for the standard MeeGo releases, and for the MeeGo weekly snapshots is used in the MeeGo OBS System to build all ARM releases of MeeGo (the cross toolchain will later get part of the MeeGo SDK @ ARM), thanks to Jan-Simon Möller (In the openSUSE ML, the issue of reactivating openSUSE:Factory ARM builds were brought up. So it might be a good variant to backport Jan-Simons new solution back into openSUSE @ ARM for that purpose). All the MeeGo related OBS installations will move sooner or later to OBS 2.1.</p>
+<p><strong>But now to the most recent work, Access Control support</strong>. A preview was shipped with OBS 1.8. Now an own OBS version, 2.1, will be dedicated to the introduction of this single new feature into the OBS mainline: Access Control (or abbrevated ACL for Access Control Lists). ACL means that there is control by the user on a per project or per package basis to protect information, source and binaries from the read access of other users in an OBS system and to hide projects or packages.</p>
+<p><strong>What is the intended audience of ACL?</strong> ACL is intended for installations of OBS that require protection of projects or packages during work. This can be but is not limited to commercial installations of OBS, or semi public installations of OBS.</p>
+<p><strong>How does ACL work?</strong> ACL sits on top of two features introduced with OBS 2.0: Role and Permission Management as well as freely definable user groups. ACL uses 4 specifically defined permissions (&#8216;source_access&#8217; for read access to sources, &#8216;private_view&#8217; for viewing package and project information, &#8216;download_binaries&#8217; for read access to binaries and &#8216;access&#8217; permission to protect and hide everything and all from read access and viewing) on a user or group in the Role and Permission management. Also, the preexisting roles &#8220;maintainer&#8221;, &#8220;reader&#8221; and &#8220;downloader&#8221; had been modified with specific predifined permissions (which can at any time changed with the role and permission editor dynamically). And last but not least 4 new flags (namely &#8216;sourceaccess&#8217; to signal a project/package has read protected source code, &#8216;binarydownload&#8217; to signal it has read protected packages, &#8216;privacy&#8217; to signal information/logfiles or status cannot be read and &#8216;access&#8217; to hide and protect a project or package completely in all possible OBS API calls) had been added to the project and package descriptions to signal that some information is only readable by specific users or groups, or that information is hidden.</p>
+<p><strong>How do I use ACL?</strong> There are 4 steps to use ACL (a part of them a optional and can only be performed by the Administator of an OBS instance). Step one is to assign the listed permissions to a role, user or group (this step can be done only by the admin, and is not needed for the predefined roles &#8220;maintainer&#8221;, &#8220;reader&#8221; and &#8220;downloader&#8221;). Step two is to add a group for special users to projects which are intended to be run with ACL (this operations can only be performed by the admin). Step three is to protect a project with appropriate protection flags at project creation by adding them to the project meta. Step four is to add other users or groups with one of the new predefined roles that has ACL permissions added to the project meta.</p>
+<p><strong>What information can be protected by ACL?</strong> The protected information is grouped into 4 categories. Category 1 (flag  &#8216;sourceaccess&#8217;) is source code. Category 2 (flag  &#8216;binarydownload&#8217;) is binary packages or logfiles or builds. Category 3 (flag  &#8216;privacy&#8217;) is project or package information like build status. Category 4 (flag  &#8216;access&#8217;) is all viewable or accessable information to any project or package (full blocking of all access and information).</p>
+<p><strong>Example of a project configuration using ACL:</strong></p>
+<pre>
+&lt;user userid="MartinMohring" role="maintainer" /&gt;
+&lt;!-- grant user full write and read access --&gt;
+
+&lt;group groupid="MeeGo-Reviewer" role="maintainer" /&gt;
+&lt;!-- grant group full write and read access --&gt;
+
+&lt;group groupid="MeeGo-Developers" role="reader" /&gt;
+&lt;!-- grant group full source read access --&gt;
+
+&lt;group groupid="MeeGo-BetaTesters" role="downloader" /&gt;
+&lt;!-- grant group access to packages/images --&gt;
+
+  &lt;sourceaccess&gt;
+    &lt;disable/&gt;
+  &lt;/sourceaccess&gt;
+  &lt;!-- disable read access - unless granted explictely.
+          This flag will not accept arch or repository arguments. --&gt;
+
+  &lt;binarydownload&gt;
+    &lt;disable/&gt;
+  &lt;/binarydownload&gt;
+  &lt;!-- disable access - unless granted explictely -
+          to packages/image and logfiles --&gt;
+
+  &lt;access&gt;
+    &lt;disable/&gt;
+  &lt;/access&gt;
+  &lt;!-- disable access - unless granted explictely-,
+          project will not visible or found via search,
+          nor will any source or binary or logfile be accessable.
+          This flag will not accept arch or repository arguments. --&gt;
+
+  &lt;privacy&gt;
+    &lt;enable/&gt;
+  &lt;/privacy&gt;
+  &lt;!-- project will not visible.
+          This flag will not accept arch or repository arguments. --&gt;
+</pre>
+<p><strong>What is the current status of the ACL implementation?</strong> The current status is that the complete API of the OBS git master had been instrumented with ACL code, critical portions of the API controllers had been code inspected and a big portion of these API calls now have a testcase in the OBS testsuite. Work is ongoing to make ACL as secure as possible. A code drop of current git master is under test in some bigger OBS systems, most notably the <a href="https://build.opensuse.org/">openSUSE Buildsystem</a>. You can find snapshots of this codebase as usual in the OBS project <a href="https://build.opensuse.org/project/show?project=openSUSE%3ATools%3AUnstable">openSUSE:Tools:Unstable</a>. Adrian Schröter updates these &#8220;Alpha Snapshots&#8221; relatively often, on a 1-2 weekly basis, and runs the testsuite on git master daily. Thanks to Jan-Simon Möller for putting in many of the testcases into the testsuite for the ACL checks. On OBS Testing in general, read also <a href="http://en.opensuse.org//openSUSE:Build_Service_Testing">Development and Test</a>.</p>
+<p><strong>What is next?</strong> Code is tested and debugged against granting unwanted access due to some concepts inside OBS that are &#8220;working against ACL&#8221;, like project or package links, aggregates or kiwi imaging. We will inform you interested user of course about beta releases and an official 2.1 release.</p>
+<p><strong>Stay tuned.</strong></p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/08/15/obs-2-1-features-and-status/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>ARM support in openSUSE Buildservice &#8211; fixed</title>
+		<link>http://lizards.opensuse.org/2009/04/27/arm-support-in-opensuse-buildservice-fixed/</link>
+		<comments>http://lizards.opensuse.org/2009/04/27/arm-support-in-opensuse-buildservice-fixed/#comments</comments>
+		<pubDate>Mon, 27 Apr 2009 09:23:38 +0000</pubDate>
+		<dc:creator><![CDATA[Martin Mohring]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[Server]]></category>
+		<category><![CDATA[Toolchain]]></category>
+		<category><![CDATA[Virtualization]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=820</guid>
+		<description><![CDATA[The issue caused by the OBS worker update on arm builds is fixed by a new qemu. This new qemu version also has fixed the Fedora 10 @ ARM build problem. So we have the following working ARM target distros available for ARM: Fedora 10, Debian 5.0 and Ubuntu 9.04. Have fun.]]></description>
+				<content:encoded><![CDATA[<p>The issue caused by the OBS worker update on arm builds is fixed by a new qemu.</p>
+<p>This new qemu version also has fixed the Fedora 10 @ ARM build problem.</p>
+<p>So we have the following working ARM target distros available for ARM: Fedora 10, Debian 5.0 and Ubuntu 9.04.</p>
+<p>Have fun.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/04/27/arm-support-in-opensuse-buildservice-fixed/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>ARM support for openSUSE Buildservice and openSUSE &#8211; Status update</title>
+		<link>http://lizards.opensuse.org/2009/04/26/arm-support-for-opensuse-buildservice-and-opensuse-status-update/</link>
+		<comments>http://lizards.opensuse.org/2009/04/26/arm-support-for-opensuse-buildservice-and-opensuse-status-update/#comments</comments>
+		<pubDate>Sun, 26 Apr 2009 11:11:50 +0000</pubDate>
+		<dc:creator><![CDATA[Martin Mohring]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Server]]></category>
+		<category><![CDATA[Toolchain]]></category>
+		<category><![CDATA[Virtualization]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=750</guid>
+		<description><![CDATA[Its a while since I posted the status about the ongoing work for ARM support in the OBS and for an openSUSE port. It all started with my participation in the OBS development as an external contributor. Then, on Hackweek 2008, we had the idea to enforce a new solution other than the traditional methods [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Its a while since I posted the status about the ongoing work for <a href="http://www.arm.com/">ARM</a> support in the OBS and for an openSUSE port. It all started with my participation in the OBS development as an external contributor. Then, on <a href="http://lizards.opensuse.org/2008/09/10/opensuse-buildservice-cross-build-with-obs-part-3/">Hackweek 2008</a>, we had the idea to enforce a new solution other than the traditional methods of compiling code either natively or via a cross compiler on a host system. The idea was to give build scripts as much of the target enviroment as they need to <a href="http://en.opensuse.org/Build_Service/Concepts/CrossDevelopment">just work</a> without changes in the packaging definition &#8211; in order not to change thousands of package descriptions which define a linux distribution.</p>
+<p>A lot happened in the meantime. And I can now report some significant progess in bringing the joys of OBS and openSUSE also to all the ARM users:</p>
+<li>I held a talk about cross build in OBS on <a href="http://en.opensuse.org/FOSDEM2009">FOSDEM 2009</a> &#8211; documenting the solution
+<li>ARM support is in the source tree for OBS and the <a href="http://download.opensuse.org/repositories/openSUSE:/Tools/">publicly available packages</a>
+<li>ARM support is activated in the public OBS
+<li><a href="http://lists.opensuse.org/opensuse-buildservice/2009-04/msg00091.html">OBS 1.6 release is currently in beta</a> &#8211; this release is the dedicated version for ARM
+<li>The Linux foundation will bring the joy of OBS to an even <a href="http://www.linuxfoundation.org/news-media/announcements/2009/04/news-summit-linux-foundation-make-opensuse-build-service-available-">wider audience</a>
+<li>Some preparations have been done for porting Base:build to ARM &#8211; we can mix cross compilers an native emulated code now
+<li>A Summer of Code project will be done to accelerate the development of an openSUSE @ ARM port
+</li>
+<p>To accelerate the openSUSE @ ARM development itself, we want to involve more people of the community. We have an IRC Channel #opensuse-arm for OBS and openSUSE @ ARM &#8211; i invite you to visit us there. We will also find a solution to bring the needed changes into the openSUSE Factory codebase so regular build for openSUSE can take place once the base system is working. I will inform you once we have a working base system that can be used to port many other packages. The soon starting <a href="http://news.opensuse.org/2009/04/21/opensuse-google-summer-of-code-accepted-projects-announced/">Summer of Code Project</a> &#8220;Porting openSUSE to ARM platform&#8221; is intended as the starting point here.</p>
+<p>The next steps are to bring in all the useful applications into OBS, so you have the wide range of applications that is already available for x86 or powerpc then also on ARM. You will see interesting things happening during the next time here.  To support this, more and more of the <a href="http://en.opensuse.org/Build_Service/PoweredBy#OBS_Testing_and_Development_System_for_new_OBS_Features_.28_Martin_Mohring_.2F_5e_Datasoft_.29">tested ARM targets</a> will be made available also on the public OBS. I will follow up with status updates.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/04/26/arm-support-for-opensuse-buildservice-and-opensuse-status-update/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>ARM support in openSUSE Buildservice &#8211; currently broken</title>
+		<link>http://lizards.opensuse.org/2009/04/26/arm-support-in-opensuse-buildservice-currently-broken/</link>
+		<comments>http://lizards.opensuse.org/2009/04/26/arm-support-in-opensuse-buildservice-currently-broken/#comments</comments>
+		<pubDate>Sun, 26 Apr 2009 09:26:27 +0000</pubDate>
+		<dc:creator><![CDATA[Martin Mohring]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Server]]></category>
+		<category><![CDATA[Toolchain]]></category>
+		<category><![CDATA[Virtualization]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=754</guid>
+		<description><![CDATA[With this message I want to make you aware that the ARM builds inside OBS are currently broken. This is due to an update of the buildservice worker code on Friday. This update removes the limit of 2 GB for the build results from the buildservice. Also, the performance of the buildservice backend code has [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>With this message I want to make you aware that the ARM builds inside OBS are currently broken. This is due to an update of the buildservice worker code on Friday. This update removes the limit of 2 GB for the build results from the buildservice. Also, the performance of the buildservice backend code has been improved for high loads with lots of new events.</p>
+<p>We are now faced with an incompatibility of the underlying QEMU emulator with this new code to extract the build results in the combination of XEN and QEMU user mode. You can in fact see in your build logs for ARM error messages like:</p>
+<blockquote><p>&#8230; saving built packages<br />
+/usr/src/packages/DEBS/dsme-tools_0.6mer3_armel.deb<br />
+Unsupported ioctl: cmd=0&#215;0002 (0)<br />
+FIGETBSZ: Function not implemented<br />
+Unsupported ioctl: cmd=0&#215;80041272 (4)
+</p></blockquote>
+<p>We are working on a solution already. A new QEMU with this and another issues fixed is already under test and has been dropped to openSUSE:Tools:Devel/qemu-svn. I will inform you when we have this fixed in the public build service.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/04/26/arm-support-in-opensuse-buildservice-currently-broken/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>ARM support for openSUSE Buildservice and openSUSE</title>
+		<link>http://lizards.opensuse.org/2008/11/18/arm-support-for-opensuse-buildservice-and-opensuse/</link>
+		<comments>http://lizards.opensuse.org/2008/11/18/arm-support-for-opensuse-buildservice-and-opensuse/#comments</comments>
+		<pubDate>Tue, 18 Nov 2008 14:05:21 +0000</pubDate>
+		<dc:creator><![CDATA[Martin Mohring]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Toolchain]]></category>
+		<category><![CDATA[Virtualization]]></category>
+		<category><![CDATA[Wiki]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=279</guid>
+		<description><![CDATA[ARM architecture going more to desktop style applications had been in press frequently during the last weeks. On top of were press releases of ARM and canonical officially announcing an ubuntu port in one of the next releases for the ARM architecture. Applications are more of type nettop or advanced PDA like the nokia n810, [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><a href="http://www.arm.com/">ARM architecture</a> going more to desktop style applications had been in press frequently during the last weeks. On top of were press releases of ARM and canonical officially announcing an ubuntu port in one of the next releases for the ARM architecture. Applications are more of type nettop or advanced PDA like the nokia n810, than what is currently known as traditional embedded applications (just to name a few examples).</p>
+<p>This has been due to the fact that licensees of the ARM architecture, big semiconductor companies from the Top 10 list, have begun shipping a new generation of &#8220;mobile PC in the pocket&#8221; of System on a Chip semiconductors. They include now a really high clocked ARM core, DSPs for Video/Audio processing that can even decode HDTV streams, and OpenGL 2.0 capable HW engine and the peripherials included to build PDAs, mobile phones or nettops. All that within the energy budget of a mobile phone, and not of a Desktop PC. The google G1 phone had been one of the first products of this generation, although its software uses these features only in the beginnings.</p>
+<p>What now does this all have to do with the openSUSE Buildservice and openSUSE distribution? As you might already guess it, we haven&#8217;t been sleeping either. And I am not a advocate of ubuntu on an .opensuse.org website. So read further what we have done so far.</p>
+<p><span id="more-279"></span></p>
+<p>Here is the latest update on supporting <a href="http://en.opensuse.org/Build_Service/Concepts/CrossDevelopment">Cross Development</a> for other architectures than the usual x86 and powerpc 32/64 bit architectures currently supported in the OBS and the openSUSE distribution. You should be aware that we put together an <a href="http://en.opensuse.org/Build_Service/Roadmap">updated roadmap for OBS development</a>, which now also mentions Cross Development. Other places like the main <a href="http://en.opensuse.org/Build_Service">OBS wiki page</a> have also been updated accordingly. To sum it up, we are now able to handle a number of preexisting linux distributions in the best spirit of the current OBS now also for ARM. There is ongoing work so OBS Imaging and zypper are also working for ARM targets. For quite a while now, there have been packages for Cross Development in build.o.o in the openSUSE:Tools:Devel development snapshots project.</p>
+<p>The nokia sponsored <a href="http://mojo.handhelds.org">Mojo project</a> had been also been there (e.g. with similiar ideas wrt. to what will be embedded in the future) for quite a while now, first unnoticed from us, been approaching the cross development issue quite similiar to us. But not with the <strong>power of the openSUSE Buildservice</strong> and all its capabilities. They had been porting, beginning with Debian @ ARM, a complete ubuntu desktop distribution. That involved more &#8220;handy work&#8221; like we need to do with OBS according to the <a href="http://mojo.handhelds.org/files/HandheldsMojo_CELF2008.pdf">conference slides</a> published by the project. So here comes to my mind the following joke: What is <a href="http://www.youtube.com/watch?v=6IGeBT08Frs">this</a>? Answer: the new Nokia HAL9000 Buildserver for ARM linux distributions! But read next why we might not end up like this.</p>
+<p>In order to implement old and current ARM processor types, I had to put in another processor type into the OBS. There was the old armv4l type, that is used for ARMv4 generation of instructions on the OABI (old ABI), little endian. With ARMv5 instruction set, also a new ABI had been introduced called EABI. To sum it up, armv5el denotes ARMv5 EABI little endian with softfloat, whereas armv4l denotes ARMv4 OABI little endian with softfloat. This had to be introduced, because these two formats are not compatible and thus not combinable. armv5el was introduced to support multiprocessing, ntpl and mixture of thumb and non thumb modes. A kernel compiled sufficiently can execute both types of executables, although this would require to run the system like a biarchitecture, where all shared libraries need to be kept twice.</p>
+<p>Debian had been tradionally supporting an ARM version, so it was the usual start for testing (also it provides a long history of package versions from &#8220;quite old&#8221; to &#8220;very new&#8221; i needed for testing the QEMU). Currently working in OBS, and using a patched QEMU, are:</p>
+<li>Debian Etch   @ arm4l</li>
+<li>Debian Lenny @ arm4l, arm5el</li>
+<li>Debian Sid     @ arm4l, arm5el</li>
+<p>Fedora (as provided by Fedora on the <a href="http://ftp.linux.org.uk/pub/linux/arm/fedora">Linux UK ftp server</a>). Currently working in OBS are:</p>
+<li>Fedora 8        @ arm5el</li>
+<p>Ubuntu (as ported by the <a href="http://mojo.handhelds.org/distributions">Mojo Project</a> &#8211; there seems to be an official arm port with one of the next ubuntu releases). Currently working in OBS are:</p>
+<li>Ubuntu 7.10   @ arm5el</li>
+<p>The developments are already going so far that one of the manufacturers of ARM based chips, Texas Instruments, is using a community approach to help but also to gain from the community. They created a development board of the current chip generation called &#8220;beagle board&#8221;, that is suited for everbodies use. The community for it is located at <a href="http://beagleboard.org">beagleboard.org</a>. Texas Instruments now have also a youtube based marketing, so you can see this baby in <a href="http://www.youtube.com/watch?v=ayFsiQ88wFU">action</a>.</p>
+<p>But now to the <strong>delicate question to you</strong>, the openSUSE and openSUSE Buildservice user. You might have noticed that <strong>two things are missing</strong> in what I am writing:</p>
+<li>ARM support in the official OBS</li>
+<li>An ARM port of the openSUSE Distribution</li>
+<p>The latter can now be implemented with the OBS, since OBS is already capable of building the <a href="http://news.opensuse.org/2008/09/22/obs-did-it">complete openSUSE distribution</a>. When openSUSE 11.1 is released, there is a good time to lean back and consider what we should do next.</p>
+<p><strong>Do you have a use for this and should we support this officially</strong>?</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2008/11/18/arm-support-for-opensuse-buildservice-and-opensuse/feed/</wfw:commentRss>
+		<slash:comments>18</slash:comments>
+		</item>
+		<item>
+		<title>openSUSE Buildservice: cross-build</title>
+		<link>http://lizards.opensuse.org/2008/10/04/opensuse-buildservice-cross-build/</link>
+		<comments>http://lizards.opensuse.org/2008/10/04/opensuse-buildservice-cross-build/#comments</comments>
+		<pubDate>Sat, 04 Oct 2008 18:18:40 +0000</pubDate>
+		<dc:creator><![CDATA[Martin Mohring]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Toolchain]]></category>
+		<category><![CDATA[Virtualization]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=237</guid>
+		<description><![CDATA[There is some good news for you: in cooperation with Marcus Hüwe the download on demand feature is now working seamlessly with cross-build, making it a combined &#8220;super feature&#8221;. Also, I have put together a &#8220;condensed&#8221; cross-build in OBS document in the OBS Wiki Concepts collection. New OBS cross-build installation packages will be provided inside [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>There is some good news for you: in cooperation with Marcus Hüwe the download on demand feature is now working seamlessly with cross-build, making it a combined &#8220;super feature&#8221;.</p>
+<p>Also, I have put together a &#8220;condensed&#8221; <a href="http://en.opensuse.org/Build_Service/Concepts/CrossDevelopment">cross-build in OBS document</a> in the OBS Wiki Concepts collection.</p>
+<p>New OBS cross-build installation packages will be provided inside openSUSE:Tools:Devel soon.</p>
+<p>Have fun.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2008/10/04/opensuse-buildservice-cross-build/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>openSUSE Buildservice: cross-build with OBS Part 3</title>
+		<link>http://lizards.opensuse.org/2008/09/10/opensuse-buildservice-cross-build-with-obs-part-3/</link>
+		<comments>http://lizards.opensuse.org/2008/09/10/opensuse-buildservice-cross-build-with-obs-part-3/#comments</comments>
+		<pubDate>Wed, 10 Sep 2008 11:55:55 +0000</pubDate>
+		<dc:creator><![CDATA[Martin Mohring]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Toolchain]]></category>
+		<category><![CDATA[Virtualization]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=172</guid>
+		<description><![CDATA[This is the third part of my article series about the Hackweek Project &#8220;cross-build in the OBS&#8221; and the current OBS development. The first part can be found here, the second here. What happened in the meantime? First of all, the generic code for cross-build went into the subversion repository. The specific patch for cross-build [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>This is the third part of my article series about the Hackweek Project &#8220;cross-build in the OBS&#8221; and the current OBS development. The first  part can be found <a href="http://lizards.opensuse.org/2008/08/31/hackweek-day-2-cross-build-with-obs-part-1/">here</a>, the second <a href="http://lizards.opensuse.org/2008/09/01/hackweek-day-3-cross-build-with-obs-part-2/">here</a>.</p>
+<p>What happened in the meantime?</p>
+<p><span id="more-172"></span></p>
+<p>First of all, the generic code for cross-build went into the subversion repository. The specific patch for cross-build is currently in the flow, because Michael Schröder will incorporate Worker Resource Management into the OBS. This is also important for cross-build, and covers also some areas of the code where also cross-build is implemented. So the cross-build patch is currently kept separate, until Michael is finished. Also, we are working on a more elegant solution to install the qemu packages in the chroot before the worker / local build starts in the emulator. And the KIWI support inside OBS should also work with cross-build repositories.</p>
+<p>Second, there are now completely prebuild cross-build OBS packages inside build.o.o. You can use cross-build with &#8220;osc build&#8221; local build and with OBS workers. Just install the packages from <a href="http://lists.opensuse.org/opensuse-buildservice/2008-09/msg00096.html">openSUSE:Tools:Devel</a>/obs-all-cross (currently using OBS svn trunc -r 4948). Also, there is an updated qemu inside <a href="http://lists.opensuse.org/opensuse-buildservice/2008-09/msg00096.html">openSUSE:Tools:Devel</a>/qemu-svn (currently using QEMU svn trunc -r 5181 with lots of patches), that you should install. In case of non cross-build, the codepath should behave exactly as before and exactly as the pure obs snapshot from subversion without the cross-build patches. The solution is good enough to compile complete packages and even projects for Debian:Etch/armv4l, and for Maemo:4.1/armv4l. I measured an average speed mix between IO bound jobs and CPU bound jobs of ca. 1:5-7, which is faster than expected, and also a lot faster than using system emulation. Should you be using native PowerPC workers, you have to deactivate cross-build for PowerPC at the moment inside the code (until Worker Resource Management is implemented).</p>
+<p>There are plans to activate cross-build also on build.o.o, for everybodies use. But we are currently fighting with the qemu user mode issues, especially on non Arm architectures. QEMU on PowerPC specifically in user emulation is not generally usable for cross-build at the moment.</p>
+<p>Dirk has in the meantime also provided a collection of the Maemo 4.1 packages, so at a later stage these can be used on Arm. This is currently work in progress, so don&#8217;t expect it to work yet. The project Name in build.o.o is Maemo:4.1. It provides an arm development enviroment for the Nokia N810 Linux Mobile Phone as well as exactly the same packages for i586, to develop and run the software also on a PC, and is based on Debian.</p>
+<p>Next Steps?</p>
+<p>Integration of the remaining cross-build code into the mainline OBS code when Michael has done some grounding work.</p>
+<p>Installation of the emulators with the OBS preinstall facility. This will also allow to replace very slowly emulated packages by some cross-build packages instead. It allows a mixture of cross-build Type 3 and Type 4.</p>
+<p>Integration of Marcus Hüwes work on remote repositories, allowing to get packages and projects from normal ftp/http installation/update trees.</p>
+<p>Kiwi support for cross-built repositories.</p>
+<p>Activation of cross-build on build.o.o.</p>
+<p>If I forgot a cool feature to mention, I would be happy to get feedback on what you would like us to do.</p>
+<p>Keep happy hacking with the cross-build OBS packages provided.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2008/09/10/opensuse-buildservice-cross-build-with-obs-part-3/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Hackweek Day 3: cross-build with OBS Part 2</title>
+		<link>http://lizards.opensuse.org/2008/09/01/hackweek-day-3-cross-build-with-obs-part-2/</link>
+		<comments>http://lizards.opensuse.org/2008/09/01/hackweek-day-3-cross-build-with-obs-part-2/#comments</comments>
+		<pubDate>Mon, 01 Sep 2008 00:32:25 +0000</pubDate>
+		<dc:creator><![CDATA[Martin Mohring]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[Toolchain]]></category>
+		<category><![CDATA[Virtualization]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=153</guid>
+		<description><![CDATA[This is the second part of my article series about the Hackweek Project &#8220;cross-build in the OBS&#8221;. The first part can be found here. Before I come back to our Hackweek project, some information about the qemu emulator. As a preparation to Hackweek, I talked with Uli Hecht and Jan Kiszka. Uli Hecht is the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>This is the second part of my article series about the Hackweek Project &#8220;cross-build in the OBS&#8221;. The first  part can be found <a href="http://lizards.opensuse.org/2008/08/31/hackweek-day-2-cross-build-with-obs-part-1">here</a>.</p>
+<p>Before I come back to our Hackweek project, some information about the <a href="http://bellard.org/qemu">qemu emulator</a>. As a preparation to Hackweek, I talked with Uli Hecht and Jan Kiszka. Uli Hecht is the Novell/SUSE Maintainer of the qemu packages in openSUSE:Factory/qemu and maintainer of the OBS project Emulators, where every emulator you can imagine is maintained for a couple of linux distributions. Also I consulted Jan Kiszka, one of the reviewers and maintainers of the qemu upstream project about the status of the qemu in general, &#8220;User Mode&#8221; and status of important architectures specifily.</p>
+<p><span id="more-153"></span></p>
+<p>We also discussed in our <a href="http://lizards.opensuse.org/2008/08/28/hackweek-days-2-and-3">OBS meeting at Hackweek</a> on thursday what performance requirements cross-build has to fullfil in order to get the normal openSUSE:Factory beeing built with cross-build for architectures like arm, sh4 and others used in embedded space. The consensus was that the qemu architectures to start with in the cross-build project are qemu-kvm, including x86 support, and Arm and PowerPC, specifically in the &#8220;User Mode&#8221;. Ludwig Nussel had already implemented some weeks ago the possibility to use qemu-kvm and uml in addition to Xen inside the OBS workers/local build, and unified the code for the three emulators. The code for all the mentioned features <em> <strong> except cross-build itself </strong> </em> is already inside the <a href="http://en.opensuse.org/Build_Service">OBS subversion repository</a> in the trunk.</p>
+<p>Results of the discussions were: </p>
+<li>qemu needed further fixing at all, even compared to the very new version in Emulators/qemu, to run OBS cross-build </li>
+<li>qemu system emulation was considered too slow, specifically when bootstrapping openSUSE:Factory </li>
+<li> qemu KVM will get a spin later, as a Xen replacement. It is prepared inside OBS workers/osc build </li>
+<li> qemu PowerPC is generally in bad shape, specifically the &#8220;User Mode&#8221;, so <a href="http://en.opensuse.org/POWER%40SUSE">openSUSE:11.0/ppc</a> cannot run. Inside the gcc/glibc uses the features futexes, pthreads with NTPL and compiler support for TLS, which are not yet implemented</li>
+<li> qemu Arm, specifically &#8220;User Mode&#8221;, is in the best possible shape, so <a href="http://www.debian.org/ports/arm">Debian:Etch/Arm</a> can run. It does not yet use futexes, pthreads with NTPL and compiler support for TLS, specifically on Arm</li>
+<p>So much for the theory. Now, I show you how to run build jobs for Debian:Etch/Arm, using normal unmodified Debian type packages. I have prepared for you inside build.opensuse.org/openSUSE:Tools:Unstable and openSUSE:Tools:Devel the required packages for installation. To keep modifications small, and to make sure cross-build can be used also with the official OBS on build.opensuse.org, we decided to first implement cross-build for use with &#8220;osc build&#8221; local build.</p>
+<p>If you are running a local OBS, you should already be familiar with the <a href="https://forgesvn1.novell.com/svn/opensuse/trunk/buildservice/dist/README.SETUP">installation instructions</a> for it, and I assume you had already successfully installed a local OBS in the past, and also migrated from version to version.</p>
+<p><strong><em><strong>Update your local OBS for cross-build</strong></em></strong></p>
+<p>This can be skipped, should Adrian provide Debian:Etch packages for Arm in the official OBS. You need to be root to install the packages. I assume you have ca. 55 GB harddisk space free, and you need to download ca. 36 GB via the internet. The example is for a openSUSE 11.0 machine with an x86_64 processor.</p>
+<pre>
+# mkdir -p /tmp/obs-packages &amp;&amp; cd /tmp/obs-packages
+# wget -q -c http://download.opensuse.org/repositories/openSUSE:/Tools:/Unstable/openSUSE_11.0/x86_64/obs-api-1.1.0.4791M-2.1.x86_64.rpm
+# wget -q -c http://download.opensuse.org/repositories/openSUSE:/Tools:/Unstable/openSUSE_11.0/x86_64/obs-server-1.1.0.4791M-2.1.x86_64.rpm
+# wget -q -c http://download.opensuse.org/repositories/openSUSE:/Tools:/Unstable/openSUSE_11.0/x86_64/obs-worker-1.1.0.4791M-2.1.x86_64.rpm
+</pre>
+<p>Now, first save your old /etc/sysconfig/obs-server</p>
+<pre>
+# mv /etc/sysconfig/obs-server /etc/sysconfig/obs-server.old
+</pre>
+<p>Then install the new OBS Packages:</p>
+<pre>
+# rpm -Uhv {obs-api,obs-server,obs-worker}*4791M*.rpm
+</pre>
+<p>Now, edit the new /etc/sysconfig/obs-server file, and comment in the line with arm inside. You have some possibilities. Normally, you would also run the OBS scheduler for x86_64 and i586, so you choose the line with armv4l inside in addition:</p>
+<pre>
+## Path:        Applications/OBS
+## Description: define for which architectures the packages should get build
+## Type:        stringlist
+## Default:     "i586"
+## Config:      OBS
+#
+# This needs to be a space seperated list of all supported architectures
+OBS_SCHEDULER_ARCHITECTURES="i586 x86_64 armv4l"
+</pre>
+<p>Now your OBS is ready to be started again. Start everything <strong>except the scheduler</strong>.</p>
+<p>Now depending on you local OBS setup, you either modify or add a new project with the name Debian:Etch. Once done, add an updated architecture record to it, with the new architecture armv4l added:</p>
+<pre>
+# osc -A api.opensuse.org meta prj Debian:Etch &gt;de.xml
+</pre>
+<p>Now edit file &#8220;de.xml&#8221; with you favorite editor of you choice and add change the architecture block:</p>
+<pre>
+...
+  &lt;repository name="standard"&gt;
+    &lt;arch&gt;i586&lt;/arch&gt;
+    &lt;arch&gt;x86_64&lt;/arch&gt;
+    &lt;arch&gt;armv4l&lt;/arch&gt;
+  &lt;/repository&gt;
+...
+</pre>
+<p>Now save the changed file in your local OBS.</p>
+<p>Next copy the meta prjconf from the api.opensuse.org to you local OBS:</p>
+<pre>
+# osc -A api.opensuse.org meta prjconf Debian:Etch &gt;de.conf
+# osc -A &lt;your local ip&gt; meta prjconf -F de.conf Debian:Etch
+</pre>
+<p>To complete the installation, you now finally install the x86_64, i586 as a copy from the official OBS (downloads ca. 22 GB and takes a while):</p>
+<pre>
+# obs_mirror_project Debian:Etch standard i586
+# obs_mirror_project Debian:Etch standard x86_64
+</pre>
+<p>After this, the appropriate directories &#8220;/srv/obs/build/Debian:Etch/standard/i586/:full&#8221; and &#8220;/srv/obs/build/Debian:Etch/standard/x86_64/:full&#8221; should have been created and filled with lots of .deb files.</p>
+<p>Then you also need the Debian:Etch binaries for Arm, found on 3 full DVDs. Download them (another ca. 13 GB):</p>
+<pre>
+# wget -c -q ftp://ftp.tu-chemnitz.de/pub/linux/debian/debian-cd/4.0_r4a/arm/iso-dvd/MD5SUMS
+# wget -c -q ftp://ftp.tu-chemnitz.de/pub/linux/debian/debian-cd/4.0_r4a/arm/iso-dvd/debian-40r4a-arm-DVD-1.iso
+# wget -c -q ftp://ftp.tu-chemnitz.de/pub/linux/debian/debian-cd/4.0_r4a/arm/iso-dvd/debian-40r4a-arm-DVD-2.iso
+# wget -c -q ftp://ftp.tu-chemnitz.de/pub/linux/debian/debian-cd/4.0_r4a/arm/iso-dvd/debian-40r4a-arm-DVD-3.iso
+</pre>
+<p>Then check that the MD5SUMS so the downloads were all ok. Mount the images with:</p>
+<pre>
+# mkdir ./mnt
+# mount -o,ro -t iso9660 ./debian-40r4a-arm-DVD-1.iso ./mnt -o loop=/dev/loop3
+</pre>
+<p>Then copy all files with name &#8220;*.deb&#8221; inside all the 3 DVDs to &#8220;/srv/obs/build/Debian:Etch/standard/armv4l/:full&#8221;. Finally, chown all correctly to the obsrun user:</p>
+<pre>
+# chown -R obsrun.obsrun /srv/obs/build/Debian:Etch/standard
+</pre>
+<p>Now youre done on the server and can start the scheduler again. It should show up with a line: &#8220;armv4l: running for about &#8230;&#8221; on the OBS monitor webpage, indicating all is done correctly on your local OBS server. The scheduler now needs a while to start up and rescan the new binaries.</p>
+<p><strong><em>Updates for &#8220;qemu&#8221;, &#8220;build&#8221; and &#8220;osc&#8221; for cross-build </em></strong></p>
+<p>First, download and install a specifically fixed qemu on your local machine where you want to run &#8220;osc build&#8221; local build:</p>
+<pre>
+# wget -q -c http://download.opensuse.org/repositories/openSUSE:/Tools:/Unstable/openSUSE_11.0/x86_64/qemu-0.9.2svn20080824.5081-12.1.x86_64.rpm
+# rpm -Uhv qemu-0.9.2svn20080824*.rpm
+# sh /usr/sbin/qemu-binfmt-conf.sh
+# wget -q -c http://download.opensuse.org/repositories/openSUSE:/Tools:/Devel/openSUSE_11.0/noarch/build-cross-2008.08.31.4831M-1.1.noarch.rpm
+# wget -q -c http://download.opensuse.org/repositories/openSUSE:/Tools:/Devel/openSUSE_11.0/x86_64/osc-cross-0.108.4831M-2.1.x86_64.rpm
+# rpm -Uhv {osc-cross,build-cross}*4831M*.rpm
+</pre>
+<p>Now we are ready to run the first &#8220;osc build&#8221; command for cross-build. To do that, you need a package able to build for Debian:Etch targets. I suggest you to copy e.g. openSUSE:Tools/lzma to your local OBS. Then switch off building for armv4l targets for it inside the meta prj data, and switch on a arm target for the package lzma inside:</p>
+<pre>
+.....
+  &lt;build&gt;
+&lt;disable arch='armv4l'/&gt;
+  &lt;/build&gt;
+  &lt;publish&gt;
+&lt;disable arch='armv4l'/&gt;
+  &lt;/publish&gt;
+.....
+  &lt;repository name="Debian_Etch"&gt;
+    &lt;path repository="Debian_Etch" project="openSUSE:Tools"/&gt;
+    &lt;arch&gt;i586&lt;arch&gt;
+    &lt;arch&gt;x86_64&lt;arch&gt;
+    &lt;arch&gt;armv4l&lt;arch&gt;
+  &lt;/repository&gt;
+.....
+</pre>
+<p>Now, checkout the package and try your first cross-build:</p>
+<pre>
+$ cd &lt;goto some local dir&gt;
+$ osc -A &lt;local obs ip&gt; co openSUSE:Tools/lzma
+$ cd  openSUSE:Tools/lzma
+$ osc -A &lt;local obs ip&gt; build --userootforbuild --clean Debian_Etch armv4l lzma.dsc
+Building lzma.dsc for Debian_Etch/armv4l
+Getting buildinfo from server
+Updating cache of required packages
+Writing build configuration
+Getting buildconfig from server
+Running build
+  sudo /usr/bin/build --root=/var/tmp/oscbuild-root/martin/Debian_Etch/armv4l --rpmlist=/tmp/rpmlist.gpIne8 --dist=/tmp/buildconfig.8xD3vp lzma.dsc --clean
+--changelog --arch=armv4l
+logging output to /var/tmp/oscbuild-root/martin/Debian_Etch/armv4l/.build.log...
+Memory limit set to 5418004KB
+Using BUILD_ROOT=/var/tmp/oscbuild-root/martin/Debian_Etch/armv4l
+Using BUILD_ARCH=armv4l
+
+
+jupiter started "build lzma.dsc" at Mon Sep  1 01:42:01 CEST 2008.
+
+
+processing specfile /tmp/obs-update/tmp/openSUSE:Tools/lzma/lzma.dsc...
+running changelog2spec --target debian --file /tmp/obs-update/tmp/openSUSE:Tools/lzma/lzma.dsc
+
+...............cut off in the middle.................
+
+dh_compress
+dh_fixperms
+dh_installdeb
+dh_shlibdeps
+dh_gencontrol
+dpkg-gencontrol: warning: unknown substitution variable ${misc:Depends}
+dh_md5sums
+dh_builddeb
+dpkg-deb: building package `lzma' in `../lzma_4.32-6_arm.deb'.
+ dpkg-genchanges
+dpkg-genchanges: including full source code in upload
+dpkg-buildpackage: full upload; Debian-native package (full source is included)
+
+
+/var/tmp/oscbuild-root/martin/Debian_Etch/armv4l/usr/src/packages/DEBS/lzma_4.32-6_arm.deb
+</pre>
+<p>And cheers, you got it.</p>
+<p>You can experiment with the resulting chroot environment inside the buildroot:</p>
+<pre>
+$ sudo chroot /var/tmp/oscbuild-root/martin/Debian_Etch/armv4l/
+root's password:
+# uname -a
+Linux jupiter 2.6.25.11-0.1-default #1 SMP 2008-07-13 20:48:28 +0200 armv5tel GNU/Linux
+# file /bin/bash
+/bin/bash: ELF 32-bit LSB executable, ARM, version 1 (ARM), for GNU/Linux 2.4.1, dynamically linked (uses shared libs), for GNU/Linux 2.4.1, stripped
+# ldd /bin/bash
+        libncurses.so.5 =&gt; /lib/libncurses.so.5 (0x42084000)
+        libdl.so.2 =&gt; /lib/libdl.so.2 (0x420cf000)
+        libc.so.6 =&gt; /lib/libc.so.6 (0x420db000)
+        /lib/ld-linux.so.2 (0x40081000)
+</pre>
+<p>We have a nice new toy now to play with! Keep happy hacking.</p>
+<p>This finishes the current part of the article series. The next part will be about the next steps in the development, a roadmap, what can we do with it and &#8220;when will it be inside build.opensuse.org&#8221;.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2008/09/01/hackweek-day-3-cross-build-with-obs-part-2/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>

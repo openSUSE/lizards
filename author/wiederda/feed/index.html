@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; Hubert Mantel</title>
+	<atom:link href="http://lizards.opensuse.org/author/wiederda/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>openSUSE Gets the JeOS</title>
+		<link>http://lizards.opensuse.org/2008/07/16/opensuse-gets-the-jeos/</link>
+		<comments>http://lizards.opensuse.org/2008/07/16/opensuse-gets-the-jeos/#comments</comments>
+		<pubDate>Wed, 16 Jul 2008 13:45:45 +0000</pubDate>
+		<dc:creator><![CDATA[Hubert Mantel]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Server]]></category>
+		<category><![CDATA[Virtualization]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=106</guid>
+		<description><![CDATA[openSUSE is great for the desktop, great for the server, and now it&#8217;s ready to take on appliances &#8212; and we don&#8217;t mean toasters and blenders. No, we&#8217;re talking about software appliances &#8212; virtual machine images that come pre-configured with the application you want to use, without any of the hassle normally associated with installing [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>openSUSE is great for the desktop, great for the server, and now it&#8217;s ready to take on appliances &#8212; and we don&#8217;t mean toasters and blenders. No, we&#8217;re talking about software appliances &#8212; virtual machine images that come pre-configured with the application you want to use, without any of the hassle normally associated with installing an application.</p>
+<p>If you&#8217;re interested in building a virtual appliance, or have another use for a minimal operating system, read on to learn about openSUSE LimeJeOS.</p>
+<p><strong>What is LimeJeOS?</strong></p>
+<p>LimeJeOS is the openSUSE version of JeOS. The term JeOS (&#8220;Just enough Operating System&#8221;) refers to a customized operating system that precisely fits the needs of a particular application. LimeJeOS includes only the pieces of an operating system required to support a particular application and any other third-party components contained in the appliance. This makes the appliance smaller, more efficient, more secure, and offers better performance than an application running under a full, general-purpose operating system.</p>
+<p>As the name suggests, &#8220;LimeJeOS&#8221; itself is not an appliance or an operating system; it is just the base for various possible appliances. LimeJeOS contains just the very basic parts of an operating system. The major goal is to make the system as small as possible while providing the possibility to install additional software. A LimeJeOS system itself is not very useful without additional packages. Besides an editor (a stripped version of vi) it just contains a package manager that allows the actual applications to be installed. Of course all the usual repositories can be used for that purpose; just with a regular, full-size Linux distribution.</p>
+<p><strong>What is the difference between SLE JeOS and LimeJeOS?</strong></p>
+<p><a href="http://www.novell.com/linux2/appliance/" target="_blank">SUSE Linux Enterprise JeOS</a> relates to LimeJeOS just like openSUSE relates to SLES. In fact, SLE JeOS is built from the latest version of SLES while LimeJeOS is built from the latest version of openSUSE. While LimeJeOS provides the latest state of the openSUSE distribution, SLE JeOS will offer all the services and support that is also available for SLES.</p>
+<p>Which one should you use? If you&#8217;re working on a virtual appliance for a project that won&#8217;t require commercial support, and you want to track the latest in open source, openSUSE is the version for you.</p>
+<p>If you&#8217;re working on a project that&#8217;s likely to need support, then you probably want to go with SUSE Linux Enterprise JeOS.</p>
+<p><strong>Where can I get LimeJeOS?</strong></p>
+<p>LimeJeOS is built using <a href="http://kiwi.berlios.de/" target="_blank">kiwi</a>. The configuration files are managed via Subversion and are available at:<a href="https://forgesvn1.novell.com/svn/opensuse/trunk/distribution/images/LimeJeOS/" target="_blank"> https://forgesvn1.novell.com/svn/opensuse/trunk/distribution/images/LimeJeOS/</a></p>
+<p>In the future we plan to create a regular package (RPM) and add it to the openSUSE build service, so that the latest version is always created automatically with the latest software versions in openSuSE.</p>
+<p><strong>How to build LimeJeOS?</strong></p>
+<p>Check out the current version of LimeJeOS using the following commands:</p>
+<blockquote><p>svn co https://forgesvn1.novell.com/svn/opensuse/trunk/distribution/images/LimeJeOS</p></blockquote>
+<p>Make sure you have the needed kiwi packages installed. You will need at least: kiwi, kiwi-tools and kiwi-desc-vmxboot and/or kiwi-desc-xenboot from <a href="http://download.opensuse.org/repositories/openSUSE:/Tools/" target="_blank">http://download.opensuse.org/repositories/openSUSE:/Tools/</a>. When those conditions are met, building the openJeOS images is accomplished by just running the &#8220;./build.sh&#8221; script from the LimeJeOS repository.</p>
+<blockquote><p>./build.sh</p></blockquote>
+<p>Please note that the build process will need at least twice as much diskspace as the final images, so you&#8217;ll need around 2 GB of free disk space at this time to build Lime JeOS.</p>
+<p>After you have booted the virtual system, log in as user &#8220;root&#8221; with password &#8220;linux&#8221;.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2008/07/16/opensuse-gets-the-jeos/feed/</wfw:commentRss>
+		<slash:comments>5</slash:comments>
+		</item>
+	</channel>
+</rss>

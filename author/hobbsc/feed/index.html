@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; Christopher Hobbs</title>
+	<atom:link href="http://lizards.opensuse.org/author/hobbsc/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>Novell Client on openSUSE 11.2</title>
+		<link>http://lizards.opensuse.org/2010/04/20/novell-client-on-opensuse-11-2/</link>
+		<comments>http://lizards.opensuse.org/2010/04/20/novell-client-on-opensuse-11-2/#comments</comments>
+		<pubDate>Tue, 20 Apr 2010 16:05:20 +0000</pubDate>
+		<dc:creator><![CDATA[Christopher Hobbs]]></dc:creator>
+				<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Network]]></category>
+		<category><![CDATA[Usability]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=3750</guid>
+		<description><![CDATA[This has been covered on a couple of forums out there, but I&#8217;ve yet to find a decent comprehensive post. This is for 32bit systems, it&#8217;s easily modified for 64bit setups. First off, search your favorite RPM repo for binutils-2.19-9.3. I like to use http://rpm.pbone.net, but at the time of writing, they happen to be [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>This has been covered on a couple of forums out there, but I&#8217;ve yet to find a decent comprehensive post.  This is for 32bit systems, it&#8217;s easily modified for 64bit setups.</p>
+<p>First off, search your favorite RPM repo for binutils-2.19-9.3.  I like to use http://rpm.pbone.net, but at the time of writing, they happen to be down.</p>
+<p>Get a copy of the Novell Client ISO from http://download.novell.com and mount it:</p>
+<p><code>sudo mount -o loop novell-client-2.0-sp2-sle11-i586.iso /mnt<br />
+</code></p>
+<p>Extract the files from the RPM: </p>
+<p><code>rpm2cpio binutils-2.19-9.3.i586.rpm | cpio -idv<br />
+</code></p>
+<p>This should create a &#8220;usr&#8221; directory in your present working directory.  Go ahead and copy it&#8217;s contents to your filesystem:</p>
+<p><code>sudo cp -R usr/* /usr/<br />
+</code></p>
+<p>Change directories to wherever you mounted your ISO (in this case &#8220;/mnt&#8221;) and run the installer:</p>
+<p><code>cd /mnt &amp;&amp; sudo ./ncl_install</code></p>
+<p>As the packages attempt to install, you&#8217;ll be given options and warnings concerning libbfd and several other packages.  Choose option &#8220;2&#8243; for everything (&#8220;Break dependencies&#8221;).  Don&#8217;t worry about actually breaking anything, just roll with option 2.</p>
+<p>Lastly, issue ldconfig as root and reboot:</p>
+<p><code>sudo /sbin/ldconfig<br />
+sudo /sbin/reboot</code></p>
+<p>That should get you up and running.  You can run &#8220;ncl_tray&#8221; directly from the command line, or create a shortcut to the client.  If you&#8217;re having connection issues, make sure that openSLP is configured.</p>
+<p>The only issues I&#8217;ve had so far is the inability to browse trees, which turned out to be a DNS problem on my end.  Occasionally I get warnings on login about novfs kernel modules not being properly loaded, but this appears to be benign.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/04/20/novell-client-on-opensuse-11-2/feed/</wfw:commentRss>
+		<slash:comments>5</slash:comments>
+		</item>
+		<item>
+		<title>Installing Ruby 1.9 on openSUSE 11.2</title>
+		<link>http://lizards.opensuse.org/2010/04/06/installing-ruby-1-9-on-opensuse-11-2/</link>
+		<comments>http://lizards.opensuse.org/2010/04/06/installing-ruby-1-9-on-opensuse-11-2/#comments</comments>
+		<pubDate>Tue, 06 Apr 2010 03:23:12 +0000</pubDate>
+		<dc:creator><![CDATA[Christopher Hobbs]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Usability]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=3667</guid>
+		<description><![CDATA[It&#8217;s been a while since I&#8217;ve posted or been active in the community, so I thought I&#8217;d toss an update out there.  I&#8217;ll cross post this on my personal blog and on Cool Solutions (modified for SLEx 10).  This is a pretty rudimentary post as installation from source is pretty straightforward, but perhaps it&#8217;ll be [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>It&#8217;s been a while since I&#8217;ve posted or been active in the community, so I thought I&#8217;d toss an update out there.  I&#8217;ll cross post this on my personal blog and on Cool Solutions (modified for SLEx 10).  This is a pretty rudimentary post as installation from source is pretty straightforward, but perhaps it&#8217;ll be useful to someone.</p>
+<p>The only requirements for this build that I&#8217;m aware of at this time are make, gcc, and the openssl/openssl-devel packages.</p>
+<p>The default Ruby distribution in 11.2 is 1.8.7, contrasting the current stable release of 1.9.1.  If you already have Ruby installed via zypper, you&#8217;ll need to uninstall it (&#8216;sudo zypper rm ruby&#8217;), otherwise the first step is to grab the latest release from <a href="http://www.ruby-lang.org/en/downloads/">﻿http://www.ruby-lang.org/en/downloads/</a>.</p>
+<p>Next, unpack your release (replacing 1.9.1-p376 with the build you downloaded):</p>
+<p><code>tar xfvz ruby-﻿1.9.1-p376.tar.gz</code></p>
+<p>Change to the extracted directory and run the config script:</p>
+<p><code>cd ruby-1.9.1-p376 &amp;&amp; ./configure</code></p>
+<p>Build the release:  Note that you can allow jobs to run simultaneously with the -j switch, see make (1) for further details.</p>
+<p><code>make</code></p>
+<p>Install the release as root:</p>
+<p><code>sudo make install</code></p>
+<p>To verify that 1.9 is indeed installed, issue:</p>
+<p><code>ruby --version</code></p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/04/06/installing-ruby-1-9-on-opensuse-11-2/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>openSUSE-GNOME BugDay Weekend Wrapup</title>
+		<link>http://lizards.opensuse.org/2009/05/18/opensuse-gnome-bugday-weekend-wrapup/</link>
+		<comments>http://lizards.opensuse.org/2009/05/18/opensuse-gnome-bugday-weekend-wrapup/#comments</comments>
+		<pubDate>Mon, 18 May 2009 14:32:08 +0000</pubDate>
+		<dc:creator><![CDATA[Christopher Hobbs]]></dc:creator>
+				<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[Usability]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1064</guid>
+		<description><![CDATA[As posted to the openSUSE-GNOME Mailing List. Greetings! Thanks to all who showed up to help on the bug day on Friday, your efforts are greatly appreciated. We started with just over 70 bugs and left the *obby session available over the weekend.  By the end of the weekend, we had reviewed 14 bugs (9 [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><em>As posted to the openSUSE-GNOME Mailing List.</em></p>
+<hr />
+Greetings!</p>
+<p>Thanks to all who showed up to help on the bug day on<br />
+Friday, your efforts are greatly appreciated.</p>
+<p>We started with just over 70 bugs and left the *obby<br />
+session available over the weekend.  By the end of the<br />
+weekend, we had reviewed 14 bugs (9 of which we closed).</p>
+<p>These were all Critical and Major bugs listed for openSUSE<br />
+11.1.</p>
+<p>I will be closing the *obby session this afternoon at about<br />
+1700 CDT.</p>
+<p>Thanks again!<br />
+&#8211;<br />
+Christopher M. Hobbs [chobbs@siloamsprings.com]<br />
+Network Administrator, City of Siloam Springs</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/05/18/opensuse-gnome-bugday-weekend-wrapup/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>openSUSE-GNOME BugDay: &#8220;Community Effort&#8221;</title>
+		<link>http://lizards.opensuse.org/2009/05/14/opensuse-gnome-bugday-community-effort/</link>
+		<comments>http://lizards.opensuse.org/2009/05/14/opensuse-gnome-bugday-community-effort/#comments</comments>
+		<pubDate>Thu, 14 May 2009 20:39:42 +0000</pubDate>
+		<dc:creator><![CDATA[Christopher Hobbs]]></dc:creator>
+				<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Events]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[Usability]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1008</guid>
+		<description><![CDATA[PSA sent to opensuse-gnome@opensuse.org, opensuse-project@opensuse.org, opensuse-announce@opensuse.org Greetings! Please join us for the openSUSE-GNOME BugDay code named &#8220;Community Effort&#8221; tomorrow (Friday 14 MAY 2009) at 1100EDT/1500UTC. We&#8217;ll be squashing blocker, critical, and major bugs in 11.1 related to GNOME. More information can be found on the wiki: http://en.opensuse.org/GNOME/BugDays/20090514 A Gobby session will be announced at the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><em>PSA sent to opensuse-gnome@opensuse.org, opensuse-project@opensuse.org, opensuse-announce@opensuse.org</em></p>
+<hr />
+Greetings!</p>
+<p>Please join us for the openSUSE-GNOME BugDay code named &#8220;Community Effort&#8221; tomorrow<br />
+(Friday 14 MAY 2009) at 1100EDT/1500UTC.</p>
+<p>We&#8217;ll be squashing blocker, critical, and major bugs in 11.1 related to GNOME.</p>
+<p>More information can be found on the wiki:</p>
+<p>http://en.opensuse.org/GNOME/BugDays/20090514</p>
+<p>A Gobby session will be announced at the beginning of the meeting to assign/close<br />
+bugs.  Should you have any questions, feel free to ask in #openSUSE-GNOME on Freenode,<br />
+or email me directly.</p>
+<p>We hope to see you there!<br />
+&#8211;<br />
+Christopher M. Hobbs [chobbs@siloamsprings.com]<br />
+Network Administrator, City of Siloam Springs</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/05/14/opensuse-gnome-bugday-community-effort/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>openSUSE-GNOME BugDay!</title>
+		<link>http://lizards.opensuse.org/2009/05/05/opensuse-gnome-bugday/</link>
+		<comments>http://lizards.opensuse.org/2009/05/05/opensuse-gnome-bugday/#comments</comments>
+		<pubDate>Tue, 05 May 2009 13:21:17 +0000</pubDate>
+		<dc:creator><![CDATA[Christopher Hobbs]]></dc:creator>
+				<category><![CDATA[GNOME]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/2009/05/05/opensuse-gnome-bugday/</guid>
+		<description><![CDATA[Roll up those sleeves and mark your calendars, because here comes another BugDay! During Community Week (http://en.opensuse.org/CommunityWeek), I&#8217;ll be hosting another openSUSE-GNOME BugDay on Fri, 15 MAY 2009. We&#8217;ll start promptly at 1000 CDT and will continue until 1600 CDT. I will be around very early in the day to start prep for the meeting [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Roll up those sleeves and mark your calendars, because here comes another BugDay!</p>
+<p>During Community Week (<a title="http://en.opensuse.org/CommunityWeek" href="http://en.opensuse.org/CommunityWeek">http://en.opensuse.org/CommunityWeek</a>), I&#8217;ll be hosting another openSUSE-GNOME BugDay on Fri, 15 MAY 2009.  We&#8217;ll start promptly at 1000 CDT and will continue until 1600 CDT.  I will be around very early in the day to start prep for the meeting should you have any questions.</p>
+<p>We&#8217;ll conduct business in #opensuse-gnome on Freenode (irc.freenode.net).  I will establish a Gobby session as I&#8217;ve done in the past, and we&#8217;ll work off of that.</p>
+<p>Can&#8217;t wait to see you there!</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/05/05/opensuse-gnome-bugday/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>USB EVDO (Alltel UM175AL) under SLED 10</title>
+		<link>http://lizards.opensuse.org/2009/02/09/usb-evdo-alltel-um175al-under-sled-10/</link>
+		<comments>http://lizards.opensuse.org/2009/02/09/usb-evdo-alltel-um175al-under-sled-10/#comments</comments>
+		<pubDate>Mon, 09 Feb 2009 21:46:34 +0000</pubDate>
+		<dc:creator><![CDATA[Christopher Hobbs]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Usability]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=416</guid>
+		<description><![CDATA[This was a bit of a bear, but I&#8217;ve inhereted a generic looking USB EVDO stick at the office. After some research and elbow grease, I&#8217;ve managed to get it working. In this post, I&#8217;ll detail EVDO configuration under SLED 10. I&#8217;ll leave out most of the gory technical details as others have covered that [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>This was a bit of a bear, but I&#8217;ve inhereted a generic looking USB EVDO stick at the office.  After some research and elbow grease, I&#8217;ve managed to get it working.  In this post, I&#8217;ll detail  EVDO configuration under SLED 10.  I&#8217;ll leave out most of the gory technical details as others have covered that for me.  I&#8217;ll link to the appropriate reference where necessary.</p>
+<p><span id="more-416"></span></p>
+<p>The UM175AL card from Alltel attempts to identify itself as a USB storage device/cdrom when it&#8217;s first inserted.  This is a huge mess as it needs to be recognized as a serial device.  After some searching, I came across <a title="http://blogger.ziesemer.com/2008/10/alltel-um175al-usb-evdo-ubuntu.html" href="http://blogger.ziesemer.com/2008/10/alltel-um175al-usb-evdo-ubuntu.html">Mark A. Ziesemer&#8217;s post</a> on using this same card under Ubuntu.  He recommends using <a title="http://www.draisberghof.de/usb_modeswitch/" href="http://www.draisberghof.de/usb_modeswitch/">USB_ModeSwitch</a> to change the device&#8217;s mode.</p>
+<p>First, I downloaded the USB_ModeSwitch source, extracted it, and deleted the binary.  Next, you&#8217;ll want to download libusb and libusb-devel from the <a title="http://software.opensuse.org/search" href="http://software.opensuse.org/search">OBS</a>.  If you don&#8217;t have OneClick-Install enabled on your SLED install, simply download the libusb RPMs and issue the following commands:</p>
+<blockquote><p>rpm -Uv libusb-*.rpm</p>
+<p>rpm -ivh libusb-devel*.rpm</p></blockquote>
+<p>Once those are installed, go ahead and issue &#8216;make&#8217; in the USB_ModeSwitch directory.  This should execute rather quickly and you should have a new usb_modeswitch binary.  Copy &#8216;usb_modeswitch&#8217; to /usr/sbin.</p>
+<p>Next you&#8217;ll need to create a config for USB_ModeSwitch.  As root, edit /etc/usb_modeswitch.conf with the following information (all the gory details can be found at Mark&#8217;s site if you&#8217;re up for a read):</p>
+<blockquote><p># /etc/usb_modeswitch.conf</p>
+<p># alltel evdo hax<br />
+DefaultVendor = 0x106c<br />
+DefaultProduct = 0x3b03</p>
+<p>MessageEndpoint = 0&#215;05<br />
+MessageContent = &#8220;55534243904ed68a24000000800008ff024445564348470000000000000000&#8243;</p></blockquote>
+<p>Note that the above only works for this particular card.  You can likely ignore that if your EVDO card is already supported.</p>
+<p>Now we should be able to access the modem and use &#8216;wvdial&#8217; (which conveniently ships with SLED) to get connected.  First we&#8217;ll need to edit our /etc/wvdial.conf.  This example is for Alltel only:</p>
+<blockquote><p>[Dialer Defaults]<br />
+Stupid Mode = On<br />
+Modem = /dev/ttyACM0<br />
+Baud = 921600<br />
+Init = ATZ<br />
+Init2 = ATQ0 V1 E1 S0=0 &amp;C1 &amp;D2 +FCLASS=0<br />
+Phone = #777<br />
+Username = XXXXXXXXXX@alltel.net<br />
+Password = alltel<br />
+Init1 = ATZ<br />
+ISDN = 0<br />
+Modem Type = Analog Modem<br />
+Auto Reconnect = on<br />
+Carrier Check = no<br />
+[Dialer shh]<br />
+Init3 = ATM0<br />
+[Dialer Pulse]<br />
+Dial Command = ATDP</p></blockquote>
+<p>Replace XXXXXXXXXX with your 10 digit phone number.  I gleaned this information from two sources:  <a title="http://www.linux.com/feature/145134" href="http://www.linux.com/feature/145134">Linux.com&#8217;s EVDO tutorial for VoIP</a> and <a title="http://www.linuxscrew.com/2007/09/03/ev-do-internet-access-with-ubuntu-linux/" href="http://www.linuxscrew.com/2007/09/03/ev-do-internet-access-with-ubuntu-linux/">Linux * Screw&#8217;s EVDO with Linux article</a>.</p>
+<p>Now that everything is all configured, plug in your EVDO stick and use usb_switchmode to switch it to the proper mode for serial access:</p>
+<blockquote><p>/usr/sbin/usb_modeswitch -c /etc/usb_modeswitch.conf</p></blockquote>
+<p>Which should spit out some &#8220;everything OK&#8221; messages.  If it didn&#8217;t, you&#8217;ll need to go back and check your configuration.</p>
+<p>Once you&#8217;ve switched the card to the proper setting, go ahead and use ifconfig to bring your wireless and wired network interfaces down (ifconfig eth0 down, etc.).  This step is optional, but I like to do it for good measure.</p>
+<p>Now you should be ready to dial your wireless carrier.  To do so, simply execute &#8216;wvdial&#8217; and wait for the connection to finish.  You should be online at this point!</p>
+<p>So there you have it.  I want to give a HUGE thanks to Mark Ziesemer for doing so much research on this card, that helped progress a TON!</p>
+<p>Enjoy!</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/02/09/usb-evdo-alltel-um175al-under-sled-10/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Registering your shiny new HP Mini-Note 2133</title>
+		<link>http://lizards.opensuse.org/2009/02/06/registering-your-shiny-new-hp-mini-note-2133/</link>
+		<comments>http://lizards.opensuse.org/2009/02/06/registering-your-shiny-new-hp-mini-note-2133/#comments</comments>
+		<pubDate>Fri, 06 Feb 2009 23:52:38 +0000</pubDate>
+		<dc:creator><![CDATA[Christopher Hobbs]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[Usability]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=412</guid>
+		<description><![CDATA[So you just got an HP Mini-Note 2133 pre-loaded with SLED 10?  Great, right? Well&#8230;  It&#8217;s not been so great for a lot of people.  It seems that HP simply put this laptop together, half-assed a SLED load and sent it out into the wild.  I&#8217;ve had a ton of problems with it, the two [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>So you just got an HP Mini-Note 2133 pre-loaded with SLED 10?  Great, right?</p>
+<p>Well&#8230;  It&#8217;s not been so great for a lot of people.  It seems that HP simply put this laptop together, half-assed a SLED load and sent it out into the wild.  I&#8217;ve had a ton of problems with it, the two major ones being that I couldn&#8217;t register the machine with the Novell Customer Center (not even with my site license) it ships with a non-working wireless card.</p>
+<p>My wifi fix was simple, buy a new usb wifi dongle&#8230;  Registration, however, was a little easier to fix (after some wailing, gnashing of teeth, and chat in #opensuse-GNOME&#8230; thanks captiain_magnus!).</p>
+<p>If you attempt to use YaST to register you copy of SLED on the 2133, you&#8217;ll be re-directed to a &#8220;special&#8221; Novell Customer Center login.  It&#8217;s a little different than the normal one in that it wants an HP license, not any other SLED license you may have.  The biggest difference, however, is that it&#8217;s broke.  It simply refreshes the page when you click submit and sends nothing to Novell.</p>
+<p>They&#8217;re pretty sneaky about hiding your license number as well.  It happens to be on your restore DVD.  It&#8217;s located on the right hand side below the HP logo and the &#8220;2133&#8243; text.  It&#8217;s in a series something like NNNNNN-XNN, where N&#8217;s are numbers and X is some letter.</p>
+<p>To get around the registration bug, have your license number handy and fire up your terminal.  Use &#8216;sudo&#8217; or just &#8216;su to root and issue the following command:</p>
+<blockquote><p>suse_register -n -a serial-hp=NNNNNN-XNN</p></blockquote>
+<p>Where &#8220;NNNNNN-XNN&#8221; is your registration code.  Sit back and wait, it took almost 20 minutes for this command to finish for me and you&#8217;ll receive absolutely no indication that it&#8217;s functioning.  Once it&#8217;s done, you&#8217;ll simply be returned to your prompt.  Fire up YaST or your favorite terminal emulator and check your repositories.  You should now have a Novell repository added.</p>
+<p>Enjoy!</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/02/06/registering-your-shiny-new-hp-mini-note-2133/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>openSUSE-GNOME Team Meeting Today (Timeshift) &#8211; 05 FEB 2009 2200 UTC</title>
+		<link>http://lizards.opensuse.org/2009/02/05/opensuse-gnome-team-meeting-today-timeshift-05-feb-2009-2200-utc/</link>
+		<comments>http://lizards.opensuse.org/2009/02/05/opensuse-gnome-team-meeting-today-timeshift-05-feb-2009-2200-utc/#comments</comments>
+		<pubDate>Thu, 05 Feb 2009 15:41:05 +0000</pubDate>
+		<dc:creator><![CDATA[Christopher Hobbs]]></dc:creator>
+				<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=407</guid>
+		<description><![CDATA[Please join us for the GNOME Team meeting in #openSUSE-GNOME on irc.freenode.net. The current agenda can be found here: http://en.opensuse.org/GNOME/Meetings/20090205 For time conversions, please see: http://www.timeanddate.com/worldclock/fixedtime.html?day=22&#38;month=1&#38;year=2009&#38;hour=22&#38;min=0&#38;sec=0&#38;p1=0 Thanks!]]></description>
+				<content:encoded><![CDATA[<p>Please join us for the GNOME Team meeting in #openSUSE-GNOME on<br />
+irc.freenode.net.</p>
+<p>The current agenda can be found here:<br />
+<a href="http://en.opensuse.org/GNOME/Meetings/20090205">http://en.opensuse.org/GNOME/Meetings/20090205</a></p>
+<p>For time conversions, please see:<br />
+<a href="http://www.timeanddate.com/worldclock/fixedtime.html?day=22&amp;month=1&amp;year=2009&amp;hour=22&amp;min=0&amp;sec=0&amp;p1=0">http://www.timeanddate.com/worldclock/fixedtime.html?day=22&amp;month=1&amp;year=2009&amp;hour=22&amp;min=0&amp;sec=0&amp;p1=0</a></p>
+<p>Thanks!</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/02/05/opensuse-gnome-team-meeting-today-timeshift-05-feb-2009-2200-utc/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Thats how I roll: Installing Ruby on Rails on openSUSE</title>
+		<link>http://lizards.opensuse.org/2009/02/05/thats-how-i-roll-installing-ruby-on-rails-on-opensuse/</link>
+		<comments>http://lizards.opensuse.org/2009/02/05/thats-how-i-roll-installing-ruby-on-rails-on-opensuse/#comments</comments>
+		<pubDate>Thu, 05 Feb 2009 15:14:45 +0000</pubDate>
+		<dc:creator><![CDATA[Christopher Hobbs]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Usability]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=338</guid>
+		<description><![CDATA[There&#8217;s been some discussion about Rails on openSUSE recently, so I thought I&#8217;d add to my Ruby articles with a Rails installation guide. Getting started with Rails on openSUSE is a breeze.  In this particular article, I&#8217;ll quickly outline installation and startup of Rails on openSUSE 11.1.  You&#8217;ll need to install Ruby, ruby-sqlite, and ruby [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>There&#8217;s been <a href="http://www.suseblog.com/?p=477">some</a> <a href="http://forums.opensuse.org/tech-news/405088-wanted-build-service-contributors.html">discussion</a> about Rails on openSUSE recently, so I thought I&#8217;d add to my Ruby articles with a Rails installation guide.</p>
+<p>Getting started with Rails on openSUSE is a breeze.  In this particular article, I&#8217;ll quickly outline installation and startup of Rails on openSUSE 11.1.  You&#8217;ll need to install Ruby, ruby-sqlite, and ruby gems.  I&#8217;ve detailed these in my <a href="http://lizards.opensuse.org/2009/01/10/whats-green-red-and-awesome-all-over/">previous</a> <a href="http://lizards.opensuse.org/2009/01/14/using-ruby-for-system-scripts/">articles</a> on <a href="http://lizards.opensuse.org/2009/01/21/controlling-your-minions-with-ruby-and-capistrano/">ruby</a>.</p>
+<p><span id="more-338"></span></p>
+<p>This is far easier than you might expect, so lets get started&#8230;</p>
+<p>Use ruby gems to install Rails:</p>
+<blockquote><p>sudo gem install rails</p></blockquote>
+<p>That&#8217;s it!  After some work, Rails should be all installed and ready to go.  You can test it out by creating a new project:</p>
+<blockquote><p>rails foobar</p></blockquote>
+<p>And running the server script, then visit http://localhost:3000 in your web browser to verify that all is well:</p>
+<blockquote><p>cd foobar &amp;&amp; ruby script/server</p></blockquote>
+<p>Note that this installation will use sqlite3 as it&#8217;s database by default if you&#8217;ve been following my other tutorials.  There&#8217;s information about getting Rails to work with MySQL (and other databases/platforms) over at the Rails Wiki:  <a href="http://wiki.rubyonrails.org/rails/pages/HowtosInstallation">http://wiki.rubyonrails.org/rails/pages/HowtosInstallation</a></p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/02/05/thats-how-i-roll-installing-ruby-on-rails-on-opensuse/feed/</wfw:commentRss>
+		<slash:comments>4</slash:comments>
+		</item>
+		<item>
+		<title>Novell Teaming on SLES</title>
+		<link>http://lizards.opensuse.org/2009/01/21/novell-teaming-on-sles/</link>
+		<comments>http://lizards.opensuse.org/2009/01/21/novell-teaming-on-sles/#comments</comments>
+		<pubDate>Wed, 21 Jan 2009 21:44:14 +0000</pubDate>
+		<dc:creator><![CDATA[Christopher Hobbs]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Server]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=371</guid>
+		<description><![CDATA[As per the request of Andrew Wafaa, I thought I&#8217;d set up a quick guide to how I got teaming running on SLES.  The documentation for Teaming on the administrative end was relatively sparse, but the installation guide was sufficient for most purposes. Read on to learn more about Teaming and SLES&#8230; Documentation Most of [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>As per the <a title="http://twitter.com/awafaa/status/1136640982" href="http://twitter.com/awafaa/status/1136640982">request</a> of <a title="http://lizards.opensuse.org/author/funkypenguin/" href="http://lizards.opensuse.org/author/funkypenguin/">Andrew Wafaa</a>, I thought I&#8217;d set up a quick guide to how I got teaming running on SLES.  The documentation for Teaming on the administrative end was relatively sparse, but the installation guide was sufficient for most purposes.</p>
+<p>Read on to learn more about Teaming and SLES&#8230;</p>
+<p><span id="more-371"></span></p>
+<p><strong>Documentation</strong></p>
+<p>Most of the Teaming documentation can be found here:  <a title="http://www.novell.com/documentation/team_plus_conf/" href="http://www.novell.com/documentation/team_plus_conf/">http://www.novell.com/documentation/team_plus_conf/</a></p>
+<p><strong>Prerequisites</strong></p>
+<ul>
+<li>SLES (our server platform)</li>
+<li>OES2 (not entirely important, but it knocks out a lot of the pre-reqs and gives you LDAP support if you have eDirectory running)</li>
+<li>Teaming Licenses (a &#8220;starter pack&#8221; of 20 free licenses is available, contact your Novell vendor for more information)</li>
+<li>I&#8217;m assuming you&#8217;re running the setup from a Linux box, but this isn&#8217;t 100% necessary</li>
+</ul>
+<p><strong>Preparing your installation<br />
+</strong></p>
+<p>There are a few things you need to do before getting started.  First being to install mysql:</p>
+<blockquote><p># zypper in mysql mysql-client mysql-shared perl-DBD-mysql perl-DBI perl-Data-ShowTable libmysqlclient-devel</p>
+<p># chkconfig &#8211;add mysql</p>
+<p># /etc/init.d/mysql start</p>
+<p># mysql_secure_installation</p></blockquote>
+<p>Next, you&#8217;ll need to edit your /etc/my.cnf to change the default character set support.  Add the following lines to /etcmy.cnf:</p>
+<blockquote>
+<pre>[mysqld]
+character_set_server = utf8
+[client]
+default_character_set = utf8
+</pre>
+</blockquote>
+<p>Additionally, you&#8217;ll need to increase your open file limits in /etc/security/limits.conf:</p>
+<ul>
+<li> hard nofile 65535</li>
+<li> soft nofile 4096</li>
+</ul>
+<p><strong>Installation</strong></p>
+<p>I like to run everything from a single location, so to kick things off, I created the directory &#8216;/incoming&#8217;.  Once there, you&#8217;ll need to download your copy of Teaming and extract it into this directory.</p>
+<p>Once you&#8217;ve gotten everything extracted, download your license file and copy it to the same directory, but make sure that you rename it to &#8220;license-key.xml&#8221;.  The Teaming installer will complain to no end if it&#8217;s unable to find this <em>exact </em>file in the install root.</p>
+<p>Next, you&#8217;ll need to make the installer executable:</p>
+<blockquote><p># cd /incoming &amp;&amp; chmod 755 installer-liferay.linux</p></blockquote>
+<p>Now it&#8217;s time to run the installer.  The installer comes as a GUI package, but can be run via a text interface as well.  If you&#8217;re ssh&#8217;ing into your server to set up Teaming, you&#8217;ll want to forward X to allow the GUI to open (ssh -X -C user@server.com).  Otherwise, use the &#8216;-console&#8217; knob to initiate the text based installer.</p>
+<blockquote><p># ./installer-liferay.linux</p>
+<p>-or-</p>
+<p># ./installer-liferay.linux -console</p></blockquote>
+<p>I recommend choosing advanced options for install as it allows for greater flexibility in options.  Once you&#8217;ve followed through the installation steps (note, I installed mine copy into /opt/icecore), liferay/Teaming should be successfully installed.  Now you&#8217;ll need to start the server:</p>
+<blockquote><p># /opt/icecore/<span class="literal">liferay-portal-tomcat-5.5-jdk5-4.3.0/bin/icecore start</span></p></blockquote>
+<p>To ensure that Teaming starts on boot, issue the following commands:</p>
+<blockquote><p># <span class="literal">cp /opt/icecore/liferay-portal-tomcat-5.5-jdk5-4.3.0/bin/icecore</span><span class="literal"> /etc/init.d</span></p>
+<p># <span class="literal">chkconfig &#8211;add icecore</span></p></blockquote>
+<p>After that, you should be able to start, stop, and restart &#8216;icecore&#8217;  using the /etc/init.d/icecore script.</p>
+<p>At this point, Teaming should be up and running.  To access it and get started, open your browser and navigate to http://yourserver.com:8080 and log in as user admin with the password &#8216;admin&#8217; (no quotes).</p>
+<p>Once logged in, you&#8217;ll need to pull the administrative modules down to your view by selecting the &#8216;Add Content&#8217; option in the upper right hand corner.  I like to use the shotgun method and add all of the administrative modules for my admin user.</p>
+<p>So there you have it, a fresh Teaming install.  Enjoy!</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/01/21/novell-teaming-on-sles/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>

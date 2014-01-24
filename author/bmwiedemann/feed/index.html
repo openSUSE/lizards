@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; bmwiedemann</title>
+	<atom:link href="https://lizards.opensuse.org/author/bmwiedemann/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>Hongkong OpenStack Design Summit</title>
+		<link>https://lizards.opensuse.org/2013/11/13/hongkong-openstack-design-summit/</link>
+		<comments>https://lizards.opensuse.org/2013/11/13/hongkong-openstack-design-summit/#comments</comments>
+		<pubDate>Wed, 13 Nov 2013 13:50:23 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Events]]></category>
+		<category><![CDATA[Virtualization]]></category>
+		<category><![CDATA[cloud]]></category>
+		<category><![CDATA[hongkong]]></category>
+		<category><![CDATA[openstack]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10133</guid>
+		<description><![CDATA[So last week many OpenStack (cloud software) developers met in Hongkong&#8217;s world expo halls to discuss the future development and show off what is done already. Overall, I heard there were 3000 attendees, with 800 being developers or so. That sounds like a large number of people, but luckily everything felt well-organized and the rooms [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>So last week many OpenStack (cloud software) developers met in Hongkong&#8217;s world expo halls to discuss the future development and show off what is done already.</p>
+<p>Overall, I heard there were 3000 attendees, with 800 being developers or so. That sounds like a large number of people, but luckily everything felt well-organized and the rooms were always big enough to have seats for all interested.</p>
+<p>The design sessions were usually pretty low-level and focused into one component, so it was not easy for me to make useful contributions in there. The session about <a href="http://icehousedesignsummit.sched.org/event/b683cd5cfcb3d812d8d1c899a87733b0">read-only API access</a> (e.g. for helpdesk workers and monitoring) and about HA were most useful to me.</p>
+<p>In the breakout rooms were interesting sessions by many large OpenStack users (<a href="http://www.youtube.com/watch?v=ClGsZsMFUkQ">CERN</a>, <a href="https://www.youtube.com/watch?v=Enmil7boIyI">Ebay</a>, <a href="http://www.youtube.com/watch?v=5HBaPEz68x0">Paypal</a>, <a href="http://www.youtube.com/watch?v=9QULq3-Ff4c">Dreamhost</a>, <a href="http://www.youtube.com/watch?v=GFGpWjSwr_0">Rackspace</a>) giving valuable insights into what people expect from and do with a cloud. Many of them are using custom-built parts, because the plain OpenStack <a href="https://plus.google.com/108928462394474625418/posts/NsqXDVErLtj">is still not complete</a> to run a cloud. SUSE Cloud ships with some such missing parts (e.g. deployment and configuration management), but most organisations seem to run their own at the moment.</p>
+<p>Cloudbase was there telling about their Hyper-V support that we integrated in SUSE Cloud.<br />
+Apart from the 6 SUSE Cloud developers there were several local (and one Australian) SUSE guys manning the booth.</p>
+<p>Overall it was quite some experience to be there (in such an exotic and yet nice place) and listen and talk to so many different people from very different backgrounds.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/11/13/hongkong-openstack-design-summit/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>How I ran openSUSE on a Nexus 7</title>
+		<link>https://lizards.opensuse.org/2013/09/22/how-i-ran-opensuse-on-a-nexus-7/</link>
+		<comments>https://lizards.opensuse.org/2013/09/22/how-i-ran-opensuse-on-a-nexus-7/#comments</comments>
+		<pubDate>Sun, 22 Sep 2013 09:21:22 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[nexus]]></category>
+		<category><![CDATA[raspberry]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9935</guid>
+		<description><![CDATA[The Nexus 7 (2012 version) is a 7 inch tablet by Google+Asus. The nice thing about it is, that it has an unlockable bootloader. Also it has an armv7 CPU and we built openSUSE for this CPU for some years. I had one such device with a broken display, so doing some more risky things [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The Nexus 7 (2012 version) is a 7 inch tablet by Google+Asus.<br />
+The nice thing about it is, that it has an unlockable bootloader. Also it has an armv7 CPU and we built openSUSE for this CPU for some years. I had one such device with a broken display, so doing some more risky things with it seemed to be appropriate.<br />
+I wanted to run my own software on it. Running openSUSE in a chroot (change-root) environment is usually a lot easier than replacing the whole system, so this is where I went.</p>
+<p>First, I needed two tools. One is the &#8220;adb&#8221; &#8211; Android DeBug tool from the official sdk and the other is &#8220;fastboot&#8221; which was hard to find, so I <a href="http://www.zq1.de/bernhard/mirror/android/fastboot.zip">mirror it here</a>.<br />
+I got me the stable ROM from <a href="http://wiki.cyanogenmod.org/w/Grouper_Info">http://wiki.cyanogenmod.org/w/Grouper_Info</a> and followed their installation instructions. adb shell only seemed to work while in bootloader (which you reach by holding Volume-Down+Power during boot)<br />
+The hardest part was to <a href="http://developer.android.com/tools/device.html#setting-up">re-enable USB-debugging</a> by going into Settings/About tablet and tapping Build-Number seven times.</p>
+<p>Also before zapping everything that was there, I did in adb shell : <code>cp -a /system/app /sdcard/</code><br />
+and back later.<br />
+So after following all the other installation steps, I had cyanogenmod booting. I attached a bluetooth keyboard so that I can better type. The ROM comes with a terminal app, which I opened. type <code>su -</code> to become root after a security popup.<br />
+Now, I downloaded my lastest Raspberry-Pi image from <a href="http://www.zq1.de/bernhard/linux/opensuse/">http://www.zq1.de/bernhard/linux/opensuse/</a>. This is under /sdcard/Download where I unpacked it with xz -d<br />
+Then comes the tricky part. The image has a partition table, but here we just need the root filesystem. With <code>fdisk -lu</code> we can see that it starts at sector 309248. One could copy out that part with dd or use a loop device with offset like this:<br />
+<code>#!/system/xbin/sh<br />
+mknod /dev/loop0 b 7 0<br />
+losetup -d /dev/loop0 # cleanup of previous try<br />
+losetup -o `expr 512 \* 309248` /dev/loop0 rasp*img<br />
+mkdir -p mnt<br />
+mount -t ext2 /dev/loop0 mnt<br />
+</code></p>
+<p>Now we have access to the openSUSE files under mnt.<br />
+In there I created me a chroot.sh:<br />
+<code>#!/system/xbin/sh<br />
+for m in proc sys dev ; do    mount -o bind /$m $m ; done<br />
+HOME=/root PATH=/sbin:/usr/sbin:/usr/local/sbin:/root/bin:/usr/local/bin:/usr/bin:/bin:/usr/bin/X11:/usr/X11R6/bin /system/xbin/chroot . bin/bash<br />
+for m in proc sys dev ; do    umount $m ; done<br />
+</code></p>
+<p>With that, the only remaining thing to do was to add a nameserver line to /etc/resolv.conf before I could use zypper to install software e.g. <code>zypper install yast2-network yast2-ncurses</code>.<br />
+Running <code>yast lan</code> on the Nexus 7 <a href="https://plus.google.com/photos/108928462394474625418/albums/5701558097275278593/5926357383234418210">gives nice sight</a>.</p>
+<p>I guess one could also use <a href="http://download.opensuse.org/ports/armv7hl/distribution/12.3/images/openSUSE-12.3-ARM-JeOS-rootfs.armv7l-1.12.1-Build47.1.tbz">the armv7 rootfs</a> to have software built for armv7 instead of the compatible armv6. But for me it does not matter much.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/09/22/how-i-ran-opensuse-on-a-nexus-7/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>New Raspberry Pi Image</title>
+		<link>https://lizards.opensuse.org/2013/09/07/new-raspberry-pi-image/</link>
+		<comments>https://lizards.opensuse.org/2013/09/07/new-raspberry-pi-image/#comments</comments>
+		<pubDate>Sat, 07 Sep 2013 12:41:10 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Contrib]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Toolchain]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9888</guid>
+		<description><![CDATA[update: new image with kernel-3.6 and minimal X11/icewm http://www.zq1.de/~bernhard/linux/opensuse/raspberrypi-opensuse-20130911x.img.xz (103MB) We got a new armv6 based image for the Raspberry Pi. This one is only 82MB compressed, so pretty minimalistic. http://www.zq1.de/~bernhard/linux/opensuse/raspberrypi-opensuse-20130907.img.xz The exciting new thing is that this was created using an alternative image building automatism which I wrote from scratch in three hours this [&#8230;]]]></description>
+				<content:encoded><![CDATA[<blockquote><p><strong>update:</strong> new image with kernel-3.6 and minimal X11/icewm http://www.zq1.de/~bernhard/linux/opensuse/raspberrypi-opensuse-20130911x.img.xz (103MB)</p></blockquote>
+<p>We got a new armv6 based image for the Raspberry Pi.<br />
+This one is only 82MB compressed, so pretty minimalistic.</p>
+<p>http://www.zq1.de/~bernhard/linux/opensuse/raspberrypi-opensuse-20130907.img.xz</p>
+<p>The exciting new thing is that this was created using an alternative image building automatism which I wrote from scratch in three hours this morning.<br />
+The scripts can be found at</p>
+<p>https://build.opensuse.org/package/show/devel:ARM:Factory:Contrib:RaspberryPi/altimagebuild</p>
+<p>and are also embedded within the image under /home/abuild/rpmbuild/SOURCES/</p>
+<p>This means that everyone can now easily build his own images the way he likes and even branch and do submit requests for changes that are useful for others.<br />
+The way to use this is simple.<br />
+If you have 6GB RAM, you can speed things up with export OSC_BUILD_ROOT=/dev/shm/arm before you do<br />
+<code>osc co devel:ARM:Factory:Contrib:RaspberryPi altimagebuild<br />
+cd devel:ARM:Factory:Contrib:RaspberryPi/altimagebuild<br />
+bash -x main.sh<br />
+</code></p>
+<p>This pseudo-package does not easily build within OBS or osc alone because it needs root permissions for some of the steps (chroot, mknod, mount), which could only be workarounded with User-Mode-Linux or patching osc.<br />
+The build consists of three steps that can be seen in main.sh:</p>
+<ol>
+<li>First, osc build is used to pull in required packages and setup the armv6 rootfs.</li>
+<li>Second, mkrootfs.sh modifies a copy of the rootfs under .root to contain all required configs</li>
+<li>And finally, mkimage.sh takes the .root dir and creates a .img from it that can be booted</li>
+</ol>
+<p>This can build an image from scatch in three minutes. And my Raspberry Pi booted successfully with it within 55 seconds.</p>
+<p>There are some remaining open issues:</p>
+<ul>
+<li>the repo key is initially untrusted</li>
+<li><del datetime="2013-09-11T09:01:03+00:00">still uses old 3.1 kernel</del> &#8211; solved</li>
+<li>build scripts have no error handling</li>
+</ul>
+<p>Compared to the old image, this one has some advantages:</p>
+<ul>
+<li>It is easier to resize because the root partition is the last one</li>
+<li>Compressed image is much smaller</li>
+<li>Reproducible image build, so easy to customize</li>
+<li>It is armv6 with floating point support, so could be faster</li>
+<li>We have over 5200 successfully built packages from <a href="http://download.opensuse.org/ports/armv6hl/factory/repo/oss/">openSUSE:Factory:ARM</a><br />
+so for example you can install a minimalistic graphical environment with <code>zypper install xauth twm xorg-x11-server xinit</code> and start it with <code>startx</code>
+</li>
+</ul>
+<p>So if you wanted to play with openSUSE on RPi, you can do so right now and have a lot of fun.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/09/07/new-raspberry-pi-image/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>GPIO on Raspberry Pi</title>
+		<link>https://lizards.opensuse.org/2013/03/31/gpio-on-raspberry-pi/</link>
+		<comments>https://lizards.opensuse.org/2013/03/31/gpio-on-raspberry-pi/#comments</comments>
+		<pubDate>Sun, 31 Mar 2013 09:12:18 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Education]]></category>
+		<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[gpio]]></category>
+		<category><![CDATA[pi]]></category>
+		<category><![CDATA[raspberry]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9342</guid>
+		<description><![CDATA[We have these working openSUSE Factory images for the Raspberry Pi, which is an ARM-based mini-computer, and since I want to encourage my kid to do more with computers than playing games (even if they are open-source), I looked into how GPIOs worked. For that, you need to find the pin allocation &#8211; e.g. in [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>We have these working openSUSE Factory images for the Raspberry Pi, which is an ARM-based mini-computer, and since I want to encourage my kid to do more with computers than playing games (even if they are open-source), I looked into how GPIOs worked.<br />
+For that, you need to find the pin allocation &#8211; e.g.<br />
+in <a href="http://elinux.org/RPi_Low-level_peripherals#General_Purpose_Input.2FOutput_.28GPIO.29">the elinux GPIO description</a> or<br />
+<a href="http://www.raspberrypi.org/archives/1417">http://www.raspberrypi.org/archives/1417</a><br />
+has a video which has it explained at 03:00</p>
+<p>For my test, I wired together pin11 and pin12, which are GPIO17 and GPIO18.<br />
+I wanted GPIO17 to receive what is sent by GPIO18.<br />
+This is how this looked for me: <img src="http://www.zq1.de/~bernhard/images/arm/Raspberry-gpio1718.jpg" alt="foto of GPIO17 and 18 wired together" /></p>
+<p>Using it directly from the shell is simple:<br />
+<code>echo 17 &gt; /sys/class/gpio/export<br />
+echo 18 &gt; /sys/class/gpio/export<br />
+echo out &gt; /sys/class/gpio/gpio18/direction<br />
+echo 1 &gt; /sys/class/gpio/gpio18/value<br />
+watch -n 1 head /sys/class/gpio/gpio*/value<br />
+</code></p>
+<p>If the wiring and configuration was right, the &#8220;watch&#8221; will show gpio17/value to become 1 too.<br />
+You can then also pull the wire (or insert a physical switch) and see gpio17/value dropping to 0 again, when it is no more receiving the current from the other pin.</p>
+<p>If you managed to get this working, you reached level one of hardware-hackery.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/03/31/gpio-on-raspberry-pi/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>OpenStack on openSUSE</title>
+		<link>https://lizards.opensuse.org/2013/01/11/openstack-on-opensuse/</link>
+		<comments>https://lizards.opensuse.org/2013/01/11/openstack-on-opensuse/#comments</comments>
+		<pubDate>Fri, 11 Jan 2013 14:28:11 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Systems Management]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9198</guid>
+		<description><![CDATA[Do you want to play with cloud software on your own machines? Some people have been working to package the current OpenStack version &#8220;Folsom&#8221; for openSUSE (tested on 12.2) and add scripts to configure it into a working state. You need 2GB of RAM and 3+ GB of free disk space under /var/lib/ Then you [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Do you want to play with cloud software on your own machines?<br />
+Some people have been working to package the current OpenStack version &#8220;Folsom&#8221; for openSUSE (tested on 12.2) and add scripts to configure it into a working state.<br />
+You need 2GB of RAM and 3+ GB of free disk space under /var/lib/<br />
+Then you do</p>
+<p><code> wget https://raw.github.com/SUSE-Cloud/automation/master/scripts/jenkins/qa_openstack.sh<br />
+export cloudsource=openstackfolsom ; bash -x qa_openstack.sh<br />
+</code></p>
+<p>This is a script we use for continous integration testing, but it is as useful to setup a simple environment for development, testing or demoing.<br />
+Folsom packages are still rather rough and might see some change over the coming weeks.</p>
+<p>If you want the older stable version, you can use the above snippet with cloudsource=openstackessex<br />
+however, there are some known bugs in that old version and backports are really hard.</p>
+<p>Soon there will be Grizzly packages upcoming. More is to come&#8230;</p>
+<p><i>P.S. To interact with your cloud, you need credentials, which are automatically sourced from /etc/bash.bashrc.local (it is admin:openstack) and then you use commands like<br />
+<code>nova list</code> and <code>glance image-list</code><br />
+but there is also a web-interface that allows you to do most actions in a browser &#8211; even VNC, if you use KVM instead of the default lxc.</i></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/01/11/openstack-on-opensuse/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Making different openSUSE liveCDs</title>
+		<link>https://lizards.opensuse.org/2012/12/29/making-different-opensuse-livecds/</link>
+		<comments>https://lizards.opensuse.org/2012/12/29/making-different-opensuse-livecds/#comments</comments>
+		<pubDate>Sat, 29 Dec 2012 08:24:47 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[LiveCD]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9175</guid>
+		<description><![CDATA[In my last post I explored the various liveCD creation methods out there, and I really wanted to try one of the others for openSUSE. Thus I did so today in less than two hours. I used Debian&#8217;s liveCD as basis and replaced the userspace with an openSUSE-11.4-GNOME-liveCD one (later ones likely do not work [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>In <a href="https://lizards.opensuse.org/2012/12/27/livecds/">my last post</a> I explored the various liveCD creation methods out there, and I really wanted to try one of the others for openSUSE.<br />
+Thus I did so today in less than two hours.<br />
+I used Debian&#8217;s liveCD as basis and replaced the userspace with an openSUSE-11.4-GNOME-liveCD one (later ones likely do not work as systemd is not compatible with old 2.6.32 kernels).<br />
+And it worked like a charm. If you want to try it yourself, you need openSUSE and an empty directory with 5GB free space. Then you do as root:<br />
+<code><br />
+zypper -n in clicfs squashfs cdrkit-cdrtools-compat<br />
+wget -O Makefile <a href="http://lsmod.de/bootcd/Makefile.aufslive.11.4">http://lsmod.de/bootcd/Makefile.aufslive.11.4</a><br />
+make<br />
+</code></p>
+<p>This will take a while to download the two isos and then at least another 3 minutes for the processing.<br />
+If that seems too hard for you, you can just download <a href="http://lsmod.de/bootcd/openSUSE-11.4-GNOME-i686-aufslive.iso">the finished iso</a> and try it with <code>qemu-kvm -m 1000 -cdrom xxx.iso</code></p>
+<p>Do not let the debian logo in the bootloader confuse you. Just press enter there.<br />
+When running in KVM from RAM, this boots up in 18 seconds, while the original iso took 33 (measured from pressing enter in bootloader to the time the CPU load goes down). However, with physical media the difference will be less pronounced. Some of the difference comes from the faster gzip decompression. Unfortunately debian&#8217;s kernel does not support squashfs-xz, so I could not try that.</p>
+<p>I hope in the future, we will have aufs patches in our normal openSUSE kernels and add an aufs-live mode to kiwi. That would help with <a href="https://bugzilla.novell.com/show_bug.cgi?id=767394">the problems we hit with clicfs</a> when memory runs out (and it can not be freed by deleting files either).</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2012/12/29/making-different-opensuse-livecds/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>LiveCDs</title>
+		<link>https://lizards.opensuse.org/2012/12/27/livecds/</link>
+		<comments>https://lizards.opensuse.org/2012/12/27/livecds/#comments</comments>
+		<pubDate>Thu, 27 Dec 2012 15:59:51 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[comparison]]></category>
+		<category><![CDATA[LiveCD]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9128</guid>
+		<description><![CDATA[As few of you might know, I made my own SUSE-based LiveCDs a while ago, using (like Knoppix) cloop compression with iso9660 and my own kernel code for file-based overlay to make it writeable. You might be amazed at how fast it runs in KVM. However, the kernel part has bit-rotten and there are other [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>As few of you might know, I made my own <a href="http://lsmod.de/bootcd/">SUSE-based LiveCDs</a> a while ago, using (like Knoppix) cloop compression with iso9660 and <a href="http://translucency.sourceforge.net/">my own kernel code</a> for file-based overlay to make it writeable. You might be amazed at how fast it runs in KVM. However, the kernel part has bit-rotten and there are other techniques out there today, so I took a look around at how others do their LiveCDs.</p>
+<p>But first some broader overview. To make a LiveCD, the biggest problem is that CDs are not writeable (and even modern Flash devices do not want to be written too much). Embedded devices using flash had the same problem. Various approaches have been used in the past to solve this:</p>
+<ul>
+<li>adapt all software to write into ram-disks e.g. by having symlinks (hard to create and maintain)</li>
+<li>load all software into RAM (only for small distributions)</li>
+<li>use file-based overlaying such as unionfs or aufs to have software write into RAM (lsof, pwd, and hardlinks can be tricky)</li>
+<li>use block-based overlaying (problem: can not easily free disk space again)</li>
+</ul>
+<p>Also compression is used to fit more onto a CD. And interestingly, this usually also speeds up booting because it is faster to read 10MB off a CD and decompress it into the original 30MB than to read 30MB from such a slow medium.</p>
+<p>Now, to the distributions.</p>
+<ul>
+<li>openSUSE has the classic DVD installs that use special <a href="https://build.opensuse.org/package/show?package=installation-images&amp;project=openSUSE%3AFactory">installation-images</a> and run in RAM and then there are the real LiveCDs that are created by our kiwi tool, use block-based overlaying and LZMA compression of a ext3 by means of our FUSE-based clicfs.</li>
+<li>All of the other distributions use squashfs for compression. <a href="http://www.mageia.org/downloads/">Mageia</a> employs dracut for initrd and unionfs for file-based overlaying</li>
+<li><a href="http://cdimage.debian.org/debian-cd/current-live/i386/bt-hybrid/">Debian</a> uses <a href="http://aufs.sourceforge.net/">aufs</a> for file-based overlaying</li>
+<li>Ubuntu uses overlayfs for file-based overlaying</li>
+<li><a href="https://fedoraproject.org/get-fedora">Fedora</a> uses an ext4 filesystem image contained in a squashfs with dm-snapshot for block-based overlaying, thus being most similar to openSUSE</li>
+</ul>
+<p>I also spent some time benchmarking (on my AMD A10-5800K) the various technologies with <a href="https://gist.github.com/4389034">a simple script</a> using Debians uncompressed rootfs of 495132 KiB as data.<br />
+squashfs supports three different compression methods: lzo, gzip and xz (aka LZMA).</p>
+<ul>
+<li>squashfs-lzo:  size:220992 compression:11.1MB/s decompression:134.4MB/s</li>
+<li>squashfs-gzip: size:203328 compression:15.5MB/s decompression:88.9MB/s</li>
+<li>squashfs-xz:   size:176064 compression:6.5MB/s  decompression:22.5MB/s</li>
+<li>cloop(gzip):   size:213348 compression:16.2MB/s decompression:49.6MB/s</li>
+<li>clicfs(xz):    size:185300 compression:16.7MB/s decompression:18.2MB/s</li>
+</ul>
+<p>This has some surprises: even when using the same compression method, sizes can differ by 5% and speed can differ even more.</p>
+<p>If you want to compare numbers on your system, memory throughput is also interesting:<br />
+# dd if=/dev/zero of=/dev/null bs=1M count=100000<br />
+104857600000 bytes (105 GB) copied, 12.4499 s, 8.4 GB/s</p>
+<p>Overall, clicfs is performing OK, considering that it already takes care of the overlaying, but for my own LiveCD I would prefer Debian&#8217;s method and I am wondering how it would work.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2012/12/27/livecds/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>How to peek into remote isos</title>
+		<link>https://lizards.opensuse.org/2012/07/17/how-to-peek-into-remote-isos/</link>
+		<comments>https://lizards.opensuse.org/2012/07/17/how-to-peek-into-remote-isos/#comments</comments>
+		<pubDate>Tue, 17 Jul 2012 06:18:39 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Apache]]></category>
+		<category><![CDATA[Network]]></category>
+		<category><![CDATA[curlwwwfs]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8814</guid>
+		<description><![CDATA[When people want to provide a collection of files, they sometimes choose to do so by providing a .iso image file. But if you only want to look what files are in there or only need a few files, e.g. kernel and initrd for PXE-booting, you still had to download the whole thing to loop-mount [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>When people want to provide a collection of files, they sometimes choose to do so by providing a .iso image file. But if you only want to look what files are in there or only need a few files, e.g. kernel and initrd for PXE-booting, you still had to download the whole thing to loop-mount it.</p>
+<p>But you don&#8217;t have to anymore. Because modern web servers support delivering only parts of a file (using the &#8220;Range&#8221; header field), that allowed me to implement curlwwwfs that mounts remote HTTP directories into your local filesystem. And then you can use fuseiso on top to access the actual content within the .iso. All without root access.</p>
+<p>This is how it works:</p>
+<p>First you have to install the required packages (replace 12.2 with your version of openSUSE (or if you use a different Linux distribution, do git clone git://github.com/bmwiedemann/curlwwwfs and &#8220;make install&#8221; in there)):</p>
+<p>zypper ar http://download.opensuse.org/repositories/home:/bmwiedemann/openSUSE_12.2/home:bmwiedemann.repo</p>
+<p>zypper in curlwwwfs fuseiso</p>
+<p># Then you start it:</p>
+<p>mkdir mnthttp mntiso</p>
+<p>curlwwwfs http://zq1.de/bootcd mnthttp &amp;</p>
+<p>ls -la mnthttp/</p>
+<p>fuseiso mnthttp/bmwinux-8.2-040808.iso mntiso</p>
+<p>cat mntiso/isolinux/isolinux.cfg</p>
+<p># and later you clean it up with</p>
+<p>fusermount -u mntiso</p>
+<p>fusermount -u mnthttp</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2012/07/17/how-to-peek-into-remote-isos/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>openSUSE ARM image</title>
+		<link>https://lizards.opensuse.org/2012/01/21/opensuse-arm-image/</link>
+		<comments>https://lizards.opensuse.org/2012/01/21/opensuse-arm-image/#comments</comments>
+		<pubDate>Sat, 21 Jan 2012 18:10:06 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[arm7]]></category>
+		<category><![CDATA[efikaMX]]></category>
+		<category><![CDATA[genesi]]></category>
+		<category><![CDATA[openSUSE@ARM]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8446</guid>
+		<description><![CDATA[When I wrote this week, how I ran openSUSE on my genesi smarttop some people asked for a ready-to-use image. After spending less than 8 hours fiddling with u-boot-scripts, partition tables, tuning ext3 and initrds, it was done&#8230; and is now so easy: wget http://www.zq1.de/efika.img.xz # 83MB xz -cd efika.img.xz &#124; dd of=/dev/sdX bs=1M with [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>When I wrote this week, <a href="http://lizards.opensuse.org/2012/01/19/running-opensuse-on-arm/">how I ran openSUSE on my genesi smarttop</a> some people asked for a ready-to-use image. After spending less than 8 hours fiddling with u-boot-scripts, partition tables, tuning ext3 and initrds, it was done&#8230; and is now so easy:</p>
+<blockquote><p>wget http://www.zq1.de/efika.img.xz # 83MB<br />
+xz -cd efika.img.xz | dd of=/dev/sdX bs=1M</p></blockquote>
+<p>with sdX being the device name of your SD-card (e.g. &#8220;mmcblk0&#8243; on the smarttop itself) with at least 1GB (actually 1024000000 bytes) of free space.</p>
+<p>When inserted at boot, it should just boot up within 23 seconds and let you login as root with password &#8220;linux&#8221; on SSH, serial and with a USB-keyboard on HDMI. I spent some effort on putting as few packages as possible into it. Still, you have zypper to install packages and nano to edit files.</p>
+<p>There is still a known hangup when you try to reboot. Workaround is: init 2 ; sleep 12 ; killall rsyslogd ; umount /boot/ ; mount -o remount,ro / ; reboot</p>
+<p>As it still uses the original linux-2.6.31 kernel, it has another bug that also happens with pre-installed Ubuntu: sometimes (in ~40% of cases), boot stopps early, before graphics is initialized, when the last line on serial is &#8220;console handover: boot [ttymxc0] -&gt; real [tty1]&#8220;. Try turning it off and on again.</p>
+<p>This should allow you to have a whole lot of fun&#8230;</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2012/01/21/opensuse-arm-image/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>running openSUSE on ARM</title>
+		<link>https://lizards.opensuse.org/2012/01/19/running-opensuse-on-arm/</link>
+		<comments>https://lizards.opensuse.org/2012/01/19/running-opensuse-on-arm/#comments</comments>
+		<pubDate>Thu, 19 Jan 2012 21:11:58 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[arm7]]></category>
+		<category><![CDATA[efikaMX]]></category>
+		<category><![CDATA[genesi]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8410</guid>
+		<description><![CDATA[This week I finally got my genesi efika MX box. By default it has on old Ubuntu version installed on its internal IDE-attached 8GB SSD. It features 512 MB RAM and a 800 MHz ARMv7 CPU. Using a HDMI-cable and an HDMI-DVI-Adaptor I got it connected to a monitor, plugged in a USB keyboard+mouse and [&#8230;]]]></description>
+				<content:encoded><![CDATA[<div class="mceTemp">
+<dl>
+<dt><img src="http://www.zq1.de/%7Ebernhard/images/efikamx.jpg" alt="" width="647" height="1000" /></dt>
+<dd></dd>
+</dl>
+</div>
+<p>This week I finally got my <a href="http://www.genesi-usa.com/products/efika">genesi efika MX</a> box. By default it has on old Ubuntu version installed on its internal IDE-attached 8GB SSD. It features 512 MB RAM and a 800 MHz ARMv7 CPU.</p>
+<p>Using a HDMI-cable and an HDMI-DVI-Adaptor I got it connected to a monitor, plugged in a USB keyboard+mouse and it pretty much worked out of the box with WLAN,Ethernet,X11 (except for a bug that causes it to force you to change PW on every console login). How boring.</p>
+<p>Having read about recent progress with openSUSE on ARM I wanted the excitement of running it on this box.</p>
+<p><a href="http://michal.hrusecky.net/2011/10/opensuse-arm-chroot-less-then-alpha/">Michal&#8217;s image and script</a> (now in alpha) was very helpful to get me started within 15 minutes.</p>
+<p>If you have any (e.g. x86) openSUSE system running, there is another easy way to create a working ARM chroot-environment:</p>
+<blockquote><p>zypper ar http://download.opensuse.org/repositories/openSUSE:/Tools:/Unstable/openSUSE_12.1/openSUSE:Tools:Unstable.repo<br />
+zypper install qemu osc<br />
+osc co openSUSE:Factory:ARM bash<br />
+cd openSUSE:Factory:ARM/bash<br />
+edit bash.spec # add lines with your packages like BuildRequires: zypper,vim<br />
+osc build &#8211;no-verify &#8211;clean standard armv7l</p></blockquote>
+<p>If it worked well, /var/tmp/build-root/ should contain a chroot environment. E.g. you can run</p>
+<blockquote><p>file /var/tmp/build-root/bin/bash<br />
+/var/tmp/build-root/bin/bash: ELF 32-bit LSB executable, ARM, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.16, BuildID[sha1]=0xed9ca12f44c8591560d780cf807b6b6cf8ca8873, stripped</p></blockquote>
+<p>I partitioned my SD-card into two partitions. The first one for /boot with ext2 (needs only 150MB) and the second one for / to contain the rootfs. Be sure to have barrier=0 in your fstab for all ext[34] partitions so that writing to SD will not be as slow. The default U-Boot configuration first checks on the first partition of an SD-card for boot.scr which is a uImage-formatted version of a U-boot script. I copied all of Ubuntu&#8217;s /boot and /lib/modules/, slightly adapted their boot.script file to have root=/dev/mmcblk0p2 and uImage/uInitrd-2.6.31.14.26-efikamx as kernel/initrd, dropped &#8220;quiet splash&#8221; and added &#8220;console=ttymxc0,115200&#8243; to see more of the boot and ran a line from <a href="http://archlinuxarm.org/platforms/armv7/pandaboard">another helpful site</a>:</p>
+<blockquote><p>mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n &#8220;my boot script&#8221; -d boot.script boot.scr<br />
+echo mxc0:S12345:respawn:/sbin/agetty -L 115200 ttymxc0 vt102 &gt;&gt; /etc/inittab # for serial console</p></blockquote>
+<p>However, this failed to boot. Using the serial debug console, I could see U-boot trying to load the boot.scr but it was thinking it was zero bytes for some strange reason. Re-creating my /boot partition as a raw copy of /dev/sda1 with my adaptions ontop finally gave me an SD-card that <strong>just boots</strong> openSUSE Factory on ARM with framebuffer console on HDMI/DVI.</p>
+<p>Find more ARM-related info on our <a href="http://en.opensuse.org/Portal:ARM">openSUSE ARM Portal</a></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2012/01/19/running-opensuse-on-arm/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+	</channel>
+</rss>

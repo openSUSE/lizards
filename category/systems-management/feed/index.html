@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; Systems Management</title>
+	<atom:link href="http://lizards.opensuse.org/category/systems-management/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>Continuing Opening YaST</title>
+		<link>http://lizards.opensuse.org/2013/12/16/continuing-opening-yast/</link>
+		<comments>http://lizards.opensuse.org/2013/12/16/continuing-opening-yast/#comments</comments>
+		<pubDate>Mon, 16 Dec 2013 11:58:14 +0000</pubDate>
+		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
+				<category><![CDATA[Programming]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10277</guid>
+		<description><![CDATA[YaST switched to the GPL license back in 2004, but there were still a lot of obstacles to easy contributions to the project. There was a bunch of changes in the past to improve contribution to the project, like switching from the openSUSE subversion server to GitHub, generating documentation to doc.opensuse.org or having public IRC. [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>YaST switched to the GPL license back in 2004, but there were still a lot of obstacles to easy contributions to the project. There was a bunch of changes in the past to improve contribution to the project, like switching from the openSUSE subversion server to <a href="http://github.com/yast" title="GitHub">GitHub</a>, generating documentation to doc.opensuse.org or having public IRC. But we are not satisfied and do even more steps to make it easy to contribute to YaST.<br />
+<span id="more-10277"></span><br /> The most visible action in the last year was the conversion from YCP to Ruby. We found that having a special language just for YaST made some sense in the past, but now becomes useless and makes obstacles for newcomers which must at first learn a language before they can change anything. Ruby is a well known language with a nice ecosystem around including benchmarking, profiling, debugging or testing frameworks. The latest mentioned testing framework is quite important, because good test coverage allows reducing of fear from changes. For tests we chose the well known framework <a href="http://rspec.info/" target="_blank">RSpec</a>, so people coming from the Ruby world know it and others find it intuitive.</p>
+<p>Related to tests are also continuous integration that tests code after each code change and automatically sends new packages to the devel project and to Factory if needed. We make our CI node publicly visible on the <a href="http://ci.opensuse.org/view/Yast" title="openSUSE CI server" target="_blank">openSUSE CI server</a>, so everyone can see if build succeeded and what is the reason if it failed.</p>
+<p>We also decided to help newcomers with a quick introductory <a href="https://en.opensuse.org/openSUSE:YaST_development" title="documentation" target="_blank">documentation</a>. One page recently updated to reflect the current state is about <a href="https://en.opensuse.org/openSUSE:YaST:_Code_Organization" target="_blank">code organization</a> which helps newcomers to orient in current YaST modules. The content is a bit terse and a minority of pages links to some old tutorials and documentation, but we take care to quickly react to questions and suggestions.
+</p>
+<p>Another change is deletion of the internal YaST IRC channel and now all communication happens on the <a href="http://webchat.freenode.net/?channels=%23yast" target="_blank">#yast</a> Freenode channel. This change really increases the chance that you catch YaST developers on IRC. Others ways are the <a href="http://lists.opensuse.org/yast-devel/" target="_blank">YaST mailing list</a>, <a href="https://en.opensuse.org/openSUSE:Report_a_YaST_bug" target="_blank">Bugzilla</a>, <a href="https://github.com/organizations/yast" target="_blank">GitHub</a> or <a href="https://features.opensuse.org/" target="_blank">openSUSE feature tracker</a>.</p>
+<p>So let&#8217;s start hacking YaST and if you find any obstacle, contact us, so we can remove it.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2013/12/16/continuing-opening-yast/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>openSUSE and GCC part 1: getting started</title>
+		<link>http://lizards.opensuse.org/2013/10/07/opensuse-and-gcc-part1/</link>
+		<comments>http://lizards.opensuse.org/2013/10/07/opensuse-and-gcc-part1/#comments</comments>
+		<pubDate>Mon, 07 Oct 2013 08:41:01 +0000</pubDate>
+		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
+				<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[YaST]]></category>
+		<category><![CDATA[cross-development]]></category>
+		<category><![CDATA[Gcc]]></category>
+		<category><![CDATA[YaST2]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9978</guid>
+		<description><![CDATA[I try to explain in this series of blog entries how to install gcc (GNU C-Compiler) and what to do with it. I  also try to explain little make and CMake/Autotools. This is not very generic tutorial because I like to promote openSUSE as coding platform. Most of the tips goes just fine with every [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I try to explain in this series of blog entries how to install gcc (GNU C-Compiler) and what to do with it. I  also try to explain little make and CMake/Autotools. This is not very generic tutorial because I like to promote openSUSE as coding platform. Most of the tips goes just fine with every distro. For the first words I like to say one thing: openSUSE is excellent platform for C-coding. Though, you can choose your programming language  but this time I like to talk about GCC and specially C-Compiler. I&#8217;ll try to how to get there with these writings because I have noticed that this substance is getting less attention that it needs. Also noted that <a title="the GNU Compiler Collection" href="http://gcc.gnu.org/">GCC</a> anf <a title="https://www.gnu.org/gnu30/" href="https://www.gnu.org/gnu30/" target="_blank">GNU is 30 years</a> and I have used it almost 15 so time to share some information.<span id="more-9978"></span></p>
+<h2>openSUSE and Linux</h2>
+<p>This is for first timers with openSUSE and GCC not people who know how to use YaST and openSUSE. If you understand <em>openSUSE is Linux-kernel based <a title="Redhat Package Manager" href="http://en.wikipedia.org/wiki/RPM_Package_Manager" target="_blank">RPM</a> application distribution in common language openSUSE is Linux operating system</em> you shouldn&#8217;t be reading this it&#8217;s just waste of your time. If you are still reading you should understand  in deep openSUSE is GNU/Linux based operating system but let&#8217;s not get in to that battle.<br />
+So One can think Google Android as Google/Linux distribution (It&#8217;s also Linux say what you want). They took some tools from normal Linux distributions (there are common tools like GCC) and made rest from the scratch. Is it better or worst you have to choose that from you point of view.<br />
+If you come from BSD world for example Mac OS X or FreeBSD and have done some object-C or C (with or without command-line) you don&#8217;t have to forget everything just keep your mind open. If you popped just from Microsoft Windows world thought &#8216;hey I&#8217;ll start developing Linux/Android/Cross-platform apps.&#8217; you REALLY have to keep you mind open. Hey I was on Windows decade a go and I&#8217;m still alive in Linux world in base Microsoft Windows is <a title="http://en.wikipedia.org/wiki/POSIX" href="http://en.wikipedia.org/wiki/POSIX" target="_blank">POSIX</a> standard compliant like Linux.</p>
+<h2>Command-line (CLI) and Graphical User Interface (GUI)</h2>
+<p>All I&#8217;ll cover in these blog posts are Command-line examples. If you want to use IDE (Eclipse or such) go a head but I&#8217;ll like one to understand how everything really works. You don&#8217;t have to dream like those machines about cosmic <a title="Electric sheep" href="http://en.wikipedia.org/wiki/Electric_Sheep" target="_blank">electric sheeps</a> to understand command-line. You can get there also in Microsoft Windows world and you don&#8217;t have to ever get there in Linux if you don&#8217;t want to. I&#8217;ll just feel little bit safer if you or me understand how to install and compile applications on Linux with command line. <a title="CLI" href="http://www.freesoftwaremagazine.com/articles/command_line_intro" target="_blank">I won&#8217;t explain to you what is command-line</a> (CLI) and<a title="Tips" href="http://www.linuxcommand.org/" target="_blank"> how to get there from GUI (Graphical User Interface)</a> where you probably are reading this from you browser please surf to read the <a title="http://en.wikipedia.org/wiki/Command-line_interface" href="http://en.wikipedia.org/wiki/Command-line_interface" target="_blank">Wikipedia article about it</a>. If you didn&#8217;t understand anything what I just said you can blame me and take a break.</p>
+<h2>Install GCC on openSUSE</h2>
+<p>I assume that you have installed <a title="Download openSUSE" href="http://en.wikipedia.org/wiki/Command-line_interface" target="_blank">openSUSE</a>. If not download and install version that have GUI. Do it if you aren&#8217;t PRO or have some very very very very good reason (<a title="Install on Virtualbox" href="http://en.opensuse.org/SDB:VirtualBox_Installation" target="_blank">like running it on virtual machine</a> top of Windows then <a title="VMWare" href="http://www.vmware.com/" target="_blank">VMWare</a> and <a title="Oracle Virtualbox" href="https://www.virtualbox.org/" target="_blank">Virtualbox</a> are you way to go. <a title="QEMU is a generic and open source machine emulator and virtualizer" href="http://wiki.qemu.org/Main_Page" target="_blank">Qemu</a> works but you have be again very open minded).<br />
+But now you have running openSUSE system with nice <a title="KDE" href="http://www.kde.org/" target="_blank">KDE</a>/<a title="Gnome" href="http://www.gnome.org/" target="_blank">Gnome</a>/<a title="Xfce" href="http://www.xfce.org/" target="_blank">XFCE4</a>/<a title="LXDE" href="http://lxde.org/" target="_blank">LXDE</a> GUI look and If you were hacker you installed all you needed stuff when you installed openSUSE to hard drive. If you like me and didn&#8217;t keep reading. In openSUSE you can manage everything with <a title="YaST is the installation and configuration tool for openSUSE" href="http://en.opensuse.org/Portal:YaST" target="_blank">YaST</a> or you can choose the <span style="color: #ff0000">red pill</span> and see the true world.</p>
+<h2>YaST way</h2>
+<p>open YaST from application menu. You find it there just look for <img alt="Yast2" src="http://en.opensuse.org/images/thumb/f/f8/Icon-yast.png/128px-Icon-yast.png" width="32" height="32" />Logo under<strong> settings</strong>. Type in root password. Choose &#8216;<em>Software Managemen</em>t&#8217;. Now you can just type &#8216;gcc&#8217; in &#8216;<em>Find:</em>&#8216; box. I&#8217;ll just assume you install &#8216;<em>gcc</em>&#8216; by clicking box (there comes green right mark) front of it and then push Apply. It&#8217;s easy as that. Now you have C-compiler (no C++ or ADA) but no auto-tools or make (or Cmake/Scons).</p>
+<p>If you are on CLI you see <a title="New Curses" href="http://en.wikipedia.org/wiki/Ncurses" target="_blank">NCurses</a> based YaST:</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2013/10/gcc-blog1.png"><img class="alignnone size-medium wp-image-9987" alt="gcc-blog1" src="//lizards.opensuse.org/wp-content/uploads/2013/10/gcc-blog1-300x178.png" width="300" height="178" /></a> <a href="//lizards.opensuse.org/wp-content/uploads/2013/10/gcc-blog2.png"><img class="alignnone size-medium wp-image-9988" alt="gcc-blog2" src="//lizards.opensuse.org/wp-content/uploads/2013/10/gcc-blog2-300x176.png" width="300" height="176" /></a></p>
+<h2>pure CLI way without YaST</h2>
+<p>Go to CLI (<a title="KDE Konsole" href="http://konsole.kde.org/">Konsole</a>/<a title="Gnome Terminal" href="http://en.wikipedia.org/wiki/GNOME_Terminal">Gnome-terminal</a>/<a title="Xorg Xterm" href="http://en.wikipedia.org/wiki/Xterm">xterm</a> or in to real CLI). You have to be use &#8216;root&#8217; or have sudo rights to do any wizardry that is explained here. So I assume you just are root just type</p>
+<pre>zypper install gcc</pre>
+<p>and answer &#8216;y&#8217; after it asks. It does the same as YaST.</p>
+<p>That is that for first blog. If everything went right Now you have Gnu C-Compiler available. next time I&#8217;ll explain what you can do with it.</p>
+<pre>Disclaimer: All the stuff here are my own opinions not openSUSE nor Linux community. I'm have used openSUSE or SuSE something over 10 years. I have made <a title="Ilmi Solutions Oy" href="http://ilmi.fi" target="_blank">professionally</a> many years of development with openSUSE so I know somethings but I don't know everything and I just try to get you along.</pre>
+<p>&nbsp;</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2013/10/07/opensuse-and-gcc-part1/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Live USB GUI</title>
+		<link>http://lizards.opensuse.org/2013/02/14/live-usb-gui/</link>
+		<comments>http://lizards.opensuse.org/2013/02/14/live-usb-gui/#comments</comments>
+		<pubDate>Thu, 14 Feb 2013 12:56:23 +0000</pubDate>
+		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
+				<category><![CDATA[Derivative]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[Usability]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9244</guid>
+		<description><![CDATA[Here is a new tool that provides a simple zenity based GUI frontend to live-fat-stick script. The live-fat-stick script allows you to create multi boot USB stick/HDD which has vfat partition on it without formatting or removing existing data on it, it uses whole ISO images to boot so the image is still usable to [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Here is a new tool that provides a simple zenity based GUI frontend to <a title="live-fat-stick" href="https://github.com/cyberorg/live-fat-stick">live-fat-stick</a> script. The <a href="//lizards.opensuse.org/2012/09/13/live-fat-stick/">live-fat-stick</a> script allows you to create multi boot USB stick/HDD which has vfat partition on it without formatting or removing existing data on it, it uses whole ISO images to boot so the image is still usable to create more live USB sticks or burn CD/DVDs. In live mode the device&#8217;s vfat partition can be mounted to access/modify and save files.</p>
+<p>Currently live CD/DVD isos of openSUSE 12.2(and derivatives) including all from <a href="http://susestudio.com">susestudio</a>, Mint, Ubuntu(and derivatives) and Fedora are supported. Fedora iso is not copied but is extracted on the USB device instead as it does not support booting from iso image yet.</p>
+<p>Here is Live USB GUI in action:<br />
+<span id="more-9244"></span></p>
+<div id="attachment_9246" style="width: 310px" class="wp-caption alignnone"><a href="//lizards.opensuse.org/wp-content/uploads/2013/02/live-usb-gui1.png"><img class="size-medium wp-image-9246 " alt="Shows up under Utilities" src="//lizards.opensuse.org/wp-content/uploads/2013/02/live-usb-gui1-300x173.png" width="300" height="173" /></a><p class="wp-caption-text">Shows up under Utilities</p></div>
+<div id="attachment_9247" style="width: 310px" class="wp-caption alignnone"><a href="//lizards.opensuse.org/wp-content/uploads/2013/02/live-usb-gui2.png"><img class="size-medium wp-image-9247 " alt="Select iso image" src="//lizards.opensuse.org/wp-content/uploads/2013/02/live-usb-gui2-300x165.png" width="300" height="165" /></a><p class="wp-caption-text">Select iso image</p></div>
+<div id="attachment_9248" style="width: 310px" class="wp-caption alignnone"><a href="//lizards.opensuse.org/wp-content/uploads/2013/02/live-usb-gui3.png"><img class="size-medium wp-image-9248 " alt="Select USB device" src="//lizards.opensuse.org/wp-content/uploads/2013/02/live-usb-gui3-300x226.png" width="300" height="226" /></a><p class="wp-caption-text">Select USB device</p></div>
+<div id="attachment_9249" style="width: 310px" class="wp-caption alignnone"><a href="//lizards.opensuse.org/wp-content/uploads/2013/02/live-usb-gui4.png"><img class="size-medium wp-image-9249 " alt="Select Distro" src="//lizards.opensuse.org/wp-content/uploads/2013/02/live-usb-gui4-300x228.png" width="300" height="228" /></a><p class="wp-caption-text">Select Distro</p></div>
+<div id="attachment_9250" style="width: 310px" class="wp-caption alignnone"><a href="//lizards.opensuse.org/wp-content/uploads/2013/02/live-usb-gui5.png"><img class="size-medium wp-image-9250 " alt="Confirmation" src="//lizards.opensuse.org/wp-content/uploads/2013/02/live-usb-gui5-300x147.png" width="300" height="147" /></a><p class="wp-caption-text">Confirmation</p></div>
+<div id="attachment_9251" style="width: 310px" class="wp-caption alignnone"><a href="//lizards.opensuse.org/wp-content/uploads/2013/02/live-usb-gui6.png"><img class="size-medium wp-image-9251 " alt="Progress" src="//lizards.opensuse.org/wp-content/uploads/2013/02/live-usb-gui6-300x47.png" width="300" height="47" /></a><p class="wp-caption-text">Progress</p></div>
+<div id="attachment_9252" style="width: 310px" class="wp-caption alignnone"><a href="//lizards.opensuse.org/wp-content/uploads/2013/02/live-usb-gui7.png"><img class="size-medium wp-image-9252 " alt="Done" src="//lizards.opensuse.org/wp-content/uploads/2013/02/live-usb-gui7-300x199.png" width="300" height="199" /></a><p class="wp-caption-text">Done</p></div>
+<p>openSUSE users can get it via 1-click install <a title="Live USB GUI" href="http://software.opensuse.org/package/live-usb-gui">from here</a>. For other distributions get it <a title="live-fat-stick sources" href="https://github.com/cyberorg/live-fat-stick">from here</a>. This tool can be run on any Linux distribution to create live USB of any supported distributions provided zenity, syslinux, parted, blkid etc are available.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2013/02/14/live-usb-gui/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>OpenStack on openSUSE</title>
+		<link>http://lizards.opensuse.org/2013/01/11/openstack-on-opensuse/</link>
+		<comments>http://lizards.opensuse.org/2013/01/11/openstack-on-opensuse/#comments</comments>
+		<pubDate>Fri, 11 Jan 2013 14:28:11 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Systems Management]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9198</guid>
+		<description><![CDATA[Do you want to play with cloud software on your own machines? Some people have been working to package the current OpenStack version &#8220;Folsom&#8221; for openSUSE (tested on 12.2) and add scripts to configure it into a working state. You need 2GB of RAM and 3+ GB of free disk space under /var/lib/ Then you [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Do you want to play with cloud software on your own machines?<br />
+Some people have been working to package the current OpenStack version &#8220;Folsom&#8221; for openSUSE (tested on 12.2) and add scripts to configure it into a working state.<br />
+You need 2GB of RAM and 3+ GB of free disk space under /var/lib/<br />
+Then you do</p>
+<p><code> wget https://raw.github.com/SUSE-Cloud/automation/master/scripts/jenkins/qa_openstack.sh<br />
+export cloudsource=openstackfolsom ; bash -x qa_openstack.sh<br />
+</code></p>
+<p>This is a script we use for continous integration testing, but it is as useful to setup a simple environment for development, testing or demoing.<br />
+Folsom packages are still rather rough and might see some change over the coming weeks.</p>
+<p>If you want the older stable version, you can use the above snippet with cloudsource=openstackessex<br />
+however, there are some known bugs in that old version and backports are really hard.</p>
+<p>Soon there will be Grizzly packages upcoming. More is to come&#8230;</p>
+<p><i>P.S. To interact with your cloud, you need credentials, which are automatically sourced from /etc/bash.bashrc.local (it is admin:openstack) and then you use commands like<br />
+<code>nova list</code> and <code>glance image-list</code><br />
+but there is also a web-interface that allows you to do most actions in a browser &#8211; even VNC, if you use KVM instead of the default lxc.</i></p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2013/01/11/openstack-on-opensuse/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Snapper for Everyone</title>
+		<link>http://lizards.opensuse.org/2012/10/16/snapper-for-everyone/</link>
+		<comments>http://lizards.opensuse.org/2012/10/16/snapper-for-everyone/#comments</comments>
+		<pubDate>Tue, 16 Oct 2012 12:24:10 +0000</pubDate>
+		<dc:creator><![CDATA[Arvin Schnell]]></dc:creator>
+				<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[snapper]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9053</guid>
+		<description><![CDATA[With the release of snapper 0.1.0 also non-root users are able to manage snapshots. On the technical side this is achieved by splitting snapper into a client and server that communicate via D-Bus. As a user you should not notice any difference. So how can you make use of it? Suppose the subvolume /home/tux is [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>With the release of <a href="http://snapper.io">snapper</a> 0.1.0 also non-root users are able to manage snapshots. On the technical side this is achieved by splitting snapper into a client and server that communicate via <a href="http://www.freedesktop.org/wiki/Software/dbus">D-Bus</a>. As a user you should not notice any difference.</p>
+<p>So how can you make use of it? Suppose the subvolume /home/tux is already configured for snapper and you want to allow the user tux to manage the snapshots for her home directory. This is done in two easy steps:</p>
+<ol>
+<li>Edit /etc/snapper/configs/home-tux and add ALLOW_USERS=&#8221;tux&#8221;. Currently the server snapperd does not reload the configuration so if it&#8217;s running either kill it or wait for it to terminate by itself.</li>
+<li>Give the user permissions to read and access the .snapshots directory, &#8216;chmod a+rx /home/tux/.snapshots&#8217;.</li>
+</ol>
+<p>For details consult the snapper man-page.</p>
+<p>Now tux can play with snapper:</p>
+<pre>
+  tux&gt; alias snapper="snapper -c home-tux"
+
+  tux&gt; snapper create --description test
+
+  tux&gt; snapper list
+  Type   | # | Pre # | Date                             | User | Cleanup  | Description | Userdata
+  -------+---+-------+----------------------------------+------+----------+-------------+---------
+  single | 0 |       |                                  | root |          | current     |         
+  single | 1 |       | Tue 16 Oct 2012 12:15:01 PM CEST | root | timeline | timeline    |         
+  single | 2 |       | Tue 16 Oct 2012 12:21:38 PM CEST | tux  |          | test        |
+</pre>
+<p>Snapper packages are available for various distributions in the <a href="https://build.opensuse.org/project/show?project%3Dfilesystems%3Asnapper">filesystems:snapper</a> project.</p>
+<p>So long and see you at the <a href="http://conference.opensuse.org/">openSUSE Conference</a> 2012 in Prague.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/10/16/snapper-for-everyone/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Run X2go thin-client using kiwi-ltsp</title>
+		<link>http://lizards.opensuse.org/2012/09/27/run-x2go-thin-client-using-kiwi-ltsp/</link>
+		<comments>http://lizards.opensuse.org/2012/09/27/run-x2go-thin-client-using-kiwi-ltsp/#comments</comments>
+		<pubDate>Thu, 27 Sep 2012 11:18:30 +0000</pubDate>
+		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Derivative]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Education]]></category>
+		<category><![CDATA[Network]]></category>
+		<category><![CDATA[Server]]></category>
+		<category><![CDATA[Systems Management]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9029</guid>
+		<description><![CDATA[Recently, came across x2go packages maintained by Jan Engelhardt for openSUSE and other distributions on open build service. As openSUSE Education Li-f-e has great LTSP integration thanks to KIWI-LTSP, I decided to check out how x2go can fit in with this existing thin-client computing solution. &#8220;x2go is an open (GPL/AGPL) source “server based computing” project. [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Recently, came across <a title="x2go home" href="http://x2go.org">x2go</a> packages maintained by<a title="People of openSUSE" href="http://news.opensuse.org/2009/04/23/people-of-opensuse-jan-engelhardt/"> Jan Engelhardt</a> for openSUSE and other distributions on <a title="X11:RemoteDesktop:x2go" href="https://build.opensuse.org/project/show?project=X11:RemoteDesktop:x2go">open build service</a>. As <a title="Li-f-e" href="http://en.opensuse.org/openSUSE:Education-Li-f-e">openSUSE Education Li-f-e</a> has great <a title="LTSP home" href="http://ltsp.org">LTSP</a> integration thanks to<a title="KIWI-LTSP on openSUSE wiki" href="http://en.opensuse.org/Portal:KIWI-LTSP"> KIWI-LTSP</a>, I decided to check out how x2go can fit in with this existing thin-client computing solution.</p>
+<p>&#8220;x2go is an open (<acronym title="GNU General Public License">GPL</acronym>/AGPL) source “server based computing” project. Combining the advantages of existing systems it features ease of use, performance and scalability. x2go provides you with access to your desktop &#8211; from within your own network and via the internet. x2go is not limited to particular hardware, it supports a variety of devices and architectures.&#8221; -from their website.</p>
+<p>Some of the features/benefits of x2go that are not available on LTSP are:</p>
+<p>* Remote login from within local lan and internet from any OS<br />
+* Session persistence, you can disconnect session from one client and continue where you left off from any other client<br />
+* Low bandwidth usage<br />
+* Session sharing with other users<br />
+<span id="more-9029"></span><br />
+Apart from these, x2go also supports sound redirection via pulseaudio, folder sharing for access to local disks similar to LTSP.</p>
+<p>I would personally still prefer LTSP session in local network, and as x2goserver and LTSP server can coexist on same server we can choose x2goclient to connect over the internet and log in using LTSP in local lan.</p>
+<p>Here is how to run x2go as kiosk session by PXE booting a thin-client/PC/laptop.</p>
+<p>* Install <a title="kiwi-ltsp-profile-x2go" href="http://software.opensuse.org/package/kiwi-ltsp-profile-x2go">kiwi-ltsp-profile-x2go</a> on openSUSE Edu Li-f-e or 12.2 via <a title="Install via 1-click" href="http://software.opensuse.org/ymp/server:ltsp/openSUSE_12.2/kiwi-ltsp-profile-x2go.ymp">1-click from here</a>.<br />
+* Run <code>kiwi-ltsp -ln openSUSE_12_2_x2go</code> as root to create KIWI-LTSP image that is used for PXE booting clients, (this step requires fast internet connection and about 250M download)<br />
+* Run <code>kiwi-ltsp -c</code> to configure required services<br />
+* Add the following to<strong><em> /srv/tftpboot/KIWI/root.default/etc/lts.conf</strong></em>  under [default] for all clients or under [MA:CA:DD:RE:SS] for a particular client and boot up the client, openSUSE_12_2_x2go will be available at the end of boot menu.<br />
+<code><br />
+        SCREEN_07=kiosk<br />
+        KIOSK_EXE="/usr/bin/x2goclient --no-menu --maximize --link=lan --geometry=fullscreen --thinclient --haltbt --no-session-edit  --add-to-known-hosts"<br />
+        KIOSKUSER=x2goclient<br />
+ </code></p>
+<p>You can also have normal LTSP session on tty8 along with this by adding <code>SCREEN_08=ldm</code>. To connect to the server from non-thin-client install and run x2goclient.</p>
+<p>You can simply poweroff the client without the need to disconnect or do normal shutdown.</p>
+<p>Note: this method of using x2go is just for testing and development purpose, you can use x2goserver and x2goclient in a standalone mode without kiwi-ltsp bits. Nothing additional than installing x2goserver package is needed to setup the server, except firewall should allow access to ssh port(22). </p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/09/27/run-x2go-thin-client-using-kiwi-ltsp/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>How kiwi can help to cleanup your system</title>
+		<link>http://lizards.opensuse.org/2012/09/25/how-kiwi-can-help-to-cleanup-your-system/</link>
+		<comments>http://lizards.opensuse.org/2012/09/25/how-kiwi-can-help-to-cleanup-your-system/#comments</comments>
+		<pubDate>Tue, 25 Sep 2012 10:01:59 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Schaefer]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Software Management]]></category>
+		<category><![CDATA[Systems Management]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9025</guid>
+		<description><![CDATA[After some iterations of updating the system with zypper dup or yast and some years of service with the system you will find out that there is a lot of dust which is obsolete or has been forgotten. Recently I had the problem that I need to move my 32bit system to a 64bit system [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>After some iterations of updating the system with zypper dup or yast and some years of service with the system you will find out that there is a lot of dust which is obsolete or has been forgotten. Recently I had the problem that I need to move my 32bit system to a 64bit system and thus the way to go was to migrate the running system into an image description, build a 64bit image from it and install that on the 64bit machine. But the most important part was to cleanup the running system and find out what it really contains. The report kiwi migrate created here was helpful and so I think it might be helpful for others too. Just call:</p>
+<blockquote><p>kiwi &#8211;migrate mySystem</p></blockquote>
+<p>It will end up with some data below /tmp/mySystem which of course can be removed at any time without any risk. Most interesting is the html report generated which you can view with any browser. So far kiwi collects the following information:</p>
+<ul>
+<li>kernel version and kernel specific kmp packages</li>
+<li>hardware dependent packages</li>
+<li>installed gem packages</li>
+<li>repository checkouts</li>
+<li>rpm packages installed multiple times</li>
+<li>rpm packages which could not be found according to the current repo setup including version and repo information</li>
+<li>tree of modified files, packaged but changed</li>
+<li>tree of custom files, those which doesn&#8217;t belong to any package or other part of the bullet list</li>
+</ul>
+<p>basically the use case of kiwi migrate is to migrate the running system into an appliance description but I&#8217;m not there yet. There is still room for improvement but I think it still can help to cleanup the system and to see what is installed on the system and not managed by a package manager</p>
+<p>I have tested this since openSUSE 11.4</p>
+<p>Remember to have fun <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/09/25/how-kiwi-can-help-to-cleanup-your-system/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Updates for openSUSE Edu Li-f-e</title>
+		<link>http://lizards.opensuse.org/2012/09/15/updates-for-opensuse-edu-li-f-e/</link>
+		<comments>http://lizards.opensuse.org/2012/09/15/updates-for-opensuse-edu-li-f-e/#comments</comments>
+		<pubDate>Sat, 15 Sep 2012 06:09:48 +0000</pubDate>
+		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
+				<category><![CDATA[Derivative]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Education]]></category>
+		<category><![CDATA[Software Management]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9014</guid>
+		<description><![CDATA[With the release of openSUSE Edu Li-f-e 12.2, we also have new KDE waiting in the official update repository. To resolve a couple of conflicts you will need to add Education:update repository before running yast2 online_update. Follow these steps: - Add Education:update repository by using this 1-click install, remain subscribed to the suggested repositories or [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>With the release of<a href="http://news.opensuse.org/2012/09/14/opensuse-edu-li-f-e-12-2-out-now/"> openSUSE Edu Li-f-e 12.2</a>, we also have new KDE waiting in the official update repository. To resolve a couple of conflicts you will need to add Education:update repository before running yast2 online_update.</p>
+<p>Follow these steps:</p>
+<pre>- Add Education:update repository by using this <a href="http://software.opensuse.org/ymp/Education:update/openSUSE_12.2/branding-life.ymp" rel="nofollow">1-click install</a>, remain subscribed to the suggested repositories or via command line:
+  <code><strong>zypper ar obs://Education:update/openSUSE_12.2 Education:update</strong></code> then run<code><strong> yast2 online-update</strong></code>.
+ - select replacement for kioaudiocd
+ - select deinstallation of yast2-qt-branding-life
+ - Proceed with the update</pre>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/09/15/updates-for-opensuse-edu-li-f-e/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Announcing the release of openSUSE Edu Li-f-e 12.2</title>
+		<link>http://lizards.opensuse.org/2012/09/14/announcing-the-release-of-opensuse-edu-li-f-e-12-2/</link>
+		<comments>http://lizards.opensuse.org/2012/09/14/announcing-the-release-of-opensuse-edu-li-f-e-12-2/#comments</comments>
+		<pubDate>Fri, 14 Sep 2012 06:56:16 +0000</pubDate>
+		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
+				<category><![CDATA[Derivative]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Education]]></category>
+		<category><![CDATA[Server]]></category>
+		<category><![CDATA[Systems Management]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8975</guid>
+		<description><![CDATA[openSUSE Education team once again presents Li-f-e (Linux for Education) built on hot new openSUSE 12.2 including all the post release updates. As always this edition of Li-f-e comes bundled with a lot of softwares useful for students, teachers, as well as IT admins of educational institutions. Apart from stable versions of KDE and Gnome, [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><a href="http://en.opensuse.org/Portal:Education"><img class="alignright size-medium wp-image-8991" src="http://lizards.opensuse.org/wp-content/uploads/2012/09/life-1221-228x300.png" alt="" width="228" height="300" /><span style="color: #1155cc"><span style="font-family: Arial"><span style="font-size: medium"><span style="text-decoration: underline">openSUSE Education </span></span></span></span></a><span style="color: #000000"><span style="font-family: Arial"><span style="font-size: medium">team once again presents </span></span></span><a href="http://en.opensuse.org/openSUSE:Education-Li-f-e"><span style="color: #1155cc"><span style="font-family: Arial"><span style="font-size: medium"><span style="text-decoration: underline">Li-f-e</span></span></span></span></a><span style="color: #000000"><span style="font-family: Arial"><span style="font-size: medium"> (Linux for Education) built on hot new</span></span></span><a href="http://en.opensuse.org/Portal:12.2"><span style="color: #1155cc"><span style="font-family: Arial"><span style="font-size: medium"><span style="text-decoration: underline"> openSUSE 12.2</span></span></span></span></a><span style="color: #000000"><span style="font-family: Arial"><span style="font-size: medium"> including all the post release updates. As always this edition of Li-f-e comes bundled with a lot of softwares useful for students, teachers, as well as IT admins of educational institutions. Apart from stable versions of KDE and Gnome, Cinnamon is also available.</span></span></span><a href="http://sugarlabs.org/"><span style="color: #1155cc"><span style="font-family: Arial"><span style="font-size: medium"><span style="text-decoration: underline">Sugar</span></span></span></span></a><span style="color: #000000"><span style="font-family: Arial"><span style="font-size: medium"> desktop suite makes a comeback thanks to the work of <a href="http://dram.me/">Xin Wang</a> packaging it. Li-f-e also give full multimedia experience right out of the box without having to install anything extra. The live installable DVD iso stands at 3.3G as an incredible array of softwares from open source world are available on it, we have not just bundled them in, but have tried to integrate it with the distribution to give everything a seamless feel.</span></span></span></p>
+<p><a href="http://en.opensuse.org/Portal:KIWI-LTSP"><span style="color: #1155cc"><span style="font-family: Arial"><span style="font-size: medium"><span style="text-decoration: underline"><span id="more-8975"></span>KIWI-LTSP</span></span></span></span></a><span style="color: #000000"><span style="font-family: Arial"><span style="font-size: medium"> brings Li-f-e a very </span></span></span><a href="http://en.opensuse.org/SDB:LTSP_quick_start_12.2_Edu"><span style="color: #1155cc"><span style="font-family: Arial"><span style="font-size: medium"><span style="text-decoration: underline">easy to setup LTSP </span></span></span></span></a><span style="color: #000000"><span style="font-family: Arial"><span style="font-size: medium">server for PXE booting thin-clients/PC/laptop over the network with many new features and improvements. It can be deployed at schools, homes or even offices.</span></span></span><a href="http://www.epoptes.org/"><span style="color: #1155cc"><span style="font-family: Arial"><span style="font-size: medium"><span style="text-decoration: underline">Epoptes</span></span></span></span></a><span style="color: #000000"><span style="font-family: Arial"><span style="font-size: medium"> lab administration tool makes its debut replacing italc, epoptes allows control of every aspect of the clients, such as: lock/unlock screen, full remote control, messaging, broadcasting display, reboot/shutdown etc.</span></span></span></p>
+<p><a href="http://en.opensuse.org/File:Life1221-welcome.png"><img class="alignnone" src="http://en.opensuse.org/images/thumb/4/48/Life1221-welcome.png/120px-Life1221-welcome.png" alt="" width="120" height="90" /></a> <a href="http://en.opensuse.org/File:Life1221-bootmenu.png"><img class="alignnone" src="http://en.opensuse.org/images/thumb/b/bc/Life1221-bootmenu.png/120px-Life1221-bootmenu.png" alt="" width="120" height="90" /></a> <a href="http://en.opensuse.org/File:Life1221-splash.png"><img class="alignnone" src="http://en.opensuse.org/images/thumb/f/f5/Life1221-splash.png/120px-Life1221-splash.png" alt="" width="120" height="90" /></a></p>
+<p><a href="http://en.opensuse.org/File:Life1221-sugar.png"><img class="alignnone" src="http://en.opensuse.org/images/thumb/a/a4/Life1221-sugar.png/120px-Life1221-sugar.png" alt="" width="120" height="73" /></a> <a href="http://en.opensuse.org/File:Life1221-apps.png"><img class="alignnone" src="http://en.opensuse.org/images/thumb/d/d1/Life1221-apps.png/120px-Life1221-apps.png" alt="" width="120" height="71" /></a> <a href="http://en.opensuse.org/File:Life1221-multimedia.png"><img class="alignnone" src="http://en.opensuse.org/images/thumb/b/be/Life1221-multimedia.png/120px-Life1221-multimedia.png" alt="" width="120" height="75" /></a></p>
+<p><span style="color: #000000"><span style="font-family: Arial"><span style="font-size: medium">Get it from here:</span></span></span><a href="https://sourceforge.net/projects/opensuse-edu/files/latest/download?source=files"><span style="color: #1155cc"><span style="font-family: Arial"><span style="font-size: medium"><span style="text-decoration: underline">Direct Download</span></span></span></span></a><span style="color: #000000"><span style="font-family: Arial"><span style="font-size: medium"> | </span></span></span><a href="http://www.opensuse-education.org/download/ISOs/openSUSE-Edu-li-f-e-12.2-latest-i686.iso.torrent"><span style="color: #1155cc"><span style="font-family: Arial"><span style="font-size: medium"><span style="text-decoration: underline">Torrents</span></span></span></span></a><span style="color: #000000"><span style="font-family: Arial"><span style="font-size: medium"> | </span></span></span><a href="http://www.opensuse-education.org/download/ISOs/openSUSE-Edu-li-f-e-12.2-1-i686.iso.meta4"><span style="color: #1155cc"><span style="font-family: Arial"><span style="font-size: medium"><span style="text-decoration: underline">Metalinks</span></span></span></span></a><span style="color: #000000"><span style="font-family: Arial"><span style="font-size: medium"> | </span></span></span><a href="http://www.opensuse-education.org/download/ISOs/openSUSE-Edu-li-f-e-12.2-latest-i686.iso.md5"><span style="color: #1155cc"><span style="font-family: Arial"><span style="font-size: medium"><span style="text-decoration: underline">md5sum</span></span></span></span></a></p>
+<p><span style="color: #000000"><span style="font-family: Arial"><span style="font-size: medium">As this edition is based on openSUSE 12.2, all the official 12.2 updates, repositories from build service and <a href="http://packman.links2linux.org/">packman</a> can be used to install additional softwares and keep it up to date. </span></span></span></p>
+<p><span style="color: #000000"><span style="font-family: Arial"><span style="font-size: medium">Minimum hardware requirement is 1GB of RAM and 15GB free disk space. Installation from USB stick will take about 40 minutes to complete, from a DVD it takes much longer. Check </span></span></span><a href="http://lizards.opensuse.org/2012/09/13/live-fat-stick/"><span style="color: #1155cc"><span style="font-family: Arial"><span style="font-size: medium"><span style="text-decoration: underline">this howto</span></span></span></span></a><span style="color: #000000"><span style="font-family: Arial"><span style="font-size: medium"> for creating live USB stick on vfat partition or other </span></span></span><a href="http://en.opensuse.org/Live_USB_stick"><span style="color: #1155cc"><span style="font-family: Arial"><span style="font-size: medium"><span style="text-decoration: underline">GUI and terminal ways</span></span></span></span></a><span style="color: #000000"><span style="font-family: Arial"><span style="font-size: medium">.</span></span></span></p>
+<p><span style="color: #000000"><span style="font-family: Arial"><span style="font-size: medium">Here is the sampling of some of the </span></span></span><a href="http://en.opensuse.org/openSUSE:Education-Li-f-e"><span style="color: #1155cc"><span style="font-family: Arial"><span style="font-size: medium"><span style="text-decoration: underline">softwares available on the iso</span></span></span></span></a><span style="color: #000000"><span style="font-family: Arial"><span style="font-size: medium">.  Complete list of packages with versions </span></span></span><a href="http://www.opensuse-education.org/%7Ecyberorg/opensuse-edu-life-1221-packages.html"><span style="color: #1155cc"><span style="font-family: Arial"><span style="font-size: medium"><span style="text-decoration: underline">here</span></span></span></span></a><span style="color: #000000"><span style="font-family: Arial"><span style="font-size: medium">.</span></span></span></p>
+<p><span style="color: #000000"><span style="font-family: Arial"><span style="font-size: medium">Have a lot of fun&#8230;</span></span></span><br />
+<span style="color: #000000"><span style="font-family: Arial"><span style="font-size: medium">Your openSUSE Education Team</span></span></span></p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/09/14/announcing-the-release-of-opensuse-edu-li-f-e-12-2/feed/</wfw:commentRss>
+		<slash:comments>6</slash:comments>
+		</item>
+		<item>
+		<title>Testing LTSP on openSUSE 12.2</title>
+		<link>http://lizards.opensuse.org/2012/08/23/testing-ltsp-on-opensuse-12-2/</link>
+		<comments>http://lizards.opensuse.org/2012/08/23/testing-ltsp-on-opensuse-12-2/#comments</comments>
+		<pubDate>Thu, 23 Aug 2012 08:04:25 +0000</pubDate>
+		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
+				<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Education]]></category>
+		<category><![CDATA[openSUSE 11.2]]></category>
+		<category><![CDATA[Server]]></category>
+		<category><![CDATA[Systems Management]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8949</guid>
+		<description><![CDATA[With openSUSE 12.2 almost here, we have been working hard to get LTSP experience on this release better than ever. Thanks to the power of KIWI and some great scripting by Alex Savin, KIWI-LTSP has a lot of new features and improvements. Here is how to get started: * Install openSUSE 12.2 (preferably 32bit version) * [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>With openSUSE 12.2 almost here, we have been working hard to get <a title="Check out their cool new site" href="http://www.ltsp.org/" target="_blank">LTSP</a> experience on this release better than ever. Thanks to the power of <a title="KIWI imaging technology" href="http://en.opensuse.org/Portal:KIWI" target="_blank">KIWI </a>and some great scripting by Alex Savin, <a title="KIWI-LTSP on openSUSE wiki" href="http://en.opensuse.org/Portal:KIWI-LTSP" target="_blank">KIWI-LTSP</a> has a lot of new features and improvements.</p>
+<p>Here is how to get started:</p>
+<p><span id="more-8949"></span></p>
+<p>* Install <a title="openSUSE 12.2 RC2" href="http://software.opensuse.org/developer/en" target="_blank">openSUSE 12.2</a> (preferably 32bit version)</p>
+<p>* Install all the required packages via this <a href="http://download.opensuse.org/repositories/server:/ltsp/openSUSE_12.2/kiwi-ltsp-prebuilt-testing.ymp" target="_blank">1-click install</a> (about 200MB download)</p>
+<p>* Configure network by following <a title="Network configuration for LTSP" href="http://en.opensuse.org/SDB:KIWI-LTSP_network_configuration" target="_blank">this guide</a></p>
+<p>* Once the network is configured, open terminal and run this as root user (run &#8220;su -&#8221; to become root user)</p>
+<p><code>kiwi-ltsp -c</code></p>
+<p>The above command will configure all the required services like dhcpd, tftp for pxeboot, nfs/aoe/nbd servers for root, now you can boot up any PC/laptop/thin client using PXE(network booting) connected to the server. The clients would be able to use all the softwares installed on the server without their hard disk modified. The server would require about 256MB RAM per client, and ideally minimum 512MB RAM on the client, disable IO/CPU intensive or plain annoying services  like tracker, apper/PackageKit, nepomuk, strigi etc. for best performance.</p>
+<p>New features:</p>
+<p>Although the default prebuilt image connects to the server and all the processes are run on the server, with more powerful clients some of the load can be run client side by the use of ltsp-localapps. IceWM, firefox(with all the plugins that are installed on the server if the server is 32bit) and xterm are part of the default image, if you want something more  like VOIP clients: ekiga/twinkle for example you can clone the default image and customize it as per your requirements.</p>
+<p><code>kiwi-ltsp --list-profiles    #Show list of available images profiles<br />
+kiwi-ltsp --clone  suse-12.2 new_profile  #Clone existing profile </code></p>
+<p>You can then edit kiwi&#8217;s image description in<em><strong> /srv/kiwi-profiles/new_profile/img/config.xml</strong></em> or<strong><em><em> /etc/sysconfig/kiwi-ltsp</em></em></strong> <strong>LTSP_LOCALAPPS=&#8221;ekiga mypackage&#8221;</strong> to add required packages in the image. You can also use local i686 DVD iso as installation source by adding <strong>suse_1220_INSTALL_SOURCE=/path/to/iso</strong> there.</p>
+<p><code>kiwi-ltsp -l</code> will build the clicfs image that will be used to boot up clients, <code>kiwi-ltsp -c</code> will add the profile to the PXE boot menu also.</p>
+<p>To customize the image manually you can chroot into the image:<br />
+<code>kiwi-ltsp --chroot new_profile</code> do your modifications and run <code>kiwi-ltsp -l2 new_profile</code> to build compressed image from your modified tree. Check out <code>kiwi-ltsp -h</code> to see all that this utility can do.</p>
+<p>Complete desktop environments like GNOME/KDE can be installed in the image to be served over the network to more powerful clients(1-2GB RAM on the client), using <strong>LTSP_FATCLIENT=True</strong> in <em><strong>/srv/tftpboot/KIWI/root.default/etc/lts.conf</strong></em> will allow the whole session to run on local client hardware, hard disk is not used of course, so normal booting will get to whatever is installed on the disk.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/08/23/testing-ltsp-on-opensuse-12-2/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+	</channel>
+</rss>

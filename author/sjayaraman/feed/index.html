@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; Suresh Jayaraman</title>
+	<atom:link href="http://lizards.opensuse.org/author/sjayaraman/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>Local caching for CIFS network file system &#8211; followup</title>
+		<link>http://lizards.opensuse.org/2010/08/05/local-caching-for-cifs-network-file-system-followup/</link>
+		<comments>http://lizards.opensuse.org/2010/08/05/local-caching-for-cifs-network-file-system-followup/#comments</comments>
+		<pubDate>Thu, 05 Aug 2010 06:09:30 +0000</pubDate>
+		<dc:creator><![CDATA[Suresh Jayaraman]]></dc:creator>
+				<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Samba]]></category>
+		<category><![CDATA[Server]]></category>
+		<category><![CDATA[caching]]></category>
+		<category><![CDATA[cifs]]></category>
+		<category><![CDATA[fscache]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=4865</guid>
+		<description><![CDATA[Here&#8217;s a follow-up to my previous post on Hackweek V: Local caching for CIFS network file system Since the previous post, I worked on improving the patches that add local caching, fixed a few bugs, addressed review comments from the community and re-posted the patches. I also gave a talk about it at the SUSE [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Here&#8217;s a follow-up to my previous post on <a href="http://lizards.opensuse.org/2010/06/14/hackweek-v-local-caching-for-cifs-network-file-system/">Hackweek V: Local caching for CIFS network file system</a></p>
+<p>Since the previous post, I worked on improving the patches that add local caching, fixed a few bugs, addressed review comments from the community and re-posted the patches. I also gave a talk about it at the SUSE Labs Conference 2010 took place at Prague. The slides can be found here: <a href="http://www.suse.com/~sjayaraman/talks/cifs-fsc-labsconf-2010.pdf">FS-Cache aware CIFS.</a></p>
+<p>This patchset was merged in the upstream Linux kernel yesterday (Yay!) which means this feature would be available starting from kernel version 2.6.35-rc1.</p>
+<p>The primary aim of caching data on the client side is to reduce the network calls to the CIFS Server whenever possible, thereby reducing the server load as well the network load. This will indirectly improve the performance and the scalability of the CIFS Server and will improve the number of clients per Server ratio. This feature could be useful in a number of scenarios:</p>
+<p> &#8211; Render farms in Entertainment industry &#8211; used to distribute textures to individual rendering units<br />
+ &#8211; Read only multimedia workloads<br />
+ &#8211; Accelerate distributed web-servers<br />
+ &#8211; Web server cluster nodes serve content from the cache<br />
+ &#8211; /usr distributed by a network file system &#8211; to avoid spamming Servers when there is a power outage<br />
+ &#8211; Caching Server with SSDs reexporting netfs data<br />
+ &#8211; where a persistent cache remains across reboots is useful</p>
+<p><em>However, be warned that local caching may not suitable for all workloads and a few workloads could suffer a slight performance hit (for e.g. read-once type workloads). So, you need to careful consider your workload/scenario before you start using local disk caching.<br />
+</em><br />
+When I reposted this patchset, I got asked whether I have done any benchmarking and could share the performance numbers. Here are the results from a 100Mb/s network:</p>
+<p>Environment<br />
+&#8212;&#8212;&#8212;&#8212;</p>
+<p>I&#8217;m using my T60p laptop as the CIFS server (running Samba) and one of my test machines as CIFS client, connected over an ethernet of reported speed 1000 Mb/s. ethtool was used to throttle the speed to 100 Mb/s. The TCP bandwidth as seen by a pair of netcats between the client and the server is about 89.555 Mb/s.</p>
+<p>Client has a 2.8 GHz Pentium D CPU with 2GB RAM<br />
+Server has a 2.33GHz Core2 CPU (T7600) with 2GB RAM</p>
+<p>Test<br />
+&#8212;&#8211;<br />
+The benchmark involves pulling a 200 MB file over CIFS to the client using cat to /dev/zero under `time&#8217;. The wall clock time reported was recorded.</p>
+<p>First, the test was run on the server twice and the second result was recorded (noted as Server below i.e. time taken by the Server when file is loaded on the RAM).<br />
+Secondly, the client was rebooted and the test was run with caching disabled (noted as None below).<br />
+Next, the client was rebooted, the cache contents (if any) were erased with mkfs.ext3 and test was run again with cachefilesd running (noted as COLD)<br />
+Next the client was rebooted, tests were run with caching enabled this time with a populated disk cache (noted as HOT).<br />
+Finally, the test was run again without unmounting or rebooting to ensure pagecache remains valid (noted as PGCACHE).</p>
+<p>The benchmark was repeated twice:</p>
+<p>Cache (state) Run #1  Run#2<br />
+=============  =======  =======<br />
+Server         0.104 s  0.107 s<br />
+<strong>None           26.042 s 26.576 s</strong><br />
+COLD           26.703 s 26.787 s<br />
+<strong>HOT            5.115 s  5.147 s</strong><br />
+PGCACHE        0.091 s  0.092 s</p>
+<p>As it can be seen when the disk cache is hot, the performance is roughly 5X times than reading over the network. And, it has to be noted that the Scalability improvement due to reduced network traffic cannot be seen as the test involves only a single client and the Server. The read performance with more number of clients would be more interesting as the cache can positively impact the scalability.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/08/05/local-caching-for-cifs-network-file-system-followup/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Hackweek V: Local caching for CIFS network file system</title>
+		<link>http://lizards.opensuse.org/2010/06/14/hackweek-v-local-caching-for-cifs-network-file-system/</link>
+		<comments>http://lizards.opensuse.org/2010/06/14/hackweek-v-local-caching-for-cifs-network-file-system/#comments</comments>
+		<pubDate>Mon, 14 Jun 2010 12:41:54 +0000</pubDate>
+		<dc:creator><![CDATA[Suresh Jayaraman]]></dc:creator>
+				<category><![CDATA[Network]]></category>
+		<category><![CDATA[caching]]></category>
+		<category><![CDATA[cifs]]></category>
+		<category><![CDATA[fscache]]></category>
+		<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[hackweek V]]></category>
+		<category><![CDATA[Kernel]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=4400</guid>
+		<description><![CDATA[Hackweek It&#8217;s that time of the year when SUSE/Novell developers use their Innovation Time-off to do a project of their interest/wish &#8211; called as Hackweek. Last week was Hackweek V. I worked on making the Common Internet File System (CIFS) cache aware, i.e. local caching for CIFS Network File System. Linux FS-Cache Caching can result [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hackweek</p>
+<p>It&#8217;s that time of the year when SUSE/Novell developers use their Innovation Time-off to do a project of their interest/wish &#8211; called as Hackweek. Last week was Hackweek V. I worked on making the Common Internet File System (CIFS) cache aware, i.e. local caching for CIFS Network File System.</p>
+<p>Linux FS-Cache</p>
+<p>Caching can result in performance improvements in network filesystems where access to network and media is slow. The cache can indirectly improve performance of the network and the server by reduced network calls. Caching can be also viewed as a preparatory work for making disconnected operation (Offline) work with network filesystems.</p>
+<p>The Linux Kernel recently added a generic caching facility (FS-Cache) that any network filesystem like NFS or CIFS or other service can use to cache data locally. FS-Cache supports a variety of cache backends i.e. different types of cache that have different trade-offs (like CacheFiles, CacheFS etc.) FS-Cache mediates between cache backends and the network filesystems. Some of the network filesystems such as NFS and AFS are already integrated with FS-Cache.</p>
+<p>Making CIFS FS-Cache capable</p>
+<p>To make any network filesystem FS-Cache aware, there are a few things to consider. Let&#8217;s consider them step by step (though not in detail):</p>
+<p>* First, we need to define the network filesystem and it should be able to register/unregister with the FS-Cache interface.<br />
+* The network filesystem has to define the index hierarchy which could be used to locate a file object or discard a certain subset of all the files cached.<br />
+* We need to define the objects and the methods associated.<br />
+* All the indices in the index hierarchy and the data file need to be registered. This could be done by requesting a cookie for each index or data file. Upon successful registration, a corresponding cookie is returned.<br />
+* Functions to store and retrieve pages in the cache.<br />
+* Way to identify whether the cache for a file is valid or not.<br />
+* Function to release any in-memory representation for the network filesystem page.<br />
+* Way to invalidate a data file or index subtree and relinquish cookies.</p>
+<p>Implementation</p>
+<p>I wanted to get the prototype working within a week. So the way I have implemented it is rudimentary and has lot of room for improvement.</p>
+<p>The index hierarchy is not very deep. It has three levels &#8211; Server, Share and Inode. The only way that I know of identifying files with CIFS is by &#8216;UniqueId&#8217; which is supposed to be unique. However, some server do not ensure that the &#8216;UniqueId&#8217; is always unique (for example when there is more than one filesystem in the exported share). The cache coherency is currently ensured by verifying the &#8216;LastWriteTime&#8217; and size of the file. This is not a reliable way of detecting changes as some CIFS servers will not update the time until the filehandle is closed.</p>
+<p>The rudimentary implementation is ready and the cumulative patch can be found here:</p>
+<p>http://www.kernel.org/pub/linux/kernel/people/jays/patches/</p>
+<p>[WARNING: The patch is lightly tested and of prototype quality.]</p>
+<p>Here are some initial performance numbers with the patch:</p>
+<p>Copying one big file of size ~150 MB.</p>
+<p>$time cp /mnt/cifs/amuse.zip .<br />
+(Cache initialized)</p>
+<p>real 1m18.603s<br />
+user 0m0.016s<br />
+sys 0m8.569s</p>
+<p>$time cp /mnt/cifs/amuse.zip /<br />
+(Read from Cache)</p>
+<p>real 0m28.055s<br />
+user 0m0.008s<br />
+sys 0m1.140s</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/06/14/hackweek-v-local-caching-for-cifs-network-file-system/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Making technology Previews succeed &#8211; OSC 09 Unconference session notes</title>
+		<link>http://lizards.opensuse.org/2009/10/09/making-technology-previews-succeed-osc-09-unconference-session-notes/</link>
+		<comments>http://lizards.opensuse.org/2009/10/09/making-technology-previews-succeed-osc-09-unconference-session-notes/#comments</comments>
+		<pubDate>Fri, 09 Oct 2009 10:52:09 +0000</pubDate>
+		<dc:creator><![CDATA[Suresh Jayaraman]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[Technology Previews]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=2339</guid>
+		<description><![CDATA[I did an Unconference at openSUSE Conference 2009 titled: Roads Less Travelled &#8211; Making Technology Previews succeed&#8220;.  More number of people than I had expected participated in the unconference session. I wanted to make the discussion notes (rough) available to a wider audience so that we could act on some of those: Often Technology Previews [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I did an Unconference at openSUSE Conference 2009 titled: <strong>Roads Less Travelled &#8211; Making Technology Previews succeed</strong>&#8220;.  More number of people than I had expected participated in the unconference session. I wanted to make the discussion notes (rough) available to a wider audience so that we could act on some of those:</p>
+<p>Often Technology Previews are not solving their purpose. The objective of this session was to discuss, find out how we could get better feedback on Technology Previews and make them better.</p>
+<p>The discussion is focused primarily on these areas:</p>
+<ul>
+<li>Advertise the feature through proper channels, places</li>
+<li>Make it easy enough for users to try out and provide feedback</li>
+<li>Make it less risk-prone</li>
+<li>What stops users from trying out?</li>
+<li>Provide better documentation?</li>
+</ul>
+<p><strong>Key discussion points, suggestions:</strong></p>
+<ul>
+<li>Announcement in opensuse.org main page/wiki could grab the attention of community members who could help test Technology Previews.</li>
+<li>Reduce hassles in providing feedback. For e.g Perhaps facility without authentication/Single-signon?</li>
+<li>Easy ways/methods to provide feedback/input</li>
+<li>Bug/Issue reporting made easy, command line tools?</li>
+<li>Text area to provide feedback (as opposed a authentication based system).</li>
+<li>Create a dedicated page for preview for e.g. previews.opensuse.org</li>
+<li>irc channel for previews? (Discussion on all TPs, User testing one TP might get interested in another)</li>
+<li>Announcement in openSUSE Weekly news could help</li>
+<li>More Blogs, Articles, Whitepapers etc.. (blog entries should have provision for giving comments)</li>
+<li>Perhaps, try to get some help from documentation team?</li>
+<li>Provide instructions, mechanisms to safely try out without breaking things.</li>
+<li>Additional information about new technology while the community tries  to use the old technology For e.g. while a user tries to do nfsv3 mount providing an informational  message that NFSv4 is available and can be used</li>
+<li>Suggest using a VM</li>
+<li>Caution about what might break and what might not (Make community feel less riskier to try out).</li>
+</ul>
+<p><span>Please feel free to comment on what might work and if you have any more suggestion.</span></p>
+<p>The short presentation I used to introduce the topic can be found here: <a class="alignleft" title="Making Technology Previews succeed" href="http://files.opensuse.org/opensuse/en/d/de/Roads_Less_Travelled.pdf" target="_blank"><span class="alignleft">http://files.opensuse.org/opensuse/en/d/de/Roads_Less_Travelled.pdf</span></a><span class="alignleft"><br />
+</span></p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/10/09/making-technology-previews-succeed-osc-09-unconference-session-notes/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>

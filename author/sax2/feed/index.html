@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; Marcus Schaefer</title>
+	<atom:link href="http://lizards.opensuse.org/author/sax2/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>How kiwi can help to cleanup your system</title>
+		<link>http://lizards.opensuse.org/2012/09/25/how-kiwi-can-help-to-cleanup-your-system/</link>
+		<comments>http://lizards.opensuse.org/2012/09/25/how-kiwi-can-help-to-cleanup-your-system/#comments</comments>
+		<pubDate>Tue, 25 Sep 2012 10:01:59 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Schaefer]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Software Management]]></category>
+		<category><![CDATA[Systems Management]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9025</guid>
+		<description><![CDATA[After some iterations of updating the system with zypper dup or yast and some years of service with the system you will find out that there is a lot of dust which is obsolete or has been forgotten. Recently I had the problem that I need to move my 32bit system to a 64bit system [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>After some iterations of updating the system with zypper dup or yast and some years of service with the system you will find out that there is a lot of dust which is obsolete or has been forgotten. Recently I had the problem that I need to move my 32bit system to a 64bit system and thus the way to go was to migrate the running system into an image description, build a 64bit image from it and install that on the 64bit machine. But the most important part was to cleanup the running system and find out what it really contains. The report kiwi migrate created here was helpful and so I think it might be helpful for others too. Just call:</p>
+<blockquote><p>kiwi &#8211;migrate mySystem</p></blockquote>
+<p>It will end up with some data below /tmp/mySystem which of course can be removed at any time without any risk. Most interesting is the html report generated which you can view with any browser. So far kiwi collects the following information:</p>
+<ul>
+<li>kernel version and kernel specific kmp packages</li>
+<li>hardware dependent packages</li>
+<li>installed gem packages</li>
+<li>repository checkouts</li>
+<li>rpm packages installed multiple times</li>
+<li>rpm packages which could not be found according to the current repo setup including version and repo information</li>
+<li>tree of modified files, packaged but changed</li>
+<li>tree of custom files, those which doesn&#8217;t belong to any package or other part of the bullet list</li>
+</ul>
+<p>basically the use case of kiwi migrate is to migrate the running system into an appliance description but I&#8217;m not there yet. There is still room for improvement but I think it still can help to cleanup the system and to see what is installed on the system and not managed by a package manager</p>
+<p>I have tested this since openSUSE 11.4</p>
+<p>Remember to have fun <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/09/25/how-kiwi-can-help-to-cleanup-your-system/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Hybrid Live Systems</title>
+		<link>http://lizards.opensuse.org/2009/08/05/hybrid-live-systems/</link>
+		<comments>http://lizards.opensuse.org/2009/08/05/hybrid-live-systems/#comments</comments>
+		<pubDate>Wed, 05 Aug 2009 09:26:21 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Schaefer]]></dc:creator>
+				<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[Virtualization]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1836</guid>
+		<description><![CDATA[When talking about live systems on USB sticks people reported many problems with bootloaders like grub to boot the stick. Even though this is most often a problem with the stick hardware or the PC BIOS it&#8217;s an annoying situation which should have a better solution. There are also many people who wants to use [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>When talking about live systems on USB sticks people reported many problems with bootloaders like grub to boot the stick. Even though this is most often a problem with the stick hardware or the PC BIOS it&#8217;s an annoying situation which should have a better solution. There are also many people who wants to use the stick as a data container in combination with a live system to work with</p>
+<p>With the ISO hybrid technology and the integration into kiwi there is a way to create such a stick very easily. A hybrid ISO is an iso filesystem which contains a MBR and thus it&#8217;s seen as a disk to the PC BIOS. As it&#8217;s an ISO the isolinux bootloader is used instead of grub which works better on many systems. Additionally the hybrid ISO can be used as a live system on CD/DVD as well as on a USB stick</p>
+<h2>What&#8217;s required to use this</h2>
+<ul>
+<li>kiwi v3.68 or later</li>
+<li>syslinux-3.82-2.1 or later</li>
+</ul>
+<h2>How do I setup a hybrid ISO in kiwi</h2>
+<p>In order to activate the creation of a hybrid iso in kiwi you only have to add the <strong>hybrid=&#8221;true&#8221;</strong> attribute as part of your <strong>iso</strong> image type in <strong>config.xml:</strong></p>
+<p>
+<code><br />
+&lt;type boot="isoboot/suse-11.2" flags="clic" hybrid="true"&gt;iso<br />
+</code><br />
+You can use the suse-11.2-JeOS from the kiwi-templates package as example image description for your hybrid testing. The generated .iso file can be dumped via a simple dd call onto the USB stick. The same file also can be used to be burned on a CD/DVD</p>
+<p>
+<code><br />
+dd if=LimeJeOS-openSUSE-11.2.i686-1.11.2.iso of=/dev/... bs=32k<br />
+</code><br />
+After that the stick can be tested. By default all attempts to write data will go into the RAM of the system.  As a stick allows storing data persistently you can create a write partition on the stick using fdisk:</p>
+<p>
+<code><br />
+fdisk /dev/...<br />
+</code><br />
+kiwi will prevent using a vfat partition for the operating system. So make sure you create a 0&#215;83 (linux) type partition and not a vfat partition for the write support. If you additionally create a vfat partition you can use it as a container for any kind of data independently from the live system. We choose vfat here to stay compatible with Windows systems.</p>
+<h2>Known bugs</h2>
+<ul>
+<li>
+when using the clicfs filesystem (flags=&#8221;clic&#8221;) the persistently write feature into a single partition will fail because clicfs currently can&#8217;t deal with raw block specials as cow device. Will be fixed as soon as possible
+</li>
+</ul>
+<p>
+Have fun <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/08/05/hybrid-live-systems/feed/</wfw:commentRss>
+		<slash:comments>6</slash:comments>
+		</item>
+		<item>
+		<title>Fresh &amp; Fruity</title>
+		<link>http://lizards.opensuse.org/2009/07/28/fresh-fruity/</link>
+		<comments>http://lizards.opensuse.org/2009/07/28/fresh-fruity/#comments</comments>
+		<pubDate>Tue, 28 Jul 2009 12:23:28 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Schaefer]]></dc:creator>
+				<category><![CDATA[Virtualization]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1709</guid>
+		<description><![CDATA[Available today as part of the SUSE Appliance Program is SUSE Studio 1.0 based on the  image creator technology called kiwi. When creating an appliance with SUSE Studio you also have the possibility to export the appliance description to your local computer and use the kiwi backend directly to understand more about image creation and [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Available today as part of the SUSE Appliance Program is SUSE Studio 1.0 based on the  image creator technology called kiwi. When creating an appliance with SUSE Studio you also have the possibility to export the appliance description to your local computer and use the kiwi backend directly to understand more about image creation and deployment</p>
+<p>A professional linux distribution should be able to work as an appliance which is an ll-in-one solution including the application and the operating system. A basic appliance to start with is the JeOS &#8211; Just Enough Operating System. kiwi provides these as examples in the kiwi-templates package. To create your first SUSE 11.1 appliance just type:</p>
+<p><code>kiwi --build suse-11.1-JeOS -d /destination/path</code></p>
+<p>The primary image type of a JeOS template is a virtual disk which you can run in a virtual machine like QEmu, KVM, Vmware, VirtualBox, etc&#8230; To do this with qemu just call:</p>
+<p><code>qemu /destination/path/LimeJeOS-openSUSE-11.1.i686-1.11.1.vmdk</code></p>
+<p>and here you go with your first appliance. You want to know more about kiwi, just take a look at the wiki here:</p>
+<blockquote><p><a href="http://en.opensuse.org/Build_Service/KIWI/Cookbook">KIWI Cookbook</a></p></blockquote>
+<p>or read the full system documentation as PDF here:</p>
+<blockquote><p><a href="http://git.berlios.de/cgi-bin/gitweb.cgi?p=kiwi;a=blob;f=doc/kiwi.pdf">KIWI System Documentation</a></p></blockquote>
+<p>Remember to have fun <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/07/28/fresh-fruity/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>small Qt based mail biff</title>
+		<link>http://lizards.opensuse.org/2008/09/08/small-qt-based-mail-biff/</link>
+		<comments>http://lizards.opensuse.org/2008/09/08/small-qt-based-mail-biff/#comments</comments>
+		<pubDate>Mon, 08 Sep 2008 14:30:35 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Schaefer]]></dc:creator>
+				<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Network]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=168</guid>
+		<description><![CDATA[Some days ago I was asked what this little button bar on my desktop is and I explained that it&#8217;s only a small program I wrote to keep track on my mail folders. I know there are many many programs out there which already does the same but for some reason he liked it and [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Some days ago I was asked what this little button bar on my desktop is and I explained that it&#8217;s only a small program I wrote to keep track on my mail folders. I know there are many many programs out there which already does the same but for some reason he liked it and encouraged me to blog about it <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </p>
+<p>qbiff runs as a server client application and is able to manage mails stored in the maildir format. The server should run on the machine which locally stores the data and the client or multiple of them can run on the desktop you have an eye on. The connection(s) between the server and the client(s) are SSL connections, even though there is no mailcontent which is transfered the information how many mails, how many new ones and what mail folders exists might be an information not everybody needs to know about&#8230; so I chose a secure connection <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';)' class='wp-smiley' /> </p>
+<p>If the file .qbiffrc exists the user can control which mail folders should be checked, if the file doesn&#8217;t exist all folders the server finds at start up will be used. Each folder is represented by a button. Whenever a new mail arrives the button changes its color and notifies the user with a tip window about the current mail situation of this folder. A click on the button runs a user defined program whereas the first parameter is the path and name of the folder. In my setup I call mutt respectively to read the mail in the folder</p>
+<p>So it looks basically like this&#8230;</p>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2008/09/qbiff1.png"><img class="alignnone size-full wp-image-170" src="http://lizards.opensuse.org/wp-content/uploads/2008/09/qbiff1.png" alt="" width="500" height="121" /></a></p>
+<p>Packages can be found in my home Project at:</p>
+<ul>
+<li><em>http://download.opensuse.org/repositories/home:/sax2</em></li>
+</ul>
+<ol>
+<li>Install the package qbiffd on your server</li>
+<li>Install the package qbiff on your client, server and client could be the same machine</li>
+<li>Edit the file /etc/sysconfig/qbiff on the server and setup at least the  QBIFF_USER which should be the same user the mails belong to and the QBIFF_FOLDER which is the base directory of your mails</li>
+<li>Run the server by calling rcqbiffd start</li>
+<li>Run the client by calling qbiff-client. The default password for the SSL certificates is &#8220;<strong>linux</strong>&#8220;</li>
+<li>click on a folder button and read the note about how to setup a personal mail reader script</li>
+</ol>
+<p>If you want to create your own certificates you need to check out the code at</p>
+<ul>
+<li>svn co https://svn.berlios.de/svnroot/repos/qbiff/qbiff-head .</li>
+</ul>
+<p>and run the following commands:</p>
+<ol>
+<li>cd cert-server &amp;&amp; make distclean &amp;&amp; make</li>
+<li>cd ../cert-client &amp;&amp; make distclean &amp;&amp; make</li>
+<li>cd ..</li>
+<li>./.certinstall on the <strong>server</strong> and the <strong>client</strong></li>
+</ol>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2008/09/08/small-qt-based-mail-biff/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>

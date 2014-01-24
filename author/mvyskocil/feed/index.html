@@ -1,0 +1,755 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; Michal Vyskocil</title>
+	<atom:link href="http://lizards.opensuse.org/author/mvyskocil/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>Optimizing a boot time, aka 2 second boot (part 2)</title>
+		<link>http://lizards.opensuse.org/2012/07/31/optimizing-a-boot-time-aka-2-second-boot-part-2/</link>
+		<comments>http://lizards.opensuse.org/2012/07/31/optimizing-a-boot-time-aka-2-second-boot-part-2/#comments</comments>
+		<pubDate>Tue, 31 Jul 2012 14:31:27 +0000</pubDate>
+		<dc:creator><![CDATA[Michal Vyskocil]]></dc:creator>
+				<category><![CDATA[Uncategorized]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8892</guid>
+		<description><![CDATA[Changes for upcoming openSUSE As a result of my previous 2 second post I have submitted few changes to openSUSE to be included in a next release. purge-kernels.service patch has been accepted by our brave mkinitrd package maintainer requested a split of mkinitrd setup script from splashy package, so users can freely remove the initrd [&#8230;]]]></description>
+				<content:encoded><![CDATA[<h2>Changes for upcoming openSUSE</h2>
+<p>As a result of my <a href="http://lizards.opensuse.org/2012/07/26/optimizing-a-boot-time-aka-2-second-boot/">previous 2 second post</a> I have submitted few changes to openSUSE to be included in a next release.</p>
+<ol>
+<li><code>purge-kernels.service</code> patch has been <a href="https://gitorious.org/opensuse/mkinitrd/commit/141def6c559d08d14e6812562716b1e7aaee7da4">accepted</a> by our brave mkinitrd package maintainer</li>
+<li><a href="https://build.opensuse.org/request/show/129303">requested</a> a split of mkinitrd setup script from <code>splashy</code> package, so users can freely remove the initrd integration without breaking resume et al</li>
+<li>I opened <a href="https://features.opensuse.org/313851" title="feature 313851">feature 313851</a> to make NM the default network tool at least for laptops, because this expects a little more changes than add a package to laptop pattern</li>
+</ol>
+<h2>Run NetworkManager on demand</h2>
+<p>That is very uncommon user-case for *nix machines, but makes a perfect sense for consumer devices. My Amazon Kindle or today&#8217;s smartphone or tables works in the same way &#8211; device starts without a network connection and there&#8217;s a button or magic tap enabling it. On my laptop I already have such button &#8211; it is the Fn+F2 with a antenna symbol printed. This is the rfkill button turns my wlan card on and off.</p>
+<p>So what I want is once I turn wifi on, NetworkManager should start and work. With systemd and it&#8217;s udev integration this is so simple, that I was not able to find a good howto for it. So here we are with a small howto for udev/systemd newbiew like me.</p>
+<p>We need to know a sysfs name of wlan0 &#8211; simple <code>find /sys/ -name 'wlan0'</code> will say us all we need. Then <code>udevadm info</code> will tell you more</p>
+<pre>
+udevadm info --path=/sys/class/net/wlan0 --attribute-walk | less
+...
+  looking at device '/devices/pci0000:00/0000:00:1c.2/0000:01:00.0/net/wlan0':
+    KERNEL=="wlan0"
+    SUBSYSTEM=="net"
+    DRIVER==""
+</pre>
+<p>That is all you need to know how to write a rule will match for all wlan cards.</p>
+<pre>
+# cat /etc/udev/rules.d/95-start-nm-on-wlan.rules
+SUBSYSTEM=="net", NAME=="wlan?", TAG+="systemd", ACTION=="add", ENV{SYSTEMD_WANTS}="NetworkManager.service"
+</pre>
+<p>To explain it &#8211; <code>SUBSYSTEM</code> and <code>NAME</code> are taken from previous output and means that following rule matches for all devices in net subsystem named <code>wlan-<em>something</em></code>. We should append tag <em>systemd</em>, because <code>systemd</code> sees tagged devices only. The <code>ACTION=="add"</code> says the rule will be evaluated only in case device will be added and the last part says to <code>systemd</code> which service should be started.</p>
+<p>In case you will want to stop NM, the</p>
+<pre>
+SUBSYSTEM=="net", NAME=="wlan?", TAG+="systemd", ACTION=="remove", ENV{SYSTEMD_WANTS}="NetworkManager-stop.service"
+</pre>
+<pre>
+# cat /etc/systemd/system/NetworkManager-stop.service
+[Unit]
+Description=Stops NetworkManager
+Conflicts=NetworkManager.service
+
+[Service]
+ExecStart=/bin/true
+</pre>
+<h3>WLAN cards</h3>
+<p>For onboard wlan cards following thing won&#8217;t work as they appear in a tree from early phase. Unfortunately I&#8217;ve found only one way how kernel exports the fact cable is plugged in and that&#8217;s changed<code> /sys/class/net/eth0/carrier</code>. But inotify does not work with a quantum-like fs like sysfs is. The trouble is values appears in time of read, but inotify react on writes, which never appear.</p>
+<p>How much the removal of getting IP address from boot saved the time?</p>
+<pre>
+# systemd-analyze
+Startup finished in 2719ms (kernel) + 4333ms (userspace) = 7052ms
+</pre>
+<p>which is about half of second.</p>
+<h2>Too much mounts in a parallel</h2>
+<p>The one thing surprised me was a long time until trivial mounts like debugfs were finished. The reason is that <code>systemd</code> (at least 44, recent version use generator+ <code>.mount</code> units) behaves differently to <code>.mount</code> units and things in <code>/etc/fstab</code>. In the first case, it executes the <code>/bin/mount</code>. Which means a lot of ld, stats, mmap, and the big delay of the system start.</p>
+<p>So move things to fstab, or disable the systemd mount unit (I did that for <code> sys-kernel-debug.mount</code> and <code>sys-kernel-security.mount</code>). I already masked the remount-rootfs.mount, which calls <code>/bin/mount -o remount /</code>&lt; only. That seems to me like a barrier for other mount units &#8211; iow this will be done as a last one. But who cares with a fast boot we have?</p>
+<h2>Way more changes</h2>
+<p>Then the systemd-modules-load.service delay a boot as it block sysinit.service, when basic boot ends. I read strace carefully, but it only load microcode_ctl module, but that took few seconds to be done. Thus I gently masked it.</p>
+<p>The next change is backport from Factory package <a href="https://build.opensuse.org/package/view_file?file=fix-tty-startup.patch&amp;package=systemd&amp;project=Base%3ASystem&amp;rev=f86a82d5af52fca8da6eeb91059d24fb" title="fix-tty-startup.patch"></a> &#8211; this reduce the delay caused by all those tty devices to appear. Fortunately this will be part of next openSUSE as it is an upstream patch.</p>
+<p>And as a last thing I wrote a simple xdm.service, instead of a big xdm init script. It will definitely need more love, but for me just works <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+<pre>
+cat /etc/systemd/system/xdm.service
+[Unit]
+Description=X Display Manager
+After=dbus.socket
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/xdm -nodaemon
+Restart=always
+
+[Install]
+WantedBy=graphical.target
+</pre>
+<p>Voilà!</p>
+<pre>
+#systemd-analyze
+Startup finished in 2698ms (kernel) + 1513ms (userspace) = 4212ms
+</pre>
+<h2>Using dracut</h2>
+<p>Because our brave systemd maintainer, Fréderic Crozat, chooses <a href="http://blog.crozat.net/2012/07/my-hackweek8-project-dracut.html" title="dracut">dracut</a> as his hackweek project, I was curious if dracut can make some gain for me. I installed dracut and rebuilt and installed hardlink from his branches and try to investigate it. I would say the biggest advantage over mkinitrd is that dracut is configurable from command line. This is in a contrast with mkinitrd, where you have mostly no way how to exclude something &#8211; at least I did not find anything.</p>
+<p>As Fréderic also pointed me, there is a <code>--hostonly</code> switch, which include only things needed for boot of current machine only. For instance <code>dracut</code> module <code>kernel-modules</code> will pull only things needed to mount <code>rootfs</code> (and if <code>usrmount</code> is included, then it will add things for <code>/usr</code> as well). Then I have excluded at least everything I can to have a working initramfs via <code>-o</code>, <code>--nofsck</code> and <code>--strip</code>. And that is the resulting time</p>
+<pre>
+# systemd-analyze
+Startup finished in 726ms (kernel) + 1609ms (initramfs) + 1581ms (userspace) = 3917ms
+</pre>
+<p><img src="http://lizards.opensuse.org/wp-content/uploads/2012/07/plot004.gif" alt="openSUSE 12.2 boot with initramfs made by dracut" /></p>
+<h2>Disabling way more things</h2>
+<p>As we are now versed in a looking at diagrams, there are still few ms we can save, even those changes are not sane <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';-)' class='wp-smiley' /> . The first one follows the <code>NetworkManager.service</code> &#8211; now <code>sshd.service</code> delays the boot a lot, because it <code>systemd-update-utmp-level.service</code> waits on it&#8217;s finish. So let&#8217;s start it on demand</p>
+<pre>
+# cat /etc/udev/rules.d/95-start-nm-on-wlan.rules
+SUBSYSTEM=="net", NAME=="wlan?", TAG+="systemd", ACTION=="add", ENV{SYSTEMD_WANTS}="NetworkManager.service sshd.service"
+</pre>
+<p>and disable it. Then mask all few remaining things &#8211; <code>systemd-login.service</code>, <code>systemd-remount-api-vfs.service</code>, <code>systemd-user-session.service</code> and <code>rc-local.service</code>. But only in case you are pretty sure what you are doing, because you might loose an important functionality, especially if you use a DE expected such things.</p>
+<p>And that is the last time I will post </p>
+<pre>
+# systemd-analyze 
+Startup finished in 726ms (kernel) + 1502ms (initramfs) + 1112ms (userspace) = 3341ms
+</pre>
+<p>With a kernel with SATA+ext support builtin, <strong>I would reach the two second goal</strong> &#8211; 1839ms. Of course on a system, which functionality was extremely cut down, but my goal was to boot as fast as possible. In reality, hunting of ms does not makes your feeling better a lot (until you will type <code>systemd-analyze</code>, of course)</p>
+<p>This is the diagram of the really fast boot</p>
+<p><img src="http://lizards.opensuse.org/wp-content/uploads/2012/07/plot0005.gif" alt="openSUSE 12.2 close to two second boot as possible" /></p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/07/31/optimizing-a-boot-time-aka-2-second-boot-part-2/feed/</wfw:commentRss>
+		<slash:comments>5</slash:comments>
+		</item>
+		<item>
+		<title>Optimizing a boot time, aka 2 second boot</title>
+		<link>http://lizards.opensuse.org/2012/07/26/optimizing-a-boot-time-aka-2-second-boot/</link>
+		<comments>http://lizards.opensuse.org/2012/07/26/optimizing-a-boot-time-aka-2-second-boot/#comments</comments>
+		<pubDate>Thu, 26 Jul 2012 13:30:07 +0000</pubDate>
+		<dc:creator><![CDATA[Michal Vyskocil]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[Usability]]></category>
+		<category><![CDATA[12.2]]></category>
+		<category><![CDATA[systemd]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8868</guid>
+		<description><![CDATA[During the hackweek, I have decided to take a look onto a boot process to realize, how fast can be boot of the system. This metric is considered as a not important, especially in a geek community. But I am sure that this is an important part of user experience. Following text is mean to [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>During the <a title="hackweek" href="http://en.opensuse.org/Portal:Hackweek">hackweek</a>, I have decided to take a look onto a boot process to realize, how fast can be boot of the system. This metric is considered as a not important, especially in a geek community. But I am sure that this is an important part of user experience. Following text is mean to share my investigations with you &#8211; but you should be aware what you are doing, since I have been focused on reducing the boot time as much as possible.</p>
+<h2>A bit of theory</h2>
+<p>Basically you have three possibilities how to make your boot fast.</p>
+<ol>
+<li>Start things in a <strong>parallel.</strong></li>
+<li>Start things <strong>on demand.</strong></li>
+<li>Start <strong>less</strong> things.</li>
+</ol>
+<h2>&#8230; root of all evil &#8230;</h2>
+<blockquote><p>&#8220;Premature optimization is the root of all evil.&#8221;</p></blockquote>
+<p>And I will modestly extend Donald Knuth&#8217;s sentence, that the <strong>blind</strong> optimization as well. So if we have to optimize something, we have to know what to do. Fortunately <tt>systemd</tt> comes with an excellent tool called <tt>systemd-analyze</tt>, which show us our boot in several ways.</p>
+<p>The simple run of command prints the time we spent in a boot and in which phase.</p>
+<pre># systemd-analyze
+Startup finished in 8480ms (kernel) + 30873ms (userspace) = 39353ms</pre>
+<p>That was the default (minimal X system) 12.2 installation on my EEE 701 netbook, which is probably not suitable to work as nowadays <del>cell</del>smarphone, because is pathetically slow. On the other hand is it a perfect playground, so let&#8217;s continue with an investigating.</p>
+<p>The overall time is nice, but won&#8217;t help to know what&#8217;s going on. There are two more subcommands, <code>blame</code> and <code>plot</code> shows us more information about the boot. The first shows the services sorted by the start time. The ones boots so long are those we should kicked off as a first ones.</p>
+<p>Let see what slow the boot down a most</p>
+<pre>$ systemd-analyze blame | head
+ 11385ms network.service
+  5664ms SuSEfirewall2_init.service
+  5575ms systemd-vconsole-setup.service
+  3032ms ntp.service
+  2840ms remount-rootfs.service
+  2230ms postfix.service
+  2021ms network-remotefs.service
+  1925ms cpufreq.service
+  1661ms SuSEfirewall2_setup.service
+  1506ms xdm.service</pre>
+<p>And take look at the output of <code>systemd-analyze plot</code> command</p>
+<p><img src="http://lizards.opensuse.org/wp-content/uploads/2012/07/plot001.gif" alt="openSUSE 12.2 boot diagram" /></p>
+<p>You can see, that there is a long chain of <code>SuSEfirewall2_init</code> -&gt; <code>network</code> -&gt; <code>network-remotefs</code> -&gt; <code>SuSEfirewall2_setup</code> tooks several dozen seconds to be finished. And nothing is wrong with that, but that is the server solution, not what I want to have on my tiny laptop.</p>
+<h2>Making a laptop boot twice more faster</h2>
+<p>So having the complex dependencies of several services in mind, I decided to mask some of them. Masking in systemd world means the service cannot be started using systemd, so it becomes invisible for it. I masked those</p>
+<ul>
+<li><code>network.service</code> &#8211; will be replaced by NetworkManager, which is more suitable for laptops usage</li>
+<li><code>SuSEfirewall2_init</code> and <code>SuSEfirewall2_setup</code> &#8211; even if it&#8217;s a security feature, a risc for laptop, which is mostly offline and running only <code>sshd</code> is pretty small.</li>
+<li><code>ntp.service</code>, <code>network-remotefs.service</code> &#8211; those does not makes a sense on my laptop</li>
+<li><code>postfix.service</code> &#8211; I do not want to send emails via <code>/usr/bin/sendmail</code></li>
+<li><code>cpufreq.service</code> &#8211; it is even not supported by my CPU (grep rc.cpufreq /var/log/messages)</li>
+</ul>
+<p>Do not forget to install NetworkManager and the applet and change the <code>/etc/sysconfig/network/config</code> and reboot.</p>
+<p>Now we have</p>
+<pre>
+$ systemd-analyze
+Startup finished in 8528ms (kernel) + 11123ms (userspace) = 19652ms
+</pre>
+<h2>Using an strace with systemd</h2>
+<p>Now we have a list of worse services</p>
+<pre>
+$ systemd-analyze blame | head -n 10
+  5476ms xdm.service
+  4172ms systemd-vconsole-setup.service
+  3950ms systemd-modules-load.service
+  2781ms remount-rootfs.service
+  1848ms NetworkManager.service
+  1439ms media.mount
+  1426ms systemd-remount-api-vfs.service
+  1419ms dev-hugepages.mount
+  1411ms dev-mqueue.mount
+  1371ms sys-kernel-debug.mount
+</pre>
+<p>and a proper boot chart</p>
+<p><img src="http://lizards.opensuse.org/wp-content/uploads/2012/07/plot002.gif" alt="bootchart w/o network.service" /></p>
+<p>It shows us an another botleneck, which is the <code>systemd-vconsole-setup.service</code>, because it delay the <code>sysinit.target</code>, which is very early boot stage. In case like this, we can only use <code>strace</code> to know, what is taking too long. And debugging is pretty straightforward in systemd world. All we have to do is copy service file to<code> /etc/systemd/system</code> and change the <code>ExecStart</code></p>
+<pre>
+ExecStart=/usr/bin/strace -f -tt -o /run/%N.strace /lib/systemd/systemd-vconsole-setup
+</pre>
+<p>and reboot. Then you will find the output in <code>/run/systemd-vconsole-setup.strace</code> with a timestamps. Looking there it&#8217;s obvious calling <code>hwinfo --bios</code> is extremely expensive in this stage. You can speedup the unit by setting the <code>KBD_NUMLOCK</code> to yes or no in <code>/etc/sysconfig/keyboard</code>, or you can try to mask it completely I did.</p>
+<p>The next service needs to closer look was system-modules-load &#8211; then <code>strace</code> says that it spent 2(!) in <code>init_module()</code> for module <code>microcode</code>. I disabled it as well, even for CPUs needs it can&#8217;t be recommended.</p>
+<h2>Native systemd units</h2>
+<p>There is one tiny init script called <code>purge-kernels</code>, which starts for 300ms according blame. And in this particular case systemd alternative will be way more effective</p>
+<pre>
+$ cat /etc/systemd/system/purge-kernels.service
+[Unit]
+Description=Purge old kernels
+After=local_fs.target
+ConditionPathExists=/boot/do_pure_kernels
+
+[Service]
+Type=oneshot
+ExecStart=/sbin/purge-kernels
+</pre>
+<p>because systemd only do one stat on the file and do not run it at all, so this service disappears from the <code>blame</code> at all.</p>
+<h2>The kernel time</h2>
+<p>There is one interesting thing about kernel time &#8211; 8 seconds spent there seems to be a lot to me. Simple ls on /boot gave me a pointer</p>
+<pre>
+$ ls -lh /boot/vmlinuz-* /boot/initrd-*
+-rw-r--r-- 1 root root  14M Jul 24 11:03 /boot/initrd-3.4.4-1.1-desktop
+-rw-r--r-- 1 root root 4.7M Jul 10 15:48 /boot/vmlinuz-3.4.4-1.1-desktop
+</pre>
+<p>The <code>initrd</code> is huge, around <strong>three</strong> times bigger than kernel? So let&#8217;s try to find what caused that. Every package can add it&#8217;s own setup script into /lib/mkinitrd/scripts/ thus let ask rpm whose did that</p>
+<pre>
+$ rpm -qf /lib/mkinitrd/scripts/setup-* | sort -u
+cifs-utils-5.5-2.2.2.i586
+cryptsetup-1.4.2-3.2.1.i586
+device-mapper-1.02.63-26.1.1.i586
+dmraid-1.0.0.rc16-18.2.1.i586
+kpartx-0.4.9-3.1.1.i586
+lvm2-2.02.84-26.1.1.i586
+mdadm-3.2.5-3.3.2.i586
+mkinitrd-2.7.0-62.2.1.i586
+multipath-tools-0.4.9-3.1.1.i586
+plymouth-scripts-0.8.5.1-1.3.1.noarch
+splashy-0.3.13-35.1.1.i586
+</pre>
+<p>So I went through a list and try to uninstall things I do not need</p>
+<ul>
+<li><code>cifs-utils</code> &#8211; if you do not have any windows disc to mount, you can remove, but no impact on initrd size</li>
+<li><code>cryptsetup</code> &#8211; this is a popular service for laptops, but I do not have any luks device, so let skip that. It removes a half of Yast as well, so I saved 18M of space, but a little in initrd.</li>
+<li><code>device-mapper</code>, <code>dmraid</code>, <code>kpartx</code> and <code>lvm2</code> &#8211; cannot be easily removed as too much low-level stuff depends on it</li>
+<li><code>mdadm</code> &#8211; no linux md devides, skip that</li>
+<li><code>mkinitrd</code> &#8211; removal can reduce initrd to zero, but we would need own kernel</li>
+</li>
+<p><code>multipath-tools</code> &#8211; no multipath device, let skip that</li>
+<li><code>plymouth-scripts</code> &#8211; who would need the &#8220;fancy&#8221; boot when booting so fast? &#8211; reducing initrd to 8.9M</li>
+<li><code>splashy</code> &#8211; the same &#8211; and reducing initrd to 6.6M</li>
+</ul>
+<p>So the things intended to provide fancy boot actually bloats the system. Let&#8217;s measure the impact of those changes</p>
+<pre>
+$ systemd-analyze
+2781ms (kernel) + 4999ms (userspace) = 7780ms
+</pre>
+<p><img src="http://lizards.opensuse.org/wp-content/uploads/2012/07/plot003.gif" alt="bootchart w/o network.service" /></p>
+<h2>And that&#8217;s all folks &#8230;?</h2>
+<p>There are a lot of factors slowing our boot &#8211; reducing it to 8 seconds is not that bad. One have to go carefully through blame and plot output to see what delays his computer in start. I would say making NetworkManager default one at least when installing laptop pattern would be nice and simple change as well as continue on <em>&#8220;systemdifization&#8221;</em> of openSUSE.</p>
+<p>There are few other tricks, which get us closer to the target time, but I&#8217;ll post them next day.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/07/26/optimizing-a-boot-time-aka-2-second-boot/feed/</wfw:commentRss>
+		<slash:comments>12</slash:comments>
+		</item>
+		<item>
+		<title>Quick tip: Novell Bugzilla and Klipper</title>
+		<link>http://lizards.opensuse.org/2009/12/22/quick-tip-novell-bugzilla-and-klipper/</link>
+		<comments>http://lizards.opensuse.org/2009/12/22/quick-tip-novell-bugzilla-and-klipper/#comments</comments>
+		<pubDate>Tue, 22 Dec 2009 08:34:03 +0000</pubDate>
+		<dc:creator><![CDATA[Michal Vyskocil]]></dc:creator>
+				<category><![CDATA[Accessibility]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=2884</guid>
+		<description><![CDATA[Klipper from KDE has a set of predefined actions triggered by content of the clipboard. So when you have it enabled, it show up the popup menu with all available browsers when you copy the URL. In my job I open many bugs and the bug numbers have the well defined format bnc#number. So why [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Klipper from KDE has a set of predefined actions triggered by content of the clipboard. So when you have it enabled, it show up the popup menu with all available browsers when you copy the URL. In my job I open many bugs and the bug numbers have the well defined format bnc#number. So why don&#8217;t define automatic action triggered by this regular expression?</p>
+<p>Because Klipper expects only oneliner as an action, I wrote the short bash script obug.sh which expects one argument with a bugzilla string.</p>
+<pre>
+#!/bin/bash
+
+[ -z "${1}" ] &amp;&amp; {
+  echo "bug number required"
+  exit 1
+}
+
+regex='^(bnc|bug)?#[0-9]+$'
+[[ "${1}" =~ ${regex} ]] || {
+  echo "${1} did not match ${regex}"
+  exit 2
+}
+
+firefox https://bugzilla.novell.com/show_bug.cgi?id=${1#*#}
+</pre>
+<p>It&#8217;s obvious how it works &#8211; it checks if the argument exists and if matches the pattern and then opens a firefox (it&#8217;d be a xdg-open, but I use firefox for Novell Bugzilla). There should be only one strange expression &#8211; ${1#*#}. It is a <a href="http://www.faqs.org/docs/bashman/bashref_29.html">Shell Parameter Expansion</a>. This expression removes all characters from the beginning of the string including first #, so it convert bnc#1234 to 1234.</p>
+<p>Then I defined a new action in Klipper triggered by ^(bnc|bug)?#[0-9]+$, which calls obug.sh %s, where %s is the content of clipboard.<br />
+<img src="http://lizards.opensuse.org/wp-content/uploads/2009/12/klipper.png" alt="Klipper config" /></p>
+<p>And after that all I selected the bnc#1234 by mouse and then the following popup appeared.<br />
+<img src="http://lizards.opensuse.org/wp-content/uploads/2009/12/klipper1.png" alt="" /></p>
+<p>One disadvantage of this method is that Klipper opens popup window only near its status icon in systemtray. It would be more useful to show it near current mouse position.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/12/22/quick-tip-novell-bugzilla-and-klipper/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>New pm-utils for openSUSE</title>
+		<link>http://lizards.opensuse.org/2009/11/25/new-pm-utils-for-opensuse/</link>
+		<comments>http://lizards.opensuse.org/2009/11/25/new-pm-utils-for-opensuse/#comments</comments>
+		<pubDate>Wed, 25 Nov 2009 12:50:59 +0000</pubDate>
+		<dc:creator><![CDATA[Michal Vyskocil]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Factory]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=2676</guid>
+		<description><![CDATA[The current SUSE version of pm-utils is pretty old. Rpm -q said somethink like 0.99.4.20071229. And it also contains a hacked support for s2ram, which is nowadays in upstream version. There has been also a bnc#378883 &#8211; Need an updated pm-utils I started a work on this week. A new pm-utils package for openSUSE is [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The current <a href="http://en.opensuse.org/Pm-utils">SUSE version of pm-utils</a> is pretty old. Rpm -q said somethink like 0.99.4.20071229. And it also contains a hacked support for s2ram, which is nowadays in upstream version. There has been also a <a href="https://bugzilla.novell.com/show_bug.cgi?id=378883">bnc#378883 &#8211; Need an updated pm-utils</a> I started a work on this week.</p>
+<p>A new pm-utils package for openSUSE is available in <a href="http://download.opensuse.org/repositories/home:/mvyskocil:/branches:/Base:/System/">home:mvyskocil:branches:Base:System</a>. The <a href="http://en.opensuse.org/Pm-utils#SUSE-specific_variables">HIBERNATE_METHOD</a> is no longer supported, because upstream version contains something better &#8211; modules. There are three methods how to run software suspend on Linux</p>
+<ol>
+<li>kernel &#8211; plain echo something &gt; /proc/something</li>
+<li><a href="http://en.opensuse.org/Suspend_to_RAM">suspend</a> &#8211; tool contains a lot of quirks needed on some HW</li>
+<li><a href="http://www.tuxonice.net/">tuxonice</a> &#8211; kernel and userspace support for hibernate, not in upstream kernel, nor in openSUSE</li>
+</ol>
+<p>Because there are too many ways in current Linux world, pm-utils simply support all by specific modules stored in /usr/lib/pm-utils/modules.d, which implements appropriate functions for suspend/hibernate and hybrid. The SUSE default is uswsusp module calls s2ram/s2disk/s2both from software suspend project, because it should be considered as a safe default.</p>
+<p>If you want to use different module, you can add a config file somewhere to<br />
+<code>/etc/pm/conf.d/</code><br />
+and set the value of SLEEP_MODULE.<br />
+<code><br />
+# The default sleep/wake system to use.  Valid values are:<br />
+#   kernel    The built-in kernel suspend/resume support.<br />
+#             Use this if nothing else is supported on your system.<br />
+#   uswsusp   If your system has support for the userspace<br />
+#             suspend programs (s2ram/s2disk/s2both), then use this.<br />
+#   tuxonice  If your system has support for tuxonice, use this.<br />
+#<br />
+# The system defaults to "kernel" if this is commented out.<br />
+SLEEP_MODULE="uswsusp"<br />
+</code></p>
+<p>You can type more methods, which will be called, so SLEEP_MODULE=&#8221;kernel uswsusp&#8221; will use kernel and if it fail, or not available, it call uswsusp. Please note that config files are read in C sort order, so names matters.</p>
+<p>So please install new pm-utils and test it and tell me if you found any regression (please inform me about a regressions only, I cannot fix generic suspend problems).</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/11/25/new-pm-utils-for-opensuse/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>Smarter osc commit</title>
+		<link>http://lizards.opensuse.org/2009/08/03/smarter-osc-commit/</link>
+		<comments>http://lizards.opensuse.org/2009/08/03/smarter-osc-commit/#comments</comments>
+		<pubDate>Mon, 03 Aug 2009 15:55:37 +0000</pubDate>
+		<dc:creator><![CDATA[Michal Vyskocil]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Usability]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1824</guid>
+		<description><![CDATA[Some hours ago I have worked on fix of eclipse build. But two parallel builds of eclipse (there are eclipse.spec and eclipse-archdep.spec) eats almost all resources of my computer, which was unusable. Fortunately vim needs a little of CPU time, so I decided to improve smarter osc commit, I implemented on Friday. If you work [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>
+Some hours ago I have worked on fix of eclipse build. But two parallel builds of eclipse (there are eclipse.spec and eclipse-archdep.spec) eats almost all resources of my computer, which was unusable. Fortunately vim needs a little of CPU time, so I decided to improve smarter osc commit, I implemented on Friday.
+</p>
+<p>
+If you work with osc and packaging, you probably forgot to add a new patch, or source and commits sources with missing file, so build in OBS fails. Our internal script, which we used before BuildService has a check, which warns about files not specified in Patch or Source in a spec file, so it was a great feature for forgetful developers (as myself, for example). The problem is how to get a list of sources and patches for a current spec file? The internal script uses some &#8220;magic&#8221; shell code which calls a rpmbuild, because it&#8217;s rather impossible to parse a specfile correctly. Fortunately there is a simplest approach.
+</p>
+<p>
+In build service package directory each file has a state &#8211; added, modified, removed, &#8230;. So my idea is simple &#8211; check state of all files in the directory and if there is any file with &#8216;?&#8217; (file exists, but not in metadata) or &#8216;!&#8217; (file is in metadata, but not in directory) state, ask user what to do. The initial implementation allows to continue or abort and was not user friendly as it could be. So during rebuild of (two) eclipse I wrote a better implementation.
+</p>
+<p>
+Lets have a package (for example called xdoclet) and we want commit our changes to OBS. So</p>
+<pre>
+$ osc status
+?    xdoclet-modules-objectweb-4.6.tar.bz2
+?    xdoclet-src-1.2.3.tar.bz2
+!    xdoclet-modules-objectweb-4.6.tgz
+!    xdoclet-src-1.2.3.tgz
+M    xdoclet.changes
+M    xdoclet.spec
+</pre>
+<p>You see, that we used bznew to repack tgz files to tar.bz2, which is recommended in openSUSE. Then we commit our changes</p>
+<pre>
+osc commit
+File `xdoclet-modules-objectweb-4.6.tar.bz2' is not in package meta. Would you like skip/remove/edit file lists/commit/abort? (s/r/e/c/A)
+</pre>
+<p>I suppose that all options are clear &#8211; skip will skip check for this file, remove will remove it, commit forced commit and abort breaks it. But I don&#8217;t like this message, so if you have some better proposal, please contact me.</p>
+<p><p>
+The most important command is edit file list. I thought how to easily add and remove files using this smarter commit. The final implementation has been inspired by one of the coolest git feature &#8211; <a href="http://blog.madism.org/index.php/2007/09/09/138-git-awsome-ness-git-rebase-interactive">interactive rebase</a>.
+</p>
+<p>
+So after selecting e, the list of files is opened in your EDITOR</p>
+<pre>
+  1 leave   xdoclet-AbstractProgramElementTagsHandler.patch
+  2 leave   xdoclet-WebLogicSubTask.patch
+  3 leave   xdoclet-XDocletModulesEjbMessages.patch
+  4 leave   xdoclet-ant.not-required.patch
+  5 leave   xdoclet-build_docs_xml.patch
+  6 leave   xdoclet-build_xml.patch
+  7 leave   xdoclet-component-info.xml
+  8 leave   xdoclet-maven-plugin-project.patch
+  9 leave   xdoclet-maven-plugin-template.patch
+ 10 leave ? xdoclet-modules-objectweb-4.6.tar.bz2
+ 11 remove ! xdoclet-modules-objectweb-4.6.tgz
+ 12 leave   xdoclet-project_xml.patch
+ 13 leave ? xdoclet-src-1.2.3.tar.bz2
+ 14 remove ! xdoclet-src-1.2.3.tgz
+ 15 leave M xdoclet.changes
+ 16 leave M xdoclet.spec
+ 17
+ 18 # Edit a filelist for package %s
+ 19 # Commands:
+ 20 # l, leave = leave a file as is
+ 21 # r, remove = remove a file
+ 22 # a, add   = add a file
+ 23 #
+ 24 # If you remove file from a list, it will be unchanged
+ 25 # If you remove all, commit will be aborted
+</pre>
+<p>and a manipulation is obvious. Just replace a command listed in a first column by another one, then save a file and instructions will be processed and package will be commited.
+</p>
+<p>
+BTW: Of course this feature can be suppressed by new -f/&#8211;force option.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/08/03/smarter-osc-commit/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Hackweek IV: Novell Bugzilla access from command line</title>
+		<link>http://lizards.opensuse.org/2009/07/29/hackweek-iv-novell-bugzilla-access-from-command-line/</link>
+		<comments>http://lizards.opensuse.org/2009/07/29/hackweek-iv-novell-bugzilla-access-from-command-line/#comments</comments>
+		<pubDate>Wed, 29 Jul 2009 07:33:03 +0000</pubDate>
+		<dc:creator><![CDATA[Michal Vyskocil]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1728</guid>
+		<description><![CDATA[During a last Hackweek I decided to work on some tool which will helps users with submitting a new bug. My idea is to create something like reportbug from Debian, but targeted to SUSE. So the first step was find the way how to communicate with a bugzilla (especially to bugzilla.novell.com &#8211; bnc). Fortunately I [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>
+During a last Hackweek I decided to work on some tool which will helps users with submitting a new bug. My idea is to create something like reportbug from Debian, but targeted to SUSE. So the first step was find the way how to communicate with a bugzilla (especially to <a href="https://bugzilla.novell.com">bugzilla.novell.com</a> &#8211; bnc). Fortunately I found several libraries, which should be used for it:</p>
+<ul>
+<li>perl-SUSE-BugzillaClient</li>
+<li><a href="http://www.liquidx.net/pybugz/">pybugz</a></li>
+<li><a href="https://fedorahosted.org/python-bugzilla/">python-bugzilla</a></li>
+</ul>
+<p>
+perl-SUSE-BugzillaClient is written by Thomas Schmidt especially for bnc, so it is able to login using iChain. It also provides few functions for bugzilla communication, but unfortunately only for querying. Pybugz is written by Alastair Tse for Gentoo development in Python. But it is not able to login through iChain and I did not extended it for bnc, because it uses a plain GET/POST communication with parsing of HTML using regexes.
+</p>
+<p>
+The reason why I have used the python-bugzilla written by Will Woods from RedHat is simple. It uses <a href="http://www.bugzilla.org/docs/tip/en/html/api/">XMLRPC API</a>, which bugzilla provides. And it&#8217;s also written with a flexibility in mind, so writing of another type of Bugzilla was easy. Just some subclassing and reimplementing of few methods and voila, the <a href="https://fedorahosted.org/python-bugzilla/browser/bugzilla/nvlbugzilla.py">NovellBugzilla</a> type is here. Because it uses iChain, it was necessary to reimplement login/logout methods &#8211; I spend a lot of time to understand how it works. Osc uses a HTTP authentication, which should be supported too, but even if it works with api.opensuse.org, it did not work with bnc. So I used a Firefox and LiveHTTP headers extension to track a communication and implemented the login according it.
+</p>
+<p>
+The useful advantage of Novell bugzilla is that I extended a method readconfig, which reads a config file. Novell Bugzilla can read the username/password from ~/.oscrc, so you don&#8217;t need to have a same password in another config file, if you use osc.
+</p>
+<p>
+So on the end those few lines of Python code</p>
+<pre>
+import bugzilla
+
+bnc = bugzilla.NovellBugzilla(url="https://bugzilla.novell.com", user="mvyskocil", password="XXXXX")
+kwargs = {
+    'product': 'openSUSE 11.2',
+    'severity': 'Normal',
+    'cc': [],
+    'rep_platform': 'x86-64',
+    'component': 'Java',
+    'summary': '[Java:packages/ant]: Cannot find a Java virtual machine',
+    'version': 'unspecified',
+    'assigned_to': 'mvyskocil@novell.com',
+    'op_sys': 'Linux',
+    'description': 'This is a testing bug report\n'
+    }
+bug = bnc.createbug(**kwargs)
+print bug.bug_id
+</pre>
+<p>Have created this bug#<a href="https://bugzilla.novell.com/show_bug.cgi?id=525549">525549</a>. Even if Python is readable for regular programmers, the **kwargs should be expressed. It maps the dictionary to named function arguments (called keyword arguments &#8211; kwargs &#8211; in a Python world), so both calls in following snippet are equivalent.</p>
+<pre>
+d = {'name' : 'value')
+call(**d)
+call(name='value')
+</pre>
+</p>
+<p>
+The python-bugzilla comes also with a simple command line tool called bugzilla, so this tool should be used also from shell scripts. It is sometimes little bit raw. For example listing of all products returns an output as a Python dictionary</p>
+<pre>
+bugzilla --bztype NovellBugzilla --user mvyskocil --password xxxxxx info -p
+...
+{'description': 'openSUSE 11.1', 'internals': {'disallownew': 0, 'classification_id': 7340, 'name': 'openSUSE 11.1', 
+'votestoconfirm': 0, 'milestone_required': 0, 'id': 651, 'votesperuser': 20, 'maxvotesperbug': 5, 'defaultmilestone': '---',
+'milestoneurl': '', 'description': 'openSUSE 11.1'}, 'name': 'openSUSE 11.1', 'id': 651} 
+{'description': 'openSUSE 11.2', 'internals': {'disallownew': 0, 'classification_id': 7340, 'name': 'openSUSE 11.2',
+'votestoconfirm': 0, 'milestone_required': 0, 'id': 755, 'votesperuser': 20, 'maxvotesperbug': 5, 'defaultmilestone': '---',
+'milestoneurl': '', 'description': 'openSUSE 11.2'}, 'name': 'openSUSE 11.2', 'id': 755}
+...
+</pre>
+<p>which might be hard to parse in other language. But it provides a lot of functionality, so for other informations about usage, please use man bugzilla.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/07/29/hackweek-iv-novell-bugzilla-access-from-command-line/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>Netbeans 6.5 is going to Factory</title>
+		<link>http://lizards.opensuse.org/2009/06/04/netbeans-65-is-going-to-factory/</link>
+		<comments>http://lizards.opensuse.org/2009/06/04/netbeans-65-is-going-to-factory/#comments</comments>
+		<pubDate>Thu, 04 Jun 2009 10:58:11 +0000</pubDate>
+		<dc:creator><![CDATA[Michal Vyskocil]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Packaging]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1229</guid>
+		<description><![CDATA[As you might know, the netbeans package was a part of openSUSE, but for some historical reason, it was a monolithic package in non-oss repository. Last weeks I have worked on import 29 new packages to Factory, which allows us to build netbeans from source and include it to regular free repository. Fortunately thanks for [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>As you might know, the netbeans package was a part of openSUSE, but for some historical reason, it was a monolithic package in <a href="http://download.opensuse.org/distribution/11.1/repo/non-oss/">non-oss</a> repository. Last weeks I have worked on import 29 new packages to Factory, which allows us to build netbeans from source and include it to regular free repository. Fortunately thanks for hard work of guys from <a href="http://jpackage.org">jpackage project</a> it was easy to adapt their spec files for SUSE and push them into the Factory.</p>
+<p>Majority of those packages was reviewed and included into Factory during last weeks, but five (including netbeans) itself are currently in review process, so they would be available later. Following graph shows netbeans and it&#8217;s build dependencies. Green color means &#8211; package is in Factory, yellow means package is in review process.</p>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2009/06/netbeans-dependencies-full.png"><img src="http://lizards.opensuse.org/wp-content/uploads/2009/06/netbeans-dependencies-preview.png" alt="Netbeans and build requires" /></a></p>
+<p>In a meanwhile the netbeans for openSUSE Factory and 11.1 is available in <a href="http://download.opensuse.org/repositories/Java:/packages/">Java:packages</a> BuildService repository, so feel free to install and test it.</p>
+<p><img src="http://lizards.opensuse.org/wp-content/uploads/2009/06/netbeans.png" alt="" /></p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/06/04/netbeans-65-is-going-to-factory/feed/</wfw:commentRss>
+		<slash:comments>6</slash:comments>
+		</item>
+		<item>
+		<title>Suppressing KeyboardInterrupt traceback in Python</title>
+		<link>http://lizards.opensuse.org/2009/05/04/supressing-keyboardinterrupt-traceback-in-python/</link>
+		<comments>http://lizards.opensuse.org/2009/05/04/supressing-keyboardinterrupt-traceback-in-python/#comments</comments>
+		<pubDate>Mon, 04 May 2009 11:18:39 +0000</pubDate>
+		<dc:creator><![CDATA[Michal Vyskocil]]></dc:creator>
+				<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Python]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=901</guid>
+		<description><![CDATA[If you have a running program in Python and press Ctrl+C, you&#8217;ll get a traceback like this: $ scout java foo ^CTraceback (most recent call last): File "/usr/bin/scout", line 11, in ret = scout.ScoutCore.run() File "/usr/lib64/python2.6/site-packages/scout/__init__.py", line 945, in run result = module.ScoutModule().main(clp.module_args) File "/usr/lib64/python2.6/site-packages/scout/__init__.py", line 873, in main return self.do_query(args.query, repos, args.inversesearch) File "/usr/lib64/python2.6/site-packages/scout/__init__.py", [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>If you have a running program in Python and press Ctrl+C, you&#8217;ll get a traceback like this:</p>
+<pre>
+$ scout java foo
+^CTraceback (most recent call last):
+  File "/usr/bin/scout", line 11, in 
+    ret = scout.ScoutCore.run()
+  File "/usr/lib64/python2.6/site-packages/scout/__init__.py", line 945, in run
+    result = module.ScoutModule().main(clp.module_args)
+  File "/usr/lib64/python2.6/site-packages/scout/__init__.py", line 873, in main
+    return self.do_query(args.query, repos, args.inversesearch)
+  File "/usr/lib64/python2.6/site-packages/scout/__init__.py", line 890, in do_query
+    result.add_rows(self._query(repo, query, inversesearch))
+  File "/usr/lib64/python2.6/site-packages/scout/__init__.py", line 896, in _query
+    r = db.query(self._sql, '%%%s%%' % term)
+  File "/usr/lib64/python2.6/site-packages/scout/__init__.py", line 485, in query
+    if len(row) == 1:           #(2)
+KeyboardInterrupt
+</pre>
+<p>It is useful suppress it, because user knows he breaks the program and this output should be considered as a bug. Possible solution is wrap a main function by one big <strong>try: except KeyboardInterrupt:</strong></p>
+<pre>
+try:
+  main() # the main function
+except KeyboardInterrupt:
+  pass # KeyboardInterrupt supressed
+</pre>
+<p>But it makes a new level of indentation which should be uncomfortable &#8211; especially in Python. Or when you have multiple entry-points, or just don&#8217;t well structured program (which is common when you write your private helper script <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> ), you maybe prefer another solution.</p>
+<p>Python has a <strong>sys.excepthook</strong>, which is called for traceback printing, so we could define our own and suppress unnecessary output here. And it would be nice suppress only one exception and handle other ones using existing function. And this function make it:</p>
+<pre>
+def suppress_keyboard_interrupt_message():
+    old_excepthook = sys.excepthook
+
+    def new_hook(type, value, traceback):
+        if type != exceptions.KeyboardInterrupt:
+            old_excepthook(type, value, traceback)
+        else:
+            pass
+
+    sys.excepthook = new_hook
+</pre>
+<p>Function <strong>suppress_keyboard_interrupt_message</strong> (it is really nice name, don&#8217;t it <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';-)' class='wp-smiley' /> ) stores an existing hook and register an inner function <strong>new_hook</strong> as a new one. Advantage is that <strong>old_excepthook</strong> exists only in a scope of this function, so you don&#8217;t need use global variables for it.</p>
+<p><em>Update: typos fixed</em></p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/05/04/supressing-keyboardinterrupt-traceback-in-python/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Ruby style method injection in Python</title>
+		<link>http://lizards.opensuse.org/2009/04/29/ruby-style-method-injection-in-python/</link>
+		<comments>http://lizards.opensuse.org/2009/04/29/ruby-style-method-injection-in-python/#comments</comments>
+		<pubDate>Wed, 29 Apr 2009 13:38:07 +0000</pubDate>
+		<dc:creator><![CDATA[Michal Vyskocil]]></dc:creator>
+				<category><![CDATA[Miscellaneous]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=890</guid>
+		<description><![CDATA[Ruby has a nice, but very dangerous feature called open classes. That means you can extend any class definition if you want it. This example shows it #!/usr/bin/ruby class Foo def do_foo return "foo" end end aFoo = Foo.new() puts aFoo.do_foo() class Foo def do_bar return "bar" end end puts aFoo.do_bar() That means you dynamically [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>
+Ruby has a nice, but very dangerous feature called open classes. That means you can extend any class definition if you want it.
+</p>
+<p>
+This example shows it
+</p>
+<pre>
+#!/usr/bin/ruby
+class Foo
+    def do_foo
+        return "foo"
+    end
+end
+
+aFoo = Foo.new()
+
+puts aFoo.do_foo()
+
+class Foo
+    def do_bar
+        return "bar"
+    end
+end
+
+puts aFoo.do_bar()
+</pre>
+<p>
+That means you dynamically extend the definition of Foo class, so the last line prints &#8220;bar&#8221;.
+</p>
+<p>
+Python behavior is different, because it does not allows this extending. Python just redefines a class Foo, so new instance of Foo will have a do_bar method only. But this not affected an existing ones, like Ruby does.
+</p>
+<pre>
+class Foo:
+
+    def do_foo(self):
+        return "foo"
+
+aFoo1 = Foo()
+
+class Bar(Foo):
+
+    def do_nothing(self):
+        pass
+
+print issubclass(Bar, Foo)
+print isinstance(aFoo1, Foo)
+
+class Foo:
+    
+    def do_bar(self):
+        return "bar"
+
+aFoo2 = Foo()
+aBar  = Bar()
+
+print issubclass(Bar, Foo)
+print isinstance(aFoo1, Foo)
+print isinstance(aFoo2, Foo)
+
+print dir(aFoo1)
+print dir(aFoo2)
+print dir(aBar)
+</pre>
+<p>
+But what about method injection? My solution is based on ideas of <a href="http://code.activestate.com/recipes/81732/">Recipe 81732: Dynamically added methods to a class</a>.
+</p>
+<pre>
+import types
+
+def funcToMethod(func, instance, method_name=None):
+    cls = instance.__class__ if type(instance) != types.TypeType else instance
+    setattr(cls, \
+            method_name or func.__name__, \
+            types.MethodType(func, instance, cls))
+</pre>
+<p>
+And that&#8217;s all. The funcToMethod bounds func to instances&#8217;s class and allows under method_name (default name is a same as a function one). So lets do some testing.
+</p>
+<pre>
+class Foo(object):
+
+    def list(self):
+
+        return [meth for meth in dir(self) if meth[:3] == 'do_' and type(getattr(self, meth)) == types.MethodType]
+
+    def do_bar(self):
+        
+        return "bar"
+
+def do_foo(inst):
+
+    return "foo"
+
+class Bar(Foo):
+
+    def do_nothing(self):
+        pass
+
+aBar = Bar()
+
+aFoo1 = Foo()
+print aFoo1.list()
+# calling it with class instead of instance is also possible and is equivalent
+#funcToMethod(do_foo, Foo, "do_foo")
+funcToMethod(do_foo, aFoo1, "do_foo")
+
+aFoo2 = Foo()
+print aFoo1.list()
+print aFoo2.list()
+
+print aFoo1.do_foo()
+print aFoo2.do_foo()
+
+print aBar.list()
+print aBar.do_foo()
+</pre>
+<p>
+When you run the code, you will see that funcToMethod adds a new method to Foo class and this changes both existing and new instances as Ruby does too. And subclassing is not a problem, they are be affected too.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/04/29/ruby-style-method-injection-in-python/feed/</wfw:commentRss>
+		<slash:comments>14</slash:comments>
+		</item>
+		<item>
+		<title>How to track changes in packages: osc vc</title>
+		<link>http://lizards.opensuse.org/2009/04/21/how-to-track-changes-in-packages-osc-vc/</link>
+		<comments>http://lizards.opensuse.org/2009/04/21/how-to-track-changes-in-packages-osc-vc/#comments</comments>
+		<pubDate>Tue, 21 Apr 2009 07:59:30 +0000</pubDate>
+		<dc:creator><![CDATA[Michal Vyskocil]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Packaging]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=720</guid>
+		<description><![CDATA[As you may know, SUSE was originally based on Slackware. And some some relics from those early days if SUSE survives to present. The biggest example visible for end-users was packaging of desktop environment to /opt. Gnome was switched few years ago and KDE3 packages still remains in it, because packagers decided to focus on [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>As you may know, SUSE was originally based on Slackware. And some some relics from those early days if SUSE survives to present. The biggest example visible for end-users was packaging of desktop environment to <strong>/opt</strong>. Gnome was switched few years ago and KDE3 packages still remains in it, because packagers decided to focus on KDE4, so only those packages are comfortable with FHS and are installed into <strong>/usr</strong>.</p>
+<p>With opening of SUSE development towards community via <a href="http://en.opensuse.org/Build_Service/Collaboration">BuildService&#8217;s collaboration</a>, or <a href="http://en.opensuse.org/Contrib">Contrib</a>, the another relict of Slackware days was raised &#8211; which I mentioned in my <a href="http://lizards.opensuse.org/2009/04/16/better-commit-message-handling-for-osc/">previous post</a> &#8211;  a <strong>.changes</strong> file.</p>
+<p>This file is used in SUSE for tracing of package changes and rpm <strong>%changelog</strong> is created from this file during build. As it has a consistent format, we used an internal command called <strong>vc</strong> for add a new entry to it and this tool generates a proper header of changes file. So after my last patch, implementation of osc vc was a logical (but not straightforward) job.</p>
+<p>After some discussions with <a href="http://lizards.opensuse.org/author/lnussel/">Ludwig Nussel</a> and on <a href="http://lists.opensuse.org/opensuse-buildservice/2009-04/msg00133.html">opensuse-buildservice</a> mailing lists, I implemented and committed an <strong>osc vc</strong> command. This is based on <strong>buildvc</strong> script written by Ludwig and is available in build.rpm (from version 2009.04.17). It has the same behavior as an old <strong>vc</strong> command.</p>
+<p>Basic usage of this command is simple:</p>
+<pre>
+user@host:some:project/package/ $ osc vc
+</pre>
+<p>Command will find a changes file, open it in <strong>EDITOR</strong> (default is vim) and fill a header. You can also use it in non-interactive mode using <strong>-m MESSAGE</strong>. You can also specify a file to edit, or edit a file in other directory than current, &#8230; &#8211; see <strong>osc vc &#8211;help</strong></p>
+<p>The main difference between <strong>buildvc</strong> and osc variant is in e-mail address handling. The osc implementation has more sources of it, so it try to</p>
+<ol>
+<li>use content of <strong>mailaddr</strong> variable (same as<strong> buildvc</strong>)</li>
+<li>read a configuration from <strong>~/.oscrc</strong></li>
+<li>read an email from user&#8217;s metadata (see <strong>osc meta user your_login</strong>)</li>
+</ol>
+<p>This is because many users want to use a different e-mail for changelogs than iChain one, so osc allows configure an email for each instance of BuildService. Appropriate part of <strong>~/.oscrc</strong> looks like</p>
+<pre>
+[https://api.opensuse.org/]
+user = login
+pass = password
+email = user@defined.email
+</pre>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/04/21/how-to-track-changes-in-packages-osc-vc/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>

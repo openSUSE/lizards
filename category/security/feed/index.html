@@ -1,0 +1,683 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; Security</title>
+	<atom:link href="http://lizards.opensuse.org/category/security/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>mounting TrueCrypt volumes in GNU/Linux using cryptsetup</title>
+		<link>http://lizards.opensuse.org/2014/01/12/mounting-truecrypt-volumes-in-gnulinux-using-cryptsetup/</link>
+		<comments>http://lizards.opensuse.org/2014/01/12/mounting-truecrypt-volumes-in-gnulinux-using-cryptsetup/#comments</comments>
+		<pubDate>Sun, 12 Jan 2014 13:30:37 +0000</pubDate>
+		<dc:creator><![CDATA[AndreasStieger]]></dc:creator>
+				<category><![CDATA[Security]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10417</guid>
+		<description><![CDATA[cryptsetup as of 1.6, which shipped in openSUSE 13.1, is able to mount TrueCrypt volumes without the use of TrueCrypt code otherwise, which I previously noted is problematic due to it&#8217;s license, at least for inclusion in the openSUSE distribution. Here, then, is how you mount it: cryptsetup open --type tcrypt /var/run/media/username/volume_name encrypted_volume mount /dev/mapper/encrypted_volume [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><a href="https://code.google.com/p/cryptsetup/" target="_blank">cryptsetup</a> as of 1.6, which shipped in openSUSE 13.1, is able to mount <a href="https://www.truecrypt.org/" target="_blank">TrueCrypt</a> volumes without the use of TrueCrypt code otherwise, which <a href="//lizards.opensuse.org/2011/03/06/license-implications-when-packaging-truecrypt/" title="license implications when packaging TrueCrypt">I previously noted is problematic due to it&#8217;s license</a>, at least for inclusion in the openSUSE distribution.</p>
+<p>Here, then, is how you mount it:</p>
+<p><code>cryptsetup open --type tcrypt /var/run/media/username/volume_name encrypted_volume<br />
+mount /dev/mapper/encrypted_volume /mnt</code></p>
+<p>For read only access, add <code>--readonly</code> and <code>-o ro</code> respectively. When done:</p>
+<p><code>umount /mnt<br />
+cyrptsetup close encrypted_volume</code></p>
+<p>See <code>man 8 cryptsetup</code> for all details and options.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2014/01/12/mounting-truecrypt-volumes-in-gnulinux-using-cryptsetup/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Factory Progress 2011-07-01</title>
+		<link>http://lizards.opensuse.org/2011/07/01/factory-progress-2011-07-01/</link>
+		<comments>http://lizards.opensuse.org/2011/07/01/factory-progress-2011-07-01/#comments</comments>
+		<pubDate>Fri, 01 Jul 2011 11:46:24 +0000</pubDate>
+		<dc:creator><![CDATA[Andreas Jaeger]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Security]]></category>
+		<category><![CDATA[Factory Progress]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7592</guid>
+		<description><![CDATA[Here&#8217;s with some delay the next incarnation of Factory Progress. I&#8217;ve noticed the following changes that might interest people using and developing openSUSE Factory: Package changes Linux 3.0 Linux kernel 3.0 rc5 is currently on its way to factory and the header files (in package linux-glibc-devel) have already been updated for it. If your software [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Here&#8217;s with some delay the next incarnation of Factory Progress. I&#8217;ve noticed the following changes that might interest people using and developing openSUSE Factory:</p>
+<h2>Package changes</h2>
+<h3>Linux 3.0</h3>
+<p>Linux kernel 3.0 rc5 is currently on its way to factory and the header files (in package linux-glibc-devel) have already been updated for it. If your software reads the Linux kernel version, please check that it can cope with the two digits instead of the three of the new version. Best would be to not read the version at all.</p>
+<h3>Systemd</h3>
+<p>Frederic has proposed a &#8220;<a href="http://lists.opensuse.org/opensuse-factory/2011-06/msg00210.html" target="_blank">Road to systemd for openSUSE 12.1&#8243;</a>. Systemd is a replacement of the SysVinit scripts that we have been using and improving in the past with many new &#8211; including some controversial &#8211; ideas. Check his blog post for additional references about systemd. The majority of the distributions are moving to systemd as well and standarizing on it, will allow to share some more code and development in this area.</p>
+<p>We&#8217;re now in phase 1 &#8211; which means: Get systemd running as an option. Once this is working satisfactory, we can switch the default (phase 2) and decide what to do with SysVinit support.</p>
+<p><span id="more-7592"></span></p>
+<h3>No static glibc libraries</h3>
+<p>The C library glibc now does not come anymore with static libraries, those are in the new glibc-devel-static subpackage.</p>
+<h3>Python 3.2</h3>
+<p>The python3 package is now at version 3.2, the most important change in Python 3.2 is the implementation of &#8220;PEP 384, a stable ABI for extension modules&#8221; which means that with 3.2 and upwards there won&#8217;t be any API breakages for modules which is really important developer wise.</p>
+<p>Another big improvement is the new GIL (Global Interpreter Lock) implementation which will speed up threaded Python code. Python 3.2 also introduces &#8220;futures&#8221; library which is used for concurrent programming, this will be useful more multi-core Python development.</p>
+<h3>Tomoyo</h3>
+<p>Tomoyo is a MAC (Mandatory Access Control) implementation for Linux &#8211; so an alternative to AppArmor and SELinux. openSUSE&#8217;s Linux kernel does now come with the module and also the tools were updated to support this.</p>
+<h2>Policy and tool changes</h2>
+<h3>New Source Service mode activated and recompression of tar balls</h3>
+<p>The<a href="http://lists.opensuse.org/opensuse-packaging/2011-06/msg00028.html" target="_blank"> new source service mode has been activated</a>, it is recommended to update to osc 0.132 version as available in the openSUSE:Tools project to work with source services. Now the download URL given in source link is checked, so it has to be accurate. If you downloaded and recompressed a tarball, read Coolo&#8217;s <a href="http://lists.opensuse.org/opensuse-packaging/2011-06/msg00182.html" target="_blank">policy change</a>: &#8220;please don&#8217;t recompress tarballs unless it saves &gt;1MB for download.&#8221;.</p>
+<p>He also mentions:</p>
+<blockquote><p>What will become policy sooner or later is that you should not have incorrect source URLs behind Source*, so _if_ you have to recompress, don&#8217;t lie in the<br />
+Source line, but put the original tar as comment and use local file names in Source:</p></blockquote>
+<h3>Dropping a package from Factory</h3>
+<p>Vincent explained  <a href="http://lists.opensuse.org/opensuse-factory/2011-06/msg00177.html" target="_blank">How/why/when to drop a package from Factory</a>.</p>
+<h3>Release notes in FATE</h3>
+<p>To make it easier to write release notes, it helps a lot, if you (= the so-called stakeholders) would provide a release notes snippet in the future using openFATE. We can then collect all those release notes and edit them.</p>
+<h2>Other interesting bits</h2>
+<h3><a href="http://conference.opensuse.org" target="_blank">openSUSE Conference</a></h3>
+<p>The call for papers is continuing to run, please submit session proposals at the <a href="http://conference.opensuse.org/indico/" target="_blank">conference site</a>. If you like to learn what a BoF is, read this <a href="http://news.opensuse.org/2011/06/14/opensuse-conference-and-rw-sessions-the-bof/" target="_blank">article</a>.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/07/01/factory-progress-2011-07-01/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>Securing the future of openSUSE</title>
+		<link>http://lizards.opensuse.org/2011/04/01/securing-the-future-of-opensuse/</link>
+		<comments>http://lizards.opensuse.org/2011/04/01/securing-the-future-of-opensuse/#comments</comments>
+		<pubDate>Fri, 01 Apr 2011 00:44:07 +0000</pubDate>
+		<dc:creator><![CDATA[Thomas Jones]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Security]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7020</guid>
+		<description><![CDATA[As a valued member of the openSUSE community, we couldn&#8217;t wait to bring you the good news. This post is to announce the release of a new security-oriented resource  currently being generated for the openSUSE/Novell suite of products and submitted to National Institute of Standards and Technology(NIST) as a definitive resource from which to assess [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><!-- p { margin-bottom: 0.08in; } -->As a valued member of the openSUSE community, we couldn&#8217;t wait to bring you the good news. This post is to announce the release of a new security-oriented resource  currently being generated for the openSUSE/Novell suite of products and submitted to <a href="http://www.nist.gov/" target="_blank">National Institute of Standards and Technology(NIST)</a> as a definitive resource from which to assess and report upon the machine state of computer systems. Well, maybe we haven&#8217;t thought of a great logo or slogan for it yet, but if you read on I think you&#8217;ll agree that no matter what we call it, it&#8217;s super!</p>
+<p>Starting on Friday, April 01 2011, a record for each security announcement released through the <a href="mailto://opensuse-security-announce@opensuse.org">opensuse-security-announce</a> mailinglist will be maintained on a cumulative basis within the Amazon EC2 Cloud for general public review and use. Once an announcement has reached our email inbox, we will be automatically generating a specifically formatted intermediate XML source code object.</p>
+<p>The email is parsed using custom-built PERL Modules and a data structure is populated. The following construct presents an example view of the Novell array structure:</p>
+<p><span id="more-7020"></span>cat SUSE-SA\:2009\:043.txt | perl ~/bin/perl/vector.pl</p>
+<pre>$VAR1 = 'NovellListPost';
+$VAR2 = {
+          'Parameters' =&gt; {
+                            'domain' =&gt; '.*@(.*?)&gt;',
+                            'false' =&gt; undef,
+                            'local-part' =&gt; ':\\s+&lt;mailto:(.*?)@.*',
+                            'true' =&gt; ':\\s+&lt;mailto:(.*?)&gt;'
+                          },
+          'Results' =&gt; 'opensuse-security-announce@opensuse.org',
+          'Novell' =&gt; {
+                        'F' =&gt; 'false',
+                        'T' =&gt; 'true',
+                        'D' =&gt; 'domain',
+                        'L' =&gt; 'local-part'
+                      },
+          'Keywords' =&gt; {
+                          'domain' =&gt; 'D',
+                          'false' =&gt; 'F',
+                          'local-part' =&gt; 'L',
+                          'true' =&gt; 'T'
+                        }
+        };
+$VAR3 = 'NovellListSubscribe';
+$VAR4 = {
+          'Parameters' =&gt; {
+                            'domain' =&gt; '.*@(.*?)&gt;',
+                            'false' =&gt; undef,
+                            'local-part' =&gt; ':\\s+&lt;mailto:(.*?)@.*',
+                            'true' =&gt; ':\\s+&lt;mailto:(.*?)&gt;'
+                          },
+          'Results' =&gt; 'opensuse-security-announce+subscribe@opensuse.org',
+          'Novell' =&gt; {
+                        'F' =&gt; 'false',
+                        'T' =&gt; 'true',
+                        'D' =&gt; 'domain',
+                        'L' =&gt; 'local-part'
+                      },
+          'Keywords' =&gt; {
+                          'domain' =&gt; 'D',
+                          'false' =&gt; 'F',
+                          'local-part' =&gt; 'L',
+                          'true' =&gt; 'T'
+                        }
+        };
+$VAR5 = 'NovellXMailingList';
+$VAR6 = {
+          'Parameters' =&gt; {
+                            'false' =&gt; undef,
+                            'true' =&gt; ':\\s+(.*?)'
+                          },
+          'Results' =&gt; 'opensuse-security-announce',
+          'Novell' =&gt; {
+                        'F' =&gt; 'false',
+                        'T' =&gt; 'true'
+                      },
+          'Keywords' =&gt; {
+                          'false' =&gt; 'F',
+                          'true' =&gt; 'T'
+                        }
+        };
+$VAR7 = 'NovellListOwner';
+$VAR8 = {
+          'Parameters' =&gt; {
+                            'domain' =&gt; '.*@(.*?)&gt;',
+                            'false' =&gt; undef,
+                            'local-part' =&gt; ':\\s+&lt;mailto:(.*?)@.*',
+                            'true' =&gt; ':\\s+&lt;mailto:(.*?)&gt;'
+                          },
+          'Results' =&gt; 'opensuse-security-announce+owner@opensuse.org',
+          'Novell' =&gt; {
+                        'F' =&gt; 'false',
+                        'T' =&gt; 'true',
+                        'D' =&gt; 'domain',
+                        'L' =&gt; 'local-part'
+                      },
+          'Keywords' =&gt; {
+                          'domain' =&gt; 'D',
+                          'false' =&gt; 'F',
+                          'local-part' =&gt; 'L',
+                          'true' =&gt; 'T'
+                        }
+        };
+$VAR9 = 'NovellListArchive';
+$VAR10 = {
+           'Parameters' =&gt; {
+                             'false' =&gt; undef,
+                             'true' =&gt; ':\\s+&lt;(.*?)&gt;'
+                           },
+           'Results' =&gt; 'http://lists.opensuse.org/opensuse-security-announce/',
+           'Novell' =&gt; {
+                         'F' =&gt; 'false',
+                         'T' =&gt; 'true'
+                       },
+           'Keywords' =&gt; {
+                           'false' =&gt; 'F',
+                           'true' =&gt; 'T'
+                         }
+         };
+$VAR11 = 'NovellListUnsubscribe';
+$VAR12 = {
+           'Parameters' =&gt; {
+                             'domain' =&gt; '.*@(.*?)&gt;',
+                             'false' =&gt; undef,
+                             'local-part' =&gt; ':\\s+&lt;mailto:(.*?)@.*',
+                             'true' =&gt; ':\\s+&lt;mailto:(.*?)&gt;'
+                           },
+           'Results' =&gt; 'NOVELLLISTUNSUBSCRIBE',
+           'Novell' =&gt; {
+                         'F' =&gt; 'false',
+                         'T' =&gt; 'true',
+                         'D' =&gt; 'domain',
+                         'L' =&gt; 'local-part'
+                       },
+           'Keywords' =&gt; {
+                           'domain' =&gt; 'D',
+                           'false' =&gt; 'F',
+                           'local-part' =&gt; 'L',
+                           'true' =&gt; 'T'
+                         }
+         };
+$VAR13 = 'NovellNamespace';
+$VAR14 = {
+           'Parameters' =&gt; {
+                             'qualified' =&gt; 'http://www.maitreyasecurity.com/namespace/xsdl/0.0.1',
+                             'unqualified' =&gt; undef
+                           },
+           'Results' =&gt; 'http://www.maitreyasecurity.com/namespace/xsdl/0.0.1',
+           'Novell' =&gt; {
+                         'Q' =&gt; 'qualified',
+                         'U' =&gt; 'unqualified'
+                       },
+           'Keywords' =&gt; {
+                           'qualified' =&gt; 'Q',
+                           'unqualified' =&gt; 'U'
+                         }
+         };
+$VAR15 = 'NovellListHelp';
+$VAR16 = {
+           'Parameters' =&gt; {
+                             'domain' =&gt; '.*@(.*?)&gt;',
+                             'false' =&gt; undef,
+                             'local-part' =&gt; ':\\s+&lt;mailto:(.*?)@.*',
+                             'true' =&gt; ':\\s+&lt;mailto:(.*?)&gt;'
+                           },
+           'Results' =&gt; 'opensuse-security-announce+help@opensuse.org',
+           'Novell' =&gt; {
+                         'F' =&gt; 'false',
+                         'T' =&gt; 'true',
+                         'D' =&gt; 'domain',
+                         'L' =&gt; 'local-part'
+                       },
+           'Keywords' =&gt; {
+                           'domain' =&gt; 'D',
+                           'false' =&gt; 'F',
+                           'local-part' =&gt; 'L',
+                           'true' =&gt; 'T'
+                         }
+         };
+$VAR17 = 'NovellMailingList';
+$VAR18 = {
+           'Parameters' =&gt; {
+                             'false' =&gt; undef,
+                             'true' =&gt; ':\\s+(.*)',
+                             'contact' =&gt; '.*\\s+(.*?);.*',
+                             'service' =&gt; 'some regex'
+                           },
+           'Results' =&gt; 'opensuse-security-announce+help@opensuse.org',
+           'Novell' =&gt; {
+                         'S' =&gt; 'service',
+                         'F' =&gt; 'false',
+                         'T' =&gt; 'true',
+                         'C' =&gt; 'contact'
+                       },
+           'Keywords' =&gt; {
+                           'false' =&gt; 'F',
+                           'true' =&gt; 'T',
+                           'contact' =&gt; 'C',
+                           'service' =&gt; 'S'
+                         }
+         };
+</pre>
+<p>There are also three(3) other arrays concurrently populated during runtime: XSDL(root), Alert and SA(Security Announcement). The following construct presents an example view of the intermediate XML source code file:</p>
+<pre>&lt;SecureDocument xml:id="xsdlSecurityAnnouncement.20090921122915" xml:lang="en_US"&gt;
+  &lt;DocumentInfo classification="sensitive but unclassified"&gt;
+    &lt;ClientId&gt;QUERY FROM XSDL CONFIG&lt;/ClientId&gt;
+    &lt;SecurityManagement&gt;
+      &lt;ChangeControl&gt;
+        &lt;RevisionId&gt;0.0.1&lt;/RevisionId&gt;
+        &lt;Author&gt;SET AUTHOR&lt;/Author&gt;
+        &lt;Reviewer&gt;SET REVIEWER&lt;/Reviewer&gt;
+      &lt;/ChangeControl&gt;
+      &lt;AccessControl&gt;
+        &lt;User uid="0"&gt;rw-&lt;/User&gt;
+        &lt;Group gid="0"&gt;r--&lt;/Group&gt;
+        &lt;Other&gt;---&lt;/Other&gt;
+        &lt;NamedUser uid="1000"&gt;rw-&lt;/NamedUser&gt;
+      &lt;/AccessControl&gt;
+    &lt;/SecurityManagement&gt;
+  &lt;/DocumentInfo&gt;
+  &lt;Alert&gt;
+    &lt;Novell&gt;
+      &lt;NovellInfo mailinglistid="opensuse-security-announce"&gt;
+        &lt;NovellListPost&gt;opensuse-security-announce@opensuse.org&lt;/NovellListPost&gt;
+        &lt;NovellListHelp&gt;opensuse-security-announce+help@opensuse.org&lt;/NovellListHelp&gt;
+        &lt;NovellListSubscribe&gt;opensuse-security-announce+subscribe@opensuse.org&lt;/NovellListSubscribe&gt;
+        &lt;NovellListUnsubscribe&gt;NOVELLLISTUNSUBSCRIBE&lt;/NovellListUnsubscribe&gt;
+        &lt;NovellListOwner&gt;opensuse-security-announce+owner@opensuse.org&lt;/NovellListOwner&gt;
+        &lt;NovellListArchive&gt;http://lists.opensuse.org/opensuse-security-announce/&lt;/NovellListArchive&gt;
+      &lt;/NovellInfo&gt;
+      &lt;SecurityAnnouncements mailinglistid="opensuse-security-announce"&gt;
+        &lt;SecurityAnnouncement announcementid="suse-sa.2009.043" messageid="4a7c2f74.PDnoCkxJL3G/MnMv%meissner@suse.de"&gt;
+          &lt;SecurityAnnouncementInfo&gt;
+            &lt;DeliveryDate&gt;Fri, 07 Aug 2009 06:47:01 -0700&lt;/DeliveryDate&gt;
+            &lt;SourceAddress&gt;Marcus Meissner&lt;/SourceAddress&gt;
+          &lt;/SecurityAnnouncementInfo&gt;
+          &lt;Subject&gt;SUSE Security Announcement: Sun Java&lt;/Subject&gt;
+          &lt;VulnerabilityType&gt;Remote Code Execution&lt;/VulnerabilityType&gt;
+          &lt;ImpactLevel&gt;8&lt;/ImpactLevel&gt;
+          &lt;SuseDefaultPackage&gt;true&lt;/SuseDefaultPackage&gt;
+          &lt;AffectedProducts&gt;
+            &lt;AffectedProduct&gt;java-1_5_0-sun&lt;/AffectedProduct&gt;
+            &lt;AffectedProduct&gt;java-1_6_0-sun&lt;/AffectedProduct&gt;
+          &lt;/AffectedProducts&gt;
+          &lt;AffectedPlatforms&gt;
+            &lt;AffectedPlatform&gt;openSUSE 10.3&lt;/AffectedPlatform&gt;
+            &lt;AffectedPlatform&gt;openSUSE 11.0&lt;/AffectedPlatform&gt;
+            &lt;AffectedPlatform&gt;openSUSE 11.1&lt;/AffectedPlatform&gt;
+            &lt;AffectedPlatform&gt;SLES 11 DEBUGINFO&lt;/AffectedPlatform&gt;
+            &lt;AffectedPlatform&gt;SLED 11&lt;/AffectedPlatform&gt;
+          &lt;/AffectedPlatforms&gt;
+          &lt;ApplicableAdvisories&gt;
+            &lt;ApplicableAdvisory&gt;CVE-2009-2670&lt;/ApplicableAdvisory&gt;
+            &lt;ApplicableAdvisory&gt;CVE-2009-2671&lt;/ApplicableAdvisory&gt;
+            &lt;ApplicableAdvisory&gt;CVE-2009-2672&lt;/ApplicableAdvisory&gt;
+            &lt;ApplicableAdvisory&gt;CVE-2009-2673&lt;/ApplicableAdvisory&gt;
+            &lt;ApplicableAdvisory&gt;CVE-2009-2674&lt;/ApplicableAdvisory&gt;
+            &lt;ApplicableAdvisory&gt;CVE-2009-2675&lt;/ApplicableAdvisory&gt;
+            &lt;ApplicableAdvisory&gt;CVE-2009-2676&lt;/ApplicableAdvisory&gt;
+          &lt;/ApplicableAdvisories&gt;
+          &lt;Vulnerabilities&gt;
+            &lt;Vulnerability&gt;The Sun Java JRE /JDK 5 was updated to Update 20 fixing various security issues.&lt;/Vulnerability&gt;
+            &lt;Vulnerability&gt;CVE-2009-2670: The audio system in Sun Java Runtime Environment (JRE) in JDK and JRE 6 before Update 15, and JDK and JRE 5.0 before Update 20, does not prevent access to java.lang.System properties by (1) untrusted applets and (2) Java Web Start applications, which allows context-dependent attackers to obtain sensitive information by reading these properties.&lt;/Vulnerability&gt;
+            &lt;Vulnerability&gt;CVE-2009-2671: The SOCKS proxy implementation in Sun Java Runtime Environment (JRE) in JDK and JRE 6 before Update 15, and JDK and JRE 5.0 before Update 20, allows remote attackers to discover the user name of the account that invoked an untrusted (1) applet or (2) Java Web Start application via unspecified vectors.&lt;/Vulnerability&gt;
+            &lt;Vulnerability&gt;CVE-2009-2672: The proxy mechanism implementation in Sun Java Runtime Environment (JRE) in JDK and JRE 6 before Update 15, and JDK and JRE 5.0 before Update 20, does not prevent access to browser cookies by untrusted (1) applets and (2) Java Web Start applications, which allows remote attackers to hijack web sessions via unspecified vectors.&lt;/Vulnerability&gt;
+            &lt;Vulnerability&gt;CVE-2009-2673: The proxy mechanism implementation in Sun Java Runtime Environment (JRE) in JDK and JRE 6 before Update 15, and JDK and JRE 5.0 before Update 20, allows remote attackers to bypass intended access restrictions and connect to arbitrary sites via unspecified vectors, related to a declaration that lacks the final keyword.&lt;/Vulnerability&gt;
+            &lt;Vulnerability&gt;CVE-2009-2674: Integer overflow in Sun Java Runtime Environment (JRE) in JDK and JRE 6 before Update 15 allows context-dependent attackers to gain privileges via vectors involving an untrusted Java Web Start application that grants permissions to itself, related to parsing of JPEG images.&lt;/Vulnerability&gt;
+            &lt;Vulnerability&gt;CVE-2009-2675: Integer overflow in the unpack200 utility in Sun Java Runtime Environment (JRE) in JDK and JRE 6 before Update 15, and JDK and JRE 5.0 before Update 20, allows context-dependent attackers to gain privileges via vectors involving an untrusted (1) applet or (2) Java Web Start application that grants permissions to itself, related to decompression.&lt;/Vulnerability&gt;
+            &lt;Vulnerability&gt;CVE-2009-2676: Unspecified vulnerability in JNLPAppletlauncher in Sun Java SE, and SE for Business, in JDK and JRE 6 Update 14 and earlier and JDK and JRE 5.0 Update 19 and earlier; and Java SE for Business in SDK and JRE 1.4.2_21 and earlier; allows remote attackers to create or modify arbitrary files via vectors involving an untrusted Java applet.&lt;/Vulnerability&gt;
+          &lt;/Vulnerabilities&gt;
+          &lt;SecurityUpdates&gt;
+            &lt;Platform architecture="i586"&gt;
+              &lt;Distribution release="openSUSE 10.3"&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/10.3/rpm/i586/java-1_5_0-sun-1.5.0_update20-0.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/10.3/rpm/i586/java-1_5_0-sun-alsa-1.5.0_update20-0.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/10.3/rpm/i586/java-1_5_0-sun-demo-1.5.0_update20-0.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/10.3/rpm/i586/java-1_5_0-sun-devel-1.5.0_update20-0.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/10.3/rpm/i586/java-1_5_0-sun-jdbc-1.5.0_update20-0.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/10.3/rpm/i586/java-1_5_0-sun-plugin-1.5.0_update20-0.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/10.3/rpm/i586/java-1_5_0-sun-src-1.5.0_update20-0.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/10.3/rpm/i586/java-1_6_0-sun-1.6.0.u15-0.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/10.3/rpm/i586/java-1_6_0-sun-alsa-1.6.0.u15-0.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/10.3/rpm/i586/java-1_6_0-sun-debuginfo-1.6.0.u15-0.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/10.3/rpm/i586/java-1_6_0-sun-demo-1.6.0.u15-0.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/10.3/rpm/i586/java-1_6_0-sun-devel-1.6.0.u15-0.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/10.3/rpm/i586/java-1_6_0-sun-jdbc-1.6.0.u15-0.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/10.3/rpm/i586/java-1_6_0-sun-plugin-1.6.0.u15-0.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/10.3/rpm/i586/java-1_6_0-sun-src-1.6.0.u15-0.1.i586.rpm&lt;/Update&gt;
+              &lt;/Distribution&gt;
+              &lt;Distribution release="openSUSE 11.0"&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.0/rpm/i586/java-1_5_0-sun-1.5.0_update20-0.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.0/rpm/i586/java-1_5_0-sun-alsa-1.5.0_update20-0.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.0/rpm/i586/java-1_5_0-sun-demo-1.5.0_update20-0.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.0/rpm/i586/java-1_5_0-sun-devel-1.5.0_update20-0.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.0/rpm/i586/java-1_5_0-sun-jdbc-1.5.0_update20-0.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.0/rpm/i586/java-1_5_0-sun-plugin-1.5.0_update20-0.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.0/rpm/i586/java-1_5_0-sun-src-1.5.0_update20-0.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.0/rpm/i586/java-1_6_0-sun-1.6.0.u15-0.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.0/rpm/i586/java-1_6_0-sun-alsa-1.6.0.u15-0.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.0/rpm/i586/java-1_6_0-sun-demo-1.6.0.u15-0.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.0/rpm/i586/java-1_6_0-sun-devel-1.6.0.u15-0.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.0/rpm/i586/java-1_6_0-sun-jdbc-1.6.0.u15-0.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.0/rpm/i586/java-1_6_0-sun-plugin-1.6.0.u15-0.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.0/rpm/i586/java-1_6_0-sun-src-1.6.0.u15-0.1.i586.rpm&lt;/Update&gt;
+              &lt;/Distribution&gt;
+              &lt;Distribution release="openSUSE 11.1"&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.1/rpm/i586/java-1_5_0-sun-1.5.0_update20-0.1.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.1/rpm/i586/java-1_5_0-sun-alsa-1.5.0_update20-0.1.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.1/rpm/i586/java-1_5_0-sun-devel-1.5.0_update20-0.1.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.1/rpm/i586/java-1_5_0-sun-jdbc-1.5.0_update20-0.1.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.1/rpm/i586/java-1_5_0-sun-plugin-1.5.0_update20-0.1.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.1/rpm/i586/java-1_5_0-sun-src-1.5.0_update20-0.1.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.1/rpm/i586/java-1_6_0-sun-1.6.0.u15-0.1.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.1/rpm/i586/java-1_6_0-sun-alsa-1.6.0.u15-0.1.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.1/rpm/i586/java-1_6_0-sun-devel-1.6.0.u15-0.1.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.1/rpm/i586/java-1_6_0-sun-jdbc-1.6.0.u15-0.1.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.1/rpm/i586/java-1_6_0-sun-plugin-1.6.0.u15-0.1.1.i586.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.1/rpm/i586/java-1_6_0-sun-src-1.6.0.u15-0.1.1.i586.rpm&lt;/Update&gt;
+              &lt;/Distribution&gt;
+            &lt;/Platform&gt;
+            &lt;Platform architecture="x86_64"&gt;
+              &lt;Distribution release="openSUSE 10.3"&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/10.3/rpm/x86_64/java-1_5_0-sun-1.5.0_update20-0.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/10.3/rpm/x86_64/java-1_5_0-sun-alsa-1.5.0_update20-0.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/10.3/rpm/x86_64/java-1_5_0-sun-demo-1.5.0_update20-0.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/10.3/rpm/x86_64/java-1_5_0-sun-devel-1.5.0_update20-0.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/10.3/rpm/x86_64/java-1_5_0-sun-jdbc-1.5.0_update20-0.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/10.3/rpm/x86_64/java-1_5_0-sun-src-1.5.0_update20-0.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/10.3/rpm/x86_64/java-1_6_0-sun-1.6.0.u15-0.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/10.3/rpm/x86_64/java-1_6_0-sun-alsa-1.6.0.u15-0.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/10.3/rpm/x86_64/java-1_6_0-sun-debuginfo-1.6.0.u15-0.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/10.3/rpm/x86_64/java-1_6_0-sun-demo-1.6.0.u15-0.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/10.3/rpm/x86_64/java-1_6_0-sun-devel-1.6.0.u15-0.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/10.3/rpm/x86_64/java-1_6_0-sun-jdbc-1.6.0.u15-0.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/10.3/rpm/x86_64/java-1_6_0-sun-src-1.6.0.u15-0.1.x86_64.rpm&lt;/Update&gt;
+              &lt;/Distribution&gt;
+              &lt;Distribution release="openSUSE 11.0"&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.0/rpm/x86_64/java-1_5_0-sun-1.5.0_update20-0.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.0/rpm/x86_64/java-1_5_0-sun-alsa-1.5.0_update20-0.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.0/rpm/x86_64/java-1_5_0-sun-demo-1.5.0_update20-0.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.0/rpm/x86_64/java-1_5_0-sun-devel-1.5.0_update20-0.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.0/rpm/x86_64/java-1_5_0-sun-jdbc-1.5.0_update20-0.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.0/rpm/x86_64/java-1_5_0-sun-src-1.5.0_update20-0.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.0/rpm/x86_64/java-1_6_0-sun-1.6.0.u15-0.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.0/rpm/x86_64/java-1_6_0-sun-alsa-1.6.0.u15-0.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.0/rpm/x86_64/java-1_6_0-sun-demo-1.6.0.u15-0.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.0/rpm/x86_64/java-1_6_0-sun-devel-1.6.0.u15-0.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.0/rpm/x86_64/java-1_6_0-sun-jdbc-1.6.0.u15-0.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.0/rpm/x86_64/java-1_6_0-sun-plugin-1.6.0.u15-0.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.0/rpm/x86_64/java-1_6_0-sun-src-1.6.0.u15-0.1.x86_64.rpm&lt;/Update&gt;
+              &lt;/Distribution&gt;
+              &lt;Distribution release="openSUSE 11.1"&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.1/rpm/x86_64/java-1_5_0-sun-1.5.0_update20-0.1.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.1/rpm/x86_64/java-1_5_0-sun-alsa-1.5.0_update20-0.1.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.1/rpm/x86_64/java-1_5_0-sun-devel-1.5.0_update20-0.1.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.1/rpm/x86_64/java-1_5_0-sun-jdbc-1.5.0_update20-0.1.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.1/rpm/x86_64/java-1_5_0-sun-src-1.5.0_update20-0.1.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.1/rpm/x86_64/java-1_6_0-sun-1.6.0.u15-0.1.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.1/rpm/x86_64/java-1_6_0-sun-alsa-1.6.0.u15-0.1.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.1/rpm/x86_64/java-1_6_0-sun-devel-1.6.0.u15-0.1.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.1/rpm/x86_64/java-1_6_0-sun-jdbc-1.6.0.u15-0.1.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.1/rpm/x86_64/java-1_6_0-sun-plugin-1.6.0.u15-0.1.1.x86_64.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.1/rpm/x86_64/java-1_6_0-sun-src-1.6.0.u15-0.1.1.x86_64.rpm&lt;/Update&gt;
+              &lt;/Distribution&gt;
+            &lt;/Platform&gt;
+            &lt;Platform architecture="src"&gt;
+              &lt;Distribution release="openSUSE 10.3"&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/10.3/rpm/src/java-1_5_0-sun-1.5.0_update20-0.1.nosrc.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/10.3/rpm/src/java-1_6_0-sun-1.6.0.u15-0.1.nosrc.rpm&lt;/Update&gt;
+              &lt;/Distribution&gt;
+              &lt;Distribution release="openSUSE 11.0"&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.0/rpm/src/java-1_5_0-sun-1.5.0_update20-0.1.nosrc.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.0/rpm/src/java-1_6_0-sun-1.6.0.u15-0.1.nosrc.rpm&lt;/Update&gt;
+              &lt;/Distribution&gt;
+              &lt;Distribution release="openSUSE 11.1"&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.1/rpm/src/java-1_5_0-sun-1.5.0_update20-0.1.1.nosrc.rpm&lt;/Update&gt;
+                &lt;Update&gt;http://download.opensuse.org/update/11.1/rpm/src/java-1_6_0-sun-1.6.0.u15-0.1.1.nosrc.rpm&lt;/Update&gt;
+              &lt;/Distribution&gt;
+            &lt;/Platform&gt;
+          &lt;/SecurityUpdates&gt;
+        &lt;/SecurityAnnouncement&gt;
+      &lt;/SecurityAnnouncements&gt;
+    &lt;/Novell&gt;
+  &lt;/Alert&gt;
+&lt;/SecureDocument&gt;
+</pre>
+<p>This intermediate XML source code file is then  transformed and produces an <a href="http://oval.mitre.org/index.html" target="_blank">Open Vulnerability Assessment Language</a> definition for use in Assessment, System State Testing and possibly even Certification of Package and System for Common Criteria CAPP/EAL4+ Compliance. The following URL presents a sample view of what the OVAL XML source code will be available for general public use: <a href="http://oval.mitre.org/repository/data/ViewDefinition?id=oval%3aorg.mitre.oval%3adef%3a8280" target="_blank">http://oval.mitre.org/repository/data/ViewDefinition?id=oval%3aorg.mitre.oval%3adef%3a8280</a></p>
+<p>This resource presents the following advantages: openSUSE may be marketed as leading the information security pathway, all system status applications may parse the intermediate XML file and process relatively easily the security announcement; and last but not least, both intermediate and final XML objects may be digitally signed by Novell/openSUSE, encrypted and presented to partners, applications and management web services.</p>
+<p>We have been working silently for six(6) years now, diligently trying to achieve the desired goal of helping to pave the way for openSUSE use throughout the public sector.  I believe that through advancements within the information security area of openSUSE Linux computing that more individuals are likely to adopt and appreciate the vast contributions that the openSUSE community makes on a daily basis.</p>
+<p>If you think of a good name for us to tag onto this new resource, please let us know! Comments are welcome and appreciated!</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/04/01/securing-the-future-of-opensuse/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Securing SSH (Secure Shell) from attacker</title>
+		<link>http://lizards.opensuse.org/2011/03/22/securing-ssh-secure-shell-from-brute-force-attempts/</link>
+		<comments>http://lizards.opensuse.org/2011/03/22/securing-ssh-secure-shell-from-brute-force-attempts/#comments</comments>
+		<pubDate>Tue, 22 Mar 2011 17:11:04 +0000</pubDate>
+		<dc:creator><![CDATA[Saydul Akram]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Network]]></category>
+		<category><![CDATA[Security]]></category>
+		<category><![CDATA[networking]]></category>
+		<category><![CDATA[ssh]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=6847</guid>
+		<description><![CDATA[Secure Shell or SSH is a network protocol that allows exchange of data through secure channels between two network devices. Particularly widely used on Linux and Unix-based system to access your shell, SSHwas designed as a substitute for Telnet and other insecure remote shells, which sentinformation, especially passwords, in the form of simple text that makes it easy to be intercepted. Encryption used by SSH provides confidentiality and integrity of dataover an insecure network like the Internet. For the Security Server We From Attacks The attacker who usually Always Use SSHAs a door Early Entry Into System To us, of course, become an admin obligation todispel various Efforts That. There are several ways which ordinary people do to secure SSH from a variety ofattacks which one of them is by editing the file / etc / ssh / sshd_config. before doing the configuration in the file / etc / ssh / sshd_config make sure SSH isinstalled on your linux distribution, and for openSUSE that I use it already automatically installed. #vim /etc/ssh/sshd_config change options, as below : LoginGraceTime 2m PermitRootLogin no MaxAuthTries 3 LoginGraceTime which option is used to give a time limit of user logins, so please [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Secure Shell or SSH is a network protocol that allows exchange of data through secure channels between two network devices.</p>
+<p>Particularly widely used on Linux and Unix-based system to access your shell, SSHwas designed as a substitute for Telnet and other insecure remote shells, which sentinformation, especially passwords, in the form of simple text that makes it easy to be intercepted. Encryption used by SSH provides confidentiality and integrity of dataover an insecure network like the Internet.</p>
+<p>For the Security Server We From Attacks The attacker who usually Always Use SSHAs a door Early Entry Into System To us, of course, become an admin obligation todispel various Efforts That.</p>
+<p>There are several ways which ordinary people do to secure SSH from a variety ofattacks which one of them is by editing the file / etc / ssh / sshd_config.</p>
+<p>before doing the configuration in the file / etc / ssh / sshd_config make sure SSH isinstalled on your linux distribution, and for openSUSE that I use it already automatically installed.</p>
+<blockquote><p>#vim /etc/ssh/sshd_config</p></blockquote>
+<p>change options, as below :</p>
+<blockquote><p>LoginGraceTime 2m<br />
+PermitRootLogin no<br />
+MaxAuthTries 3</p></blockquote>
+<p><strong>LoginGraceTime</strong> which option is used to give a time limit of user logins, so please change these options according to your wishes.</p>
+<p><strong>PermitRootLogin</strong> is no option to allow the root user can login to ssh or not to give yes or no value on the options tersebut.sebaiknya give no value, so that users can not loginas root into your ssh.</p>
+<p><strong>MaxAuthTries</strong> 3 to give the limit on the number of errors allowed when the user logs in,this is very useful to avoid attackers do brute force on the server anda.dimana usersonly allowed to make a mistake typing the password in accordance with that alreadyset on the options.</p>
+<p>If you want only certain users who may log into your ssh add AllowUsers option at the end of the line followed by a distinguished user name in the allowed login.</p>
+<p>otherwise, you can install software, <a href="http://software.opensuse.org/search?q=denyhost&amp;baseproject=openSUSE%3A11.4&amp;lang=en&amp;exclude_debug=true" target="_blank">denyhost</a>, for your ssh security</p>
+<p style="text-align: left"><em>NB:do not enable the root user, for ssh login</em></p>
+<p>Similarly, a fairly simple tutorial .. hopefully this can be useful.</p>
+<div>Best Regards</div>
+<div>Saydul Akram</div>
+<div>Email : idulk@opensuse.org</div>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/03/22/securing-ssh-secure-shell-from-brute-force-attempts/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>updated permissions handling in 11.4</title>
+		<link>http://lizards.opensuse.org/2010/11/24/updated-permissions-handling-in-11-4/</link>
+		<comments>http://lizards.opensuse.org/2010/11/24/updated-permissions-handling-in-11-4/#comments</comments>
+		<pubDate>Wed, 24 Nov 2010 12:51:35 +0000</pubDate>
+		<dc:creator><![CDATA[lnussel]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Security]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=5929</guid>
+		<description><![CDATA[In addition to supporting file system capabilities (fate#307254) I&#8217;ve also updated the permissions handling in 11.4 slightly. There have been complaints that every SuSEconfig run also calls SuSEconfig.permissions which leads to changed file permissions at unexpected times. Therefore I&#8217;ve modified SuSEconfig.permissions to only actually set permissions when called explicitly (ie SuSEconfig &#8211;module permissions). When called [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>In addition to supporting file system capabilities (<a href="https://features.opensuse.org/307254">fate#307254</a>) I&#8217;ve also updated the permissions handling in 11.4 slightly.</p>
+<p>There have been complaints that every SuSEconfig run also calls SuSEconfig.permissions which leads to changed file permissions at unexpected times. Therefore I&#8217;ve modified SuSEconfig.permissions to only actually set permissions when called explicitly (ie SuSEconfig &#8211;module permissions). When called by a generic SuSEconfig run SuSEconfig.permissions now only shows files with wrong permissions but doesn&#8217;t actually fix them anymore.</p>
+<p>Since packages that have files with special permission handling do call SuSEconfig.permissions explicitly via %run_permissions in %post the change above alone isn&#8217;t sufficient to avoid surprises. Therefore I&#8217;ve introduced the new macro <a href="http://en.opensuse.org/openSUSE:Packaging_Conventions_RPM_Macros#.25set_permissions">%set_permissions</a>. This macro expects file names as arguments. Only permissions of those files are adjusted then. To notify packagers of that new method an rpmlint check now issues an informal message if %run_permissions is used.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/11/24/updated-permissions-handling-in-11-4/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>On-Access virus scanning on openSUSE 11.3</title>
+		<link>http://lizards.opensuse.org/2010/09/14/on-access-virus-scanning-on-opensuse-11-3/</link>
+		<comments>http://lizards.opensuse.org/2010/09/14/on-access-virus-scanning-on-opensuse-11-3/#comments</comments>
+		<pubDate>Tue, 14 Sep 2010 07:33:02 +0000</pubDate>
+		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Education]]></category>
+		<category><![CDATA[Samba]]></category>
+		<category><![CDATA[Security]]></category>
+		<category><![CDATA[Server]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=5202</guid>
+		<description><![CDATA[One of the most useful deployment scenario for Linux in enterprise or educational environment is a fileserver with on access virus scanning, to serve Windows PCs on the network of course. Long ago there used to be samba-vscan that worked very nicely, it went missing in openSUSE 11.2 so dazuko kernel module worked in its [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>One of the most useful deployment scenario for Linux in enterprise or educational environment is a fileserver with on access virus scanning, to serve Windows PCs on the network of course. Long ago there used to be samba-vscan that worked very nicely, it went missing in openSUSE 11.2 so dazuko kernel module worked in its place. On 11.3 dazuko is no longer available, enter dazukofs.</p>
+<p><a href="http://dazuko.dnsalias.org/wiki/index.php/Main_Page"><span id="more-5202"></span>DazukoFS</a> is a stack-able filesystem for virus scanning, here is how it works:</p>
+<p>Install<a href="http://software.opensuse.org/search?q=clamav&amp;baseproject=openSUSE%3A11.3&amp;lang=en&amp;exclude_debug=true"> clamav</a>, <a href="http://software.opensuse.org/search?q=clamav-db&amp;baseproject=openSUSE%3A11.3&amp;lang=en&amp;exclude_debug=true">clamav-db</a> and <a href="http://software.opensuse.org/search?q=dazukofs&amp;baseproject=openSUSE%3A11.3&amp;lang=en&amp;exclude_debug=true">dazukofs, dazukofs-kmp-yourkernelflavor</a> via 1-click.</p>
+<p>Edit<em><strong> /etc/clamd.conf</strong></em> to change these parameters (change only these two parameters, nothing else there):</p>
+<blockquote><p>User root<br />
+ClamukoScanOnAccess yes</p></blockquote>
+<p>Edit<em><strong> /etc/fstab</strong></em> to mount the folder/s you would like to scan on access. So if<em><strong> /home</strong></em> is on<em><strong> /dev/sda2</strong></em>, there will be another line for /home in fstab, this will effectively mount /home twice, one normal way and another as dazukofs.</p>
+<blockquote><p>/home		     /home		  dazukofs   defaults		   0 0</p></blockquote>
+<p>Run the following commands as root in terminal:</p>
+<blockquote><p>insserv boot.dazukofs<br />
+insserv clamd<br />
+/etc/init.d/boot.dazukofs start<br />
+mount -a<br />
+rcclamd start<br />
+freshclam</p></blockquote>
+<p>Test it out with <a href="http://www.eicar.org/download/eicar.com">eicar</a>, there will be message like this in<strong> /var/log/mail</strong><em> </em>if you try to copy eicar.com to user&#8217;s home<em>:<br />
+</em></p>
+<blockquote><p>clamd[4734]: Clamuko: /home/username/eicar.com: Eicar-Test-Signature FOUND</p></blockquote>
+<p>I don&#8217;t know how to get the files with virus detected to quarantine, let me know if anyone knows how to do that.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/09/14/on-access-virus-scanning-on-opensuse-11-3/feed/</wfw:commentRss>
+		<slash:comments>4</slash:comments>
+		</item>
+		<item>
+		<title>Encrypt your files quick n&#8217; dirty</title>
+		<link>http://lizards.opensuse.org/2010/04/23/encrypt-your-files-quick-n-dirty/</link>
+		<comments>http://lizards.opensuse.org/2010/04/23/encrypt-your-files-quick-n-dirty/#comments</comments>
+		<pubDate>Fri, 23 Apr 2010 04:15:27 +0000</pubDate>
+		<dc:creator><![CDATA[Alex Barrios]]></dc:creator>
+				<category><![CDATA[Security]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=3762</guid>
+		<description><![CDATA[Encrypt a file can be useful when we want to keep sensitive information but do not trust the site is being stored. GnuPG allows to quickly and easily create encrypted files without the use of public keys or complicated procedures, just run the following at a Linux terminal: $ gpg -c test.txt _ Enter Password: [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Encrypt a file can be useful when we want  to keep sensitive information but do not trust the site is being  stored.</p>
+<p>GnuPG  allows to quickly and easily create encrypted files without the use of  public keys or complicated procedures, just run the following at a Linux  terminal:</p>
+<p><strong>$ gpg -c test.txt _<br />
+Enter  Password:<br />
+Repeat Password:<br />
+$ _<br />
+</strong><br />
+After  you have run the command gpg -c, this will leave intact the original file  and create another file called &#8220;test.gpg&#8221; in the same directory. This second file is the place where you want to prune  without fear that information may be disclosed. You can then  proceed to remove the original if needed.</p>
+<p>To retrieve the contents of the file, perform the following  process on the encrypted file:</p>
+<p><strong>$ gpg  test.gpg _<br />
+Enter  Password:<br />
+Repeat Password:<br />
+$ _</strong></p>
+<p><strong></strong>GnuPG will automatically detect that it is an  encrypted file, and request the key that first used.</p>
+<p>Hope its useful <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';-)' class='wp-smiley' /> </p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/04/23/encrypt-your-files-quick-n-dirty/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Check your WPA2 Enterprise setup</title>
+		<link>http://lizards.opensuse.org/2010/04/20/check-your-wpa2-enterprise-setup/</link>
+		<comments>http://lizards.opensuse.org/2010/04/20/check-your-wpa2-enterprise-setup/#comments</comments>
+		<pubDate>Tue, 20 Apr 2010 14:00:40 +0000</pubDate>
+		<dc:creator><![CDATA[lnussel]]></dc:creator>
+				<category><![CDATA[Security]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=3737</guid>
+		<description><![CDATA[Do you have to enter user name and password to establish a link with your wireless network? If so chances are good that WPA2 Enterprise with EAP-TTLS or PEAP are used. Sounds familiar? Better check your setup then. An attacker might easily impersonate your access point and steal your password if the client you are [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Do you have to enter user name and password to establish a link with<br />
+your wireless network? If so chances are good that WPA2 Enterprise<br />
+with EAP-TTLS or PEAP are used. Sounds familiar? Better check your<br />
+setup then. An attacker might easily impersonate your access point<br />
+and steal your password if the client you are using isn&#8217;t configured<br />
+properly.<br />
+You are likely vulnerable if you&#8217;ve disabled certificate checks<br />
+or you&#8217;ve checked some button to use a public CA but didn&#8217;t specify<br />
+any &#8220;Subject&#8221; or &#8220;Common Name&#8221; that has to match. NetworkManager for<br />
+example doesn&#8217;t even allow to enter the latter.<br />
+<a href="http://www.suse.de/~lnussel/The_Evil_Twin_problem_with_WPA2-Enterprise_v1.1.pdf">Read more</a> in the paper I&#8217;ve written.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/04/20/check-your-wpa2-enterprise-setup/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Tip: transparent editing of gpg encrypted files with vim</title>
+		<link>http://lizards.opensuse.org/2010/01/29/tip-transparent-editing-of-gpg-encrypted-files-with-vim/</link>
+		<comments>http://lizards.opensuse.org/2010/01/29/tip-transparent-editing-of-gpg-encrypted-files-with-vim/#comments</comments>
+		<pubDate>Fri, 29 Jan 2010 14:03:15 +0000</pubDate>
+		<dc:creator><![CDATA[Petr Uzel]]></dc:creator>
+				<category><![CDATA[Contrib]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Security]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=3138</guid>
+		<description><![CDATA[If you are vim user and also use gpg to encrypt stuff, you might appreciate that you can teach vim to transparently open gpg encrypted files with vim gnupg plugin. Just install vim-plugin-gnupg from Contrib repository: # zypper install vim-plugin-gnupg Also, you should add following two lines to your .bashrc to make the plugin work [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>If you are vim user and also use gpg to encrypt stuff, you might appreciate that you can teach vim to transparently open gpg encrypted files with vim <a href="http://www.vim.org/scripts/script.php?script_id=661" target="_blank">gnupg plugin</a>. Just install <a href="http://software.opensuse.org/search?baseproject=ALL&amp;p=1&amp;q=vim-plugin-gnupg">vim-plugin-gnupg</a> from Contrib repository:</p>
+<p><code># zypper install vim-plugin-gnupg</code></p>
+<p>Also, you should add following two lines to your .bashrc to make the plugin work properly:<br />
+<code>GPG_TTY=`tty`<br />
+export GPG_TTY<br />
+</code></p>
+<p>Then, if you tell vim to open gpg encrypted file, it will ask for passphrase, transparently decrypts it and after you make changes, it will encrypt the file again.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/01/29/tip-transparent-editing-of-gpg-encrypted-files-with-vim/feed/</wfw:commentRss>
+		<slash:comments>5</slash:comments>
+		</item>
+		<item>
+		<title>Tip: Using KWallet or GNOME Keyring with Subversion</title>
+		<link>http://lizards.opensuse.org/2010/01/15/using-kwallet-or-gnome-keyring-with-subversion/</link>
+		<comments>http://lizards.opensuse.org/2010/01/15/using-kwallet-or-gnome-keyring-with-subversion/#comments</comments>
+		<pubDate>Fri, 15 Jan 2010 08:47:14 +0000</pubDate>
+		<dc:creator><![CDATA[Thomas Schraitle]]></dc:creator>
+				<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Security]]></category>
+		<category><![CDATA[subversion]]></category>
+		<category><![CDATA[svn]]></category>
+		<category><![CDATA[tip]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=2961</guid>
+		<description><![CDATA[Subversion stores all its configuration and passwords under the ~/.subversion/ directory. Wouldn&#8217;t it be cool to have your passwords in KWallet or GNOME Keyring? Recently I found out, it is pretty simple. Do the following to use KWallet with Subversion: Install Subversion if you haven&#8217;t yet. Install the libsvn_auth_kwallet-1-0 or libsvn_auth_gnome_keyring-1-0 package, depending on if [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><a title="Subversion" href="http://subversion.tigris.org" target="_blank">Subversion</a> stores all its configuration and passwords under the <tt>~/.subversion/</tt> directory. Wouldn&#8217;t it be cool to have your passwords in KWallet or GNOME Keyring? Recently I found out, it is pretty simple.</p>
+<p><span id="more-2961"></span></p>
+<p>Do the following to use KWallet with Subversion:</p>
+<ol>
+<li>Install Subversion if you haven&#8217;t yet. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';-)' class='wp-smiley' /> </li>
+<li>Install the <tt>libsvn_auth_kwallet-1-0</tt> or <tt>libsvn_auth_gnome_keyring-1-0</tt> package, depending on if you use KDE or GNOME.</li>
+<li>Open the file <tt>~/.subversion/config</tt> and search for the <tt>[auth]</tt> section.</li>
+<li>Uncomment the option <tt>password-stores</tt>. For example, if you use KDE only, the line looks like:
+<pre>password-stores = kwallet</pre>
+<p>It is possible to add both, KDE&#8217;s KWallet Manager and GNOME&#8217;s Keyring, separated by commas or spaces.</li>
+<li>If you have more than one wallet in your KWallet Manager, set the name with the <tt>kwallet-wallet</tt> option.</li>
+</ol>
+<p>Whenever you commit something in your SVN repository, SVN asks you for the password and stores it in the respective password store(s). In KDE&#8217;s KWallet Manager you get a new Subversion folder. (Probably similar in GNOME, but I haven&#8217;t tested it.)</p>
+<p>Have fun!</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/01/15/using-kwallet-or-gnome-keyring-with-subversion/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>

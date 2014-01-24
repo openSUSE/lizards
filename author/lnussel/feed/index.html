@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; lnussel</title>
+	<atom:link href="http://lizards.opensuse.org/author/lnussel/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>Configuring an IPv6 DSL connection</title>
+		<link>http://lizards.opensuse.org/2011/01/19/configuring-an-ipv6-dsl-connection/</link>
+		<comments>http://lizards.opensuse.org/2011/01/19/configuring-an-ipv6-dsl-connection/#comments</comments>
+		<pubDate>Wed, 19 Jan 2011 14:46:12 +0000</pubDate>
+		<dc:creator><![CDATA[lnussel]]></dc:creator>
+				<category><![CDATA[Network]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=6383</guid>
+		<description><![CDATA[The German company rh-tec offers free IPv6 internet connections for people that already have T-DSL. Configuring such a connection on openSUSE 11.3 is not as straight forward as with IPv4. It&#8217;s not hard either if you know where to put the settings though. start the yast2 DSL module follow the instructions of the wizard to [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The German company rh-tec offers free IPv6 internet connections for people that already have T-DSL. Configuring such a connection on openSUSE 11.3 is not as straight forward as with IPv4. It&#8217;s not hard either if you know where to put the settings though.</p>
+<ol>
+<li>start the yast2 DSL module</li>
+<li>follow the instructions of the wizard to set up a new PPPoE device. Enter your user name and password at the provider screen.</li>
+<li>At the &#8220;Connection Parameters&#8221; screen uncheck &#8220;Automatically Retrieve DNS&#8221;. Enter an arbitrary IPv4 address as first DNS server (yast doesn&#8217;t accept IPv6 there yet, bug 665516).</li>
+<li>finish the wizard and leave yast</li>
+<li>open /etc/sysconfig/network/providers/provider0 (or whatever name was chosen by yast) in an editor</li>
+<li>change DNS1 and DNS2 to the actual IPv6 addresses of your provider&#8217;s name servers</li>
+<li>add the following line to the file:<br />
+	<code>PPPD_OPTIONS="noip +ipv6 ipv6cp-accept-local"</code>
+	</li>
+<li>save and quit</li>
+<li>Done! You may now use cinternet or qinternet to dial in and enjoy the (rather empty) IPv6 internet.</li>
+</ol>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/01/19/configuring-an-ipv6-dsl-connection/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>updated permissions handling in 11.4</title>
+		<link>http://lizards.opensuse.org/2010/11/24/updated-permissions-handling-in-11-4/</link>
+		<comments>http://lizards.opensuse.org/2010/11/24/updated-permissions-handling-in-11-4/#comments</comments>
+		<pubDate>Wed, 24 Nov 2010 12:51:35 +0000</pubDate>
+		<dc:creator><![CDATA[lnussel]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Security]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=5929</guid>
+		<description><![CDATA[In addition to supporting file system capabilities (fate#307254) I&#8217;ve also updated the permissions handling in 11.4 slightly. There have been complaints that every SuSEconfig run also calls SuSEconfig.permissions which leads to changed file permissions at unexpected times. Therefore I&#8217;ve modified SuSEconfig.permissions to only actually set permissions when called explicitly (ie SuSEconfig &#8211;module permissions). When called [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>In addition to supporting file system capabilities (<a href="https://features.opensuse.org/307254">fate#307254</a>) I&#8217;ve also updated the permissions handling in 11.4 slightly.</p>
+<p>There have been complaints that every SuSEconfig run also calls SuSEconfig.permissions which leads to changed file permissions at unexpected times. Therefore I&#8217;ve modified SuSEconfig.permissions to only actually set permissions when called explicitly (ie SuSEconfig &#8211;module permissions). When called by a generic SuSEconfig run SuSEconfig.permissions now only shows files with wrong permissions but doesn&#8217;t actually fix them anymore.</p>
+<p>Since packages that have files with special permission handling do call SuSEconfig.permissions explicitly via %run_permissions in %post the change above alone isn&#8217;t sufficient to avoid surprises. Therefore I&#8217;ve introduced the new macro <a href="http://en.opensuse.org/openSUSE:Packaging_Conventions_RPM_Macros#.25set_permissions">%set_permissions</a>. This macro expects file names as arguments. Only permissions of those files are adjusted then. To notify packagers of that new method an rpmlint check now issues an informal message if %run_permissions is used.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/11/24/updated-permissions-handling-in-11-4/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>Hackweek V: mkdiststats</title>
+		<link>http://lizards.opensuse.org/2010/06/16/hackweek-v-mkdiststats/</link>
+		<comments>http://lizards.opensuse.org/2010/06/16/hackweek-v-mkdiststats/#comments</comments>
+		<pubDate>Wed, 16 Jun 2010 15:00:09 +0000</pubDate>
+		<dc:creator><![CDATA[lnussel]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Hackweek]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=4447</guid>
+		<description><![CDATA[When Coolo mentioned that he is looking into improving the rebuild time of Factory I couldn&#8217;t resist to try the script he was using myself. It turned out that the script was extremly slow, it took about 15 minutes for the calculation on my computer. The script was originally written a long time ago for [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>When <a href="http://lizards.opensuse.org/author/coolo/">Coolo</a> mentioned that he is looking into improving the <a href="http://lists.opensuse.org/opensuse-factory/2010-05/msg00226.html">rebuild time of Factory</a><br />
+I couldn&#8217;t resist to try the script he was using myself. It turned<br />
+out that the script was extremly slow, it took about 15 minutes for<br />
+the calculation on my computer. The script was originally written a<br />
+long time ago for the old autobuild with a much lower number of<br />
+packages and dependencies to take care of. The ad-hoc method used<br />
+for the &#8216;rebuild simulation&#8217; just didn&#8217;t scale well. Hackweek was a<br />
+good opportunity to improve the performance and to add some more<br />
+options.<br />
+<span id="more-4447"></span><br />
+The improved script now simply uses a boring, standard depth first<br />
+search to prepare the dense dependency graph for the simulation run.<br />
+After that step running simulations on the data is a piece of cake.<br />
+Overall the improved script now takes about 10 seconds.</p>
+<p>Originally the script assumed an infinite number of build hosts ie<br />
+maximal parallelism. That&#8217;s a good method for visualizing the<br />
+bottlenecks. In reality the number of build hosts is limited though.<br />
+So I&#8217;ve added options to run the simulation with a fixed number of<br />
+build hosts and different algorithms to choose which package needs<br />
+to be built next. By using the script in a loop it&#8217;s even possible<br />
+to produce an animation:<br />
+<img width="1000" height="450" src="http://www.suse.de/~lnussel/rebuild_factory.gif" alt="rebuild animation" /><br />
+The image shows the amount of blocked, scheduled and currently<br />
+building packages at each point in time</p>
+<p>Source code is available at <a href="http://gitorious.org/opensuse/mkdiststats">gitorious</a> if you want to try it out yourself.<br />
+You need an account in the openSUSE build service as mkdiststats<br />
+uses osc to download dependency information.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/06/16/hackweek-v-mkdiststats/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Check your WPA2 Enterprise setup</title>
+		<link>http://lizards.opensuse.org/2010/04/20/check-your-wpa2-enterprise-setup/</link>
+		<comments>http://lizards.opensuse.org/2010/04/20/check-your-wpa2-enterprise-setup/#comments</comments>
+		<pubDate>Tue, 20 Apr 2010 14:00:40 +0000</pubDate>
+		<dc:creator><![CDATA[lnussel]]></dc:creator>
+				<category><![CDATA[Security]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=3737</guid>
+		<description><![CDATA[Do you have to enter user name and password to establish a link with your wireless network? If so chances are good that WPA2 Enterprise with EAP-TTLS or PEAP are used. Sounds familiar? Better check your setup then. An attacker might easily impersonate your access point and steal your password if the client you are [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Do you have to enter user name and password to establish a link with<br />
+your wireless network? If so chances are good that WPA2 Enterprise<br />
+with EAP-TTLS or PEAP are used. Sounds familiar? Better check your<br />
+setup then. An attacker might easily impersonate your access point<br />
+and steal your password if the client you are using isn&#8217;t configured<br />
+properly.<br />
+You are likely vulnerable if you&#8217;ve disabled certificate checks<br />
+or you&#8217;ve checked some button to use a public CA but didn&#8217;t specify<br />
+any &#8220;Subject&#8221; or &#8220;Common Name&#8221; that has to match. NetworkManager for<br />
+example doesn&#8217;t even allow to enter the latter.<br />
+<a href="http://www.suse.de/~lnussel/The_Evil_Twin_problem_with_WPA2-Enterprise_v1.1.pdf">Read more</a> in the paper I&#8217;ve written.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/04/20/check-your-wpa2-enterprise-setup/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>A distro without packages?</title>
+		<link>http://lizards.opensuse.org/2009/10/30/a-distro-without-packages/</link>
+		<comments>http://lizards.opensuse.org/2009/10/30/a-distro-without-packages/#comments</comments>
+		<pubDate>Fri, 30 Oct 2009 10:31:07 +0000</pubDate>
+		<dc:creator><![CDATA[lnussel]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=2430</guid>
+		<description><![CDATA[Yesterday i noticed that openal-soft on 11.2 is broken, it just locks up with current pulseaudio. It&#8217;s not surprising noone noticed as there are no packages in Factory that use it anymore. Even Chromium BSU which roughly has a 0% chance that it will ever need maintenance, security or otherwise was dropped from Factory and [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Yesterday i noticed that openal-soft on 11.2 is broken, it just locks up with current pulseaudio. It&#8217;s not surprising noone noticed as there are no packages in Factory that use it anymore. Even Chromium BSU which roughly has a 0% chance that it will ever need maintenance, security or otherwise was dropped from Factory and moved to the build service games dumpsi^Wrepo. Please, put your packages back to Factory. Chances that people find and use the software are much bigger if the distro has it rather than some random build service repo. Yes, there are some rules you have to follow then but that&#8217;s also a sign of quality for our users. Yes, it won&#8217;t be the latest and greatest version always but that doesn&#8217;t matter for most packages. So please put your packages back to Factory [unless they are full of security bugs <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';-)' class='wp-smiley' /> ], a distro without packages is not useful.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/10/30/a-distro-without-packages/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>Firewall Zone Switcher Updated</title>
+		<link>http://lizards.opensuse.org/2009/08/28/firewall-zone-switcher-updated/</link>
+		<comments>http://lizards.opensuse.org/2009/08/28/firewall-zone-switcher-updated/#comments</comments>
+		<pubDate>Fri, 28 Aug 2009 07:58:10 +0000</pubDate>
+		<dc:creator><![CDATA[lnussel]]></dc:creator>
+				<category><![CDATA[Network]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=2033</guid>
+		<description><![CDATA[I have updated the Firewall Zone Switcher. It now starts with a main window by default instead of directly going to the system tray. There&#8217;s a settings dialog that allows to enable the system tray icon and optionally also enables starting the applet on log-in. Furthermore the daemon now uses PolicyKit for access control and [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I have updated the <a href="http://lizards.opensuse.org/2009/07/10/1453/">Firewall Zone Switcher</a>.<br />
+It now starts with a main window by default instead of<br />
+directly going to the system tray. There&#8217;s a settings dialog that<br />
+allows to enable the system tray icon and optionally also enables<br />
+starting the applet on log-in. Furthermore the daemon now uses<br />
+PolicyKit for access control and the applet supports i18n.<br />
+<span id="more-2033"></span><br />
+<img src="http://lizards.opensuse.org/wp-content/uploads/2009/08/fwzs1.png" alt="fwzs1" width="480" height="350" class="alignnone size-full wp-image-2030" /><br />
+<img src="http://lizards.opensuse.org/wp-content/uploads/2009/08/fwzs2.png" alt="fwzs2" width="480" height="350" class="alignnone size-full wp-image-2031" /><br />
+<img src="http://lizards.opensuse.org/wp-content/uploads/2009/08/fwzs3.png" alt="fwzs3" width="480" height="350" class="alignnone size-full wp-image-2032" /></p>
+<p>Packages for openSUSE 11.1 are available from the <a href="http://software.opensuse.org/ymp/home:lnussel:fwzs/openSUSE_11.1/fwzs.ymp">openSUSE build service</a>. You also need to update SuSEfirewall2 from that repo. Source code repo is available at <a href="http://gitorious.org/opensuse/fwzs">gitorious</a>.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/08/28/firewall-zone-switcher-updated/feed/</wfw:commentRss>
+		<slash:comments>6</slash:comments>
+		</item>
+		<item>
+		<title>Firewall Zone Switcher</title>
+		<link>http://lizards.opensuse.org/2009/07/10/1453/</link>
+		<comments>http://lizards.opensuse.org/2009/07/10/1453/#comments</comments>
+		<pubDate>Fri, 10 Jul 2009 11:57:42 +0000</pubDate>
+		<dc:creator><![CDATA[lnussel]]></dc:creator>
+				<category><![CDATA[Network]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1453</guid>
+		<description><![CDATA[So you got that shiny new Netbook, installed Linux on it and carry it along everywhere you go. The default enabled Firewall blocks incoming traffic so you feel safe when connecting to that anonymous WiFi network at your favorite fastfood restaurant. Unfortunately the very same Firewall becomes quite annoying at home where it prevents your [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>So you got that shiny new Netbook, installed Linux on it and carry<br />
+it along everywhere you go. The default enabled Firewall blocks<br />
+incoming traffic so you feel safe when connecting to that anonymous<br />
+WiFi network at your favorite fastfood restaurant. Unfortunately the<br />
+very same Firewall becomes quite annoying at home where it prevents<br />
+your system from discovering printers or blocks ssh.<br />
+<span id="more-1453"></span><br />
+You have the choice of either opening the ports permanently,<br />
+exposing your system in hostile networks, or having to use sudo to<br />
+enable or disable the Firewall. Well, not anymore with Firewall Zone<br />
+Switcher! With that little applet you can now switch the zone of<br />
+your network interface to &#8216;internal&#8217; with only two mouse clicks when<br />
+you are at home. In an untrusted Network you just set the zone to<br />
+&#8216;external&#8217;. And if you need some custom configuration you could set<br />
+the zone &#8216;dmz&#8217; to have some open some ports or create a custom zone.</p>
+<p>Firewall Zone Switcher is *not* meant to be some kind of &#8216;Personal<br />
+Firewall&#8217; that confuses the user with all kinds of low level stuff.<br />
+It&#8217;s neither a Firewall configuration tool. That job is still left<br />
+to Admin tools like YaST. Firewall Zone Switcher settings are<br />
+temporary and are reset to the system defaults on reboot.</p>
+<p>Firewall Zone Switcher consist of a DBus service and a system<br />
+tray applet. Both are written in python currently to have proof of<br />
+concept program quickly. Packages are available from the <a href="http://software.opensuse.org/ymp/home:lnussel:fwzs/openSUSE_11.1/fwzs.ymp">openSUSE<br />
+build service</a>. You also need to update SuSEfirewall2 from that<br />
+repo. Source code repo is available at <a href="http://gitorious.org/opensuse/fwzs">gitorious</a>.<br />
+Keep in mind that the app as well as the patch to SuSEfirewall2 are just proof<br />
+of concept ie experimental so there will be bugs. Feedback welcome nevertheless<br />
+ <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </p>
+<p><img src="http://lizards.opensuse.org/wp-content/uploads/2009/07/fwzs.png" alt="fwzs" width="393" height="227" class="alignnone size-full wp-image-1452" /></p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/07/10/1453/feed/</wfw:commentRss>
+		<slash:comments>10</slash:comments>
+		</item>
+		<item>
+		<title>encrypted root file system on LVM</title>
+		<link>http://lizards.opensuse.org/2009/03/18/encrypted-root-file-system-on-lvm/</link>
+		<comments>http://lizards.opensuse.org/2009/03/18/encrypted-root-file-system-on-lvm/#comments</comments>
+		<pubDate>Wed, 18 Mar 2009 15:50:44 +0000</pubDate>
+		<dc:creator><![CDATA[lnussel]]></dc:creator>
+				<category><![CDATA[Security]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=603</guid>
+		<description><![CDATA[openSUSE 11.1 doesn&#8217;t officially support an encrypted root file system which also means YaST doesn&#8217;t allow to create such a setup. By manually creating an encrypted partition and putting LVM into the encrypted container it&#8217;s however possible to trick YaST into accepting that as root file system. In the following example I assume that the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>openSUSE 11.1 doesn&#8217;t officially support an encrypted root file<br />
+system which also means YaST doesn&#8217;t allow to create such a setup.</p>
+<p>By manually creating an encrypted partition and putting LVM into the<br />
+encrypted container it&#8217;s however possible to trick YaST into<br />
+accepting that as root file system.<br />
+<span id="more-603"></span><br />
+In the following example I assume that the system has one harddisk,<br />
+/dev/sda. We use a /boot (100MB), swap (500MB), / (4GB) and /usr<br />
+(remaining space) partition. For your own setup you have to adapt<br />
+the device names and sizes of course. </p>
+<p>
+Start the installation by e.g. booting the openSUSE 11.1<br />
+installation DVD. After you&#8217;ve selected your language and keyboard<br />
+layout switch to a text console (ctrl-alt-f2).</p>
+<p>
+Use e.g. fdisk to create two partitions:</p>
+<ul>
+<li>/dev/sda1, 100MB for /boot</li>
+<li>/dev/sda2, remaining space</li>
+</ul>
+<p>Now create and open a LUKS volume on /dev/sda2:<br />
+<code>cryptsetup luksFormat /dev/sda2<br />
+cryptsetup luksOpen /dev/sda2 root<br />
+</code></p>
+<p>After that create the logical volumes inside the encrypted<br />
+container:</p>
+<p><code>pvcreate /dev/mapper/root<br />
+vgcreate system /dev/mapper/root<br />
+lvcreate -L 500M -n swap system<br />
+lvcreate -L 4G -n root system<br />
+lvcreate -l 100%FREE -n usr system<br />
+</code></p>
+<p>Continue the installation, go to the expert partitioner and format</p>
+<ul>
+<li>/dev/sda1 for /boot</li>
+<li>/dev/mapper/system-swap for swap</li>
+<li>/dev/mapper/system-root for /</li>
+<li>/dev/mapper/system-usr for /usr</li>
+</ul>
+<p>You may need to order YaST to re-read the harddisk layout in order<br />
+for it to display the volume groups.</p>
+<p>
+When the initial installation is nearly finished and counts down<br />
+until reboot stop the timer. We need some hacks to tell the initrd<br />
+that we need luks. So go to a text console again and mount<br />
+the new system and chroot into it:</p>
+<p><code>mount /dev/mapper/system-root /mnt<br />
+mount /dev/mapper/system-usr /mnt/usr<br />
+mount /dev/sda1 /mnt/boot<br />
+for i in dev sys proc; do mount --bind /$i /mnt/$i; done<br />
+chroot /mnt<br />
+</code></p>
+<p>Create /etc/sysconfig/initrd with the following two lines:<br />
+<code>root_luks=1<br />
+luks=root<br />
+</code></p>
+<p>in /boot/grub/menu.lst append the following to the kernel command line:<br />
+<code>luks_root=/dev/sda2<br />
+</code></p>
+<p>now run mkinitrd<br />
+<code>mkinitrd<br />
+</code></p>
+<p>it should print &#8216;luks&#8217; and &#8216;lvm2&#8242; in the features line<br />
+<em><br />
+Update: kernel updates will revert the changes to menu.lst. To<br />
+prevent that edit /etc/sysconfig/bootloader. Search for _APPEND<br />
+variables (DEFAULT_APPEND, FAILSAFE_APPEND) and add<br />
+luks_root=/dev/sda2 there as well. Thanks Earl Ruby for that<br />
+hint!<br />
+</em></p>
+<p>
+log out of the chroot and continue the reboot. If YaST does not<br />
+really reboot but uses kexec to directly start the kernel things<br />
+won&#8217;t work the first time. Just press ctrl-alt-del to perform a real<br />
+reboot while it unsuccessfully tries to find the root partition then.</p>
+<p>
+If after a real reboot the initrd still drops you to a shell after a<br />
+long timeout instead of prompting for the password use the following<br />
+commands to unlock the crypted partition:</p>
+<p><code>cryptsetup luksOpen /dev/sda2 root<br />
+vgchange -a y system<br />
+</code></p>
+<p>then press ctrl-d to continue booting.</p>
+<p>Good luck and please don&#8217;t blame me for any breakage. I haven&#8217;t tried to use this in production either yet.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/03/18/encrypted-root-file-system-on-lvm/feed/</wfw:commentRss>
+		<slash:comments>14</slash:comments>
+		</item>
+		<item>
+		<title>Conditional features aka &#8220;use flags&#8221;</title>
+		<link>http://lizards.opensuse.org/2008/09/12/conditional-features-aka-use-flags/</link>
+		<comments>http://lizards.opensuse.org/2008/09/12/conditional-features-aka-use-flags/#comments</comments>
+		<pubDate>Fri, 12 Sep 2008 12:42:29 +0000</pubDate>
+		<dc:creator><![CDATA[lnussel]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=176</guid>
+		<description><![CDATA[In a coordinated effort with Manfred Tremmel, the xine maintainer at Packman, we&#8217;ve reworked the xine spec file. Most of it can now be shared between Packman and openSUSE Factory so packaging work doesn&#8217;t need to be duplicated. The spec file now makes heavy use of conditional build macros to enable or disable certain features. [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>In a coordinated effort with Manfred Tremmel, the xine maintainer at Packman, we&#8217;ve reworked the xine spec file. Most of it can now be shared between Packman and openSUSE Factory so packaging work doesn&#8217;t need to be duplicated. The spec file now makes heavy use of conditional build macros to enable or disable certain features.<span id="more-176"></span><br />
+For openSUSE we do not want to (or can&#8217;t) ship certain features. For example we decided that the arts plugin isn&#8217;t of much use and therefore only adds an unecessary build dependeny on openSUSE. Packman however wants to offer all featues and therefore ship the arts plugin. To resolve that conflict the arts plugin ended up in it&#8217;s own subpackage but buidling it is disabled by default. To enable arts support locally Manfred can call rpmbuild (or the openSUSE build script) with the parameters &#8220;&#8211;with arts&#8221; . It&#8217;s not necessary to edit the spec file anymore. That &#8211;with switch works because the spec file uses some rpm macros that change things depending on whether arts support was requested. Hopefully other packages that can be built with different features but need to be shipped on openSUSE with a certain configuration will pick up this mechanism too. So let&#8217;s explain how it works.</p>
+<p>The spec file starts with <code>%bcond_with arts</code><br />
+at the top. That basically tells rpmbuild to define a global macro &#8220;with_arts&#8221; if &#8220;&#8211;with arts&#8221; was specified. Later we have<br />
+<code>%if %{with arts}<br />
+BuildRequires:  arts-devel<br />
+%endif</code><br />
+That means we depend on arts-devel only if requested. Similar blocks are used to enable or disable the subpackage, files section etc.</p>
+<p>Other features like e.g. pulseaudio are enabled by default but allow disabling using e.g. &#8220;rpmbuild &#8211;without pulseaudio&#8221;. The macro to get that behavior is &#8220;%bcond_without pulseaudio&#8221;.</p>
+<p>So how to make use of that in the build service?</p>
+<p>Let&#8217;s assume you have a project &#8220;artsfans&#8221; where you compile packages without pulseaudio but with arts support and want a xine-lib that matches this configuration. First you need to modify your project config and define macros that disable pulseaudio and enable arts. Run <code>meta prjconf artsfans -e</code> and enter the following:<br />
+<code>%define _without_pulseaudio 1<br />
+%define _with_arts 1<br />
+Macros:<br />
+%_without_pulseaudio 1<br />
+%_with_arts 1</code></p>
+<p>Then link xine-lib from Factory into your project:<br />
+<code>osc linkpac openSUSE:Factory xine-lib artsfans</code> and watch your xine building with arts support. Piece of cake, isn&#8217;t it? <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2008/09/12/conditional-features-aka-use-flags/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>Install openSUSE without burning CDs</title>
+		<link>http://lizards.opensuse.org/2008/06/20/install-opensuse-without-burning-cds/</link>
+		<comments>http://lizards.opensuse.org/2008/06/20/install-opensuse-without-burning-cds/#comments</comments>
+		<pubDate>Fri, 20 Jun 2008 13:59:59 +0000</pubDate>
+		<dc:creator><![CDATA[lnussel]]></dc:creator>
+				<category><![CDATA[Systems Management]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=74</guid>
+		<description><![CDATA[You run Linux already but want to install 11.0? DVD image takes too long to download? Don&#8217;t want to waste a CD for the mini iso? A router connects you to the internet? Check out setupgrubfornfsinstall. It&#8217;s a dialog based shell script to prepare remote network installations. It was primarily made for use in LANs [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>You run Linux already but want to install 11.0? DVD image takes too long to download? Don&#8217;t want to waste a CD for the mini iso? A router connects you to the internet? </p>
+<p>Check out <a href="http://www.suse.de/~lnussel/setupgrubfornfsinstall.html">setupgrubfornfsinstall</a>. It&#8217;s a dialog based shell script to prepare remote network installations. It was primarily made for use in LANs but now also supports direct installation from opensuse.org. Just run the script, select 11.0 and it will download the kernel and initrd used for installation. After that it adds an entry to your boot loaders&#8217; config file with proper parameters. Reboot, select the new entry and the installation starts.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2008/06/20/install-opensuse-without-burning-cds/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>

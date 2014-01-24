@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; Michal Marek</title>
+	<atom:link href="http://lizards.opensuse.org/author/michal-m/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>Mounting /usr in the initrd</title>
+		<link>http://lizards.opensuse.org/2011/08/03/mounting-usr-in-the-initrd/</link>
+		<comments>http://lizards.opensuse.org/2011/08/03/mounting-usr-in-the-initrd/#comments</comments>
+		<pubDate>Wed, 03 Aug 2011 15:41:06 +0000</pubDate>
+		<dc:creator><![CDATA[Michal Marek]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[booting]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7726</guid>
+		<description><![CDATA[Hi, I changed the openSUSE mkinitrd to mount the /usr filesystem in the initrd, if /usr is a separate partition. I hope this will calm down some heated discussions about systemd, udev, etc. It&#8217;s not 100% ready yet, some setups like root or /usr on nfs or md might not work as expected (*), but [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi,</p>
+<p>I changed the openSUSE mkinitrd to mount the /usr filesystem in the initrd, if /usr is a separate partition. I hope this will calm down some heated discussions about systemd, udev, etc. It&#8217;s not 100% ready yet, some setups like root or /usr on nfs or md might not work as expected (*), but the common usecases should be covered. Try updating mkinitrd from the <a href="http://download.opensuse.org/repositories/Base:/System/openSUSE_Factory/">Base:System project</a> and let me know if it works for you. Before testing it, you should do a backup of your initrd:</p>
+<pre># cp /boot/initrd-`uname -r`{,.orig}</pre>
+<p>and create a section in /boot/grub/menu.lst pointing to the /boot/initrd-*.orig file.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/08/03/mounting-usr-in-the-initrd/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Improved Kernel Package Retention in 12.1</title>
+		<link>http://lizards.opensuse.org/2011/07/14/improved-kernel-package-retention-in-12-1/</link>
+		<comments>http://lizards.opensuse.org/2011/07/14/improved-kernel-package-retention-in-12-1/#comments</comments>
+		<pubDate>Thu, 14 Jul 2011 13:38:14 +0000</pubDate>
+		<dc:creator><![CDATA[Michal Marek]]></dc:creator>
+				<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[openSUSE 11.2]]></category>
+		<category><![CDATA[kernel update]]></category>
+		<category><![CDATA[openSUSE 12.1]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7635</guid>
+		<description><![CDATA[A long awaited feature of the openSUSE update stack is finally here! Since some time, it has been possible to tell libzypp to not delete old kernels on update: multiversion = provides:multiversion(kernel) in /etc/zypp/zypp.conf. That way, you don&#8217;t have to worry that a brand new -rc kernel from Factory makes your system unbootable. This however [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>A long awaited feature of the openSUSE update stack is finally here!<br />
+Since some time, it has been possible to tell libzypp to not delete old<br />
+kernels on update:</p>
+<pre>multiversion = provides:multiversion(kernel)</pre>
+<p>in <tt>/etc/zypp/zypp.conf</tt>. That way, you don&#8217;t have to worry that a<br />
+brand new -rc kernel from Factory makes your system unbootable.  This however<br />
+solves one problem and brings another one &#8211; you have to manually delete the<br />
+old kernel so that your /boot partition does not fill up. openSUSE 12.1 will<br />
+provide a solution to this, you will be able to tell what kernels you want to<br />
+keep after an update, other kernels will be deleted. The configuration is the<br />
+same file, <tt>/etc/zypp/zypp.conf</tt>:</p>
+<pre>## Comma separated list of kernel packages to keep installed in parallel, if the
+## above multiversion variable is set. Packages can be specified as
+## 2.6.32.12-0.7 - Exact version to keep
+## latest        - Keep kernel with the highest version number
+## latest-N      - Keep kernel with the Nth highest version number
+## running       - Keep the running kernel
+## oldest        - Keep kernel with the lowest version number (the GA kernel)
+## oldest+N      - Keep kernel with the Nth lowest version number
+##
+## Default: Do not delete any kernels if multiversion = provides:multiversion(kernel) is set
+multiversion.kernels = latest,running
+</pre>
+<p>If you configure this and the above multiversion variable, then after each<br />
+kernel update, during a subsequent reboot, a script will compare the list of<br />
+installed kernels with the multiversion.kernels setting and delete those that<br />
+are no longer needed. Examples:</p>
+<ul>
+<li> Keep the latest kernel and the running one if it differs. This is similar to<br />
+no enabling the multiversion feature at all, except that the old kernel is<br />
+removed after reboot and not immediatelly after installation.  BTW, you<br />
+probably always want to include &#8220;running&#8221;:</p>
+<pre>multiversion.kernels = latest,running</pre>
+</li>
+<li>Keep last two kernels and the running one:
+<pre>multiversion.kernels = latest,latest-1,running</pre>
+</li>
+<li>Keep the latest kernel, the running and a my test kernel with a fancy<br />
+patch:</p>
+<pre>multiversion.kernels = latest,running,3.0.rc7-test</pre>
+</li>
+</ul>
+<p>If you want to try it, it&#8217;s all in Factory already. Check if these packages are<br />
+recent enough and uncomment the two variables in zypp.conf:</p>
+<pre>$ rpm -q --changelog kernel-desktop mkinitrd libzypp | grep -B2 312018
+* Fri Jun 17 2011 mmarek@suse.cz
+- rpm/post.sh: Touch /boot/do_purge_kernels on package install
+    (fate#312018).
+--
+- Add purge-kernels script to automatically delete old kernel packages
+  on boot, based on configuration in /etc/zypp/zypp.conf, variable
+  multiversion_kernels (fate#312018).
+--
+* Tue Jun 21 2011 dmacvicar@suse.de
+- Add configuration template for automatic kernel
+  purge (feature#312018) to zypp.conf
+$ grep ^multiversion /etc/zypp/zypp.conf
+multiversion = provides:multiversion(kernel)
+multiversion.kernels = latest,running
+</pre>
+<p>Happy updating!</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/07/14/improved-kernel-package-retention-in-12-1/feed/</wfw:commentRss>
+		<slash:comments>10</slash:comments>
+		</item>
+		<item>
+		<title>Boo</title>
+		<link>http://lizards.opensuse.org/2011/01/28/boo/</link>
+		<comments>http://lizards.opensuse.org/2011/01/28/boo/#comments</comments>
+		<pubDate>Fri, 28 Jan 2011 15:34:14 +0000</pubDate>
+		<dc:creator><![CDATA[Michal Marek]]></dc:creator>
+				<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[fun]]></category>
+		<category><![CDATA[openSUSE]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=6501</guid>
+		<description><![CDATA[Arts, buffer, check, clutter, cobbler, colorblind, concurrent, convert, cook, crash, dialog, dump, expect, file, folks, fortune, genius, global, hello, indent, less, links, meanwhile, mirror, screen, sparse, suck, tree, units, words. What do these ordinary English words have in common? They are also names of software projects, which becomes a problem if you want to recognize [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Arts, buffer, check, clutter, cobbler, colorblind, concurrent, convert, cook, crash, dialog, dump, expect, file, folks, fortune, genius, global, hello, indent, less, links, meanwhile, mirror, screen, sparse, suck, tree, units, words. What do these ordinary English words have in common? They are also names of software projects, which becomes a problem if you want to <a href="https://features.opensuse.org/311128">recognize package names in text</a>. I understand that in the old days, the name of a command or application was only relevant in the context of the computer it ran on, and file names had to be short. Some of these names have allowed for a variety of <a href="http://wiki.bash-hackers.org/misc/shell_humor">jokes</a>. But why, in the age of portable programs, WWW and search engines, can&#8217;t people come up with less ambiguous names? I mean, it&#8217;s not hard to join two words, or, at a minimum, prefix a word with a vowel, like, uhm, a round fruit does. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+<p>Oh, and did I mention that we have over 160 packages with a 2-3 letter name? The one mentioned in the title is a <a href="http://boo.codehaus.org/">programming language</a>, btw.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/01/28/boo/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>Another openSUSE kernel git repo</title>
+		<link>http://lizards.opensuse.org/2010/09/14/another-opensuse-kernel-git-repo/</link>
+		<comments>http://lizards.opensuse.org/2010/09/14/another-opensuse-kernel-git-repo/#comments</comments>
+		<pubDate>Tue, 14 Sep 2010 14:53:10 +0000</pubDate>
+		<dc:creator><![CDATA[Michal Marek]]></dc:creator>
+				<category><![CDATA[Kernel]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=5207</guid>
+		<description><![CDATA[The mirror of the openSUSE kernel-source repository has been around for several months already, now there is something new: A repository that is actually usable . The current kernel-source repository is a series of patches managed in git, which has some upsides, like the ability to easily cherry-pick a patch and port it to a [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The mirror of the openSUSE <a href="http://gitorious.org/opensuse/kernel-source">kernel-source</a> repository has been around for several months already, now there is something new: A repository that is actually usable <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> . The current kernel-source repository is a series of patches managed in git, which has some upsides, like the ability to easily cherry-pick a patch and port it to a different branch or send it upstream. But it is quite painful if you want to work with the code itself and not with patch files. A task as simple as determining if drivers/&#8230;/foo.c in openSUSE-11.3 has or does not have a certain change requires checking out the branch and running the sequence-patch script to be able to look at the file. If you need to know when was the file changed, you have to run &#8216;quilt patches &lt;file&gt;&#8217; to find out what patches touched the file and then ask git about the history of these patches. Neither convenient nor efficient. That&#8217;s why we have a second repository, that contains the mainline tree with all the suse patches applied. It&#8217;s located at <a href="http://gitorious.org/opensuse/kernel">http://gitorious.org/opensuse/kernel</a>, the clone url is git://gitorious.org/opensuse/kernel.git. If you already have a clone of the mainline tree, then you can download just the differences with</p>
+<pre>git remote add suse git://gitorious.org/opensuse/kernel.git
+git remote update suse
+git checkout suse/master
+</pre>
+<p>The above task is then solved by opening the required file in an editor or typing &#8216;git show branch:file&#8217;. And you don&#8217;t even need to clone the tree to quickly check something in the source, just use the <a href="http://gitorious.org/opensuse/kernel/trees">web viewer</a>. Also, bisecting is much easier, because you avoid the sequence-patch step now. There are some gotchas though:</p>
+<ul>
+<li>Not every commit to the kernel-source repository results in a change in the kernel repository. For instance updating config files in the kernel-source repository results in a commit that has no text changes. The gitorious viewer is confused by this and tells you that you are viewing the initial commit. In a local clone, you can exclude such commits with &#8216;git log .&#8217; (note the dot).</li>
+<li>When the patch series does not apply, there isn&#8217;t much to show in the kernel repository. In such case, the commit only adds a &#8216;BROKEN&#8217; file to the toplevel directory and uses the tree from the previous commit. When using a bisect script, you can skip such commits with e.g. &#8216;test -e BROKEN &amp;&amp; exit 125&#8242;.</li>
+<li>When patches such as xen are temporarily disabled while updating to newer upstream versions and later enabled, it generates huge diffs back and forth. That&#8217;s usually not a problem unless you are bisecting something xen-related.</li>
+</ul>
+<p>Anyway, I&#8217;m sure this will be useful for anyone who needs to debug something in the openSUSE kernel.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/09/14/another-opensuse-kernel-git-repo/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Accessing the Build Service from Eclipse</title>
+		<link>http://lizards.opensuse.org/2008/08/13/accessing-the-build-service-from-eclipse/</link>
+		<comments>http://lizards.opensuse.org/2008/08/13/accessing-the-build-service-from-eclipse/#comments</comments>
+		<pubDate>Wed, 13 Aug 2008 10:50:22 +0000</pubDate>
+		<dc:creator><![CDATA[Michal Marek]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=129</guid>
+		<description><![CDATA[One of this year&#8217;s Google Summer of Code projects is a an Eclipse plugin to access the Build Service, developed by Long Hong from Beijing. If you are interested, read on. While there are still issues to be solved, I think it&#8217;s in a state that everybody can try it out. Grab a package from [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>One of this year&#8217;s Google Summer of Code projects is a <a href="http://code.google.com/soc/2008/suse/appinfo.html?csaid=DFC9A170A95499CD">an Eclipse plugin to access the Build Service</a>, developed by Long Hong from Beijing. If you are interested, read on.</p>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2008/08/eclipse-bs-1.png"><img class="aligncenter size-medium wp-image-122" src="http://lizards.opensuse.org/wp-content/uploads/2008/08/eclipse-bs-1-small.png" alt="open Build Service perspective" /></a></p>
+<p>While there are still issues to be solved, I think it&#8217;s in a state that everybody can try it out. <a href="http://software.opensuse.org/search?baseproject=home:michal-m:gsoc2008&amp;q=eclipse-bs-plugin">Grab a package</a> from my home project, launch eclipse and open the Build Service perspective. Please note that the package itself is a bit experimental and was only tested to work on openSUSE 11.0. Enjoy! <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';-)' class='wp-smiley' /> </p>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2008/08/eclipse-bs-2.png"><img class="aligncenter size-medium wp-image-125" src="http://lizards.opensuse.org/wp-content/uploads/2008/08/eclipse-bs-2-small.png" alt="screenshot of the properties view" /></a></p>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2008/08/eclipse-bs-3.png"><img class="aligncenter size-medium wp-image-125" src="http://lizards.opensuse.org/wp-content/uploads/2008/08/eclipse-bs-3-small.png" alt="screenshot of the remote view" /></a></p>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2008/08/eclipse-bs-4.png"><img class="aligncenter size-medium wp-image-125" src="http://lizards.opensuse.org/wp-content/uploads/2008/08/eclipse-bs-4-small.png" alt="screenshot of the build result view" /></a></p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2008/08/13/accessing-the-build-service-from-eclipse/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>Trick of the Day: Reboot as User</title>
+		<link>http://lizards.opensuse.org/2008/07/18/trick-of-the-day-reboot-as-user/</link>
+		<comments>http://lizards.opensuse.org/2008/07/18/trick-of-the-day-reboot-as-user/#comments</comments>
+		<pubDate>Fri, 18 Jul 2008 13:25:12 +0000</pubDate>
+		<dc:creator><![CDATA[Michal Marek]]></dc:creator>
+				<category><![CDATA[Desktop]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=107</guid>
+		<description><![CDATA[$ reboot -bash: reboot: command not found $ /sbin/reboot reboot: must be superuser. In KDE / GNOME, you can just click reboot in the menu and your session sends a message to display manager, which runs as root and does the dirty job of rebooting or shutting down your machine. Unfortunately, things are not that [&#8230;]]]></description>
+				<content:encoded><![CDATA[<pre>$ reboot
+-bash: reboot: command not found
+$ /sbin/reboot
+reboot: must be superuser.</pre>
+<p>In KDE / GNOME, you can just click reboot in the menu and your session sends a message to display manager, which runs as root and does the dirty job of rebooting or shutting down your machine. Unfortunately, things are not that easy if you are using a simpler window manager or want to <a href="http://bugzilla.gnome.org/show_bug.cgi?id=118091">shutdown from a script</a>. Sure, there is sudo, but that has to be configured first to work without password. Luckily, after a couple of hours of googling (only to find helpful advice as &#8220;this can be done easily with ConsoleKit or hal&#8221;), reading documentation of dbus, {Console,Policy}Kit and hal and clicking in qdbusviewer, I finally found a way with hal+dbus:</p>
+<pre>$ dbus-send --system --dest=org.freedesktop.Hal \
+  --type=method_call --print-reply \
+  /org/freedesktop/Hal/devices/computer \
+  org.freedesktop.Hal.Device.SystemPowerManagement.Reboot</pre>
+<p>To shutdown, just replace Reboot with Shutdown. I&#8217;m going to add this to the default icewm configuration, so that the logout menu <a href="https://bugzilla.novell.com/show_bug.cgi?id=406156">finally works</a>.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2008/07/18/trick-of-the-day-reboot-as-user/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>learning ruby&#8230;</title>
+		<link>http://lizards.opensuse.org/2008/05/26/learning-ruby/</link>
+		<comments>http://lizards.opensuse.org/2008/05/26/learning-ruby/#comments</comments>
+		<pubDate>Mon, 26 May 2008 16:26:23 +0000</pubDate>
+		<dc:creator><![CDATA[Michal Marek]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Packaging]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=32</guid>
+		<description><![CDATA[Recently, I wanted to show how the buildservice makes packaging easier by creating a specfile template for you (just click the &#8220;Create RPM SPEC file templat&#8221; checkbox when creating a new package). Unfortunatelly, the template it creates is not really useful for someone not skilled in writing spec files. Also, it&#8217;s just a static template, [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Recently, I wanted to show how the buildservice makes packaging easier by creating a specfile template for you (just click the &#8220;Create RPM SPEC file templat&#8221; checkbox when creating a new package). Unfortunatelly, the template it creates is not really useful for someone not skilled in writing spec files. Also, it&#8217;s just a static template, so you have to write the summary and description even though you have just entered both in the web form. Definitely nothing to show off to newbies <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';-)' class='wp-smiley' /> . But knowing that the buildservice developers have more important stuff to do, and wanting to learn something new, I decided give it a try and fix it myself.</p>
+<p>My idea is: The buildservice api asks a set of questions, which are presented by the client (webclient, osc, &#8230;) to the user, and creates a specfile based on these questions. Also, the api tries to suggest good defaults where possible. After spending some time learning ruby, rails and the api code, I have an ugly 200 line patch to the api that generates a working specfile for <a href="http://www.gnu.org/software/hello/">GNU hello</a> <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';-)' class='wp-smiley' /> .</p>
+<p><a href="http://michal.markovi.net/images/bs-wizard-2008-05-26.png"><img src="http://michal.markovi.net/images/bs-wizard-2008-05-26-thumb.png" alt="wizard in action" /></a></p>
+<p>The user interface part is not yet done, but should be easy. What&#8217;s more chalenging is adding heuristics to &#8220;do the right thing&#8221;: detecting the build system (autotools, cmake, Makefile.PL, etc), detecting build dependencies, and so on. Right now, it only extracts the version number from the tar name.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2008/05/26/learning-ruby/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+	</channel>
+</rss>

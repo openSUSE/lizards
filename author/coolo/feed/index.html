@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; coolo</title>
+	<atom:link href="http://lizards.opensuse.org/author/coolo/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>GSOC Idea: Improve Clic Filesystem</title>
+		<link>http://lizards.opensuse.org/2011/03/24/gsoc-idea-improve-clic-filesystem/</link>
+		<comments>http://lizards.opensuse.org/2011/03/24/gsoc-idea-improve-clic-filesystem/#comments</comments>
+		<pubDate>Thu, 24 Mar 2011 15:03:49 +0000</pubDate>
+		<dc:creator><![CDATA[coolo]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=6896</guid>
+		<description><![CDATA[I really look for the perfect gsoc student: someone who has a brilliant idea, noone else thought of how to improve linux in general or openSUSE in specific and just needs my guidance. But for those that need some ideas, my best bet is really to rewrite clicfs to make it even better. Right now [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I really look for the perfect gsoc student: someone who has a brilliant idea, noone else thought of how to improve linux in general or openSUSE in specific and just needs my guidance.</p>
+<p>But for those that need some ideas, my best bet is really to rewrite clicfs to make it even better. Right now clicfs is a FUSE filesystem hosting a loop image. So a page read goes from ext4->loop->fuse->clicfs->CD->clicfs->fuse->loop->ext4.<br />
+If it lived in the kernel, it could offer a block device you mount your ext4 on, leaving aside loop and fuse:</p>
+<p><code><br />
+modprobe clicfs packfile=/read-only/openSUSE-kde.i586 cowfile=/read-write/.COWfile cowlog=/dev/ttyS0<br />
+mount /dev/clicfs/0 /mnt<br />
+chroot /mnt /bin/init<br />
+</code></p>
+<p>Great idea, no? For someone who wants to become famous, it would be the perfect target!</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/03/24/gsoc-idea-improve-clic-filesystem/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>How we use our power</title>
+		<link>http://lizards.opensuse.org/2010/12/16/how-we-use-our-power/</link>
+		<comments>http://lizards.opensuse.org/2010/12/16/how-we-use-our-power/#comments</comments>
+		<pubDate>Thu, 16 Dec 2010 11:30:41 +0000</pubDate>
+		<dc:creator><![CDATA[coolo]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=6185</guid>
+		<description><![CDATA[I had a side project the last two weeks: Make the build service more fun to use. No matter how much fun you have creating packages, if they don&#8217;t build, there is little point in using a Service that has Build in its name, no? So one of the major goals of the service is [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I had a side project the last two weeks: Make the build service more fun to use.</p>
+<p>No matter how much fun you have creating packages, if they don&#8217;t build, there is little point in using a Service that has Build in its name, no? So one of the major goals of the service is actually to help those that want to build packages as good as possible. But there is a problem: </p>
+<p>Let me quote from the landing page of <a href="https://build.opensuse.org/">build.opensuse.org</a>: &#8220;The openSUSE Build Service hosts 16,414 projects, with 107,691 packages, in 26,259 repositories and is used by <strong>25,967</strong> confirmed users.&#8221;. That are quite some high numbers &#8211; especially in the relation to the ~25 servers we have for actually building.</p>
+<p>If you look at the build statistics of the last month (and this is just i586, x86_64 has around the same), you notice that there is not much purple in the &#8220;Busy workers / Idle workers&#8221; graphic:</p>
+<p><img src="http://lizards.opensuse.org/wp-content/uploads/2010/12/Bildschirmfoto11.png" alt="OBS load" width="100%"/></p>
+<p>Every 2nd weekend or so we have some pause where the servers actually idle around, the rest of the time they are usually under full load and it&#8217;s not exceptional that we have over 20,000 build jobs for said 25 servers at the same time. So if Sue comes wants to build her packages at that time, she competes with quite some other packages and she gets frustrated to still see &#8220;scheduled&#8221; when she goes away. So we use some algorithms in the so called dispatcher to distribute the power to the <em>right</em> packages.</p>
+<p>Over years of its existence the dispatcher used the algorithm I would dub &#8220;Randomness with exceptions&#8221; &#8211; it would if the job&#8217;s filename matches a regexp and if so, preferred it, otherwise picked a random job. Such algorithms create some fairness if you have 28.000 users all active at the same time, because there is usually not a really good balance between those.</p>
+<p>But with 2.0 this changed: we got load and priorities. A script of mine parses the logs of download.opensuse.org and counts how many users are for the repositories. From that I calculate priorities, so that repositories of interest to people get more build power than others. E.g. KDE:Release:45 for 11.3 is downloaded 65 more often than for 11.1, so the 11.3 packages should see more attention. For that the build service calculates how many workers were busy for the repositories and then allows a factor to lower that load while picking the next repository to build for. This is much more complex than &#8220;pick a random one&#8221;, but it lead to faster return times for those projects that see actual downloads (and new projects as they have no load registered). To give some fun for those actually working on their packages, we also lower the registered load if we see commits.</p>
+<p>But there was one problem left: with so many projects registered you also have quite some that aren&#8217;t interesting at all. They are not downloaded and very often not even their maintainers care, e.g. for some testing subproject they created in 2009 and then forgot about it. But those repositories build against the often changing openSUSE:Factory and see rebuilds because of that. Those repositories had a very low load because they have few packages, so they are often preferred over projects that have a lot of packages.</p>
+<p>To free up more power to recent changes, we now experimented with various ways. It turned out to be useful to look at the relation between since last source change in the project and time since the jobs are &#8220;scheduled&#8221;. From this we calculate a staleness penalty &#8211; when the job is freshly scheduled, it&#8217;s basically one chance for a worker for 2 months since the last commit to the project. But this chance rises quickly, the penalty gets smaller the longer the job is in scheduled. Even those projects that have no source commits are valid &#8220;customers&#8221; and deserve to be rebuild against the latest gcc from openSUSE:Factory.</p>
+<h4>So what does this mean to you as user of the OpenSUSE Build Service?</h4>
+<ul>
+<li>Don&#8217;t add repositories unless you really plan to use it. I know that clicking the checkbox to also add all SLE versions is easily done, but remember this is build power and disk space on various mirrors you&#8217;ll be using</li>
+<li>If you really care for your project, it&#8217;s a good idea to fix build failures from time to time. You&#8217;ll get more build power in return</li>
+<li>If you plan to do a larger update of some package in your project and want to test the resulting packages building against it, it&#8217;s a good idea to disable all other repositories while you do so. The fewer build jobs you create, the lower is your load, the higher are your chances to get more build power</li>
+<li>Make your repository popular by telling the world about it. More users means more build power</li>
+<li>And last but not least: don&#8217;t get frustrated, remember there are almost 26000 other users</li>
+</ul>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/12/16/how-we-use-our-power/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>git bisect in action</title>
+		<link>http://lizards.opensuse.org/2010/07/19/git-bisect-in-action/</link>
+		<comments>http://lizards.opensuse.org/2010/07/19/git-bisect-in-action/#comments</comments>
+		<pubDate>Mon, 19 Jul 2010 16:14:08 +0000</pubDate>
+		<dc:creator><![CDATA[coolo]]></dc:creator>
+				<category><![CDATA[Miscellaneous]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=4739</guid>
+		<description><![CDATA[We have a little regression in the buildservice API test suite. And looking at the commit log I didn&#8217;t find the obvious problem, so I tried bisect, because I know it worked very recently: git bisect start master 1dfd9717348d8425492b556d3a183b4d265007d git bisect run sh -c "cd src/api; ruby test/functional/build_controller_test.rb --name=test_project_index" And it gave me: 25347c2d712e6e4b598e05442dd95b5e82f14aed is [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>We have a little regression in the buildservice API test suite. And looking at the commit log I didn&#8217;t find the obvious problem, so I tried bisect, because I know it worked very recently:</p>
+<p><code><br />
+git bisect start master 1dfd9717348d8425492b556d3a183b4d265007d<br />
+git bisect run sh -c "cd src/api; ruby test/functional/build_controller_test.rb --name=test_project_index"<br />
+</code></p>
+<p>And it gave me:<br />
+<code><a href="http://gitorious.org/opensuse/build-service/commit/25347c2d712e6e4b598e05442dd95b5e82f14aed">25347c2d712e6e4b598e05442dd95b5e82f14aed</a> is the first bad commit<br />
+commit 25347c2d712e6e4b598e05442dd95b5e82f14aed<br />
+Author: Jan-Simon Möller<br />
+Date:   Sun Jul 18 01:14:01 2010 +0200</code></p>
+<p>[api] Add fixtures for request controller ACL tests.</p>
+<p>Now if you look at the commit, it is not obvious why it&#8217;s a problem. But now that git has proven, it has to be buggy I looked at the other fixture data and then it&#8217;s obvious and the fix is simple:</p>
+<p><code><br />
+--- a/src/api/test/fixtures/package_user_role_relationships.yml<br />
++++ b/src/api/test/fixtures/package_user_role_relationships.yml<br />
+@@ -11,8 +11,8 @@ testpack_maintainer:<br />
+bs_user_id: 267<br />
+role_id: 3<br />
+-testpack_maintainer:<br />
+-  db_package_id: 10095<br />
++testpack1_maintainer:<br />
++  db_package_id: 11006<br />
+bs_user_id: 42<br />
+role_id: 3<br />
+</code></p>
+<p>Thanks git <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/07/19/git-bisect-in-action/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Shortcut for the package download</title>
+		<link>http://lizards.opensuse.org/2010/07/09/shortcut-for-the-package-download/</link>
+		<comments>http://lizards.opensuse.org/2010/07/09/shortcut-for-the-package-download/#comments</comments>
+		<pubDate>Fri, 09 Jul 2010 11:53:07 +0000</pubDate>
+		<dc:creator><![CDATA[coolo]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=4562</guid>
+		<description><![CDATA[If you look at the list of binaries for a package (e.g. icecream), you may think that you can download the RPM right away &#8211; but if you follow the link in a browser you get to see details about the rpm. Now if you only want to download it, you may already know the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>If you look at the list of binaries for a package (e.g. <a href="https://build.opensuse.org/stage/package/binaries?package=icecream&amp;project=home%3Acoolo&amp;repository=openSUSE_11.3">icecream</a>), you may think that you can download the RPM right away &#8211; but if you follow the link in a browser you get to see details about the rpm.</p>
+<p>Now if you only want to download it, you may already know the details and don&#8217;t care. So I added a little shortcut: if you request the binary url with a client not accepting html explicitly (e.g. curl, wget&#8230;), you get the file directly. Just copy &amp; paste the link to your console and be done.</p>
+<p>And due to the joy of rails, it&#8217;s just a couple of <a href="http://www.gitorious.org/opensuse/build-service/commit/8cc75b924d114fed62575b548d8a7230c7296c94">lines</a> and now I get:</p>
+<p><code><br />
+--2010-07-09 13:51:31--  https://build.opensuse.org/stage/package/binary?arch=i586&amp;filename=icecream-0.9.5-11.1.i586.rpm&amp;package=icecream&amp;project=home%3Acoolo&amp;repository=openSUSE_11.3<br />
+Resolving build.opensuse.org... 195.135.221.34<br />
+Connecting to build.opensuse.org|195.135.221.34|:443... connected.<br />
+HTTP request sent, awaiting response... 302 Found<br />
+Location: http://download.opensuse.org/repositories/home:/coolo/openSUSE_11.3/i586/icecream-0.9.5-11.1.i586.rpm [following]<br />
+--2010-07-09 13:51:32--  http://download.opensuse.org/repositories/home:/coolo/openSUSE_11.3/i586/icecream-0.9.5-11.1.i586.rpm<br />
+Resolving download.opensuse.org... 195.135.221.130<br />
+Connecting to download.opensuse.org|195.135.221.130|:80... connected.<br />
+HTTP request sent, awaiting response... 302 Found<br />
+Location: http://widehat.opensuse.org/repositories/home:/coolo/openSUSE_11.3/i586/icecream-0.9.5-11.1.i586.rpm [following]<br />
+--2010-07-09 13:51:32--  http://widehat.opensuse.org/repositories/home:/coolo/openSUSE_11.3/i586/icecream-0.9.5-11.1.i586.rpm<br />
+Resolving widehat.opensuse.org... 62.146.92.202, 2a01:138:a004:0:21a:a0ff:fe26:efa9<br />
+Connecting to widehat.opensuse.org|62.146.92.202|:80... connected.<br />
+HTTP request sent, awaiting response... 200 OK<br />
+Length: 184745 (180K) [application/x-rpm]<br />
+Saving to: `icecream-0.9.5-11.1.i586.rpm'<br />
+</code></p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/07/09/shortcut-for-the-package-download/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Buildservice development on 11.3</title>
+		<link>http://lizards.opensuse.org/2010/06/26/buildservice-development-on-11-3/</link>
+		<comments>http://lizards.opensuse.org/2010/06/26/buildservice-development-on-11-3/#comments</comments>
+		<pubDate>Sat, 26 Jun 2010 16:16:48 +0000</pubDate>
+		<dc:creator><![CDATA[coolo]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=4514</guid>
+		<description><![CDATA[The build service (and any other of openSUSE infrastructure software using RoR) is using rails 2.3.5, because we once decided to harmonize on the version of SLE11 SP1. Of course the latest version has less bugs (usually), but mixing RoR versions between different developers and deployment is a nightmare, so we had to decide on [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The build service (and any other of openSUSE infrastructure software using RoR) is using rails 2.3.5, because we once decided to harmonize on the version of SLE11 SP1. Of course the latest version has less bugs (usually), but mixing RoR versions between different developers and deployment is a nightmare, so we had to decide on one.</p>
+<p>Now comes the catch: 11.3 has rails 2.3.8 and as such you can&#8217;t develop the build service on factory/11.3 as is. But the good news, openSUSE:Tools has all the right versions, so you can add the repo (zypper ar -r <a href="http://r.opensu.se/openSUSE:Tools/f/r">http://r.opensu.se/openSUSE:Tools/f/r</a>) and then install zypper in -f rubygem-rack-1.0.1 rubygem-activesupport-2_3-2.3.5</p>
+<p>To make sure, the next zypper dup is not going to take it away, use zypper al rubygem-rack rubygem-activesupport-2_3</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/06/26/buildservice-development-on-11-3/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>What people search for</title>
+		<link>http://lizards.opensuse.org/2010/04/23/what-people-search-for/</link>
+		<comments>http://lizards.opensuse.org/2010/04/23/what-people-search-for/#comments</comments>
+		<pubDate>Fri, 23 Apr 2010 12:31:58 +0000</pubDate>
+		<dc:creator><![CDATA[coolo]]></dc:creator>
+				<category><![CDATA[Miscellaneous]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=3778</guid>
+		<description><![CDATA[http://software.opensuse.org/stage includes now a little box to show what other people search for. It was a little idea The Boosters had, but I found the results so far pretty suprising. I didn&#8217;t really expect subversion in the top 3, but perhaps it&#8217;s only the moment. The results shown are from actual downloads, for that every [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><a href="http://software.opensuse.org/stage">http://software.opensuse.org/stage</a> includes now a little box to show what other people search for. It was a little idea The Boosters had, but I found the results so far pretty suprising. I didn&#8217;t really expect subversion in the top 3, but perhaps it&#8217;s only the moment.</p>
+<p>The results shown are from actual downloads, for that every download url is a little redirect to save the query the download was for.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/04/23/what-people-search-for/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>http://software.opensuse.org/stage</title>
+		<link>http://lizards.opensuse.org/2010/03/03/software-opensuse/</link>
+		<comments>http://lizards.opensuse.org/2010/03/03/software-opensuse/#comments</comments>
+		<pubDate>Wed, 03 Mar 2010 20:12:26 +0000</pubDate>
+		<dc:creator><![CDATA[coolo]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=3408</guid>
+		<description><![CDATA[Part of our &#8220;umbrella&#8221; milestone, Pavol and Robert ported software.opensuse.org to the Bento theme. To get more feedback for it, I now deployed it as http://software.opensuse.org/stage. Please note two things: it also includes a new feature from the Education project: a link to openSUSE derivates the language box is experimental and we kind of decided [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Part of our &#8220;umbrella&#8221; milestone, Pavol and Robert ported software.opensuse.org to the Bento theme. To get more feedback for it, I now deployed it as http://software.opensuse.org/stage.</p>
+<p>Please note two things:</p>
+<ul>
+<li>it also includes a new feature from the Education project: a link to openSUSE derivates</li>
+<li>the language box is experimental and we kind of decided already to kill it again</li>
+</ul>
+<p>On top of that of course: the Bento theme is not yet finished &#8211; it&#8217;s only a stage deployment to get feedback.</p>
+<p>Have fun!</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/03/03/software-opensuse/feed/</wfw:commentRss>
+		<slash:comments>7</slash:comments>
+		</item>
+		<item>
+		<title>About Patterns versus Packages</title>
+		<link>http://lizards.opensuse.org/2009/10/07/about-patterns-versus-packages/</link>
+		<comments>http://lizards.opensuse.org/2009/10/07/about-patterns-versus-packages/#comments</comments>
+		<pubDate>Wed, 07 Oct 2009 11:34:39 +0000</pubDate>
+		<dc:creator><![CDATA[coolo]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[openSUSE 11.2]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=2333</guid>
+		<description><![CDATA[Just a quick note to everyone using factory and wonder what patterns-openSUSE-kde4_basis is all about: our patterns install packages now. To explain this change, I need to get a bit back in history: In openSUSE 11.0 we did a change that is still significant: we do no longer install patterns. In older releases, when you [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Just a quick note to everyone using factory and wonder what patterns-openSUSE-kde4_basis is all about: our patterns install packages now.</p>
+<p><span id="more-2333"></span></p>
+<p>To explain this change, I need to get a bit back in history: In openSUSE 11.0 we did a change that is still significant: we do no longer install patterns. In older releases, when you installed a &#8220;KDE Desktop&#8221; or a &#8220;GNOME Desktop&#8221;, yast would save that information as &#8220;pattern&#8221;. Patterns are basically groups of packages, but they can also depend on other patterns. They have a clear semantic when you install: &#8220;KDE Desktop&#8221; -&gt; kdebase4-workspace, kdelibs4, amarok, &#8230;. Some describe them as &#8220;Macros for packages&#8221;. But there is still no clear semantic on removing a pattern as this relation between &#8220;KDE Desktop&#8221; and amarok is only in one direction. If you remove &#8220;KDE Desktop&#8221;, it&#8217;s not clear if you want to remove amarok too or if if should stay on your LXDE. So we decided to go away from installing patterns to make this clear: There is no way to remove a pattern as it&#8217;s never installed. It&#8217;s only &#8220;satisfied&#8221;, meaning a pattern can express that it&#8217;s not satisfied without amarok installed. So if you decide to remove amarok, the pattern will be left unsatisfied (appears as not installed).</p>
+<p>As I said: openSUSE 11.0 and 11.1 do this and there are little problems associated with it. But now that we support &#8220;zypper dup&#8221;, it came clear that you will not get the same &#8220;KDE Desktop&#8221; on 11.2 if you do an update or an installation. This is kind of okay, but not how it should be: most users see a distribution upgrade as an installation without the need to start from scratch. The reason for this difference is that there is no information left that you have a &#8220;KDE Desktop&#8221; after you changed repositories (patterns only appear in the repository, not in the system). Now assume the 11.2 &#8220;KDE Desktop&#8221; needs dolphin too, otherwise you get only an ugly gray square (not true, but we assume it). The solver will see amarok and update it to the newest version, but as it doesn&#8217;t see a &#8220;KDE Desktop&#8221;, it won&#8217;t install dolphin.</p>
+<p>So for openSUSE 11.2 I changed the patterns to generate packages with cryptic names to install along with the pattern. So if you install &#8220;KDE Desktop&#8221; on 11.2, it will install amarok, dolphin <strong>and</strong> patterns-openSUSE-kde4_basis. If you do zypper dup on openSUSE 11.3 (or factory in january) the solver will see patterns-openSUSE-kde4_basis and know the new requires of the new version and install e.g. choqok.</p>
+<p>That doesn&#8217;t solve the 11.1-&gt;11.2 update case, but after updating to 11.2, you can reselect the patterns you want and you can be sure they will stay from now on. And perhaps we do an online update for 11.0 and 11.1 that will add patterns packages to the most prominent use case: the desktops.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/10/07/about-patterns-versus-packages/feed/</wfw:commentRss>
+		<slash:comments>9</slash:comments>
+		</item>
+		<item>
+		<title>Cliced Hybrids</title>
+		<link>http://lizards.opensuse.org/2009/08/13/cliced-hybrids/</link>
+		<comments>http://lizards.opensuse.org/2009/08/13/cliced-hybrids/#comments</comments>
+		<pubDate>Thu, 13 Aug 2009 08:40:38 +0000</pubDate>
+		<dc:creator><![CDATA[coolo]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1938</guid>
+		<description><![CDATA[Marcus and me have been busy improving the USB experience. So here is how to use it: download the live cd of your choice from http://download.opensuse.org/factory/iso/ and make sure you grab build218 or later. And then do something like I did: linux-vgqb:~ # ls -l /dev/disk/by-id/*usb* lrwxrwxrwx 1 root root 9 13. Aug 10:04 /dev/disk/by-id/usb-Kingston_DataTraveler_II+_5B751D8C1994-0:0 [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Marcus and me have been busy improving the USB experience. So here is how to use it:</p>
+<p>download the live cd of your choice from http://download.opensuse.org/factory/iso/ and make sure you grab build218 or later. And then do something like I did:</p>
+<blockquote><p>linux-vgqb:~ # ls -l /dev/disk/by-id/*usb*<br />
+lrwxrwxrwx 1 root root  9 13. Aug 10:04 /dev/disk/by-id/usb-Kingston_DataTraveler_II+_5B751D8C1994-0:0 -&gt; ../../sdb</p>
+<p>So I use /dev/sdb in my commands to shorten it, normally I would use /dev/disk/by-id/.. directly to avoid overwriting my hard disk image.<br />
+<span id="more-1938"></span><br />
+dd if=openSUSE-KDE4-LiveCD-x86_64-Build0219-Media.iso of=/dev/sdb bs=4M</p>
+<p>linux-vgqb:~ # fdisk /dev/sdb</p>
+<p>The number of cylinders for this disk is set to 3935.<br />
+There is nothing wrong with that, but this is larger than 1024,<br />
+and could in certain setups cause problems with:<br />
+1) software that runs at boot time (e.g., old versions of LILO)<br />
+2) booting and partitioning software from other OSs<br />
+(e.g., DOS FDISK, OS/2 FDISK)</p>
+<p>Command (m for help): p</p>
+<p>Disk /dev/sdb: 4126 MB, 4126670848 bytes<br />
+64 heads, 32 sectors/track, 3935 cylinders<br />
+Units = cylinders of 2048 * 512 = 1048576 bytes<br />
+Disk identifier: 0x967113b7</p>
+<p>Device Boot      Start         End      Blocks   Id  System<br />
+/dev/sdb1   *           1         660      675840   83  Linux</p>
+<p>Command (m for help): n<br />
+Command action<br />
+e   extended<br />
+p   primary partition (1-4)<br />
+p<br />
+Partition number (1-4): 2<br />
+First cylinder (661-3935, default 661):<br />
+Using default value 661<br />
+Last cylinder, +cylinders or +size{K,M,G} (661-3935, default 3935):<br />
+Using default value 3935</p>
+<p>Command (m for help): p</p>
+<p>Disk /dev/sdb: 4126 MB, 4126670848 bytes<br />
+64 heads, 32 sectors/track, 3935 cylinders<br />
+Units = cylinders of 2048 * 512 = 1048576 bytes<br />
+Disk identifier: 0x967113b7</p>
+<p>Device Boot      Start         End      Blocks   Id  System<br />
+/dev/sdb1   *           1         660      675840   83  Linux<br />
+/dev/sdb2             661        3935     3353600   83  Linux</p>
+<p>Command (m for help): w<br />
+The partition table has been altered!</p>
+<p>Calling ioctl() to re-read partition table.<br />
+Syncing disks.</p></blockquote>
+<p>This is a 4G stick, so I have plenty of room to write, but the real content is put in a readonly partition. If you do not do the fdisk, your stick will behave like a live cd: poweroff and all data is gone. The /dev/sdb2 will be used to save your changes.</p>
+<p>And now reboot &#8211; if you have a laptop like mine you need to press F9 during boot. If has some fun side effects as /livecd is still an ISO9660 file system, so it will appear as CDROM in various KDE dialogs.</p>
+<p>I wonder though if we should let the user create an own user on suck a stick, putting all your private data in a password less linux account does not sound right.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/08/13/cliced-hybrids/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>-fomit-all-instructions</title>
+		<link>http://lizards.opensuse.org/2009/05/27/fomit-all-instructions/</link>
+		<comments>http://lizards.opensuse.org/2009/05/27/fomit-all-instructions/#comments</comments>
+		<pubDate>Wed, 27 May 2009 15:34:00 +0000</pubDate>
+		<dc:creator><![CDATA[coolo]]></dc:creator>
+				<category><![CDATA[openSUSE 11.2]]></category>
+		<category><![CDATA[Toolchain]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1142</guid>
+		<description><![CDATA[Now that milestone2 is almost done, we get into the next round and we decided (basically during coffee break) to try something and change the compile flags for our i586 distribution (which is still the major one for openSUSE). If there aren&#8217;t major problems coming up with it, the next milestone will be compiled with [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Now that milestone2 is almost done, we get into the next round and we decided (basically during coffee break) to try something and change the compile flags for our i586 distribution (which is still the major one for openSUSE). If there aren&#8217;t major problems coming up with it, the next milestone will be compiled with -fomit-frame-pointer -mtune=generic instead of the old -march=i586 -mtune=i586.</p>
+<p>It will feel around 20% faster, I&#8217;m sure <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+<p>On unrelated news: I&#8217;m away for a very long Pentecost weekend. If there are issues with Factory, I won&#8217;t be able to fix them. See you in June!</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/05/27/fomit-all-instructions/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+	</channel>
+</rss>

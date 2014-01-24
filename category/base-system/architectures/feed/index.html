@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; Architectures</title>
+	<atom:link href="http://lizards.opensuse.org/category/base-system/architectures/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>How I ran openSUSE on a Nexus 7</title>
+		<link>http://lizards.opensuse.org/2013/09/22/how-i-ran-opensuse-on-a-nexus-7/</link>
+		<comments>http://lizards.opensuse.org/2013/09/22/how-i-ran-opensuse-on-a-nexus-7/#comments</comments>
+		<pubDate>Sun, 22 Sep 2013 09:21:22 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[nexus]]></category>
+		<category><![CDATA[raspberry]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9935</guid>
+		<description><![CDATA[The Nexus 7 (2012 version) is a 7 inch tablet by Google+Asus. The nice thing about it is, that it has an unlockable bootloader. Also it has an armv7 CPU and we built openSUSE for this CPU for some years. I had one such device with a broken display, so doing some more risky things [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The Nexus 7 (2012 version) is a 7 inch tablet by Google+Asus.<br />
+The nice thing about it is, that it has an unlockable bootloader. Also it has an armv7 CPU and we built openSUSE for this CPU for some years. I had one such device with a broken display, so doing some more risky things with it seemed to be appropriate.<br />
+I wanted to run my own software on it. Running openSUSE in a chroot (change-root) environment is usually a lot easier than replacing the whole system, so this is where I went.</p>
+<p>First, I needed two tools. One is the &#8220;adb&#8221; &#8211; Android DeBug tool from the official sdk and the other is &#8220;fastboot&#8221; which was hard to find, so I <a href="http://www.zq1.de/bernhard/mirror/android/fastboot.zip">mirror it here</a>.<br />
+I got me the stable ROM from <a href="http://wiki.cyanogenmod.org/w/Grouper_Info">http://wiki.cyanogenmod.org/w/Grouper_Info</a> and followed their installation instructions. adb shell only seemed to work while in bootloader (which you reach by holding Volume-Down+Power during boot)<br />
+The hardest part was to <a href="http://developer.android.com/tools/device.html#setting-up">re-enable USB-debugging</a> by going into Settings/About tablet and tapping Build-Number seven times.</p>
+<p>Also before zapping everything that was there, I did in adb shell : <code>cp -a /system/app /sdcard/</code><br />
+and back later.<br />
+So after following all the other installation steps, I had cyanogenmod booting. I attached a bluetooth keyboard so that I can better type. The ROM comes with a terminal app, which I opened. type <code>su -</code> to become root after a security popup.<br />
+Now, I downloaded my lastest Raspberry-Pi image from <a href="http://www.zq1.de/bernhard/linux/opensuse/">http://www.zq1.de/bernhard/linux/opensuse/</a>. This is under /sdcard/Download where I unpacked it with xz -d<br />
+Then comes the tricky part. The image has a partition table, but here we just need the root filesystem. With <code>fdisk -lu</code> we can see that it starts at sector 309248. One could copy out that part with dd or use a loop device with offset like this:<br />
+<code>#!/system/xbin/sh<br />
+mknod /dev/loop0 b 7 0<br />
+losetup -d /dev/loop0 # cleanup of previous try<br />
+losetup -o `expr 512 \* 309248` /dev/loop0 rasp*img<br />
+mkdir -p mnt<br />
+mount -t ext2 /dev/loop0 mnt<br />
+</code></p>
+<p>Now we have access to the openSUSE files under mnt.<br />
+In there I created me a chroot.sh:<br />
+<code>#!/system/xbin/sh<br />
+for m in proc sys dev ; do    mount -o bind /$m $m ; done<br />
+HOME=/root PATH=/sbin:/usr/sbin:/usr/local/sbin:/root/bin:/usr/local/bin:/usr/bin:/bin:/usr/bin/X11:/usr/X11R6/bin /system/xbin/chroot . bin/bash<br />
+for m in proc sys dev ; do    umount $m ; done<br />
+</code></p>
+<p>With that, the only remaining thing to do was to add a nameserver line to /etc/resolv.conf before I could use zypper to install software e.g. <code>zypper install yast2-network yast2-ncurses</code>.<br />
+Running <code>yast lan</code> on the Nexus 7 <a href="https://plus.google.com/photos/108928462394474625418/albums/5701558097275278593/5926357383234418210">gives nice sight</a>.</p>
+<p>I guess one could also use <a href="http://download.opensuse.org/ports/armv7hl/distribution/12.3/images/openSUSE-12.3-ARM-JeOS-rootfs.armv7l-1.12.1-Build47.1.tbz">the armv7 rootfs</a> to have software built for armv7 instead of the compatible armv6. But for me it does not matter much.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2013/09/22/how-i-ran-opensuse-on-a-nexus-7/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>New Raspberry Pi Image</title>
+		<link>http://lizards.opensuse.org/2013/09/07/new-raspberry-pi-image/</link>
+		<comments>http://lizards.opensuse.org/2013/09/07/new-raspberry-pi-image/#comments</comments>
+		<pubDate>Sat, 07 Sep 2013 12:41:10 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Contrib]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Toolchain]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9888</guid>
+		<description><![CDATA[update: new image with kernel-3.6 and minimal X11/icewm http://www.zq1.de/~bernhard/linux/opensuse/raspberrypi-opensuse-20130911x.img.xz (103MB) We got a new armv6 based image for the Raspberry Pi. This one is only 82MB compressed, so pretty minimalistic. http://www.zq1.de/~bernhard/linux/opensuse/raspberrypi-opensuse-20130907.img.xz The exciting new thing is that this was created using an alternative image building automatism which I wrote from scratch in three hours this [&#8230;]]]></description>
+				<content:encoded><![CDATA[<blockquote><p><strong>update:</strong> new image with kernel-3.6 and minimal X11/icewm http://www.zq1.de/~bernhard/linux/opensuse/raspberrypi-opensuse-20130911x.img.xz (103MB)</p></blockquote>
+<p>We got a new armv6 based image for the Raspberry Pi.<br />
+This one is only 82MB compressed, so pretty minimalistic.</p>
+<p>http://www.zq1.de/~bernhard/linux/opensuse/raspberrypi-opensuse-20130907.img.xz</p>
+<p>The exciting new thing is that this was created using an alternative image building automatism which I wrote from scratch in three hours this morning.<br />
+The scripts can be found at</p>
+<p>https://build.opensuse.org/package/show/devel:ARM:Factory:Contrib:RaspberryPi/altimagebuild</p>
+<p>and are also embedded within the image under /home/abuild/rpmbuild/SOURCES/</p>
+<p>This means that everyone can now easily build his own images the way he likes and even branch and do submit requests for changes that are useful for others.<br />
+The way to use this is simple.<br />
+If you have 6GB RAM, you can speed things up with export OSC_BUILD_ROOT=/dev/shm/arm before you do<br />
+<code>osc co devel:ARM:Factory:Contrib:RaspberryPi altimagebuild<br />
+cd devel:ARM:Factory:Contrib:RaspberryPi/altimagebuild<br />
+bash -x main.sh<br />
+</code></p>
+<p>This pseudo-package does not easily build within OBS or osc alone because it needs root permissions for some of the steps (chroot, mknod, mount), which could only be workarounded with User-Mode-Linux or patching osc.<br />
+The build consists of three steps that can be seen in main.sh:</p>
+<ol>
+<li>First, osc build is used to pull in required packages and setup the armv6 rootfs.</li>
+<li>Second, mkrootfs.sh modifies a copy of the rootfs under .root to contain all required configs</li>
+<li>And finally, mkimage.sh takes the .root dir and creates a .img from it that can be booted</li>
+</ol>
+<p>This can build an image from scatch in three minutes. And my Raspberry Pi booted successfully with it within 55 seconds.</p>
+<p>There are some remaining open issues:</p>
+<ul>
+<li>the repo key is initially untrusted</li>
+<li><del datetime="2013-09-11T09:01:03+00:00">still uses old 3.1 kernel</del> &#8211; solved</li>
+<li>build scripts have no error handling</li>
+</ul>
+<p>Compared to the old image, this one has some advantages:</p>
+<ul>
+<li>It is easier to resize because the root partition is the last one</li>
+<li>Compressed image is much smaller</li>
+<li>Reproducible image build, so easy to customize</li>
+<li>It is armv6 with floating point support, so could be faster</li>
+<li>We have over 5200 successfully built packages from <a href="http://download.opensuse.org/ports/armv6hl/factory/repo/oss/">openSUSE:Factory:ARM</a><br />
+so for example you can install a minimalistic graphical environment with <code>zypper install xauth twm xorg-x11-server xinit</code> and start it with <code>startx</code>
+</li>
+</ul>
+<p>So if you wanted to play with openSUSE on RPi, you can do so right now and have a lot of fun.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2013/09/07/new-raspberry-pi-image/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>openSUSE 12.3 on Android</title>
+		<link>http://lizards.opensuse.org/2013/05/09/opensuse-12-3-on-android/</link>
+		<comments>http://lizards.opensuse.org/2013/05/09/opensuse-12-3-on-android/#comments</comments>
+		<pubDate>Thu, 09 May 2013 06:19:02 +0000</pubDate>
+		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[XFCE]]></category>
+		<category><![CDATA[linux on android]]></category>
+		<category><![CDATA[openSUSE@ARM]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9412</guid>
+		<description><![CDATA[Here is a new image for your armv7l powered phone or tablet(any recent dual core device should work), you can get openSUSE 12.3 XFCE running on it without the need for repartition, formats, bootloader hacks or sacrificing your nicely running latest android on it. What you need is rooted device with busybox, Android VNC and [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><a href="https://sourceforge.net/projects/cyberorg-home/files/latest/download?source=files">Here is a new image</a> for your armv7l powered phone or tablet(any recent dual core device should work), you can get openSUSE 12.3 XFCE running on it without the need for repartition, formats, bootloader hacks or sacrificing your nicely running latest android on it. What you need is rooted device with busybox, Android VNC and terminal app installed and 4GB free space on sdcard(internal or external).</p>
+<p>Instructions to run it are same as <a href="https://lizards.opensuse.org/2013/02/20/opensuse-on-phonestablets/">mentioned earlier</a>. In addition to those you can also use <a href="https://play.google.com/store/apps/details?id=com.zpwebsites.linuxonandroid">LinuxonAndroid</a> app with patched <a href="https://sourceforge.net/p/cyberorg-home/code/ci/master/tree/opensuse-arm/bootscript.sh?format=raw">bootscript.sh</a>. Replace <code>/data/data/com.zpwebsites.linuxonandroid/files/bootscript.sh</code> on your device with the patched one and follow the directions shown here(last 3 images):</p>
+<table style="width: 194px">
+<tbody>
+<tr>
+<td align="center"><a href="https://picasaweb.google.com/106376068960352243212/OpenSUSEOnAndroid?authuser=0&amp;feat=embedwebsite"><img style="margin: 1px 0 0 4px" alt="" src="https://lh5.googleusercontent.com/-SYJdCukuKNo/UYsxsT9VWmE/AAAAAAAAFyA/G2ohBZq4Wwc/s160-c/OpenSUSEOnAndroid.jpg" width="160" height="160" /></a></td>
+</tr>
+<tr>
+<td style="text-align: center;font-family: arial,sans-serif;font-size: 11px"><a style="color: #4d4d4d;font-weight: bold;text-decoration: none" href="https://picasaweb.google.com/106376068960352243212/OpenSUSEOnAndroid?authuser=0&amp;feat=embedwebsite">openSUSE on android</a></td>
+</tr>
+</tbody>
+</table>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2013/05/09/opensuse-12-3-on-android/feed/</wfw:commentRss>
+		<slash:comments>9</slash:comments>
+		</item>
+		<item>
+		<title>openSUSE on phones/tablets</title>
+		<link>http://lizards.opensuse.org/2013/02/20/opensuse-on-phonestablets/</link>
+		<comments>http://lizards.opensuse.org/2013/02/20/opensuse-on-phonestablets/#comments</comments>
+		<pubDate>Wed, 20 Feb 2013 06:03:04 +0000</pubDate>
+		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Base System]]></category>
+		<category><![CDATA[XFCE]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[linux on android]]></category>
+		<category><![CDATA[openSUSE]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9283</guid>
+		<description><![CDATA[Thanks to the fantastic work by openSUSE Arm team, you can get full desktop on your armv7l powered phone or tablet(any recent dual core devices should work), without the need for repartition, formats, bootloader hacks or sacrificing your nicely running latest android on it. What you need is rooted device with busybox, Android VNC and [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Thanks to the fantastic work by <a href="https://en.opensuse.org/Portal:ARM">openSUSE Arm</a> team, you can get full desktop on your armv7l powered phone or tablet(any recent dual core devices should work), without the need for repartition, formats, bootloader hacks or sacrificing your nicely running latest android on it. What you need is rooted device with busybox, Android VNC and terminal app installed and 4GB free space on sdcard(internal or external).<br />
+<span id="more-9283"></span><br />
+<a href="https://picasaweb.google.com/lh/photo/gaC5wP9kH4F8OLZG6kRrudMTjNZETYmyPJy0liipFm0?feat=embedwebsite"><img alt="" src="https://lh5.googleusercontent.com/-HHQb8_OVFkQ/USMcM2NSDEI/AAAAAAAAFkQ/WNT1q5fALOA/s400/opensuse-arm1.png" width="400" height="239" /></a> <a href="https://picasaweb.google.com/lh/photo/N_NXLKjmQATAO5UycYr3j9MTjNZETYmyPJy0liipFm0?feat=embedwebsite"><img alt="" src="https://lh3.googleusercontent.com/-WG0gSvWsHok/USMcQQLOwsI/AAAAAAAAFkY/SAyUl8nj7Qs/s400/opensuse-arm2.png" width="400" height="240" /></a><br />
+1. Download <a title="opensuse-arm-xfce-chroot.tar.xz" href="https://sourceforge.net/projects/cyberorg-home/files/latest/download?source=files">opensuse-arm-xfce-chroot.tar.xz</a><br />
+2. Extract the .xz file and place the 2 resulting files on your device&#8217;s sdcard.<br />
+3. Open your favourite terminal app (or ssh into the device if you have dropbear ssh app installed), cd /to/sdcard/where/opensuse*.img/is/ &amp;&amp; sh opensuse.sh start<br />
+4. Once the openSUSE starts you are chrooted inside the image in the terminal, for GUI start Android VNC and connect to localhost:1 (port 5901) or from remote machine IPofdevice:1. Password is &#8220;opensuse&#8221;. Change it to something else by running vncpasswd and passwd in desktop terminal, also change the root password by running passwd in chroot terminal where you ran &#8220;sh opensuse.sh start&#8221;.</p>
+<p>After exiting the chroot terminal, openSUSE services will be stopped, no changes to your android system is made.</p>
+<p>Have a lot of fun&#8230;</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2013/02/20/opensuse-on-phonestablets/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>LiveCDs</title>
+		<link>http://lizards.opensuse.org/2012/12/27/livecds/</link>
+		<comments>http://lizards.opensuse.org/2012/12/27/livecds/#comments</comments>
+		<pubDate>Thu, 27 Dec 2012 15:59:51 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[comparison]]></category>
+		<category><![CDATA[LiveCD]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9128</guid>
+		<description><![CDATA[As few of you might know, I made my own SUSE-based LiveCDs a while ago, using (like Knoppix) cloop compression with iso9660 and my own kernel code for file-based overlay to make it writeable. You might be amazed at how fast it runs in KVM. However, the kernel part has bit-rotten and there are other [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>As few of you might know, I made my own <a href="http://lsmod.de/bootcd/">SUSE-based LiveCDs</a> a while ago, using (like Knoppix) cloop compression with iso9660 and <a href="http://translucency.sourceforge.net/">my own kernel code</a> for file-based overlay to make it writeable. You might be amazed at how fast it runs in KVM. However, the kernel part has bit-rotten and there are other techniques out there today, so I took a look around at how others do their LiveCDs.</p>
+<p>But first some broader overview. To make a LiveCD, the biggest problem is that CDs are not writeable (and even modern Flash devices do not want to be written too much). Embedded devices using flash had the same problem. Various approaches have been used in the past to solve this:</p>
+<ul>
+<li>adapt all software to write into ram-disks e.g. by having symlinks (hard to create and maintain)</li>
+<li>load all software into RAM (only for small distributions)</li>
+<li>use file-based overlaying such as unionfs or aufs to have software write into RAM (lsof, pwd, and hardlinks can be tricky)</li>
+<li>use block-based overlaying (problem: can not easily free disk space again)</li>
+</ul>
+<p>Also compression is used to fit more onto a CD. And interestingly, this usually also speeds up booting because it is faster to read 10MB off a CD and decompress it into the original 30MB than to read 30MB from such a slow medium.</p>
+<p>Now, to the distributions.</p>
+<ul>
+<li>openSUSE has the classic DVD installs that use special <a href="https://build.opensuse.org/package/show?package=installation-images&amp;project=openSUSE%3AFactory">installation-images</a> and run in RAM and then there are the real LiveCDs that are created by our kiwi tool, use block-based overlaying and LZMA compression of a ext3 by means of our FUSE-based clicfs.</li>
+<li>All of the other distributions use squashfs for compression. <a href="http://www.mageia.org/downloads/">Mageia</a> employs dracut for initrd and unionfs for file-based overlaying</li>
+<li><a href="http://cdimage.debian.org/debian-cd/current-live/i386/bt-hybrid/">Debian</a> uses <a href="http://aufs.sourceforge.net/">aufs</a> for file-based overlaying</li>
+<li>Ubuntu uses overlayfs for file-based overlaying</li>
+<li><a href="https://fedoraproject.org/get-fedora">Fedora</a> uses an ext4 filesystem image contained in a squashfs with dm-snapshot for block-based overlaying, thus being most similar to openSUSE</li>
+</ul>
+<p>I also spent some time benchmarking (on my AMD A10-5800K) the various technologies with <a href="https://gist.github.com/4389034">a simple script</a> using Debians uncompressed rootfs of 495132 KiB as data.<br />
+squashfs supports three different compression methods: lzo, gzip and xz (aka LZMA).</p>
+<ul>
+<li>squashfs-lzo:  size:220992 compression:11.1MB/s decompression:134.4MB/s</li>
+<li>squashfs-gzip: size:203328 compression:15.5MB/s decompression:88.9MB/s</li>
+<li>squashfs-xz:   size:176064 compression:6.5MB/s  decompression:22.5MB/s</li>
+<li>cloop(gzip):   size:213348 compression:16.2MB/s decompression:49.6MB/s</li>
+<li>clicfs(xz):    size:185300 compression:16.7MB/s decompression:18.2MB/s</li>
+</ul>
+<p>This has some surprises: even when using the same compression method, sizes can differ by 5% and speed can differ even more.</p>
+<p>If you want to compare numbers on your system, memory throughput is also interesting:<br />
+# dd if=/dev/zero of=/dev/null bs=1M count=100000<br />
+104857600000 bytes (105 GB) copied, 12.4499 s, 8.4 GB/s</p>
+<p>Overall, clicfs is performing OK, considering that it already takes care of the overlaying, but for my own LiveCD I would prefer Debian&#8217;s method and I am wondering how it would work.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/12/27/livecds/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>Linux Kernel built with clang boots into openSUSE</title>
+		<link>http://lizards.opensuse.org/2012/07/14/linux-kernel-built-with-clang-boots-into-opensuse/</link>
+		<comments>http://lizards.opensuse.org/2012/07/14/linux-kernel-built-with-clang-boots-into-opensuse/#comments</comments>
+		<pubDate>Sat, 14 Jul 2012 16:11:17 +0000</pubDate>
+		<dc:creator><![CDATA[Jan-Simon Möller]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Toolchain]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8793</guid>
+		<description><![CDATA[Whatch this:  http://youtu.be/Jp04DMXH2Rg The kernel was compiled with Clang (C frontend of LLVM)  and boots into a running openSUSE desktop! &#160;]]></description>
+				<content:encoded><![CDATA[<p>Whatch this:  <a href="http://youtu.be/Jp04DMXH2Rg" target="_blank">http://youtu.be/Jp04DMXH2Rg</a></p>
+<p>The kernel was compiled with Clang (C frontend of LLVM)  and boots into a running openSUSE desktop!</p>
+<p>&nbsp;</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/07/14/linux-kernel-built-with-clang-boots-into-opensuse/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>openSUSE ARM image</title>
+		<link>http://lizards.opensuse.org/2012/01/21/opensuse-arm-image/</link>
+		<comments>http://lizards.opensuse.org/2012/01/21/opensuse-arm-image/#comments</comments>
+		<pubDate>Sat, 21 Jan 2012 18:10:06 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[arm7]]></category>
+		<category><![CDATA[efikaMX]]></category>
+		<category><![CDATA[genesi]]></category>
+		<category><![CDATA[openSUSE@ARM]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8446</guid>
+		<description><![CDATA[When I wrote this week, how I ran openSUSE on my genesi smarttop some people asked for a ready-to-use image. After spending less than 8 hours fiddling with u-boot-scripts, partition tables, tuning ext3 and initrds, it was done&#8230; and is now so easy: wget http://www.zq1.de/efika.img.xz # 83MB xz -cd efika.img.xz &#124; dd of=/dev/sdX bs=1M with [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>When I wrote this week, <a href="http://lizards.opensuse.org/2012/01/19/running-opensuse-on-arm/">how I ran openSUSE on my genesi smarttop</a> some people asked for a ready-to-use image. After spending less than 8 hours fiddling with u-boot-scripts, partition tables, tuning ext3 and initrds, it was done&#8230; and is now so easy:</p>
+<blockquote><p>wget http://www.zq1.de/efika.img.xz # 83MB<br />
+xz -cd efika.img.xz | dd of=/dev/sdX bs=1M</p></blockquote>
+<p>with sdX being the device name of your SD-card (e.g. &#8220;mmcblk0&#8243; on the smarttop itself) with at least 1GB (actually 1024000000 bytes) of free space.</p>
+<p>When inserted at boot, it should just boot up within 23 seconds and let you login as root with password &#8220;linux&#8221; on SSH, serial and with a USB-keyboard on HDMI. I spent some effort on putting as few packages as possible into it. Still, you have zypper to install packages and nano to edit files.</p>
+<p>There is still a known hangup when you try to reboot. Workaround is: init 2 ; sleep 12 ; killall rsyslogd ; umount /boot/ ; mount -o remount,ro / ; reboot</p>
+<p>As it still uses the original linux-2.6.31 kernel, it has another bug that also happens with pre-installed Ubuntu: sometimes (in ~40% of cases), boot stopps early, before graphics is initialized, when the last line on serial is &#8220;console handover: boot [ttymxc0] -&gt; real [tty1]&#8220;. Try turning it off and on again.</p>
+<p>This should allow you to have a whole lot of fun&#8230;</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/01/21/opensuse-arm-image/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>running openSUSE on ARM</title>
+		<link>http://lizards.opensuse.org/2012/01/19/running-opensuse-on-arm/</link>
+		<comments>http://lizards.opensuse.org/2012/01/19/running-opensuse-on-arm/#comments</comments>
+		<pubDate>Thu, 19 Jan 2012 21:11:58 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[arm7]]></category>
+		<category><![CDATA[efikaMX]]></category>
+		<category><![CDATA[genesi]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8410</guid>
+		<description><![CDATA[This week I finally got my genesi efika MX box. By default it has on old Ubuntu version installed on its internal IDE-attached 8GB SSD. It features 512 MB RAM and a 800 MHz ARMv7 CPU. Using a HDMI-cable and an HDMI-DVI-Adaptor I got it connected to a monitor, plugged in a USB keyboard+mouse and [&#8230;]]]></description>
+				<content:encoded><![CDATA[<div class="mceTemp">
+<dl>
+<dt><img src="http://www.zq1.de/%7Ebernhard/images/efikamx.jpg" alt="" width="647" height="1000" /></dt>
+<dd></dd>
+</dl>
+</div>
+<p>This week I finally got my <a href="http://www.genesi-usa.com/products/efika">genesi efika MX</a> box. By default it has on old Ubuntu version installed on its internal IDE-attached 8GB SSD. It features 512 MB RAM and a 800 MHz ARMv7 CPU.</p>
+<p>Using a HDMI-cable and an HDMI-DVI-Adaptor I got it connected to a monitor, plugged in a USB keyboard+mouse and it pretty much worked out of the box with WLAN,Ethernet,X11 (except for a bug that causes it to force you to change PW on every console login). How boring.</p>
+<p>Having read about recent progress with openSUSE on ARM I wanted the excitement of running it on this box.</p>
+<p><a href="http://michal.hrusecky.net/2011/10/opensuse-arm-chroot-less-then-alpha/">Michal&#8217;s image and script</a> (now in alpha) was very helpful to get me started within 15 minutes.</p>
+<p>If you have any (e.g. x86) openSUSE system running, there is another easy way to create a working ARM chroot-environment:</p>
+<blockquote><p>zypper ar http://download.opensuse.org/repositories/openSUSE:/Tools:/Unstable/openSUSE_12.1/openSUSE:Tools:Unstable.repo<br />
+zypper install qemu osc<br />
+osc co openSUSE:Factory:ARM bash<br />
+cd openSUSE:Factory:ARM/bash<br />
+edit bash.spec # add lines with your packages like BuildRequires: zypper,vim<br />
+osc build &#8211;no-verify &#8211;clean standard armv7l</p></blockquote>
+<p>If it worked well, /var/tmp/build-root/ should contain a chroot environment. E.g. you can run</p>
+<blockquote><p>file /var/tmp/build-root/bin/bash<br />
+/var/tmp/build-root/bin/bash: ELF 32-bit LSB executable, ARM, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.16, BuildID[sha1]=0xed9ca12f44c8591560d780cf807b6b6cf8ca8873, stripped</p></blockquote>
+<p>I partitioned my SD-card into two partitions. The first one for /boot with ext2 (needs only 150MB) and the second one for / to contain the rootfs. Be sure to have barrier=0 in your fstab for all ext[34] partitions so that writing to SD will not be as slow. The default U-Boot configuration first checks on the first partition of an SD-card for boot.scr which is a uImage-formatted version of a U-boot script. I copied all of Ubuntu&#8217;s /boot and /lib/modules/, slightly adapted their boot.script file to have root=/dev/mmcblk0p2 and uImage/uInitrd-2.6.31.14.26-efikamx as kernel/initrd, dropped &#8220;quiet splash&#8221; and added &#8220;console=ttymxc0,115200&#8243; to see more of the boot and ran a line from <a href="http://archlinuxarm.org/platforms/armv7/pandaboard">another helpful site</a>:</p>
+<blockquote><p>mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n &#8220;my boot script&#8221; -d boot.script boot.scr<br />
+echo mxc0:S12345:respawn:/sbin/agetty -L 115200 ttymxc0 vt102 &gt;&gt; /etc/inittab # for serial console</p></blockquote>
+<p>However, this failed to boot. Using the serial debug console, I could see U-boot trying to load the boot.scr but it was thinking it was zero bytes for some strange reason. Re-creating my /boot partition as a raw copy of /dev/sda1 with my adaptions ontop finally gave me an SD-card that <strong>just boots</strong> openSUSE Factory on ARM with framebuffer console on HDMI/DVI.</p>
+<p>Find more ARM-related info on our <a href="http://en.opensuse.org/Portal:ARM">openSUSE ARM Portal</a></p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/01/19/running-opensuse-on-arm/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>fuk the kit you will love</title>
+		<link>http://lizards.opensuse.org/2012/01/19/fuk-the-kit-you-will-love/</link>
+		<comments>http://lizards.opensuse.org/2012/01/19/fuk-the-kit-you-will-love/#comments</comments>
+		<pubDate>Thu, 19 Jan 2012 20:03:33 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[BIOS]]></category>
+		<category><![CDATA[firmware]]></category>
+		<category><![CDATA[kit]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[update]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8417</guid>
+		<description><![CDATA[Dear fellows, in our moving free world, it&#8217;s not always bienvenue to talk about one of the *kit* software around. Most of them have bad reputation, (with good or bad reasons) this is the debate of this post. But in the uni-kit-verse there&#8217;s one you must known, especially if you are the proud owner of [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Dear fellows, in our moving free world, it&#8217;s not always bienvenue to talk about one of the *kit* software around.<br />
+Most of them have bad reputation, (with good or bad reasons) this is the debate of this post.</p>
+<p>But in the uni-kit-verse there&#8217;s one you must known, especially if you are the proud owner of a laptop or one of this computer the manufacter deliver its firmware only in DOS exe format.<br />
+FirmwareUpdateKit (was introduced in 2008 in openSUSE by <a href="http://lizards.opensuse.org/2008/06/16/firmwareupdatekit/">Steffen Winterfeldt</a></p>
+<h1>How that works?</h1>
+<p>As the title of the post give you the right command, open a console, then use the cnf (command-not-found) tool to learn what to do</p>
+<h2>Install the package</h2>
+<pre>
+cnf fuk
+
+The program 'fuk' can be found in the following package:
+  * FirmwareUpdateKit [ path: /usr/bin/fuk, repository: zypp (repo-oss) ]
+
+Try installing with:
+    zypper install FirmwareUpdateKit
+</pre>
+<p>Pretty clear and cool, let&#8217;s install that stuff!</p>
+<pre>sudo zypper install FirmwareUpdateKit
+root's password:
+Loading repository data...
+Reading installed packages...
+Resolving package dependencies...
+
+The following NEW packages are going to be installed:
+  FirmwareUpdateKit syslinux 
+
+2 new packages to install.
+Overall download size: 758.0 KiB. After the operation, additional 2.1 MiB will be used.
+Continue? [y/n/?] (y): y
+Retrieving package syslinux-4.04-12.1.3.x86_64 (1/2), 642.0 KiB (1.9 MiB unpacked)
+Retrieving: syslinux-4.04-12.1.3.x86_64.rpm [done]
+Retrieving package FirmwareUpdateKit-1.1-14.1.1.x86_64 (2/2), 116.0 KiB (178.0 KiB unpacked)
+Retrieving: FirmwareUpdateKit-1.1-14.1.1.x86_64.rpm [done]
+Installing: syslinux-4.04-12.1.3 [done]
+Installing: FirmwareUpdateKit-1.1-14.1.1 [done]
+</pre>
+<p><img alt="Firmware Update" src="http://i.i.com.com/cnwk.1d/i/tim/2011/09/19/FirmwareUpdateIconX.png" class="alignright" width="128" height="128" /></p>
+<h2>Get your bios</h2>
+<p>Nothing easy for that, you will have to surf on boring mfg website, and find an appropriate bios for your computer.</p>
+<p>Be serious during that selection, you can screw up totally your computer</p>
+<h2>Time to fuk</h2>
+<p>As always before running a program, it&#8217;s always good to check if there&#8217;s the fine manual (not the case here) or try a -h &#8211;help</p>
+<pre>
+fuk --help
+Usage: fuk [OPTIONS] FILES
+FirmwareUpdateKit version 1.1.
+
+Create bootable DOS system and add FILES to it.
+The main purpose is to assist with DOS-based firmware updates.
+
+Options:
+  --grub                        Add boot entry to /boot/grub/menu.lst.
+  --lilo                        Add boot entry to /etc/lilo.conf.
+  --title TITLE                 Use TITLE as label for boot menu entry.
+  --iso FILE                    Create bootable CD.
+  --floppy FILE                 Create bootable (1440 kB) floppy disk.
+  --image FILE                  Create bootable harddisk.
+  --run COMMAND                 Run COMMAND after booting DOS.
+  --verbose                     Be more verbose.
+</pre>
+<p>Nothing complicated as a nuclear plan here, everything seems to be self explicit.<br />
+Let try it, and install a new grub entry for the new A8 version for my lappy.
+</p>
+<pre>
+fuk --verbose --grub --run M4600A08.exe /home/bruno/src_tmp/HARDWARE/DELL_M4600/M4600A08.exe 
+/tmp/fuk.lSVIgS0cMt/fwupdate.img: chs = 186/4/16, size = 11904 blocks
+- writing mbr
+- writing fat12 boot block
+- copying:
+    /usr/share/FirmwareUpdateKit/kernel.sys
+    /usr/share/FirmwareUpdateKit/command.com
+    /tmp/fuk.lSVIgS0cMt/config.sys
+    /tmp/fuk.lSVIgS0cMt/autoexec.bat
+    /home/bruno/src_tmp/HARDWARE/DELL_M4600/M4600_A08.exe
+c-3po:~ # 
+</pre>
+<p>That&#8217;s all I&#8217;ve now a new entry in my grub list</p>
+<pre>
+title Firmware Update
+    kernel /boot/memdisk
+    initrd /boot/fwupdate.img
+</pre>
+<h2>Apply</h2>
+<p>Now just reboot and use the grub entry, then upgrade your bios, like you will normally have done with you old complicated build iso, or diskette (I&#8217;m joking)</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/01/19/fuk-the-kit-you-will-love/feed/</wfw:commentRss>
+		<slash:comments>5</slash:comments>
+		</item>
+		<item>
+		<title>Road to 11.3 : when pattern are not your friend, pre selection can be a trap</title>
+		<link>http://lizards.opensuse.org/2010/06/10/road-to-11-3-when-pattern-are-not-your-friend-pre-selection-can-be-a-trap/</link>
+		<comments>http://lizards.opensuse.org/2010/06/10/road-to-11-3-when-pattern-are-not-your-friend-pre-selection-can-be-a-trap/#comments</comments>
+		<pubDate>Thu, 10 Jun 2010 12:17:38 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[openSUSE 11.2]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[Software Management]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=4305</guid>
+		<description><![CDATA[So it&#8217;s time to take some hours to test our future version. Today I start a fresh M7/Factory install : booting from pxe. The test case is build quickly a minimal server text mode. Just uncheck the auto configuration, we are after all linux admin. Choose your partition keyboard, language (en recommanded for server) etc [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>So it&#8217;s time to take some hours to test our future version.</p>
+<p>Today I start a fresh M7/Factory install : booting from pxe. The test case is build quickly a minimal server text mode.</p>
+<p>Just uncheck the auto configuration, we are after all linux admin. Choose your partition keyboard, language (en recommanded for server) etc &#8230; normal.</p>
+<p>Just before starting the install check software :  click on installation resume . You will discover that base-system-pattern would like to install a kernel-desktop, wtf why we want a server !</p>
+<p>So there&#8217;s a new ticket about that : https://bugzilla.novell.com/show_bug.cgi?id=613216</p>
+<p>I express the fact that it would be nice to have a new pattern selected when we choose minimal install server text mode.</p>
+<p>And you what about your opinion about pre-selection or having a base-system-server pattern &#8230; Please comment, &amp; vote on bugzilla</p>
+<p>A pattern guru wanted to build a patch for that.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/06/10/road-to-11-3-when-pattern-are-not-your-friend-pre-selection-can-be-a-trap/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+	</channel>
+</rss>

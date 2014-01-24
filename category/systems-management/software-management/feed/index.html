@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; Software Management</title>
+	<atom:link href="http://lizards.opensuse.org/category/systems-management/software-management/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>How kiwi can help to cleanup your system</title>
+		<link>http://lizards.opensuse.org/2012/09/25/how-kiwi-can-help-to-cleanup-your-system/</link>
+		<comments>http://lizards.opensuse.org/2012/09/25/how-kiwi-can-help-to-cleanup-your-system/#comments</comments>
+		<pubDate>Tue, 25 Sep 2012 10:01:59 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Schaefer]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Software Management]]></category>
+		<category><![CDATA[Systems Management]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9025</guid>
+		<description><![CDATA[After some iterations of updating the system with zypper dup or yast and some years of service with the system you will find out that there is a lot of dust which is obsolete or has been forgotten. Recently I had the problem that I need to move my 32bit system to a 64bit system [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>After some iterations of updating the system with zypper dup or yast and some years of service with the system you will find out that there is a lot of dust which is obsolete or has been forgotten. Recently I had the problem that I need to move my 32bit system to a 64bit system and thus the way to go was to migrate the running system into an image description, build a 64bit image from it and install that on the 64bit machine. But the most important part was to cleanup the running system and find out what it really contains. The report kiwi migrate created here was helpful and so I think it might be helpful for others too. Just call:</p>
+<blockquote><p>kiwi &#8211;migrate mySystem</p></blockquote>
+<p>It will end up with some data below /tmp/mySystem which of course can be removed at any time without any risk. Most interesting is the html report generated which you can view with any browser. So far kiwi collects the following information:</p>
+<ul>
+<li>kernel version and kernel specific kmp packages</li>
+<li>hardware dependent packages</li>
+<li>installed gem packages</li>
+<li>repository checkouts</li>
+<li>rpm packages installed multiple times</li>
+<li>rpm packages which could not be found according to the current repo setup including version and repo information</li>
+<li>tree of modified files, packaged but changed</li>
+<li>tree of custom files, those which doesn&#8217;t belong to any package or other part of the bullet list</li>
+</ul>
+<p>basically the use case of kiwi migrate is to migrate the running system into an appliance description but I&#8217;m not there yet. There is still room for improvement but I think it still can help to cleanup the system and to see what is installed on the system and not managed by a package manager</p>
+<p>I have tested this since openSUSE 11.4</p>
+<p>Remember to have fun <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/09/25/how-kiwi-can-help-to-cleanup-your-system/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Updates for openSUSE Edu Li-f-e</title>
+		<link>http://lizards.opensuse.org/2012/09/15/updates-for-opensuse-edu-li-f-e/</link>
+		<comments>http://lizards.opensuse.org/2012/09/15/updates-for-opensuse-edu-li-f-e/#comments</comments>
+		<pubDate>Sat, 15 Sep 2012 06:09:48 +0000</pubDate>
+		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
+				<category><![CDATA[Derivative]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Education]]></category>
+		<category><![CDATA[Software Management]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9014</guid>
+		<description><![CDATA[With the release of openSUSE Edu Li-f-e 12.2, we also have new KDE waiting in the official update repository. To resolve a couple of conflicts you will need to add Education:update repository before running yast2 online_update. Follow these steps: - Add Education:update repository by using this 1-click install, remain subscribed to the suggested repositories or [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>With the release of<a href="http://news.opensuse.org/2012/09/14/opensuse-edu-li-f-e-12-2-out-now/"> openSUSE Edu Li-f-e 12.2</a>, we also have new KDE waiting in the official update repository. To resolve a couple of conflicts you will need to add Education:update repository before running yast2 online_update.</p>
+<p>Follow these steps:</p>
+<pre>- Add Education:update repository by using this <a href="http://software.opensuse.org/ymp/Education:update/openSUSE_12.2/branding-life.ymp" rel="nofollow">1-click install</a>, remain subscribed to the suggested repositories or via command line:
+  <code><strong>zypper ar obs://Education:update/openSUSE_12.2 Education:update</strong></code> then run<code><strong> yast2 online-update</strong></code>.
+ - select replacement for kioaudiocd
+ - select deinstallation of yast2-qt-branding-life
+ - Proceed with the update</pre>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/09/15/updates-for-opensuse-edu-li-f-e/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Systems Management Zeitgeist</title>
+		<link>http://lizards.opensuse.org/2010/09/14/systems-management-zeitgeist/</link>
+		<comments>http://lizards.opensuse.org/2010/09/14/systems-management-zeitgeist/#comments</comments>
+		<pubDate>Tue, 14 Sep 2010 20:00:40 +0000</pubDate>
+		<dc:creator><![CDATA[Federico Lucifredi]]></dc:creator>
+				<category><![CDATA[Boosters]]></category>
+		<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Software Management]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=5215</guid>
+		<description><![CDATA[Dear Lizards, This recent release from IT World on the best Linux distributions out there caught my eye last weekend, as it declares &#8220;The package&#8217;s administration utility, YaST, is widely acknowledged as one of the best&#8221; in its entry on openSUSE and SLE (the documentation also drew praise, distinguishing itself as &#8220;some of the best [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Dear Lizards,<br />
+This <a title="A Guide to Today's Top 10 Linux Distributions" href="//www.itworld.com/print/119575">recent release</a> from IT World on the best Linux distributions out there caught my eye last weekend, as it declares <em>&#8220;The package&#8217;s administration utility, YaST, is widely acknowledged as one of the best&#8221;</em> in its entry on openSUSE and SLE (the documentation also drew praise, distinguishing itself as &#8220;<em>some of the best printed documentation you&#8217;ll find for any distro</em>&#8220;), and reminded me I wanted to share some of the positive feedback I collected during our 11.x development and after final release.  Ready? Here we go.</p>
+<p>Some of the initial &#8216;Net commentary was all centered on performance and memory footprint, from <a title="Some things do change..." href="http://snorp.net/blog/2008/some-things-do-change.html">Snorp&#8217;s</a> &#8220;<em>I don&#8217;t think it&#8217;s possible to overstate just how much of an improvement it really is&#8221; </em>to <a title="Duncan's Blog: Yum and Zypp speed and memory usage" href="http://duncan.mac-vicar.com/blog/archives/309">Duncan&#8217;s benchmarks</a> providing interesting numerical comparisons like  &#8220;<em>Yum uses about 9 times more memory</em>&#8221; (and takes several times longer).  This was refreshing given that at the same time Yum&#8217;s less-than-nimble footprint was drawing <a title="Yum is not so Yummi after all" href="http://blogs.gnome.org/zucchi/2008/05/10/linux-is-bloated/">some</a> interesting <a title="There are systems with less than 1GB of RAM" href="http://tservice.ru/~s0mbre/blog/devel/other/2008_02_19.html">comments</a> from Zed and Zbr.</p>
+<p>Eventually, the improvements rolled over to the press, with Jason Perlow proclaiming 11 RC1 <a title="The Mercedes Benz to Ubuntu's Wolkswagen" href="http://www.zdnet.com/blog/btl/opensuse-11-rc1-the-mercedes-benz-to-ubuntus-volkswagen/8988">the Mercedes-Benz to Ubuntu&#8217;s Wolkswagen</a>. Jason had plenty of praise in his review, but I am singling out &#8220;<em>the most beautiful installer program I have ever seen</em>&#8221; and &#8220;<em>quite impressed with how fast the package repository management works</em>&#8221; since this is the Systems Management team&#8217;s ticker-tape parade, after all.  Our then Community Ambassador Zonker followed up with his Package Keeper piece on the <a title="openSUSE Special, Linux Pro Magazine" href="http://www.linuxpromagazine.com/Resources/Special-Editions/openSUSE-11.0">special</a> that Linux Pro Magazine issued for the 11.0 release, focusing on package management as &#8220;<em>one of the most impressive advances</em>&#8221; in the release (link sadly missing as article still paywalled).   Linux Format retorted with &#8220;<em>One of our favorite features of SUSE is the one-click install system</em>&#8221; and &#8220;<em>faster than any other package manager we&#8217;ve seen, and on top of that it looks great, too&#8221; </em>in their What SUSE Does Best review (no link, as LXF requires subscription).</p>
+<p>Finally, with the release of our Enterprise distribution, the commentary rolled over to our corporate customers, as I <a title="News from the Zypper Revolution" href="http://lizards.opensuse.org/2010/04/05/news-from-the-zypper-revolution/">previously reported</a> when one customer I like to track personally as particularly representative reported a 300% speed improvement in rolling updates to production.</p>
+<p>Afterwards, we have moved up live distro upgrade (more famously known as <a href="http://lizards.opensuse.org/2010/04/05/news-from-the-zypper-revolution/">zypper dup</a>) to fully supported status, quickly receiving loud praise from a Linux Journal editor with clearly <a title="Zypp it" href="http://www.linuxjournal.com/content/package-management-zypper">too many Debian-using friends</a>.  We do relate to his plight, in a tongue-in-cheek manner, and are happy to help.  Indeed, other distributions have started adopting Zypper as well, with Ark <a title="Ark Linux switches to Zypper" href="http://www.linux-magazine.com/Online/News/Ark-Linux-changes-to-Zypper?category=13404">leading the way</a>.</p>
+<p>So what is next for us? Well, with Btrfs around the corner, integrating snapshot and rollback into the update system stands clearly out from the crowd: an undo button to painlessly bring back the system to where it was before your last upgrade. Stay tuned!</p>
+<div style="overflow: hidden; width: 1px; height: 1px;">The package&#8217;s administration utility, YaST, is widely acknowledged as one of the best,The package&#8217;s administration utility, YaST, is widely acknowledged as one of the best,</div>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/09/14/systems-management-zeitgeist/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Software search trick</title>
+		<link>http://lizards.opensuse.org/2010/08/04/software-search-trick/</link>
+		<comments>http://lizards.opensuse.org/2010/08/04/software-search-trick/#comments</comments>
+		<pubDate>Wed, 04 Aug 2010 12:22:26 +0000</pubDate>
+		<dc:creator><![CDATA[digitaltomm]]></dc:creator>
+				<category><![CDATA[Boosters]]></category>
+		<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Software Management]]></category>
+		<category><![CDATA[software.o.o]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=4850</guid>
+		<description><![CDATA[Do you use software.opensuse.org and get an error message &#8220;search limit reached&#8221; when searching for a generic term like &#8220;perl&#8221; or &#8220;kde&#8221;? Here is the solution: The software search now also supports matching for exact package names, just put your search string into double quotes! See for example perl or kde4]]></description>
+				<content:encoded><![CDATA[<p>Do you use <a href="http://software.opensuse.org">software.opensuse.org</a> and get an error message &#8220;search limit reached&#8221; when searching for a generic term like &#8220;perl&#8221; or &#8220;kde&#8221;? Here is the solution:<br />
+The software search now also supports matching for exact package names, just put your search string into double quotes! See for example <a href="http://software.opensuse.org/search?q=%22perl%22&amp;baseproject=openSUSE%3A11.3&amp;exclude_debug=true">perl</a> or  <a href="http://software.opensuse.org/search?q=%22kdebase4%22&amp;baseproject=openSUSE%3A11.3&amp;exclude_debug=true">kde4</a><br />
+<a href="http://lizards.opensuse.org/wp-content/uploads/2010/08/software_search1.png"><img class="alignnone size-medium wp-image-4854" title="software_search" src="http://lizards.opensuse.org/wp-content/uploads/2010/08/software_search1-300x257.png" alt="" width="300" height="257" /></a></p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/08/04/software-search-trick/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Road to 11.3 : when pattern are not your friend, pre selection can be a trap</title>
+		<link>http://lizards.opensuse.org/2010/06/10/road-to-11-3-when-pattern-are-not-your-friend-pre-selection-can-be-a-trap/</link>
+		<comments>http://lizards.opensuse.org/2010/06/10/road-to-11-3-when-pattern-are-not-your-friend-pre-selection-can-be-a-trap/#comments</comments>
+		<pubDate>Thu, 10 Jun 2010 12:17:38 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[openSUSE 11.2]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[Software Management]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=4305</guid>
+		<description><![CDATA[So it&#8217;s time to take some hours to test our future version. Today I start a fresh M7/Factory install : booting from pxe. The test case is build quickly a minimal server text mode. Just uncheck the auto configuration, we are after all linux admin. Choose your partition keyboard, language (en recommanded for server) etc [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>So it&#8217;s time to take some hours to test our future version.</p>
+<p>Today I start a fresh M7/Factory install : booting from pxe. The test case is build quickly a minimal server text mode.</p>
+<p>Just uncheck the auto configuration, we are after all linux admin. Choose your partition keyboard, language (en recommanded for server) etc &#8230; normal.</p>
+<p>Just before starting the install check software :  click on installation resume . You will discover that base-system-pattern would like to install a kernel-desktop, wtf why we want a server !</p>
+<p>So there&#8217;s a new ticket about that : https://bugzilla.novell.com/show_bug.cgi?id=613216</p>
+<p>I express the fact that it would be nice to have a new pattern selected when we choose minimal install server text mode.</p>
+<p>And you what about your opinion about pre-selection or having a base-system-server pattern &#8230; Please comment, &amp; vote on bugzilla</p>
+<p>A pattern guru wanted to build a patch for that.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/06/10/road-to-11-3-when-pattern-are-not-your-friend-pre-selection-can-be-a-trap/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>News from the Zypper Revolution</title>
+		<link>http://lizards.opensuse.org/2010/04/05/news-from-the-zypper-revolution/</link>
+		<comments>http://lizards.opensuse.org/2010/04/05/news-from-the-zypper-revolution/#comments</comments>
+		<pubDate>Mon, 05 Apr 2010 08:36:51 +0000</pubDate>
+		<dc:creator><![CDATA[Federico Lucifredi]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[openSUSE 11.2]]></category>
+		<category><![CDATA[Software Management]]></category>
+		<category><![CDATA[Systems Management]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=3649</guid>
+		<description><![CDATA[Maybe revolution is a bit strong, but at this hour in the night I can probably be excused for using a bit of hyperbole &#8211; besides, nothing great in the world has ever been accomplished without passion as Hegel would have it, so I am on solid ground here. I have been going over customer [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Maybe revolution is a bit strong, but at this hour in the night I can probably be excused for using a bit of hyperbole &#8211; besides, nothing great in the world has ever been accomplished without passion as Hegel would have it, so I am on solid ground here.</p>
+<p>I have been going over customer feedback from <a title="Novell" href="http://novell.com">Novell&#8217;s</a> <a title="Brainshare 2010" href="http://www.novell.com/brainshare/images.html">Brainshare</a> conference for my internal &#8220;Systems Management Zeitgeist&#8221; report, and there are a couple of points I just <em>had</em> to share with you all as they are plain simply inspirational.</p>
+<p>Our update stack is, well, zippy.  Like greased lightning, according to this happy SUSE Linux Enterprise customer:</p>
+<blockquote><p>Zypper updates a Linux system across major versions in 5 minutes, full Oracle server update done in 15 minutes</p></blockquote>
+<p>We of course appreciate speed in of itself, as a <a title="Duncan's Zypper commentary" href="http://duncan.mac-vicar.com/blog/archives/tag/zypper">technical achievement</a> powered by enhancements like <a title="SAT solver" href="http://en.opensuse.org/Package_management/Sat_solver">libsat</a> and <a title="Delta RPM" href="http://freshmeat.net/projects/deltarpm/">DeltaRPM</a>, and Community users share this point of view with us.  But Enterprise users have a different and equally valid point of view: administrator time is costly, and while many management consoles exist, industry data shows that tools do help, but not nearly enough: administrators are still involved, personally, in most Systems Management tasks &#8211;  I could quote analyst data, but not at this wee hour, so just trust me on this point.</p>
+<p>This one medium-sized customer actually took the time to calculate what the time savings meant to his business:</p>
+<blockquote><p>The faster update stack is resulting in 56,000 dollars in [operational budget] savings</p></blockquote>
+<p>It is not everyday a customer gives you a precise dollar number in describing what a technology&#8217;s impact is on his expenses &#8212; So I just had to share it with you all, it is such a nice commentary on our effort&#8217;s tangible impact.</p>
+<p>I can hear some of you wonder why I blogged this on my Lizard&#8217;s Community account, rather than on Novell&#8217;s Corporate site, since I am talking up Enterprise distro data and as the Systems Management guy I really have either option.  Good question!  I could say it is because I was not in the mood to dig up analyst quotes, and this setting allows me to be more cavalier and just waltz over those references, but there is a more important reason, read on.</p>
+<p>We in the Systems Management team happen to think sleep is for the weak, and have been cooking up our next scheme for improvement &#8212; but we need <em>your</em> help to get there.</p>
+<p>As the keenest observers among you have long ago noticed, with the 11.2 release we declared &#8220;zypper dup&#8221; a supported <a title="Migrating a Linode with Zypper dup" href="http://abock.org/2009/05/18/opensuse-111-on-linode-ala-zypper-dup">migration path</a>, and received some <a title="Linux Journal: Zypp it!" href="http://www.linuxjournal.com/content/package-management-zypper">accolades</a> for it already.  But we all know that live distro upgrade migration across major version changes is a big endeavor, and we would like to solicit your help in improving it: if you have the time and inclination to test zypper dup and provide a properly filed bug report of any kinks you might discover, we would be delighted to use your feedback to improve the 11.3 implementation of this process.</p>
+<p>Just a word of caution: comments to this entry, or bugs filed without sufficient data to be analyzed, are not going to further the result we all seek.  If you report something, make sure enough data to reproduce the issue is included, and that you are able to provide additional data upon request of the developer handling your report: if we cannot reproduce a problem, we cannot fix it.</p>
+<p>Thanks in advance to those among you joining us in this effort!</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/04/05/news-from-the-zypper-revolution/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>Install Multiple Kernel Versions using the YaST Qt Package Manager</title>
+		<link>http://lizards.opensuse.org/2009/12/08/install-multiple-kernel-versions-using-the-yast-qt-package-manager/</link>
+		<comments>http://lizards.opensuse.org/2009/12/08/install-multiple-kernel-versions-using-the-yast-qt-package-manager/#comments</comments>
+		<pubDate>Tue, 08 Dec 2009 10:06:31 +0000</pubDate>
+		<dc:creator><![CDATA[Thomas Göttlicher]]></dc:creator>
+				<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Software Management]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=2782</guid>
+		<description><![CDATA[You might want to install multiple kernel versions on your system. The YaST Qt Package Selector provides a nice user interface that allows to manage multiple package versions now. yast2-qt-pkg 2.18.19 or later supports this feature. You can find packages in my Build Service repository. First of all you need to tell libzypp that your [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>You might want to install multiple kernel versions on your system.<br />
+The YaST Qt Package Selector provides a nice user interface that allows to manage multiple package versions now.</p>
+<p>yast2-qt-pkg 2.18.19 or later supports this feature. You can find packages in <a href="http://download.opensuse.org/repositories/home:/tgoettlicher:/Factory/openSUSE_Factory/">my Build Service repository</a>.</p>
+<p>First of all you need to tell libzypp that your kernel is a package which is multiversion-enabled by adding this line to your <em>/etc/zypp/zypp.conf</em>:</p>
+<p><code>multiversion = provides:multiversion(kernel)</code></p>
+<p>Start your YaST Software Management. The versions tab shows check boxes for multiversion packages instead of radio buttons.<br />
+This enables you to install multiple versions of the same package.</p>
+<p>There is also a package group of multiversion packages that list all packages that can be installed in multiple versions.</p>
+<p><img class="alignnone size-full wp-image-2783" src="http://lizards.opensuse.org/wp-content/uploads/2009/12/multiversion2.png" alt="YaST Qt Package Manager with Multiversion Kernel Packages" width="847" height="539" /></p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/12/08/install-multiple-kernel-versions-using-the-yast-qt-package-manager/feed/</wfw:commentRss>
+		<slash:comments>7</slash:comments>
+		</item>
+		<item>
+		<title>Updating in Place From openSUSE 11.1 to 11.2</title>
+		<link>http://lizards.opensuse.org/2009/10/01/updating-in-place-from-opensuse-11-1-to-11-2/</link>
+		<comments>http://lizards.opensuse.org/2009/10/01/updating-in-place-from-opensuse-11-1-to-11-2/#comments</comments>
+		<pubDate>Thu, 01 Oct 2009 07:38:05 +0000</pubDate>
+		<dc:creator><![CDATA[Andreas Jaeger]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[openSUSE 11.2]]></category>
+		<category><![CDATA[Software Management]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=2274</guid>
+		<description><![CDATA[After running my laptop for some time already on openSUSE Factory, I decided to update my workstation now as well to openSUSE Factory &#8211; thus upgrading it to openSUSE 11.2 Milestone 8. Instead of the &#8220;old&#8221; but still working way of burning a media, booting from it and upgrading my system, I did the &#8220;new&#8221; [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>After running my laptop for some time already on openSUSE Factory, I decided to update my workstation now as well to openSUSE Factory &#8211; thus upgrading it to openSUSE 11.2 Milestone 8.</p>
+<p>Instead of the &#8220;old&#8221; but still working way of burning a media, booting from it and upgrading my system, I did the &#8220;new&#8221; way of openSUSE 11.2: Updating in place with &#8220;zypper dup&#8221;.</p>
+<p><span id="more-2274"></span></p>
+<p>The basic steps are documented also on the <a href="http://en.opensuse.org/Upgrade/11.2#Implementation" target="_blank">openSUSE Wiki</a>:</p>
+<ol>
+<li>Adapt the repository list: I disabled all 11.1 repositories and enabled the openSUSE Factory OSS and NON-OSS reposositories using &#8220;yast repositories&#8221;</li>
+<li>I run &#8220;zypper refresh&#8221; to get the local metadata and repo contents</li>
+<li>I upgraded the package stack to the new version with &#8220;zypper in zypper&#8221;</li>
+<li>I updated the rest of the system with &#8220;zypper dup&#8221;</li>
+<li>After two hours updating &#8211; and while I could still use my system &#8211; the update was finished, I run &#8220;SuSEconfig&#8221;</li>
+<li>and finally rebooted into the 11.2 system.</li>
+</ol>
+<p>The upgrade gave me the following information about what it needed to do (note I used quite some openSUSE Build Service repositories that had some higher build numbers than factory has &#8211; this explains the downgrades):</p>
+<pre>1310 packages to upgrade, 173 to downgrade, 174 new, 1 to reinstall, 35 to remove, 179  to change vendor, 12 to change arch.
+Overall download size: 1.42 GiB. After the operation, additional 167.5 MiB will be used.
+Continue? [y/n/?] (y): y</pre>
+<p>Now I&#8217;m blogging this from my 11.2 Milestone 8 system!</p>
+<p>Btw if you update via zypper dup, I suggest to read Michael&#8217;s post about <a href="http://mlandres.blogspot.com/2009/09/libzypp-6160-download-policies-for.html" target="_blank">download polices</a>, it is possible now to download everything first &#8211; and then update the packages in one go instead of the download one package, install it, download next package way.</p>
+<p><strong>Update 2009-10-07:</strong> Let&#8217;s be more explicit about step 1:</p>
+<p>1a) First disable all old repositories, either in YaST or with zypper using &#8220;zypper mr &#8211;all -d&#8221;.</p>
+<p>1b) Then add the new repositories, in case of factory, you can do this via the following commands:</p>
+<pre>zypper ar -f http://download.opensuse.org/update/11.2/ "openSUSE 11.2 Updates"
+zypper ar -f http://download.opensuse.org/factory/repo/oss/ "openSUSE Factory Oss"
+zypper ar -f http://download.opensuse.org/factory/repo/non-oss/ "openSUSE Factory Non-Oss"
+zypper ar -f http://download.opensuse.org/factory/repo/debug/ "openSUSE Factory Debug"</pre>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/10/01/updating-in-place-from-opensuse-11-1-to-11-2/feed/</wfw:commentRss>
+		<slash:comments>20</slash:comments>
+		</item>
+		<item>
+		<title>The generation of apt repositories at gwdg.de is going to stop</title>
+		<link>http://lizards.opensuse.org/2009/04/03/the-generation-of-apt-repositories-at-gwdgde-is-going-to-stop/</link>
+		<comments>http://lizards.opensuse.org/2009/04/03/the-generation-of-apt-repositories-at-gwdgde-is-going-to-stop/#comments</comments>
+		<pubDate>Fri, 03 Apr 2009 18:42:44 +0000</pubDate>
+		<dc:creator><![CDATA[Richard Bos]]></dc:creator>
+				<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Software Management]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=678</guid>
+		<description><![CDATA[I was just notified by the ftp admin of gwdg.de (Eberhard), the long time reliable mirror of openSUSE, that he is going to stop the cronjobs at ftp4 which generate the /pub/linux/suse/apt/ contents at ftp4.gwdg.de, and shortly there after the rsync runs which sync it to ftp3 and ftp5 will be disabled. I would like [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I was just notified by the ftp admin of gwdg.de (Eberhard), the long time reliable mirror of openSUSE, that he is going to stop the cronjobs at ftp4 which generate the /pub/linux/suse/apt/ contents at ftp4.gwdg.de, and shortly there after the rsync runs which sync it to ftp3 and ftp5 will be disabled.</p>
+<p>I would like to thank Eberhard for the reliable service and all the hard work that was performed to generate the apt repositories during all those years!</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/04/03/the-generation-of-apt-repositories-at-gwdgde-is-going-to-stop/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>openSUSE-like update repositories for third party projects</title>
+		<link>http://lizards.opensuse.org/2009/02/22/opensuse-like-update-repositories-for-third-party-projects/</link>
+		<comments>http://lizards.opensuse.org/2009/02/22/opensuse-like-update-repositories-for-third-party-projects/#comments</comments>
+		<pubDate>Sun, 22 Feb 2009 12:23:10 +0000</pubDate>
+		<dc:creator><![CDATA[kl_eisbaer]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Software Management]]></category>
+		<category><![CDATA[Education]]></category>
+		<category><![CDATA[repository]]></category>
+		<category><![CDATA[update]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=354</guid>
+		<description><![CDATA[Starting with 11.0, the openSUSE-Education project hosts it&#8217;s own, separate update repository. This is our solution for the strategic decision not to use the openSUSE Build Service as repository for endusers but for development only. So for production purposes, we always recommend to use our frozen repositories on http://download.opensuse-education.org/. But as &#8220;frozen&#8221; implies, the repositories [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Starting with 11.0, the <a title="The openSUSE-Education project" href="http://en.opensuse.org/Education" target="_self">openSUSE-Education</a> project hosts it&#8217;s own, separate <a title="The openSUSE-Education update repository" href="http://www.opensuse-education.org/download/updates/1.0/" target="_blank">update repository</a>. This is our solution for the <a title="Why the buildservice is currently not for endusers" href="http://lizards.opensuse.org/2009/02/19/why-the-buildservice-is-currently-not-for-endusers/" target="_blank">strategic decision</a> not to use the openSUSE Build Service as repository for endusers but for development only.</p>
+<p>So for production purposes, we always recommend to use our frozen repositories on<a title="Installation repositories on openSUSE-Education.org" href="http://www.opensuse-education.org/download/repos/1.0/" target="_blank"> http://download.opensuse-education.org/</a>. But as &#8220;frozen&#8221; implies, the repositories there are frozen at the time, the openSUSE-Education team declares them as &#8220;Goldmaster&#8221; (which is the case for all except the 11.1 repo at the moment) &#8211; and no package update or changes happens for this repositories.</p>
+<p>The openSUSE-Education team has relatively long development and testing cycles &#8211; but as everywhere, shi* happens, and so it might be that some of the packages in the frozen repository are broken or need a security fix. For this, we have created <a title="openSUSE-Education update repos" href="http://www.opensuse-education.org/download/updates/1.0/" target="_blank">update repositories</a> (for at least 11.0 and the upcomming 11.1 Edu-Release) which are disabled per default, but added to the system during installation of the openSUSE-Education-release  package. (Reason behind this decision: if an administrator installs openSUSE-Education in a school, he wants to &#8220;mirror&#8221; the update repositories and not point every client to the official ones. All a user has to do is to enable this update repository via YaST or via &#8220;zypper mr -e &#8216;openSUSE-Education Updates&#8217;&#8221;.</p>
+<p>We&#8217;re using the &#8220;updateinfo.xml&#8221; file formal <a title="Updateinfo description" href="http://en.opensuse.org/Patch_Management/Code11/Updateinfo" target="_blank">described in the openSUSE-Wiki</a>. Currently, we&#8217;ve 5 package updates/fixes for 11.0 in the update repository &#8211; and this might grow over the time. The updates are shown in the current online-update-applets as &#8220;normal&#8221; updates like the openSUSE ones. Interestingly, the user can&#8217;t see if an update is from the official openSUSE or the openSUSE-Education update repository &#8211; even if we use a different &#8220;from&#8221; tag. Perhaps we have to &#8220;play&#8221; with the &#8220;release&#8221; or other tags: testing is needed as it looks like nobody tries this before&#8230;</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/02/22/opensuse-like-update-repositories-for-third-party-projects/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+	</channel>
+</rss>

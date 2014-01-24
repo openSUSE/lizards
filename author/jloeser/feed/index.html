@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; Jan Loeser</title>
+	<atom:link href="http://lizards.opensuse.org/author/jloeser/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>How to set up a Production Server for your Rails App</title>
+		<link>http://lizards.opensuse.org/2010/05/28/how-to-set-up-a-production-server-for-your-rails-app/</link>
+		<comments>http://lizards.opensuse.org/2010/05/28/how-to-set-up-a-production-server-for-your-rails-app/#comments</comments>
+		<pubDate>Fri, 28 May 2010 10:40:52 +0000</pubDate>
+		<dc:creator><![CDATA[Jan Loeser]]></dc:creator>
+				<category><![CDATA[Apache]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=4101</guid>
+		<description><![CDATA[Hi folks, as you know it&#8217;s exciting to create a new rails application for several tasks. It&#8217;s fast, easy and everything is predefined. But what do you do if your application is (nearly) done? The next logical step is to set up a production web server – for me, this step always was a difficult [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi folks,</p>
+<p>as you know it&#8217;s exciting to create a new rails application for several tasks. It&#8217;s fast, easy and everything is predefined. But what do you do if your application is (nearly) done? The next logical step is to set up a production web server – for me, this step always was a difficult issue.  Mongrel/WEBrick was started via &#8216;ruby script/server&#8217; and your application was reachable on your localhost, mostly on port 3000. You’re the only user who interacts with it – no problem (as long as your application is in development).</p>
+<p>&#8220;The Web, however is an extremely concurrent environment. Production web servers, such as Apache, Lighttpd, and Zeus, can work on several requests &#8211; even tens or hundreds of requests &#8211; at the same time. A single-process, single-threaded Ruby-based web server can&#8217;t possibly keep up.&#8221; (quoted from &#8216;Agile Web Development with Rails&#8217;)</p>
+<p>Therefore I want to show briefly how to set up a front-end server with an existing Rails application using an Apache server and the RubyGem &#8216;<a title="Passenger" href="http://www.modrails.com/" target="_blank">Passenger</a>&#8216;. Do the following as root.</p>
+<p style="padding-left: 30px">1. Install Passenger (<a title="1clickinstall" href="http://software.opensuse.org/ymp/devel:languages:ruby:extensions/devel_languages_ruby_openSUSE_11.2/rubygem-passenger.ymp?base=openSUSE%3A11.2&amp;query=rubygem-passenger">One-click Install</a>) (assumed that Ruby itself and all needed Gems are installed)</p>
+<p style="padding-left: 30px">2. Install Apache and it’s dependencies:</p>
+<p style="padding-left: 30px"><code>$&gt; zypper in apache2</code></p>
+<p style="padding-left: 30px">3. Add the Passenger module to your Apache server:</p>
+<p style="padding-left: 30px"><code>$&gt; a2enmod passenger</code></p>
+<p style="padding-left: 30px">4. Create a virtual host on your Apache server. Create &#8216;/etc/apache2/vhosts.d/myapp.conf&#8217; and insert:</p>
+<p style="padding-left: 30px"><code>&lt;VirtualHost *:80&gt;<br />
+ServerName www.myapp.com<br />
+DocumentRoot /srv/rails/myapp/public<br />
+RailsEnv development<br />
+&lt;Directory /srv/rails/myapp/public&gt;<br />
+Allow from all<br />
+Options -MultiViews<br />
+&lt;/Directory&gt;<br />
+&lt;/VirtualHost&gt;</code></p>
+<p style="padding-left: 30px">Be sure that the path to your application is correct and do not forget the <strong>public</strong> directory! As you can see this virtual host receives all requests on port 80 (http). The line &#8216;<strong>RailsEnv development</strong>&#8216; specifies the &#8216;RAILS_ENV&#8217; variable (in this case &#8216;development&#8217;, the default value is &#8216;production&#8217;).  Normally you want &#8216;production&#8217; for your production server!</p>
+<p style="padding-left: 30px">5. Activate your virtual host in &#8216;/etc/apache2/listen.conf&#8217;. Just enable the line (remove the leading hash mark)::</p>
+<p style="padding-left: 30px"><code>#NameVirtualHost *:80</code></p>
+<p style="padding-left: 30px">6. Now you can start your Apache server:</p>
+<p style="padding-left: 30px"><code>$&gt; rcapache2 start</code></p>
+<p style="padding-left: 30px"><strong>Important:</strong> when you want to check the log file be aware of the mode Passenger runs the Rails application (&#8216;production.log&#8217;/'development.log&#8217;). By default, the log file is written by the user who owns the &#8216;environment.rb&#8217; &#8211; check the log file&#8217;s write permissions (See also: <a title="User switching" href="http://www.modrails.com/documentation/Users%20guide%20Apache.html#User_switching" target="_blank">User switching</a>).</p>
+<p style="padding-left: 30px">Have a look at the <a title="apache_docu2" href="http://www.modrails.com/documentation/Users%20guide%20Apache.html" target="_blank">documentation</a>! There you find a lot of configuration options which you should think of.</p>
+<p>That&#8217;s it. Sure, there are many many other ways to get such a server running and this was just scratching the surface but should be a good point to start. Thanks to Thomas Schmidt for a good introduction into the topic.</p>
+<p><a title="passenger" href="http://www.modrails.com/" target="_blank">Phusion Passenger</a><a title="apache_docu" href="http://www.modrails.com/documentation/Users guide Apache.html" target="_blank"><br />
+Passenger Apache Documentation</a></p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/05/28/how-to-set-up-a-production-server-for-your-rails-app/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>FOSDEM´10</title>
+		<link>http://lizards.opensuse.org/2010/03/01/fosdem%c2%b410/</link>
+		<comments>http://lizards.opensuse.org/2010/03/01/fosdem%c2%b410/#comments</comments>
+		<pubDate>Mon, 01 Mar 2010 19:45:56 +0000</pubDate>
+		<dc:creator><![CDATA[Jan Loeser]]></dc:creator>
+				<category><![CDATA[Events]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=3379</guid>
+		<description><![CDATA[Hi, folks! I just want to post a small summarize about my experiences at FOSDEM 2010 in Brussels. For me as a trainee at the SUSE it was my first linux related europaeen meeting i ever joined, so it was quite amazing. On 5th February we started from Nuremberg at 12 am towards Begium and [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi, folks!</p>
+<p>I just want to post a small summarize about my experiences at <a title="FOSDEM" href="http://fosdem.org/2010/">FOSDEM</a> 2010 in Brussels. For me as a trainee at the SUSE it was my first linux related europaeen meeting i ever joined, so it was quite amazing. On 5th February we started from Nuremberg at 12 am towards Begium and arrived circa 10 o&#8217;clock in the evening. After the check in we started to conquer the nightlife of Brussels which was tougher I expected because of my missing french skills. Unfortunaly, i missed the so popular &#8220;beer event&#8221; <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_sad.gif' alt=':(' class='wp-smiley' /> </p>
+<p>On saturday day we attended the FOSDEM which tooks place at the ULB campus. It looked quite unspectular from outside but after we entered the building i had to grind out getting a first overview.  Many people, many stands  &#8211; from Amarok over Fedora, Debian and  SUSE to VLC &#8211; and a great atmosphere. After the opening talks I joined the Ruby on Rails lectures which were very intressting for me as becoming RoR coder. There was a lecture about Datamapper which was quite new for me as well as working with MongoDB and the &#8220;25 good practices in Ruby on Rails development&#8221;.</p>
+<p>The next day was followed by a lecture about Aptoid, an project for deploying an own app server and the appropriated client app, and a informative talk about Mozilla´s Firefox Mobil (I&#8217;am using an Android smartphone so of course I&#8217;am curious what the stage of work it is). After some SUSE lectures about building images with KIWI and SUSE Studio the meeting was drawn to a close.  And remember, this was just an extract of +200 lectures!</p>
+<p>For me it was a great experience and very informative &#8211; for things i already knew and i did not knew- and I&#8217;am looking forward to join FOSDEM in 2011!</p>
+<p><img class="alignnone size-full wp-image-3381" src="http://lizards.opensuse.org/wp-content/uploads/2010/03/1-22a15f7696e8da2285db16fe040bf327.jpg" alt="fosdem2010" width="600" height="450" /></p>
+<p>Opening talk</p>
+<p><img class="alignnone size-full wp-image-3382" src="http://lizards.opensuse.org/wp-content/uploads/2010/03/1-00d83053d51c55a645187e2cebd638d0.jpg" alt="fosdem2010_2" width="600" height="450" /></p>
+<p>The openSUSE booth</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/03/01/fosdem%c2%b410/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>OBS webclient is now able to handle requests</title>
+		<link>http://lizards.opensuse.org/2009/11/10/obs-webclient-is-now-able-to-handle-requests/</link>
+		<comments>http://lizards.opensuse.org/2009/11/10/obs-webclient-is-now-able-to-handle-requests/#comments</comments>
+		<pubDate>Tue, 10 Nov 2009 11:39:59 +0000</pubDate>
+		<dc:creator><![CDATA[Jan Loeser]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=2490</guid>
+		<description><![CDATA[Since a few days, the OBS webbclient is now able to handle requests which means that you can accept/decline requests concerning you or revoke own requests. Furthermore you see a complete diff for submit requests. For me, it was my first experience with Ruby on Rails but it seems to be very exciting. So the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Since a few days, the OBS webbclient is now able to handle requests which means that you can accept/decline requests concerning you or revoke own requests. Furthermore you see a complete diff for submit requests. For me, it was my first experience with Ruby on Rails but it seems to be very exciting. So the usability is not perfect now but i will working on it.</p>
+<p>Next step is to implement the attribute system (<a title="OBS attribute system" href="http://lizards.opensuse.org/2009/11/02/obs-attribute-system/">http://lizards.opensuse.org/2009/11/02/obs-attribute-system/</a>)</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/11/10/obs-webclient-is-now-able-to-handle-requests/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>

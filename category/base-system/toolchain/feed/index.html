@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; Toolchain</title>
+	<atom:link href="http://lizards.opensuse.org/category/base-system/toolchain/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>Unterstanding the nvidia driver process</title>
+		<link>http://lizards.opensuse.org/2014/01/15/unterstanding-the-nvidia-driver-process/</link>
+		<comments>http://lizards.opensuse.org/2014/01/15/unterstanding-the-nvidia-driver-process/#comments</comments>
+		<pubDate>Wed, 15 Jan 2014 15:59:59 +0000</pubDate>
+		<dc:creator><![CDATA[calumma]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Boosters]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Toolchain]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10402</guid>
+		<description><![CDATA[The NVIDIA drivers for openSUSE 13.1 took a while to appear. Many users have asked why this was and we&#8217;d like to explain what happened and what we plan to do to prevent this in the future. This post was written with input from the openSUSE developers who maintain these drivers at SUSE and work [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><a href="http://www.muktware.com/2013/12/nvidia-drivers-now-available-opensuse-13-1/17381"><img src="//lizards.opensuse.org/wp-content/uploads/2014/01/Nvidia-300x168.jpg" alt="Nvidia pic from Muktware" width="300" height="168" class="alignright size-medium wp-image-10405" /></a><br />
+The NVIDIA drivers for openSUSE 13.1 took a while to appear. Many users have asked why this was and we&#8217;d like to explain what happened and what we plan to do to prevent this in the future. This post was written with input from the openSUSE developers who maintain these drivers at SUSE and work with NVIDIA to make them available for our users.</p>
+<h2>How it should work</h2>
+<p>Legally, the Linux kernel GPLv2 license leaves proprietary binary drivers in a bit of a tangle. While some claim it should be OK, others say not &#8211; and that is what most distributions currently assume: one can not ship a Linux distribution with proprietary, binary drivers. NVIDIA has agreed that our users can grab their drivers from the official NVIDIA servers. They are packaged by SUSE engineers however. They take care of both SLE and openSUSE proprietary driver packaging for NVIDIA hardware, and have contacts at NVIDIA who get the drivers up on their ftp mirrors.<br />
+<a href="http://opensuse-community.org/nvidia.ymp"><img src="//lizards.opensuse.org/wp-content/uploads/2014/01/Nvidia-1click.png" alt="Nvidia-1click" width="160" height="40" class="alignright size-full wp-image-10406" /></a><br />
+The packages are build on a dedicated system, but the package spec (skeleton for building) is in OBS &#8211; for example, <a href="https://build.opensuse.org/package/show/X11:Drivers:Video/nvidia-gfxG03">G03 is here</a>. Anybody could use these to build the nvidia driver locally (the nvidia binary driver is grabbed from the nvidia driver during building). The command sequence for local building can be found in <a href="https://build.opensuse.org/package/view_file/X11:Drivers:Video/nvidia-gfxG03/README?expand=1">the README</a>.</p>
+<p>Once the packages are build, they are send to NVIDIA, which signs the packages with their key and generates and signs repositories, making them available to the public.</p>
+<p>To note is the fact that this is all manual and takes a while on NVIDIA&#8217;s side (and ours). This of course is part of the reason why we don&#8217;t offer NVIDIA packages for Factory, our fast-rolling development repository.</p>
+<h2>What happened</h2>
+<p>What occurred for 13.1 is a typical case of &#8220;everything went wrong&#8221;.</p>
+<p>Up until a few weeks before the release, the driver did not build against the Linux Kernel version 3.11. NVIDIA warned against the use of a patch for this problem created by third parties so the driver team did not have a running build. Due to a holiday, it took a while to get the packages build and pushed to NVIDIA. Unfortunately, by the time this was done, the holiday period at NVIDIA blocked progress for another week. Once the package was signed, it took the webteam at NVIDIA another week to get the repository published. It all added up to almost a month and brought quite some inconvenience for users eager to use their latest NVIDIA cards with the latest openSUSE.</p>
+<p>About a week later, the openSUSE 13.1 NVIDIA drivers disappeared again from the nvidia servers for a day or so. We don&#8217;t know exactly what happened there, it might have simply been a server issue.</p>
+<h2>What we will do</h2>
+<p>The first and  most obvious thing to change would be to improve coordination. The developers taking care of the NVIDIA packages should be made aware as early as possible about the release planning and a replacement in case for holidays should be available. We noted this in our 13.1 release report and will make sure that there will be a <a href="http://progress.opensuse.org">task in our task tracker</a> for this for the next release. We also need to talk to NVIDIA about this to make sure that there, too, somebody can fill in for SUSE&#8217;s contacts.</p>
+<p>But there are also thoughts on how to improve further. Some of the current ideas:</p>
+<ul>
+<li>To get drivers for Factory the process needs more automation as the driver may break on kernel or X changes</li>
+<li>We could try to open the process and work with community members to secure the process in case the SUSE folks are unavailalbe</li>
+<li>It would be nice if we could make NVidia to see benefit of working more on the driver in openSUSE, e.g. by doing some testing</li>
+<li>We could write some scripts that check regularly whether repo and packages are still available and in a valid state (meta data matches available RPMs)</li>
+</ul>
+<p>We&#8217;ll have to see which of these we can implement, when and how. But rest assured that we will do what we can to prevent this in the future!</p>
+<p><img src="//lizards.opensuse.org/wp-content/uploads/2013/06/statistics-inside-212x300.png" alt="statistics with Geeko inside" width="212" height="300" class="alignright size-medium wp-image-9572" /><br />
+<h2>And the stats!</h2>
+<p>After a bit of a hiatus, we&#8217;re back with the numbers. Development has slowed down around new year and isn&#8217;t back to speed yet so the 10th spot is shared by quite a big group of people&#8230;</p>
+<p><!--<br />
+BODY,DIV,TABLE,THEAD,TBODY,TFOOT,TR,TH,TD,P { font-family:"Liberation Sans"; font-size:x-small }<br />
+--></p>
+<table border="0" cellspacing="0">
+<tbody>
+<tr>
+<td align="LEFT" height="16">Spot</td>
+<td align="LEFT">Name</td>
+</tr>
+<tr>
+<td align="RIGHT" height="17">1</td>
+<td align="LEFT">Stephan Kulow</td>
+</tr>
+<tr>
+<td align="RIGHT" height="17">2</td>
+<td align="LEFT">Denisart Benjamin</td>
+</tr>
+<tr>
+<td align="RIGHT" height="17">3</td>
+<td align="LEFT">Tomáš Chvátal, Dirk Mueller, Michal Vyskocil</td>
+</tr>
+<tr>
+<td align="RIGHT" height="17">4</td>
+<td align="LEFT">Hrvoje Senjan</td>
+</tr>
+<tr>
+<td align="RIGHT" height="17">5</td>
+<td align="LEFT">Ciaran Farrell</td>
+</tr>
+<tr>
+<td align="RIGHT" height="17">6</td>
+<td align="LEFT">Petr Gajdos</td>
+</tr>
+<tr>
+<td align="RIGHT" height="17">7</td>
+<td align="LEFT">Lars Vogdt, Pascal Bleser</td>
+</tr>
+<tr>
+<td align="RIGHT" height="17">8</td>
+<td align="LEFT">Jan Engelhardt, Charles Arnold</td>
+</tr>
+<tr>
+<td align="RIGHT" height="17">9</td>
+<td align="LEFT">Andreas Stieger, Michal Marek, Niels Abspoel, Kyrill Detinov</td>
+</tr>
+<tr>
+<td align="RIGHT" height="17">10</td>
+<td align="LEFT">Dinar Valeev, Bjørn Lie, Ulrich Weigand, Tobias Klausmann, Marcus Meissner, Alexander Graf, Robert Schweikert, Martin Vidner</td>
+</tr>
+</tbody>
+</table>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2014/01/15/unterstanding-the-nvidia-driver-process/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>New Raspberry Pi Image</title>
+		<link>http://lizards.opensuse.org/2013/09/07/new-raspberry-pi-image/</link>
+		<comments>http://lizards.opensuse.org/2013/09/07/new-raspberry-pi-image/#comments</comments>
+		<pubDate>Sat, 07 Sep 2013 12:41:10 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Contrib]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Toolchain]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9888</guid>
+		<description><![CDATA[update: new image with kernel-3.6 and minimal X11/icewm http://www.zq1.de/~bernhard/linux/opensuse/raspberrypi-opensuse-20130911x.img.xz (103MB) We got a new armv6 based image for the Raspberry Pi. This one is only 82MB compressed, so pretty minimalistic. http://www.zq1.de/~bernhard/linux/opensuse/raspberrypi-opensuse-20130907.img.xz The exciting new thing is that this was created using an alternative image building automatism which I wrote from scratch in three hours this [&#8230;]]]></description>
+				<content:encoded><![CDATA[<blockquote><p><strong>update:</strong> new image with kernel-3.6 and minimal X11/icewm http://www.zq1.de/~bernhard/linux/opensuse/raspberrypi-opensuse-20130911x.img.xz (103MB)</p></blockquote>
+<p>We got a new armv6 based image for the Raspberry Pi.<br />
+This one is only 82MB compressed, so pretty minimalistic.</p>
+<p>http://www.zq1.de/~bernhard/linux/opensuse/raspberrypi-opensuse-20130907.img.xz</p>
+<p>The exciting new thing is that this was created using an alternative image building automatism which I wrote from scratch in three hours this morning.<br />
+The scripts can be found at</p>
+<p>https://build.opensuse.org/package/show/devel:ARM:Factory:Contrib:RaspberryPi/altimagebuild</p>
+<p>and are also embedded within the image under /home/abuild/rpmbuild/SOURCES/</p>
+<p>This means that everyone can now easily build his own images the way he likes and even branch and do submit requests for changes that are useful for others.<br />
+The way to use this is simple.<br />
+If you have 6GB RAM, you can speed things up with export OSC_BUILD_ROOT=/dev/shm/arm before you do<br />
+<code>osc co devel:ARM:Factory:Contrib:RaspberryPi altimagebuild<br />
+cd devel:ARM:Factory:Contrib:RaspberryPi/altimagebuild<br />
+bash -x main.sh<br />
+</code></p>
+<p>This pseudo-package does not easily build within OBS or osc alone because it needs root permissions for some of the steps (chroot, mknod, mount), which could only be workarounded with User-Mode-Linux or patching osc.<br />
+The build consists of three steps that can be seen in main.sh:</p>
+<ol>
+<li>First, osc build is used to pull in required packages and setup the armv6 rootfs.</li>
+<li>Second, mkrootfs.sh modifies a copy of the rootfs under .root to contain all required configs</li>
+<li>And finally, mkimage.sh takes the .root dir and creates a .img from it that can be booted</li>
+</ol>
+<p>This can build an image from scatch in three minutes. And my Raspberry Pi booted successfully with it within 55 seconds.</p>
+<p>There are some remaining open issues:</p>
+<ul>
+<li>the repo key is initially untrusted</li>
+<li><del datetime="2013-09-11T09:01:03+00:00">still uses old 3.1 kernel</del> &#8211; solved</li>
+<li>build scripts have no error handling</li>
+</ul>
+<p>Compared to the old image, this one has some advantages:</p>
+<ul>
+<li>It is easier to resize because the root partition is the last one</li>
+<li>Compressed image is much smaller</li>
+<li>Reproducible image build, so easy to customize</li>
+<li>It is armv6 with floating point support, so could be faster</li>
+<li>We have over 5200 successfully built packages from <a href="http://download.opensuse.org/ports/armv6hl/factory/repo/oss/">openSUSE:Factory:ARM</a><br />
+so for example you can install a minimalistic graphical environment with <code>zypper install xauth twm xorg-x11-server xinit</code> and start it with <code>startx</code>
+</li>
+</ul>
+<p>So if you wanted to play with openSUSE on RPi, you can do so right now and have a lot of fun.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2013/09/07/new-raspberry-pi-image/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>Linux Kernel built with clang boots into openSUSE</title>
+		<link>http://lizards.opensuse.org/2012/07/14/linux-kernel-built-with-clang-boots-into-opensuse/</link>
+		<comments>http://lizards.opensuse.org/2012/07/14/linux-kernel-built-with-clang-boots-into-opensuse/#comments</comments>
+		<pubDate>Sat, 14 Jul 2012 16:11:17 +0000</pubDate>
+		<dc:creator><![CDATA[Jan-Simon Möller]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Toolchain]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8793</guid>
+		<description><![CDATA[Whatch this:  http://youtu.be/Jp04DMXH2Rg The kernel was compiled with Clang (C frontend of LLVM)  and boots into a running openSUSE desktop! &#160;]]></description>
+				<content:encoded><![CDATA[<p>Whatch this:  <a href="http://youtu.be/Jp04DMXH2Rg" target="_blank">http://youtu.be/Jp04DMXH2Rg</a></p>
+<p>The kernel was compiled with Clang (C frontend of LLVM)  and boots into a running openSUSE desktop!</p>
+<p>&nbsp;</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/07/14/linux-kernel-built-with-clang-boots-into-opensuse/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>OBS 2.1: Status of SuperH (sh4) support with QEMU</title>
+		<link>http://lizards.opensuse.org/2010/10/24/obs-2-1-status-of-superh-sh4-support-with-qemu/</link>
+		<comments>http://lizards.opensuse.org/2010/10/24/obs-2-1-status-of-superh-sh4-support-with-qemu/#comments</comments>
+		<pubDate>Sun, 24 Oct 2010 20:13:41 +0000</pubDate>
+		<dc:creator><![CDATA[Martin Mohring]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Toolchain]]></category>
+		<category><![CDATA[Virtualization]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=5576</guid>
+		<description><![CDATA[With established ARM support in OBS the as well as emulated MIPS and PowerPC is getting more mature, the last big embedded architecture not working in OBS with QEMU user mode was SH4. QEMU developers community had done a lot of work in improving QEMU user mode during the last months, so I can proudly [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>With established <a href="http://lizards.opensuse.org/2008/11/18/arm-support-for-opensuse-buildservice-and-opensuse/">ARM</a>  support in OBS the as well as emulated <a href="http://lizards.opensuse.org/2010/08/22/obs-2-1-status-of-powerpc-and-mips-support-with-qemu/">MIPS and PowerPC </a> is getting more mature, the last big embedded architecture not working in OBS with QEMU user mode was SH4. QEMU developers community had done a lot of work in improving QEMU user mode during the last months, so I can proudly present with currently only a few patches to QEMU git master OBS builds working with the SH4 port of Debian Sid. The new <a href="http://wiki.qemu.org/Main_Page">QEMU 0.13</a> released recently is a big milestone for this.</p>
+<p>Another news is that I had fixed the bugs in Virtual Machine builds (build script) when using them with some architectures like PowerPC 32bit and SH4. So now also the combination of using for example KVM (XEN should also work) in a worker together with ARM, MIPS, PowerPC and SH4 is working. The appropriate fixes are in one of the next build script releases (if not even released already now with OBS 2.1, I have to check that). You can select architecture &#8220;sh4&#8243; with OBS 2.1 and also start a scheduler with &#8220;sh4&#8243;. </p>
+<p>With the use of the QEMU User Mode, you can build also accelerated native cross toolchains for your host architecture so time critical parts like the compiler can run without the emulator. This works with .deb as well as with .rpm based backages. The <a href="https://www.meego.com">MeeGo Project</a> as well as the openSUSE Port to ARM uses this technique to provide an optimum between compatibility and performance. It means you can mix natively build packages and use cross toolchains on it. The &#8220;CBinstall:&#8221; feature helps you to use native or cross builds automatically depending on if your build host is a native machine or a x86 machine with cross build. In summary, <strong>we have the current classics of linux embedded archs</strong> together now in OBS: <strong>ARM, x86, MIPS 32, PowerPC 32 and SH4</strong>.</p>
+<p>I have uploaded the fixed QEMU package to the OBS project <a href="https://build.opensuse.org/project/show?project=openSUSE%3ATools%3AUnstable">openSUSE:Tools:Unstable</a> inside the package &#8220;qemu-devel&#8221; after some more testing. I have of course also a OBS meta prjconf file working with Debian Sid. The SH4 port of Debian Sid you can find at <a href="http://ftp.debian-ports.org/debian"> Debian Ports Site</a>.</p>
+<p>And last but not least I would like to thank Riku Voipio of the Debian Project, QEMU project and MeeGo project and other major contributors during the QEMU 0.13 development cycle for the restless work on QEMU user mode improvements. In case of KVM, QEMU is used even twice, with QEMU-KVM as well as QEMU User Mode. I am sure I had forgotten other important people, so thanks to them also.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/10/24/obs-2-1-status-of-superh-sh4-support-with-qemu/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>OBS 2.1: ACL Feature and Status</title>
+		<link>http://lizards.opensuse.org/2010/08/15/obs-2-1-features-and-status/</link>
+		<comments>http://lizards.opensuse.org/2010/08/15/obs-2-1-features-and-status/#comments</comments>
+		<pubDate>Sun, 15 Aug 2010 19:37:54 +0000</pubDate>
+		<dc:creator><![CDATA[Martin Mohring]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[Toolchain]]></category>
+		<category><![CDATA[Virtualization]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=4936</guid>
+		<description><![CDATA[One and a half year is now gone since I posted about my work for ARM support in the OBS and the work for a port of openSUSE to ARM. Lots of things had happened in the meantime that are related, from my limited view most notably Nokia and Intel joining Moblin and Maemo to [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>One and a half year is now gone since I posted about my work for <a href="http://www.arm.com/">ARM</a> support in the <a href="http://lizards.opensuse.org/2008/11/18/arm-support-for-opensuse-buildservice-and-opensuse/">OBS</a>  and the work for a port of openSUSE to ARM. Lots of things had happened in the meantime that are related, from my limited view most notably Nokia and Intel joining Moblin and Maemo to <a href="http://www.meego.com/">MeeGo</a> (MeeGo is currently working on a number of Atom and ARM based devices), chosing to use OBS as build system and last but not least myself joining The Linuxfoundation (you will be not surprised to hear that I work at LF on OBS). In the meantime there had also been a major new OBS release 1.8/2.0 with a <a href="http://news.opensuse.org/2010/06/09/opensuse-build-service-1-8-and-2-0-announced/">bunch of new features</a>.</p>
+<p>Interesting is the fact that we adapted the cross build system for OBS to MeeGo, first developed for use in Maemo and openSUSE @ ARM. An improved version for the standard MeeGo releases, and for the MeeGo weekly snapshots is used in the MeeGo OBS System to build all ARM releases of MeeGo (the cross toolchain will later get part of the MeeGo SDK @ ARM), thanks to Jan-Simon Möller (In the openSUSE ML, the issue of reactivating openSUSE:Factory ARM builds were brought up. So it might be a good variant to backport Jan-Simons new solution back into openSUSE @ ARM for that purpose). All the MeeGo related OBS installations will move sooner or later to OBS 2.1.</p>
+<p><strong>But now to the most recent work, Access Control support</strong>. A preview was shipped with OBS 1.8. Now an own OBS version, 2.1, will be dedicated to the introduction of this single new feature into the OBS mainline: Access Control (or abbrevated ACL for Access Control Lists). ACL means that there is control by the user on a per project or per package basis to protect information, source and binaries from the read access of other users in an OBS system and to hide projects or packages.</p>
+<p><strong>What is the intended audience of ACL?</strong> ACL is intended for installations of OBS that require protection of projects or packages during work. This can be but is not limited to commercial installations of OBS, or semi public installations of OBS.</p>
+<p><strong>How does ACL work?</strong> ACL sits on top of two features introduced with OBS 2.0: Role and Permission Management as well as freely definable user groups. ACL uses 4 specifically defined permissions (&#8216;source_access&#8217; for read access to sources, &#8216;private_view&#8217; for viewing package and project information, &#8216;download_binaries&#8217; for read access to binaries and &#8216;access&#8217; permission to protect and hide everything and all from read access and viewing) on a user or group in the Role and Permission management. Also, the preexisting roles &#8220;maintainer&#8221;, &#8220;reader&#8221; and &#8220;downloader&#8221; had been modified with specific predifined permissions (which can at any time changed with the role and permission editor dynamically). And last but not least 4 new flags (namely &#8216;sourceaccess&#8217; to signal a project/package has read protected source code, &#8216;binarydownload&#8217; to signal it has read protected packages, &#8216;privacy&#8217; to signal information/logfiles or status cannot be read and &#8216;access&#8217; to hide and protect a project or package completely in all possible OBS API calls) had been added to the project and package descriptions to signal that some information is only readable by specific users or groups, or that information is hidden.</p>
+<p><strong>How do I use ACL?</strong> There are 4 steps to use ACL (a part of them a optional and can only be performed by the Administator of an OBS instance). Step one is to assign the listed permissions to a role, user or group (this step can be done only by the admin, and is not needed for the predefined roles &#8220;maintainer&#8221;, &#8220;reader&#8221; and &#8220;downloader&#8221;). Step two is to add a group for special users to projects which are intended to be run with ACL (this operations can only be performed by the admin). Step three is to protect a project with appropriate protection flags at project creation by adding them to the project meta. Step four is to add other users or groups with one of the new predefined roles that has ACL permissions added to the project meta.</p>
+<p><strong>What information can be protected by ACL?</strong> The protected information is grouped into 4 categories. Category 1 (flag  &#8216;sourceaccess&#8217;) is source code. Category 2 (flag  &#8216;binarydownload&#8217;) is binary packages or logfiles or builds. Category 3 (flag  &#8216;privacy&#8217;) is project or package information like build status. Category 4 (flag  &#8216;access&#8217;) is all viewable or accessable information to any project or package (full blocking of all access and information).</p>
+<p><strong>Example of a project configuration using ACL:</strong></p>
+<pre>
+&lt;user userid="MartinMohring" role="maintainer" /&gt;
+&lt;!-- grant user full write and read access --&gt;
+
+&lt;group groupid="MeeGo-Reviewer" role="maintainer" /&gt;
+&lt;!-- grant group full write and read access --&gt;
+
+&lt;group groupid="MeeGo-Developers" role="reader" /&gt;
+&lt;!-- grant group full source read access --&gt;
+
+&lt;group groupid="MeeGo-BetaTesters" role="downloader" /&gt;
+&lt;!-- grant group access to packages/images --&gt;
+
+  &lt;sourceaccess&gt;
+    &lt;disable/&gt;
+  &lt;/sourceaccess&gt;
+  &lt;!-- disable read access - unless granted explictely.
+          This flag will not accept arch or repository arguments. --&gt;
+
+  &lt;binarydownload&gt;
+    &lt;disable/&gt;
+  &lt;/binarydownload&gt;
+  &lt;!-- disable access - unless granted explictely -
+          to packages/image and logfiles --&gt;
+
+  &lt;access&gt;
+    &lt;disable/&gt;
+  &lt;/access&gt;
+  &lt;!-- disable access - unless granted explictely-,
+          project will not visible or found via search,
+          nor will any source or binary or logfile be accessable.
+          This flag will not accept arch or repository arguments. --&gt;
+
+  &lt;privacy&gt;
+    &lt;enable/&gt;
+  &lt;/privacy&gt;
+  &lt;!-- project will not visible.
+          This flag will not accept arch or repository arguments. --&gt;
+</pre>
+<p><strong>What is the current status of the ACL implementation?</strong> The current status is that the complete API of the OBS git master had been instrumented with ACL code, critical portions of the API controllers had been code inspected and a big portion of these API calls now have a testcase in the OBS testsuite. Work is ongoing to make ACL as secure as possible. A code drop of current git master is under test in some bigger OBS systems, most notably the <a href="https://build.opensuse.org/">openSUSE Buildsystem</a>. You can find snapshots of this codebase as usual in the OBS project <a href="https://build.opensuse.org/project/show?project=openSUSE%3ATools%3AUnstable">openSUSE:Tools:Unstable</a>. Adrian Schröter updates these &#8220;Alpha Snapshots&#8221; relatively often, on a 1-2 weekly basis, and runs the testsuite on git master daily. Thanks to Jan-Simon Möller for putting in many of the testcases into the testsuite for the ACL checks. On OBS Testing in general, read also <a href="http://en.opensuse.org//openSUSE:Build_Service_Testing">Development and Test</a>.</p>
+<p><strong>What is next?</strong> Code is tested and debugged against granting unwanted access due to some concepts inside OBS that are &#8220;working against ACL&#8221;, like project or package links, aggregates or kiwi imaging. We will inform you interested user of course about beta releases and an official 2.1 release.</p>
+<p><strong>Stay tuned.</strong></p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/08/15/obs-2-1-features-and-status/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>openSUSE@ARM/GSoC: weekly status</title>
+		<link>http://lizards.opensuse.org/2009/06/06/opensusearmgsoc-weekly-status-2/</link>
+		<comments>http://lizards.opensuse.org/2009/06/06/opensusearmgsoc-weekly-status-2/#comments</comments>
+		<pubDate>Sat, 06 Jun 2009 11:12:13 +0000</pubDate>
+		<dc:creator><![CDATA[Jan-Simon Möller]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Toolchain]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1257</guid>
+		<description><![CDATA[openSUSE@ARM/GSoC: weekly status The topic of this week was to speed up the build. As I mentioned last week, the prototype in Base:build:arm is compiling in an emulated environment and thus is quite slow. I prepared a cross-toolchain from the sources of binutils, gcc44 and glibc from openSUSE:Factory. Now its time to integrate this into [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>openSUSE@ARM/GSoC: weekly status</p>
+<p>The topic of this week was to speed up the build. As I mentioned last week, the<br />
+prototype in Base:build:arm is compiling in an emulated environment and thus is<br />
+quite slow.</p>
+<p>I prepared a cross-toolchain from the sources of binutils, gcc44 and glibc from<br />
+openSUSE:Factory. Now its time to integrate this into the build process.<br />
+This will improve the performace of the compilation itself. But other areas<br />
+in the build process can also be improved, just think of the bash.</p>
+<p>Some patches for the Build Service were also commited to svn.</p>
+<p>In progress / todo:<br />
+* prepare / submit fixes for rpm<br />
+* more work on cross-toolchain</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/06/06/opensusearmgsoc-weekly-status-2/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>-fomit-all-instructions</title>
+		<link>http://lizards.opensuse.org/2009/05/27/fomit-all-instructions/</link>
+		<comments>http://lizards.opensuse.org/2009/05/27/fomit-all-instructions/#comments</comments>
+		<pubDate>Wed, 27 May 2009 15:34:00 +0000</pubDate>
+		<dc:creator><![CDATA[coolo]]></dc:creator>
+				<category><![CDATA[openSUSE 11.2]]></category>
+		<category><![CDATA[Toolchain]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1142</guid>
+		<description><![CDATA[Now that milestone2 is almost done, we get into the next round and we decided (basically during coffee break) to try something and change the compile flags for our i586 distribution (which is still the major one for openSUSE). If there aren&#8217;t major problems coming up with it, the next milestone will be compiled with [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Now that milestone2 is almost done, we get into the next round and we decided (basically during coffee break) to try something and change the compile flags for our i586 distribution (which is still the major one for openSUSE). If there aren&#8217;t major problems coming up with it, the next milestone will be compiled with -fomit-frame-pointer -mtune=generic instead of the old -march=i586 -mtune=i586.</p>
+<p>It will feel around 20% faster, I&#8217;m sure <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+<p>On unrelated news: I&#8217;m away for a very long Pentecost weekend. If there are issues with Factory, I won&#8217;t be able to fix them. See you in June!</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/05/27/fomit-all-instructions/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>What&#8217;s New in 11.2: Install Debuginfo Package by build-id</title>
+		<link>http://lizards.opensuse.org/2009/04/27/whats-new-in-112-install-debuginfo-package-by-build-id/</link>
+		<comments>http://lizards.opensuse.org/2009/04/27/whats-new-in-112-install-debuginfo-package-by-build-id/#comments</comments>
+		<pubDate>Mon, 27 Apr 2009 09:37:50 +0000</pubDate>
+		<dc:creator><![CDATA[Jan Blunck]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Toolchain]]></category>
+		<category><![CDATA[debugging]]></category>
+		<category><![CDATA[Debuginfo]]></category>
+		<category><![CDATA[zypper]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=816</guid>
+		<description><![CDATA[With the help of a unique identifier that is stored in every binary executable matching the executable, a coredump and the corresponding debuginfo together becomes really easy. You don&#8217;t need to know the package name and the version-release string to download and install the correct debuginfo package. This is achieved by extending the linker, some [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>With the help of a unique identifier that is stored in every binary executable matching the executable, a coredump and the corresponding debuginfo together becomes really easy. You don&#8217;t need to know the package name and the version-release string to download and install the correct debuginfo package. This is achieved by extending the linker, some additional tools and the package management itself.</p>
+<p><span id="more-816"></span></p>
+<p>The build id is a unique identifier stored in the <em>.note.gnu.build-id</em> note section of the executable file and loaded into the process image during run-time. Different means to compute the unique identifier are supported although the default setting is to use a 20 byte SHA1 hash of the unstripped executable (see ld linker documentation for further information about the <em>&#8211;build-id</em> option).</p>
+<p>To be able to read the build id from a core dump the kernel must include the ELF header pages in file-backed private memory areas (see documentation on <em>/proc/&lt;pid&gt;/coredump_filter</em>). This is the default setting on recent openSUSE kernel versions.</p>
+<p>Different tools can be used to print out the build-id. <em>eu-readelf</em> (from the elfutils package) prints the contents of the note sections given the <em>-n</em> option in a human readable fashion. <em>pbuildid</em> (from the ptools package) is prints the build-id from executables and from core files including the build-id of all loaded shared objects during the crash.</p>
+<p>Now, zypper can be asked to install the debuginfo package that provides the debuginfo for the given build-id.</p>
+<pre>
+# zypper install -C "debuginfo(build-id)=b75bab63c9a25eb13264bb95f1fef190e157f865"
+Loading repository data...
+Reading installed packages...
+Resolving package dependencies...
+
+The following NEW package is going to be installed:
+  bash-debuginfo
+
+
+Overall download size: 605.0 K. After the operation, additional 2.1 M will be used.
+Continue? [YES/no]: yes
+Retrieving package bash-debuginfo-3.2-148.2.x86_64 (1/1), 605.0 K (2.1 M unpacked)
+Retrieving: bash-debuginfo-3.2-148.2.x86_64.rpm [done]
+Installing: bash-debuginfo-3.2-148.2 [done]
+# 
+</pre>
+<p>If you are really lazy you can call the following script to do the job for you:</p>
+<pre>
+#!/bin/bash                                                                     
+#                                                                               
+# Sample script how to install debuginfo packages by build-id                   
+#                                                                               
+
+IDS=''
+for f in "$*"; do
+    case "$(file -L $f)" in
+        *ELF*)
+            IDS+="$(pbuildid $f 2&gt;/dev/null | awk '{print $NF}') "
+            ;;
+        *)  
+            ;;
+    esac
+done
+
+echo "Install Debuginfo for following build-ids: $IDS"
+
+CMDLINE=""
+for i in $IDS; do
+    CMDLINE+="debuginfo(build-id)=$i "
+done
+
+echo $CMDLINE | xargs zypper install -C
+</pre>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/04/27/whats-new-in-112-install-debuginfo-package-by-build-id/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>ARM support in openSUSE Buildservice &#8211; fixed</title>
+		<link>http://lizards.opensuse.org/2009/04/27/arm-support-in-opensuse-buildservice-fixed/</link>
+		<comments>http://lizards.opensuse.org/2009/04/27/arm-support-in-opensuse-buildservice-fixed/#comments</comments>
+		<pubDate>Mon, 27 Apr 2009 09:23:38 +0000</pubDate>
+		<dc:creator><![CDATA[Martin Mohring]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[Server]]></category>
+		<category><![CDATA[Toolchain]]></category>
+		<category><![CDATA[Virtualization]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=820</guid>
+		<description><![CDATA[The issue caused by the OBS worker update on arm builds is fixed by a new qemu. This new qemu version also has fixed the Fedora 10 @ ARM build problem. So we have the following working ARM target distros available for ARM: Fedora 10, Debian 5.0 and Ubuntu 9.04. Have fun.]]></description>
+				<content:encoded><![CDATA[<p>The issue caused by the OBS worker update on arm builds is fixed by a new qemu.</p>
+<p>This new qemu version also has fixed the Fedora 10 @ ARM build problem.</p>
+<p>So we have the following working ARM target distros available for ARM: Fedora 10, Debian 5.0 and Ubuntu 9.04.</p>
+<p>Have fun.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/04/27/arm-support-in-opensuse-buildservice-fixed/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>ARM support for openSUSE Buildservice and openSUSE &#8211; Status update</title>
+		<link>http://lizards.opensuse.org/2009/04/26/arm-support-for-opensuse-buildservice-and-opensuse-status-update/</link>
+		<comments>http://lizards.opensuse.org/2009/04/26/arm-support-for-opensuse-buildservice-and-opensuse-status-update/#comments</comments>
+		<pubDate>Sun, 26 Apr 2009 11:11:50 +0000</pubDate>
+		<dc:creator><![CDATA[Martin Mohring]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Server]]></category>
+		<category><![CDATA[Toolchain]]></category>
+		<category><![CDATA[Virtualization]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=750</guid>
+		<description><![CDATA[Its a while since I posted the status about the ongoing work for ARM support in the OBS and for an openSUSE port. It all started with my participation in the OBS development as an external contributor. Then, on Hackweek 2008, we had the idea to enforce a new solution other than the traditional methods [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Its a while since I posted the status about the ongoing work for <a href="http://www.arm.com/">ARM</a> support in the OBS and for an openSUSE port. It all started with my participation in the OBS development as an external contributor. Then, on <a href="http://lizards.opensuse.org/2008/09/10/opensuse-buildservice-cross-build-with-obs-part-3/">Hackweek 2008</a>, we had the idea to enforce a new solution other than the traditional methods of compiling code either natively or via a cross compiler on a host system. The idea was to give build scripts as much of the target enviroment as they need to <a href="http://en.opensuse.org/Build_Service/Concepts/CrossDevelopment">just work</a> without changes in the packaging definition &#8211; in order not to change thousands of package descriptions which define a linux distribution.</p>
+<p>A lot happened in the meantime. And I can now report some significant progess in bringing the joys of OBS and openSUSE also to all the ARM users:</p>
+<li>I held a talk about cross build in OBS on <a href="http://en.opensuse.org/FOSDEM2009">FOSDEM 2009</a> &#8211; documenting the solution
+<li>ARM support is in the source tree for OBS and the <a href="http://download.opensuse.org/repositories/openSUSE:/Tools/">publicly available packages</a>
+<li>ARM support is activated in the public OBS
+<li><a href="http://lists.opensuse.org/opensuse-buildservice/2009-04/msg00091.html">OBS 1.6 release is currently in beta</a> &#8211; this release is the dedicated version for ARM
+<li>The Linux foundation will bring the joy of OBS to an even <a href="http://www.linuxfoundation.org/news-media/announcements/2009/04/news-summit-linux-foundation-make-opensuse-build-service-available-">wider audience</a>
+<li>Some preparations have been done for porting Base:build to ARM &#8211; we can mix cross compilers an native emulated code now
+<li>A Summer of Code project will be done to accelerate the development of an openSUSE @ ARM port
+</li>
+<p>To accelerate the openSUSE @ ARM development itself, we want to involve more people of the community. We have an IRC Channel #opensuse-arm for OBS and openSUSE @ ARM &#8211; i invite you to visit us there. We will also find a solution to bring the needed changes into the openSUSE Factory codebase so regular build for openSUSE can take place once the base system is working. I will inform you once we have a working base system that can be used to port many other packages. The soon starting <a href="http://news.opensuse.org/2009/04/21/opensuse-google-summer-of-code-accepted-projects-announced/">Summer of Code Project</a> &#8220;Porting openSUSE to ARM platform&#8221; is intended as the starting point here.</p>
+<p>The next steps are to bring in all the useful applications into OBS, so you have the wide range of applications that is already available for x86 or powerpc then also on ARM. You will see interesting things happening during the next time here.  To support this, more and more of the <a href="http://en.opensuse.org/Build_Service/PoweredBy#OBS_Testing_and_Development_System_for_new_OBS_Features_.28_Martin_Mohring_.2F_5e_Datasoft_.29">tested ARM targets</a> will be made available also on the public OBS. I will follow up with status updates.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/04/26/arm-support-for-opensuse-buildservice-and-opensuse-status-update/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>

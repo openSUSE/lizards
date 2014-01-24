@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; Marcus Hüwe</title>
+	<atom:link href="http://lizards.opensuse.org/author/marcus_h/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>new osc buildlog &#8211;strip-time option</title>
+		<link>http://lizards.opensuse.org/2012/12/17/new-osc-buildlog-strip-time-option/</link>
+		<comments>http://lizards.opensuse.org/2012/12/17/new-osc-buildlog-strip-time-option/#comments</comments>
+		<pubDate>Mon, 17 Dec 2012 13:49:05 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Hüwe]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9115</guid>
+		<description><![CDATA[Hi, as of late each line in the buildlog is prefixed with a &#8220;timestamp&#8221;. If you do not need this information just run &#8220;osc bl &#8211;strip-time &#8230;&#8221; (this will remove the leading timestamp). Additionally there&#8217;s a new config option to permanently enable the stripping: osc config general buildlog_strip_time 1 (by default &#8220;buildlog_strip_time&#8221; is set to [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi,</p>
+<p>as of late each line in the buildlog is prefixed with a &#8220;timestamp&#8221;. If you do not need<br />
+this information just run &#8220;osc bl &#8211;strip-time &#8230;&#8221; (this will remove the leading timestamp).<br />
+Additionally there&#8217;s a new config option to permanently enable the stripping:<br />
+<code>osc config general buildlog_strip_time 1</code><br />
+(by default &#8220;buildlog_strip_time&#8221; is set to False).<br />
+The &#8220;&#8211;strip-time&#8221; option is also supported by the &#8220;localbuildlog&#8221; and &#8220;remotebuildlog&#8221;<br />
+commands.</p>
+<p>Marcus</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/12/17/new-osc-buildlog-strip-time-option/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>osc2: syntax update</title>
+		<link>http://lizards.opensuse.org/2012/08/16/osc2-syntax-update/</link>
+		<comments>http://lizards.opensuse.org/2012/08/16/osc2-syntax-update/#comments</comments>
+		<pubDate>Thu, 16 Aug 2012 11:18:59 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Hüwe]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[GSOC]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8943</guid>
+		<description><![CDATA[Hi, as I already I wrote in an earlier post the last week I worked on implementing osc2&#8242;s &#8220;request&#8221; command. In order to create a new submit request the user has to run osc request create --submit api://src_project/src_package api://tgt_project What&#8217;s still needed is a way to specify a revision of the src_package. It isn&#8217;t possible [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi,</p>
+<p>as I already I wrote in an earlier post the last week I worked on implementing osc2&#8242;s &#8220;request&#8221;<br />
+command. In order to create a new submit request the user has to run<br />
+<code>osc request create --submit api://src_project/src_package api://tgt_project</code><br />
+What&#8217;s still needed is a way to specify a revision of the src_package. It isn&#8217;t possible<br />
+to introduce a &#8220;&#8211;revision &#8221; option because it&#8217;s possible to specify multiple submit<br />
+actions for a request (so we can&#8217;t distinguish to which &#8211;submit action a revision<br />
+belongs to).<br />
+Finally I implemented darix&#8217; cool idea: simply use a svn-like syntax:<br />
+<code>osc request create --submit api://src_project/src_package@rev api://tgt_project</code></p>
+<p>Marcus</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/08/16/osc2-syntax-update/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>[gsoc] osc2 client &#8211; summary of week 12</title>
+		<link>http://lizards.opensuse.org/2012/08/15/gsoc-osc2-client-summary-of-week-12/</link>
+		<comments>http://lizards.opensuse.org/2012/08/15/gsoc-osc2-client-summary-of-week-12/#comments</comments>
+		<pubDate>Wed, 15 Aug 2012 15:40:49 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Hüwe]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[GSOC]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8936</guid>
+		<description><![CDATA[Hi, here’s a small summary of the 12th (coding) week. The last week I continued the work on the new user interface. As a result the &#8220;request&#8221; command is more or less implemented. Yesterday I pushed the current code and it&#8217;s also possible to play around with it: checkout the code [1] cd osc2/osc/cli export [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi,</p>
+<p>here’s a small summary of the 12th (coding) week. The last week I continued<br />
+the work on the new user interface. As a result the &#8220;request&#8221; command is more<br />
+or less implemented. Yesterday I pushed the current code and it&#8217;s also possible<br />
+to play around with it:</p>
+<ul>
+<li>checkout the code <a href="http://https://github.com/openSUSE/osc2">[1]</a></li>
+<li>cd osc2/osc/cli</li>
+<li>export PYTHONPATH=/path/to/osc2</li>
+<li>python cli.py -h (for more information)</li>
+</ul>
+<p>Example:<br />
+In order to list a request it is sufficient to run<br />
+&#8220;python cli.py request api://your_project&#8221; (Note: all https requests are<br />
+_insecure_ &#8211; so far the certificate etc. is not checked).</p>
+<p>Some implementation details:<br />
+In my last mail/post I described how a new (sub)command can be specified<br />
+so I&#8217;ll leave out the details here.<br />
+In the following I&#8217;ll shortly explain how the arguments specified by the<br />
+user at the commandline are passed to a function (which does the actual<br />
+work &#8211; like listing the requests).</p>
+<pre><code>
+class RequestList(CommandDescription, Request):
+    """
+    ...
+    """
+    cmd = 'list'
+    args = 'api://project?/package?'
+    opt_user = Option('U', 'user', 'list only requests for USER')
+    func = call(request.list)
+</code></pre>
+<p>As we can see the project and package parameters are optional. After<br />
+the parsing process a so called &#8220;info&#8221; object is returned which encapsulates<br />
+the specified arguments. Assume the user runs &#8220;request list api://test_prj&#8221;<br />
+then the info object has the following attributes:</p>
+<pre><code>
+    info.apiurl = the default apiurl
+    info.project = 'test_prj'
+    info.package = None
+</code></pre>
+<p>The question is how can we pass this data to the request.list function?<br />
+A simple (and naive) approach would be to simply pass the &#8220;info&#8221; object<br />
+to the request.list function that is &#8220;list&#8221; has the following signature<br />
+&#8220;def list(info)&#8221;. As a consequence inside the method we always have to<br />
+use &#8220;info.project&#8221;, &#8220;info.package&#8221; etc. which is a bit awkward &#8211; at least<br />
+for parameters which are quite frequently used in the method definition.</p>
+<p>So it would be nice if there&#8217;s a way to pass frequently used parameters<br />
+directly to the method (that is they&#8217;re declared as formal parameters<br />
+in the method definition) and infrequently used parameters can still be<br />
+accessed via the info object. Exactly like this it is currently<br />
+implementend in osc2.</p>
+<p>So the following signatures would be correct for our example:</p>
+<pre><code>
+    def list(project, package, info)
+    def list(project, package, user)
+    def list(project, package, user, info)
+    def list(project, info)
+    def list(info, project)
+    def list(project)  # using the info object is not mandatory
+    def list()  # quite useless...
+    ...
+</code></pre>
+<p>Invalid signatures:</p>
+<pre><code>
+    def list(prj, pkg, info)
+    def list(foo, info)
+    ...
+</code></pre>
+<p>So it is up to the developer how to define the signature of the<br />
+request.list function &#8211; it is not completely dictated by osc:)</p>
+<p>Marcus</p>
+<p>[1] <a href="http://https://github.com/openSUSE/osc2">https://github.com/openSUSE/osc2</a></p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/08/15/gsoc-osc2-client-summary-of-week-12/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>[gsoc] osc2 client &#8211; summary of week 11</title>
+		<link>http://lizards.opensuse.org/2012/08/07/gsoc-osc2-client-summary-of-week-11/</link>
+		<comments>http://lizards.opensuse.org/2012/08/07/gsoc-osc2-client-summary-of-week-11/#comments</comments>
+		<pubDate>Tue, 07 Aug 2012 22:18:46 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Hüwe]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[GSOC]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8923</guid>
+		<description><![CDATA[Hi, here&#8217;s a small summary of the 11th (coding) week. Last week I worked on implementing the new commandline interface. While doing so I faced several &#8220;issues&#8221;: How to combine argparse and our oscargs url-like syntax? Basically we have to run our oscargs parser on the result which is returned by argparse.ArgumentParser&#8217;s parse_args method. The [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi,</p>
+<p>here&#8217;s a small summary of the 11th (coding) week. Last week I worked on<br />
+implementing the new commandline interface. While doing so I faced several<br />
+&#8220;issues&#8221;:</p>
+<ul>
+<li>
+  How to combine argparse and our oscargs url-like syntax?<br />
+  Basically we have to run our oscargs parser on the result which is<br />
+  returned by argparse.ArgumentParser&#8217;s parse_args method. The problem is<br />
+  that both parsers have a different &#8220;syntax&#8221; that is using a naive approach<br />
+  will lead to some redundancies (we specify the ui twice: one time for<br />
+  argparse and one time for oscargs). In order to avoid this we need some<br />
+  &#8220;interface&#8221; to which the oscargs syntax is passed and which configures<br />
+  the argparse parser accordingly.
+</li>
+<li>
+  How to support custom commands?<br />
+  We also have to provide an &#8220;easy&#8221; way to specify custom commands.<br />
+  Additionally it might be handy if existing commands can be enhanced<br />
+  (either by adding additional options etc. or by adding a new subcommand<br />
+  etc.). The best would be if the user simply drop his/her plugins in a<br />
+  specific directory and osc will scan this directory and use the new<br />
+  plugins/commands.
+</li>
+<li>
+  Specifying the ui programmatically is somehow confusing/cluttered. It would<br />
+  be much better if the ui can be specified in a more &#8220;declarative&#8221; way<br />
+  without the syntactic &#8220;overhead&#8221; (well that&#8217;s a bit exaggerated) which<br />
+  is needed to configure the parser. Additionally it would be nice to have<br />
+  a convenient way to specify a multi line description for a command<br />
+  (hardcoding the str into the source makes the code &#8220;harder&#8221; to read).
+</li>
+</ul>
+<p>Finally I ended up with a small DSL which can be used to specify the<br />
+ui in a &#8220;declarative&#8221; way (the initial idea + syntax is taken from the<br />
+django framework (see <a href="https://docs.djangoproject.com/en/1.4/topics/db/models">[1]</a>)).</p>
+<p>Example:<br />
+Assume we want to implement a request command which consists (for the<br />
+sake of simplicity) of 2 subcommands &#8220;list&#8221; and &#8220;accept&#8221;. This can be<br />
+specified like the following:</p>
+<p><code><br />
+# file: osc/cli/request/ui.py</p>
+<p>class Request(CommandDescription, OscCommand):<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    """Show and modify requests."""<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    cmd = 'request'</p>
+<p>class RequestList(CommandDescription, Request):<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    """List requests.</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;    By default open requests for a specific project or package will be<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    listed.</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;    Examples:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    osc request list api://<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    osc request list api://project<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    osc request list api://project/package</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;    """<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    cmd = 'list'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    args = 'api://project?/package?'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    opt_user = Option('U', 'user', 'list only requests for USER')<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    opt_group = Option('G', 'group', 'list only requests for GROUP')<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    opt_state = Option('s', 'state', 'list only requests with state STATE',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     &nbsp;&nbsp;                  choices=['new', 'review', 'accepted', 'revoked',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     &nbsp;&nbsp;                                'declined', 'superseded'], action='append')<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    func = request_list</p>
+<p>class RequestAccept(CommandDescription, Request):<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    """Accept a specific request.</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;    ...</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;    """<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    cmd = 'accept'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    args = 'api://reqid'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    func = request_accept<br />
+</code></p>
+<p>In order to add the request command it is sufficient to add an<br />
+<code><br />
+&nbsp;&nbsp;&nbsp;&nbsp;    import osc.cli.request.ui<br />
+</code><br />
+statement to the main cli module. This produces the following output:<br />
+<code>
+<pre>
+marcus@linux:~/osc2/osc/cli&gt; python cli.py request -h
+usage: cli.py request [-h] {list,accept} ...
+
+Show and modify requests.
+
+positional arguments:
+  {list,accept}
+    list         List requests.
+    accept       Accept a specific request.
+
+optional arguments:
+  -h, --help     show this help message and exit
+marcus@linux:~/osc2/osc/cli&gt;
+</pre>
+<p></code><br />
+and<br />
+<code>
+<pre>
+marcus@linux:~/osc2/osc/cli&gt; python cli.py request list -h
+usage: cli.py request list [-h]
+                           [-s {new,review,accepted,revoked,declined,superseded}]
+                           [-G GROUP] [-U USER]
+                           api://project?/package?
+
+List requests.
+
+    By default open requests for a specific project or package will be
+    listed.
+
+    Examples:
+    osc request list api://
+    osc request list api://project
+    osc request list api://project/package
+
+positional arguments:
+  api://project?/package?
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -s {new,review,accepted,revoked,declined,superseded}, --state {new,review,accepted,revoked,declined,superseded}
+                        list only requests with state STATE
+  -G GROUP, --group GROUP
+                        list only requests for GROUP
+  -U USER, --user USER  list only requests for USER
+marcus@linux:~/osc2/osc/cli&gt;
+</pre>
+<p></code></p>
+<p>How does it work?<br />
+First of all each class which defines a command or subcommand has to inherit<br />
+from class &#8220;CommandDescription&#8221;. If a subcommand is to be defined it also<br />
+has to inherit from the &#8220;parent&#8221; command (that is in our example &#8220;RequestList&#8221;<br />
+and &#8220;RequestAccept&#8221; inherit from class &#8220;Request&#8221; (which in turn inherits from<br />
+class &#8220;OscCommand&#8221; (from this class all toplevel commands have to inherit))).<br />
+In short: with the help of the inheritance hierarchy it is possible to define<br />
+a command &lt;- subcommand hierarchy.</p>
+<p>Note: actually the classes &quot;RequestList&quot; and &quot;RequestAccept&quot; only inherit<br />
+from &quot;CommandDescription&quot;. The &quot;parent&quot; command base class is only needed<br />
+for a &quot;marking&quot; purpose (it is filtered out with the help of a metaclass<br />
+when the concrete class is &quot;constructed&quot; &#8211; I&#039;ll leave out the details for<br />
+now and may write a dedicated blogpost about it).</p>
+<p>Now the remaining task is to define and implement the commands (note: we will<br />
+definitely not finish the project on the &quot;suggested pencils down&quot; date and<br />
+use the week until the &quot;firm pencils down&quot; date for coding&#8230;).</p>
+<p>Marcus</p>
+<p>[1] <a href="https://docs.djangoproject.com/en/1.4/topics/db/models">https://docs.djangoproject.com/en/1.4/topics/db/models</a></p>
+<p>Here&#8217;s a small example how to modify an existing command:<br />
+<code><br />
+# plugins/myrequestaccept.py<br />
+from osc.cli.description import Option<br />
+import osc.cli.request.ui</p>
+<p>class MyRequestAccept(osc.cli.request.ui.RequestAccept):<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    # add a new option<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    opt_foo = Option('f', 'foo', help='foo option')<br />
+</code></p>
+<p>This leads to<br />
+<code>
+<pre>
+marcus@linux:~/osc2/osc/cli&gt; python cli.py request accept -h
+usage: cli.py request accept [-h] [-f FOO] api://reqid
+
+positional arguments:
+  api://reqid
+
+optional arguments:
+  -h, --help         show this help message and exit
+  -f FOO, --foo FOO  foo option
+marcus@linux:~/osc2/osc/cli&gt;
+</pre>
+<p></code></p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/08/07/gsoc-osc2-client-summary-of-week-11/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>[gsoc] osc2 client &#8211; summary of week 10</title>
+		<link>http://lizards.opensuse.org/2012/07/30/gsoc-osc2-client-summary-of-week-10/</link>
+		<comments>http://lizards.opensuse.org/2012/07/30/gsoc-osc2-client-summary-of-week-10/#comments</comments>
+		<pubDate>Mon, 30 Jul 2012 15:10:58 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Hüwe]]></dc:creator>
+				<category><![CDATA[Uncategorized]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8894</guid>
+		<description><![CDATA[Hi, here&#8217;s a small summary of the 10th (coding) week. Last week I worked mostly on the new fetcher code which I finally pushed into the git repo. Apart from this I did some refactoring here and there. The todo for this and the next week is to start with the new osc user interface [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi,</p>
+<p>here&#8217;s a small summary of the 10th (coding) week. Last week I worked<br />
+mostly on the new fetcher code which I finally pushed into the git<br />
+repo. Apart from this I did some refactoring here and there.<br />
+The todo for this and the next week is to start with the new osc<br />
+user interface (that is the client code). As I already wrote in the<br />
+proposal the new osc client will be based on python&#8217;s argparse module<br />
+and the Jinja2 template engine.</p>
+<p>Marcus</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/07/30/gsoc-osc2-client-summary-of-week-10/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>[gsoc] osc2 client &#8211; summary of week 9</title>
+		<link>http://lizards.opensuse.org/2012/07/23/gsoc-osc2-client-summary-of-week-9/</link>
+		<comments>http://lizards.opensuse.org/2012/07/23/gsoc-osc2-client-summary-of-week-9/#comments</comments>
+		<pubDate>Mon, 23 Jul 2012 18:50:22 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Hüwe]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[GSOC]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8833</guid>
+		<description><![CDATA[Hi, here&#8217;s a small summary of the 9th (coding) week. Last week I worked on the fetcher and cache manager code. In order to support all features some of the existing classes had to be enhanced with some more parameters. Done: cache manager code BinaryList class supports view=cpio RORemoteFile class supports lazy_open parameter (by default [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi,</p>
+<p>here&#8217;s a small summary of the 9th (coding) week. Last week I worked<br />
+on the fetcher and cache manager code. In order to support all<br />
+features some of the existing classes had to be enhanced with some<br />
+more parameters.</p>
+<p>Done:</p>
+<ul>
+<li>cache manager code</li>
+<li>BinaryList class supports view=cpio</li>
+<li>RORemoteFile class supports lazy_open<br />
+  parameter (by default the file is opened lazily that is when a<br />
+  read request is issued) (for the fetcher code we use<br />
+  lazy_open=False)</li>
+<li>minor changes in the httprequest module (AbstractHTTPRequest<br />
+  supports the same query parameter more than once)</li>
+<p>The fetcher code is more or less done (not yet committed) and will be<br />
+finished by friday evening (I&#8217;ve some exams this week&#8230;).</p>
+<p>Marcus</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/07/23/gsoc-osc2-client-summary-of-week-9/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>[gsoc] osc2 client &#8211; summary of week 8</title>
+		<link>http://lizards.opensuse.org/2012/07/16/gsoc-osc2-client-summary-of-week-8/</link>
+		<comments>http://lizards.opensuse.org/2012/07/16/gsoc-osc2-client-summary-of-week-8/#comments</comments>
+		<pubDate>Mon, 16 Jul 2012 19:51:22 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Hüwe]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[GSOC]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8800</guid>
+		<description><![CDATA[Hi, here&#8217;s a small summary of the 8th (coding) week. The last days I was working on getting build support into the osc2 library. I just checked in a BuildInfo and Builder class (+ testcases). Here&#8217;s a brief example how they can be used: # example how to use the Builder class builder = Builder(su_cmd=Builder.SUDO, [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi,</p>
+<p>here&#8217;s a small summary of the 8th (coding) week. The last days I<br />
+was working on getting build support into the osc2 library. I just<br />
+checked in a BuildInfo and Builder class (+ testcases). Here&#8217;s a<br />
+brief example how they can be used:<br />
+<code><br />
+  # example how to use the Builder class<br />
+  builder = Builder(su_cmd=Builder.SUDO, root='/var/tmp/build-root')<br />
+  builder.rpmlist = '/path/to/rpmlist'<br />
+  builder.dist = '/path/to/buildconfig'<br />
+  builder.without = 'feature1'<br />
+  builder.without += 'feature2'<br />
+  builder.arch = 'x86_64'<br />
+  # run the build:<br />
+  builder.run('/path/to/osc.spec')<br />
+  # this executes:<br />
+  sudo /usr/bin/build --arch x86_64 --dist /path/to/buildconfig \<br />
+&nbsp;&nbsp;    --root /var/tmp/build-root --rpmlist /path/to/rpmlist \<br />
+&nbsp;&nbsp;   --without feature1 --without feature2 /path/to/osc.spec<br />
+</code></p>
+<p>Basically Builder is just a wrapper around the build script<br />
+(all options will be passed to the build script; if an option contains<br />
+a &#8220;-&#8221; character like &#8220;vm-type&#8221; it can be set like this:<br />
+&#8220;binfo.vm_type = &#8216;xen&#8217;&#8221; (a &#8220;_&#8221; will be replaced with &#8220;-&#8221;)).</p>
+<p>Additionally here&#8217;s a small example how to utilize the BuildInfo<br />
+class:<br />
+<code><br />
+  # fname is a path to a spec file<br />
+  binfo = BuildInfo('openSUSE:Tools', 'osc', 'openSUSE_Factory', 'x86_64',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; filename=fname)<br />
+  # print preinstall packages<br />
+  for bdep in binfo.preinstall():<br />
+&nbsp;&nbsp;&nbsp;      print bdep.get('name'), bdep.get('version')<br />
+  # save binfo xml in a file<br />
+  binfo.write_to('/path/to/file.xml')<br />
+</code></p>
+<p>The next thing on my TODO is the fetcher and cachemanager code.</p>
+<p>Marcus</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/07/16/gsoc-osc2-client-summary-of-week-8/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>[gsoc] osc2 client &#8211; summary of week 7</title>
+		<link>http://lizards.opensuse.org/2012/07/11/gsoc-osc2-client-summary-of-week-7/</link>
+		<comments>http://lizards.opensuse.org/2012/07/11/gsoc-osc2-client-summary-of-week-7/#comments</comments>
+		<pubDate>Wed, 11 Jul 2012 13:26:40 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Hüwe]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[GSOC]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8788</guid>
+		<description><![CDATA[Hi, here&#8217;s a small summary of the 7th (coding) week. Last week I was really busy with university stuff (it was the second last week in the lecture period so I had to recap quite some stuff) and didn&#8217;t manage to work much on the GSoC project. I&#8217;m going work off the TODO this weekend. [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi,</p>
+<p>here&#8217;s a small summary of the 7th (coding) week. Last week<br />
+I was really busy with university stuff (it was the second<br />
+last week in the lecture period so I had to recap quite<br />
+some stuff) and didn&#8217;t manage to work much on the GSoC project.<br />
+I&#8217;m going work off the TODO this weekend.</p>
+<p>Marcus</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/07/11/gsoc-osc2-client-summary-of-week-7/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>[gsoc] osc2 client &#8211; summary of week 6</title>
+		<link>http://lizards.opensuse.org/2012/07/03/gsoc-osc2-client-summary-of-week-6/</link>
+		<comments>http://lizards.opensuse.org/2012/07/03/gsoc-osc2-client-summary-of-week-6/#comments</comments>
+		<pubDate>Tue, 03 Jul 2012 19:33:43 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Hüwe]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[GSOC]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8783</guid>
+		<description><![CDATA[Hi here&#8217;s a small summary of the 6th (coding) week. Last week I continued working on the build module and developed a concept for the package fetcher (and discussed some parts with darix:) ). The main idea is to modularize the fetcher code, verify code etc. Thus we have a fetcher class which takes care [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi</p>
+<p>here&#8217;s a small summary of the 6th (coding) week. Last week I<br />
+continued working on the build module and developed a concept<br />
+for the package fetcher (and discussed some parts<br />
+with darix:) ).<br />
+The main idea is to modularize the fetcher code, verify code etc.<br />
+Thus we have a fetcher class which takes care of retrieving the<br />
+packages. The fetcher class utilizes a &#8220;cache manager&#8221; which takes<br />
+care of storing the fetched packages on the filesystem. The goal is<br />
+that at some point in time one can exchange the &#8220;simple&#8221; cache manager<br />
+with a more &#8220;clever&#8221; cache manager (which for instance cleans up the<br />
+cache from time to time or only allows exactly one version of a<br />
+package in the cache etc.). In order to achieve this no code in the<br />
+fetcher has to be touched &#8211; instead it&#8217;s sufficient to pass a different<br />
+cache manager object to the fetcher.<br />
+Additionally the fetcher provides some hooks like pre, pre_fetch,<br />
+post_fetch and post. For instance a post_fetch hook can be used to<br />
+verify the just fetched package etc.</p>
+<p>TODO:<br />
+- write testcases and implement the concept from above</p>
+<p>If you have questions, suggestions etc. feel free to contact me:)</p>
+<p>Marcus</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/07/03/gsoc-osc2-client-summary-of-week-6/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>[gsoc] osc2 client &#8211; summary of week 5</title>
+		<link>http://lizards.opensuse.org/2012/06/26/gsoc-osc2-client-summary-of-week-5/</link>
+		<comments>http://lizards.opensuse.org/2012/06/26/gsoc-osc2-client-summary-of-week-5/#comments</comments>
+		<pubDate>Tue, 26 Jun 2012 17:46:44 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Hüwe]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[GSOC]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8763</guid>
+		<description><![CDATA[Hi, here&#8217;s a small summary of the 5th (coding) week. Last week I spent most of my time with working on the cpio module. Finally I ended up with a complete rewrite of osc&#8217;s &#8220;old&#8221; cpio module. The cpio implementation details are taken from the cpio 2.11 package. Currently only the &#8220;new ascii&#8221; format is [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi,</p>
+<p>here&#8217;s a small summary of the 5th (coding) week. Last week I spent<br />
+most of my time with working on the cpio module. Finally I ended<br />
+up with a complete rewrite of osc&#8217;s &#8220;old&#8221; cpio module. The<br />
+cpio implementation details are taken from the cpio 2.11 package.<br />
+Currently only the &#8220;new ascii&#8221; format is supported and we can<br />
+only handle regular files (this is sufficient for our needs). Here&#8217;s<br />
+a small example how to use it:<br />
+<code><br />
+# cpio_open is just a convenience method for CpioArchive(filename=fname)<br />
+with cpio_open(fname) as archive:<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;for archive_file in archive:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# print filename<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print archive_file.hdr.name<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# print contents<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print archive_file.read()<br />
+</code><br />
+It&#8217;s also possible to pass a file-like object to a CpioArchive<br />
+instance (in this case we do not need to use the with statement).<br />
+Also it can be &#8220;easily&#8221; enhanced to support different cpio formats<br />
+(one just have to write the specific ArchiveReader and ArchiveWriter<br />
+classes:) ). The code is available at <a href="https://github.com/openSUSE/osc2/blob/master/osc/util/cpio.py">[1]</a> and the testcases at <a href="https://github.com/openSUSE/osc2/blob/master/test/util/test_cpio.py">[2]</a>.</p>
+<p>Todo for this week:<br />
+* finish the build module<br />
+* start with working on the package fetching code</p>
+<p>Marcus</p>
+<p>[1] <a href="https://github.com/openSUSE/osc2/blob/master/osc/util/cpio.py">https://github.com/openSUSE/osc2/blob/master/osc/util/cpio.py</a><br />
+[2] <a href="https://github.com/openSUSE/osc2/blob/master/test/util/test_cpio.py">https://github.com/openSUSE/osc2/blob/master/test/util/test_cpio.py</a></p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/06/26/gsoc-osc2-client-summary-of-week-5/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>

@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; YaST</title>
+	<atom:link href="http://lizards.opensuse.org/tag/yast/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>YaST++: next step in system management</title>
+		<link>http://lizards.opensuse.org/2012/02/15/yast-next-step-in-system-management/</link>
+		<comments>http://lizards.opensuse.org/2012/02/15/yast-next-step-in-system-management/#comments</comments>
+		<pubDate>Wed, 15 Feb 2012 10:07:46 +0000</pubDate>
+		<dc:creator><![CDATA[Jiří Suchomel]]></dc:creator>
+				<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+		<category><![CDATA[Ruby]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8523</guid>
+		<description><![CDATA[All of you probably know YaST, the installation and system configuration tool for openSUSE. With current YaST, plenty of tasks that system administrator could image are doable using understandable UI: creating users, bootloader configuration, network setup and even Apache configuration. However, it has its drabacks. While being do-it-all tool, it comes with large package dependency [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>All of you probably know <a title="YaST" href="http://en.opensuse.org/Portal:YaST">YaST</a>, the installation and system configuration tool for openSUSE.</p>
+<p>With current YaST, plenty of tasks that system administrator could image are doable using understandable UI: creating users, bootloader configuration, network setup and even Apache configuration. However, it has its drabacks. While being do-it-all tool, it comes with large package dependency even for only simple tasks. It is largely written in an outdated language which has its roots in last century and only few people in the world know it. It lacks the testing abilities of modern languages. It is SUSE specific and lacks larger developer community.</p>
+<p>So last year, we (actually, <a href="http://lizards.opensuse.org/author/jreidinger/">Josef</a>) came with the idea for YaST++: new configuration library that could be a common layer for configuration tools in SUSE (and beyond). Such library should provide simple and understandable API for all tools around. Written in up-to-date language many people know and like, so they can join the development (spoiler: we chose Ruby). Offering bindings  to various other languages, so different tools could benefit from it,</p>
+<p>Now, this &#8220;YaST++&#8221; does not actually mean to be replacement of current YaST (with its Qt/GTK/ncurses UI), but it could replace the lower layer of YaST, which is doing the real system configuration. And it would be open for other library users as well: the obvious targets for now are <a href="http://en.opensuse.org/Portal:WebYaST">WebYaST</a> and <a href="http://en.opensuse.org/Portal:SUSE_Studio">SUSE Studio</a>, but we&#8217;d like to see if other tools are interested: even from non-SUSE world.</p>
+<p>From architecture point, YaST++ is itself divided into two layers, we call them YLib and config agents. YLib is the high-level library, providing the API (like &#8216;create user&#8217;, &#8216;set new time zone&#8217; etc.). Config agents form the lower layer, that is actually touching the system. This low level consits of D-BUS services, which are running as a root (thus have the full access to the system) but are started only for users with proper permissions (we are using polkit for policies definition). So YaST++ offers role based access management, where specific users can be allowed to do specific sets of actions. For more, check our <a title="Architecture document" href="https://github.com/yast/yast--/blob/master/doc/architecture.txt">architecture document</a> (still WIP).</p>
+<p>We&#8217;ve started to work on several modules (none of them is finished, though). Let&#8217;s look at example in module for users configuration (packages yast++lib-users and config_agent-passwd). Look at example code in &#8216;users_read&#8217; script of <a href="https://github.com/yast/yast--/tree/master/yast++lib-users/examples">examples</a> subdirectory. With simple ruby call of</p>
+<blockquote><p>YLib::Users::read({})</p></blockquote>
+<p>you get the list of current users. If the script gets additional parameters, it can list e.g. all data about selected user, or only specific information about all:</p>
+<blockquote><p>&gt; ./users_read root<br />
+{&#8220;gid&#8221;=&gt;&#8221;0&#8243;, &#8220;name&#8221;=&gt;&#8221;root&#8221;, &#8220;uid&#8221;=&gt;&#8221;0&#8243;, &#8220;shell&#8221;=&gt;&#8221;/bin/bash&#8221;, &#8220;password&#8221;=&gt;&#8221;x&#8221;, &#8220;home&#8221;=&gt;&#8221;/root&#8221;}</p>
+<p>&gt; ./users_read only name<br />
+{&#8220;result&#8221;=&gt;["Batch jobs daemon", "User for Avahi", "bin", "Daemon", "dnsmasq", "FTP account", "Games account", "User for haldaemon", "User for OpenLDAP", "LightDM daemon", "Printing daemon", "Mailer daemon", "Manual pages viewer", "User for D-Bus", "MySQL database admin", "News system", "user for nginx", "nobody", "NTP daemon", "User for build service backend", "openslp daemon", "PolicyKit", "Postfix Daemon", "PulseAudio daemon", "qemu user", "Router ADVertisement Daemon for", "root", "RealtimeKit", "Smart Card Reader", "user for smolt", "SSH daemon", "NFS statd daemon", "Novell Customer Center User", "TFTP account", "usbmuxd daemon", "Unix-to-Unix CoPy system", "WWW daemon apache", "User for YaST-Webservice", "LXDE Display Manager daemon"]}</p></blockquote>
+<p>YaST++ developement is in its early stage (even the name is not final), but we already have something to offer.</p>
+<p>Check the code and documentation at <a href="https://github.com/yast/yast--">github project</a>. There&#8217;s already a simple <a href="https://github.com/yast/yast--/wiki/Tutorial">tutorial</a> for those who want to try writing new parts.</p>
+<p>Download packages from <a href="https://build.opensuse.org/project/show?project=YaST%3AHead%3AYaST%2B%2B">Build Service project</a>.</p>
+<p>Comment/propose/oppose in public <a href="http://lists.opensuse.org/yast-devel/">YaST mailing list</a>.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/02/15/yast-next-step-in-system-management/feed/</wfw:commentRss>
+		<slash:comments>12</slash:comments>
+		</item>
+		<item>
+		<title>Mockup :: GNOME3 and YaST</title>
+		<link>http://lizards.opensuse.org/2011/04/30/mockup-gnome3-and-yast/</link>
+		<comments>http://lizards.opensuse.org/2011/04/30/mockup-gnome3-and-yast/#comments</comments>
+		<pubDate>Sat, 30 Apr 2011 22:47:10 +0000</pubDate>
+		<dc:creator><![CDATA[Nelson Marques]]></dc:creator>
+				<category><![CDATA[Accessibility]]></category>
+		<category><![CDATA[Artwork]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.1]]></category>
+		<category><![CDATA[administration]]></category>
+		<category><![CDATA[gnome-shell]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[mockup]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[YaST2]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7270</guid>
+		<description><![CDATA[With the release of GNOME3 I would assume that people are interested in seeing how YaST2 (suggestion: rename it to YaST3 !!) is going to take form with GTK3. Of course this means eventually writing another application in GTK3, hopefully different from the old gnome-control-panel &#8216;style&#8217; which was actually pretty confusion from the user point [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>With the release of GNOME3 I would assume that people are interested in seeing how YaST2 (suggestion: rename it to YaST3 !!) is going to take form with GTK3. Of course this means eventually writing another application in GTK3, hopefully different from the old gnome-control-panel &#8216;style&#8217; which was actually pretty confusion from the user point of view as it was far too close to gnome-control-center, thus confusing new comers.</p>
+<p>My suggestion (unaware if it&#8217;s possible or not) was probably to explore GNOME3 features to serve YaST integrated already with GNOME3. This could be an interesting approach as it would offer integration and some advantages:</p>
+<p>* Better integration with GNOME3 without having to write(/maintain another application;<br />
+* Take advantage of YaST2 modular structure;<br />
+* Present YaST in a prime space in GNOME3, thus offering a openSUSE differentiation point;<br />
+* No conflicts with possible KDE existing front-ends for YaST2;<br />
+* Improve users experience.</p>
+<p>My proposal would be something like (maybe to be served as an extension for gnome-shell). Please neglect my &#8216;lame&#8217; photo manipulation skills:</p>
+<div style="width: 723px" class="wp-caption aligncenter"><img src="http://susepaste.org/images/68933649.png" alt="" width="713" height="434" /><p class="wp-caption-text">Mockup: YaST2 on GNOME3</p></div>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/04/30/mockup-gnome3-and-yast/feed/</wfw:commentRss>
+		<slash:comments>8</slash:comments>
+		</item>
+		<item>
+		<title>Introducing snapper: A tool for managing btrfs snapshots</title>
+		<link>http://lizards.opensuse.org/2011/04/01/introducing-snapper/</link>
+		<comments>http://lizards.opensuse.org/2011/04/01/introducing-snapper/#comments</comments>
+		<pubDate>Fri, 01 Apr 2011 10:11:53 +0000</pubDate>
+		<dc:creator><![CDATA[Arvin Schnell]]></dc:creator>
+				<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+		<category><![CDATA[btrfs]]></category>
+		<category><![CDATA[rollback]]></category>
+		<category><![CDATA[snapper]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=6972</guid>
+		<description><![CDATA[Today we want to present the current development of snapper, a tool for managing btrfs snapshots. For years we had the request to provide rollbacks for YaST and zypper but things never got far due to various technical problems. With the rise of btrfs snapshots we finally saw the possibility for a usable solution. The [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Today we want to present the current development of snapper, a tool for managing btrfs snapshots.</p>
+<p>For years we had the request to provide rollbacks for YaST and zypper but things never got far due to various technical problems. With the rise of btrfs snapshots we finally saw the possibility for a usable solution. The basic idea is to create a snapshot before and after running YaST or zypper, compare the two snapshots and finally provide a tool to revert the differences between the two snapshots. That was the birth of snapper. Soon the idea was extended to create hourly snapshots as a backup system against general user mistakes.</p>
+<p>The tool is now in a state where you can play with it. On the other hand there is still room and time for modifications and new features.</p>
+<h3>Overview</h3>
+<p>We provide a command line tool and a YaST UI module. Here is a brief tour:</p>
+<p>First we manually create a snapshot:</p>
+<pre># snapper create --description "initial"</pre>
+<p>Running YaST automatically creates two snapshots:</p>
+<pre># yast2 users</pre>
+<p>Now we can list our snapshots:</p>
+<pre># snapper list
+Type   | # | Pre # | Date                     | Cleanup  | Description
+-------+---+-------+--------------------------+----------+-------------
+single | 0 |       |                          |          | current
+single | 1 |       | Wed Mar 30 14:52:17 2011 |          | initial
+pre    | 2 |       | Wed Mar 30 14:57:10 2011 | number   | yast users
+post   | 3 | 2     | Wed Mar 30 14:57:35 2011 | number   |
+single | 4 |       | Wed Mar 30 15:00:01 2011 | timeline | timeline</pre>
+<p>Snapshot #0 always refers to the current system. Snapshot #2 and #3 were created by YaST. Snapshot #4 was created by an hourly cronjob.
+<p>Getting the list of modified files between to snapshots is easy:</p>
+<pre># snapper diff 2 3
+c... /etc/group
+c... /etc/group.YaST2save
+c... /etc/passwd
+c... /etc/passwd.YaST2save
+c... /etc/shadow
+c... /etc/shadow.YaST2save
+c... /etc/sysconfig/displaymanager
+c... /var/tmp/kdecache-linux/icon-cache.kcache
+c... /var/tmp/kdecache-linux/plasma_theme_openSUSEdefault.kcache</pre>
+<p>You can also compare a single file between two snapshots:</p>
+<pre># snapper diff --file /etc/passwd 2 3
+--- /snapshots/2/snapshot/etc/passwd    2011-03-30 14:41:45.943000001 +0200
++++ /snapshots/3/snapshot/etc/passwd    2011-03-30 14:57:33.916000003 +0200
+@@ -22,3 +22,4 @@
+ uucp:x:10:14:Unix-to-Unix CoPy system:/etc/uucp:/bin/bash
+ wwwrun:x:30:8:WWW daemon apache:/var/lib/wwwrun:/bin/false
+ linux:x:1000:100:linux:/home/linux:/bin/bash
++tux:x:1001:100:tux:/home/tux:/bin/bash</pre>
+<p>The main feature of course is to revert the changes between two snapshots:</p>
+<pre># snapper rollback 2 3</pre>
+<p>Finally yast2-snapper provides a YaST UI for snapper.</p>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2011/04/snapper.png"><img class="size-full wp-image-6977 alignnone" src="http://lizards.opensuse.org/wp-content/uploads/2011/04/snapper.png" alt="" width="580" height="426" /></a></p>
+<h3>Testing</h3>
+<p>Playing with snapper should only be done on test machines. Both btrfs and snapper are not finished and included known bugs. Here is a <a href="http://en.opensuse.org/openSUSE:Snapper_install">step-by-step manual</a> for installing and configuring snapper for openSUSE 11.4.</p>
+<h3>Feedback</h3>
+<p>We would like to get feedback, esp. about general problems and further ideas. There are also tasks everybody can work on, e.g. the <a href="http://en.opensuse.org/Portal:Snapper">snapper wiki page</a> or a man-page for snapper.</p>
+<p>For the time being there is no dedicated mailing-list so just use opensuse-factory@opensuse.org.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/04/01/introducing-snapper/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>HowTo: Regular cleanup the Tempfolders</title>
+		<link>http://lizards.opensuse.org/2009/07/19/howto-regular-cleanup-the-tempfolders/</link>
+		<comments>http://lizards.opensuse.org/2009/07/19/howto-regular-cleanup-the-tempfolders/#comments</comments>
+		<pubDate>Sun, 19 Jul 2009 18:14:24 +0000</pubDate>
+		<dc:creator><![CDATA[Sascha Manns]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[cron]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1536</guid>
+		<description><![CDATA[If you would like to cleanup regularly your System, we presenting the following Steps! Launch YaST: Choose Category &#8220;System&#8221;, then &#8220;Editor for /etc/sysconfig Files&#8221;. Then open &#8220;System&#8221; and after that open &#8220;Cron&#8221;. Here you find the following Entrys: CLEAR_TMP_DIRS_AT_BOOTUP = “no” Change to: “yes” That means: enable or disable the Cleanup Function global. Default: &#8220;no&#8221; [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>If you would like to cleanup regularly your System, we presenting the following Steps!</p>
+<p><span id="more-1536"></span></p>
+<p>Launch YaST:<br />
+Choose Category &#8220;System&#8221;, then &#8220;Editor for /etc/sysconfig Files&#8221;.</p>
+<p>Then open &#8220;System&#8221; and after that open &#8220;Cron&#8221;.</p>
+<p>Here you find the following Entrys:</p>
+<p>CLEAR_TMP_DIRS_AT_BOOTUP = “no”<br />
+Change to: “yes”<br />
+That means: enable or disable the Cleanup Function global.<br />
+Default: &#8220;no&#8221; (=off!)</p>
+<p>TMP_DIRS_TO_CLEAR = “/tmp”<br />
+That you can leave.<br />
+That means: First List from Folders, that can be deleted.<br />
+Default: /tmp</p>
+<p>MAX_DAYS_IN_TMP = 0<br />
+Change to: &#8220;1&#8243; (=deletes all Files who are older than 24h)<br />
+Means: Max. File Lifetime in days. That is for the Files, defined in TMP_DIRS_TO_CLEAR.<br />
+Default: 0 (=disabled)</p>
+<p>Close the Editor. You see all changes and you can close the Editor.</p>
+<p>Close “YAST”<br />
+In the next Systemstart cron cleans up your /tmp.</p>
+<p>You can define an second List:</p>
+<p>LONG_TMP_DIRS_TO_CLEAR = “”<br />
+Means: second Folderlist who can be deleted.<br />
+Default: “”<br />
+Possible Option: “/var/tmp”</p>
+<p>MAX_DAYS_IN_LONG_TMP = 0<br />
+Means: Max File Lifetime in days, for all Files who are defined in LONG_TMP_DIRS_TO_CLEAR.<br />
+Default: 0 (= disabled)<br />
+Possible Option: “28″</p>
+<p>Based on Reinhard Haase&#8217;s HowTo on: <a href="http://tiefenwirkung.wordpress.com/2009/07/19/temporare-dateien-unter-linux/">http://tiefenwirkung.wordpress.com/2009/07/19/temporare-dateien-unter-linux/</a></p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/07/19/howto-regular-cleanup-the-tempfolders/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>User readable logging of YaST modules</title>
+		<link>http://lizards.opensuse.org/2009/04/06/user-readable-logging-of-yast-modules/</link>
+		<comments>http://lizards.opensuse.org/2009/04/06/user-readable-logging-of-yast-modules/#comments</comments>
+		<pubDate>Mon, 06 Apr 2009 14:38:53 +0000</pubDate>
+		<dc:creator><![CDATA[Jiří Suchomel]]></dc:creator>
+				<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=684</guid>
+		<description><![CDATA[For quite some time, we had user requests (fate #100386) to provide the logging that would be readable to users (= not only YaST developers). Such logs should provide the information what certain YaST action is really doing to the system and exclude all the internal debug info our y2logs are full of. Martin and [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>For quite some time, we had user requests (<a title="Fate 100386" href="http://features.opensuse.org/100386">fate #100386</a>) to provide the logging that would be readable to users (= not only YaST developers). Such logs should provide the information what certain YaST action is really doing to the system and exclude all the internal debug info our y2logs are full of.</p>
+<p><a href="http://en.opensuse.org/User:Mvidner">Martin</a> and <a href="http://en.opensuse.org/User:Visnov">Stano</a> created some concept and added new logging functions y2usernote and y2useritem. These log to the new log file, /var/log/YaST2/y2changes (or $HOME/.y2changes).</p>
+<p>The question which is still not resolved is how should we use these functions? Which events our modules produce should provide description as &#8220;note&#8221; and which should provide &#8220;items&#8221;? What level of complexity should be presented to user? Should we log the real actions, just like commands passed to system agent or rather the explanations of the actions taken? Or both?</p>
+<p>Let&#8217;s go to the example. The changes are already in FACTORY version of yast2-users packages (yast2-perl-bindings needed as well), so you may even try yourself.</p>
+<p>At first, I started logging actions done in Write function. I deleted one user and renamed another. See:</p>
+<blockquote><p>2009-02-05 15:15:55 &lt;item&gt; rivendell User and Group Management module started<br />
+2009-02-05 15:16:12 &lt;note&gt; rivendell File written: &#8216;/etc/group&#8217;<br />
+2009-02-05 15:16:12 &lt;note&gt; rivendell User pre-deletion script called: &#8216;/usr/sbin/userdel-pre.local cc 1003 100 /local/home/cc&#8217;<br />
+2009-02-05 15:16:12 &lt;note&gt; rivendell File written: &#8216;/etc/passwd&#8217;<br />
+2009-02-05 15:16:12 &lt;note&gt; rivendell User &#8216;aa&#8217; renamed to &#8216;bb&#8217;<br />
+2009-02-05 15:16:12 &lt;note&gt; rivendell Home directory moved: &#8216;/bin/mv /local/home/aa /local/home/bb&#8217;<br />
+2009-02-05 15:16:12 &lt;note&gt; rivendell File written: &#8216;/etc/shadow&#8217;<br />
+2009-02-05 15:16:12 &lt;note&gt; rivendell nscd cache invalidated: &#8216;/usr/sbin/nscd -i passwd&#8217;<br />
+2009-02-05 15:16:12 &lt;note&gt; rivendell nscd cache invalidated: &#8216;/usr/sbin/nscd -i group&#8217;<br />
+2009-02-05 15:16:12 &lt;note&gt; rivendell Group &#8216;dialout&#8217; modified<br />
+2009-02-05 15:16:12 &lt;note&gt; rivendell Group &#8216;video&#8217; modified<br />
+2009-02-05 15:16:12 &lt;note&gt; rivendell Home directory removed: &#8216;/bin/rm -rf /local/home/cc&#8217;<br />
+2009-02-05 15:16:12 &lt;note&gt; rivendell User post-deletion script called: &#8216;/usr/sbin/userdel-post.local cc 1003 100 /local/home/cc&#8217;<br />
+2009-02-05 15:16:13 &lt;item&gt; rivendell User and Group Management module finished</p></blockquote>
+<p>Now, it is not bad, but the item &#8220;File written: &#8216;/etc/group&#8217;&#8221; doesn&#8217;t give much detailed info about what was done to that file. Stano proposed printing the diffs of the original and modified one, it could look this way:</p>
+<blockquote><p>2009-02-09 10:05:50 &lt;item&gt; rivendell User and Group Management module started<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell Backup created: &#8216;/bin/cp /etc/group /etc/group.YaST2save&#8217;<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell File written: &#8216;/etc/group&#8217;<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell Comparing original and new version:<br />
+&#8212; /etc/group.YaST2save    2009-02-09 11:05:49.000000000 +0100<br />
++++ /etc/group    2009-02-09 11:05:49.000000000 +0100<br />
+@@ -8,3 +8,3 @@<br />
+daemon:x:2:<br />
+-dialout:x:16:bb,hh,linux,zz<br />
++dialout:x:16:aa,hh,linux<br />
+disk:x:6:<br />
+@@ -45,3 +45,3 @@<br />
+vboxusers:!:113:jsuchome<br />
+-video:x:33:bb,hh,linux,zz<br />
++video:x:33:aa,hh,linux<br />
+wheel:x:10:<br />
+`<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell User pre-deletion script called: &#8216;/usr/sbin/userdel-pre.local zz 1003 100 /local/home/zz&#8217;<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell Backup created: &#8216;/bin/cp /etc/passwd /etc/passwd.YaST2save&#8217;<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell File written: &#8216;/etc/passwd&#8217;<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell Comparing original and new version:<br />
+&#8212; /etc/passwd.YaST2save    2009-02-09 11:05:49.000000000 +0100<br />
++++ /etc/passwd    2009-02-09 11:05:49.000000000 +0100<br />
+@@ -28,6 +28,5 @@<br />
+wwwrun:x:30:8:WWW daemon apache:/var/lib/wwwrun:/bin/false<br />
+-bb:x:1002:100:AAA:/local/home/bb:/bin/bash<br />
++aa:x:1002:100:AAA:/local/home/aa:/bin/bash<br />
+hh:x:1000:100:hhh:/local/home/hh:/bin/bash<br />
+linux:x:1001:100:linux:/local/home/linux:/bin/bash<br />
+-zz:x:1003:100:zz:/local/home/zz:/bin/bash<br />
++::::::<br />
+`<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell User &#8216;bb&#8217; renamed to &#8216;aa&#8217;<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell Home directory moved: &#8216;/bin/mv /local/home/bb /local/home/aa&#8217;<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell Backup created: &#8216;/bin/cp /etc/shadow /etc/shadow.YaST2save&#8217;<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell File written: &#8216;/etc/shadow&#8217;<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell nscd cache invalidated: &#8216;/usr/sbin/nscd -i passwd&#8217;<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell nscd cache invalidated: &#8216;/usr/sbin/nscd -i group&#8217;<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell Group &#8216;dialout&#8217; modified<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell Group &#8216;video&#8217; modified<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell Home directory removed: &#8216;/bin/rm -rf /local/home/zz&#8217;<br />
+2009-02-09 11:05:49 &lt;note&gt; rivendell User post-deletion script called: &#8216;/usr/sbin/userdel-post.local zz 1003 100 /local/home/zz&#8217;<br />
+2009-02-09 11:05:50 &lt;item&gt; rivendell User and Group Management module finished</p></blockquote>
+<p>Here, the user knows more about the real changes, but the log file is getting a bit less readable again&#8230; still I think I&#8217;d prefer it.</p>
+<p>You could see on examples that I don&#8217;t really use the advantage of having 2 logging functions. AFAIK Martin&#8217;s original proposal was to use items to tell what actions are we going to perform and notes to log the details of such action. This is hardly achievable in yast2-users module (may be better with<br />
+others), since at the time of writing we don&#8217;t know the &#8220;user actions&#8221; taken, this is the info which is known when user is clicking in the UI (*). So another idea is to log directly when users is using UI and not at the time of write. See the last example (this is not a full log this time, just part of it):</p>
+<blockquote><p>2009-02-06 15:54:02 &lt;item&gt; rivendell User and Group Management module started<br />
+2009-02-06 15:54:11 &lt;note&gt; rivendell (UI info) User &#8216;bb&#8217; removed from group &#8216;dialout&#8217;<br />
+2009-02-06 15:54:11 &lt;note&gt; rivendell (UI info) User &#8216;aa&#8217; added to group &#8216;dialout&#8217;<br />
+2009-02-06 15:54:11 &lt;note&gt; rivendell (UI info) User &#8216;bb&#8217; removed from group &#8216;video&#8217;<br />
+2009-02-06 15:54:11 &lt;note&gt; rivendell (UI info) User &#8216;aa&#8217; added to group &#8216;video&#8217;<br />
+2009-02-06 15:54:11 &lt;note&gt; rivendell (UI info) User &#8216;bb&#8217; renamed to &#8216;aa&#8217;<br />
+2009-02-06 15:54:11 &lt;item&gt; rivendell (UI info) User modified: &#8216;aa&#8217;<br />
+2009-02-06 16:03:10 &lt;item&gt; rivendell User and Group Management module finished</p></blockquote>
+<p>I think the last method is getting more talkative and actually is not more helpful.</p>
+<p>So &#8211; comments? Proposals?</p>
+<p>(*) Actually it would need to be cached during the UI-clicking and logged at the time of writing only if user doesn&#8217;t cancel the actions.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/04/06/user-readable-logging-of-yast-modules/feed/</wfw:commentRss>
+		<slash:comments>7</slash:comments>
+		</item>
+		<item>
+		<title>Writing first YCP program</title>
+		<link>http://lizards.opensuse.org/2009/02/13/writing-first-ycp-program/</link>
+		<comments>http://lizards.opensuse.org/2009/02/13/writing-first-ycp-program/#comments</comments>
+		<pubDate>Fri, 13 Feb 2009 10:18:26 +0000</pubDate>
+		<dc:creator><![CDATA[Alexander Orlovskyy]]></dc:creator>
+				<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+		<category><![CDATA[YCP]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=424</guid>
+		<description><![CDATA[Hi folks! It was a long time since my last blog. Today, i will show you my first program, it`s a simple test program which shows basic functions of YCP Let`s start!! first of all, you need all core development YaST and QT packages (All mentioned bottom steps, can be made with normal user ) [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi folks!</p>
+<p>It was a long time since my last blog. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';)' class='wp-smiley' /> </p>
+<p>Today, i will show you my first program, it`s a simple test program which shows basic functions of YCP</p>
+<p><strong>Let`s start!!</strong></p>
+<p>first of all, you need all core development YaST and QT packages</p>
+<p><strong>(All mentioned bottom steps, can be made with normal user </strong>)</p>
+<p>second , you must create a  symlink to /usr/lib/YaST2/bin/y2base</p>
+<p><strong>$ ln -s &lt;destination&gt; &lt;linkname&gt;</strong></p>
+<p><strong>(In my case name of symlink is y2base</strong>.)</p>
+<p>third , you need two console`s , one for program writing and one for monitoring .y2log (where you can see all debug messages)</p>
+<p>if you wish more detailed debug output <strong>during root session</strong>, than type in console following :</p>
+<p><strong>$ su</strong></p>
+<p><strong>$ export Y2DEBUG=1</strong></p>
+<p><strong>$ exit</strong></p>
+<p><strong>(switching back to normal user)</strong></p>
+<p>Ok, lets see the code of PushButton.ycp !</p>
+<p>{<br />
+// Build a dialog with one button and two labels.<br />
+// Wait until that button is clicked,<br />
+// then close the dialog and terminate.</p>
+<p>UI::OpenDialog( `VBox(<br />
+`Label(`opt(`boldFont),&#8221;PushButton TEST!!!!!!!!&#8221;),<br />
+`PushButton( &#8220;&amp;OK&#8221; ),<br />
+`Label(`opt(`boldFont),&#8221;JUST SIMPLE TEST&#8221;)<br />
+)<br />
+);</p>
+<p>UI::UserInput();<br />
+UI::CloseDialog();<br />
+}</p>
+<p>Than:</p>
+<p><strong>$ chmod 765 PushButton.ycp<br />
+</strong></p>
+<p>After you have written the program  , type in the console:</p>
+<p><strong>$ ./y2base ./PushButton.ycp qt</strong></p>
+<p>You will get following window:</p>
+<p><img src="http://lizards.opensuse.org/wp-content/uploads/2009/02/pushbutton.png" alt="PushButton" width="178" height="126" /></p>
+<p>What is amazing at YCP, that this code can be interpreted into ncurses</p>
+<p>Try following command:</p>
+<p><strong>$</strong> <strong>./y2base ./PushButton.ycp ncurses</strong></p>
+<p><img src="http://lizards.opensuse.org/wp-content/uploads/2009/02/pushbutton1.png" alt="" /></p>
+<p><em>Result:</em></p>
+<p><strong>You have written only one code , which can be used in two different gui environments graphical and  text mode!</strong></p>
+<p>In my next blog i will write about creating own SCR Agent.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/02/13/writing-first-ycp-program/feed/</wfw:commentRss>
+		<slash:comments>7</slash:comments>
+		</item>
+		<item>
+		<title>Writing wrapper packages for server applications or a generic YaST module?</title>
+		<link>http://lizards.opensuse.org/2009/01/27/writing-wrapper-packages-for-server-applications-or-a-generic-yast-module/</link>
+		<comments>http://lizards.opensuse.org/2009/01/27/writing-wrapper-packages-for-server-applications-or-a-generic-yast-module/#comments</comments>
+		<pubDate>Tue, 27 Jan 2009 19:43:13 +0000</pubDate>
+		<dc:creator><![CDATA[kl_eisbaer]]></dc:creator>
+				<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+		<category><![CDATA[Education]]></category>
+		<category><![CDATA[packages]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=301</guid>
+		<description><![CDATA[As we get more and more PHP-, Perl- and other applications like openSIS, Koha, Moodle, &#8230; in the Education repository, the question turns up, how to package those applications &#8220;the right way&#8221;. A normal user, who wants to use one of these apps, might just choose to install the package and has the problem how [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>As we get more and more PHP-, Perl- and other applications like openSIS, Koha, Moodle, &#8230; in the <a href="http://download.opensuse.org/repositories/Education/">Education repository</a>, the question turns up, how to package those applications &#8220;the right way&#8221;.</p>
+<p>A normal user, who wants to use one of these apps, might just choose to install the package and has the problem how to proceed afterwards. openSUSE sadly has no &#8220;post config&#8221; scripts like Debian based distributions &#8211; even the SuSEconfig scripts are deprecated. So all a packager can currently do is:</p>
+<ol>
+<li>write a README.SuSE (which is already the case for many packages) and place it in /usr/share/doc/packages/&lt;packagename&gt;/README.SuSE explaning how to proceed</li>
+<li>sugget what the user always wants to do and do it via %post-script after the installation of the RPM</li>
+<li>combine 1&amp;2 and point the user to a script in the README.SuSE <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </li>
+<li>write a YaST module which can be started during installation or afterwards</li>
+<li>any other option I missed (please inform me!)</li>
+</ol>
+<p>For the Education project, I&#8217;m currently thinking about two ways to make the life of the admins easier. </p>
+<p>First: think about &#8220;wrapper packages&#8221; around the normal packages. I&#8217;ll take moodle as example. The normal moodle package installs the php-scripts, an apache configuration and some other config stuff &#8211; but will not setup the complete moodle instance. So the user has to install the mysql database himself. An additional wrapper package can do this for him. This package comes with a SQL-Dump of the current moodle version (therefore requires the exact moodle version), and uses a stored mysql-root password to create a new database and insert the database-dump. If needed (for example: the user enables the &#8220;user LDAP-Auth <span>wherever possible&#8221; checkbox in a (to be written) yast-edu module), additional tasks can be triggered by the wrapper package.</p>
+<p>We can also think about calling a &#8220;generic&#8221; YaST module after installation of such a &#8220;needs postconfiguring&#8221; package. If we define a place (say: <em>/var/adm/YaST/postinstall/</em>) where packages can place a file containing some important questions to configure the application, and someone writes a YaST module which can be started, this would perhaps be &#8220;very cool&#8221;. If the user has entered his values, the YaST module can start one or more scripts (coming with the package) and feeds it with the entered values. The biggest questions for this solution:</p>
+<ol>
+<li>When should this YaST module be started? IMO it could be enough to let the user start it manually and select the package he wants to configure. =&gt; No adaptions of the current workflows is needed. But perhaps there are other options (like calling it via &#8220;SuSEconfig&#8221;)?</li>
+<li>Who can write such a module?</li>
+<li>Who defines the config syntax?</li>
+</ol>
+<p>Think about a file like this:</p>
+<blockquote><p>
+&lt;package name=&#8221;moodle&#8221;&gt;<br />
+ &lt;questionpack type=&#8221;string&#8221; action=&#8221;/usr/share/moodle/scripts/install_database&#8221;&gt;<br />
+  &lt;question arg=&#8221;1&#8243; type=&#8221;string&#8221;&gt;What&#8217;s the database password?&lt;/question&gt;<br />
+  &lt;question arg=&#8221;2&#8243; type=&#8221;string&#8221;&gt;What should be the name of the new database (suggest: moodle)?&lt;/question&gt;<br />
+  &lt;question arg=&#8221;3&#8243; type=&#8221;string&#8221;&gt;What&#8217;s the username of the new database user?&lt;/question&gt;<br />
+  &lt;question arg=&#8221;4&#8243; type=&#8221;string&#8221;&gt;What&#8217;s the password of the new database user?&lt;/question&gt;<br />
+ &lt;/questionpack&gt;</p>
+<p> &lt;questionpack action=&#8221;/use/share/moodle/scripts/configure_auth_backend&#8221; type=&#8221;selectbox&#8221;&gt;<br />
+  &lt;question arg=&#8221;1&#8243;&gt;What auth-backend should be used?&lt;/question&gt;<br />
+  &lt;answer value=&#8221;1&#8243;&gt;ldap&lt;/answer&gt;<br />
+  &lt;answer value=&#8221;2&#8243;&gt;mail&lt;/answer&gt;<br />
+  &lt;answer value=&#8221;3&#8243;&gt;passwd&lt;/answer&gt;<br />
+ &lt;/questionpack&gt;<br />
+&lt;/package&gt;
+</p></blockquote>
+<p>I think, there&#8217;s room for many enhancements in this area &#8211; what do you think ?</p>
+<p>Should/Could we produce something like a &#8220;Windows-Installer&#8221; for openSUSE? Or is it enough to provide special &#8220;wrapper packages&#8221;? Or is &#8220;what was hard to write, should be hard to install&#8221; still a valid answer?</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/01/27/writing-wrapper-packages-for-server-applications-or-a-generic-yast-module/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Integration of YaST Server Modules to YaST System Services</title>
+		<link>http://lizards.opensuse.org/2009/01/08/integration-of-yast-server-modules-to-yast-system-services/</link>
+		<comments>http://lizards.opensuse.org/2009/01/08/integration-of-yast-server-modules-to-yast-system-services/#comments</comments>
+		<pubDate>Thu, 08 Jan 2009 13:11:55 +0000</pubDate>
+		<dc:creator><![CDATA[Stanislav Visnovsky]]></dc:creator>
+				<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=348</guid>
+		<description><![CDATA[Today, I&#8217;ve played a bit with an idea to allow starting of YaST Server module from the YaST System Services module. The only visible difference is the additional &#8220;Configure&#8230;&#8217; button at the bottom of the dialog. This button would be active only if there is a YaST module associated with the entry. After clicking it, [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Today, I&#8217;ve played a bit with an idea to allow starting of YaST Server module from the YaST System Services module.</p>
+<p style="center;"><img class="size-medium wp-image-349" src="http://lizards.opensuse.org/wp-content/uploads/2009/01/runlevel-286x300.png" alt="YaST System Services (Runlevel) Editor" width="286" height="300" /></p>
+<p>The only visible difference is the additional &#8220;Configure&#8230;&#8217; button at the bottom of the dialog. This button would be active only if there is a YaST module associated with the entry. After clicking it, the respective YaST module would be started:</p>
+<p style="center;"><a href="http://lizards.opensuse.org/wp-content/uploads/2009/01/firewall.png"><img class="size-medium wp-image-350" src="http://lizards.opensuse.org/wp-content/uploads/2009/01/firewall-300x236.png" alt="YaST Firewall module invoked from YaST System Services module" width="300" height="236" /></a></p>
+<p>With this simple principle, the YaST control center &#8216;Network Services&#8217; section would be reduced to:</p>
+<p style="center;"><a href="http://lizards.opensuse.org/wp-content/uploads/2009/01/cc2.png"><img class="alignnone size-medium wp-image-352 aligncenter" src="http://lizards.opensuse.org/wp-content/uploads/2009/01/cc2-300x208.png" alt="YaST Control Center, Network Services section" width="300" height="208" /></a></p>
+<p>And all those YaST modules would be available from &#8216;System&#8217; section:</p>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2009/01/cc1.png"><img class="aligncenter size-medium wp-image-351" src="http://lizards.opensuse.org/wp-content/uploads/2009/01/cc1-300x205.png" alt="YaST Control Center, System section" width="300" height="205" /></a></p>
+<p>This approach could be used even further. You can see that the &#8216;Network Services&#8217; section contents do not really match the section name anymore. In fact, most of the items could be moved to other modules as well. E.g. introducing a module for authentication/authorization, which would cover Kerberos client, LDAP client, etc. The NFS client is in fact a part of the new Disk Partitioning module already. So, the section could vaporize completely.</p>
+<p>However, there are drawbacks. The biggest one I see is a &#8216;starting point&#8217; problem. Just imagine you want to have a Apache2 running in your system. Until now, the YaST HTTP module is installed and can be used to bootstrap your configuration &#8211; it will install the packages and help to set up the basics. But with the new approach, the apache2 package is not installed, therefore System Services module would not see the apache2 service (init script) and does not show it at all! I&#8217;m not sure how to address this. Maybe the best would be to attach the YaST  module to apache2 package or HTTP server pattern and the Software Management module would become such starting point. Would it be better? I don&#8217;t know.</p>
+<p>Then, there is an issue of a quick access &#8211; if you are moderately experienced user, you know what you are looking for and you start a proper module right away. But to figure out what is the configuration starting point if it&#8217;s hidden in another module, that might be a blocker.</p>
+<p>I&#8217;m sure there are more problems. Anyway, I find the idea quite useful for reducing the number of YaST modules. What do you think?</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/01/08/integration-of-yast-server-modules-to-yast-system-services/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>YaST releases independent of openSUSE releases?</title>
+		<link>http://lizards.opensuse.org/2008/11/07/yast-releases-independent-of-opensuse-releases/</link>
+		<comments>http://lizards.opensuse.org/2008/11/07/yast-releases-independent-of-opensuse-releases/#comments</comments>
+		<pubDate>Fri, 07 Nov 2008 14:58:05 +0000</pubDate>
+		<dc:creator><![CDATA[Stanislav Visnovsky]]></dc:creator>
+				<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=275</guid>
+		<description><![CDATA[YaST is one of the cornerstones of openSUSE. It is developed for openSUSE and is released as part of openSUSE. There never was a release of YaST independent of openSUSE. Even the versioning of YaST is tied to openSUSE &#8211; the versions are 2.X.Y, where X is increased for every openSUSE release (17 for 11.1) [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>YaST is one of the cornerstones of openSUSE. It is developed for openSUSE and is released as part of openSUSE. There never was a release of YaST independent of openSUSE. Even the versioning of YaST is tied to openSUSE &#8211; the versions are 2.X.Y, where X is increased for every openSUSE release (17 for 11.1) and Y is simply a patch level, whenever a new fix or feature is added. Even more, every YaST package has its own versioning, so the only way to ensure you have a consistent set of YaST packages is via dependencies set in the .spec file of the YaST packages.</p>
+<p>But in principle, YaST is a tool that can be used across distributions and there are people interested in this to happen. There are technical barriers to do releases independent of openSUSE (e.g. a lot of openSUSE-specific knowledge and behavior coded in YaST) as well as procedural. During past years, a lot of these non-technical issues has been addressed as we opened up the YaST development (re-licensing the code under GPL, opening up source control system and mailing lists, etc).</p>
+<p>But still, there is one big thing left: YaST packages are released in concert with openSUSE. Yes, it is very convenient for openSUSE, but it makes it almost impossible to track the development during for people outside of our great distribution.</p>
+<p>If one looks at the way the YaST packages are updated during the hotphase of an openSUSE release, the core parts of YaST (yast2-devtools, yast2-core, libyui, &#8230;) are rarely updated, they get a bug fix here and there. However, the distribution specific parts (yast2-pkg-bindings, yast2 common libraries, bootloader, storage, networking, &#8230;) get a fast flow of patch-level releases, typically several between openSUSE milestones.</p>
+<p>Thus, the way forward I like the most right now is a compromise: a core YaST system should be released independently of the openSUSE release cycle while specific modules could keep their crescendo during openSUSE hot phase. How to do that?</p>
+<p>For core YaST packages (a list to be defined) would be released independently of openSUSE and during hot phase, they would be handled the way other FOSS parts of openSUSE are &#8211; by patching the code in the package. The rest of the YaST, current practice would stay untouched.</p>
+<p>There are clearly advantages &#8211; the YaST developers can do a proper release management of the core code and it is much more predictable how the core part of YaST will be released. On the other hand, people would need to be aware of the split.</p>
+<p>However, I can imagine there is a lot of I did not realize. I&#8217;m definitely interested in comments about this topic.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2008/11/07/yast-releases-independent-of-opensuse-releases/feed/</wfw:commentRss>
+		<slash:comments>6</slash:comments>
+		</item>
+		<item>
+		<title>Learning YaST (YCP language)</title>
+		<link>http://lizards.opensuse.org/2008/09/12/learning-yast-ycp-language/</link>
+		<comments>http://lizards.opensuse.org/2008/09/12/learning-yast-ycp-language/#comments</comments>
+		<pubDate>Fri, 12 Sep 2008 10:02:59 +0000</pubDate>
+		<dc:creator><![CDATA[Alexander Orlovskyy]]></dc:creator>
+				<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+		<category><![CDATA[trainee]]></category>
+		<category><![CDATA[y2base]]></category>
+		<category><![CDATA[YaST2]]></category>
+		<category><![CDATA[YCP]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=175</guid>
+		<description><![CDATA[My name is Alexander i`m a trainee at SUSE. In my blog i will write about my experience with learning YCP (YaST Control Language) First of all, most important part of learning is to have a good manual. Here you have some links to start: YCP book -&#62;must read! (up to date) YCP Reference book [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>My name is Alexander i`m a trainee at SUSE.</p>
+<p>In my blog i will write about my experience with learning YCP (<span class="emphasis"><em>YaST Control 		Language</em></span>)</p>
+<p>First of all, most important part of learning is to have a good manual.</p>
+<p>Here you have some links to start:</p>
+<p><a href="http://forgeftp.novell.com/yast/doc/SL11.1/tdg/index.html">YCP book -&gt;must read! (up to date)</a></p>
+<p><a href="http://forgeftp.novell.com/yast/doc/SL11.0/tdg/Book-YaSTReference.html">YCP Reference book </a></p>
+<p><a href="http://forgeftp.novell.com/yast/doc/SL11.0/tdg/Book-UIReference.html">YCP User interface referece book</a></p>
+<p><a href="http://en.opensuse.org/YaST/Tutorials/YaST_Development_in_General"> YaST Development in General</a></p>
+<p>Later i add additional info &#8230;..</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2008/09/12/learning-yast-ycp-language/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+	</channel>
+</rss>

@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; openSUSE</title>
+	<atom:link href="http://lizards.opensuse.org/tag/opensuse/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>openSUSE and GCC part 2: compiling &#8216;Hello World&#8217;</title>
+		<link>http://lizards.opensuse.org/2013/10/15/opensuse-and-gcc-part-2/</link>
+		<comments>http://lizards.opensuse.org/2013/10/15/opensuse-and-gcc-part-2/#comments</comments>
+		<pubDate>Tue, 15 Oct 2013 05:43:00 +0000</pubDate>
+		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
+				<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[C-Language]]></category>
+		<category><![CDATA[Education]]></category>
+		<category><![CDATA[openSUSE]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10010</guid>
+		<description><![CDATA[I really hope you readied last article &#8216;OpenSUSE and GCC part 1: getting started&#8216; or you understand basics and you have GCC (Only GNU C Compiler as GCC stands Gnu Compiler Collection) installed. This time we learn how to compile application called &#8216;Hello World&#8217;. It&#8217;s so popular application even wikipedia have article about it. If [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I really hope you readied last article &#8216;<a href="//lizards.opensuse.org/2013/10/07/opensuse-and-gcc-part1/" title="OpenSUSE and GCC part 1: getting started">OpenSUSE and GCC part 1: getting started</a>&#8216; or you understand basics and you have GCC (Only GNU C Compiler as GCC stands Gnu Compiler Collection) installed. This time we learn how to compile application called &#8216;Hello World&#8217;. It&#8217;s so popular application even <a href="https://en.wikipedia.org/wiki/Hello_World" title="Hello world program">wikipedia have article about it</a>. <span id="more-10010"></span>If you are not in reading mood I&#8217;ll explain it in short.</p>
+<h2>Hello world</h2>
+<p>Hello world is small application that programmer tends to start with when learning new programming language. It&#8217;s just something that prints &#8216;Hello World&#8217;-string in console. It&#8217;s good starting point to learn new programming language as in compiling languages you get the idea how to make application run.<br />
+Github is the programming project hosting place that uses <a href="http://git-scm.com/" title="Git SCM">git</a>. If you adventurous you can see all the language &#8216;Hello World&#8217; programs from this <a href="https://github.com/git/hello-world" title="Hello World Github">Github page</a>. Just click them around and see that every program has the same idea. If you have no clue what all this means don&#8217;t feel bad! I hope in some point of you openSUSE hacking time you probably get back there and understand value of that small application.<br />
+In C-Language &#8216;Hello World&#8217; looks like this:</p>
+<pre>
+#include &#060;stdio.h&#062;
+
+int main(void) {
+printf("Hello World\n");
+return 0;
+}</pre>
+<p>Copy these sentences as they are to &#8216;<em>helloworld.c</em>&#8216; file with <a href="https://en.wikipedia.org/wiki/Pico_%28text_editor%29" title="Pico editor">pico</a>, <a href="http://nano-editor.org/" title="Nano editor">nano</a>, <a href="http://www.vim.org/" title="Vi improved">vim</a>, <a href="https://www.gnu.org/software/emacs/" title="GNU Emacs">emacs</a>, <a href="https://projects.gnome.org/gedit/" title="Gnome Gedit">gedit</a>, <a href="http://kate-editor.org/" title="Kate editor">kate</a> or some other text editor. Pay some attention where you save that &#8216;helloworld.c&#8217;. Easiest place would be you home dirs root /home/&#8217;yourusername&#8217;/. I won&#8217;t tell you want all this C-language means if you are <a href="http://www.cprogramming.com/tutorial/c/lesson1.html" title="Introduction to C">interested please read how to get along with C</a> and you see how easy language C really is.</p>
+<h2>Compiling</h2>
+<p>If you have used PHP, Python, Bash or Perl (maybe Ruby) in other words some programming language that doesn&#8217;t need compiling you are point of life to take a deep breath. If you have ever touched any programming language you in my position when I was 16 and started typing in <a href="https://en.wikipedia.org/wiki/Borland_Turbo_C%2B%2B" title="Borland Turbo C++">Borland Turbo C++</a> and take event deeper breath. If you have used Microsoft Visual Studio and which is incredible piece of IDE and you tell yourself you know something about programming you take mild breathe and zip of water. Only problem with IDEs is you never know how the magic happens behind the scenes. Specially Visual Studio is very very good make you application just compile and in most of the cases that is what you want right?<br />
+There is some cases you need to get in the bottom and understand basic of compiling process. I tell one example from my life. In some point of my life I was ext in Nokia (Way before it was Microsoft owned phone company) and their phone build scripts were in HP-UX or AIX (can&#8217;t remember anymore sorry). There were nearly &#8216;NaN&#8217; of people who understand how these Makefile scripts worked (they were mostly very cryptic cross compile Makefile stuff) and they just saw my fellow ext-buddy sitting there behind his desk. They gave these scripts to this poor fellow and weeks he cried, moaned and felt pain in his brains from compiling extremely complicated application. In the end he did it. He made those build scripts to work because he understand how compiling and linking was actually made and if I’m not wrong he got work place from Nokia for years to come.<br />
+Now I Cut the sentimental crap and tell how to compile program. It&#8217;s easy go to directory you have created &#8216;<em>helloworld.c</em>&#8216; and write this in console</p>
+<pre>
+gcc -o helloworld helloworld.c</pre>
+<p>was it so hard? In setence &#8216;<em>gcc</em>&#8216; is GNU C Compiler and paramter &#8216;<strong>-o</strong>&#8216; is application binary name (choose wisely young badawan it will write over your files if have same file name).</p>
+<h2>Run program</h2>
+<p>Running the program isn&#8217;t hard at all. Stay in directory that program is and write to console</p>
+<pre>
+./helloworld
+Hello World</pre>
+<p>Now you have compiled you first program. Next we look at RPM devel packages and using libraries and headers. <strong>Remember &#8216;./&#8217; is very needed in front this example because you want to run application from your current location.</strong></p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2013/10/15/opensuse-and-gcc-part-2/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>openSUSE on phones/tablets</title>
+		<link>http://lizards.opensuse.org/2013/02/20/opensuse-on-phonestablets/</link>
+		<comments>http://lizards.opensuse.org/2013/02/20/opensuse-on-phonestablets/#comments</comments>
+		<pubDate>Wed, 20 Feb 2013 06:03:04 +0000</pubDate>
+		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Base System]]></category>
+		<category><![CDATA[XFCE]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[linux on android]]></category>
+		<category><![CDATA[openSUSE]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9283</guid>
+		<description><![CDATA[Thanks to the fantastic work by openSUSE Arm team, you can get full desktop on your armv7l powered phone or tablet(any recent dual core devices should work), without the need for repartition, formats, bootloader hacks or sacrificing your nicely running latest android on it. What you need is rooted device with busybox, Android VNC and [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Thanks to the fantastic work by <a href="https://en.opensuse.org/Portal:ARM">openSUSE Arm</a> team, you can get full desktop on your armv7l powered phone or tablet(any recent dual core devices should work), without the need for repartition, formats, bootloader hacks or sacrificing your nicely running latest android on it. What you need is rooted device with busybox, Android VNC and terminal app installed and 4GB free space on sdcard(internal or external).<br />
+<span id="more-9283"></span><br />
+<a href="https://picasaweb.google.com/lh/photo/gaC5wP9kH4F8OLZG6kRrudMTjNZETYmyPJy0liipFm0?feat=embedwebsite"><img alt="" src="https://lh5.googleusercontent.com/-HHQb8_OVFkQ/USMcM2NSDEI/AAAAAAAAFkQ/WNT1q5fALOA/s400/opensuse-arm1.png" width="400" height="239" /></a> <a href="https://picasaweb.google.com/lh/photo/N_NXLKjmQATAO5UycYr3j9MTjNZETYmyPJy0liipFm0?feat=embedwebsite"><img alt="" src="https://lh3.googleusercontent.com/-WG0gSvWsHok/USMcQQLOwsI/AAAAAAAAFkY/SAyUl8nj7Qs/s400/opensuse-arm2.png" width="400" height="240" /></a><br />
+1. Download <a title="opensuse-arm-xfce-chroot.tar.xz" href="https://sourceforge.net/projects/cyberorg-home/files/latest/download?source=files">opensuse-arm-xfce-chroot.tar.xz</a><br />
+2. Extract the .xz file and place the 2 resulting files on your device&#8217;s sdcard.<br />
+3. Open your favourite terminal app (or ssh into the device if you have dropbear ssh app installed), cd /to/sdcard/where/opensuse*.img/is/ &amp;&amp; sh opensuse.sh start<br />
+4. Once the openSUSE starts you are chrooted inside the image in the terminal, for GUI start Android VNC and connect to localhost:1 (port 5901) or from remote machine IPofdevice:1. Password is &#8220;opensuse&#8221;. Change it to something else by running vncpasswd and passwd in desktop terminal, also change the root password by running passwd in chroot terminal where you ran &#8220;sh opensuse.sh start&#8221;.</p>
+<p>After exiting the chroot terminal, openSUSE services will be stopped, no changes to your android system is made.</p>
+<p>Have a lot of fun&#8230;</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2013/02/20/opensuse-on-phonestablets/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>openSUSE in Education, Spreading Continue</title>
+		<link>http://lizards.opensuse.org/2012/05/17/opensuse-in-education-spreading-continue/</link>
+		<comments>http://lizards.opensuse.org/2012/05/17/opensuse-in-education-spreading-continue/#comments</comments>
+		<pubDate>Thu, 17 May 2012 02:14:59 +0000</pubDate>
+		<dc:creator><![CDATA[M. Edwin Zakaria]]></dc:creator>
+				<category><![CDATA[Ambassadors]]></category>
+		<category><![CDATA[Education]]></category>
+		<category><![CDATA[Marketing]]></category>
+		<category><![CDATA[Community]]></category>
+		<category><![CDATA[openSUSE]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8656</guid>
+		<description><![CDATA[What do you feel as an open source developer, user, or enthusiast if you see this beautiful piece of software is used by hundred of schools and thousand of students? Great isn&#8217;t it? And that&#8217;s what happened here in a small dot on this earth in Yogyakarta Indonesia. This program was initiated by the Government [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>What do you feel as an open source developer, user, or enthusiast if you see this beautiful piece of software is used by hundred of schools and thousand of students? Great isn&#8217;t it? And that&#8217;s what happened here in a small dot on this earth in <a title="Yogyakarta Special Region" href="http://en.wikipedia.org/wiki/Yogyakarta_%28special_region%29" target="_blank">Yogyakarta Indonesia</a>.</p>
+<p>This program was initiated by the Government of Indonesia with the objective to introduce the open source and e-learning method to student and teacher. So three years ago I was contacted to help them to realize their dream, and here I&#8217;m now reporting that there are around 7300 openSUSE installation in <a title="openSUSE in schools" href="http://ict-eqep.com/locations/map_350.html" target="_blank">350 elementary and junior-high schools</a>. We also use SLES in servers to provide repositories and e-learning materials in SCORM using Moodle.  This is work in progress. We educate teachers to use openSUSE and also creating learning material so it is always in beta stage I think <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_biggrin.gif' alt=':D' class='wp-smiley' /> </p>
+<p>I want to say thank you to all the good people, my friends and co-workers, they are unknown in openSUSE community, even many of them are not subscribing the mailing list, but they are the true openSUSE ambassadors in Indonesia. They come to schools and persuade the teachers to use openSUSE. Without them this dream will never come true. Picture below show some of them smiling holding the openSUSE 12.1 promo DVD that AJ sent to me. You all great! Also picture of teachers while following our session about openSUSE.</p>
+<div id="attachment_8657" style="width: 610px" class="wp-caption alignleft"><a href="http://lizards.opensuse.org/wp-content/uploads/2012/05/allthegoodpeople.jpg"><img class="size-full wp-image-8657" src="http://lizards.opensuse.org/wp-content/uploads/2012/05/allthegoodpeople.jpg" alt="" width="600" height="450" /></a><p class="wp-caption-text">All the good people</p></div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<div id="attachment_8658" style="width: 610px" class="wp-caption alignleft"><a href="http://lizards.opensuse.org/wp-content/uploads/2012/05/teachers-training.jpg"><img class="size-full wp-image-8658" src="http://lizards.opensuse.org/wp-content/uploads/2012/05/teachers-training.jpg" alt="" width="600" height="450" /></a><p class="wp-caption-text">Teachers train using openSUSE</p></div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>Finally we welcome everyone in openSUSE community if you want to visit Indonesia don&#8217;t forget to pay a visit to one of this schools in Yogyakarta and you will see how student are happy using it <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_biggrin.gif' alt=':-D' class='wp-smiley' /> </p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/05/17/opensuse-in-education-spreading-continue/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>fuk the kit you will love</title>
+		<link>http://lizards.opensuse.org/2012/01/19/fuk-the-kit-you-will-love/</link>
+		<comments>http://lizards.opensuse.org/2012/01/19/fuk-the-kit-you-will-love/#comments</comments>
+		<pubDate>Thu, 19 Jan 2012 20:03:33 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[BIOS]]></category>
+		<category><![CDATA[firmware]]></category>
+		<category><![CDATA[kit]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[update]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8417</guid>
+		<description><![CDATA[Dear fellows, in our moving free world, it&#8217;s not always bienvenue to talk about one of the *kit* software around. Most of them have bad reputation, (with good or bad reasons) this is the debate of this post. But in the uni-kit-verse there&#8217;s one you must known, especially if you are the proud owner of [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Dear fellows, in our moving free world, it&#8217;s not always bienvenue to talk about one of the *kit* software around.<br />
+Most of them have bad reputation, (with good or bad reasons) this is the debate of this post.</p>
+<p>But in the uni-kit-verse there&#8217;s one you must known, especially if you are the proud owner of a laptop or one of this computer the manufacter deliver its firmware only in DOS exe format.<br />
+FirmwareUpdateKit (was introduced in 2008 in openSUSE by <a href="http://lizards.opensuse.org/2008/06/16/firmwareupdatekit/">Steffen Winterfeldt</a></p>
+<h1>How that works?</h1>
+<p>As the title of the post give you the right command, open a console, then use the cnf (command-not-found) tool to learn what to do</p>
+<h2>Install the package</h2>
+<pre>
+cnf fuk
+
+The program 'fuk' can be found in the following package:
+  * FirmwareUpdateKit [ path: /usr/bin/fuk, repository: zypp (repo-oss) ]
+
+Try installing with:
+    zypper install FirmwareUpdateKit
+</pre>
+<p>Pretty clear and cool, let&#8217;s install that stuff!</p>
+<pre>sudo zypper install FirmwareUpdateKit
+root's password:
+Loading repository data...
+Reading installed packages...
+Resolving package dependencies...
+
+The following NEW packages are going to be installed:
+  FirmwareUpdateKit syslinux 
+
+2 new packages to install.
+Overall download size: 758.0 KiB. After the operation, additional 2.1 MiB will be used.
+Continue? [y/n/?] (y): y
+Retrieving package syslinux-4.04-12.1.3.x86_64 (1/2), 642.0 KiB (1.9 MiB unpacked)
+Retrieving: syslinux-4.04-12.1.3.x86_64.rpm [done]
+Retrieving package FirmwareUpdateKit-1.1-14.1.1.x86_64 (2/2), 116.0 KiB (178.0 KiB unpacked)
+Retrieving: FirmwareUpdateKit-1.1-14.1.1.x86_64.rpm [done]
+Installing: syslinux-4.04-12.1.3 [done]
+Installing: FirmwareUpdateKit-1.1-14.1.1 [done]
+</pre>
+<p><img alt="Firmware Update" src="http://i.i.com.com/cnwk.1d/i/tim/2011/09/19/FirmwareUpdateIconX.png" class="alignright" width="128" height="128" /></p>
+<h2>Get your bios</h2>
+<p>Nothing easy for that, you will have to surf on boring mfg website, and find an appropriate bios for your computer.</p>
+<p>Be serious during that selection, you can screw up totally your computer</p>
+<h2>Time to fuk</h2>
+<p>As always before running a program, it&#8217;s always good to check if there&#8217;s the fine manual (not the case here) or try a -h &#8211;help</p>
+<pre>
+fuk --help
+Usage: fuk [OPTIONS] FILES
+FirmwareUpdateKit version 1.1.
+
+Create bootable DOS system and add FILES to it.
+The main purpose is to assist with DOS-based firmware updates.
+
+Options:
+  --grub                        Add boot entry to /boot/grub/menu.lst.
+  --lilo                        Add boot entry to /etc/lilo.conf.
+  --title TITLE                 Use TITLE as label for boot menu entry.
+  --iso FILE                    Create bootable CD.
+  --floppy FILE                 Create bootable (1440 kB) floppy disk.
+  --image FILE                  Create bootable harddisk.
+  --run COMMAND                 Run COMMAND after booting DOS.
+  --verbose                     Be more verbose.
+</pre>
+<p>Nothing complicated as a nuclear plan here, everything seems to be self explicit.<br />
+Let try it, and install a new grub entry for the new A8 version for my lappy.
+</p>
+<pre>
+fuk --verbose --grub --run M4600A08.exe /home/bruno/src_tmp/HARDWARE/DELL_M4600/M4600A08.exe 
+/tmp/fuk.lSVIgS0cMt/fwupdate.img: chs = 186/4/16, size = 11904 blocks
+- writing mbr
+- writing fat12 boot block
+- copying:
+    /usr/share/FirmwareUpdateKit/kernel.sys
+    /usr/share/FirmwareUpdateKit/command.com
+    /tmp/fuk.lSVIgS0cMt/config.sys
+    /tmp/fuk.lSVIgS0cMt/autoexec.bat
+    /home/bruno/src_tmp/HARDWARE/DELL_M4600/M4600_A08.exe
+c-3po:~ # 
+</pre>
+<p>That&#8217;s all I&#8217;ve now a new entry in my grub list</p>
+<pre>
+title Firmware Update
+    kernel /boot/memdisk
+    initrd /boot/fwupdate.img
+</pre>
+<h2>Apply</h2>
+<p>Now just reboot and use the grub entry, then upgrade your bios, like you will normally have done with you old complicated build iso, or diskette (I&#8217;m joking)</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/01/19/fuk-the-kit-you-will-love/feed/</wfw:commentRss>
+		<slash:comments>5</slash:comments>
+		</item>
+		<item>
+		<title>openSUSE Edu Li-f-e 12.1 out now!</title>
+		<link>http://lizards.opensuse.org/2011/12/22/edu-li-f-e-12-1-out/</link>
+		<comments>http://lizards.opensuse.org/2011/12/22/edu-li-f-e-12-1-out/#comments</comments>
+		<pubDate>Thu, 22 Dec 2011 07:37:21 +0000</pubDate>
+		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
+				<category><![CDATA[Apache]]></category>
+		<category><![CDATA[Derivative]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Education]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Samba]]></category>
+		<category><![CDATA[Server]]></category>
+		<category><![CDATA[Virtualization]]></category>
+		<category><![CDATA[12.1]]></category>
+		<category><![CDATA[li-f-e]]></category>
+		<category><![CDATA[LTSP]]></category>
+		<category><![CDATA[openSUSE]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8365</guid>
+		<description><![CDATA[openSUSE Education team is proud to present another edition of openSUSE-Edu Li-f-e (Linux for Education) based on openSUSE 12.1. Li-f-e comes loaded with everything that students, parents, teachers and system admins of educational institutions may need.   more screenshots&#8230; Softwares for mathematics, chemistry, astronomy etc, servers like KIWI-LTSP, Fedena school ERP, Moodle course management etc., [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>openSUSE Education team is proud to present another edition of <strong>openSUSE-Edu Li-f-e</strong> (Linux for Education) based on <a title="12.1" href="http://en.opensuse.org/12.1">openSUSE 12.1</a>. Li-f-e comes loaded with everything that students, parents, teachers and system admins of educational institutions may need.</p>
+<p><a href="http://en.opensuse.org/images/b/b9/Life-12.1-0.png"><img class="alignnone" src="http://en.opensuse.org/images/thumb/b/b9/Life-12.1-0.png/120px-Life-12.1-0.png" alt="" width="120" height="90" /></a> <a href="http://en.opensuse.org/images/b/b4/Life-12.11-0.png"><img class="alignnone" src="http://en.opensuse.org/images/thumb/b/b4/Life-12.11-0.png/120px-Life-12.11-0.png" alt="" width="120" height="90" /></a> <a href="http://en.opensuse.org/images/6/60/Life-12.1-2.png"><img class="alignnone" src="http://en.opensuse.org/images/thumb/6/60/Life-12.1-2.png/120px-Life-12.1-2.png" alt="" width="120" height="89" /></a> <a href="http://en.opensuse.org/images/8/86/Life-12.1-6.png"><img class="alignnone" src="http://en.opensuse.org/images/thumb/8/86/Life-12.1-6.png/120px-Life-12.1-6.png" alt="" width="120" height="90" /></a> <a href="http://en.opensuse.org/Screenshots#openSUSE_Edu_Li-f-e">more screenshots&#8230;</a></p>
+<p><span id="more-8365"></span>Softwares for mathematics, chemistry, astronomy etc, servers like <a href="LTSP_quick_start_12.1_Edu">KIWI-LTSP</a>, <a href="http://fedena.com/">Fedena</a> school ERP, <a href="http://moodle.org/">Moodle</a> course management etc., full multimedia, graphics, office suite, many popular programming languages including AMP stack, java, C, C++, python, ruby, latest stable Gnome and KDE desktop environments and lot more is packed in this release. More about softwares included <a href="http://en.opensuse.org/openSUSE:Education-Li-f-e">here</a>.</p>
+<p>To know more about openSUSE Education project, file bugs, request enhancements, participate, or to get in touch with us visit <a href="http://en.opensuse.org/Portal:Education">Education Portal</a>.</p>
+<p>Create <a href="http://en.opensuse.org/Live_USB_stick">live USB stick</a> or DVD with this image. About 15GB disk space and 1GB RAM is required for installation, more is better. Please note that we release 32bit image only, for users with RAM 4G or more install and use kernel-pae package.</p>
+<p>Happy holidays&#8230;</p>
+<p><a href="http://en.opensuse.org/openSUSE:Education-Li-f-e#Download"><img src="http://lizards.opensuse.org/wp-content/uploads/2009/11/screenshot11.png" alt="" width="138" height="47" /></a></p>
+<h3><a href="https://sourceforge.net/projects/opensuse-edu/" rel="nofollow">Hosted at sourceforge.net</a></h3>
+<p><a href="http://sourceforge.net/projects/opensuse-edu/files/download/ISOs/openSUSE-Edu-li-f-e-12.1-latest-i686.iso/download" rel="nofollow">Direct Download</a> | <a href="http://sourceforge.net/projects/opensuse-edu/files/download/ISOs/openSUSE-Edu-li-f-e-12.1-latest-i686.iso.md5/download" rel="nofollow">md5sum</a></p>
+<h3><a href="http://www.opensuse-education.org/download/ISOs/" rel="nofollow">Hosted at opensuse-education.org</a></h3>
+<p><a href="http://www.opensuse-education.org/download/ISOs/openSUSE-Edu-li-f-e-12.1-latest-i686.iso" rel="nofollow">Direct Download </a>| <a href="http://www.opensuse-education.org/download/ISOs/openSUSE-Edu-li-f-e-12.1-1-i686.iso.meta4" rel="nofollow">new metalink</a> | <a href="http://www.opensuse-education.org/download/ISOs/openSUSE-Edu-li-f-e-12.1-1-i686.iso.metalink" rel="nofollow">old metalink</a> | <a href="http://www.opensuse-education.org/download/ISOs/openSUSE-Edu-li-f-e-12.1-latest-i686.iso.md5" rel="nofollow">md5sum</a> | <a title="Torrent file for openSUSE-Edu-li-f-e" href="http://www.opensuse-education.org/download/ISOs/openSUSE-Edu-li-f-e-12.1-latest-i686.iso.torrent" target="_blank">torrent</a></p>
+<p>Use download manager or <a title="SDB:Metalink" href="http://en.opensuse.org/SDB:Metalink">Metalink</a> client such as aria2c for most efficient way to download.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/12/22/edu-li-f-e-12-1-out/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>ATI/AMD fglrx 8.911 Catalyst 11.11 rpm available for openSUSE 11.3, 11.4, 12.1</title>
+		<link>http://lizards.opensuse.org/2011/11/21/atiamd-fglrx-8-911-catalyst-11-11-rpm-available-for-opensuse-11-3-11-4-12-1/</link>
+		<comments>http://lizards.opensuse.org/2011/11/21/atiamd-fglrx-8-911-catalyst-11-11-rpm-available-for-opensuse-11-3-11-4-12-1/#comments</comments>
+		<pubDate>Mon, 21 Nov 2011 14:32:54 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[1]]></category>
+		<category><![CDATA[11.11]]></category>
+		<category><![CDATA[11.3]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[fglrx]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[xorg]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8224</guid>
+		<description><![CDATA[AMD/ATI Catalyst 11.11 / fglrx 8.911 rpm are available Call the 911 to rescue your gfx! Quick Résumé about 11.11 Several of you has all kind of non feature (mostly called bugs) with Gnome3.2 and kde4 etc&#8230; I will just copy/google translate/paste here the comment made by Sebastian Siebert on his blog Okay, now that [&#8230;]]]></description>
+				<content:encoded><![CDATA[<div style="font-size:larger">
+<h2>AMD/ATI Catalyst 11.11 / fglrx 8.911 rpm are available</h2>
+<p style="font-size:larger;text-align:center;font-weight:bold">Call the 911 to rescue your gfx!</p>
+<h3>Quick Résumé about 11.11</h3>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2011/11/fglrx-8.911-11.11-1.png"><img src="http://lizards.opensuse.org/wp-content/uploads/2011/11/fglrx-8.911-11.11-1-150x150.png" alt="fglrx direct rendering" width="150" height="150" class="alignleft size-thumbnail wp-image-8227" /></a></p>
+<p>Several of you has all kind of non feature (mostly called bugs) with Gnome3.2 and kde4 etc&#8230;</p>
+<p>I will just copy/google translate/paste here the comment made by Sebastian Siebert on his blog</p>
+<p style="font-style:italic">
+Okay, now that was a long night for me was. ￼ I&#8217;ve researched intensively since yesterday evening after the problem of GNOME 3.2 and the XvBA hardware acceleration on openSUSE 12.1. Here, a blog reader has pointed out that the direct installation of the AMD Catalyst could solve the problem. However, I think the direct installation of anything since like AMD will move the existing files, and thus endangering the integrity of files. But I had to start somewhere and so did the RPM package and direct install AMD compared. I could detect no difference in principle, except that some files were installed in a different directory, where they had really nothing to be related. I could at first make any sense why the RPM installation failed. To me a very banal story is remembered. A specific search path ld.so.conf could possibly be kicked out in openSUSE 12.1. I have my current openSUSE 11.4 /etc/ld.so.conf compared with that of openSUSE 12.1 and lo and behold some search paths were removed. I have the necessary path to /usr/X11R6/lib/ or created and /usr/X11R6/lib64 in /etc/ld.so.conf.d/fglrx.conf for the fglrx driver, and lo and behold &#8220;vainfo&#8221; tells me that everything is in order. Now comes the interesting question: Is the problem fixed with GNOME 3.2 now? The answer: YES! ￼ So, dear people, you invite the makerpm-ati-down script with the updated packaging script installs the driver as usual and have fun with the new openSUSE 12.1 and the AMD Catalyst driver.</p>
+<h4>All rpms are updated now</h4>
+<p>The 8.911 version are available from saturday November 19th</p>
+<p>My advise is to firstly remove any existing version with zypper rm, then just zypper in the new version</p>
+<p>Factory rpms are not available actually, Factory 12.2 has just change it&#8217;s version number in /etc/SuSE-release and thus is not detected for the moment.<br />
+The next version should see 12.2 supported (December). Anyway you have to debug radeon on factory please!
+</p>
+<p><span id="more-8224"></span></p>
+<h3>Others things</h3>
+<h4>I need you! (remember)</h4>
+<p>
+Even if today I already change the main ATI wiki page there will have a lot of stuff outside which contain the old server address. If you can fix them each time you saw that error, it will help any potential users to get the right informations.<br />
+About the wiki, the page need also your love and contribution, look at the wiki team remark in the header. So if you feel comfortable with wiki syntax, your help in fixing <a href="http://en.opensuse.org/index.php?title=SDB:ATI_drivers">SDB/ATI</a> will be really appreciate.
+</p>
+<p>
+- Are you a virtuoso on forums, please pick and paste those informations there!<br />
+- Are you a social network addict, please forward as much as you can!<br />
+- Are you a designer/artist, I need something great to the home page of geeko.ioda.net, contact me, let a comment
+</p>
+<p>You are brave, and knows how to fix your computer? There a beta one click installer available (feedback welcome)<br />
+For 32bits system :<br />
+<a href="http://geeko.ioda.net/mirror/ati/raw-src/amd-ati-fglrx.ymp"><img src="http://en.opensuse.org/images/e/e9/Fglrx_1click.png" alt="AMD/ATI fglrx one click installer" /></a><br />
+For 64bits system :<br />
+<a href="http://geeko.ioda.net/mirror/ati/raw-src/amd-ati-fglrx64.ymp"><img src="http://en.opensuse.org/images/e/e9/Fglrx_1click.png" alt="AMD/ATI fglrx one click installer" /></a><br />
+<span style="font-size:small">(*) To know which kind of system you have, in a console look at the output of uname -a if you see x86_64 on the line you are running a 64bits, otherwise a 32bits.</span>
+</p>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2011/11/fglrx-8.911-11.11-3.png"><img src="http://lizards.opensuse.org/wp-content/uploads/2011/11/fglrx-8.911-11.11-3-300x168.png" alt="" width="300" height="168" class="aligncenter size-medium wp-image-8229" /></a></p>
+<ul>
+<li>11.11 Quick review :</li>
+<li><a href="http://www2.ati.com/relnotes/Catalyst_11.10_Linux_Installer.pdf">Catalyst 11.11 installer</a> (pdf). You can always look for supported chipset at <a href="http://support.amd.com/us/kbarticles/Pages/AMDCatalyst1111ReleaseNotes.aspx">11.11 Release Notes</a></li>
+<li>Get the cheat-sheet <a href="http://www.sebastian-siebert.de/downloads/ati-catalyst-11.11-cheat-sheet.pdf">11.11 version</a></li>
+<li>Kernel 3.1 is supported</li>
+<li>Support of openSUSE 11.2 is removed, if you are still using it with Evergreen project, I&#8217;ve kept the repository with older version</li>
+<li>Tested and working on stock 11.4 with a HD5750</li>
+<li>Tested and working on stock 12.1 with a HD5750</li>
+<li>Tested with flash 64 under Firefox 7.0.1</li>
+<li>Sebastian Siebert (freespacer) : <a href="http://www.sebastian-siebert.de/">11.11 article</a> (German)</li>
+</ul>
+<p>I&#8217;ve created now a repository dedicated to 12.1, so if you are using 12.1RC please switch to that one, next month it will differ from the Factory one</p>
+<pre style="padding: 0.25em">
+zypper ar -c -f -n "ATI/AMD fglrx non-official" http://geeko.ioda.net/mirror/ati/openSUSE_12.1/ "ATI/AMD FGLRX"
+</pre>
+<h3>Installation, Caution, Troubles</h3>
+<h4>Installation</h4>
+<p style="font-weight:bold">Please refer to my <a href="http://lizards.opensuse.org/?p=6680">previous article</a> where all the installation procedure are explained.</p>
+<p>
+For a first installation, if you don&#8217;t remove radeon from the initrd, you will get in trouble. Don&#8217;t thanks who removed that from the wiki. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_sad.gif' alt=':-(' class='wp-smiley' />
+</p>
+<h4>Caution</h4>
+<ul>
+<li>Wrong (to my point of view) create an xorg.conf file which is unneeded if you work with /etc/xorg.conf.d/50-device.conf and have driver &#8220;fglrx&amp;quot inside</li>
+<li>AMD CCLE didn&#8217;t get correctly upgraded if xorg is running during the upgrade my advise, go to console and as root do the following :
+<pre>
+init 3
+rcatievenstd stop
+zypper ref
+zypper up
+init 6
+</pre>
+<p>let the package rebuild the kernel driver. And for me I always remove the newly xorg.conf file created.<br />
+reboot is mandatory!
+</li>
+</ul>
+</div>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/11/21/atiamd-fglrx-8-911-catalyst-11-11-rpm-available-for-opensuse-11-3-11-4-12-1/feed/</wfw:commentRss>
+		<slash:comments>10</slash:comments>
+		</item>
+		<item>
+		<title>Some updates on the Banshee repositories&#8230;</title>
+		<link>http://lizards.opensuse.org/2011/05/31/some-updates-on-the-banshee-repositories/</link>
+		<comments>http://lizards.opensuse.org/2011/05/31/some-updates-on-the-banshee-repositories/#comments</comments>
+		<pubDate>Tue, 31 May 2011 02:57:23 +0000</pubDate>
+		<dc:creator><![CDATA[Nelson Marques]]></dc:creator>
+				<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[Mono]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Sound]]></category>
+		<category><![CDATA[Banshee]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[Updates]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7473</guid>
+		<description><![CDATA[Sometime ago Gabriel asked me if I could give him help with the Banshee repositories for openSUSE; This repositories have many users hanging around and some packages are enabled on other projects, which makes them somehow sensible to deep changes. Today I&#8217;ve pushed to openSUSE:Factory Banshee 2.0.1 (latest stable release) and a few packages which [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Sometime ago Gabriel asked me if I could give him help with the Banshee repositories for openSUSE; This repositories have many users hanging around and some packages are enabled on other projects, which makes them somehow sensible to deep changes.</p>
+<p>Today I&#8217;ve pushed to openSUSE:Factory Banshee 2.0.1 (latest stable release) and a few packages which live in the Banshee repository. I&#8217;ve also submitted a deletion request to ipod-sharp which is no longer maintained and was replaced in the past for libgpod.</p>
+<p>I&#8217;ve fixed the pending issues I&#8217;ve seen on the Banshee repository and Banshee 2.0.1 and disabled SLE 11 builds (not requiring all the dependencies). The repository serves now the following platforms (banshee and banshee-community-extensions):<br />
+* SLE 11 SP1;<br />
+* openSUSE 11.3;<br />
+* openSUSE 11.4;<br />
+* openSUSE Factory;<br />
+* openSUSE Tumbleweed (new).</p>
+<p>On Banshee:Unstable (which should hold the unstable releases, currently 2.1.0) I&#8217;ll be introducing some changes during the next days which will feature:<br />
+* Package being renamed to &#8216;banshee&#8217;, thus dropping the current banshee-1;<br />
+* Migration to pkgconfig() calls for &gt;= 1130;<br />
+* Packages banshee and banshee-core get merged into banshee (currently banshee had only 4 documentation files);<br />
+*  New sub-package banshee-common to hold all the architecture independent files (ex: text files, icons, etc);<br />
+* A few cleanups on the spec file for unsupported platforms (SLE11 and SLE11SP1 do not meet the requirements for this version and superior).</p>
+<p>Once this is implemented and tested I will look into Banshee:Alpha and see the best way to start building daily/weekly snapshots using the OBS magic available and some magic tricks hidden in Dimstar&#8217;s sleeve which kindly accepted my request to give me a hand on such evil task.</p>
+<p>In the future, on the next stable release (2.2.0), I&#8217;ll move the changes from Banshee:Unstable to Banshee and hopefully change the development repository to Banshee (as if Factory has the latest stable release it makes no sense in having Banshee&#8217;s development repository in Banshee:Unstable) and synch all at once.</p>
+<p>Users subscribed to Banshee:Unstable repository might see some turbulence during the next days, while users subscribing now through the 1-Click installer will already be installing Banshee with the changes described above.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/05/31/some-updates-on-the-banshee-repositories/feed/</wfw:commentRss>
+		<slash:comments>4</slash:comments>
+		</item>
+		<item>
+		<title>Unity 2D to enter GNOME:Ayatana soon&#8230;</title>
+		<link>http://lizards.opensuse.org/2011/05/19/unity-2d-to-enter-gnomeayatana-soon/</link>
+		<comments>http://lizards.opensuse.org/2011/05/19/unity-2d-to-enter-gnomeayatana-soon/#comments</comments>
+		<pubDate>Thu, 19 May 2011 20:07:54 +0000</pubDate>
+		<dc:creator><![CDATA[Nelson Marques]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[Usability]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[ayatana]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[unity]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7353</guid>
+		<description><![CDATA[In the past days I&#8217;ve been packaging and fixing some issues on Unity 2D for inclusion on the GNOME:Ayatana repository in the openSUSE Build Service. This gave me an excellent opportunity to test a few components share by both, Unity and Unity 2D, which is the case of &#8216;unity-place-applications&#8217; and &#8216;unity-place-files&#8217;, both using Zeitgeist which [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>In the past days I&#8217;ve been packaging and fixing some issues on Unity 2D for inclusion on the GNOME:Ayatana repository in the openSUSE Build Service.</p>
+<p>This gave me an excellent opportunity to test a few components share by both, Unity and Unity 2D, which is the case of &#8216;unity-place-applications&#8217; and &#8216;unity-place-files&#8217;, both using Zeitgeist which is already in Factory for the upcoming openSUSE 12.1. We thank the integration of this packages to Federico Quintero. Thanks Fred.</p>
+<p>A few more additional packages need some care and once they get updated and tested they will be uploaded to GNOME:Ayatana, at which time I will provide an installer (1-Click) for those willing to test Unity-2D. Unity 2D will be the first application to use the indicators I have prepared in the past which all all found working, except 1, the AppMenu (strangely it works on GNOME2 panel without issues).</p>
+<p>This is how Unity 2D looks like. There are transparencies because I enabled &#8216;composite&#8217; on metacity, which works very nicely. As far as I could understand, the developers of Unity 2D are also looking into implementing Compiz with Unity 2D, which would be sweet.</p>
+<p style="text-align: center"><a href="http://lizards.opensuse.org/wp-content/uploads/2011/05/Screenshot.png" target="_blank"><img class="aligncenter size-full wp-image-7354" src="http://lizards.opensuse.org/wp-content/uploads/2011/05/Screenshot.png" alt="" width="720" height="404" /></a></p>
+<p>Unity introduces the &#8216;dash&#8217; which is pretty much the following screen. Transparencies are enabled (though metacity composite) and the notification bubble belongs to NotifyOSD (already present in openSUSE 11.4 as optional). This is one of the three issues I have to fix, the icons displayed on the dash should have text underneath, it&#8217;s not showing. The top icons are quick links to Program Categories and the ones bellow are the default applications which are setup in GNOME.</p>
+<p style="text-align: center"><a href="http://lizards.opensuse.org/wp-content/uploads/2011/05/Screenshot1.png"><img class="aligncenter size-full wp-image-7355" src="http://lizards.opensuse.org/wp-content/uploads/2011/05/Screenshot1.png" alt="" width="720" height="404" /></a></p>
+<p style="text-align: left">The launcher panel on the side auto-hides, and seems to be working. The three icons displayed in last are respectively: Workspace selector, applications menu and files. Everything seems to be working with them, and the 2 last are components shared with Unity, and they both rely on Zeitgeist. Here&#8217;s a few captures of what they do&#8230;</p>
+<p style="text-align: center"><a href="http://lizards.opensuse.org/wp-content/uploads/2011/05/Screenshot2.png"><img class="aligncenter size-full wp-image-7356" src="http://lizards.opensuse.org/wp-content/uploads/2011/05/Screenshot2.png" alt="" width="720" height="404" /></a></p>
+<p style="text-align: center"><a href="http://lizards.opensuse.org/wp-content/uploads/2011/05/Screenshot-1.png"><img class="aligncenter size-full wp-image-7357" src="http://lizards.opensuse.org/wp-content/uploads/2011/05/Screenshot-1.png" alt="" width="720" height="404" /></a></p>
+<p style="text-align: center"><a href="http://lizards.opensuse.org/wp-content/uploads/2011/05/Screenshot-2.png"><img class="size-full wp-image-7358  aligncenter" src="http://lizards.opensuse.org/wp-content/uploads/2011/05/Screenshot-2.png" alt="" width="730" height="404" /></a></p>
+<p style="text-align: left">There&#8217;s also a feature from Unity which is cute&#8230; The title artifact of the decorator window (metacity, which required a few patches) is removed and implemented on the top bar when the window is maximized. Sadly for me the AppMenu (menu proxy) isn&#8217;t working properly, this is another thing that needs fixing&#8230;</p>
+<p style="text-align: center"><a href="http://lizards.opensuse.org/wp-content/uploads/2011/05/Screenshot3.png"><img class="size-full wp-image-7363    aligncenter" src="http://lizards.opensuse.org/wp-content/uploads/2011/05/Screenshot3.png" alt="" width="720" height="404" /></a></p>
+<p style="text-align: left">This should cover pretty much the functionality that is available currently. There&#8217;s a few issues still remaining before I can push this to GNOME:Ayatana:</p>
+<p style="text-align: left">- I tried not to have the need to patch gnome-session, but since Unity relies on the Session Indicator to have this functionality, gnome-session will need to be patched (should be ok, because it also requires the backport patch for  defining &#8211;sessions for openSUSE 11.4).</p>
+<p style="text-align: left">- Unity 2D itself relies on a few gconf hacks that should be on a schema file. I&#8217;ve talked to upstream and this is planned already, so once it&#8217;s release, that&#8217;s when it will be published.</p>
+<p style="text-align: left">- There&#8217;s one issue also with backgrounds and workspace switcher&#8230; unfortunatly the workspace switcher only renders wallpapers if they are in image format (no .xml stuff), so this can turn some wallpapers not to render, which eventually ends up in the background of the switcher being the one defined in GNOME as solid color.</p>
+<p style="text-align: left">So the order of TODO&#8217;s for GNOME:Ayatana is pretty much this one:</p>
+<p style="text-align: left">1. Implement dependencies and then Unity 2D;<br />
+2. Make sure Compiz is well implemented, because Unity will require Compiz at it&#8217;s best shape;<br />
+3. Make sure nux and other twisted dependencies are properly implemented;<br />
+4. Implement Unity itself;</p>
+<p style="text-align: left">This are the latest news for GNOME:Ayatana&#8230;</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/05/19/unity-2d-to-enter-gnomeayatana-soon/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>Unknown Horizons, a nice strategy game, now on openSUSE</title>
+		<link>http://lizards.opensuse.org/2011/05/09/unknown-horizons-a-nice-strategy-game-now-on-opensuse/</link>
+		<comments>http://lizards.opensuse.org/2011/05/09/unknown-horizons-a-nice-strategy-game-now-on-opensuse/#comments</comments>
+		<pubDate>Mon, 09 May 2011 21:48:00 +0000</pubDate>
+		<dc:creator><![CDATA[Nelson Marques]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Forums]]></category>
+		<category><![CDATA[game]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[Package]]></category>
+		<category><![CDATA[unknown-horizons]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7303</guid>
+		<description><![CDATA[A few days ago I was wandering on the openSUSE Forums, once more in the games section when I saw one more post from one of our users asking for Unknown Horizons&#8230; I&#8217;ve search a bit and found 2 entries on OBS (openSUSE Build Service), one for Fedora packages and another for openSUSE packages. I&#8217;ve [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>A few days ago I was wandering on the <a href="http://forums.opensuse.org" target="_blank">openSUSE Forums</a>, once more in the games section when I saw one more post from one of our users asking for <a href="http://www.unknown-horizons.org" target="_blank">Unknown Horizons</a>&#8230; I&#8217;ve search a bit and found 2 entries on OBS (<a href="http://build.opensuse.org" target="_blank">openSUSE Build Service</a>), one for Fedora packages and another for openSUSE packages.</p>
+<p>I&#8217;ve joined #unknown-horizons on <a href="irc://irc.opensuse.org">FreeNode</a> and found out that Unknown Horizons is very active and people are very nice. I&#8217;ve made a few questions around and offered myself to package this nice game for openSUSE (home:ketheriel:UnknownHorizons). Some of the dependencies are provided by the games repository, to which I want to submit the major releases, and if possible enable builds for Fedora (and friends).</p>
+<p>A few packages need some tweaks to enable builds for Fedora (allegro, libenet, guichan), and I&#8217;m working already on that. Meanwhile for everyone who wants to check out the latest development snapshot of Unknown Horizons, feel free to do so&#8230; Currently packaged for:</p>
+<p>* openSUSE 11.3<br />
+* openSUSE 11.4<br />
+* openSUSE Factory<br />
+* openSUSE Tumbleweed</p>
+<p>The 1-Click installer can be found on <a href="http://www.unknown-horizons.org/download/linux/" target="_blank">Unknown Horizons download page</a>.  There&#8217;s also a nice article (bumping ego) about the new openSUSE packages on Unknown Horizons webpage!</p>
+<p>This is a title that all openSUSE users who like RTS games should try (supports openGL and sdl) and is powered by the <a href="http://www.fifengine.de" target="_blank">FIFE Engine</a>.</p>
+<div id="attachment_7304" style="width: 592px" class="wp-caption alignnone"><a href="http://lizards.opensuse.org/wp-content/uploads/2011/05/Screenshot-Unknown-Horizons-Alpha.png"><img class="size-full wp-image-7304  " src="http://lizards.opensuse.org/wp-content/uploads/2011/05/Screenshot-Unknown-Horizons-Alpha.png" alt="" width="582" height="424" /></a><p class="wp-caption-text">Unknown Horizons - Settings Menu - openSUSE 11.4 GNOME3</p></div>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/05/09/unknown-horizons-a-nice-strategy-game-now-on-opensuse/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Gpick &#8211; An advanced color picker&#8230;</title>
+		<link>http://lizards.opensuse.org/2011/05/05/gpick-an-advanced-color-picker/</link>
+		<comments>http://lizards.opensuse.org/2011/05/05/gpick-an-advanced-color-picker/#comments</comments>
+		<pubDate>Thu, 05 May 2011 17:00:01 +0000</pubDate>
+		<dc:creator><![CDATA[Nelson Marques]]></dc:creator>
+				<category><![CDATA[Artwork]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.1]]></category>
+		<category><![CDATA[advanced]]></category>
+		<category><![CDATA[color]]></category>
+		<category><![CDATA[gnome3]]></category>
+		<category><![CDATA[gpick]]></category>
+		<category><![CDATA[GTK+]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[news]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[picker]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7288</guid>
+		<description><![CDATA[It was brought to my attention through I article (german) the existence of gpick, an advanced and high featured color picker. I&#8217;ve taken a quick look at it to make it available for openSUSE as it seems an interesting tool for artists and web designers (maybe GTK3+ themers) and others. To build this package a [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>It was brought to my attention through I <a href="http://karl-tux-stadt.de/ktuxs/?p=3176" target="_blank">article</a> (german) the existence of <a href="http://code.google.com/p/gpick/" target="_blank">gpick</a>, an advanced and high featured color picker. I&#8217;ve taken a quick look at it to make it available for openSUSE as it seems an interesting tool for artists and web designers (maybe GTK3+ themers) and others.</p>
+<p>To build this package a few files are generated with the <a href="http://www.hwaci.com/sw/lemon/" target="_blank">Lemon Parser Generator</a> which isn&#8217;t really available. I&#8217;m contacting upstream regarding the possibility of including the generated files in the tarball, or eventually if that fails, I&#8217;ll probably need to include lemon.c, hand compile it and hack scons build to use the local binary to generate those files.</p>
+<p style="text-align: center"><a href="http://lizards.opensuse.org/wp-content/uploads/2011/05/Screenshot-New-palette-Gpick.png"><img class="aligncenter size-full wp-image-7289" src="http://lizards.opensuse.org/wp-content/uploads/2011/05/Screenshot-New-palette-Gpick.png" alt="" width="707" height="461" /></a></p>
+<p style="text-align: center"><a href="http://lizards.opensuse.org/wp-content/uploads/2011/05/Screenshot-New-palette-Gpick-1.png"><img class="aligncenter size-full wp-image-7290" src="http://lizards.opensuse.org/wp-content/uploads/2011/05/Screenshot-New-palette-Gpick-1.png" alt="" width="707" height="461" /></a><a href="http://lizards.opensuse.org/wp-content/uploads/2011/05/Screenshot-New-palette-Gpick-2.png"><img class="aligncenter size-full wp-image-7291" src="http://lizards.opensuse.org/wp-content/uploads/2011/05/Screenshot-New-palette-Gpick-2.png" alt="" width="707" height="461" /></a></p>
+<p style="text-align: left">The screenshots have a tiny glitch on an icon, this is mainly because I haven&#8217;t rebuilt the icon cache when I took them. I look forward to explore the possibility of having such a great tool available for openSUSE 12.1.</p>
+<p style="text-align: left"><strong>UPDATE:</strong> I&#8217;ve made available a small test package on <strong><a href="https://build.opensuse.org/project/show?project=home%3Aketheriel%3Agpick" target="_blank">home:ketheriel:gpick</a></strong> (needs some work before submitting to factory) which should be working. Any testing/feedback will be most welcomed. Also enabled builds for Fedora 14, since I believe this package isn&#8217;t available for Fedora.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/05/05/gpick-an-advanced-color-picker/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>

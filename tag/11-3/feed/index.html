@@ -1,0 +1,1681 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; 11.3</title>
+	<atom:link href="http://lizards.opensuse.org/tag/11-3/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>AMD/ATI Catalyst fglrx &amp; fglrx legacy news</title>
+		<link>http://lizards.opensuse.org/2012/07/31/amdati-catalyst-fglrx-fglrx-legacy-news/</link>
+		<comments>http://lizards.opensuse.org/2012/07/31/amdati-catalyst-fglrx-fglrx-legacy-news/#comments</comments>
+		<pubDate>Tue, 31 Jul 2012 06:11:29 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[11.3]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.1]]></category>
+		<category><![CDATA[12.2]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[fglrx]]></category>
+		<category><![CDATA[fglrx legacy]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[xorg]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8888</guid>
+		<description><![CDATA[AMD/ATI Catalyst fglrx &#38; fglrx legacy news Explanations of Hell During June, with the version 12.6 (8.980) AMD decide to drop support for legacy radeon chipset from its main fglrx package and drop the time based release cycle. So now if you are the owner of radeon hd2xxx to hd4xxx chipset family you will have [&#8230;]]]></description>
+				<content:encoded><![CDATA[<h2>AMD/ATI Catalyst fglrx &amp; fglrx legacy news</h2>
+<h3>Explanations of Hell</h3>
+<p>During June, with the version 12.6 (8.980) AMD decide to drop support for legacy radeon chipset from its main fglrx package and drop the time based release cycle.<br />
+So now if you are the owner of radeon hd2xxx to hd4xxx chipset family you will have to use the -legacy- version of fglrx, and<br />
+consequently if you have a radeon hd5xxx or above, you have to use the standard fglrx driver.<br />
+Then start the hell. After getting the new developed script from Sebastian Siebert, I will be able to offer the two versions. Unfortunately the two drivers can&#8217;t coexist in the same repository, the legacy drivers wants to install in place of normal one. This imply another limitation, you can&#8217;t have two graphics cards with differents generation at the same time.<br />
+So I decide to clarify (is that possible? <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> ) the mess, and split the drivers in two distinct repositories. I use that excuse to also change the ati (deprecated brand name) and use new names: amd-fglx and amd-fglrx-legacy.<br />
+Don&#8217;t worry about your exiting installation, I will provide a symlink during the next 6 months at least for the old repositories. <span style="font-weight:bold">But read carefully the rest of the story, and apply any changes needed to your installation</span> to be sure to continue to safely use the right driver.<br />
+I also decided to remove any version below 12.4 (8.961) in all repositories, except for openSUSE 11.2.
+</p>
+<p>I need your help to spread those informations around the internet, and be sure that every user that need this driver know where and how to use it right. Tweet FbLike G+ forums, mailing list, private blogs Go now!</p>
+<h3>Release note about 12.6 and legacy 8.97.100</h3>
+<p>Both version can handle kernel 3.4 and 3.5</p>
+<p>Sebastian Siebert warn us about the state of legacy</p>
+<div id="attachment_8701" style="width: 160px" class="wp-caption alignright"><a href="http://lizards.opensuse.org/wp-content/uploads/2012/05/fglrx12.4-screenshot3.jpg"><img src="http://lizards.opensuse.org/wp-content/uploads/2012/05/fglrx12.4-screenshot3-150x150.jpg" alt="" width="150" height="150" class="size-thumbnail wp-image-8701" /></a><p class="wp-caption-text">AMD catalyst control center  and fgl_glxgears</p></div>
+<p style="font-style:italic">
+These cards with the unofficial support of openSUSE 12.2 can run in the ideal case, just under 2 more years. However, one must keep in mind that the legacy driver is looked after, while AMD continues and eliminates errors found, but will not add new features. This can mean, among other things, that the next version of GNOME or KDE will not run with its 3D effects, especially when used with a desktop or Tumbleweed extra repository.
+</p>
+<p><a href="http://www.sebastian-siebert.de/2012/07/28/opensuse-amd-catalyst-12-6-legacy-treiber-als-rpm-installieren/">Sebastian&#8217;s post</a></p>
+<p>If you have any comments, be do on his blog. Don&#8217;t be shy, you can leave there the result of test in english too <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_biggrin.gif' alt=':D' class='wp-smiley' /><br />
+or ask in forums, irc and ping freespacer.<br />
+See below what to do in case of troubles.</p>
+<p>
+12.2 Factory rpms are presently available, use at your own risk, and report bugs in forums and Sebastian blogs.<br />
+Anyways, factory and 12.2 should keep their effort on debuging and testing widely the free radeon driver.
+</p>
+<p><span id="more-8888"></span></p>
+<h4>Quick Résumé</h4>
+<p>For openSUSE version 11.3 and above</p>
+<ol><b>Have a radeon hd5xxx and above</b></p>
+<li>You have to use the standard fglrx</li>
+<li>Use the new repository http://geeko.ioda.net/mirror/amd-fglrx/</li>
+<li><span>See below one-click installer</li>
+</ol>
+<ol><b>Have a radeon between hd2xxx and hd4xxx</b></p>
+<li>You have to use the legacy fglrx version</li>
+<li>Use the new repository http://geeko.ioda.net/mirror/amd-fglrx-legacy/</li>
+<li><span>See below one-click-legacy installer</li>
+</ol>
+<h2>Installation how-to</h4>
+<p>This chapter replace any previously published informations. the wiki page will reflect also those changes soon</p>
+<h3>This is non-free software : Warning</h3>
+<p>I would notice everybody who will install these drivers : you will install proprietary software on your computer. Nobody will be able to debug them, nor help you to resolve what can be happen.<br />
+That&#8217;s fact must be clear and said again and agian!</p>
+<p>The real and free future is already in place : it&#8217;s called radeon (or free-radeon), it&#8217;s fully integrated in kernel &amp; xorg. Support for many chipset is in real progress even for the last 7xxx series.<br />
+Give it a try before using the proprietary software, report any bugs you could find with them.<br />
+Only your contributions can help and will make a real differences. Thanks for doing that!
+</p>
+<h3>The most easier way : One-click-installer</h3>
+<p>Take you time to be sure about your choice. NEVER mixup the two repositories!<br />
+<span style="font-size:small">(*) To know which kind of system you have, open a console, then run uname -a and look the output if you see x86_64 on the line you are running a 64bits, otherwise a 32bits.</span></p>
+<p><span style="font-size:small">(*) To know which kind of chipset you have, it&#8217;s usually eady to find the reference of your graphics card with the docbook of your hardware hd2xxx,hd3xxx,hd4xxx need legacy driver, hd5/6/7/8xxx need standard fglrx, older need to use the free radeon</span></p>
+<h4>For standard fglx</h4>
+<p>one-click-installer For 32bits system : <a href="http://geeko.ioda.net/mirror/amd-fglrx/ymp/amd-ati-fglrx.ymp"><img src="http://en.opensuse.org/images/e/e9/Fglrx_1click.png" alt="AMD/ATI standard 32bits fglrx one click installer" /></a></p>
+<p>one-click-installer For 64bits system : <a href="http://geeko.ioda.net/mirror/amd-fglrx/ymp/amd-ati-fglrx64.ymp"><img src="http://en.opensuse.org/images/e/e9/Fglrx_1click.png" alt="AMD/ATI standard 64btis fglrx one click installer" /></a></p>
+<h4>For legacy fglx</h4>
+<p>one-click-installer For 32bits system : <a href="http://geeko.ioda.net/mirror/amd-fglrx-legacy/ymp/amd-ati-fglrx-legacy.ymp"><img src="http://en.opensuse.org/images/e/e9/Fglrx_1click.png" alt="AMD/ATI standard 32bits fglrx one click installer" /></a></p>
+<p>one-click-installer For 64bits system : <a href="http://geeko.ioda.net/mirror/amd-fglrx-legacy/ymp/amd-ati-fglrx64-legacy.ymp"><img src="http://en.opensuse.org/images/e/e9/Fglrx_1click.png" alt="AMD/ATI standard 64btis fglrx one click installer" /></a></p>
+<p>Let YaST and once-click installer doing the job</p>
+<h3>Manual installation</h3>
+<h4>Adding the repository</h4>
+<h5>For openSUSE Tumbleweed</h5>
+<h6>Standard fglrx</h6>
+<pre style="font-size:x-small">
+zypper ar -c -f -n "AMD/ATI fglrx non-official" http://geeko.ioda.net/mirror/amd-fglrx/openSUSE_Tumbleweed/ "ATI/AMD-FGLRX"
+</pre>
+<h6>Legacy fglrx</h6>
+<pre style="font-size:x-small">
+zypper ar -c -f -n "AMD/ATI legacy fglrx non-official" http://geeko.ioda.net/mirror/amd-fglrx-legacy/openSUSE_Tumbleweed/ "ATI/AMD-FGLRX-LEGACY"
+</pre>
+<h5>For openSUSE 12.2</h5>
+<h6>Standard fglrx</h6>
+<pre style="font-size:x-small">
+zypper ar -c -f -n "AMD/ATI fglrx non-official" http://geeko.ioda.net/mirror/amd-fglrx/openSUSE_12.2/ "ATI/AMD-FGLRX"
+</pre>
+<h6>Legacy fglrx</h6>
+<pre style="font-size:x-small">
+zypper ar -c -f -n "AMD/ATI legacy fglrx non-official" http://geeko.ioda.net/mirror/amd-fglrx-legacy/openSUSE_12.2/ "ATI/AMD-FGLRX-LEGACY"
+</pre>
+<h5>For openSUSE 12.1</h5>
+<h6>Standard fglrx</h6>
+<pre style="font-size:x-small">
+zypper ar -c -f -n "AMD/ATI fglrx non-official" http://geeko.ioda.net/mirror/amd-fglrx/openSUSE_12.1/ "ATI/AMD-FGLRX"
+</pre>
+<h6>Legacy fglrx</h6>
+<pre style="font-size:x-small">
+zypper ar -c -f -n "AMD/ATI legacy fglrx non-official" http://geeko.ioda.net/mirror/amd-fglrx-legacy/openSUSE_12.1/ "ATI/AMD-FGLRX-LEGACY"
+</pre>
+<h5>For openSUSE 11.4</h5>
+<h6>Standard fglrx</h6>
+<pre style="font-size:x-small">
+zypper ar -c -f -n "AMD/ATI fglrx non-official" http://geeko.ioda.net/mirror/amd-fglrx/openSUSE_11.4/ "ATI/AMD-FGLRX"
+</pre>
+<h6>Legacy fglrx</h6>
+<pre style="font-size:x-small">
+zypper ar -c -f -n "AMD/ATI legacy fglrx non-official" http://geeko.ioda.net/mirror/amd-fglrx-legacy/openSUSE_11.4/ "ATI/AMD-FGLRX-LEGACY"
+</pre>
+<h5>For openSUSE 11.3</h5>
+<h6>Standard fglrx</h6>
+<pre style="font-size:x-small">
+zypper ar -c -f -n "AMD/ATI fglrx non-official" http://geeko.ioda.net/mirror/amd-fglrx/openSUSE_11.3/ "ATI/AMD-FGLRX"
+</pre>
+<h6>Legacy fglrx</h6>
+<pre style="font-size:x-small">
+zypper ar -c -f -n "AMD/ATI legacy fglrx non-official" http://geeko.ioda.net/mirror/amd-fglrx-legacy/openSUSE_11.3/ "ATI/AMD-FGLRX-LEGACY"
+</pre>
+<h5>For openSUSE 11.2</h5>
+<pre style="font-size:x-small">
+zypper ar -c -f -n "ATI/AMD fglrx non-official" http://geeko.ioda.net/mirror/amd-fglrx/openSUSE_11.2/ "ATI/AMD FGLRX"
+</pre>
+<p>This repository contains the last version that work for 11.2 : fglrx 11.6</p>
+<h4>Installing the driver</h4>
+<h5>Nota about previous version</h5>
+<p>Due to change in amd/ati way of life, it&#8217;s recommanded to completely remove any version of fglrx previously installed with a zypper rm<br />
+I can only recommand to also (as root) </p>
+<pre style="font-size:x-small">
+# Remove old conf &amp; stuff
+rm -fr /etc/ati
+# Remove any old fglrx inside kernel modules
+find /lib/modules -type f -iname "fglrx.ko" -exec rm -fv {} \;
+</pre>
+<h5>New installation</h5>
+<p>Once the repo has been added, you will certainly have to reboot to get ride off free radeon module. In the boot screen on the grub line add</p>
+<pre>radeon.modeset=0 blacklist=radeon 3</pre>
+<p>Don&#8217;t panic you will be land to a console, open it with root account to install fglrx.<br />
+Search the software you want for example under openSUSE 12.1 </p>
+<pre style="font-size:x-small">
+zypper se -s fglrx
+Loading repository data...
+Reading installed packages...
+
+S | Name                        | Type    | Version      | Arch   | Repository       
+--+-----------------------------+---------+--------------+--------+------------------
+v | fglrx64_xpic_SUSE121        | package | 8.980-2      | x86_64 | FGLRX            
+v | fglrx64_xpic_SUSE121        | package | 8.961-5      | x86_64 | FGLRX            
+v | fglrx64_xpic_SUSE121        | package | 8.961-1      | x86_64 | FGLRX            
+v | fglrx64_xpic_SUSE121        | package | 8.951-1      | x86_64 | FGLRX            
+v | fglrx64_xpic_SUSE121        | package | 8.950-3      | x86_64 | FGLRX            
+v | fglrx64_xpic_SUSE121        | package | 8.950-1      | x86_64 | FGLRX            
+v | fglrx64_xpic_SUSE121        | package | 8.930-1      | x86_64 | FGLRX                       
+  | fglrx_xpic_SUSE121          | package | 8.980-2      | i586   | FGLRX            
+  | fglrx_xpic_SUSE121          | package | 8.961-5      | i586   | FGLRX            
+  | fglrx_xpic_SUSE121          | package | 8.961-1      | i586   | FGLRX            
+  | fglrx_xpic_SUSE121          | package | 8.951-1      | i586   | FGLRX            
+  | fglrx_xpic_SUSE121          | package | 8.950-3      | i586   | FGLRX            
+  | fglrx_xpic_SUSE121          | package | 8.950-1      | i586   | FGLRX            
+  | fglrx_xpic_SUSE121          | package | 8.930-1      | i586   | FGLRX 
+</pre>
+<h5>For a 64bits version</h5>
+<pre style="font-size:x-small">zypper in fglrx64_xpic_SUSE121</pre>
+<h5>For a 32bits version</h5>
+<pre style="font-size:x-small">zypper in fglrx_xpic_SUSE121</pre>
+<p>During the installation process, all the dependencies will be added, which mostly are needed to build the kernel modules. Expect around 200MB to dowload.</p>
+<p>Then the installer will build the module for your installed kernel.<br />
+And if there&#8217;s a kernel update, the script will automagically detect that, and will rebuild the module for the new kernel installed.<br />
+(So if you find that your workstation is slow on reboot just press the esc key to see the details &#8230; )</p>
+<h4>Preparing xorg to use fglrx</h4>
+<p>Once the module is build and installed, you should have a file fglrx.conf or 50-fglrx.conf in /etc/modprobe.d </p>
+<pre style="font-size:x-small">cat /etc/modprobe.d/50-fglrx.conf
+blacklist radeon
+</pre>
+<p>Next ati recommend to use ati &#8211;initial-config but that break the auto-detect stack of xorg. So I recommend changing one line in file /etc/X11/xorg.conf.d/50-device.conf<br />
+just change driver line to <strong> driver &#8220;fglrx&#8221;</strong><br />
+All the rest of the setup (double screen etc) will be made lately with the ati catalyst control center (command is amdcccle).<br />
+For those of you which want to have an xorg.conf file just have a look at aticonfig &#8211;help command.</p>
+<h5>Start X</h5>
+<p>If you are inside the console we start to use before just run &#8220;init 5&#8243; to start xorg, and normally you will find your normal xorg login screen (kdm, gdm, ldm, xdm).<br />
+Hit ctrl+alt+f1 to return to the console and type exit or logout or ctrl+d to close it.<br />
+then ctrl+alt+f7 to return to the xorg session.<br />
+Reboot one time, to insure that everything will work smoothly next time.</p>
+<h3>Special Cases</h3>
+<h4>Tumbleweed</h4>
+<p>I&#8217;ve build a new version of the fglrx rpm especially under Tumbleweed. So any deps etc should be correct.<br />
+Be carefull, I&#8217;ve no way to test Tumbleweed with real hardware, and then it can eat your cats
+</p>
+<p>You could change the original repository for 12.1 to the Tumbleweed one, or add a new repository (don&#8217;t forget to disable the previous one)</p>
+<pre>zypper ar -c -g -f -n FGLRX-Tumbleweed http://geeko.ioda.net/mirror/amd-fgrlx/openSUSE_Tumbleweed FGRLX-Tumbleweed</pre>
+<p>or for legacy driver</p>
+<pre>zypper ar -c -g -f -n FGLRX-LEGACY-Tumbleweed http://geeko.ioda.net/mirror/amd-fgrlx-legacy/openSUSE_Tumbleweed FGRLX-LEGACY-Tumbleweed</pre>
+<h4>Caution</h4>
+<ul>
+<li>Wrong (to my point of view) create an xorg.conf file which is unneeded if you work with /etc/xorg.conf.d/50-device.conf and have driver &#8220;fglrx&#8221; inside</li>
+<li>AMD CCLE didn&#8217;t get correctly upgraded if xorg is running during the upgrade. My advise, do the update in console mode (logout and hit ctrl+alt+f1) and logged as root do the following :
+<pre>
+init 3
+rcatievenstd stop
+zypper ref -f
+zypper lu
+# should show an update for fglrx
+zypper up
+init 6
+</pre>
+<p>Let the package rebuild the kernel driver. And for me I always remove the newly xorg.conf file created.<br />
+reboot is mandatory!
+</li>
+</ul>
+<h4>Debuging troubles</h4>
+<p>I recommend in case of trouble the use of <a href="http://www.sebastian-siebert.de/downloads/makerpm-amd-12.6.sh">his script</a> which can collect the whole informations needed to help you. then you just have to issue a simple commande in console to collect all informations, you can review them, and finally transmit them.<br />
+Check the website to get the latest.
+</p>
+<pre>su -c 'sh makerpm-amd-12.6.sh -ur'
+The sytem report 'amd-report.txt' was generated.                                                                                                                    [ OK ]
+Do you want to read the system report 'amd-report.txt' now? yes/no [y/n]: y
+Are you sure to upload the above-named system report to sprunge.to? yes/no [y/n]: y
+
+The report was uploaded to sprunge.us.
+   The link is:  http://sprunge.us/ZVRP
+</pre>
+<p>Copy paste the link in the comment zone of Sebatian post</p>
+<h2>Mirror Statistiques</h2>
+<p>December 2011 as shown a big bump on the server : 50,212 unique visitor for a roughly 320GB traffic for the rpm</p>
+<p>1582GB has been distributed during 2011.</p>
+<h3>2012</h3>
+<div style="width:90%">
+<table>
+<tr>
+<td width="80" bgcolor="#ECECEC">Month</td>
+<td width="80" bgcolor="#FFAA66">Unique visitors</td>
+<td width="80" bgcolor="#F4F090">Number of visits</td>
+<td width="80" bgcolor="#4477DD">Pages</td>
+<td width="80" bgcolor="#66DDEE">Hits</td>
+<td width="80" bgcolor="#2EA495">Bandwidth</td>
+</tr>
+<tr>
+<td>Jan 2012</td>
+<td>57,955</td>
+<td>133,903</td>
+<td>3,463,860</td>
+<td>3,502,972</td>
+<td>372.10 GB</td>
+</tr>
+<tr>
+<td>Feb 2012</td>
+<td>65,806</td>
+<td>149,590</td>
+<td>4,008,869</td>
+<td>4,040,043</td>
+<td>366.37 GB</td>
+</tr>
+<tr>
+<td>Mar 2012</td>
+<td>75,108</td>
+<td>170,605</td>
+<td>4,681,131</td>
+<td>4,723,496</td>
+<td>460.55 GB</td>
+</tr>
+<tr>
+<td>Apr 2012</td>
+<td>77,222</td>
+<td>173,829</td>
+<td>4,706,989</td>
+<td>4,736,517</td>
+<td>300.85 GB</td>
+</tr>
+<tr>
+<td>May 2012</td>
+<td>74,050</td>
+<td>171,728</td>
+<td>5,345,797</td>
+<td>5,372,652</td>
+<td>369.08 GB</td>
+</tr>
+<tr>
+<td>June 2012</td>
+<td>67,754</td>
+<td>165,257</td>
+<td>5,133,741</td>
+<td>5,157,350</td>
+<td>310.55 GB</td>
+</tr>
+<tr>
+<td>July 2012</td>
+<td>68,426</td>
+<td>161,846</td>
+<td>5,040,665</td>
+<td>5,073,580</td>
+<td>413.84 GB</td>
+</tr>
+<tr>
+<td bgcolor="#ECECEC">Total</td>
+<td bgcolor="#ECECEC">488,242</td>
+<td bgcolor="#ECECEC">1,131,471</td>
+<td bgcolor="#ECECEC">32,529,114</td>
+<td bgcolor="#ECECEC">32,757,328</td>
+<td bgcolor="#ECECEC">2,637.16 GB</td>
+</tr>
+</table>
+<p>All proudly distributed by openSUSE 11.4 powered server!</p>
+</div>
+<p>That&#8217;s all folks! Have fun!</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/07/31/amdati-catalyst-fglrx-fglrx-legacy-news/feed/</wfw:commentRss>
+		<slash:comments>14</slash:comments>
+		</item>
+		<item>
+		<title>AMD/ATI fglrx 8.961 Catalyst 12.4 (build 5) rpms available for openSUSE 12.2, 12.1, 11.4, 11.3 &amp; Tumbleweed</title>
+		<link>http://lizards.opensuse.org/2012/05/31/amdati-fglrx-8-961-catalyst-12-4-build-5-rpms-available-for-opensuse-12-2-12-1-11-4-11-3-tumbleweed/</link>
+		<comments>http://lizards.opensuse.org/2012/05/31/amdati-fglrx-8-961-catalyst-12-4-build-5-rpms-available-for-opensuse-12-2-12-1-11-4-11-3-tumbleweed/#comments</comments>
+		<pubDate>Thu, 31 May 2012 15:26:25 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[11.3]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.1]]></category>
+		<category><![CDATA[12.2]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[fglrx]]></category>
+		<category><![CDATA[xorg]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8700</guid>
+		<description><![CDATA[Those informations are obsolete now : please consult http://lizards.opensuse.org/?p=8888 AMD/ATI Catalyst 12.4 / fglrx 8.961 (build 5 revised) rpms are available Quick Résumé about 12.4 The first version available in repository from April 30th has trouble with any kernel never than 3.3 Sebastian Siebert has create a patch for kernel 3.4+, I google translate quickly [&#8230;]]]></description>
+				<content:encoded><![CDATA[<h1>Those informations are obsolete now : please consult <a href="http://lizards.opensuse.org/?p=8888">http://lizards.opensuse.org/?p=8888</a></h1>
+<h2>AMD/ATI Catalyst 12.4 / fglrx 8.961 (build 5 revised) rpms are available</h2>
+<h3>Quick Résumé about 12.4</h3>
+<p>The first version available in repository from April 30th has trouble with any kernel never than 3.3</p>
+<p>Sebastian Siebert has create a patch for kernel 3.4+, I google translate quickly his blog article here.</p>
+<div id="attachment_8701" style="width: 160px" class="wp-caption alignright"><a href="http://lizards.opensuse.org/wp-content/uploads/2012/05/fglrx12.4-screenshot3.jpg"><img src="http://lizards.opensuse.org/wp-content/uploads/2012/05/fglrx12.4-screenshot3-150x150.jpg" alt="" width="150" height="150" class="size-thumbnail wp-image-8701" /></a><p class="wp-caption-text">AMD catalyst control center  and fgl_glxgears</p></div>
+<p style="font-style:italic">
+May 30th 2012<br />
+WARNING! Who use AMD Catalyst 12.4 driver from the AMD installer will inevitably have problems with kernel 3.4.0 and higher (eg from the Tumbleweed repo).<br />
+Because the driver is designed, at least up to kernel 3.3.x on openSUSE only.<br />
+Here are some examples of errors when compiling a kernel module fglrx:
+</p>
+<pre>
+error: 'cpu_possible_map' undeclared (first use in this function) ... 
+error: implicit declaration of function '__save_init_fpu'
+
+Or when you load the fglrx kernel module:
+
+ A FATAL: Error inserting fglrx (/ lib/modules/3.4.0-25-desktop/extra/fglrx.ko): Unknown symbol in module, or unknown parameter (see dmesg)
+ The output of dmesg: fglrx: Unknown symbol old_rsp (err 0) 
+</pre>
+<p style="font-style:italic">
+I now have an updated makerpm-amd script and replaced the older packaging from script to a newer.<br />
+At this point, I say thank you for the helpful feedback and also to the AMD community that their minds have assembled to investigate the problem and make it to the world.<br />
+The packaging script I maintain, need no extra time. The kernel patches for the compiler error I&#8217;ve already entered for this month in the AMD installer. In the next AMD Catalyst we will not need this patch anymore. Since the patch will be included in the source fglrx from AMD for the next version.
+</p>
+<p style="font-style:italic">
+<span style="color:red">Small warning for stormy times: AMD plans to graphics chips R6xx/R7xx not lead to the main branch.</span><br />
+The graphics card series Radeon HD 2000, 3000 and 4000 are affected (Phoronix has reported). The last supported version is expected to be AMD Catalyst 12.7. However, AMD has turned in and stored in a separate branch of this, it weiterzupflegen there. It means that no new feature added, but only fix bugs. openSUSE 11.4 and 12.1 is still supported and maintained. The chances are good that the driver to get there will also run on an X-Server 1.12.<br />
+The next openSUSE version 12.2 in July, will should use the X-server 1.10, so that the driver theoretically run on this version of openSUSE. For this I&#8217;ll create a separate makerpm-amd script, that this legacy continues as usual drivers to install on openSUSE 11.4 and 12.1 (possibly 12.2) and will also provide the necessary kernel patches. AMD believes that these chipsets will already extensive support from the free Radeon driver. So it is time to order a new graphics card in order to continue the beta drivers from AMD Catalyst testing on openSUSE. A new graphics card was already planned last October. So I will finally keep your hardware donation for the new graphics card.
+</p>
+<p>See more at <a href="http://www.sebastian-siebert.de/2012/04/25/opensuse-proprietaeren-grafik-treiber-amd-catalyst-12-4-als-rpm-installieren/">Sebastian&#8217;s blog</a>.<br />
+Don&#8217;t be shy, you can leave there the result of test in english too <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_biggrin.gif' alt=':D' class='wp-smiley' /><br />
+or ask in forums, irc and ping freespacer.<br />
+See below what to do in case of troubles.</p>
+<p>The rpms version 8.961 are available from Thursday May 31</p>
+<p><span id="more-8700"></span><br />
+<div id="attachment_8698" style="width: 160px" class="wp-caption alignright"><a href="http://lizards.opensuse.org/wp-content/uploads/2012/05/fglrx12.4-screenshot1.jpg"><img src="http://lizards.opensuse.org/wp-content/uploads/2012/05/fglrx12.4-screenshot1-150x150.jpg" alt="" width="150" height="150" class="size-thumbnail wp-image-8698" /></a><p class="wp-caption-text">fglrx12.4 flash benchmark (HD5770) and sysinfo</p></div>
+<p>My advise is to firstly remove any existing version with zypper rm, then just zypper in the new version</p>
+<p>As usual, I let the previous versions in the repository, just in case you need them.</p>
+<p>Tested on a fresh 12.1 + updates and kde 4.8.3</p>
+<p>
+12.2 Factory rpms are presently available, use at your own risk, and report bugs in forums and Sebastian blogs.<br />
+Anyways, factory and 12.2 should keep their effort on debuging and testing widely the free radeon driver.
+</p>
+<h3>One-click-installer</h3>
+<p>Two one-click-installer are available here :<br />
+For 32bits system :<br />
+<a href="http://geeko.ioda.net/mirror/ati/raw-src/amd-ati-fglrx.ymp"><img src="http://en.opensuse.org/images/e/e9/Fglrx_1click.png" alt="AMD/ATI fglrx one click installer" /></a></p>
+<p>For 64bits system :<br />
+<a href="http://geeko.ioda.net/mirror/ati/raw-src/amd-ati-fglrx64.ymp"><img src="http://en.opensuse.org/images/e/e9/Fglrx_1click.png" alt="AMD/ATI fglrx one click installer" /></a><br />
+<span style="font-size:small">(*) To know which kind of system you have, open a console, then run uname -a and look the output if you see x86_64 on the line you are running a 64bits, otherwise a 32bits.</span>
+</p>
+<h3>Installation, Caution, Troubles</h3>
+<h4>Installation</h4>
+<p style="font-weight:bold">Please refer to my <a href="http://lizards.opensuse.org/?p=6680">previous article</a> where all the installation procedure was explained.</p>
+<p>
+For a first installation, if you don&#8217;t remove radeon from the initrd, you will certainly get in trouble. Don&#8217;t thanks who removed that from the wiki. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_sad.gif' alt=':-(' class='wp-smiley' />
+</p>
+<h4>Tumbleweed</h4>
+<p>I&#8217;ve build a new version of the fglrx rpm especially under Tumbleweed. So any deps etc should be correct.<br />
+Be carefull, I&#8217;ve no way to test Tumbleweed with real hardware, and then it can eat your cats
+</p>
+<p>You could change the original repository for 12.1 to the Tumbleweed one, or add a new repository (don&#8217;t forget to disable the previous one)</p>
+<pre>zypper ar -c -g -f -n FGLRX-Tumbleweed http://geeko.ioda.net/mirror/ati/openSUSE_Tumbleweed FGRLX-Tumbleweed</pre>
+<h4>Caution</h4>
+<ul>
+<li>Wrong (to my point of view) create an xorg.conf file which is unneeded if you work with /etc/xorg.conf.d/50-device.conf and have driver &#8220;fglrx&#8221; inside</li>
+<li>AMD CCLE didn&#8217;t get correctly upgraded if xorg is running during the upgrade. My advise, let&#8217;s go to console and as root do the following :
+<pre>
+init 3
+rcatievenstd stop
+zypper ref
+zypper up
+init 6
+</pre>
+<p>Let the package rebuild the kernel driver. And for me I always remove the newly xorg.conf file created.<br />
+reboot is mandatory!
+</li>
+</ul>
+<div id="attachment_8699" style="width: 160px" class="wp-caption alignright"><a href="http://lizards.opensuse.org/wp-content/uploads/2012/05/fglrx12.4-screenshot2.jpg"><img src="http://lizards.opensuse.org/wp-content/uploads/2012/05/fglrx12.4-screenshot2-150x150.jpg" alt="" width="150" height="150" class="size-thumbnail wp-image-8699" /></a><p class="wp-caption-text">openSUSE.blip.tv : LinuxTag 2012 Aldebarand Robotics</p></div>
+<h4>Debuging troubles</h4>
+<p>I recommend in case of trouble the use of <a href="http://www.sebastian-siebert.de/downloads/makerpm-amd-12.4.sh">his script</a> which can collect the whole informations needed to help you. then you just have to issue a simple commande in console to collect all informations, you can review them, and finally transmit them</p>
+<pre>su -c 'sh makerpm-amd-12.4.sh -ur'
+The sytem report 'amd-report.txt' was generated.                                                                                                                    [ OK ]
+Do you want to read the system report 'amd-report.txt' now? yes/no [y/n]: y
+Are you sure to upload the above-named system report to sprunge.to? yes/no [y/n]: y
+
+The report was uploaded to sprunge.us.
+   The link is:  http://sprunge.us/ZVRP
+</pre>
+<p>Copy paste the link in the comment zone of Sebatian post</p>
+<h3>Statistiques</h3>
+<p>December 2011 as shown a big bump on the server : 50,212 unique visitor for a roughly 320GB traffic for the rpm</p>
+<p>1582GB has been distributed during 2011.</p>
+<h4>2012</h4>
+<div style="width:90%">
+<table>
+<tr>
+<td width="80" bgcolor="#ECECEC">Month</td>
+<td width="80" bgcolor="#FFAA66">Unique visitors</td>
+<td width="80" bgcolor="#F4F090">Number of visits</td>
+<td width="80" bgcolor="#4477DD">Pages</td>
+<td width="80" bgcolor="#66DDEE">Hits</td>
+<td width="80" bgcolor="#2EA495">Bandwidth</td>
+</tr>
+<tr>
+<td>Jan 2012</td>
+<td>57,955</td>
+<td>133,903</td>
+<td>3,463,860</td>
+<td>3,502,972</td>
+<td>372.10 GB</td>
+</tr>
+<tr>
+<td>Feb 2012</td>
+<td>65,806</td>
+<td>149,590</td>
+<td>4,008,869</td>
+<td>4,040,043</td>
+<td>366.37 GB</td>
+</tr>
+<tr>
+<td>Mar 2012</td>
+<td>75,108</td>
+<td>170,605</td>
+<td>4,681,131</td>
+<td>4,723,496</td>
+<td>460.55 GB</td>
+</tr>
+<tr>
+<td>Apr 2012</td>
+<td>77,222</td>
+<td>173,829</td>
+<td>4,706,989</td>
+<td>4,736,517</td>
+<td>300.85 GB</td>
+</tr>
+<tr>
+<td>May 2012</td>
+<td>74,050</td>
+<td>171,728</td>
+<td>5,345,797</td>
+<td>5,372,652</td>
+<td>369.08 GB</td>
+</tr>
+<tr>
+<td bgcolor="#ECECEC">Total</td>
+<td bgcolor="#ECECEC">350,141</td>
+<td bgcolor="#ECECEC">799,655</td>
+<td bgcolor="#ECECEC">22,206,646</td>
+<td bgcolor="#ECECEC">22,375,680</td>
+<td bgcolor="#ECECEC">1888.95 GB</td>
+</tr>
+</table>
+<p>All proudly distributed by openSUSE 11.4 powered server!</p>
+</div>
+<p>That&#8217;s all folks! Have fun!</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/05/31/amdati-fglrx-8-961-catalyst-12-4-build-5-rpms-available-for-opensuse-12-2-12-1-11-4-11-3-tumbleweed/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>ATI/AMD fglrx 8.950 Catalyst 12.2 rpm available for openSUSE 11.3, 11.4, 12.1</title>
+		<link>http://lizards.opensuse.org/2012/03/08/atiamd-fglrx-8-950-catalyst-12-2-rpm-available-for-opensuse-11-3-11-4-12-1/</link>
+		<comments>http://lizards.opensuse.org/2012/03/08/atiamd-fglrx-8-950-catalyst-12-2-rpm-available-for-opensuse-11-3-11-4-12-1/#comments</comments>
+		<pubDate>Thu, 08 Mar 2012 21:27:13 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Uncategorized]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[11.3]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.1]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATIX]]></category>
+		<category><![CDATA[fglrx]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[xorg]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8571</guid>
+		<description><![CDATA[Those informations are obsolete now : please consult http://lizards.opensuse.org/?p=8888 AMD/ATI Catalyst 12.2 / fglrx 8.950 rpm are available News, the build -3 now should build perfectly with kernel 3.2+ &#38; 3.3, Thanks to Sebastian for the patch Quick Résumé about 12.2 AMD rename their installer, So Sebastian did the same for his script. I will [&#8230;]]]></description>
+				<content:encoded><![CDATA[<h1>Those informations are obsolete now : please consult <a href="http://lizards.opensuse.org/?p=8888">http://lizards.opensuse.org/?p=8888</a></h1>
+<h2>AMD/ATI Catalyst 12.2 / fglrx 8.950 rpm are available</h2>
+<h3>News, the build -3 now should build perfectly with kernel 3.2+ &amp; 3.3, Thanks to Sebastian for the patch</h3>
+<h3>Quick Résumé about 12.2</h3>
+<p>AMD rename their installer, So Sebastian did the same for his script.</p>
+<p>I will just copy/google translate/paste here the comment made by Sebastian Siebert on his blog :</p>
+<div id="attachment_8576" style="width: 160px" class="wp-caption alignright"><a href="http://lizards.opensuse.org/wp-content/uploads/2012/03/fglrx12.2-screenshot3.png"><img src="http://lizards.opensuse.org/wp-content/uploads/2012/03/fglrx12.2-screenshot3-150x150.png" alt="" width="150" height="150" class="size-thumbnail wp-image-8576" /></a><p class="wp-caption-text">amdccle</p></div>
+<p style="font-style:italic">
+AMD has released some time later the driver. The only reason was the fact that AMD has jumped over the version 8.94 because of possible driver issues with some graphics cards. I&#8217;ve also updated the packaging script because AMD had unfortunately not include my changes in their AMD installer. (Remember? No time? Who knows &#8230; Especially since AMD closed mailing list was down.) It affects even the atieventsd.sh init script. There has been specified for the start of the script in run level 3 and also the XDM (X window manager) provided what IMHO makes no sense. On the other hand, the power mode script (ati powermode.sh) kicked out for good. Since the driver already supports the suspend mode and does not require a helper script anymore.<br />
+Driver support now AMD Radeon HD 7950, HD 7970, HD 7990
+</p>
+<p>See more at <a href="http://www.sebastian-siebert.de/2012/03/07/opensuse-proprietaeren-grafik-treiber-amd-catalyst-12-2-als-rpm-installieren/">Sebastian&#8217;s blog</a>. Don&#8217;t be shy, you can leave there the result of test in english too <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_biggrin.gif' alt=':D' class='wp-smiley' /><br />
+or ask in forums, irc and ping freespacer.<br />
+See below what to do in case of troubles.</p>
+<p>The rpms version 8.950 are available from Thursday March 8th.</p>
+<p><span id="more-8571"></span><br />
+<div id="attachment_8575" style="width: 160px" class="wp-caption alignleft"><a href="http://lizards.opensuse.org/wp-content/uploads/2012/03/fglrx12.2-screenshot2.png"><img src="http://lizards.opensuse.org/wp-content/uploads/2012/03/fglrx12.2-screenshot2-150x150.png" alt="" width="150" height="150" class="size-thumbnail wp-image-8575" /></a><p class="wp-caption-text">fgl_glxgears</p></div></p>
+<p>My advise is to firstly remove any existing version with zypper rm, then just zypper in the new version,<br />
+even if 8.930 was the first version I&#8217;ve seen able to upgrade correctly.<br />
+The 8.950 leave a file that need to be manually removed /etc/ati/amdpcsdb.</p>
+<p>As usual, I let the previous versions in the repository, just in case you need it.</p>
+<p>Tested on a fresh 12.1 + updates and kde 4.8.1</p>
+<p>
+Factory rpms are not presently available, I&#8217;ve not been yet able to successfully build the package (remember the merge of /bin /sbin with /usr/bin /usr/sbin? <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_sad.gif' alt=':-(' class='wp-smiley' /> )<br />
+Anyways, factory and 12.2 should keep their effort on debuging and testing widely the free radeon driver.
+</p>
+<h3>One-click-installer</h3>
+<p>As nobody killed me about the one-click-installer, I upgrade its status to final stable (feedback are always welcome)<br />
+For 32bits system :<br />
+<a href="http://geeko.ioda.net/mirror/ati/raw-src/amd-ati-fglrx.ymp"><img src="http://en.opensuse.org/images/e/e9/Fglrx_1click.png" alt="AMD/ATI fglrx one click installer" /></a><br />
+For 64bits system :<br />
+<a href="http://geeko.ioda.net/mirror/ati/raw-src/amd-ati-fglrx64.ymp"><img src="http://en.opensuse.org/images/e/e9/Fglrx_1click.png" alt="AMD/ATI fglrx one click installer" /></a><br />
+<span style="font-size:small">(*) To know which kind of system you have, open a console, then run uname -a and look the output if you see x86_64 on the line you are running a 64bits, otherwise a 32bits.</span>
+</p>
+<h3>Installation, Caution, Troubles</h3>
+<h4>Installation</h4>
+<p style="font-weight:bold">Please refer to my <a href="http://lizards.opensuse.org/?p=6680">previous article</a> where all the installation procedure are explained.</p>
+<p>
+For a first installation, if you don&#8217;t remove radeon from the initrd, you will get in trouble. Don&#8217;t thanks who removed that from the wiki. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_sad.gif' alt=':-(' class='wp-smiley' />
+</p>
+<h4>Caution</h4>
+<ul>
+<li>Wrong (to my point of view) create an xorg.conf file which is unneeded if you work with /etc/xorg.conf.d/50-device.conf and have driver &#8220;fglrx&#8221; inside</li>
+<li>AMD CCLE didn&#8217;t get correctly upgraded if xorg is running during the upgrade. My advise, let&#8217;s go to console and as root do the following :
+<pre>
+init 3
+rcatievenstd stop
+zypper ref
+zypper up
+init 6
+</pre>
+<p>Let the package rebuild the kernel driver. And for me I always remove the newly xorg.conf file created.<br />
+reboot is mandatory!<br />
+upgrading from 8.930 to 8.950 the file /etc/ati/amdpcsdb could be erased it will be recreate on next reboot
+</li>
+</ul>
+<div id="attachment_8574" style="width: 160px" class="wp-caption alignleft"><a href="http://lizards.opensuse.org/wp-content/uploads/2012/03/fglrx12.2-screenshot1.png"><img src="http://lizards.opensuse.org/wp-content/uploads/2012/03/fglrx12.2-screenshot1-150x150.png" alt="" width="150" height="150" class="size-thumbnail wp-image-8574" /></a><p class="wp-caption-text">fglrx 12.2 with flash benchmark</p></div>
+<h4>Debuging troubles</h4>
+<p>I recommend in case of trouble the use of <a href="http://www.sebastian-siebert.de/downloads/makerpm-amd-12.2.sh">his script</a> which can collect the whole informations needed to help you. then you just have to issue a simple commande in console to collect all informations, you can review them, and finally transmit them</p>
+<pre>su -c 'sh makerpm-amd-12.2.sh -ur'
+The sytem report 'amd-report.txt' was generated.                                                                                                                    [ OK ]
+Do you want to read the system report 'amd-report.txt' now? yes/no [y/n]: y
+Are you sure to upload the above-named system report to sprunge.to? yes/no [y/n]: y
+
+The report was uploaded to sprunge.us.
+   The link is:  http://sprunge.us/ZVRP
+</pre>
+<p>Copy paste the link in the comment zone of Sebatian post</p>
+<h3>Statistiques</h3>
+<p>December 2011 as shown a big bump on the server : 50,212 unique visitor for a roughly 320GB traffic for the rpm</p>
+<p>1582GB has been distributed during 2011.</p>
+<h4>2012</h4>
+<div style="width:90%">
+<table>
+<tr>
+<td width="80" bgcolor="#ECECEC">Month</td>
+<td width="80" bgcolor="#FFAA66">Unique visitors</td>
+<td width="80" bgcolor="#F4F090">Number of visits</td>
+<td width="80" bgcolor="#4477DD">Pages</td>
+<td width="80" bgcolor="#66DDEE">Hits</td>
+<td width="80" bgcolor="#2EA495">Bandwidth</td>
+</tr>
+<tr>
+<td>Jan 2012</td>
+<td>57,955</td>
+<td>133,903</td>
+<td>3,463,860</td>
+<td>3,502,972</td>
+<td>372.10 GB</td>
+</tr>
+<tr>
+<td>Feb 2012</td>
+<td>65,806</td>
+<td>149,590</td>
+<td>4,008,869</td>
+<td>4,040,043</td>
+<td>366.37 GB</td>
+</tr>
+<tr>
+<td><font>Mar 2012</font></td>
+<td>21,256</td>
+<td>44,496</td>
+<td>1,202,629</td>
+<td>1,210,049</td>
+<td>65.72 GB</td>
+</tr>
+<tr>
+<td bgcolor="#ECECEC">Total</td>
+<td bgcolor="#ECECEC">145,017</td>
+<td bgcolor="#ECECEC">327,989</td>
+<td bgcolor="#ECECEC">8,675,358</td>
+<td bgcolor="#ECECEC">8,753,064</td>
+<td bgcolor="#ECECEC">804.20 GB</td>
+</tr>
+</table>
+</div>
+<p>That&#8217;s all folks! Have fun!</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/03/08/atiamd-fglrx-8-950-catalyst-12-2-rpm-available-for-opensuse-11-3-11-4-12-1/feed/</wfw:commentRss>
+		<slash:comments>6</slash:comments>
+		</item>
+		<item>
+		<title>ATI/AMD fglrx 8.930 Catalyst 12.1 rpm available for openSUSE 11.3, 11.4, 12.1</title>
+		<link>http://lizards.opensuse.org/2012/01/27/atiamd-fglrx-8-930-catalyst-12-1-rpm-available-for-opensuse-11-3-11-4-12-1/</link>
+		<comments>http://lizards.opensuse.org/2012/01/27/atiamd-fglrx-8-930-catalyst-12-1-rpm-available-for-opensuse-11-3-11-4-12-1/#comments</comments>
+		<pubDate>Fri, 27 Jan 2012 16:35:39 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[11.3]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.1]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[fglrx]]></category>
+		<category><![CDATA[xorg]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8492</guid>
+		<description><![CDATA[Those informations are obsolete now : please consult //lizards.opensuse.org/?p=8888 AMD/ATI Catalyst 12.1 / fglrx 8.930 rpm are available Sorry I missed in December the annoucement release for the 8.920, but from what I&#8217;ve seen. zypper up do the job for you Quick Résumé about 12.1 AMD rename their installer, So Sebastian did the same for [&#8230;]]]></description>
+				<content:encoded><![CDATA[<h1>Those informations are obsolete now : please consult <a href="//lizards.opensuse.org/?p=8888">//lizards.opensuse.org/?p=8888</a></h1>
+<h2>AMD/ATI Catalyst 12.1 / fglrx 8.930 rpm are available</h2>
+<p>Sorry I missed in December the annoucement release for the 8.920, but from what I&#8217;ve seen. zypper up do the job for you <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </p>
+<h3>Quick Résumé about 12.1</h3>
+<p>AMD rename their installer, So Sebastian did the same for his script.</p>
+<p>I will just copy/google translate/paste here the comment made by Sebastian Siebert on his blog :</p>
+<p style="font-style:italic">
+With this version AMD Catalyst Gnome 3.2 issues (flickering and screen cracks) are finally resolved.<br />
+According to AMD, the notebook with the PowerXpress technology (Intel-/AMD-Grafikkarte &#8211; discrete GPU) should work again.<br />
+I would be grateful if someone could test this functionality for me and give me feedback. Thank you.
+</p>
+<p>See more at <a href="http://www.sebastian-siebert.de/2012/01/26/opensuse-proprietaeren-grafik-treiber-amd-catalyst-12-1-als-rpm-installieren">Sebastian&#8217;s blog</a>. Don&#8217;t be shy, you can leave there the result of test in english too <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_biggrin.gif' alt=':D' class='wp-smiley' /><br />
+See below what to do in case of troubles.</p>
+<p>The rpms version 8.930 are available from Friday January 27th</p>
+<p>My advise is to firstly remove any existing version with zypper rm, then just zypper in the new version, even if 8.930 are the first version I&#8217;ve seen making its upgrade correctly.</p>
+<p>As usual, I let the last 2 previous versions in the repository, just in case you need it.</p>
+<p><div id="attachment_8510" style="width: 160px" class="wp-caption alignright"><a href="//lizards.opensuse.org/wp-content/uploads/2012/01/fglrx-8.930-12.1-1.png"><img src="//lizards.opensuse.org/wp-content/uploads/2012/01/fglrx-8.930-12.1-1-150x150.png" alt="" width="150" height="150" class="size-thumbnail wp-image-8510" /></a><p class="wp-caption-text">Catalyst 8.930 fglrx 12.1 in action </p></div>
+<p>Tested on a fresh 12.1 + updates with a stock kde 4.7.2</p>
+<p>
+Factory rpms are not available actually, I&#8217;ve not be able to build a new building machine for it.<br />
+Anyways, factory and 12.2 should keep their effort on debuging and testing widely the free radeon driver.
+</p>
+<p><span id="more-8492"></span></p>
+<h3>One-click-installer</h3>
+<p>As nobody killed me about the one click installer available, I upgrade its status to RC (feedback welcome)
+</p>
+<h3>Installation, Caution, Troubles</h3>
+<h4>Installation</h4>
+<p style="font-weight:bold">Please refer to my <a href="//lizards.opensuse.org/?p=6680">previous article</a> where all the installation procedure are explained.</p>
+<p>
+For a first installation, if you don&#8217;t remove radeon from the initrd, you will get in trouble. Don&#8217;t thanks who removed that from the wiki. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_sad.gif' alt=':-(' class='wp-smiley' />
+</p>
+<h4>Caution</h4>
+<ul>
+<li>Wrong (to my point of view) create an xorg.conf file which is unneeded if you work with /etc/xorg.conf.d/50-device.conf and have driver &#8220;fglrx&#8221; inside</li>
+<li>AMD CCLE didn&#8217;t get correctly upgraded if xorg is running during the upgrade. My advise, let&#8217;s go to console and as root do the following :
+<pre>
+init 3
+rcatievenstd stop
+zypper ref
+zypper up
+init 6
+</pre>
+<p>Let the package rebuild the kernel driver. And for me I always remove the newly xorg.conf file created.<br />
+reboot is mandatory!
+</li>
+</ul>
+<h4>Debuging troubles</h4>
+<p>I recommend in case of trouble the use of <a href="http://www.sebastian-siebert.de/downloads/makerpm-amd-12.1.sh">his script</a> which can collect the whole informations needed to help you. then you just have to issue a simple command in console to collect all informations, you can review them, and finally transmit them</p>
+<pre>su -c 'sh makerpm-amd-12.1.sh -ur'
+The sytem report 'amd-report.txt' was generated.                                                                                                                    [ OK ]
+Do you want to read the system report 'amd-report.txt' now? yes/no [y/n]: y
+Are you sure to upload the above-named system report to sprunge.to? yes/no [y/n]: y
+
+The report was uploaded to sprunge.us.
+   The link is:  http://sprunge.us/ZVRP
+</pre>
+<p>Copy paste the link in the comment zone of Sebatian post</p>
+<h3>Statistiques</h3>
+<p>December 2011 as shown a big bump on the server : 50,212 unique visitor for a roughly 320GB traffic for the rpm</p>
+<p>1582GB has been distributed during 2011.</p>
+<p>That&#8217;s all folks! Have fun!</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/01/27/atiamd-fglrx-8-930-catalyst-12-1-rpm-available-for-opensuse-11-3-11-4-12-1/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>ATI/AMD fglrx 8.911 Catalyst 11.11 rpm available for openSUSE 11.3, 11.4, 12.1</title>
+		<link>http://lizards.opensuse.org/2011/11/21/atiamd-fglrx-8-911-catalyst-11-11-rpm-available-for-opensuse-11-3-11-4-12-1/</link>
+		<comments>http://lizards.opensuse.org/2011/11/21/atiamd-fglrx-8-911-catalyst-11-11-rpm-available-for-opensuse-11-3-11-4-12-1/#comments</comments>
+		<pubDate>Mon, 21 Nov 2011 14:32:54 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[1]]></category>
+		<category><![CDATA[11.11]]></category>
+		<category><![CDATA[11.3]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[fglrx]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[xorg]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8224</guid>
+		<description><![CDATA[AMD/ATI Catalyst 11.11 / fglrx 8.911 rpm are available Call the 911 to rescue your gfx! Quick Résumé about 11.11 Several of you has all kind of non feature (mostly called bugs) with Gnome3.2 and kde4 etc&#8230; I will just copy/google translate/paste here the comment made by Sebastian Siebert on his blog Okay, now that [&#8230;]]]></description>
+				<content:encoded><![CDATA[<div style="font-size:larger">
+<h2>AMD/ATI Catalyst 11.11 / fglrx 8.911 rpm are available</h2>
+<p style="font-size:larger;text-align:center;font-weight:bold">Call the 911 to rescue your gfx!</p>
+<h3>Quick Résumé about 11.11</h3>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2011/11/fglrx-8.911-11.11-1.png"><img src="http://lizards.opensuse.org/wp-content/uploads/2011/11/fglrx-8.911-11.11-1-150x150.png" alt="fglrx direct rendering" width="150" height="150" class="alignleft size-thumbnail wp-image-8227" /></a></p>
+<p>Several of you has all kind of non feature (mostly called bugs) with Gnome3.2 and kde4 etc&#8230;</p>
+<p>I will just copy/google translate/paste here the comment made by Sebastian Siebert on his blog</p>
+<p style="font-style:italic">
+Okay, now that was a long night for me was. ￼ I&#8217;ve researched intensively since yesterday evening after the problem of GNOME 3.2 and the XvBA hardware acceleration on openSUSE 12.1. Here, a blog reader has pointed out that the direct installation of the AMD Catalyst could solve the problem. However, I think the direct installation of anything since like AMD will move the existing files, and thus endangering the integrity of files. But I had to start somewhere and so did the RPM package and direct install AMD compared. I could detect no difference in principle, except that some files were installed in a different directory, where they had really nothing to be related. I could at first make any sense why the RPM installation failed. To me a very banal story is remembered. A specific search path ld.so.conf could possibly be kicked out in openSUSE 12.1. I have my current openSUSE 11.4 /etc/ld.so.conf compared with that of openSUSE 12.1 and lo and behold some search paths were removed. I have the necessary path to /usr/X11R6/lib/ or created and /usr/X11R6/lib64 in /etc/ld.so.conf.d/fglrx.conf for the fglrx driver, and lo and behold &#8220;vainfo&#8221; tells me that everything is in order. Now comes the interesting question: Is the problem fixed with GNOME 3.2 now? The answer: YES! ￼ So, dear people, you invite the makerpm-ati-down script with the updated packaging script installs the driver as usual and have fun with the new openSUSE 12.1 and the AMD Catalyst driver.</p>
+<h4>All rpms are updated now</h4>
+<p>The 8.911 version are available from saturday November 19th</p>
+<p>My advise is to firstly remove any existing version with zypper rm, then just zypper in the new version</p>
+<p>Factory rpms are not available actually, Factory 12.2 has just change it&#8217;s version number in /etc/SuSE-release and thus is not detected for the moment.<br />
+The next version should see 12.2 supported (December). Anyway you have to debug radeon on factory please!
+</p>
+<p><span id="more-8224"></span></p>
+<h3>Others things</h3>
+<h4>I need you! (remember)</h4>
+<p>
+Even if today I already change the main ATI wiki page there will have a lot of stuff outside which contain the old server address. If you can fix them each time you saw that error, it will help any potential users to get the right informations.<br />
+About the wiki, the page need also your love and contribution, look at the wiki team remark in the header. So if you feel comfortable with wiki syntax, your help in fixing <a href="http://en.opensuse.org/index.php?title=SDB:ATI_drivers">SDB/ATI</a> will be really appreciate.
+</p>
+<p>
+- Are you a virtuoso on forums, please pick and paste those informations there!<br />
+- Are you a social network addict, please forward as much as you can!<br />
+- Are you a designer/artist, I need something great to the home page of geeko.ioda.net, contact me, let a comment
+</p>
+<p>You are brave, and knows how to fix your computer? There a beta one click installer available (feedback welcome)<br />
+For 32bits system :<br />
+<a href="http://geeko.ioda.net/mirror/ati/raw-src/amd-ati-fglrx.ymp"><img src="http://en.opensuse.org/images/e/e9/Fglrx_1click.png" alt="AMD/ATI fglrx one click installer" /></a><br />
+For 64bits system :<br />
+<a href="http://geeko.ioda.net/mirror/ati/raw-src/amd-ati-fglrx64.ymp"><img src="http://en.opensuse.org/images/e/e9/Fglrx_1click.png" alt="AMD/ATI fglrx one click installer" /></a><br />
+<span style="font-size:small">(*) To know which kind of system you have, in a console look at the output of uname -a if you see x86_64 on the line you are running a 64bits, otherwise a 32bits.</span>
+</p>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2011/11/fglrx-8.911-11.11-3.png"><img src="http://lizards.opensuse.org/wp-content/uploads/2011/11/fglrx-8.911-11.11-3-300x168.png" alt="" width="300" height="168" class="aligncenter size-medium wp-image-8229" /></a></p>
+<ul>
+<li>11.11 Quick review :</li>
+<li><a href="http://www2.ati.com/relnotes/Catalyst_11.10_Linux_Installer.pdf">Catalyst 11.11 installer</a> (pdf). You can always look for supported chipset at <a href="http://support.amd.com/us/kbarticles/Pages/AMDCatalyst1111ReleaseNotes.aspx">11.11 Release Notes</a></li>
+<li>Get the cheat-sheet <a href="http://www.sebastian-siebert.de/downloads/ati-catalyst-11.11-cheat-sheet.pdf">11.11 version</a></li>
+<li>Kernel 3.1 is supported</li>
+<li>Support of openSUSE 11.2 is removed, if you are still using it with Evergreen project, I&#8217;ve kept the repository with older version</li>
+<li>Tested and working on stock 11.4 with a HD5750</li>
+<li>Tested and working on stock 12.1 with a HD5750</li>
+<li>Tested with flash 64 under Firefox 7.0.1</li>
+<li>Sebastian Siebert (freespacer) : <a href="http://www.sebastian-siebert.de/">11.11 article</a> (German)</li>
+</ul>
+<p>I&#8217;ve created now a repository dedicated to 12.1, so if you are using 12.1RC please switch to that one, next month it will differ from the Factory one</p>
+<pre style="padding: 0.25em">
+zypper ar -c -f -n "ATI/AMD fglrx non-official" http://geeko.ioda.net/mirror/ati/openSUSE_12.1/ "ATI/AMD FGLRX"
+</pre>
+<h3>Installation, Caution, Troubles</h3>
+<h4>Installation</h4>
+<p style="font-weight:bold">Please refer to my <a href="http://lizards.opensuse.org/?p=6680">previous article</a> where all the installation procedure are explained.</p>
+<p>
+For a first installation, if you don&#8217;t remove radeon from the initrd, you will get in trouble. Don&#8217;t thanks who removed that from the wiki. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_sad.gif' alt=':-(' class='wp-smiley' />
+</p>
+<h4>Caution</h4>
+<ul>
+<li>Wrong (to my point of view) create an xorg.conf file which is unneeded if you work with /etc/xorg.conf.d/50-device.conf and have driver &#8220;fglrx&amp;quot inside</li>
+<li>AMD CCLE didn&#8217;t get correctly upgraded if xorg is running during the upgrade my advise, go to console and as root do the following :
+<pre>
+init 3
+rcatievenstd stop
+zypper ref
+zypper up
+init 6
+</pre>
+<p>let the package rebuild the kernel driver. And for me I always remove the newly xorg.conf file created.<br />
+reboot is mandatory!
+</li>
+</ul>
+</div>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/11/21/atiamd-fglrx-8-911-catalyst-11-11-rpm-available-for-opensuse-11-3-11-4-12-1/feed/</wfw:commentRss>
+		<slash:comments>10</slash:comments>
+		</item>
+		<item>
+		<title>ATI/AMD fglrx 8.902 Catalyst 11.10 available for openSUSE 11.3, 11.4, 12.1 &amp; Factory</title>
+		<link>http://lizards.opensuse.org/2011/11/05/atiamd-fglrx-8-902-catalyst-11-10-available-for-opensuse-11-3-11-4-12-1-factory/</link>
+		<comments>http://lizards.opensuse.org/2011/11/05/atiamd-fglrx-8-902-catalyst-11-10-available-for-opensuse-11-3-11-4-12-1-factory/#comments</comments>
+		<pubDate>Sat, 05 Nov 2011 21:25:37 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[11.2]]></category>
+		<category><![CDATA[11.3]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[fglrx]]></category>
+		<category><![CDATA[xorg]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8125</guid>
+		<description><![CDATA[superseeded by http://lizards.opensuse.org/?p=8224 The AMD/ATI Catalyst 11.10 / fglrx 8.902 is now available Importants informations are contained is this post, so carefully read it! linux.ioda.net is replaced by geeko.ioda.net I decide to re-organize the openSUSE stuff on my servers, and then I create a dedicated host geeko.ioda.net for that. I firstly link all old links [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>superseeded by <a href="http://lizards.opensuse.org/?p=8224">http://lizards.opensuse.org/?p=8224</a></p>
+<div style="font-size:larger">
+<h2>The AMD/ATI Catalyst 11.10 / fglrx 8.902 is now available</h2>
+<p style="font-size:larger">Importants informations are contained is this post, so carefully read it!</p>
+<h3>linux.ioda.net is replaced by geeko.ioda.net</h3>
+<p>I decide to re-organize the openSUSE stuff on my servers, and then I create a dedicated host geeko.ioda.net for that. I firstly link all old links as alias or setup redirection to the new host.<br />
+So if you can&#8217;t change the old address immediately don&#8217;t worry until December 31st.
+</p>
+<p>
+Like before the server is fully accessible by ipv4 &amp; ipv6, powered by openSUSE distribution.
+</p>
+<h4>Server layout</h4>
+<table>
+<thead>
+<tr>
+<th colspan="2">The new hostname is : http://geeko.ioda.net</th>
+<tr></thead>
+<tbody>
+<tr>
+<td>Different kind of mirrored stuff</td>
+<td><a href="http://geeko.ioda.net/mirror/">/mirror</a></td>
+</tr>
+<tr>
+<td>ATI fglrx mirrors  </td>
+<td><a href="http://geeko.ioda.net/mirror/ati">http://geeko.ioda.net/mirror/ati</a></td>
+</tr>
+<tr>
+<td>GIT Mirrors (sync every 10 minutes)</td>
+<td><a href="http://geeko.ioda.net/git/">/git</a></td>
+</tr>
+<tr>
+<td>Gitorious clone of opensuse/art </td>
+<td><a href="http://geeko.ioda.net/git/art/">http://geeko.ioda.net/git/art/</a></td>
+</tr>
+<tr>
+<td>Gitorious clone of opensuse-artwork </td>
+<td><a href="http://geeko.ioda.net/git/opensuse-artwork/">http://geeko.ioda.net/git/opensuse-artwork/</a></td>
+</tr>
+<tr>
+<td>GitHub clone of the new consolidated artwork </td>
+<td><a href="http://geeko.ioda.net/git/artwork/">http://geeko.ioda.net/git/artwork/</a></td>
+</tr>
+</tbody>
+</table>
+<h4>Rsync services</h4>
+<p>For those of you who need to sync the repository (ATI or GIT) you can now proceed with rsync.<br />
+rsync://geeko.ioda.net/ati/ for amd/ati repository and rsync://geeko.ioda.net/git/ for the artwork/marketing stuff</p>
+<p>Example for a mirror of fglrx for openSUSE 12.1 </p>
+<pre style="padding: 0.25em">
+rsync -av -P --no-checksum --no-o --no-g --delete -h rsync://geeko.ioda.net/ati/openSUSE_12.1/ /Your_Best_Path_Storage/mirror/ati/openSUSE_12.1/
+</pre>
+<h4>We need you!</h4>
+<p>
+Even if today I already change the main ATI wiki page there will have a lot of stuff outside which contain the old server address. If you can fix them each time you saw that error, it will help any potential users to get the right informations.<br />
+About the wiki, the page need also your love and contribution, look at the wiki team remark in the header. So if you feel comfortable with wiki syntax, your help in fixing <a href="http://en.opensuse.org/index.php?title=SDB:ATI_drivers">SDB/ATI</a> will be really appreciate.
+</p>
+<p>
+- Are you a virtuose on the forums, please pick and paste those informations there!<br />
+- Are you a social network addict, please forward as much as you can!<br />
+- Are you a designer/artist, I need something great to the home page of geeko.ioda.net, contact me, let a comment
+</p>
+<p>You are brave, and knows how to fix your computer? There a beta one click installer available (feedback welcome)<br />
+<a href="http://geeko.ioda.net/mirror/ati/raw-src/amd-ati-fglrx.ymp"><img src="http://en.opensuse.org/images/e/e9/Fglrx_1click.png" alt="AMD/ATI fglrx one click installer" /></a>
+</p>
+<p><span id="more-8125"></span></p>
+<h3>General Informations about 11.10</h3>
+<h4 style="color:red">Warning to Gnome3 users</h4>
+<p>Unfortunately, a severe bug exist between fglrx and Gnome3 (11.4 and next 12.1) which render the usage of Gnome3 impossible. The good news is that a patch will exist next month for Gnome 3.4, and it will be backported to Gnome 3.2 normally in the beginning of December.
+</p>
+<ul>
+<li>More informations on that subject :</li>
+<li><a href="https://bugzilla.gnome.org/show_bug.cgi?id=663155">bug Gnome 663155</a></li>
+<li><a href="http://ati.cchtml.com/show_bug.cgi?id=99">ati bugzilla</a></li>
+</ul>
+<p>The <span style="font-style:italic">somewhat</span> good news don&#8217;t switch to another distribution, you will have the same troubles <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /><br />
+Our advise : stick to the free radeon which works. And perhaps will suffice for what you have to do, during the next 6 weeks</p>
+<ul>
+<li>11.10 Quick review :</li>
+<li><a href="http://www2.ati.com/relnotes/Catalyst_11.10_Linux_Installer.pdf">Catalyst 11.10 installer</a> (pdf). You can always look for supported chipset at <a href="http://support.amd.com/us/kbarticles/Pages/AMDCatalyst1110ReleaseNotes.aspx">11.10 Release Notes</a></li>
+<li>Get the cheat-sheet <a href="http://www.sebastian-siebert.de/downloads/ati-catalyst-11.10-cheat-sheet.pdf">11.10 version</a></li>
+<li>Kernel 3.1 is supported</li>
+<li>Support of openSUSE 11.2 is removed, if you are still using it with Evergreen project, I&#8217;ve kept the repository with older version</li>
+<li>Tested and working on stock 11.4 kde 4.6.0 and kde 4.7.3 with a HD5750</li>
+<li>Tested with flash 64 under Firefox 7.0.1</li>
+<li>Factory will be tested next week</li>
+<li>Sebastian Siebert (freespacer) : <a href="http://www.sebastian-siebert.de/2011/11/04/opensuse-proprietaeren-grafik-treiber-amd-catalyst-11-10-als-rpm-installieren/">11.10 article</a> (German)</li>
+</ul>
+<p>I&#8217;ve created now a repository dedicated to 12.1, so if you are using 12.1RC please switch to that one, next month it will differ from the Factory one</p>
+<pre style="padding: 0.25em">
+zypper ar -c -f -n "ATI/AMD fglrx non-official" http://geeko.ioda.net/mirror/ati/openSUSE_12.1/ "ATI/AMD FGLRX"
+</pre>
+<h3>Installation, Caution, Troubles</h3>
+<h4>Installation</h4>
+<p style="font-weight:bold">Please refer to my <a href="http://lizards.opensuse.org/?p=6680">previous article</a> where all the installation procedure are explained.</p>
+<p>
+For a first installation, if you don&#8217;t remove radeon from the initrd, you will get in trouble. Don&#8217;t thanks who removed that from the wiki. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_sad.gif' alt=':-(' class='wp-smiley' />
+</p>
+<h4>Caution</h4>
+<ul>
+<li>Wrong (to my point of view) create an xorg.conf file which is unneeded if you work with /etc/xorg.conf.d/50-device.conf and have driver &#8220;fglrx&amp;quot inside</li>
+<li>AMD CCLE didn&#8217;t get correctly upgraded if xorg is running during the upgrade my advise, go to console and as root do the following :
+<pre>
+init 3
+rcatievenstd stop
+zypper ref
+zypper up
+init 6
+</pre>
+<p>let the package rebuild the kernel driver. And for me I always remove the newly xorg.conf file created.<br />
+reboot is mandatory!
+</li>
+</ul>
+<h4>Troubles</h4>
+<p>
+Some instabilities could happen. In case of crash like no keyboard, mouse, and blackscreen on reboot. Try to shutdown properly your computer with the shutdown poweroff button (or remote ssh). On reboot, just add 3 at the end of grub line to restart in console mode.<br />
+Then with yast or zypper you can always remove the actual version and try the previous version available in the repos.<br />
+Or remove it totally and reuse free radeon driver. Think to remove any reference to fglrx inside xorg config files. and remove the blacklist radeon.<br />
+Under kde4, some system settings in Desktop Effects can drop you out of sync with your screen. alt+shift+F12 (disable desktop effect toggle keyboard shortcut) can restore your desktop.
+</p>
+<h3>Stats Numbers ?</h3>
+<table style="text-align: right">
+<thead>
+<tr>
+<th>Month</th>
+<th>Unique IP</th>
+<th>Number of visits</th>
+<th>Pages</th>
+<th>Hits</th>
+<th>Bandwidth</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Jan 2011</td>
+<td>2355</td>
+<td>6411</td>
+<td>19688</td>
+<td>35263</td>
+<td>16.63 GB</td>
+</tr>
+<tr>
+<td>Feb 2011</td>
+<td>2906</td>
+<td>7719</td>
+<td>26383</td>
+<td>41142</td>
+<td>22.37 GB</td>
+</tr>
+<tr>
+<td>Mar 2011</td>
+<td>8055</td>
+<td>21157</td>
+<td>228494</td>
+<td>258613</td>
+<td>59.13 GB</td>
+</tr>
+<tr>
+<td>Apr 2011</td>
+<td>10592</td>
+<td>29129</td>
+<td>418281</td>
+<td>437416</td>
+<td>76.87 GB</td>
+</tr>
+<tr>
+<td>May 2011</td>
+<td>12511</td>
+<td>36816</td>
+<td>608350</td>
+<td>626901</td>
+<td>104.91 GB</td>
+</tr>
+<tr>
+<td>June 2011</td>
+<td>12737</td>
+<td>38244</td>
+<td>592116</td>
+<td>614006</td>
+<td>131.19 GB</td>
+</tr>
+<tr>
+<td>July 2011</td>
+<td>14436</td>
+<td>42164</td>
+<td>703390</td>
+<td>723062</td>
+<td>106.68 GB</td>
+</tr>
+<tr>
+<td>August 2011</td>
+<td>16699</td>
+<td>47743</td>
+<td>913574</td>
+<td>935978</td>
+<td>122.73 GB</td>
+</tr>
+<tr>
+<td>September 2011</td>
+<td>17377</td>
+<td>53836</td>
+<td>980932</td>
+<td>1010932</td>
+<td>94.34 GB</td>
+</tr>
+<tr>
+<td>October 2011</td>
+<td>18427</td>
+<td>58307</td>
+<td>1123653</td>
+<td>1151748</td>
+<td>130.60 GB</td>
+</tr>
+</tbody>
+</table>
+<p>All proudly served by openSUSE 11.4 powered server!<br />
+<span style="font-size: small;font-weight: bold">Have a lot of fun!</span><br />
+<span style="font-size: small">My month wish : can someone add a G+ button on our wordpress?</span>
+</div>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/11/05/atiamd-fglrx-8-902-catalyst-11-10-available-for-opensuse-11-3-11-4-12-1-factory/feed/</wfw:commentRss>
+		<slash:comments>17</slash:comments>
+		</item>
+		<item>
+		<title>ATI/AMD fglrx 8.892 Catalyst 11.9 available for openSUSE 11.3, 11.4, 12.1 (Factory)</title>
+		<link>http://lizards.opensuse.org/2011/10/02/atiamd-fglrx-8-892-catalyst-11-9-available-for-opensuse-11-3-11-4-12-1-factory/</link>
+		<comments>http://lizards.opensuse.org/2011/10/02/atiamd-fglrx-8-892-catalyst-11-9-available-for-opensuse-11-3-11-4-12-1-factory/#comments</comments>
+		<pubDate>Sun, 02 Oct 2011 08:15:01 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[11.3]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.1]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[fglrx]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7994</guid>
+		<description><![CDATA[A new version of amd/ati Catalyst 11.9 / fglrx 8.892 is available I&#8217;ve rebuild and published the new rpms on October 1st 11.9 Quick review : There&#8217;s no full changelog for Linux, but Catalyst 11.9 installer (pdf). You can always look for supported chipset at 11.9 Release Notes Get the cheat-sheet 11.9 version Kernel supported [&#8230;]]]></description>
+				<content:encoded><![CDATA[<h2>A new version of amd/ati Catalyst 11.9 / fglrx 8.892 is available</h2>
+<p>I&#8217;ve rebuild and published the new rpms on October 1st</p>
+<div id="attachment_7995" style="width: 160px" class="wp-caption alignright"><a href="http://lizards.opensuse.org/wp-content/uploads/2011/10/fglrx-8.892-11.9.png"><img src="http://lizards.opensuse.org/wp-content/uploads/2011/10/fglrx-8.892-11.9-150x150.png" alt="fglrx-8.892-11.9 in action" width="150" height="150" class="size-thumbnail wp-image-7995" /></a><p class="wp-caption-text">fglrx 8.892 Catalyst 11.9 in action</p></div>
+<ul>
+<li>11.9 Quick review :</li>
+<li>There&#8217;s no full changelog for Linux, but <a href="http://www2.ati.com/relnotes/Catalyst_11.9_Linux_Installer.pdf">Catalyst 11.9 installer</a> (pdf). You can always look for supported chipset at <a href="http://support.amd.com/us/kbarticles/Pages/AMDCatalyst119ReleaseNotes.aspx">11.9 Release Notes</a>
+</li>
+<li>Get the cheat-sheet <a href="http://www.sebastian-siebert.de/downloads/ati-catalyst-11.9-cheat-sheet.pdf">11.9 version</a></li>
+<li>Kernel supported up to 3.1x version</li>
+<li>Removed support of openSUSE 11.2, if you are still using it with Evergreen project, the repository still exist with older version</li>
+<li>Tested and working on stock 11.4 and kde 4.7.1</li>
+<li>Check that kernel module build correctly under factory</li>
+</ul>
+<p>
+Sebastian Siebert (freespacer) : <a href="http://www.sebastian-siebert.de/2011/09/28/opensuse-proprietaeren-grafik-treiber-amd-catalyst-11-9-als-rpm-installieren/">11.9 article</a> (German)
+</p>
+<p><span id="more-7994"></span><br />
+<br />
+<div id="attachment_7996" style="width: 160px" class="wp-caption alignright"><a href="http://lizards.opensuse.org/wp-content/uploads/2011/10/fglrx-8.892-11.9-1.png"><img src="http://lizards.opensuse.org/wp-content/uploads/2011/10/fglrx-8.892-11.9-1-150x150.png" alt="Flash 64bits 11 RC1 playing and VLC reading mp4" width="150" height="150" class="size-thumbnail wp-image-7996" /></a><p class="wp-caption-text">fglrx 8.891 - Catalyst 11.9 playing flash video and mp4 file</p></div></p>
+<h3>Installation, Caution, Troubles</h3>
+<h4>Installation</h4>
+<p>Please refer to my <a href="http://lizards.opensuse.org/?p=6680">previous article</a> where all the installation procedure are explained. <br />
+For a first installation, if you don&#8217;t remove radeon from the initrd, you will get in trouble. Don&#8217;t thanks who removed that from the wiki. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_sad.gif' alt=':-(' class='wp-smiley' />
+</p>
+<h4>Caution</h4>
+<ul>
+<li>Wrong (to my point of view) create an xorg.conf file which is unneeded if you work with /etc/xorg.conf.d/50-device.conf and have driver &quot;fglrx&amp;quot inside</li>
+<li>AMD CCLE didn&#8217;t get correctly upgraded if xorg is running during the upgrade<br />
+my advise, go to console and as root do the following :</p>
+<pre>init 3
+rcatievenstd stop
+zypper ref
+zypper up
+</pre>
+<p>let the package rebuild the kernel driver. And for me I always remove the newly xorg.conf file created.
+</li>
+</ul>
+<h4>Troubles</h4>
+<p>Some instabilities could happen. In case of crash like no keyboard, mouse, and blackscreen on reboot. Try to shutdown properly your computer with the shutdown poweroff button (or remote ssh). On reboot, just add 3 at the end of grub line to restart in console mode.<br />
+Then with yast or zypper you can always remove the actual version and try the previous version available in the repos.<br />
+Or remove it totally and reuse free radeon driver. Think to remove any reference to fglrx inside xorg config files. and remove the blacklist radeon.
+</p>
+<p>Under kde4, some system settings in Desktop Effects can drop you out of sync with your screen. alt+shift+F12 (disable desktop effect toggle keyboard shortcut) can restore your desktop.
+</p>
+<h3>What about tumbleweed, factory?</h3>
+<p>Users have reported that version 8.861 of catalyst 11.6 compile correctly under Tumbleweed with 2.6.39 kernel and the driver is ready for kernel 3.0x, so until xorg change too much and then AMD support for the new version, installing the 11.4 version should work.
+</p>
+<p>For factory, I&#8217;ve build a repository (see previous article) that can be used, and fglrx build.<br />
+The new package are called SUSE121.
+</p>
+<p>Next month we will be closer to the 12.1 release, and then I will start to open a openSUSE_12.1 repository</p>
+<h3>Stats Numbers ?</h3>
+<table style="text-align:right">
+<thead>
+<th>Month</th>
+<th>Unique IP</th>
+<th>Number of visits</th>
+<th>Pages</th>
+<th>Hits</th>
+<th>Bandwidth</th>
+</thead>
+<tbody>
+<tr>
+<td>
+Jan 2011</td>
+<td>2355</td>
+<td>6411</td>
+<td>19688</td>
+<td>35263</td>
+<td>16.63 GB</td>
+</tr>
+<tr>
+<td>
+Feb 2011</td>
+<td>2906</td>
+<td>7719</td>
+<td>26383</td>
+<td>41142</td>
+<td>22.37 GB</td>
+</tr>
+<tr>
+<td>
+Mar 2011</td>
+<td>8055</td>
+<td>21157</td>
+<td>228494</td>
+<td>258613</td>
+<td>59.13 GB
+</td>
+</tr>
+<tr>
+<td>
+Apr 2011</td>
+<td>10592</td>
+<td>29129</td>
+<td>418281</td>
+<td>437416</td>
+<td>76.87 GB
+</td>
+</tr>
+<tr>
+<td>
+May 2011</td>
+<td>12511</td>
+<td>36816</td>
+<td>608350</td>
+<td>626901</td>
+<td>104.91 GB
+</td>
+</tr>
+<tr>
+<td>
+June 2011</td>
+<td>12737</td>
+<td>38244</td>
+<td>592116</td>
+<td>614006</td>
+<td>131.19 GB
+</td>
+</tr>
+<tr>
+<td>
+July 2011</td>
+<td>14436</td>
+<td>42164</td>
+<td>703390</td>
+<td>723062</td>
+<td>106.68 GB
+</td>
+</tr>
+<tr>
+<td>
+August 2011</td>
+<td>16699</td>
+<td>47743</td>
+<td>913574</td>
+<td>935978</td>
+<td>122.73 GB
+</td>
+</tr>
+<tr>
+<td>
+September 2011</td>
+<td>17377</td>
+<td>53836</td>
+<td>980932</td>
+<td>1010932</td>
+<td>94.34 GB
+</td>
+</tr>
+</tbody>
+</table>
+<p>All proudly served by openSUSE 11.4 powered server!</p>
+<p><span style="font-size:small;font-weight:bold">Have a lot of fun!</span></p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/10/02/atiamd-fglrx-8-892-catalyst-11-9-available-for-opensuse-11-3-11-4-12-1-factory/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>ATI/AMD fglrx 8.881 Catalyst 11.8 available for openSUSE 11.3, 11.4, 12.1 (Factory)</title>
+		<link>http://lizards.opensuse.org/2011/08/20/atiamd-fglrx-8-881-catalyst-11-8-available-for-opensuse-11-3-11-4-12-1-factory/</link>
+		<comments>http://lizards.opensuse.org/2011/08/20/atiamd-fglrx-8-881-catalyst-11-8-available-for-opensuse-11-3-11-4-12-1-factory/#comments</comments>
+		<pubDate>Sat, 20 Aug 2011 16:09:27 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[11.3]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.1]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[fglrx]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7806</guid>
+		<description><![CDATA[A new version of amd/ati Catalyst 11.8 / fglrx 8.881 is available I&#8217;ve rebuild and published the new rpms today 11.8 Quick review : There&#8217;s no full changelog for Linux, but Catalyst 11.8 installer (pdf). You can always look for supported chipset at 11.8 Release Notes Get the cheat-sheet 11.8 version Kernel supported up to [&#8230;]]]></description>
+				<content:encoded><![CDATA[<h2>A new version of amd/ati Catalyst 11.8 / fglrx 8.881 is available</h2>
+<p>I&#8217;ve rebuild and published the new rpms today</p>
+<div id="attachment_7809" style="width: 160px" class="wp-caption alignright"><a href="http://lizards.opensuse.org/wp-content/uploads/2011/08/fglrx-8.881-11.8.png"><img src="http://lizards.opensuse.org/wp-content/uploads/2011/08/fglrx-8.881-11.8-150x150.png" alt="" width="150" height="150" class="size-thumbnail wp-image-7809" /></a><p class="wp-caption-text">Catalyst 11.8 - fglrx-8.881 in action</p></div>
+<ul>
+<li>11.8 Quick review :</li>
+<li>There&#8217;s no full changelog for Linux, but <a href="http://www2.ati.com/relnotes/Catalyst_11.8_Linux_Installer.pdf">Catalyst 11.8 installer</a> (pdf). You can always look for supported chipset at <a href="http://support.amd.com/us/kbarticles/Pages/AMDCatalyst118ReleaseNotes.aspx">11.8 Release Notes</a>
+</li>
+<li>Get the cheat-sheet <a href="http://www.sebastian-siebert.de/downloads/ati-catalyst-11.8-cheat-sheet.pdf">11.8 version</a></li>
+<li>Kernel supported up to 3.0x version</li>
+<li>Removed support of openSUSE 11.2, if you are still using it with Evergreen project, the repository still exist with older version</li>
+<li>Tested and working on stock 11.4 kde 4.6.0</li>
+<li>Tested and working on live usb stick  11.4 Gnome3 (GNOME_3.i686-1.3.0-Build1.3.iso + updates)</li>
+</ul>
+<h3>Contributing back</h3>
+<p>I&#8217;m refering about <a href="http://lizards.opensuse.org/?p=7797">my previous post</a>, and invite you to help back contributing to<br />
+<a href='http://www.pledgie.com/campaigns/15879'><img alt='Click here to lend your support to: Funding ATI-AMD fglrx packager Sebastian Siebert and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/15879.png?skin_name=chrome' border='0' /></a>
+</p>
+<p>
+Sebastian Siebert (freespacer) : <a href="http://www.sebastian-siebert.de/2011/07/27/opensuse-proprietaeren-grafik-treiber-ati-catalyst-11-8-als-rpm-installieren/">11.8 article</a> (German)
+</p>
+<p><span id="more-7806"></span></p>
+<div id="attachment_7810" style="width: 160px" class="wp-caption alignright"><a href="http://lizards.opensuse.org/wp-content/uploads/2011/08/fglrx-8.881-11.8-1.png"><img src="http://lizards.opensuse.org/wp-content/uploads/2011/08/fglrx-8.881-11.8-1-150x150.png" alt="kde.4.6.0 flash firefox fglrx" width="150" height="150" class="size-thumbnail wp-image-7810" /></a><p class="wp-caption-text">fglrx under kd3-4.6 with firefox and flash</p></div>
+<h3>Installation, Caution, Troubles</h3>
+<h4>Installation</h4>
+<p>Please refer to my <a href="http://lizards.opensuse.org/?p=6680">previous article</a> where all the installation procedure are explained. <br />
+For a first installation, if you don&#8217;t remove radeon from the initrd, you will get in trouble. Don&#8217;t thanks who removed that from the wiki. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_sad.gif' alt=':-(' class='wp-smiley' />
+</p>
+<h4>Caution</h4>
+<ul>
+<li>Wrong (to my point of view) create an xorg.conf file which is unneeded if you work with /etc/xorg.conf.d/50-device.conf and have driver &quot;fglrx&amp;quot inside</li>
+<li>AMD CCLE didn&#8217;t get correctly upgraded if xorg is running during the upgrade<br />
+my advise, go to console and as root do the following :</p>
+<pre>init 3
+rcatievenstd stop
+zypper ref
+zypper up
+</pre>
+<p>let the package rebuild the kernel driver. And for me I always remove the xorg.conf file created.
+</li>
+</ul>
+<h4>Troubles</h4>
+<p>Some instabilities could happen. In case of crash like no keyboard, mouse, and blackscreen on reboot. Try to shutdown properly your computer with the shutdown poweroff button (or remote ssh). On reboot, just add 3 at the end of grub line to restart in console mode.<br />
+Then with yast or zypper you can always remove the actual version and try the previous version available in the repos.<br />
+Or remove it totally and reuse free radeon driver. Think to remove any reference to fglrx inside xorg conf. and remove the blacklist radeon.
+</p>
+<p>Under kde4, some system settings in Desktop Effects can drop you out of sync with your screen. alt+shift+F12 (disable desktop effect toggle keyboard shortcut) can restore your desktop.
+</p>
+<h3>What about tumbleweed, factory?</h3>
+<p>Users have reported that version 8.861 of catalyst 11.6 compile correctly under Tumbleweed with 2.6.39 kernel and the driver is ready for kernel 3.0x, so until xorg change too much and then AMD support for the new version, installing the 11.4 version should work
+</p>
+<p>For factory, I&#8217;ve build a repository (see previous article) that can be used, and fglrx build.<br />
+The new package are called SUSE121.
+</p>
+<h3>Stats Numbers ?</h3>
+<table style="text-align:right">
+<thead>
+<th>Month</th>
+<th>Unique IP</th>
+<th>Number of visits</th>
+<th>Pages</th>
+<th>Hits</th>
+<th>Bandwidth</th>
+</thead>
+<tbody>
+<tr>
+<td>
+Jan 2011</td>
+<td>2355</td>
+<td>6411</td>
+<td>19688</td>
+<td>35263</td>
+<td>16.63 GB</td>
+</tr>
+<tr>
+<td>
+Feb 2011</td>
+<td>2906</td>
+<td>7719</td>
+<td>26383</td>
+<td>41142</td>
+<td>22.37 GB</td>
+</tr>
+<tr>
+<td>
+Mar 2011</td>
+<td>8055</td>
+<td>21157</td>
+<td>228494</td>
+<td>258613</td>
+<td>59.13 GB
+</td>
+</tr>
+<tr>
+<td>
+Apr 2011</td>
+<td>10592</td>
+<td>29129</td>
+<td>418281</td>
+<td>437416</td>
+<td>76.87 GB
+</td>
+</tr>
+<tr>
+<td>
+May 2011</td>
+<td>12511</td>
+<td>36816</td>
+<td>608350</td>
+<td>626901</td>
+<td>104.91 GB
+</td>
+</tr>
+<tr>
+<td>
+June 2011</td>
+<td>12737</td>
+<td>38244</td>
+<td>592116</td>
+<td>614006</td>
+<td>131.19 GB
+</td>
+</tr>
+<tr>
+<td>
+July 2011</td>
+<td>14436</td>
+<td>42164</td>
+<td>703390</td>
+<td>723062</td>
+<td>106.68 GB
+</td>
+</tr>
+<tr>
+<td>
+August 2011 (*)</td>
+<td>16699</td>
+<td>47743</td>
+<td>913574</td>
+<td>935978</td>
+<td>122.73 GB
+</td>
+</tr>
+</tbody>
+</table>
+<p style="font-size:x-small">August&#8217;s numbers updated on 1st September</p>
+<p>All proudly served by openSUSE 11.4 powered server!</p>
+<p><span style="font-size:small;font-weight:bold">Have a lot of fun!</span></p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/08/20/atiamd-fglrx-8-881-catalyst-11-8-available-for-opensuse-11-3-11-4-12-1-factory/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>ATI/AMD fglrx 8.872 Catalyst 11.7 available for openSUSE 11.3, 11.4, 12.1 (Factory)</title>
+		<link>http://lizards.opensuse.org/2011/08/01/atiamd-fglrx-8-872-catalyst-11-7-available-for-opensuse-11-3-11-4-12-1-factory/</link>
+		<comments>http://lizards.opensuse.org/2011/08/01/atiamd-fglrx-8-872-catalyst-11-7-available-for-opensuse-11-3-11-4-12-1-factory/#comments</comments>
+		<pubDate>Mon, 01 Aug 2011 12:05:38 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[11.3]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[fglrx]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7713</guid>
+		<description><![CDATA[New version of amd/ati Catalyst 11.7 / fglrx 8.872 available I&#8217;ve rebuild and published the new rpms last wednesday, but didnt find the time to give some news here. Please refer to my previous article where all the installation procedure is explained. Quick résumé : There&#8217;s no full changelog about them, but Catalyst 11.7 installer [&#8230;]]]></description>
+				<content:encoded><![CDATA[<h2>New version of amd/ati Catalyst 11.7 / fglrx 8.872 available</h2>
+<p>I&#8217;ve rebuild and published the new rpms last wednesday, but didnt find the time to give some news here.</p>
+<div id="attachment_7714" style="width: 310px" class="wp-caption alignright"><a href="http://lizards.opensuse.org/wp-content/uploads/2011/08/fglrx-8.872-11.7.png"><img src="http://lizards.opensuse.org/wp-content/uploads/2011/08/fglrx-8.872-11.7-300x168.png" alt="" width="300" height="168" class="size-medium wp-image-7714" /></a><p class="wp-caption-text">amd ccle control center</p></div>
+<p>Please refer to my <a href="http://lizards.opensuse.org/?p=6680">previous article</a> where all the installation procedure is explained.</p>
+<ul>
+<li>Quick résumé :</li>
+<li>There&#8217;s no full changelog about them, but <a href="http://www2.ati.com/relnotes/Catalyst_11.7_Linux_Installer.pdf">Catalyst 11.7 installer</a> (pdf)</li>
+<li>Get the cheat-sheet <a href="http://www.sebastian-siebert.de/downloads/ati-catalyst-11.7-cheat-sheet.pdf">11.6 version</a></li>
+<li>Kernel supported up to 3.0x version</li>
+<li>Removed support of openSUSE 11.2, if you are still using it with Evergreen project, the repository still exist with older version</li>
+<li>Wrong (to my point of view) create an xorg.conf file which is unneeded if you work with /etc/xorg.conf.d/50-device.conf and have driver &quot;fglrx&amp;quot inside</li>
+</ul>
+<p style="color:red;font-weight:bold">Troubles?</p>
+<p>Some instabilities could happen. In case of crash like no keyboard, mouse, and blackscreen on reboot. Try to shutdown properly your computer with the shutdown poweroff button (or remote ssh). On reboot, just add 3 at the end of grub line to restart in console mode.<br />
+Then with yast or zypper you can always remove the actual version and try the previous version available in the repos.
+</p>
+<p>All credits to Sebastian Siebert (freespacer) : <a href="http://www.sebastian-siebert.de/2011/07/27/opensuse-proprietaeren-grafik-treiber-ati-catalyst-11-7-als-rpm-installieren/">11.7 article</a> (German)
+</p>
+<h3>What about tumbleweed, factory?</h3>
+<p>Users have reported that version 8.861 of catalyst 11.6 compile correctly under Tumbleweed with 2.6.39 kernel and the driver is ready for kernel 3.0x, so until xorg change too much and then AMD support for the new version, installing the 11.4 version should work
+</p>
+<p>For factory, I&#8217;ve build a repository (see previous article) that can be used, and fglrx build.<br />
+The new package are called SUSE121 &amp; no more SUSEFACTORY.</p>
+<h3>Stats Numbers ?</h3>
+<table style="text-align:right">
+<thead>
+<th>Month</th>
+<th>Unique IP</th>
+<th>Number of visits</th>
+<th>Pages</th>
+<th>Hits</th>
+<th>Bandwidth</th>
+</thead>
+<tbody>
+<tr>
+<td>
+Jan 2011</td>
+<td>2355</td>
+<td>6411</td>
+<td>19688</td>
+<td>35263</td>
+<td>16.63 GB</td>
+</tr>
+<tr>
+<td>
+Feb 2011</td>
+<td>2906</td>
+<td>7719</td>
+<td>26383</td>
+<td>41142</td>
+<td>22.37 GB</td>
+</tr>
+<tr>
+<td>
+Mar 2011</td>
+<td>8055</td>
+<td>21157</td>
+<td>228494</td>
+<td>258613</td>
+<td>59.13 GB
+</td>
+</tr>
+<tr>
+<td>
+Apr 2011</td>
+<td>10592</td>
+<td>29129</td>
+<td>418281</td>
+<td>437416</td>
+<td>76.87 GB
+</td>
+</tr>
+<tr>
+<td>
+May 2011</td>
+<td>12511</td>
+<td>36816</td>
+<td>608350</td>
+<td>626901</td>
+<td>104.91 GB
+</td>
+</tr>
+<tr>
+<td>
+June 2011</td>
+<td>12737</td>
+<td>38244</td>
+<td>592116</td>
+<td>614006</td>
+<td>131.19 GB
+</td>
+</tr>
+<tr>
+<td>
+July 2011</td>
+<td>14436</td>
+<td>42164</td>
+<td>703390</td>
+<td>723062</td>
+<td>106.68 GB
+</td>
+</tr>
+</tbody>
+</table>
+<p>All proudly served by openSUSE powered server! <span style="font-size:small;font-weight:bold">zypper dup from 11.2 to 11.4 in 45minutes last month</span></p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/08/01/atiamd-fglrx-8-872-catalyst-11-7-available-for-opensuse-11-3-11-4-12-1-factory/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>ATI/AMD fglrx 8.861 Catalyst 11.6 available for openSUSE 11.2, 11.3, 11.4, Factory</title>
+		<link>http://lizards.opensuse.org/2011/06/17/atiamd-fglrx-8-861-catalyst-11-6-available-for-opensuse-11-2-11-3-11-4-factory/</link>
+		<comments>http://lizards.opensuse.org/2011/06/17/atiamd-fglrx-8-861-catalyst-11-6-available-for-opensuse-11-2-11-3-11-4-factory/#comments</comments>
+		<pubDate>Fri, 17 Jun 2011 14:38:36 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[openSUSE 11.2]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[11.2]]></category>
+		<category><![CDATA[11.3]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.1]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[fglrx]]></category>
+		<category><![CDATA[radeon]]></category>
+		<category><![CDATA[x-org]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7520</guid>
+		<description><![CDATA[New version of catalyst 11.6 / fglrx 8.861 available Please refer to my previous article where all the installation procedure is explained. Quick résumé : There&#8217;s no full changelog about them, but Catalyst 11.6 installer (pdf) Get the cheat-sheet 11.6 version Kernel supported up to 3.0x version Should be the latest version supporting 11.2 Wrong [&#8230;]]]></description>
+				<content:encoded><![CDATA[<h2>New version of catalyst 11.6 / fglrx 8.861 available</h2>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2011/06/fglrx-8.861-11.4.png"><img src="http://lizards.opensuse.org/wp-content/uploads/2011/06/fglrx-8.861-11.4-300x187.png" alt="fglrx-8.861" width="300" height="187" class="alignleft size-medium wp-image-7530" /></a></p>
+<p>Please refer to my <a href="http://lizards.opensuse.org/?p=6680">previous article</a> where all the installation procedure is explained.</p>
+<ul>
+<li>Quick résumé :</li>
+<li>There&#8217;s no full changelog about them, but <a href="http://www2.ati.com/relnotes/Catalyst_11.6_Linux_Installer.pdf">Catalyst 11.6 installer</a> (pdf)</li>
+<li>Get the cheat-sheet <a href="http://www.sebastian-siebert.de/downloads/ati-catalyst-11.6-cheat-sheet.pdf">11.6 version</a></li>
+<li>Kernel supported up to 3.0x version</li>
+<li>Should be the latest version supporting 11.2</li>
+<li>Wrong (to my point of view) create an xorg.conf file which is unneeded if you work with /etc/xorg.conf.d/50-device.conf and have driver &quot;fglrx&amp;quot inside</li>
+</ul>
+<p style="color:red;font-weight:bold">Warning</p>
+<p>Some instabilities could happen. In case of crash like no keyboard, mouse, and blackscreen on reboot. Try to shutdown properly your computer with the shutdown poweroff button (or remote ssh). On reboot, just add 3 at the end of grub line to restart in console mode.<br />
+Then with yast or zypper you can always remove the actual version and try the previous version available in the repos.
+</p>
+<p>All credits to Sebastian Siebert (freespacer) : <a href="http://bit.ly/ljP3a7">11.6 article</a> (German)
+</p>
+<h3>What about tumbleweed, factory?</h3>
+<p>Users have reported that version 8.861 of catalyst 11.6 compile correctly under Tumbleweed with 2.6.39 kernel and the driver is ready for kernel 3.0x, so until xorg change too much and then AMD support for the new version, installing the 11.4 version should work
+</p>
+<p>For factory, I&#8217;ve build a repository (see previous article) that can be used, and fglrx build.<br />
+The new package are called SUSE121 &amp; no more SUSEFACTORY.</p>
+<h3>Stats Numbers ?</h3>
+<table style="text-align:right">
+<thead>
+<th>Month</th>
+<th>Unique IP</th>
+<th>Number of visits</th>
+<th>Pages</th>
+<th>Hits</th>
+<th>Bandwidth</th>
+</thead>
+<tbody>
+<tr>
+<td>
+Jan 2011</td>
+<td>2355</td>
+<td>6411</td>
+<td>19688</td>
+<td>35263</td>
+<td>16.63 GB</td>
+</tr>
+<tr>
+<td>
+Feb 2011</td>
+<td>2906</td>
+<td>7719</td>
+<td>26383</td>
+<td>41142</td>
+<td>22.37 GB</td>
+</tr>
+<tr>
+<td>
+Mar 2011</td>
+<td>8055</td>
+<td>21157</td>
+<td>228494</td>
+<td>258613</td>
+<td>59.13 GB
+</td>
+</tr>
+<tr>
+<td>
+Apr 2011</td>
+<td>10592</td>
+<td>29129</td>
+<td>418281</td>
+<td>437416</td>
+<td>76.87 GB
+</td>
+</tr>
+<tr>
+<td>
+May 2011</td>
+<td>12511</td>
+<td>36816</td>
+<td>608350</td>
+<td>626901</td>
+<td>104.91 GB
+</td>
+</tr>
+</tbody>
+</table>
+<p>All proudly served by openSUSE powered server! <span style="font-size:small;font-weight:bold">zypper dup from 11.2 to 11.4 in 45minutes last month</span></p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/06/17/atiamd-fglrx-8-861-catalyst-11-6-available-for-opensuse-11-2-11-3-11-4-factory/feed/</wfw:commentRss>
+		<slash:comments>10</slash:comments>
+		</item>
+	</channel>
+</rss>

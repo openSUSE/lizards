@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; Will Stephenson</title>
+	<atom:link href="http://lizards.opensuse.org/author/wstephenson/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>hackweek9: Lightweight KDE Desktop project</title>
+		<link>http://lizards.opensuse.org/2013/04/11/hackweek9-lightweight-kde-desktop-project/</link>
+		<comments>http://lizards.opensuse.org/2013/04/11/hackweek9-lightweight-kde-desktop-project/#comments</comments>
+		<pubDate>Thu, 11 Apr 2013 12:26:45 +0000</pubDate>
+		<dc:creator><![CDATA[Will Stephenson]]></dc:creator>
+				<category><![CDATA[Uncategorized]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9360</guid>
+		<description><![CDATA[It&#8217;s Hack Week 9 at SUSE, and I&#8217;m working on a cracking project this time around. I&#8217;ve codenamed it &#8216;KLyDE&#8217;, for K Lightweight Desktop Environment, and it&#8217;s an effort to point KDE at the lightweight desktop market.  Surely some mistake, you say?  KDE and lightweight kan&#8217;t fit in the same sentence.  I think they can. [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>It&#8217;s Hack Week 9 at SUSE, and I&#8217;m working on a cracking project this time around. I&#8217;ve codenamed it &#8216;KLyDE&#8217;, for K Lightweight Desktop Environment, and it&#8217;s an effort to point KDE at the lightweight desktop market.  Surely some mistake, you say?  KDE and lightweight kan&#8217;t fit in the same sentence.  I think they can.</p>
+<p>This project has been bouncing around my head for a couple of years now, starting on a train ride back from the KDE PIM meeting in Osnabrück in 2010, then <a href="http://www.youtube.com/watch?v=6lfAjdtwECc">I presented it at COSCUP 2012</a> in Taiwan last August. But work commitments and family always got in the way of completing/finishing it.  SUSE&#8217;s hack week gives me 40 hours to throw at it and this time I wasn&#8217;t going to tackle it alone, so I enlisted my bro(grammer)s Jos and Klaas.</p>
+<p>As has been repeated on Planet KDE over the past decade, KDE is not intrinisically bloated.  At its core, it jumps through a lot of hoops for memory efficiency and speed, and is modular to a fault. But most packagings of KDE take a kitchen sink approach, and when you install your KDE distribution you get a full suite of desktop, applets and applications.  The other major criticism of KDE is that it is too configurable.  The KlyDE project applies KDE&#8217;s modularity and configurability to the challenge of making a lightweight desktop.  However, what I don&#8217;t want to do is a hatchet job where functionality is crudely chopped out of the desktop to fit some conception of light weight.</p>
+<p>We&#8217;re approaching problem from 3 sides:</p>
+<p><strong>Minimal footprint</strong></p>
+<p>The first method of attacking this is by packaging. It involves factoring optional components of the KDE desktop out of the base installation into subpackages that the main packages only have weak dependencies upon, allowing a minimal installation without them.  This targets big lumps of ram/cpu usage and objects of user hatred like Nepomuk and Akonadi, but also smaller items like Activities and Attica (social desktop support) and non-core window decorations/styles/etc.  The actual KDE build includes everything; the optional components are always available, so those who do need one of them can just add the package and start using it.</p>
+<p>The second approach is by configuration.  This allows different profiles of KDE desktop with the same installed packages.  We&#8217;ve collected sets of configs that represent these profiles, but I&#8217;m not entirely sure how to package this yet.  One way would be to ship default profiles as X sessions.  Another would be a first run wizard or KCModule so users can select profile and apply it to their configuration after login.</p>
+<p><strong>Simple config</strong><br />
+Is a mixture of usability and perception.  A simplified configuration presents fewer choices and is therefore easier to understand.  It also looks faster and more lightweight, because people equate visual simplicity with efficiency.  This is incorrect, of course, but I&#8217;m not above exploiting this fallacy to give people what they want. For this aspect, we&#8217;re providing an alternate set of System Settings metadata to give it a cut down tree.  The full set remains available, if needed.</p>
+<p><strong>Fast startup</strong></p>
+<p>Is the most high-risk-for-reward effort.  It&#8217;s mostly a perception/first impression thing.  A working desktop shouldn&#8217;t need to be started up all the time.  But for people trying out KLyDE for the first time, a fast startup supports the claim to minimalism.  The interesting thing I note so far is that the package splitting and configuration in 1) makes very little different to startup time.  The optional components of KDE are already highly optimised to not affect startup time.  So I&#8217;m investigating alternate startup systems; refactoring startkde, Dantti&#8217;s systemk, Plasma Active&#8217;s startactive, and a systemd-managed startup.</p>
+<p><strong>Progress</strong></p>
+<p>The packaging effort is mostly done; we have packages in an <a href="https://build.opensuse.org/project/show?project=home%3Awstephenson%3Aworkbench%3Aklyde">Open Build Service project</a>, that give you a bare Plasma Workspace when installed on top of a minimal X SUSE 12.3 installation with &#8211;no-recommends.</p>
+<p>Jos has put a great effort into understanding System Settings and has produced a simple layout, I just need to complete my patch to allow it to use the alternative metadata scheme at runtime.  If we have time, we&#8217;ll also customise some KCMs to provide a simple way to control KDE&#8217;s theming.</p>
+<p>I&#8217;ve been busy converting systemd, kdeinit and ksmserver into a native systemd startup by defining systemd unit files.  It&#8217;s a steep learning curve as it exposes a number of assumptions on both sides, but I&#8217;m getting there.  The unoptimised systemdkde.target starts up in 4s here, vs 6s for the same .kde4 started by startkde.  That might be due to legacy/fault tolerance parts of startkde being left out, so I won&#8217;t give more detailed numbers yet.</p>
+<p><strong>Next steps</strong></p>
+<p>You can see the state of the project on <a href="https://trello.com/board/klyde/515be014e9d9a5cf48007e01">Trello</a>. I&#8217;d like to see if there is a startup time  win by parallelizing kded and ksmserver starting modules and apps. I&#8217;d like to make an openSUSE pattern for existing installations, and an iso or a disk image for testers.  I&#8217;ve also submitted a talk on the subject for Akademy, so I&#8217;d like to work on that and get some real data to support this work.</p>
+<p>&nbsp;</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2013/04/11/hackweek9-lightweight-kde-desktop-project/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Tidy home, tidy Build Service</title>
+		<link>http://lizards.opensuse.org/2013/04/06/tidy-home-tidy-build-service/</link>
+		<comments>http://lizards.opensuse.org/2013/04/06/tidy-home-tidy-build-service/#comments</comments>
+		<pubDate>Sat, 06 Apr 2013 11:50:08 +0000</pubDate>
+		<dc:creator><![CDATA[Will Stephenson]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9354</guid>
+		<description><![CDATA[Anyone using the Open Build Service in the last couple of weeks will notice how hopelessly overloaded it is.  I blame the ARM lads .  But there is something that we should all do as responsible community members: delete or disable your old stuff. I&#8217;ve just spent 15 minutes going through my Open Build Service [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Anyone using the Open Build Service in the last couple of weeks will notice how hopelessly overloaded it is.  I blame the ARM lads <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';)' class='wp-smiley' /> .  But there is something that we should all do as responsible community members: delete or disable your old stuff.</p>
+<p>I&#8217;ve just spent 15 minutes going through my Open Build Service <a href="https://build.opensuse.org/project/show?project=home%3Awstephenson">home:wstephenson</a> project, deleting unfinished works in progress, finished branches that were never deleted, inherited repositories in branched projects that aren&#8217;t relevant to the tweaks I&#8217;m making, and I think I&#8217;ve saved about 100 repositories for the OBS scheduler to recalculate and look at publishing.</p>
+<p>Time for you to spring clean too?</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2013/04/06/tidy-home-tidy-build-service/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Welcome to the Indian Reservation, Ubuntu GNOMEs!</title>
+		<link>http://lizards.opensuse.org/2013/03/12/welcome-to-the-indian-reservation-ubuntu-gnomes/</link>
+		<comments>http://lizards.opensuse.org/2013/03/12/welcome-to-the-indian-reservation-ubuntu-gnomes/#comments</comments>
+		<pubDate>Tue, 12 Mar 2013 17:05:59 +0000</pubDate>
+		<dc:creator><![CDATA[Will Stephenson]]></dc:creator>
+				<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9316</guid>
+		<description><![CDATA[I read today that Ubuntu-Gnome is now an official flavour of Ubuntu! Great work, you&#8217;ve achieved the same level of recognition as KDE has.  Establishing Kubuntu, and other flavours of Ubuntu, was a very canny move on Canonical&#8217;s part to control and contain dissent within the Ubuntu big tent.   The Kum-ba-ya, lets-all-make-a-circle-in-our-vests hype that [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I read today that Ubuntu-Gnome <a href="http://bobthegnome.blogspot.de/2013/03/ubuntu-gnome.html">is now an official flavour of Ubuntu</a>! Great work, you&#8217;ve achieved the same level of recognition as KDE has.  Establishing Kubuntu, and other flavours of Ubuntu, was a very canny move on Canonical&#8217;s part to control and contain dissent within the Ubuntu big tent.   The Kum-ba-ya, lets-all-make-a-circle-in-our-vests hype that Ubuntu generated in 2005 was so strong that it sucked in KDE users as well as users of GNOME, then the anointed Ubuntu desktop.  Pretty soon they formed an unofficial forum, in Germany (where else) and started talking about a KDE Fork.  The answer from Canonical was to throw them Kubuntu, with &#8220;<a href="https://wiki.ubuntu.com/RecognizedFlavors">infrastructure and support benefits</a>&#8220;, hiring the Debian KDE maintainer, and to <a href="https://lists.ubuntu.com/archives/kubuntu-devel/2006-April/001146.html">pour</a> <a href="http://dot.kde.org/2006/10/15/mark-shuttleworth-becomes-first-patron-kde">blandishments</a> into the credulous ears of the KDE leadership of that time, who were mighty unsettled by the acquisition of their then-darling distribution by Novell and its earlier Ximian purchase.  This sackful of glass beads and liquor was sufficient to prevent ornery KDE users roaming all over the place doing what they liked, and especially not over the border to other distributions, and in doing so increase Ubuntu&#8217;s momentum.</p>
+<p>Now fast forward to 2013 and we&#8217;re seeing the same happen to GNOME.  No longer the standard desktop, but still with significant suction among Ubuntu users, GNOME is neatly herded on to the reservation and congratulated on its wise decision.  Now look to your Kubuntu colleagues to see how that is going to work out for you down the road. PS: If Mark promises to install GNOME Ubuntu, don&#8217;t believe him for a second.  He has an office by now full of desktop computers representing official flavours that he never turns on.  <a href="http://tirania.org/blog/archive/2013/Mar-05.html">Sound familiar</a>?</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2013/03/12/welcome-to-the-indian-reservation-ubuntu-gnomes/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Use Skype 4.10 with openSUSE 12.3 x86_64</title>
+		<link>http://lizards.opensuse.org/2013/02/11/use-skype-4-10-with-opensuse-12-3-x86_64/</link>
+		<comments>http://lizards.opensuse.org/2013/02/11/use-skype-4-10-with-opensuse-12-3-x86_64/#comments</comments>
+		<pubDate>Mon, 11 Feb 2013 14:18:35 +0000</pubDate>
+		<dc:creator><![CDATA[Will Stephenson]]></dc:creator>
+				<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Sound]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9237</guid>
+		<description><![CDATA[I&#8217;m testing PulseAudio 3.0 on openSUSE 12.3 RC1 and it might be helpful to hang this information out here where Google can find it: To use Skype with openSUSE 12.3, you need to download the Skype package for openSUSE.  If you&#8217;re using a 64 bit machine/install, like most of us nowadays, you also need some [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I&#8217;m testing PulseAudio 3.0 on openSUSE 12.3 RC1 and it might be helpful to hang this information out here where Google can find it:</p>
+<p>To use Skype with openSUSE 12.3, you need to download the Skype package for openSUSE.  If you&#8217;re using a 64 bit machine/install, like most of us nowadays, you also need some 32 bit compatibility packages, included with openSUSE.</p>
+<ol>
+<li>Download Skype from <a href="http://www.skype.com/en/download-skype/skype-for-linux/">http://www.skype.com/en/download-skype/skype-for-linux/</a></li>
+<li>Select openSUSE 12.1 32 bit (the most recent openSUSE version for which they offer Skype at time of writing) and save the package</li>
+<li>As root,<br />
+<blockquote><p>zypper in skype-4.1.0.20-suse.i586.rpm alsa-plugins-pulse-32bit</p></blockquote>
+<p>to install the package, its 32 bit requirements, and the 32 bit ALSA plugin for PulseAudio it also needs, but doesn&#8217;t/can&#8217;t specify automatically.</li>
+</ol>
+<p>Happy calling.</p>
+<p>&nbsp;</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2013/02/11/use-skype-4-10-with-opensuse-12-3-x86_64/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>OT: Shimano Alfine 11 Di2 SEIS and backwards compatibility with existing hubs</title>
+		<link>http://lizards.opensuse.org/2012/10/17/ot-shimano-alfine-11-di2-seis-and-backwards-compatibility-with-existing-hubs/</link>
+		<comments>http://lizards.opensuse.org/2012/10/17/ot-shimano-alfine-11-di2-seis-and-backwards-compatibility-with-existing-hubs/#comments</comments>
+		<pubDate>Wed, 17 Oct 2012 08:39:21 +0000</pubDate>
+		<dc:creator><![CDATA[Will Stephenson]]></dc:creator>
+				<category><![CDATA[Miscellaneous]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9062</guid>
+		<description><![CDATA[This post is completely OT for openSUSE, but I don&#8217;t have a better place to put it to share this useful snippet of information. Shimano has just released its electronic shifting system for Alfine internally geared hubs. In mechanical Alfine, the gear cable pull is translated into rotation and gear selection by a detachable unit [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>This post is completely OT for openSUSE, but I don&#8217;t have a better place to put it to share this useful snippet of information.</p>
+<p><img class="alignleft" src="http://www.madison.co.uk/lib/photos/sgs705al.jpg" alt="" width="270" height="270" /></p>
+<p>Shimano has just released its electronic shifting system for Alfine internally geared hubs. In mechanical Alfine, the gear cable pull is translated into rotation and gear selection by a detachable unit that sits on the end of the hub.  Alfine Di2 SEIS replaces this with a MU-S705 motor unit controlled by an electronic brake lever.  But it also introduces a new hub (SG-S705).  I wondered whether the motor unit can be retrofitted to existing hubs, as I have the original Alfine 11 (SG-S700) on my <a href="http://www.genesisbikes.co.uk/bikes/cross/day-one/day-one-alfine-11">Genesis Day One</a>, and I&#8217;m not completely happy with the Versa drop bar brake lever integrated shifter*.</p>
+<p>So I mailed Paul Lange, Shimano&#8217;s German distributor, to ask. The answer I got is that the SG-S700 hub can not be used with the Di2 components, because it has a return spring for upshifts, whereas SG-S705 does not since the gear selection in both directions is actively performed by the motor.  If you put a MU-S705 motor unit on an SG-S700 it would be working against the return spring.</p>
+<p><img class="alignright" src="http://www.madison.co.uk/lib/photos/sgs700l.jpg" alt="" width="270" height="270" />As far as I understood it, there is a spring in the SM-S700 cable end unit &#8211; I didn&#8217;t know there is also one in the hub itself, but I&#8217;ll check next time I have the wheel out.  Until then, my dreams of perfect drop bar shifting are just that, because at 400 quid SRP the hub is a big investment.  Maybe Shimano will take pity on me and make a mechanical STI&#8230;</p>
+<p>* Mostly because there is no little cam decoupling the upshift lever from the cable spool inside the Versa shifter, so sometimes it shifts up several gears at once.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/10/17/ot-shimano-alfine-11-di2-seis-and-backwards-compatibility-with-existing-hubs/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>April KDE Updates available for openSUSE (KDE 4.8.2)</title>
+		<link>http://lizards.opensuse.org/2012/04/04/kde48/</link>
+		<comments>http://lizards.opensuse.org/2012/04/04/kde48/#comments</comments>
+		<pubDate>Wed, 04 Apr 2012 14:49:25 +0000</pubDate>
+		<dc:creator><![CDATA[Will Stephenson]]></dc:creator>
+				<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[desktop kde]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8614</guid>
+		<description><![CDATA[The April set of KDE updates to Workspaces, Apps and Platform are available now for openSUSE in our KDE:Release:48 repository. This offers you the latest stable software from upstream KDE for openSUSE releases. As point releases, these are an essential upgrade for your production openSUSE installations. Get them now at http://download.opensuse.org/repositories/KDE:/Release:/48/openSUSE_12.1/. The repository for openSUSE [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The April set of KDE updates to Workspaces, Apps and Platform are available now for openSUSE in our KDE:Release:48 repository. This offers you the latest stable software from upstream KDE for openSUSE releases. As point releases, these are an essential upgrade for your production openSUSE installations.</p>
+<p>Get them now at http://download.opensuse.org/repositories/KDE:/Release:/48/openSUSE_12.1/.</p>
+<p>The repository for openSUSE 11.4 is being created at the time of writing at http://download.opensuse.org/repositories/KDE:/Release:/48/openSUSE_11.4</p>
+<p>Users who already have the KDE:Release:48 registered in YaST need only zypper up or upgrade with YaST.</p>
+<p>As always, have a lot of fun and report bugs!</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/04/04/kde48/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>openSUSE Board Election &#8211; My Manifesto</title>
+		<link>http://lizards.opensuse.org/2011/12/10/opensuse-board-election-my-manifesto/</link>
+		<comments>http://lizards.opensuse.org/2011/12/10/opensuse-board-election-my-manifesto/#comments</comments>
+		<pubDate>Sat, 10 Dec 2011 08:24:23 +0000</pubDate>
+		<dc:creator><![CDATA[Will Stephenson]]></dc:creator>
+				<category><![CDATA[Elections]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8301</guid>
+		<description><![CDATA[TL;DR: openSUSE as a project needs to raise its game, and the next openSUSE Board can guide the project to agree a tight set of goals for our releases and work to a higher standard on them. Otherwise we risk being an undirected mess of pet projects, bikeshedding discussions and bickering tribes. Read more at [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>TL;DR: openSUSE as a project needs to raise its game, and the next openSUSE Board can guide the project to agree a tight set of goals for our releases and work to a higher standard on them. Otherwise we risk being an undirected mess of pet projects, bikeshedding discussions and bickering tribes.</p>
+<p>Read more at <a href=" http://en.opensuse.org/openSUSE:Board_election_2011_platform_template_wstephenson">my platform page</a>. Then<a href="https://connect.opensuse.org//pg/polls/read/digitaltomm/15228/opensuse-board-election-2011"> go and vote</a>!</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/12/10/opensuse-board-election-my-manifesto/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Facebook bans KDE’s photo uploader; all uploaded content inaccessible.</title>
+		<link>http://lizards.opensuse.org/2011/06/27/facebook-bans-kdes-photo-uploaded-all-uploaded-content-inaccessible/</link>
+		<comments>http://lizards.opensuse.org/2011/06/27/facebook-bans-kdes-photo-uploaded-all-uploaded-content-inaccessible/#comments</comments>
+		<pubDate>Mon, 27 Jun 2011 20:45:37 +0000</pubDate>
+		<dc:creator><![CDATA[Will Stephenson]]></dc:creator>
+				<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[apps]]></category>
+		<category><![CDATA[facebook]]></category>
+		<category><![CDATA[freedom]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7585</guid>
+		<description><![CDATA[So in my head there&#8217;s a little Walter Sobchak beating on my conscience and shouting &#8220;This is what you get when you trust Facebook with your data, Will&#8221;. The reason is that I upload photos to Facebook using KDE&#8217;s shared uploader and this has fallen victim to the whims of FB&#8217;s purge of its app [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>So in my head there&#8217;s a little Walter Sobchak beating on my conscience and shouting &#8220;This is what you get when you trust Facebook with your data, Will&#8221;.<br />
+The reason is that I upload photos to Facebook using KDE&#8217;s shared uploader and this has fallen victim to the whims of FB&#8217;s purge of its app biosphere. Unless the original developer can convince them that the app is not spammy, offering a bad experience or having the wrong attitude, the app, my photos (all archived elsewhere of course), but most importantly, all the kind comments from my friends and contacts that represent FB&#8217;s only value, get sent to the farm.<br />
+This is what you get when you trust one company with stuff you care about. Will.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/06/27/facebook-bans-kdes-photo-uploaded-all-uploaded-content-inaccessible/feed/</wfw:commentRss>
+		<slash:comments>14</slash:comments>
+		</item>
+		<item>
+		<title>Have you BURPed yet today?</title>
+		<link>http://lizards.opensuse.org/2011/05/16/have-you-burped-yet-today/</link>
+		<comments>http://lizards.opensuse.org/2011/05/16/have-you-burped-yet-today/#comments</comments>
+		<pubDate>Mon, 16 May 2011 13:05:00 +0000</pubDate>
+		<dc:creator><![CDATA[Will Stephenson]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Marketing]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7326</guid>
+		<description><![CDATA[Well, have you?  Not the satisfying expulsion of excess gas, but the simplest way you can materially contribute to openSUSE. I was just hanging in the #active channel, watching my KDE chums make their new touchscreen interface (video), when somebody complained that shared-desktop-ontologies does not yet contain the latest release needed by KDE git master. [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Well, have you?  Not the satisfying expulsion of excess gas, but the simplest way you can materially contribute to openSUSE.</p>
+<p>I was just hanging in the #active channel, watching my KDE chums make their <a href="http://www.youtube.com/watch?v=iA9zaBZysfI">new touchscreen interface</a> (video), when somebody complained that <a href="http://sourceforge.net/projects/oscaf/files/shared-desktop-ontologies/0.7/">shared-desktop-ontologies</a> does not yet contain the latest release needed by KDE git master.  And instead of updating the package myself, I suggested they just BURP:</p>
+<ul>
+<li><strong>Branch</strong>,</li>
+<li><strong>Update</strong>,</li>
+<li><strong>Request</strong>,</li>
+<li>the <strong>Package</strong></li>
+</ul>
+<p>And by doing so we all get the latest versions in the devel project and soon in Tumbleweed and openSUSE Factory.  So ambassadors, boosters and motivated contributors know how to do that right?  Now you can use this glib little acronym to persuade friends and colleagues to do the same.</p>
+<p>Happy BURPing!</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/05/16/have-you-burped-yet-today/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>GSoC Idea: Build Service Plasma Widget Suite</title>
+		<link>http://lizards.opensuse.org/2011/03/24/gsoc-idea-build-service-plasma-widget-suite/</link>
+		<comments>http://lizards.opensuse.org/2011/03/24/gsoc-idea-build-service-plasma-widget-suite/#comments</comments>
+		<pubDate>Thu, 24 Mar 2011 21:14:53 +0000</pubDate>
+		<dc:creator><![CDATA[Will Stephenson]]></dc:creator>
+				<category><![CDATA[Boosters]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[gsoc]]></category>
+		<category><![CDATA[openSUSE]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=6902</guid>
+		<description><![CDATA[I&#8217;m blatantly abusing GSoC for a project that I would like to see in openSUSE but that I&#8217;ve never had time to work on. But really it&#8217;s a worthwhile thing to have: a set of Plasma widgets that users and developers can add to their workspace to make it easy to see what&#8217;s going on [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I&#8217;m blatantly abusing GSoC for a project that I would like to see in openSUSE but that I&#8217;ve never had time to work on.  But really it&#8217;s a worthwhile thing to have: a set of Plasma widgets that users and developers can add to their workspace to make it easy to see what&#8217;s going on in OBS in the projects that matter to them.  If you want to work on a fun project with cutting edge technologies such as Qt, QML, Plasma then head on over to the <a href="http://en.opensuse.org/openSUSE:GSOC_2011_Ideas#Build_Service_Plasma_Widgets">GSoC 2011 Ideas Page</a>.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/03/24/gsoc-idea-build-service-plasma-widget-suite/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+	</channel>
+</rss>

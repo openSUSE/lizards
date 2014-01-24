@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; Python</title>
+	<atom:link href="http://lizards.opensuse.org/tag/python/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>osc plugin &#8211; changes</title>
+		<link>http://lizards.opensuse.org/2011/03/23/osc-plugin-changes/</link>
+		<comments>http://lizards.opensuse.org/2011/03/23/osc-plugin-changes/#comments</comments>
+		<pubDate>Wed, 23 Mar 2011 12:21:27 +0000</pubDate>
+		<dc:creator><![CDATA[Alexander Naumov]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[fun]]></category>
+		<category><![CDATA[hacking]]></category>
+		<category><![CDATA[Python]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=6817</guid>
+		<description><![CDATA[OSC is a powerful tool for packaging experts, exposing all the latest and greats features of the Build Service. It&#8217;s written on python and easy in studying and using. However there are situations when its functionality is not enough; sometimes we need something special. In this case to us will help plug-in mechanism, which in [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><img class="alignright size-full wp-image-6818" src="http://lizards.opensuse.org/wp-content/uploads/2011/03/osc_plugin_and_lego.jpeg" alt="" width="161" height="207" /><a href="http://en.opensuse.org/openSUSE:OSC">OSC</a> is a powerful tool for packaging experts, exposing all the latest and greats features of the <a href="https://build.opensuse.org/">Build Service</a>. It&#8217;s written on python and easy in studying and using. However there are situations when its functionality is not enough; sometimes we need something special. In this case to us will help plug-in mechanism, which in osc is realised very simply.<br />
+<a href="http://en.opensuse.org/openSUSE:OSC_plugins">Plugin</a> can use all of the features, which already implemented osc, as well as provide an output in a convenient format for you. For example, if I want to check changes in kdelibs4 between openSUSE:11.3 and openSUSE:11.4, I can do something like this:</p>
+<pre>&gt; osc rdiff openSUSE:11.3 kdelibs4 openSUSE:Factory kdelibs4</pre>
+<p>After that I will receive a detailed output about all changes. Yes, that&#8217;s great… but not always it&#8217;s convenient. For example, in this case output will contain more than 2000 strings, and I need time to find, say, a *.changes file if I want quickly to understand that has been changed. In case if I want to transfer output to processing to another program (as often happens in practice), I have to shape this data. Unfortunately osc is not as intelligent and can&#8217;t show changes from one file (from *.changes, for example) only&#8230;</p>
+<h2 style="text-align: right">Hello world</h2>
+<p>Let&#8217;s me show how we can create a very simple osc-plugin. In the derectory /var/lib/osc-plugins/ we create a new file tell_me_something.py with such content:</p>
+<pre>@cmdln.alias('say')
+def do_say_something(self, subcmd, opts, *args):
+    if sys.argv[2] == "something":
+        print "openSUSE rulezzz"
+    else:
+        print sys.argv[2]</pre>
+<p>At start, osc will check this directory and will register all found there plugins. In that case, if in the plugin&#8217;s content there are errors, osc will report about it immediately. If now we run</p>
+<pre>&gt; osc help</pre>
+<p>we will see in the list our function <strong>say_something</strong> and the key to start it &#8211; <strong>say</strong>. Let&#8217;s test:</p>
+<pre>&gt; osc say "hello"
+hello
+&gt; osc say GNU/Linux
+GNU/Linux
+&gt; osc say something
+openSUSE rulezzz
+&gt;</pre>
+<p>As you can see, it&#8217;s very easy &#8211; just python and nothing else. Let&#8217;s go back to the output of the function rdiff(), which we mentioned at the beginning.</p>
+<h2 style="text-align: right">show me changes</h2>
+<p>In output of rdiff() nothing wrong, but I would like to immediately get information about what exactly has been done and, for example, which bugzilla-reports (related to this package) have been closed, etc. All what I need, are in rdiff&#8217;s output. It means that all what I have to do is just to shape this output.</p>
+<p>In 40 minutes of hacking I got such output:</p>
+<pre>&gt; osc changes kdelibs4 openSUSE:11.3 openSUSE:11.4
+PACKAGE: kdelibs4
+BUGZILLA_NOVELL: 668185, 670426, 644236, 596021
+BUGZILLA_OTHER: 246652, 170806, 149991, 221989, 252280, 253387, 253294, 193364, 253414
+CHANGES:
+
+- work around random error on first startup, bnc#668185,
+  kubuntu has a similiar patch applied
+- call update-mime-database in pre/post install scripts
+- don't show synthetic volume label when none is really available,
+  allow kio_sysinfo to fall back to device path (bnc#670426)
+- update to KDE Platform 4.6.0
+  * Plasma applets can be written in QML
+  * Plasma data engines can be written in Javascript
+  * Plasma data engines can use generic cache for offline mode
+  * udev, udisks, upower replace HAL in Solid
+  * For more details, see http://kde.org/announcements/4.6
+- add patch from 4.6 branch to fix plasma crash on exit
+- Add dependencies on udisks and upower for 11.3 and up for Solid
+- update to 4.5.95
+  * KDE 4.6 RC2
+  * no upstream changelog available.
+- update to 4.5.90
+  * KDE 4.6 RC1
+  * no upstream changelog available.
+- For 11.2 and 11.3 only : Will build now with polkit-qt-1
+  v 0.99.1, which is an official requirement of KDE 4.6
+- update to 4.5.85
+  * KDE 4.6 Beta2
+  * Final Beta before RC, various fixes from Beta1
+  * no upstream changelog available.
+- For 11.2 and 11.3 only : Added patch to revert changes that
+  requires a higher version of polkit-qt-1
+- update to 4.5.80
+  * KDE 4.6 Beta1
+  * no upstream changelog available.
+-  Closing the shell via CTRL+D crashes [bko#246652]
+- fix build with gcc 4.6
+- tighten qt4 dependencies
+- update to 4.5.3
+  * see http://kde.org/announcements/changelogs/changelog4_5_2to4_5_3.php for details
+- update branch diff for various bugs in 4.5:
+  * Crash on configure toolbars (bko#170806)
+  * KCookieJar can't read cookies from another port (bko#149991)
+  * Fix oversized number input widgets (bko#221989)
+  * CSS conformance issue (bko#252280)
+  * Fix helper protocols such as mailto: and telnet:
+  * Plasma crash on comic applet switch (bko#253387)
+  * HTTPS urls in KMail do not open properly in browser (bko#253294)
+  * Mailto: links in FireFox started by kmailservice fail (bnc#644236)
+  * Crash in directory listings when toggling
+    show hidden files flag (bko#193364)
+- Upstream patch added for kmail issue (bko#253414)
+- update to 4.5.2
+  * see http://kde.org/announcements/changelogs/changelog4_5_1to4_5_2.php for details
+- build apidocs separately to reduce build time
+- BuildRequire utempter-devel
+- update to 4.5.1
+  * see http://kde.org/announcements/changelogs/changelog4_5_0to4_5_1.php for details
+- new package: kdelibs4-apidocs (bnc#596021)
+- update to 4.5.0
+  * KDE 4.5.0 final (version bump over RC3)
+- update to 4.4.95
+  * KDE 4.5 RC3 (not announced)
+  * critical fixes for 4.5.0 release
+- Add libsoprano-devel Require to libkde4-devel
+- update to 4.4.93svn1149349
+- update to 4.4.5
+  * bugfixes over 4.4.4
+  * see http://kde.org/announcements/changelogs/changelog4_4_4to4_4_5.php for details</pre>
+<p>and between 11.4 and factory:</p>
+<pre>&gt; osc changes kdelibs4 openSUSE:11.4 openSUSE:Factory
+PACKAGE: kdelibs4
+CHANGES:
+
+- update to 4.6.1
+  * Bugfixes over KDE 4.6.0
+  *  see http://kde.org/announcements/changelogs/changelog4_6_0to4_6_1.php for details
+- remove upstreamed patches</pre>
+<p>aha&#8230; and what&#8217;s about vim between 11.2 and 11.3?</p>
+<pre>&gt; osc changes vim openSUSE:11.2 openSUSE:11.3
+PACKAGE: vim
+BUGZILLA_NOVELL: 598903
+CHANGES:
+
+- Add screen control sequences to inputrc (bnc#598903)
+- Use the icon from the tarball instead of our custom icon. It
+  looks much better.
+- Drop gvim.png from the source package.
+- build data subpackage as noarch
+- updated patches to apply with fuzz=0</pre>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2011/03/lego2.jpg"><img class="alignright size-full wp-image-6869" src="http://lizards.opensuse.org/wp-content/uploads/2011/03/lego2.jpg" alt="" width="161" height="117" /></a>Now we can see exactly what was has been done and which bugzilla-reports was fixed/closed. Yes, we have bnc# and bko# reports: reports from bugzilla.novell.com and bugs.kde.org (it cut be also bugs.kernel.org). Second group will be always different (KDE/Gnome/Mozilla/Kernel&#8230;).</p>
+<p>Source code of plugin is <a href="http://paste.opensuse.org/80006482">here</a>, and I hope this post will be useful for you if you&#8217;ve never written a plugin before.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/03/23/osc-plugin-changes/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Suppressing KeyboardInterrupt traceback in Python</title>
+		<link>http://lizards.opensuse.org/2009/05/04/supressing-keyboardinterrupt-traceback-in-python/</link>
+		<comments>http://lizards.opensuse.org/2009/05/04/supressing-keyboardinterrupt-traceback-in-python/#comments</comments>
+		<pubDate>Mon, 04 May 2009 11:18:39 +0000</pubDate>
+		<dc:creator><![CDATA[Michal Vyskocil]]></dc:creator>
+				<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Python]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=901</guid>
+		<description><![CDATA[If you have a running program in Python and press Ctrl+C, you&#8217;ll get a traceback like this: $ scout java foo ^CTraceback (most recent call last): File "/usr/bin/scout", line 11, in ret = scout.ScoutCore.run() File "/usr/lib64/python2.6/site-packages/scout/__init__.py", line 945, in run result = module.ScoutModule().main(clp.module_args) File "/usr/lib64/python2.6/site-packages/scout/__init__.py", line 873, in main return self.do_query(args.query, repos, args.inversesearch) File "/usr/lib64/python2.6/site-packages/scout/__init__.py", [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>If you have a running program in Python and press Ctrl+C, you&#8217;ll get a traceback like this:</p>
+<pre>
+$ scout java foo
+^CTraceback (most recent call last):
+  File "/usr/bin/scout", line 11, in 
+    ret = scout.ScoutCore.run()
+  File "/usr/lib64/python2.6/site-packages/scout/__init__.py", line 945, in run
+    result = module.ScoutModule().main(clp.module_args)
+  File "/usr/lib64/python2.6/site-packages/scout/__init__.py", line 873, in main
+    return self.do_query(args.query, repos, args.inversesearch)
+  File "/usr/lib64/python2.6/site-packages/scout/__init__.py", line 890, in do_query
+    result.add_rows(self._query(repo, query, inversesearch))
+  File "/usr/lib64/python2.6/site-packages/scout/__init__.py", line 896, in _query
+    r = db.query(self._sql, '%%%s%%' % term)
+  File "/usr/lib64/python2.6/site-packages/scout/__init__.py", line 485, in query
+    if len(row) == 1:           #(2)
+KeyboardInterrupt
+</pre>
+<p>It is useful suppress it, because user knows he breaks the program and this output should be considered as a bug. Possible solution is wrap a main function by one big <strong>try: except KeyboardInterrupt:</strong></p>
+<pre>
+try:
+  main() # the main function
+except KeyboardInterrupt:
+  pass # KeyboardInterrupt supressed
+</pre>
+<p>But it makes a new level of indentation which should be uncomfortable &#8211; especially in Python. Or when you have multiple entry-points, or just don&#8217;t well structured program (which is common when you write your private helper script <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> ), you maybe prefer another solution.</p>
+<p>Python has a <strong>sys.excepthook</strong>, which is called for traceback printing, so we could define our own and suppress unnecessary output here. And it would be nice suppress only one exception and handle other ones using existing function. And this function make it:</p>
+<pre>
+def suppress_keyboard_interrupt_message():
+    old_excepthook = sys.excepthook
+
+    def new_hook(type, value, traceback):
+        if type != exceptions.KeyboardInterrupt:
+            old_excepthook(type, value, traceback)
+        else:
+            pass
+
+    sys.excepthook = new_hook
+</pre>
+<p>Function <strong>suppress_keyboard_interrupt_message</strong> (it is really nice name, don&#8217;t it <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';-)' class='wp-smiley' /> ) stores an existing hook and register an inner function <strong>new_hook</strong> as a new one. Advantage is that <strong>old_excepthook</strong> exists only in a scope of this function, so you don&#8217;t need use global variables for it.</p>
+<p><em>Update: typos fixed</em></p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/05/04/supressing-keyboardinterrupt-traceback-in-python/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>python-TurboGears2 alive and kickin&#8217; on the build service</title>
+		<link>http://lizards.opensuse.org/2009/03/06/installpython-turbogears2/</link>
+		<comments>http://lizards.opensuse.org/2009/03/06/installpython-turbogears2/#comments</comments>
+		<pubDate>Fri, 06 Mar 2009 12:46:45 +0000</pubDate>
+		<dc:creator><![CDATA[Ciaran Farrell]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Python]]></category>
+		<category><![CDATA[turbogears]]></category>
+		<category><![CDATA[web application]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=544</guid>
+		<description><![CDATA[It&#8217;s been quite a while since I last posted an update on the state of python-turbogears in the openSUSE build service. The TurboGears project currently has three branches open (which seems to cause more confusion that actually help people) &#8211; the 1.0 branch, the 1.1 branch and the 2.0 branch. Whereas newcomers are advised to [&#8230;]]]></description>
+				<content:encoded><![CDATA[<div style="width: 310px" class="wp-caption alignleft"><img src="http://turbogears.org/2.0/tg2screen.jpg" alt="Screenshot of TurboGears 2" width="300" height="203" /><p class="wp-caption-text">Screenshot of TurboGears 2</p></div>
+<p>It&#8217;s been quite a while since I last posted an update on the state of<a href="http://software.opensuse.org/search?baseproject=openSUSE%3A11.1&amp;p=1&amp;q=python-turbogears" target="_self"> python-turbogears</a> in the<a href="http://build.opensuse.org"> openSUSE build service</a>. The <a href="http://www.turbogears.org">TurboGears project</a> currently has three branches open (which seems to cause more confusion that actually help people) &#8211; the 1.0 branch, the 1.1 branch and the 2.0 branch. Whereas newcomers are advised to install from the 1.0 branch and to develop web applications based on that branch, the truth is that most of the active development goes on in the 2.0 branch. TurboGears 2.0 is at beta7 stage right now &#8211; features are frozen and a release data is in sight for the big 2.0.</p>
+<p>Without getting into the major differences between 1.0 and 2.0, many people on the <a href="http://groups.google.com/group/turbogears">TurboGears Google Group</a> have expressed the opinion that the 2.0 branch, despite its beta suffix, is exceptionally stable and well suited to production deployment. One of the major obstacles facing people was how to actually install it. Because it requires some cutting edge packages which might not be standard fare for many distributions, it is recommended to install TurboGears2 (beta) in a virtual python environment using the <a href="http://software.opensuse.org/search?baseproject=openSUSE%3A11.1&amp;p=1&amp;q=python-virtualenv">virtualenv</a> package. Once the new virtual environment is ready and activated, a simple easy_install will automatically install the TurboGears2 package and its requirements. This is <a href="http://turbogears.org/2.0/docs/main/DownloadInstall.html">well documented</a>.</p>
+<p>I got a bit fed up with the virtual environment setup &#8211; it worked fairly well, but I was constantly having to set up completely new virtual environments just to install another TurboGears web application. There is an option when using virtualenv, to make the entire virtual environment &#8220;mobile&#8221; (meaning that you can pack virtual environment plus web app off to another computer easily), but it wasn&#8217;t working for me.</p>
+<p>Enter <a href="http://software.opensuse.org/search?baseproject=openSUSE%3A11.1&amp;p=1&amp;q=python-TurboGears2">python-TurboGears2</a> on the openSUSE build service. It took me a couple of days to get all the dependencies in the correct versions and installing properly, but it looks as if it works now. As TurboGears2 will be in a more or less constant state of flux until the final 2.0 release, there will probably be quite a lot of work to do to keep the packages up to date, but it&#8217;s worth it for the simple zypper in python-TurboGears2 <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' />  What I want to do now is to try creating a<a href="http://www.susestudio.com/"> SUSE Studio</a> based virtual appliance &#8211; that way practically any web app could be created and setup easily &#8211; and with a bit of elbow grease you could probably use apparmor etc to make it rock solid.</p>
+<p>PS: it would be well cool if people would test the package</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2009/03/06/installpython-turbogears2/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Updated python-turbogears to 1.0.7</title>
+		<link>http://lizards.opensuse.org/2008/11/17/updated-python-turbogears-to-107/</link>
+		<comments>http://lizards.opensuse.org/2008/11/17/updated-python-turbogears-to-107/#comments</comments>
+		<pubDate>Mon, 17 Nov 2008 14:58:10 +0000</pubDate>
+		<dc:creator><![CDATA[Ciaran Farrell]]></dc:creator>
+				<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[elixir]]></category>
+		<category><![CDATA[Python]]></category>
+		<category><![CDATA[sqlalchemy]]></category>
+		<category><![CDATA[turbogears]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=278</guid>
+		<description><![CDATA[Last weekend I spent some time on getting python-turbogears to build for Factory. In the process, I came across a spec file error which was causing not only python-turbogears to fail on Factory, but also dozens of other python packages. The problem was the spec file line: %{__python} setup.py install &#8211;prefix=%{_prefix} &#8211;root=$RPM_BUILD_ROOT &#8211;record-rpm=INSTALLED_FILES Once I [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Last weekend I spent some time on getting <a title="python-turbogears" href="https://build.opensuse.org/package/show?package=python-turbogears&amp;project=devel%3Alanguages%3Apython" target="_blank">python-turbogears</a> to build for Factory. In the process, I came across a spec file error which was causing not only python-turbogears to fail on Factory, but also <a title="Dozens of python packages fail in Factory due to filelist problem" href="https://bugzilla.novell.com/show_bug.cgi?id=441794">dozens of other python packages</a>. The problem was the spec file line:</p>
+<blockquote><p>%{__python} setup.py install &#8211;prefix=%{_prefix} &#8211;root=$RPM_BUILD_ROOT &#8211;record-rpm=INSTALLED_FILES</p></blockquote>
+<p>Once I fixed this for python-turbogears and it&#8217;s dependent packages (the solution is to replace &#8211;record with &#8211;record-rpm), I was able to get version 1.0.6 building for Factory. There were a few other issues which needed to be resolved (some deprecated def as() functions in python-peak and python-ruledispatch were causing syntax errors on python 2.6 &#8211; because &#8216;as&#8217; is a reserved keyword), but finally I got it sorted out.</p>
+<p>Once python 1.0.6 was successfully building on Factory, I decided to update the package to the most recent stable version of the 1.0.x package line from <a title="TurboGears Python Web Framework" href="http://www.turbogears.org">http://www.turbogears.org</a> &#8211; 1.0.7. I had to rewrite the infamous cherrypy2 patch for 1.0.7 and also had to update the python-elixir package (the older 0.5 Elixir was incompatible with python-sqlalchemy &gt;= 5) but now it builds properly.<br />
+You can now download and install python-turbogears using:</p>
+<blockquote><p>zypper in python-turbogears</p></blockquote>
+<p>(if you have the devel:languages:python repository, of course).</p>
+<p>Thanks to <a title="Peter Poeml" href="http://lizards.opensuse.org/author/poeml/">Peter Poeml</a> for his help packaging and fixing bugs.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2008/11/17/updated-python-turbogears-to-107/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>How to search more efficiently in Bugzilla with pybugz</title>
+		<link>http://lizards.opensuse.org/2008/06/19/how-to-search-more-efficiently-in-bugzilla-with-pybugz/</link>
+		<comments>http://lizards.opensuse.org/2008/06/19/how-to-search-more-efficiently-in-bugzilla-with-pybugz/#comments</comments>
+		<pubDate>Thu, 19 Jun 2008 06:58:39 +0000</pubDate>
+		<dc:creator><![CDATA[Thomas Schraitle]]></dc:creator>
+				<category><![CDATA[Accessibility]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[Usability]]></category>
+		<category><![CDATA[bugs]]></category>
+		<category><![CDATA[bugzilla]]></category>
+		<category><![CDATA[Python]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=70</guid>
+		<description><![CDATA[If you just want to search for bugs in Bugzilla, it's (a bit) painful: start the browser, type in the URL, insert your login and password and try to find out where to go. There is an easier way to do: pybugz for commandline lovers!]]></description>
+				<content:encoded><![CDATA[<p>If you just want to search for bugs in Bugzilla, it&#8217;s (a bit?) painful: start the browser, type in the URL, insert your login and password and try to find out where to go. There is an easier way to do: <a href="http://www.liquidx.net/pybugz/">pybugz</a> for commandline lovers!</p>
+<p>Thanks to Peter Poeml, get this very useful Python script from <a href="http://software.opensuse.org/search?baseproject=ALL&amp;p=1&amp;q=pybugz">here</a>. After you have installed it you need only two steps to configure it:</p>
+<ol>
+<li>
+<p>Create a file <span>~/.bzuser</span> and insert your Bugzilla login.</p>
+</li>
+<li>
+<p>Login into Bugzilla and insert your password. This creates the file <span>~/.bugz_cookie</span>:</p>
+<p><code>$  /usr/bin/bugz-login</code>
+</li>
+</ol>
+<p>The script knows several subcommands, its interface is similar to CVS or Subversion. You can search, get, post, modify, attach and download an attachment, all with this utility. For example, if you want all bugs about &#8220;XML&#8221;, regardless of the product or component, you just type:</p>
+<p> <code>$ bugz search xml</code></p>
+<p>That gives the following output:</p>
+<p> <code>&nbsp;* Using https://bugzilla.novell.com/<br />
+&nbsp;* Searching for 'XML'<br />
+&nbsp;[ deleted a lot of lines ]</code></p>
+<p>Maybe you want to narrow your search for KDE and specific products? No problem, here is an example:</p>
+<p> <code>$ bugz search KDE --product="openSUSE 11.0"<br />
+&nbsp;* Using https://bugzilla.novell.com/<br />
+&nbsp;* Searching for 'KDE' with the following options:<br />
+&nbsp;*    product              = ['openSUSE 11.0']<br />
+ 113512 kde-maintainers      Firefox in KDE - Only Uses GNOME Programs<br />
+ 170055 dmueller             Firefox sets desktop background for Gnome under KDE<br />
+ 176179 kde-maintainers      User can't edit properties for default notifications under KDE Storage Media and entries disepeared !<br />
+ 203548 sbrabec              workrave-kde is an empty applet by default<br />
+ [... and many more ...]</code></p>
+<p>Of course, if you know the bug number you can retrieve it with:</p>
+<p>  <code>$ bugz get 378240</code></p>
+<p>and it will list all the details of the bug. Very useful! I haven&#8217;t tried the other subcommands yet, but I think they are also very convenient.</p>
+<p>There are many more things to discover. So, when was your last time searching for bugs? <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2008/06/19/how-to-search-more-efficiently-in-bugzilla-with-pybugz/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Query your XML with xpathgrep.py</title>
+		<link>http://lizards.opensuse.org/2008/06/09/query-your-xml-with-xpathgreppy/</link>
+		<comments>http://lizards.opensuse.org/2008/06/09/query-your-xml-with-xpathgreppy/#comments</comments>
+		<pubDate>Mon, 09 Jun 2008 13:32:16 +0000</pubDate>
+		<dc:creator><![CDATA[Thomas Schraitle]]></dc:creator>
+				<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[lxml]]></category>
+		<category><![CDATA[Python]]></category>
+		<category><![CDATA[XML]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=52</guid>
+		<description><![CDATA[Maybe you know this problem: You have a couple of XML files and you need a specific information. Probably everybody would think of grep or similar tools first. But maybe your query is a bit more complicated than just a simple piece of text. What do do?]]></description>
+				<content:encoded><![CDATA[<p>Maybe you know this problem: You have a couple of XML files and you need a specific information. Probably everybody would think of grep or similar tools first. But maybe your query is a bit more complicated than just a simple piece of text. What do do?</p>
+<p>Recently I&#8217;ve found a very useful command line utility, which is probably not very known. It&#8217;s named xpathgrep.py and you can get it from the <a href="http://codespeak.net/svn/lxml/trunk/tools/xpathgrep.py">lxml repository</a> (you need lxml too). Let&#8217;s assume we have the following DocBook file:</p>
+<pre><em>File db.xml</em>
+&lt;?xml version="1.0"?&gt;
+&lt;book&gt;
+  &lt;title&gt;My Cooking Book&lt;/title&gt;
+  &lt;chapter&gt;
+    &lt;title&gt;Ingredients&lt;/title&gt;
+    &lt;para&gt;...&lt;/para&gt;
+  &lt;/chapter&gt;
+  &lt;chapter id="howtocook"&gt;
+    &lt;title&gt;How to cook&lt;/title&gt;
+    &lt;para&gt;...&lt;/para&gt;
+  &lt;/chapter&gt;
+&lt;/book&gt;</pre>
+<p>Now, if I want to get all the titles I have to use a <a href="http://www.w3.org/TR/xpath">XPath</a> (which is a <span>path description language for XML</span>, similar to Unix/Linux paths, but more powerful). To get all title elements all I have to do is to write <span style="mono;">//title</span>, regardless of the level:</p>
+<p><code>$ <strong>xpathgrep.py</strong> //title db.xml</code></p>
+<p>and I get this:</p>
+<p><code>&lt;title&gt;My Cooking Book&lt;/title&gt;<br />
+<br />
+&lt;title&gt;Ingredients&lt;/title&gt;<br />
+<br />
+&lt;title&gt;How to cook&lt;/title&gt;<br />
+</code></p>
+<p>Nice, isn&#8217;t it? Probably you say: &#8220;But, hey, I can get this with grep too!&#8221; Yes, but if you want just all chapter titles, you have a problem with grep. With XPath and xpathgrep.py I only modify my XPath expression a bit:</p>
+<p><code>$ <strong>xpathgrep.py</strong> //chapter/title db.xml</code></p>
+<p>Now this reduces the above output just to the wanted chapter titles. And I can extent my query just for all chapters that doesn&#8217;t have an id attribute:</p>
+<p><code>$ <strong>xpathgrep.py</strong> '//chapter[not(@id)]/title' db.xml</code></p>
+<p>(You need the apostroph because of the shell.) The tool outputs this:</p>
+<p><code>&lt;title&gt;Ingredients&lt;/title&gt;</code></p>
+<p>That&#8217;s nice, isn&#8217;t it? There are a lot of more to discover. A few hours ago I send a small patch to the lxml-devel mailinglist to support namespaces. Hopefully, it will be accepted. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2008/06/09/query-your-xml-with-xpathgreppy/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>

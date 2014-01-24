@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE Lizards &#187; Thomas Schraitle</title>
+	<atom:link href="http://lizards.opensuse.org/author/thomas-schraitle/feed/" rel="self" type="application/rss+xml" />
+	<link>http://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<language>en-US</language>
+		<sy:updatePeriod>hourly</sy:updatePeriod>
+		<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<item>
+		<title>Hackweek: Hot Chili Sauce for Hot Lizards</title>
+		<link>http://lizards.opensuse.org/2013/10/08/hackweek-hot-chili-sauce-for-hot-lizards/</link>
+		<comments>http://lizards.opensuse.org/2013/10/08/hackweek-hot-chili-sauce-for-hot-lizards/#comments</comments>
+		<pubDate>Tue, 08 Oct 2013 13:04:18 +0000</pubDate>
+		<dc:creator><![CDATA[Thomas Schraitle]]></dc:creator>
+				<category><![CDATA[Accessibility]]></category>
+		<category><![CDATA[Hackweek]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10001</guid>
+		<description><![CDATA[This hot sauce can be used to spice up your food, give you creative energy, and is a nice gift for your friends and family members &#8212; not only for Hackweek. Name: hot-chili-sauce Summary: Toms&#8217;s Hot Chili Sauce License: BSD Version: 1.0 Group: Cooking/Sauce/Chili # Ingredients # Requires: chili =&#62; 5pcs Requires: sugar = 3pcs [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>This hot sauce can be used to spice up your food, give you creative<br />
+energy, and is a nice gift for your friends and family members &#8212; not<br />
+only for Hackweek.</p>
+<p><strong>Name:</strong>       hot-chili-sauce<br />
+<strong>Summary:</strong>    Toms&#8217;s Hot Chili Sauce<br />
+<strong>License:</strong>    BSD<br />
+<strong>Version:</strong>    1.0<br />
+<strong>Group:</strong>      Cooking/Sauce/Chili</p>
+<p><span id="more-10001"></span></p>
+<pre>
+# Ingredients
+#
+Requires:   chili =&gt; 5pcs
+Requires:   sugar = 3pcs
+Requires:   ginger = 30gr
+Requires:   vinegar = 3tbsp
+Requires:   water = 250ml
+
+# Equipment
+#
+Requires:   libfunnel
+Requires:   libglassjars-multiple =&gt; 50ml
+Requires:   libcookingpots
+Requires:   libtap
+#
+Recommends: salt
+Recommends: wheat-flour
+
+%description
+This hot sauce can be used to spice up your food, give you creative
+energy, and is a nice gift for your friends and family members -- not
+only for Hackweek.
+
+%prep
+%setup
+
+head /dev/tap/water &gt; /dev/pot1/WATER
+mv /dev/jars &gt; /dev/pot1
+heat --target-temp 100C --gentle /dev/pot1
+
+%build
+
+%define very_hot 1
+%define thicken 0
+split -b 5 CHILI1 chili/CHILI1-CHOPPED
+split -b 5 CHILI2 chili/CHILI2-CHOPPED
+split -b 5 CHILI3 chili/CHILI3-CHOPPED
+%ifdef %{very_hot}
+split -b 5 CHILI4 chili/CHILI4-CHOPPED
+split -b 5 CHILI5 chili/CHILI5-CHOPPED
+%endif
+peel GINGER &gt; PEELED_GINGER &amp;&amp; split -b 5 PEELED_GINGER ginger/GINGER-CHOPPED
+peel GARLIC &gt; PEELED_GARLIC &amp;&amp; split -b 5 PEELED_GARLIC garlic/GARLIC-CHOPPED
+mv SUGAR /dev/pot2
+heat --target caramel /dev/pot2
+mv chili/* garlic/* /dev/pot2
+heat --time 5min --target-temp 80C /dev/pot2
+mv ginger/* SALT WATER VINEGAR /dev/pot2
+stir --dont-shake /dev/pot2
+mv TOMATO_PASTE /dev/pot2
+heat --time 15min --target-temp 100C /dev/pot2
+%ifdef %{thicken}
+mv WHEAT-FLOUR /dev/pot2
+%endif
+
+%install
+# FIXME: add adequate safety measures. This is hot.
+mv /dev/pot1/jars /dev
+mv /dev/pot2/* /dev/jars
+seal /dev/jars &amp;&amp; turn /dev/jars
+sleep 60m
+
+%files /dev/jars</pre>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2013/10/08/hackweek-hot-chili-sauce-for-hot-lizards/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>A New Font Repository</title>
+		<link>http://lizards.opensuse.org/2012/05/21/a-new-font-repository/</link>
+		<comments>http://lizards.opensuse.org/2012/05/21/a-new-font-repository/#comments</comments>
+		<pubDate>Mon, 21 May 2012 07:11:35 +0000</pubDate>
+		<dc:creator><![CDATA[Thomas Schraitle]]></dc:creator>
+				<category><![CDATA[Artwork]]></category>
+		<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[fonts]]></category>
+		<category><![CDATA[M17N:fonts]]></category>
+		<category><![CDATA[repository]]></category>
+		<category><![CDATA[typefaces]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8668</guid>
+		<description><![CDATA[what do you need when you write some text? Content, of course. Apart from your content you need an additional part to make it a shiny contribution: fonts! If you don&#8217;t know already: we have now a new repository dedicated just to fonts. With the invaluable work and effort from Petr Gajdos, Takashi Iwai, and [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>what do you need when you write some text? Content, of course. Apart from your content you need an additional part to make it a shiny contribution: fonts! If you don&#8217;t know already: we have now a new repository dedicated just to fonts.</p>
+<p><span id="more-8668"></span></p>
+<p>With the invaluable work and effort from Petr Gajdos, Takashi Iwai, and all the creative designers, we now have more than 100 open source fonts in the <a title="M17N:fonts Repository" href="http://download.opensuse.org/repositories/M17N:/fonts/" target="_blank">M17N:fonts</a> repository. Most fonts are licensed under the <a title="Open Font License" href="http://scripts.sil.org/OFL" target="_blank">OFL</a> or other open/free licenses. Thanks a lot to all! This repository contains fonts like the previously mentioned <a title="The Exo Typeface Family" href="http://lizards.opensuse.org/2011/12/08/the-exo-typeface-family/" target="_blank">Exo typeface</a>, the famous <a href="Linux Libertine" target="_blank">Linux Libertine</a>, or fonts from the <a title="Google Webfonts" href="http://www.google.com/webfonts" target="_blank">Google Webfonts</a> page to name a few. With all these fonts available at your hand, you have many choices to make your text readable and attractive as you like, be it on the Web or in print.</p>
+<p>Previous to openSUSE 12.1, all the fonts had a terrible naming convention: some contained a &#8220;fonts&#8221; prefix, other don&#8217;t. Now all fonts follow a naming convention to make it easy to find. So don&#8217;t be surprised when your font package has been renamed. If you need further information, check out my original idea from <a title="Invent Consistent Font Naming Schema/Central Font Repository" href="https://features.opensuse.org/313035" target="_blank">FATE#313035</a>. Packagers will probably find the article about <a title="How to package a font?" href="http://en.opensuse.org/openSUSE:Packaging_Fonts" target="_blank">Packaging Fonts</a> in the openSUSE Wiki helpful.</p>
+<p>The new M17N:fonts repository collects all fonts now and in the future. New fonts will appear and developed there. To use it, add the repository to your list:</p>
+<pre>zypper ar http://download.opensuse.org/repositories/M17N:/fonts/openSUSE_12.1/M17N:fonts.repo</pre>
+<p>Currently, the supported distributions are openSUSE 11.4, 12.1, Evergreen 11.1, 11.2, Factory, Tumbleweed, as well as SLE11 SP1 and SP2.</p>
+<p>Have fun and be creative with the new fonts! <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2012/05/21/a-new-font-repository/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>The Exo Typeface Family</title>
+		<link>http://lizards.opensuse.org/2011/12/08/the-exo-typeface-family/</link>
+		<comments>http://lizards.opensuse.org/2011/12/08/the-exo-typeface-family/#comments</comments>
+		<pubDate>Thu, 08 Dec 2011 08:39:09 +0000</pubDate>
+		<dc:creator><![CDATA[Thomas Schraitle]]></dc:creator>
+				<category><![CDATA[Artwork]]></category>
+		<category><![CDATA[Usability]]></category>
+		<category><![CDATA[fonts]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8285</guid>
+		<description><![CDATA[Some week ago, I&#8217;ve stumbled upon a very promising font project. It&#8217;s called the Exo Typeface Family and I think this could be a valuable addition to our distribution: The sans serif font is beautifully crafted and contains 9(!) different width as you can see in the following graphic: Natanael, the graphic designer, wrote about [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Some week ago, I&#8217;ve stumbled upon a very promising font project. It&#8217;s called the <a title="Exo Typeface Family" href="http://kck.st/tivQep" target="_blank">Exo Typeface Family</a> and I think this could be a valuable addition to our distribution:<br />
+<span id="more-8285"></span></p>
+<p>The sans serif font is beautifully crafted and contains 9(!) different width as you can see in the following graphic:</p>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2011/12/Exo.jpg"><img class="size-full wp-image-8288 alignnone" src="http://lizards.opensuse.org/wp-content/uploads/2011/12/Exo.jpg" alt="" width="560" height="364" /></a></p>
+<p>Natanael, the graphic designer, wrote about his font:</p>
+<blockquote><p>
+Today Exo is already a very mature font family, with over 700 characters supporting most Western, Central and Eastern European languages &#8211; and it can still go further! This coverage has been reached for all 9 weights, the maximum possible on the web. Each weight has an upright style and the corresponding ‘true’ italic style. Many ‘techno’ fonts have only the simple slanted oblique companion styles, but for the highest typographic quality it is essential to have true italics that are drawn specially.</p></blockquote>
+<p>Some unique <a href="http://en.wikipedia.org/wiki/OpenType_feature_tag_list" target="_blank">OpenType features</a>:</p>
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Small_caps" target="_blank">small caps</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Typographic_ligature" target="_blank">discretionary ligatures</a></li>
+<li><a href="http://en.wikipedia.org/wiki/OpenType_feature_tag_list#OpenType_Typographic_Features">stylistic alternates</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Old_style_figures" target="_blank">old style figures</a>, tabular figures, fractions</li>
+<li>a lot more&#8230;</li>
+</ul>
+<p>If this project reaches its funding goal it will be published in <a href="http://www.google.com/webfonts" target="_blank">Google Web Fonts</a> under the <a href="http://scripts.sil.org/OFL" target="_blank">SIL Open Font License</a>. Currently, almost 80% is pledged, but only 18 days are left. If you find this project useful, please help Natanael and make the Web a more beautiful place. I already did so. Thanks!</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/12/08/the-exo-typeface-family/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>Cooking with DocBook</title>
+		<link>http://lizards.opensuse.org/2011/12/07/cooking-with-docbook/</link>
+		<comments>http://lizards.opensuse.org/2011/12/07/cooking-with-docbook/#comments</comments>
+		<pubDate>Wed, 07 Dec 2011 09:00:49 +0000</pubDate>
+		<dc:creator><![CDATA[Thomas Schraitle]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8269</guid>
+		<description><![CDATA[Hi DocBook lovers, browsed through a book, used your favorite search engine, or posted on LinkedIn, Xing, or the DocBook mailinglist to hunt for answers to your problems? As an additional alternative, I&#8217;m happy to announce my latest project: The DoCookBook Project (released  under Creative Commons License) The tongue-twisting name is a word play and [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi DocBook lovers,</p>
+<p>browsed through a book, used your favorite search engine, or posted on LinkedIn, Xing, or the DocBook mailinglist to hunt for answers to your problems?</p>
+<p>As an additional alternative, I&#8217;m happy to announce my latest project:</p>
+<blockquote><p><a href="http://doccookbook.sf.net" target="_blank">The DoCookBook Project</a><br />
+(released  under Creative Commons License)</p></blockquote>
+<p>The tongue-twisting name is a word play and picks up the two central topic about DocBook and cookbook.</p>
+<p><span id="more-8269"></span></p>
+<h3>What is the &#8220;DoCookBook Project&#8221;?</h3>
+<p>This project is a collection of problems and solution towards DocBook and the DocBook stylesheets. The book contains helpful topics with step-by-step instructions.</p>
+<h3>Why another project about DocBook?</h3>
+<p>Information about DocBook can be find in books or somewhere in the Internet. However, it can be an exhausting task to extract the necessary piece which fits to your problem. This project can help you to get your work done more quickly.</p>
+<h3>Is it done?</h3>
+<p>Not yet. Currently it is a draft. However, the structure is almost complete. The book contains some useful topics and it will be improved and extended over time.</p>
+<h3>Can I see the source code?</h3>
+<p>Sure! The source code of this book is published and maintained as a <a href="https://sourceforge.net/p/doccookbook/code" target="_blank">Mercurial repository</a>.</p>
+<h3>Ok, you&#8217;ll get me! How can I support the project?</h3>
+<ul>
+<li>Register on the project mailinglist to influence the direction or to get updates</li>
+<li>Point out typos, ambiguities, inconsistencies, or errors.</li>
+<li>Let me know what&#8217;s your favorite topic.<br />
+Send me your topics directly or use the project&#8217;s ticket system (see <a href="https://sf.net/p/doccookbook/tickets/15/" target="_blank">Ticket#15</a>).<br />
+If you want to use the latter, you&#8217;ll have to register at Sourceforge</li>
+<li>Write your own topics.</li>
+<li>Create a cool new layout.</li>
+<li>Support this project and donate a small amount.</li>
+</ul>
+<p>Have fun!</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/12/07/cooking-with-docbook/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Calibre Repository Moved</title>
+		<link>http://lizards.opensuse.org/2011/04/15/calibre-repository-moved/</link>
+		<comments>http://lizards.opensuse.org/2011/04/15/calibre-repository-moved/#comments</comments>
+		<pubDate>Fri, 15 Apr 2011 07:57:38 +0000</pubDate>
+		<dc:creator><![CDATA[Thomas Schraitle]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[calibre]]></category>
+		<category><![CDATA[ebooks]]></category>
+		<category><![CDATA[epub]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7189</guid>
+		<description><![CDATA[Maybe not everybody knows it or it may be a bit too late, but nevertheless&#8230; the Calibre repository on home:thomas-schraitle:calibre has been moved to Documentation:Tools. It was necessary due to some internal reorganisation. The new location is now the official devel project. Have fun!]]></description>
+				<content:encoded><![CDATA[<p>Maybe not everybody knows it or it may be a bit too late, but nevertheless&#8230; the <a title="Calibre Homepage" href="http://calibre-ebook.com/" target="_blank">Calibre</a> repository on <tt>home:thomas-schraitle:calibre</tt> has been moved to <a href="http://download.opensuse.org/repositories/Documentation:/Tools/" target="_blank">Documentation:Tools</a>. It was necessary due to some internal reorganisation. The new location is now the official devel project.</p>
+<p>Have fun! <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2011/04/15/calibre-repository-moved/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Status Hungarian openSUSE Documentation</title>
+		<link>http://lizards.opensuse.org/2010/11/17/status-hu-opensuse-documentation/</link>
+		<comments>http://lizards.opensuse.org/2010/11/17/status-hu-opensuse-documentation/#comments</comments>
+		<pubDate>Wed, 17 Nov 2010 11:32:46 +0000</pubDate>
+		<dc:creator><![CDATA[Thomas Schraitle]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Localization]]></category>
+		<category><![CDATA[berlios]]></category>
+		<category><![CDATA[opensuse-doc]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=5883</guid>
+		<description><![CDATA[As I wrote last time, I&#8217;ve migrated our documentation to a public SVN server on BerliOS. There you can get the English sources of the official openSUSE documentation and some business products too. Apart from Russian, I&#8217;m very happy that the Hungarian translation of the openSUSE documentation is underway! Thanks to Kálmán Kéménczy, he will [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>As I wrote <a title="Merging SVN Repositories explained" href="http://lizards.opensuse.org/2010/10/30/merging-svn-repos-explained/" target="_blank">last time</a>, I&#8217;ve migrated our documentation to a public SVN server on BerliOS. There you can get the English sources of the official openSUSE documentation and some business products too.</p>
+<p>Apart from Russian, I&#8217;m very happy that the Hungarian translation of the openSUSE documentation is underway! Thanks to <a href="http://en.opensuse.org/User:Kkemenczy" target="_blank">Kálmán Kéménczy</a>, he will publish the Hungarian documentation soon. Currently, some translatation, proofreading, and polishing have to be done, so stay tuned (see <a href="https://svn.berlios.de/svnroot/repos/opensuse-doc/trunk/documents/distribution/hu">https://svn.berlios.de/svnroot/repos/opensuse-doc/trunk/documents/distribution/hu</a>.)<br />
+By the way, the Hungarian books from the 11.1 and 11.2 release can be downloaded in the <a title="Hungarian openSUSE Books" href="http://hu.opensuse.org/Portal:Dokument%C3%A1ci%C3%B3" target="_blank">Hungarian portal</a>.</p>
+<p>If someone from the Hungarian community wants to help, please support Kálmán and contact him for futher details.</p>
+<p>Thanks Kálmán, for your ongoing work! I&#8217;m sure, everybody appreciates your work, be it in the past, present, or future.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/11/17/status-hu-opensuse-documentation/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Merging SVN Repositories Explained</title>
+		<link>http://lizards.opensuse.org/2010/10/30/merging-svn-repos-explained/</link>
+		<comments>http://lizards.opensuse.org/2010/10/30/merging-svn-repos-explained/#comments</comments>
+		<pubDate>Sat, 30 Oct 2010 14:49:27 +0000</pubDate>
+		<dc:creator><![CDATA[Thomas Schraitle]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Server]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[administration]]></category>
+		<category><![CDATA[howto]]></category>
+		<category><![CDATA[svn]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=5669</guid>
+		<description><![CDATA[Adding files to a SVN server is usually a task done in seconds. However, having several independent SVN repositories and wanting to “combine” them, this is not trivial—especially if you want to preserve the history. The doc team had had three different, independent repositories on BerliOS (opensuse-ha-doc, opensuse-docmaker, and opensuse-lfl) all holding separate information. This [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Adding files to a <a title="Subversion" href="http://en.wikipedia.org/wiki/Apache_Subversion" target="_blank">SVN</a> server is usually a task done in seconds. However, having several independent SVN repositories and wanting to “combine” them,  this is not trivial—especially if you want to preserve the history.</p>
+<p>The doc team had had three different, independent repositories on BerliOS (opensuse-ha-doc,  opensuse-docmaker, and opensuse-lfl) all holding separate information. This was a bit silly, so my task was to consolidate them into <a title="Our SVN repo with all doc related stuff" href="https://developer.berlios.de/projects/opensuse-doc/" target="_blank">opensuse-doc</a> by <em>keeping</em> all history.</p>
+<h2><span id="more-5669"></span></h2>
+<p>A SVN history is nice as you can see what you or others have done with the files. Loosing the history is the same as starting from scratch &#8212; which can be sometimes a good idea. In that case, the doc team wanted to preserve the history as we use it very often. So I had to think of a solution how to merge different SVN repositories into one. I came up with a solution containing the following steps:</p>
+<ol>
+<li>Create a test repository</li>
+<li>Create the dump files</li>
+<li>Filter the dump files and extract trunk only</li>
+<li>Rename trunk content</li>
+<li>Edit the dump files</li>
+<li>Load dump files into test repository</li>
+</ol>
+<p>Several tools are needed: <tt>svnadmin</tt> and <tt>svndumpfilter</tt> are already available from the <tt>subversion</tt> package. Additionally, Darix recommended the <a href="http://svn.borg.ch/svndumptool/" target="_blank">svndumptool</a> from devel:tools:scm:svn (thanks Darix!). A very convenient tool when dealing with <a href="http://svnbook.red-bean.com/nightly/en/svn-book.html#svn.reposadmin.maint.migrate" target="_blank">SVN dumps</a>.</p>
+<p>Apart from this, all three SVN repositories consist of the usual <tt>trunk</tt>, <tt>branches</tt>, and a <tt>tags</tt> directories.</p>
+<h2>Step 1: Creating Test Repository</h2>
+<p>Before I got my hands dirty, I needed a test repository. Luckily, the subversion package contains everything what I need.  In my case, I&#8217;ve used the <a href="http://svnbook.red-bean.com/en/1.5/svn.ref.svnadmin.c.hotcopy.html"><tt>hotcopy</tt></a> command to create this test repository. I&#8217;ve logged in to BerliOS and made a hotcopy of my target SVN repository:</p>
+<pre># ssh svn.berlios.de
+# svnadmin hotcopy /svnroot/repos/opensuse-doc opensuse-doc</pre>
+<p>I did the same for my other repositories as well, just for safety reasons:</p>
+<pre># svnadmin hotcopy /svnroot/repos/opensuse-lfl opensuse-lfl
+# svnadmin hotcopy /svnroot/repos/opensuse-docmaker opensuse-docmaker
+# svnadmin hotcopy /svnroot/repos/opensuse-ha-doc opensuse-ha-doc</pre>
+<p>Later, I will use the opensuse-doc hotcopy to test my modifications before I apply them to the production SVN repository. With this method, I wanted to make sure everything is correct. Of course, you have to be sure that nobody commits to your repositories, otherwise any later commits won&#8217;t be incorporated.</p>
+<h2>Step 2: Creating Dump Files</h2>
+<p>Dump files contain everything what&#8217;s inside a repository including <a title="SVN Properties" href="http://svnbook.red-bean.com/en/1.5/svn.advanced.props.html" target="_blank">SVN properties</a>. However, they don&#8217;t contain the configuration or <a href="http://svnbook.red-bean.com/en/1.5/svn.ref.reposhooks.html" target="_blank">repository hooks</a> from the repository. If you want to keep them, you&#8217;ll have to save them manually.</p>
+<p>It&#8217;s very easy to create a dump file. In BerliOS, everything lives under <tt>/svnroot/repos/<em>PROJECT</em></tt>:</p>
+<pre># svnadmin dump /svnroot/repos/opensuse-lfl &gt; opensuse-lfl.dump
+# svnadmin dump /svnroot/repos/opensuse-docmaker &gt; opensuse-docmaker.dump
+# svnadmin dump /svnroot/repos/opensuse-ha-doc &gt; opensuse-ha-doc.dump</pre>
+<p>The above lines create a dump file for each of my SVN repositories. As the BerliOS server doesn&#8217;t have the <tt>svndumptool</tt> command, I have to copy them to my own machine:</p>
+<pre>toms@earth:~ &gt; scp shell.berlios.de:~/opensuse-*.dump .</pre>
+<h2>Step 3: Extracting trunk</h2>
+<p>In most SVN repositories, <tt>tags</tt> and <tt>branches</tt> contain information which were at some point in time copied (for <tt>tags</tt>) or copied and modified later (for <tt>branches</tt>). I haven&#8217;t found a satisfying solution to use <tt>svndumptool</tt> and take into account these two directories. Anyway, I&#8217;ve decided to just concentrate on trunk and manually adjust <tt>tags</tt> and <tt>branches</tt> later. This makes it easier when dealing with dump files.</p>
+<p>To extract only parts of a dump file, the <a href="http://svnbook.red-bean.com/en/1.5/svn.reposadmin.maint.html#svn.reposadmin.maint.tk.svndumpfilter" target="_blank">svndumpfilter</a> command is the right tool. Combined with the needed options and subcommands, I&#8217;ve used:</p>
+<pre>toms@earth:~ &gt; svndumpfilter --renumber-revs --drop-empty-revs \
+    include trunk &lt; opensuse-docmaker.dump &gt; docmaker-trunk.dump
+toms@earth:~ &gt; cat dumps/opensuse-ha-doc.dump | \
+    svndumpfilter --renumber-revs --drop-empty-revs  include "trunk" | \
+    svndumpfilter exclude trunk/package &gt; ha-doc-trunk.dump
+toms@earth:~ &gt; svndumpfilter --renumber-revs --drop-empty-revs \
+    include trunk &lt; opensuse-lfl.dump &gt; lfl-trunk.dump</pre>
+<p>The commands are not exactly the same, as the SVN repositories are slightly different. For example, the opensuse-ha-doc repo contained a <tt>trunk/package</tt> directory which I don&#8217;t want. Therefor you see the <tt>exclude</tt> command in <tt>svndumpfilter</tt>. The resulting dump files contain only <tt>trunk</tt>, nothing else.</p>
+<h2>Step 4: Renaming trunk Directory</h2>
+<p>The last step created dump files which contain only the <tt>trunk</tt> directory. The dump files can already be loaded into the target SVN repository. However, this is only partly successful. After loading you have to rename and move subdirectories around which is unconvenient. To avoid this cumbersome task, I&#8217;ve used the <tt>svndumptool</tt> command which does the job <em>directly</em> on the dump file!</p>
+<p>For example, the former docmaker repository has to appear under <tt>trunk/tools/docmaker</tt>, not directly under <tt>trunk</tt>. This can be done with the <tt>merge</tt> subcommand of <tt>svndumptool</tt>:</p>
+<pre>toms@earth:~ &gt; svndumptool merge -o docmaker-trunk-rename.dump \
+   -i docmaker-trunk.dump \
+   -s '^trunk' 'trunk/tools/docmaker' \
+   -d trunk/tools/docmaker</pre>
+<p>The <tt>-d</tt> option creates the <tt>trunk/tools/docmaker</tt> directory in case it doesn&#8217;t exist in your target. The <tt>-i</tt> and <tt>-o</tt> options are the input and output stream of the dump files, <tt>-s</tt> contains a regular expression how to rename the source (<tt>^trunk</tt>) into the target (<tt>trunk/tools/docmaker</tt>). The other repositories are similar:</p>
+<pre>toms@earth:~ &gt; svndumptool merge -o ha-doc-trunk-rename.dump  \
+  -i ha-doc-trunk.dump \
+  -d trunk/documents/ha/ \
+  -s '^trunk/books/en' 'trunk/documents/ha/en' \
+  -s '^trunk/books' 'trunk/documents'
+toms@earth:~ &gt; svndumptool merge -o lfl-trunk-rename.dump  \
+  -i lfl-trunk.dump \
+  -d trunk/documents/lfl/ \
+  -s '^trunk/books/en' 'trunk/documents/lfl/en' \
+  -s '^trunk/books' 'trunk/documents'</pre>
+<p>After this step I have three files, named <tt>*-trunk-rename.dump</tt> which contains the renamed directories.</p>
+<h2>Step 5: Editing Dump File</h2>
+<p>This step is a bit tricky and I haven&#8217;t found a better solution yet. Probably this can also be done with cat and sed magic, but I preferred vi. The task is to list the content of the dump files and decide which directory entries need to be deleted. This step is absolutely necessary to avoid any SVN error (something like “directory/file already exists”) when trying to load the dump file into the repository.</p>
+<ol>
+<li>Get an overview of the contents:
+<pre>toms@earth:~ &gt; svndumptool ls ha-doc-trunk-rename.dump
+/trunk
+...
+toms@earth:~ &gt; svndumptool ls docmaker-trunk-rename.dump
+/trunk
+/trunk/documents</pre>
+<p>Usually this is /trunk and probably some other directories (depending on the structure).</li>
+<li>Modify the dump file(s) and remove any directories which are available in the target SVN repository.<br />
+The renamed directories from the last step contains a single <tt>trunk</tt> “node” which has to be removed. The same applies for <tt>trunk/documents</tt>. Both exist already on the BerliOS server. Manually edit the dump files and remove the following lines:</p>
+<pre>Node-path: trunk
+Node-action: add
+Node-kind: dir
+Prop-content-length: 10
+Content-length: 10
+PROPS-END
+...
+Node-path: trunk/documents
+Node-action: add
+Node-kind: dir
+Prop-content-length: 10
+Content-length: 10
+  [[ Some other content could be available here ]]
+PROPS-END</pre>
+</li>
+<li>Save the dump file</li>
+</ol>
+<p>Be careful! It is very important not to destroy any structure in the dump file!</p>
+<p>I&#8217;ve checked the result with “svndumptool ls DUMPFILE”. No lonely <tt>trunk</tt> directory should be shown anymore. To be on the safe side, I&#8217;ve checked the two files with <tt>svndumptool check -A DUMPFILE</tt>, too.</p>
+<h2>Step 6: Loading Dump Files into Test Repository</h2>
+<p>The last step created the dump files with the correct structure. As this was done on my own machine, I have to copy the files back to BerliOS (remember to use the <tt>shell.berlios.de</tt> server):</p>
+<pre>toms@earth:~ &gt; scp *-rename.dump  shell.berlios.de:</pre>
+<p>It&#8217;s almost done! Logged into BerliOS and loaded the dump files in my hotcopy test repository (see step 1):</p>
+<pre># svnadmin load opensuse-doc  &lt; docmaker-trunk-rename.dump
+# svnadmin load opensuse-doc  &lt; ha-doc-trunk-rename.dump
+# svnadmin load opensuse-doc  &lt; lfl-trunk-rename.dump</pre>
+<p>After playing around a bit, everything was successful. So I repeated it, but replaced the opensuse-doc hotcopy with the correct path /svnroot/repos/opensuse-doc.</p>
+<p>The remaining pieces are the <tt>tags</tt> and <tt>branches</tt> directory. As revision numbers have been changed, the revision number in the original repository and the revision number in opensuse-doc are obviously not the same anymore. Creating tags can only be done with a correct date, because dates are preserved. For this reason, it is convenient to still have the original repositories around to look for the exact date and log message:</p>
+<pre>$ svn copy -r "{2010-10-20T10:00:00}" -m "..." \
+   $BERLIOSURL/trunk/tools/docmaker \
+   $BERLIOSURL/tags/tools/docmaker/obs</pre>
+<p>The <tt>branches</tt> are a bit different. Maybe the history can be preserved with the same method as with trunk, but I haven&#8217;t tried it. Our three repositories hadn&#8217;t had meaningful information in branch, or it wasn&#8217;t worth the effort.</p>
+<h2>Conclusion</h2>
+<p>The steps above showed how to merge different SVN repository into one while keeping the history.  Unfortunately, this task could be easier. Although <tt>svndumpfilter</tt> is very easy, it is also very limited. Especially when you have to modify the dump file itself, <tt>svndumpfilter</tt> won&#8217;t rescue you. It would be very good, if <tt>svndumpfilter</tt> could be extended to work with dump files in the same way as <tt>svndumptool</tt>. That would be fun. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/10/30/merging-svn-repos-explained/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>RTFM!</title>
+		<link>http://lizards.opensuse.org/2010/10/23/rtfm/</link>
+		<comments>http://lizards.opensuse.org/2010/10/23/rtfm/#comments</comments>
+		<pubDate>Sat, 23 Oct 2010 08:52:24 +0000</pubDate>
+		<dc:creator><![CDATA[Thomas Schraitle]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Marketing]]></category>
+		<category><![CDATA[Usability]]></category>
+		<category><![CDATA[Website]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=5550</guid>
+		<description><![CDATA[Before and during the openSUSE conference, some nice people (Jens-Daniel, Jürgen, Darix) created the following site for you: http://rtfm.opensuse.org http://doc.opensuse.org Thank you guys! I like the thrilling name. It&#8217;s a static page (at the moment?) and collects the current documentation from several products and projects. Probably you will see more to come in the next [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Before and during the openSUSE conference, some nice people (Jens-Daniel, Jürgen, Darix) created the following site for you:</p>
+<p><span style="text-decoration: line-through;"><a title="openSUSE Documentation" href="http://doc.opensuse.org" target="_blank">http://rtfm.opensuse.org</a></span> <a href="http://doc.opensuse.org" target="_blank">http://doc.opensuse.org</a></p>
+<p>Thank you guys! I like the thrilling name. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';-)' class='wp-smiley' /> </p>
+<p>It&#8217;s a static page (at the moment?) and collects the current documentation from several products and projects. Probably you will see more to come in the next weeks.</p>
+<p>Have fun!</p>
+<p><strong>Update (AJ since Thomas is ill) 2010-10-27:</strong> Based on the feedback received, we&#8217;re going to  change now rtfm.opensuse.org to docs.opensuse.org. So, you can reach the fine side under <a href="http://docs.opensuse.org">http://docs.opensuse.org</a> and <a href="http://doc.opensuse.org">http://doc.opensuse.org</a>.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/10/23/rtfm/feed/</wfw:commentRss>
+		<slash:comments>11</slash:comments>
+		</item>
+		<item>
+		<title>Checking EPUBs</title>
+		<link>http://lizards.opensuse.org/2010/10/03/checking-epubs/</link>
+		<comments>http://lizards.opensuse.org/2010/10/03/checking-epubs/#comments</comments>
+		<pubDate>Sun, 03 Oct 2010 11:42:18 +0000</pubDate>
+		<dc:creator><![CDATA[Thomas Schraitle]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[ebooks]]></category>
+		<category><![CDATA[epub]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=5382</guid>
+		<description><![CDATA[EPUBs are getting more and more important thesedays. If you believe the essays from well-informed magazines, they will develop into a standard for book and text consumption as MP3 did for audio. Today, lots of e-book readers are available and more will be ready in the future. Apart from the problem, if an e-book reader [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><a title="electronic publication" href="http://en.wikipedia.org/wiki/EPUB" target="_blank">EPUB</a>s are getting more and more important thesedays. If you believe the essays from well-informed magazines, they will develop into a standard for book and text consumption as MP3 did for audio.</p>
+<p><span id="more-5382"></span>Today, lots of e-book readers are available and more will be ready in the future. Apart from the problem, if an e-book reader supports EPUB, the EPUB file itself has to adhere to certain specifications. This is the task for <a href="http://code.google.com/p/epubcheck/" target="_blank">epubcheck</a>, a commandline utility which validates an EPUB file.</p>
+<p>The RPM package can be found in my OBS repository <a title="obs://home:thomas-schraitle" href="http://download.opensuse.org/repositories/home:/thomas-schraitle/" target="_blank">home:thomas-schraitle</a> as usual. To use it, just run epubcheck with your EPUB file and see what it finds.</p>
+<p>Have fun!</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/10/03/checking-epubs/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Tip: Using KWallet or GNOME Keyring with Subversion</title>
+		<link>http://lizards.opensuse.org/2010/01/15/using-kwallet-or-gnome-keyring-with-subversion/</link>
+		<comments>http://lizards.opensuse.org/2010/01/15/using-kwallet-or-gnome-keyring-with-subversion/#comments</comments>
+		<pubDate>Fri, 15 Jan 2010 08:47:14 +0000</pubDate>
+		<dc:creator><![CDATA[Thomas Schraitle]]></dc:creator>
+				<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Security]]></category>
+		<category><![CDATA[subversion]]></category>
+		<category><![CDATA[svn]]></category>
+		<category><![CDATA[tip]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=2961</guid>
+		<description><![CDATA[Subversion stores all its configuration and passwords under the ~/.subversion/ directory. Wouldn&#8217;t it be cool to have your passwords in KWallet or GNOME Keyring? Recently I found out, it is pretty simple. Do the following to use KWallet with Subversion: Install Subversion if you haven&#8217;t yet. Install the libsvn_auth_kwallet-1-0 or libsvn_auth_gnome_keyring-1-0 package, depending on if [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><a title="Subversion" href="http://subversion.tigris.org" target="_blank">Subversion</a> stores all its configuration and passwords under the <tt>~/.subversion/</tt> directory. Wouldn&#8217;t it be cool to have your passwords in KWallet or GNOME Keyring? Recently I found out, it is pretty simple.</p>
+<p><span id="more-2961"></span></p>
+<p>Do the following to use KWallet with Subversion:</p>
+<ol>
+<li>Install Subversion if you haven&#8217;t yet. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';-)' class='wp-smiley' /> </li>
+<li>Install the <tt>libsvn_auth_kwallet-1-0</tt> or <tt>libsvn_auth_gnome_keyring-1-0</tt> package, depending on if you use KDE or GNOME.</li>
+<li>Open the file <tt>~/.subversion/config</tt> and search for the <tt>[auth]</tt> section.</li>
+<li>Uncomment the option <tt>password-stores</tt>. For example, if you use KDE only, the line looks like:
+<pre>password-stores = kwallet</pre>
+<p>It is possible to add both, KDE&#8217;s KWallet Manager and GNOME&#8217;s Keyring, separated by commas or spaces.</li>
+<li>If you have more than one wallet in your KWallet Manager, set the name with the <tt>kwallet-wallet</tt> option.</li>
+</ol>
+<p>Whenever you commit something in your SVN repository, SVN asks you for the password and stores it in the respective password store(s). In KDE&#8217;s KWallet Manager you get a new Subversion folder. (Probably similar in GNOME, but I haven&#8217;t tested it.)</p>
+<p>Have fun!</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2010/01/15/using-kwallet-or-gnome-keyring-with-subversion/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>
