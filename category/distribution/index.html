@@ -16,8 +16,8 @@
   <meta itemprop="description" content="openSUSE News Blog">
 
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="openSUSE Education Li-f-e 13.1 x86_64 with UEFI boot support" />
-  <meta property="og:url" content="https://lizards.opensuse.org/2014/01/21/opensuse-education-li-f-e-13-1-x86_64-with-uefi-boot-support/" />
+  <meta property="og:title" content="Cloudy with a touch of Green" />
+  <meta property="og:url" content="https://lizards.opensuse.org/2014/03/19/cloudy-with-a-touch-of-green/" />
   <meta property="og:description" content="" />
 
   <!-- include JS from static.opensuse.org -->
@@ -49,8 +49,8 @@
     <link rel="alternate" type="application/rss+xml" title="openSUSE Lizards &raquo; Distribution Category Feed" href="https://lizards.opensuse.org/category/distribution/feed/" />
 <link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://lizards.opensuse.org/xmlrpc.php?rsd" />
 <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://lizards.opensuse.org/wp-includes/wlwmanifest.xml" /> 
-<meta name="generator" content="WordPress 3.7.1" />
-<script type='text/javascript' src='https://lizards.opensuse.org/wp-content/plugins/anti-captcha/anti-captcha-0.3.js.php?ver=dccab9bd9e0b69c49302025efdf19702'></script>
+<meta name="generator" content="WordPress 3.8.1" />
+<script type='text/javascript' src='https://lizards.opensuse.org/wp-content/plugins/anti-captcha/anti-captcha-0.3.js.php?ver=6f8caa0e6413027cb7a12f945151cb8d'></script>
 <style type="text/css">
 .avatar {vertical-align:middle}
 .credit {font-size: 50%;}
@@ -123,6 +123,392 @@
         <div class="clearfix"></div>
       </div>
 
+            <div class="post-10678 post type-post status-publish format-standard hentry category-distribution category-infrastructure-2 category-packaging tag-azure tag-cloud tag-ec2 tag-gce tag-opensuse-13-1">
+          <h3 id="post-10678"><a href="https://lizards.opensuse.org/2014/03/19/cloudy-with-a-touch-of-green/" rel="bookmark" title="Permanent Link to Cloudy with a touch of Green">Cloudy with a touch of Green</a></h3>
+          <small>March 19th, 2014 by <a href="https://lizards.opensuse.org/author/rjschwei/" title="Posts by rjschwei" rel="author">rjschwei</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2014/03/19/cloudy-with-a-touch-of-green/"
+                data-text="openSUSE News: Cloudy with a touch of Green"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2014%2F03%2F19%2Fcloudy-with-a-touch-of-green%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>Finally there is some news regarding our public cloud presence and openSUSE 13.1. We now have openSUSE 13.1 images published in Amazon EC2, Google Compute Engine, and Windows Azure.</p>
+<p>Well, that&#8217;s the announcement, but would make for a rather short blog. Thus, let me talk a bit about how this all works and speculate a bit why we&#8217;ve not been all that good with getting stuff out into the public cloud.</p>
+<p>Let me start with the speculation part, i.e. hindrances in getting openSUSE images published. In general to get anything into a public cloud one has to have an account. This implies that you hand over your credit card number to the cloud provider and they charge you for the resources you use. Resources in the public cloud are anything and everything that has something to do with data. Compute resources, i.e. the size of an instance w.r.t. memory and number of CPUs are priced differently. Sending data across the network to and from your instances incurs network charges and of course storing stuff in the cloud is not free either. Thus, while anyone can put an image into the cloud and publish it, this service costs the person money, granted not necessarily a lot, but it is a monthly recurring out of pocket expense.</p>
+<p>Then there always appears to be the &#8220;official&#8221; apprehension, meaning if person X publishes an openSUSE image from her/his account what makes it &#8220;official&#8221;. Well first we have the problem that the &#8220;official&#8221; stamp is really just an imaginary hurdle. An image that gets published by me is no more or less &#8220;official&#8221; than any other images. I am after all not the release manager or have any of my fingers in the openSUSE release in any way. I do have access to the SUSE accounts and can publish from there and I guess that makes the images &#8220;official&#8221;. But please do not get any ideas about &#8220;official&#8221; images, they do not exist.</p>
+<p>Last but not least there is a technical hurdle. Building images in OBS is not necessarily for the faint of heart. Additionally there is a bunch of other stuff that goes along with cloud images. Once you have one it still has to get into the cloud of choice, which requires tools etc.</p>
+<p>That&#8217;s enough speculation as to why or why not it may have taken us a bit longer than others, and just for the record we did have openSUSE 12.1 and openSUSE 12.2 images in Amazon. With that lets talk about what is going on.</p>
+<p>We have a project in OBS now, actually it has been there for a while, <a href="https://build.opensuse.org/project/show/Cloud:Images" title="Cloud:Images">Cloud:Images</a> that is intended to be used to build openSUSE cloud images. The GCE image that is public and the Amazon image that is public both came from this project. The Azure image that is currently public is one built with SUSE Studio but will at some point also stem from the Cloud:Images OBS project.</p>
+<p>Each cloud framework has it&#8217;s own set of tools. The tools are separated into two categories, initialization tools and command line tools. The initialization tools are tools that reside inside the image and these are generally services that interact with the cloud framework. For example <a href="http://cloudinit.readthedocs.org/en/latest/" title="cloud-init">cloud-init</a> is such an initialization tool and it is used in OpenStack images, Amazon images, and Windows Azure images. The command line tools let you interact with the cloud framework to start and stop instances for example. All these tools get built in the <a href="https://build.opensuse.org/project/show/Cloud:Tools" title="Cloud:Tools">Cloud:Tools</a> project in OBS. From there you can install the command line tools into your system and interact with the cloud framework they support. I am also trying to get all these tools into <a href="https://build.opensuse.org/project/show/openSUSE:Factory" title="openSUSE:Factory">openSUSE:Factory</a> to make things a bit easier for image building and cloud interaction come 13.2.</p>
+<p>With this lets take a brief closer look at each framework, in alphabetical order no favoritism here.</p>
+<p><strong>Amazon EC2</strong></p>
+<p>An openSUSE 13.1 image is available in all regions, the AMI (Amazon Machine Image) IDs are as follows:</p>
+<p>sa-east-1       =&gt;  ami-2101a23c<br />
+ap-northeast-1  =&gt;  ami-bde999bc<br />
+ap-southeast-2  =&gt;  ami-b165fc8b<br />
+ap-southeast-1  =&gt;  ami-e2e7b6b0<br />
+eu-west-1       =&gt;  ami-7110ec06<br />
+us-west-1       =&gt;  ami-44ae9101<br />
+us-west-2       =&gt;  ami-f0402ec0<br />
+us-east-1       =&gt;  ami-ff0e0696</p>
+<p>These images use cloud-init as opposed to the &#8220;suse-ami-tools&#8221; that has been used previously and is no longer available in OBS. The cloud-init package is developed in launchpad and was started by the Canonical folks. Unfortunately to contribute you have to sign the Canonical Contributor Agreement (CCA). If you do not want to sign it or cannot sign it for company reasons you can still send stuff to the package and I&#8217;ll try and get the stuff integrated upstream. For the interaction with Amazon we have the <a href="http://aws.amazon.com/cli/" title="aws-cli">aws-cli</a> package. The &#8220;aws&#8221; command line client supersedes all the ec2-*-tools and is an integrated package that can interact with all Amazon services, not just EC2. It is well documented fully open source and hosted on <a href="https://github.com/aws/aws-cli" title="github">github</a>. The aws-cli package replaces the previously maintained ec2-api-tools package which I have removed from OBS.</p>
+<p><strong>Google Compute Engine</strong></p>
+<p>In GCE things work by name and the openSUSE 13.1 image is named opensuse131-20140227 and is available in all regions. Google images use a number of tools for initialization, google-daemon and google-startup-scripts. All the Google specific tools are in the Cloud:Tools project. Interaction with GCE is handled with two commands, gcutil and gsutil, both provided by the google-cloud-sdk package. As the name suggests google-cloud-sdk has the goal to unify the various Google tools, same basic idea as aws-cli, and Google is working on the unification. Unfortunately they have decided to do this on their own and there is no public project for google-cloud-sdk which makes contributing a bit difficult to say the least. The <a href="https://github.com/GoogleCloudPlatform/gsutil" title="gsutil">gsutil</a> code is hosted on github, thus at least contributing to gsutil is straight forward. Both utilities, gsutil for storage and gcutil for interacting with GCE are well documented.</p>
+<p>In GCE we also were able to stand up openSUSE mirrors. These have been integrated into our <a href="https://en.opensuse.org/MirrorBrain" title="mirrorbrain">mirrorbrain</a> infrastructure and are already being used quite heavily. The infrastructure team is taking care of the monitoring and maintenance and that deserves a big THANK YOU from my side. The nice thing about hosting the mirrors in GCE is that when you run an openSUSE instance in GCE you will not have to pay for network charges to pull your updated packages and things are really fast as the update server is located in the same data center as your instance.</p>
+<p><strong>Windows Azure</strong></p>
+<p>As mentioned previously the current image we have in Azure is based on a build from SUSE Studio. It does not yet contain cloud-init and only has <a href="https://github.com/WindowsAzure/WALinuxAgent" title="WALinuxAgent">WALinuxAgent</a> integrated. This implies that processing of user data is not possible in the image. User data processing requires cloud-init and I just put the finishing touches on cloud-init this week. Anyway, the image in Azure works just fine, and I have no time line when we might replace it with an image that contains cloud-init in addition to WALinuxAgent.</p>
+<p>Interacting with Azure is a bit more cumbersome than with the other cloud frameworks. Well, let me qualify this with, if you want packages. The Azure command line tools are implemented using nodejs and are integrated into the <a href="https://www.npmjs.org/" title="npm">npm</a> nodejs package system. Thus, you can use npm to install everything you need. The nodejs implementation provides a bit of a problem in that we hardly have a nodejs infrastructure in the project. I have started packaging the dependencies, but there is a large number and thus this will take a while. Who would ever implement&#8230;.. but that&#8217;s a different topic.</p>
+<p>That&#8217;s where we are today. There is plenty of work left to do. For example we should unify the &#8220;generic&#8221; OpenStack image in Cloud:Images with the HP specific one, the HP cloud is based on OpenStack, and also get an openSUSE image published in the HP cloud. There&#8217;s tons of packaging left to do for nodejs modules to support the azure-cli tool. It would be great if we could have openSUSE mirrors in EC2 and Azure to avoid network charges for those using openSUSE images in those clouds. This requires discussions with Amazon and Microsoft, basically we need to be able to run those services for free, which implies that both would become sponsors of our project just like Google has become a sponsor of our project by letting us run the openSUSE mirrors in GCE.</p>
+<p>So if you are interested in cloud and public cloud stuff get involved, there is plenty of work and lots of opportunities. If you just want to use the images in the public cloud go ahead, that&#8217;s why they are there. If you want to build on the images we have in OBS and customize them in your own project feel free and use them as you see fit.</p>
+          </div>
+
+          <p class="postmetadata">Tags: <a href="https://lizards.opensuse.org/tag/azure/" rel="tag">azure</a>, <a href="https://lizards.opensuse.org/tag/cloud/" rel="tag">cloud</a>, <a href="https://lizards.opensuse.org/tag/ec2/" rel="tag">EC2</a>, <a href="https://lizards.opensuse.org/tag/gce/" rel="tag">gce</a>, <a href="https://lizards.opensuse.org/tag/opensuse-13-1/" rel="tag">openSUSE 13.1</a><br /> Posted in <a href="https://lizards.opensuse.org/category/distribution/" title="View all posts in Distribution" rel="category tag">Distribution</a>, <a href="https://lizards.opensuse.org/category/infrastructure-2/" title="View all posts in Infrastructure" rel="category tag">Infrastructure</a>, <a href="https://lizards.opensuse.org/category/packaging/" title="View all posts in Packaging" rel="category tag">Packaging</a> |   <a href="https://lizards.opensuse.org/2014/03/19/cloudy-with-a-touch-of-green/#respond" title="Comment on Cloudy with a touch of Green">No Comments &#187;</a></p>
+
+        </div>
+
+            <div class="post-10665 post type-post status-publish format-standard hentry category-base-system category-distribution category-kernel category-packaging category-uncategorized tag-build tag-kvm tag-osc tag-virtio">
+          <h3 id="post-10665"><a href="https://lizards.opensuse.org/2014/03/15/osc-build-with-kvm-on-an-encrypted-volume-group/" rel="bookmark" title="Permanent Link to osc build with kvm on an encrypted volume group">osc build with kvm on an encrypted volume group</a></h3>
+          <small>March 15th, 2014 by <a href="https://lizards.opensuse.org/author/bruno_friedmann/" title="Posts by Bruno Friedmann" rel="author">Bruno Friedmann</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2014/03/15/osc-build-with-kvm-on-an-encrypted-volume-group/"
+                data-text="openSUSE News: osc build with kvm on an encrypted volume group"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2014%2F03%2F15%2Fosc-build-with-kvm-on-an-encrypted-volume-group%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <h1>How-to build a initrd-virtio on a fully encrypted volume group</h1>
+<p>If like me you care about your data stored on your laptop, you certainly use a fully encrypted (excepted /boot) configuration based on lvm.</p>
+<p>In my case I also like to create, build, fix packages locally with our tool osc. I&#8217;ve plenty of power, beefy ssd, so I dedicate a logical lvm for building cleanly package with qemu-kvm configuration, like <a href="http://build.opensuse.org">obs</a> does</p>
+<h2>Prepare the kvm building system</h2>
+<p>As root you create 2 lvm volume with lvcreate, one will be the build root, the other one will be the additional swap</p>
+<p>In ~/.oscrc I enable the following parameters</p>
+<pre>
+build-type = kvm
+build-device = /dev/mapper/vg0-lvobsbuild
+build-swap = /dev/mapper/vg1-lvobsswap
+build-memory = 4096
+build-vmdisk-rootsize = 16000
+build-vmdisk-swapsize = 4000
+build-vmdisk-filesystem = ext4
+</pre>
+<p>You just have to adjust the Memory quantity and the device to what you create for your own environment.</p>
+<p> <a href="https://lizards.opensuse.org/2014/03/15/osc-build-with-kvm-on-an-encrypted-volume-group/#more-10665" class="more-link">(more&hellip;)</a></p>
+          </div>
+
+          <p class="postmetadata">Tags: <a href="https://lizards.opensuse.org/tag/build/" rel="tag">Build</a>, <a href="https://lizards.opensuse.org/tag/kvm/" rel="tag">kvm</a>, <a href="https://lizards.opensuse.org/tag/osc/" rel="tag">osc</a>, <a href="https://lizards.opensuse.org/tag/virtio/" rel="tag">virtio</a><br /> Posted in <a href="https://lizards.opensuse.org/category/base-system/" title="View all posts in Base System" rel="category tag">Base System</a>, <a href="https://lizards.opensuse.org/category/distribution/" title="View all posts in Distribution" rel="category tag">Distribution</a>, <a href="https://lizards.opensuse.org/category/base-system/kernel/" title="View all posts in Kernel" rel="category tag">Kernel</a>, <a href="https://lizards.opensuse.org/category/packaging/" title="View all posts in Packaging" rel="category tag">Packaging</a>, <a href="https://lizards.opensuse.org/category/uncategorized/" title="View all posts in Uncategorized" rel="category tag">Uncategorized</a> |   <a href="https://lizards.opensuse.org/2014/03/15/osc-build-with-kvm-on-an-encrypted-volume-group/#respond" title="Comment on osc build with kvm on an encrypted volume group">No Comments &#187;</a></p>
+
+        </div>
+
+            <div class="post-10631 post type-post status-publish format-standard hentry category-distribution category-documentation tag-dvb">
+          <h3 id="post-10631"><a href="https://lizards.opensuse.org/2014/03/06/getting-my-dvb-t-card-to-work/" rel="bookmark" title="Permanent Link to getting my DVB-T card to work">getting my DVB-T card to work</a></h3>
+          <small>March 6th, 2014 by <a href="https://lizards.opensuse.org/author/bmwiedemann/" title="Posts by bmwiedemann" rel="author">bmwiedemann</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2014/03/06/getting-my-dvb-t-card-to-work/"
+                data-text="openSUSE News: getting my DVB-T card to work"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2014%2F03%2F06%2Fgetting-my-dvb-t-card-to-work%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>Today I tried to get a DVB-T card to work with a new antenna on a new 13.1 install.<br />
+I know it was working, because I ran it with 12.3 on this machine last year.</p>
+<p>hwinfo &#8211;tv<br />
+showed<br />
+  Model: &#8220;Hauppauge computer works WinTV HVR-1110&#8243;<br />
+  Vendor: pci 0&#215;1131 &#8220;Philips Semiconductors&#8221;<br />
+  Device: pci 0&#215;7133 &#8220;SAA7131/SAA7133/SAA7135 Video Broadcast Decoder&#8221;</p>
+<p>So after plugging everything in, I started kaffeine, which still knew about all local channels, but could not tune.<br />
+<a href="http://www.linuxtv.org/wiki/index.php/Hauppauge_WinTV-HVR-1110">http://www.linuxtv.org/wiki/index.php/Hauppauge_WinTV-HVR-1110</a> gave the important hint that one needs a firmware file. After that was in /lib/firmware and after a reboot, came the next try. kaffeine now would show 99% SNR, so a good signal and even know about what is currently on air, however picture remained black.<br />
+kaffeine hinted that it needs extra software, but could not find it, even though packman repos were available (annoying bug).<br />
+Installing kde3-kaffeine from packman did not help.<br />
+<a href="http://opensuse-community.org/">http://opensuse-community.org/</a> finally helped &#8211; I needed some codec packages from the packman repo.<br />
+Now everything is working after less than an hour.</p>
+          </div>
+
+          <p class="postmetadata">Tags: <a href="https://lizards.opensuse.org/tag/dvb/" rel="tag">dvb</a><br /> Posted in <a href="https://lizards.opensuse.org/category/distribution/" title="View all posts in Distribution" rel="category tag">Distribution</a>, <a href="https://lizards.opensuse.org/category/documentation/" title="View all posts in Documentation" rel="category tag">Documentation</a> |   <a href="https://lizards.opensuse.org/2014/03/06/getting-my-dvb-t-card-to-work/#respond" title="Comment on getting my DVB-T card to work">No Comments &#187;</a></p>
+
+        </div>
+
+            <div class="post-10518 post type-post status-publish format-standard hentry category-boosters category-build-service category-distribution category-factory category-programming">
+          <h3 id="post-10518"><a href="https://lizards.opensuse.org/2014/02/07/some-news-from-the-trenches/" rel="bookmark" title="Permanent Link to Some news from the trenches">Some news from the trenches</a></h3>
+          <small>February 7th, 2014 by <a href="https://lizards.opensuse.org/author/calumma/" title="Posts by calumma" rel="author">calumma</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2014/02/07/some-news-from-the-trenches/"
+                data-text="openSUSE News: Some news from the trenches"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2014%2F02%2F07%2Fsome-news-from-the-trenches%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>As you might know, we are focusing our development efforts in two fronts, namely <a href="http://lists.opensuse.org/opensuse-factory/2014-01/msg00317.html">openQA</a> and <a href="http://lists.opensuse.org/opensuse-factory/2014-01/msg00278.html">staging projects</a>. As we just started we don&#8217;t have fireworks for you (yet) but we did some solid ground work that we are going to build upon.</p>
+<h3>Working on openQA</h3>
+<p>We are organizing our daily job in openQA into highly focused sprints of two weeks. The focus of the first sprint was clear: cleanup the current codebase to empower future development and lower the entry barrier for casual contributors, which can be translated as &#8220;cleaning our own mess&#8221;. We created <a href="https://progress.opensuse.org/versions/67">some tasks in progress</a>, grouped in a version with a surprising and catchy name: Sprint 01.</p>
+<h4>Got my mojo workin&#8217;</h4>
+<p>Up to now, openQA web interface was written using just a bunch of custom CGI scripts and some configuration directives in Apache. We missed a convenient way to access to all the bell and whistles of modern web development and some tools to make the code more readable, reliable and easier to extend and test. In short, we missed a proper web development framework. We evaluated the most popular Perl-based alternatives and we finally decided to go for <a href="http://mojolicio.us/">Mojolicious</a> for several reasons:</p>
+<ul>
+<li>It provides all the functionality we demand from a web framework while being lightweight and unbloated.</li>
+<li>It&#8217;s stated as a &#8220;real time framework&#8221; which, buzzwords apart, means that is designed from the ground to fully support Comet (long-polling), EventSource and WebSockets. Very handy technologies for implementing some features in openQA.</li>
+<li>It really &#8220;feels&#8221; very close to <a href="http://www.sinatrarb.com/">Sinatra</a>, which makes Ruby on Rails     developers feel like at home. And we have quite some Rails developers hanging around, don&#8217;t we? Just think about OBS, software.o.o, WebYast, progress.o.o, OSEM, the TSP app&#8230;
+<li>Mojolicious motto is &#8220;web development can be fun again&#8221;. Who could resist to that?</li>
+</ul>
+<p>We&#8217;ve now reached the end of the sprint and we already have something that looks exactly the same than what we had before, but using Mojolicious internally. We are very happy with the framework and we are pretty confident that future development of openQA will be easier and faster than ever. OpenQA has mojo!</p>
+<h4>The database layer in openQA</h4>
+<p>Another part that we worked on during first sprint was the database layer. The user interface part of openQA use a SQLite database to store the jobs and workers registered in the system. The connection between the code and the database was expressed directly in SQL using a simple API.</p>
+<p>We have replaced this layer with another equivalent that uses an ORM (Object-relational mapping) in Perl (<a href="http://www.dbix-class.org/">DBIx::Class</a>). Every data model in openQA is now a true object that can be created, copied and moved between the different layers of the application. Quite handy.</p>
+<p>To make sure we don&#8217;t forget anything, we created a bunch of tests covering the whole functionality of the original code, running this test suite after each step of the migration. In this way we have achieved two goals: we now have a simple way to share and update information through the whole system and we can migrate very easily to a different database engine (something that we plan to do in the future).</p>
+<h3>What to do with staging</h3>
+<p>Over the time, coolo had accumulated quite some scripts that helped him with Factory. Most of them are actually related to something we are doing right now: the staging projects. So in the end we basically migrated all relevant ones to <a href="https://github.com/openSUSE/osc-plugin-factory">github</a> and one by one we are merging their functionality to staging plugin. We also experimented with test frameworks that we could use to test the plugin itself, selected few and we even have a first test! The final plan is to have the whole plugin functionality covered with a proper test suite, so we will know when something breaks. Currently, there is a lot of mess in our repo and the plugin itself need big cleanup, but we are working on it.</p>
+<h3>Contributions are welcome</h3>
+<p>If you want to help but wonder where to start, we identified tasks that are good to dive into the topic and named them &#8220;easy hacks&#8221;: mostly self contained tasks we expect to have little effort but we lack the time to do right now. Just jump over the list for <a href="https://progress.opensuse.org/versions/73">openQA</a> or <a href="https://progress.opensuse.org/versions/69">staging projects</a>.</p>
+<p>For grabbing the code related to staging project, you only need to clone the <a href="https://github.com/openSUSE/osc-plugin-factory">already mentioned repository</a>. The openQA code is spread in several repositories (<a href="https://github.com/openSUSE-Team/os-autoinst">one</a>, <a href="https://github.com/openSUSE-Team/openQA">two</a>, <a href="https://github.com/openSUSE-Team/os-autoinst-distri-opensuse">three</a> and <a href="https://github.com/openSUSE-Team/os-autoinst-needles-opensuse">four</a>), but setting up your own instance to play and hack is a piece of cake using <a href="http://software.opensuse.org/package/openQA">the packages</a> available in OBS (built automatically for every git push).</p>
+<p>If you simply want to see what we are doing in more detail, take a look at progress.o.o, we have both <a href="https://progress.opensuse.org/projects/openqav3">openQA</a> and <a href="https://progress.opensuse.org/projects/stagings">Staging projects</a> there.</p>
+<p>We are having a lot of fun, and we encourage you to join us!</p>
+          </div>
+
+          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/boosters/" title="View all posts in Boosters" rel="category tag">Boosters</a>, <a href="https://lizards.opensuse.org/category/build-service/" title="View all posts in Build Service" rel="category tag">Build Service</a>, <a href="https://lizards.opensuse.org/category/distribution/" title="View all posts in Distribution" rel="category tag">Distribution</a>, <a href="https://lizards.opensuse.org/category/distribution/factory/" title="View all posts in Factory" rel="category tag">Factory</a>, <a href="https://lizards.opensuse.org/category/programming/" title="View all posts in Programming" rel="category tag">Programming</a> |   <a href="https://lizards.opensuse.org/2014/02/07/some-news-from-the-trenches/#respond" title="Comment on Some news from the trenches">No Comments &#187;</a></p>
+
+        </div>
+
+            <div class="post-10494 post type-post status-publish format-standard hentry category-ambassadors category-artwork category-distribution category-events category-marketing tag-booth tag-fodsem tag-marketing tag-opensuse">
+          <h3 id="post-10494"><a href="https://lizards.opensuse.org/2014/02/04/fosdem-2014-report-beta-testing-new-opensuse-booth-merchandising-stuff/" rel="bookmark" title="Permanent Link to Fosdem 2014 Report &amp; Beta testing new openSUSE booth merchandising Stuff">Fosdem 2014 Report &amp; Beta testing new openSUSE booth merchandising Stuff</a></h3>
+          <small>February 4th, 2014 by <a href="https://lizards.opensuse.org/author/bruno_friedmann/" title="Posts by Bruno Friedmann" rel="author">Bruno Friedmann</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2014/02/04/fosdem-2014-report-beta-testing-new-opensuse-booth-merchandising-stuff/"
+                data-text="openSUSE News: Fosdem 2014 Report &amp; Beta testing new openSUSE booth merchandising Stuff"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2014%2F02%2F04%2Ffosdem-2014-report-beta-testing-new-opensuse-booth-merchandising-stuff%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <h2>Fosdem 2014</h2>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2014/02/12271807465_4eb0674948_b.jpg"><img src="//lizards.opensuse.org/wp-content/uploads/2014/02/12271807465_4eb0674948_b-150x150.jpg" alt="fosdem 2014 - full" width="150" height="150" class="alignleft size-thumbnail wp-image-10496" style="margin:8px" /></a>
+<p>Again this year, <a href="https://fosdem.org/">Fosdem</a> was really delightful, a bit crowdy as hell concerning a number of conference rooms.</p>
+<p>But if there&#8217;s a constant, it is the awesomeness of the Fosdem staff and its armada of volunteers. Please all of you who made this event so great, receive in the name of openSUSE&#8217;s community our warmest thanks and congratulations.</p>
+<p>I will not make a mistake if I predict a big success for the different talk&#8217;s videos, in the next following weeks.</p>
+<h2 style="clear:both">openSUSE merchandising new collection</h2>
+<p>After a <b>loooong wait</b>, perceived as a century, openSUSE Booth was furbished with the next generation of merchandising stuff.<br />
+<br />At least some part of the complete kit, which should be available in April.</p>
+<p> <a href="https://lizards.opensuse.org/2014/02/04/fosdem-2014-report-beta-testing-new-opensuse-booth-merchandising-stuff/#more-10494" class="more-link">(more&hellip;)</a></p>
+          </div>
+
+          <p class="postmetadata">Tags: <a href="https://lizards.opensuse.org/tag/booth/" rel="tag">booth</a>, <a href="https://lizards.opensuse.org/tag/fodsem/" rel="tag">FODSEM</a>, <a href="https://lizards.opensuse.org/tag/marketing/" rel="tag">Marketing</a>, <a href="https://lizards.opensuse.org/tag/opensuse/" rel="tag">openSUSE</a><br /> Posted in <a href="https://lizards.opensuse.org/category/marketing/ambassadors/" title="View all posts in Ambassadors" rel="category tag">Ambassadors</a>, <a href="https://lizards.opensuse.org/category/artwork/" title="View all posts in Artwork" rel="category tag">Artwork</a>, <a href="https://lizards.opensuse.org/category/distribution/" title="View all posts in Distribution" rel="category tag">Distribution</a>, <a href="https://lizards.opensuse.org/category/events/" title="View all posts in Events" rel="category tag">Events</a>, <a href="https://lizards.opensuse.org/category/marketing/" title="View all posts in Marketing" rel="category tag">Marketing</a> |   <a href="https://lizards.opensuse.org/2014/02/04/fosdem-2014-report-beta-testing-new-opensuse-booth-merchandising-stuff/#comments" title="Comment on Fosdem 2014 Report &amp; Beta testing new openSUSE booth merchandising Stuff">2 Comments &#187;</a></p>
+
+        </div>
+
+            <div class="post-10489 post type-post status-publish format-standard hentry category-boosters category-distribution category-factory category-uncategorized">
+          <h3 id="post-10489"><a href="https://lizards.opensuse.org/2014/02/03/trying-to-add-some-light/" rel="bookmark" title="Permanent Link to Trying to add some light">Trying to add some light</a></h3>
+          <small>February 3rd, 2014 by <a href="https://lizards.opensuse.org/author/calumma/" title="Posts by calumma" rel="author">calumma</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2014/02/03/trying-to-add-some-light/"
+                data-text="openSUSE News: Trying to add some light"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2014%2F02%2F03%2Ftrying-to-add-some-light%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>Lately there was some confusion regarding our communication. We, at the <a href="https://en.opensuse.org/openSUSE:OpenSUSE_team">openSUSE Team@SUSE</a> are deeply aware that our communication needs to be improved. So in the hope to make everything clear again, here is the summary to clear up what is really going on and what was not happening.</p>
+<h3>Long story short:</h3>
+<ul>
+<li>There <strong>WILL</strong> be openSUSE 13.2 in November 2014</li>
+<li>13.2 <strong>WILL</strong> have security and maintenance support provided by SUSE</li>
+<li>We <strong>WILL</strong> have coolo as release manager for 13.2</li>
+<li>SUSE is <strong>NOT decreasing</strong> manpower put into openSUSE</li>
+<li>Everybody from the community is welcome and encouraged to be involved with, and if they want to, take over some parts of the release process and we will support you the best we can in doing that</li>
+</ul>
+<h3>Now for the long story.</h3>
+<p>Our team and only our team &#8211; openSUSE@SUSE &#8211; is going to work on improving &#8216;tooling&#8217; side of the openSUSE project until August. These changes will benefit openSUSE by making it easier to produce better releases in the future.</p>
+<p>Nothing changes for the rest of SUSE. SUSE is not abandoning openSUSE. The rest of SUSE will still do the same things they were doing until now and continue to keep openSUSE awesome. This includes Maintenance, Security, Infrastructure, and many other teams besides the openSUSE Team at SUSE who actively support the openSUSE project.</p>
+<h3>What is our plan?</h3>
+<p>Our plan is to make sure that future openSUSE releases are easier for everyone to produce. As we grow we could keep putting in more and more full-time release managers (if we find them somewhere), but this approach is probably unsustainable and, more importantly, goes against our desire to empower the community to do more as part of openSUSE.</p>
+<p>Therefore, we decided to improve our tools to ensure that making a release is much more straightforward and reliable and we can reduce and distribute the workload needed for integration and release. To make this happen we need time and everyone from the team to work on adapting the tooling side. We also would welcome volunteers to help us with tools and with the following release(s).</p>
+<p>With the release date now set in November (mirroring roadmap for 13.1), first milestone should be released in May. That is a perfect oportunity to go to openSUSE Conference in Croatia where we can meet up, gather volunteers to help and discuss how to work. Remember that openSUSE Travel Support is in place to sponsor everyone who needs financial help to get to the event.</p>
+<p>Hopefully now we cleared things up a little and we are really sorry again for our poor communication &#8211; We&#8217;re going to work on it.</p>
+<p>Your truely confused <a href="https://en.opensuse.org/openSUSE:OpenSUSE_team">openSUSE Team</a></p>
+          </div>
+
+          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/boosters/" title="View all posts in Boosters" rel="category tag">Boosters</a>, <a href="https://lizards.opensuse.org/category/distribution/" title="View all posts in Distribution" rel="category tag">Distribution</a>, <a href="https://lizards.opensuse.org/category/distribution/factory/" title="View all posts in Factory" rel="category tag">Factory</a>, <a href="https://lizards.opensuse.org/category/uncategorized/" title="View all posts in Uncategorized" rel="category tag">Uncategorized</a> |   <a href="https://lizards.opensuse.org/2014/02/03/trying-to-add-some-light/#respond" title="Comment on Trying to add some light">No Comments &#187;</a></p>
+
+        </div>
+
+            <div class="post-10484 post type-post status-publish format-standard hentry category-build-service category-distribution category-packaging category-quality-assurance">
+          <h3 id="post-10484"><a href="https://lizards.opensuse.org/2014/01/31/spec-cleaner-hide-all-your-precious-cruft/" rel="bookmark" title="Permanent Link to spec-cleaner: hide all your precious cruft!">spec-cleaner: hide all your precious cruft!</a></h3>
+          <small>January 31st, 2014 by <a href="https://lizards.opensuse.org/author/calumma/" title="Posts by calumma" rel="author">calumma</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2014/01/31/spec-cleaner-hide-all-your-precious-cruft/"
+                data-text="openSUSE News: spec-cleaner: hide all your precious cruft!"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2014%2F01%2F31%2Fspec-cleaner-hide-all-your-precious-cruft%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>As we stated in our communication over the time, our team&#8217;s main focus for foreseeable future is Factory and how to manage all those contributions. Goal is <strong>not</strong> to increase the number of SRs that is coming to Factory, but to make sure we can process more and to make sure we see even well hidden consequences to make sure that Factory is &#8220;stable&#8221; and &#8220;usable&#8221;.</p>
+<p><img src="//lizards.opensuse.org/wp-content/uploads/2014/01/sprayg-263x300.jpg" alt="sprayg" width="263" height="300" class="alignright size-medium wp-image-10485" />
+<p>Not really part of our current sprints, but something that will hopefully help us is <i>spec-cleaner</i> that Tomáš Chvátal and Tomáš Čech were working on lately during their free time/hackweek. What is it trying to address? Currently, there are some packaging guidelines, but when you write a spec file for your software, you still have plenty of choices. How do you order all the information in the header? Do you use curly brackets around macros? Do you use macros? Which ones do you use and which not? Do you use binaries in dependencies? Package config? Perl symbols? Package names? There is <i>format_spec_file</i> obs service that tries to unify a little bit the coding style but leaves quite some of the stuff up to you. Not necessarily a bad thing, but if you have to compare changes and review packages that are using completely different coding styles the process becomes harder and slower.</p>
+<p><i>spec-cleaner</i> is <i>format_spec_file</i> taken to another level. It tries to unify coding style as much as it can. It uses consistent conventions, makes most of the decisions mentioned previously for you and if you already decided for one way in the past, it will try to convert your spec file to follow the conventions that it specifies. It&#8217;s not enforcing anything, it&#8217;s standalone script and therefore you don&#8217;t have to be worried that you spec file will be out of your control. You can run it, verify the result (actually, you should verify the results as there might still be some bugs) and commit it to OBS. If we all do it, our packages will all look more alike and it will be easier to read and review them.</p>
+<p>How to try it? How to help? Well, code is on <a href="https://github.com/openSUSE/spec-cleaner">GitHub</a> and packages are in <a href="https://build.opensuse.org/package/show/openSUSE:Tools/spec-cleaner">OBS</a>. You may have a version of it in your distribution, but that one is heavily outdated (even the 13.1 version), so add openSUSE:Tools repo and try the version from there.</p>
+<pre>zypper ar -f obs://openSUSE:Tools/openSUSE_13.1 openSUSE-Tools
+zypper in spec-cleaner</pre>
+<p>You can then go to some local checkout and try what changes does it propose for your spec file. Easiest way is to just let it do stuff by calling it and taking a look at changes afterwards.</p>
+<pre>spec-cleaner -p -i *.spec
+osc diff</pre>
+<p>If it works, great, we will have more unified spec files. If it doesn&#8217;t, file a  <a href="https://github.com/openSUSE/spec-cleaner/issues">bug</a> <img src="https://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif" alt=";-)" class="wp-smiley" /> </p>
+          </div>
+
+          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/build-service/" title="View all posts in Build Service" rel="category tag">Build Service</a>, <a href="https://lizards.opensuse.org/category/distribution/" title="View all posts in Distribution" rel="category tag">Distribution</a>, <a href="https://lizards.opensuse.org/category/packaging/" title="View all posts in Packaging" rel="category tag">Packaging</a>, <a href="https://lizards.opensuse.org/category/quality-assurance/" title="View all posts in Quality Assurance" rel="category tag">Quality Assurance</a> |   <a href="https://lizards.opensuse.org/2014/01/31/spec-cleaner-hide-all-your-precious-cruft/#respond" title="Comment on spec-cleaner: hide all your precious cruft!">No Comments &#187;</a></p>
+
+        </div>
+
+            <div class="post-10470 post type-post status-publish format-standard hentry category-derivative category-distribution category-education category-network category-systems-management tag-eduction tag-howto tag-li-f-e tag-ltsp tag-pxe">
+          <h3 id="post-10470"><a href="https://lizards.opensuse.org/2014/01/29/network-boot-live-iso/" rel="bookmark" title="Permanent Link to Network boot live ISO">Network boot live ISO</a></h3>
+          <small>January 29th, 2014 by <a href="https://lizards.opensuse.org/author/cyberorg/" title="Posts by Jigish Gohil" rel="author">Jigish Gohil</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2014/01/29/network-boot-live-iso/"
+                data-text="openSUSE News: Network boot live ISO"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2014%2F01%2F29%2Fnetwork-boot-live-iso%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>The x86_64 edition of openSUSE Education&#8217;s <a href="http://en.opensuse.org/openSUSE:Education-Li-f-e" title="Li-f-e">Li-f-e</a> live DVD supports PXE booting the iso over the network, here is how to do it:</p>
+<p>* Install Li-f-e (Switch to GRUB from Installation Summary page if your hardware does not support EFI boot ), make sure you have plenty of space assigned to / partition(about 20G)<br />
+* Set up LTSP by following this <a href="https://en.opensuse.org/SDB:LTSP%20quick%20start%2012.2%20Edu" title="LTSP Quick Start">quick start guide</a><br />
+* Create /srv/nfs folder and copy Li-f-e iso there<br />
+* Run the following as root in terminal:<br />
+<code><br />
+mount /srv/nfs/openSUSE-Edu-li-f-e.x86_64-13.1.1.iso /mnt<br />
+cp /mnt/boot/x86_64/loader/linux /srv/tftpboot/boot/linux-life64<br />
+cp /mnt/boot/x86_64/loader/initrd /srv/tftpboot/boot/initrd-life64<br />
+echo "/srv/nfs *(ro,no_root_squash,async,no_subtree_check)" &gt;&gt; /etc/exports<br />
+cat &lt;&lt;EOF&gt;&gt; /srv/tftpboot/pxelinux.cfg/default<br />
+LABEL Li-f-e<br />
+kernel boot/linux-life64<br />
+append initrd=boot/initrd-life64 isofrom_device=nfs:10.0.0.254:/srv/nfs/ isofrom_system=/openSUSE-Edu-li-f-e.x86_64-13.1.1.iso nonm<br />
+IPAPPEND 2<br />
+EOF<br />
+chkconfig rpcbind on &amp;&amp; service rpcbind restart<br />
+chkconfig nfsserver on &amp;&amp; service nfsserver restart<br />
+</code><br />
+Now you can PXE boot any machine over the network, select Li-f-e from the end of the boot menu to boot live DVD iso instead of normal LTSP session.</p>
+<p>Please note that if you install Li-f-e booted over the network then after the installation  you will need to remove &#8220;nonm&#8221; boot option using yast2 bootloader to get NetworkManager working again.</p>
+          </div>
+
+          <p class="postmetadata">Tags: <a href="https://lizards.opensuse.org/tag/eduction/" rel="tag">eduction</a>, <a href="https://lizards.opensuse.org/tag/howto/" rel="tag">howto</a>, <a href="https://lizards.opensuse.org/tag/li-f-e/" rel="tag">li-f-e</a>, <a href="https://lizards.opensuse.org/tag/ltsp/" rel="tag">LTSP</a>, <a href="https://lizards.opensuse.org/tag/pxe/" rel="tag">pxe</a><br /> Posted in <a href="https://lizards.opensuse.org/category/distribution/derivative/" title="View all posts in Derivative" rel="category tag">Derivative</a>, <a href="https://lizards.opensuse.org/category/distribution/" title="View all posts in Distribution" rel="category tag">Distribution</a>, <a href="https://lizards.opensuse.org/category/education/" title="View all posts in Education" rel="category tag">Education</a>, <a href="https://lizards.opensuse.org/category/base-system/network/" title="View all posts in Network" rel="category tag">Network</a>, <a href="https://lizards.opensuse.org/category/systems-management/" title="View all posts in Systems Management" rel="category tag">Systems Management</a> |   <a href="https://lizards.opensuse.org/2014/01/29/network-boot-live-iso/#respond" title="Comment on Network boot live ISO">No Comments &#187;</a></p>
+
+        </div>
+
+            <div class="post-10464 post type-post status-publish format-standard hentry category-desktop category-distribution category-gnome category-kde category-kernel category-xorg tag-11-4 tag-12-1 tag-12-2 tag-12-3 tag-13-1 tag-amd tag-ati tag-fglrx tag-kernel tag-xorg-2">
+          <h3 id="post-10464"><a href="https://lizards.opensuse.org/2014/01/27/proprietary-amdati-catalyst-fglrx-13-12-13-251-3-rpm-get-a-new-build-release/" rel="bookmark" title="Permanent Link to Proprietary AMD/ATI Catalyst fglrx 13.12 (13.251-3) rpm get a new build release">Proprietary AMD/ATI Catalyst fglrx 13.12 (13.251-3) rpm get a new build release</a></h3>
+          <small>January 27th, 2014 by <a href="https://lizards.opensuse.org/author/bruno_friedmann/" title="Posts by Bruno Friedmann" rel="author">Bruno Friedmann</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2014/01/27/proprietary-amdati-catalyst-fglrx-13-12-13-251-3-rpm-get-a-new-build-release/"
+                data-text="openSUSE News: Proprietary AMD/ATI Catalyst fglrx 13.12 (13.251-3) rpm get a new build release"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2014%2F01%2F27%2Fproprietary-amdati-catalyst-fglrx-13-12-13-251-3-rpm-get-a-new-build-release%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>Just a small note about a new build (-3) of the 13.251 fglrx version.</p>
+<h3>Changelog</h3>
+<p>AMD has changed /etc/ati/amdpcsdb.default database in its tarball</p>
+<p>The packages have just been published on geeko.ioda.net, so next time you zypper up the new build should appear as a proposed update</p>
+<h3>Notice</h3>
+<p>This release concern only owners of radeon HD5xxx or above.<br />
+For older gpu, the fglrx-legacy is still 13.1, and thus didn&#8217;t work with openSUSE 12.3 or above.<br />
+<a href="http://en.opensuse.org/SDB:AMD_fglrx_legacy">SDB:AMD_fgrlx_legacy</a><br />
+Beware of that, and prefer the free open-source radeon driver which came out of the box from your openSUSE distribution.<br />
+For 12.3 and especially 13.1 the free radeon often offer a better experience than the old fglrx-legacy.
+</p>
+<p>Have fun!</p>
+          </div>
+
+          <p class="postmetadata">Tags: <a href="https://lizards.opensuse.org/tag/11-4/" rel="tag">11.4</a>, <a href="https://lizards.opensuse.org/tag/12-1/" rel="tag">12.1</a>, <a href="https://lizards.opensuse.org/tag/12-2/" rel="tag">12.2</a>, <a href="https://lizards.opensuse.org/tag/12-3/" rel="tag">12.3</a>, <a href="https://lizards.opensuse.org/tag/13-1/" rel="tag">13.1</a>, <a href="https://lizards.opensuse.org/tag/amd/" rel="tag">amd</a>, <a href="https://lizards.opensuse.org/tag/ati/" rel="tag">ATI</a>, <a href="https://lizards.opensuse.org/tag/fglrx/" rel="tag">fglrx</a>, <a href="https://lizards.opensuse.org/tag/kernel/" rel="tag">Kernel</a>, <a href="https://lizards.opensuse.org/tag/xorg-2/" rel="tag">xorg</a><br /> Posted in <a href="https://lizards.opensuse.org/category/desktop/" title="View all posts in Desktop" rel="category tag">Desktop</a>, <a href="https://lizards.opensuse.org/category/distribution/" title="View all posts in Distribution" rel="category tag">Distribution</a>, <a href="https://lizards.opensuse.org/category/desktop/gnome/" title="View all posts in GNOME" rel="category tag">GNOME</a>, <a href="https://lizards.opensuse.org/category/desktop/kde/" title="View all posts in KDE" rel="category tag">KDE</a>, <a href="https://lizards.opensuse.org/category/base-system/kernel/" title="View all posts in Kernel" rel="category tag">Kernel</a>, <a href="https://lizards.opensuse.org/category/desktop/xorg/" title="View all posts in X.org" rel="category tag">X.org</a> |   <a href="https://lizards.opensuse.org/2014/01/27/proprietary-amdati-catalyst-fglrx-13-12-13-251-3-rpm-get-a-new-build-release/#comments" title="Comment on Proprietary AMD/ATI Catalyst fglrx 13.12 (13.251-3) rpm get a new build release">3 Comments &#187;</a></p>
+
+        </div>
+
             <div class="post-10440 post type-post status-publish format-standard hentry category-derivative category-desktop category-distribution category-education category-gnome category-kde category-openofficeorg category-server">
           <h3 id="post-10440"><a href="https://lizards.opensuse.org/2014/01/21/opensuse-education-li-f-e-13-1-x86_64-with-uefi-boot-support/" rel="bookmark" title="Permanent Link to openSUSE Education Li-f-e 13.1 x86_64 with UEFI boot support">openSUSE Education Li-f-e 13.1 x86_64 with UEFI boot support</a></h3>
           <small>January 21st, 2014 by <a href="https://lizards.opensuse.org/author/cyberorg/" title="Posts by Jigish Gohil" rel="author">Jigish Gohil</a> </small>
@@ -152,523 +538,6 @@
 
         </div>
 
-            <div class="post-10402 post type-post status-publish format-standard hentry category-base-system category-boosters category-distribution category-packaging category-toolchain">
-          <h3 id="post-10402"><a href="https://lizards.opensuse.org/2014/01/15/unterstanding-the-nvidia-driver-process/" rel="bookmark" title="Permanent Link to Unterstanding the nvidia driver process">Unterstanding the nvidia driver process</a></h3>
-          <small>January 15th, 2014 by <a href="https://lizards.opensuse.org/author/calumma/" title="Posts by calumma" rel="author">calumma</a> </small>
-
-          <div class="share-links">
-	    <div class="share-link">
-              <a href="http://twitter.com/share" class="twitter-share-button"
-                data-url="https://lizards.opensuse.org/2014/01/15/unterstanding-the-nvidia-driver-process/"
-                data-text="openSUSE News: Unterstanding the nvidia driver process"
-                data-count="horizontal"
-                data-hashtags="openSUSE"
-                data-via="openSUSE">Tweet</a>
-            </div>
-            <div class="share-link">
-              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2014%2F01%2F15%2Funterstanding-the-nvidia-driver-process%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
-            </div>
-            <div class="clear"></div>
-          </div>
-
-          <div class="entry">
-            <p><a href="http://www.muktware.com/2013/12/nvidia-drivers-now-available-opensuse-13-1/17381"><img src="//lizards.opensuse.org/wp-content/uploads/2014/01/Nvidia-300x168.jpg" alt="Nvidia pic from Muktware" width="300" height="168" class="alignright size-medium wp-image-10405" /></a><br />
-The NVIDIA drivers for openSUSE 13.1 took a while to appear. Many users have asked why this was and we&#8217;d like to explain what happened and what we plan to do to prevent this in the future. This post was written with input from the openSUSE developers who maintain these drivers at SUSE and work with NVIDIA to make them available for our users.</p>
-<h2>How it should work</h2>
-<p>Legally, the Linux kernel GPLv2 license leaves proprietary binary drivers in a bit of a tangle. While some claim it should be OK, others say not &#8211; and that is what most distributions currently assume: one can not ship a Linux distribution with proprietary, binary drivers. NVIDIA has agreed that our users can grab their drivers from the official NVIDIA servers. They are packaged by SUSE engineers however. They take care of both SLE and openSUSE proprietary driver packaging for NVIDIA hardware, and have contacts at NVIDIA who get the drivers up on their ftp mirrors.<br />
-<a href="http://opensuse-community.org/nvidia.ymp"><img src="//lizards.opensuse.org/wp-content/uploads/2014/01/Nvidia-1click.png" alt="Nvidia-1click" width="160" height="40" class="alignright size-full wp-image-10406" /></a><br />
-The packages are build on a dedicated system, but the package spec (skeleton for building) is in OBS &#8211; for example, <a href="https://build.opensuse.org/package/show/X11:Drivers:Video/nvidia-gfxG03">G03 is here</a>. Anybody could use these to build the nvidia driver locally (the nvidia binary driver is grabbed from the nvidia driver during building). The command sequence for local building can be found in <a href="https://build.opensuse.org/package/view_file/X11:Drivers:Video/nvidia-gfxG03/README?expand=1">the README</a>.</p>
-<p>Once the packages are build, they are send to NVIDIA, which signs the packages with their key and generates and signs repositories, making them available to the public.</p>
-<p>To note is the fact that this is all manual and takes a while on NVIDIA&#8217;s side (and ours). This of course is part of the reason why we don&#8217;t offer NVIDIA packages for Factory, our fast-rolling development repository.</p>
-<h2>What happened</h2>
-<p>What occurred for 13.1 is a typical case of &#8220;everything went wrong&#8221;.</p>
-<p>Up until a few weeks before the release, the driver did not build against the Linux Kernel version 3.11. NVIDIA warned against the use of a patch for this problem created by third parties so the driver team did not have a running build. Due to a holiday, it took a while to get the packages build and pushed to NVIDIA. Unfortunately, by the time this was done, the holiday period at NVIDIA blocked progress for another week. Once the package was signed, it took the webteam at NVIDIA another week to get the repository published. It all added up to almost a month and brought quite some inconvenience for users eager to use their latest NVIDIA cards with the latest openSUSE.</p>
-<p>About a week later, the openSUSE 13.1 NVIDIA drivers disappeared again from the nvidia servers for a day or so. We don&#8217;t know exactly what happened there, it might have simply been a server issue.</p>
-<h2>What we will do</h2>
-<p>The first and  most obvious thing to change would be to improve coordination. The developers taking care of the NVIDIA packages should be made aware as early as possible about the release planning and a replacement in case for holidays should be available. We noted this in our 13.1 release report and will make sure that there will be a <a href="http://progress.opensuse.org">task in our task tracker</a> for this for the next release. We also need to talk to NVIDIA about this to make sure that there, too, somebody can fill in for SUSE&#8217;s contacts.</p>
-<p>But there are also thoughts on how to improve further. Some of the current ideas:</p>
-<ul>
-<li>To get drivers for Factory the process needs more automation as the driver may break on kernel or X changes</li>
-<li>We could try to open the process and work with community members to secure the process in case the SUSE folks are unavailalbe</li>
-<li>It would be nice if we could make NVidia to see benefit of working more on the driver in openSUSE, e.g. by doing some testing</li>
-<li>We could write some scripts that check regularly whether repo and packages are still available and in a valid state (meta data matches available RPMs)</li>
-</ul>
-<p>We&#8217;ll have to see which of these we can implement, when and how. But rest assured that we will do what we can to prevent this in the future!</p>
-<p><img src="//lizards.opensuse.org/wp-content/uploads/2013/06/statistics-inside-212x300.png" alt="statistics with Geeko inside" width="212" height="300" class="alignright size-medium wp-image-9572" /><br />
-<h2>And the stats!</h2>
-<p>After a bit of a hiatus, we&#8217;re back with the numbers. Development has slowed down around new year and isn&#8217;t back to speed yet so the 10th spot is shared by quite a big group of people&#8230;</p>
-<p><!--<br />
-BODY,DIV,TABLE,THEAD,TBODY,TFOOT,TR,TH,TD,P { font-family:"Liberation Sans"; font-size:x-small }<br />
---></p>
-<table border="0" cellspacing="0">
-<tbody>
-<tr>
-<td align="LEFT" height="16">Spot</td>
-<td align="LEFT">Name</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">1</td>
-<td align="LEFT">Stephan Kulow</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">2</td>
-<td align="LEFT">Denisart Benjamin</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">3</td>
-<td align="LEFT">Tomáš Chvátal, Dirk Mueller, Michal Vyskocil</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">4</td>
-<td align="LEFT">Hrvoje Senjan</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">5</td>
-<td align="LEFT">Ciaran Farrell</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">6</td>
-<td align="LEFT">Petr Gajdos</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">7</td>
-<td align="LEFT">Lars Vogdt, Pascal Bleser</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">8</td>
-<td align="LEFT">Jan Engelhardt, Charles Arnold</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">9</td>
-<td align="LEFT">Andreas Stieger, Michal Marek, Niels Abspoel, Kyrill Detinov</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">10</td>
-<td align="LEFT">Dinar Valeev, Bjørn Lie, Ulrich Weigand, Tobias Klausmann, Marcus Meissner, Alexander Graf, Robert Schweikert, Martin Vidner</td>
-</tr>
-</tbody>
-</table>
-          </div>
-
-          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/base-system/" title="View all posts in Base System" rel="category tag">Base System</a>, <a href="https://lizards.opensuse.org/category/boosters/" title="View all posts in Boosters" rel="category tag">Boosters</a>, <a href="https://lizards.opensuse.org/category/distribution/" title="View all posts in Distribution" rel="category tag">Distribution</a>, <a href="https://lizards.opensuse.org/category/packaging/" title="View all posts in Packaging" rel="category tag">Packaging</a>, <a href="https://lizards.opensuse.org/category/base-system/toolchain/" title="View all posts in Toolchain" rel="category tag">Toolchain</a> |   <a href="https://lizards.opensuse.org/2014/01/15/unterstanding-the-nvidia-driver-process/#comments" title="Comment on Unterstanding the nvidia driver process">1 Comment &#187;</a></p>
-
-        </div>
-
-            <div class="post-10275 post type-post status-publish format-standard hentry category-apache category-derivative category-desktop category-distribution category-education category-gnome category-kde category-mono category-openofficeorg category-programming category-samba category-server category-virtualization tag-education">
-          <h3 id="post-10275"><a href="https://lizards.opensuse.org/2013/12/17/announcing-opensuse-education-li-f-e-13-1/" rel="bookmark" title="Permanent Link to Announcing openSUSE Education Li-f-e 13.1">Announcing openSUSE Education Li-f-e 13.1</a></h3>
-          <small>December 17th, 2013 by <a href="https://lizards.opensuse.org/author/cyberorg/" title="Posts by Jigish Gohil" rel="author">Jigish Gohil</a> </small>
-
-          <div class="share-links">
-	    <div class="share-link">
-              <a href="http://twitter.com/share" class="twitter-share-button"
-                data-url="https://lizards.opensuse.org/2013/12/17/announcing-opensuse-education-li-f-e-13-1/"
-                data-text="openSUSE News: Announcing openSUSE Education Li-f-e 13.1"
-                data-count="horizontal"
-                data-hashtags="openSUSE"
-                data-via="openSUSE">Tweet</a>
-            </div>
-            <div class="share-link">
-              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2013%2F12%2F17%2Fannouncing-opensuse-education-li-f-e-13-1%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
-            </div>
-            <div class="clear"></div>
-          </div>
-
-          <div class="entry">
-            <p><img class="alignnone" alt="" src="http://en.opensuse.org/images/3/33/Life13.1.png" width="455" height="222" /></p>
-<p>Get Li-f-e from here : <a href="https://sourceforge.net/projects/opensuse-edu/files/latest/download?source=files">Direct Download</a> | <a href="http://www.opensuse-education.org/download/ISOs/openSUSE-Edu-li-f-e-latest-i686.iso.torrent">Torrents</a> | <a href="http://www.opensuse-education.org/download/ISOs/openSUSE-Edu-li-f-e.i686-13.1.1.iso.meta4">Metalinks</a> | <a href="http://www.opensuse-education.org/download/ISOs/openSUSE-Edu-li-f-e-latest-i686.iso.md5">md5sum</a></p>
-<p><a title="openSUSE Education" href="http://en.opensuse.org/Portal:Education">openSUSE Education</a> community is proud to bring you an early Christmas and New Year&#8217;s present: <a href="http://en.opensuse.org/openSUSE:Education-Li-f-e">openSUSE Education Li-f-e.</a> It is based on the recently released <a href="https://en.opensuse.org/Portal:13.1">openSUSE 13.1</a> with all the official online updates applied.</p>
-<p>We have put together a nice set of tools for everyone including teachers, students, parents and IT administrators.  It covers quite a lot of territory: from chemistry, mathematics to astronomy and Geography. Whether you are into software development or just someone looking for Linux distribution that comes with everything working out of the box, your search ends here.</p>
-<p>Edit: We now also have x86_64 version supporting UEFI boot <a href="https://en.opensuse.org/openSUSE:Education-Li-f-e#Download">available for download</a>.</p>
-<p> <a href="https://lizards.opensuse.org/2013/12/17/announcing-opensuse-education-li-f-e-13-1/#more-10275" class="more-link">(more&hellip;)</a></p>
-          </div>
-
-          <p class="postmetadata">Tags: <a href="https://lizards.opensuse.org/tag/education/" rel="tag">Education</a><br /> Posted in <a href="https://lizards.opensuse.org/category/server/apache/" title="View all posts in Apache" rel="category tag">Apache</a>, <a href="https://lizards.opensuse.org/category/distribution/derivative/" title="View all posts in Derivative" rel="category tag">Derivative</a>, <a href="https://lizards.opensuse.org/category/desktop/" title="View all posts in Desktop" rel="category tag">Desktop</a>, <a href="https://lizards.opensuse.org/category/distribution/" title="View all posts in Distribution" rel="category tag">Distribution</a>, <a href="https://lizards.opensuse.org/category/education/" title="View all posts in Education" rel="category tag">Education</a>, <a href="https://lizards.opensuse.org/category/desktop/gnome/" title="View all posts in GNOME" rel="category tag">GNOME</a>, <a href="https://lizards.opensuse.org/category/desktop/kde/" title="View all posts in KDE" rel="category tag">KDE</a>, <a href="https://lizards.opensuse.org/category/mono/" title="View all posts in Mono" rel="category tag">Mono</a>, <a href="https://lizards.opensuse.org/category/desktop/openofficeorg/" title="View all posts in OpenOffice.org" rel="category tag">OpenOffice.org</a>, <a href="https://lizards.opensuse.org/category/programming/" title="View all posts in Programming" rel="category tag">Programming</a>, <a href="https://lizards.opensuse.org/category/server/samba/" title="View all posts in Samba" rel="category tag">Samba</a>, <a href="https://lizards.opensuse.org/category/server/" title="View all posts in Server" rel="category tag">Server</a>, <a href="https://lizards.opensuse.org/category/server/virtualization/" title="View all posts in Virtualization" rel="category tag">Virtualization</a> |   <a href="https://lizards.opensuse.org/2013/12/17/announcing-opensuse-education-li-f-e-13-1/#comments" title="Comment on Announcing openSUSE Education Li-f-e 13.1">4 Comments &#187;</a></p>
-
-        </div>
-
-            <div class="post-10230 post type-post status-publish format-standard hentry category-boosters category-factory">
-          <h3 id="post-10230"><a href="https://lizards.opensuse.org/2013/12/11/discussing-about-the-future-of-opensuse/" rel="bookmark" title="Permanent Link to Discussing about the future of openSUSE">Discussing about the future of openSUSE</a></h3>
-          <small>December 11th, 2013 by <a href="https://lizards.opensuse.org/author/calumma/" title="Posts by calumma" rel="author">calumma</a> </small>
-
-          <div class="share-links">
-	    <div class="share-link">
-              <a href="http://twitter.com/share" class="twitter-share-button"
-                data-url="https://lizards.opensuse.org/2013/12/11/discussing-about-the-future-of-opensuse/"
-                data-text="openSUSE News: Discussing about the future of openSUSE"
-                data-count="horizontal"
-                data-hashtags="openSUSE"
-                data-via="openSUSE">Tweet</a>
-            </div>
-            <div class="share-link">
-              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2013%2F12%2F11%2Fdiscussing-about-the-future-of-opensuse%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
-            </div>
-            <div class="clear"></div>
-          </div>
-
-          <div class="entry">
-            <p>This week, the openSUSE team blog is written by Agustin, talking about the proposals the team has done for openSUSE development.</p>
-<p>A few months ago the openSUSE Team started a journey that achieved an important milestone last Tuesday, Nov 26th 2013. We have worked on creating a picture of relevant areas of the project in 2016 together with some of the actions we think should be taken during the following months to achieve it. To stop working and raise your head once in a while to analyze what is around you and setting a direction is a very good exercise.</p>
-<h2>The process we followed</h2>
-<p>The first step was working on data mining. After many hours of analysis, we identified some clear trends that helped us to establish a solid starting point to begin to work with. Once that phase was over (this is an ongoing process, in fact), we worked for a few weeks/months in trying to define that future picture interviewing several dozens of people. We refined that first attempt through several iterations, including many of those who participated in the original round and others who didn&#8217;t. Susanne Oberhauser-Hirschoff was the person who drove that process with Agustin.</p>
-<p>We soon realized that discussing high level ideas in a community used to &#8220;Get shit done&#8221; was going to be easier if we complement them with some more down to earth proposals, specially in technical aspects. We cannot forget that, after all, openSUSE is a technical (and very pragmatic) focused community.</p>
-<p>So, in parallel with the already mentioned refinement of the big picture, we started discussing within the team the actions needed to take to make the big picture a reality, the openSUSE development version a.k.a Enhanced/New Factory. After many hours of (sometimes never ending) discussions, we agreed on the ideas we are currently being published, together with the motivations behind them.</p>
-<p>Another aspect we tried to bring to the discussion has been a strong dose of realism, trying to ensure that whatever we came up to was compatible with the nature of the project. We have also put focus on making sure that the initial proposal is achievable. So as part of community, we understand very well we cannot succeed alone. We need to work with you. So we just opened with the community a process analogous to what we went through within the team. It might be different in form but similar in principles and goals.</p>
-<h2>What are we going through these days?</h2>
-<p>These days the proposals are being discussed in different mailing lists. We are collecting feedback, discussing it, summarizing it, adapting the proposal to it &#8230; trying to reach agreements before defining what to do next.</p>
-<h2>What the proposal looks like?</h2>
-<p>We divided the proposal in a series of smaller proposals we are publishing in the project mailing list, where the general community topics in openSUSE are discussed, and/or factory ML, where the more technical discussions take place.</p>
-<ol>
-<li><a href="http://lists.opensuse.org/opensuse-project/2013-11/msg00094.html">openSUSE 2016: taking a picture of openSUSE today</a><br />
-This mail summarizes the analysis phase we went through. We have tried to provide a simple picture of openSUSE today so the following articles can be justified to some extend.</li>
-<li><a href="http://lists.opensuse.org/opensuse-project/2013-11/msg00118.html">openSUSE 2016 picture</a><br />
-This text summarizes the proposed picture for the end of 2016 (in three years). The goal is to set a direction for openSUSE</li>
-<p><span style="float:right;font-size:80%;margin:6px"><img src="//lizards.opensuse.org/wp-content/uploads/2013/12/devel-2016.0.8-small.png" style="height:250px" /><br />
-openSUSE Development Workflow</span></p>
-<li><a href="http://lists.opensuse.org/opensuse-factory/2013-11/msg00920.html">O Factory &#8211; Where art Thou?</a><br />
-Stephan Kulow summarizes the Action Plan for the first aspect pointed in the previous picture: the new Development process (Factory).</li>
-</ol>
-<p>The following articles describe in more detail some relevant (also new) elements pointed in the previous article, since they are new or modify the current process significantly. Some of the articles are in the queue to be published.</p>
-<ol start="4">
-<li><a href="http://lists.opensuse.org/opensuse-factory/2013-12/msg00044.html">One of the options for staging projects</a><br />
-In this mail Michal Hrusecky provides some details and examples on how the new staging projects might work in the future.</li>
-<li><a href="http://lists.opensuse.org/opensuse-factory/2013-12/msg00132.html">openQA in the new proposal</a><br />
-This text, written by Ludwig Nussel, explains the principles that should drive the inclusion of openQA in the Factory development process, according with the proposed workflow.</li>
-<li><a href="http://lists.opensuse.org/opensuse-project/2013-12/msg00147.html">Karma for all</a><br />
-This mail, written by Ancor González, summarizes our ideas to include a social feature in the process to help achieving Factory goals.</li>
-<li><a href="http://lists.opensuse.org/opensuse-factory/2013-12/msg00318.html">Policies, or why it&#8217;s good to know how to change things</a><br />
-The new process needs to be adaptive. Antonio Larrosa proposed a way, taking what other projects do in this regard as reference.</li>
-</ol>
-<p>There might be an eighth article describing some smaller, still relevant, ideas. After publishing the &#8220;content&#8221;, we will release one last article providing a information about how to achieve these ideas, describing also our compromise in terms of effort and pointing out the challenges we perceive in the plan from the execution point of view.</p>
-<p>We would like to invite you to the debate if you haven&#8217;t raised your opinions yet.</p>
-          </div>
-
-          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/boosters/" title="View all posts in Boosters" rel="category tag">Boosters</a>, <a href="https://lizards.opensuse.org/category/distribution/factory/" title="View all posts in Factory" rel="category tag">Factory</a> |   <a href="https://lizards.opensuse.org/2013/12/11/discussing-about-the-future-of-opensuse/#comments" title="Comment on Discussing about the future of openSUSE">1 Comment &#187;</a></p>
-
-        </div>
-
-            <div class="post-9973 post type-post status-publish format-standard hentry category-base-system category-contrib category-kernel category-xorg tag-11-4 tag-12-1 tag-12-2 tag-12-3 tag-amd tag-ati tag-beta tag-fglrx tag-kernel tag-xorg-2">
-          <h3 id="post-9973"><a href="https://lizards.opensuse.org/2013/10/06/only-for-the-brave-proprietary-amdati-catalyst-fglrx-13-10-beta2-13-20-11-1-rpm-released/" rel="bookmark" title="Permanent Link to Only for the brave, Proprietary AMD/ATI Catalyst fglrx 13.10 BETA2 (13.20.11-1) rpm released">Only for the brave, Proprietary AMD/ATI Catalyst fglrx 13.10 BETA2 (13.20.11-1) rpm released</a></h3>
-          <small>October 6th, 2013 by <a href="https://lizards.opensuse.org/author/bruno_friedmann/" title="Posts by Bruno Friedmann" rel="author">Bruno Friedmann</a> </small>
-
-          <div class="share-links">
-	    <div class="share-link">
-              <a href="http://twitter.com/share" class="twitter-share-button"
-                data-url="https://lizards.opensuse.org/2013/10/06/only-for-the-brave-proprietary-amdati-catalyst-fglrx-13-10-beta2-13-20-11-1-rpm-released/"
-                data-text="openSUSE News: Only for the brave, Proprietary AMD/ATI Catalyst fglrx 13.10 BETA2 (13.20.11-1) rpm released"
-                data-count="horizontal"
-                data-hashtags="openSUSE"
-                data-via="openSUSE">Tweet</a>
-            </div>
-            <div class="share-link">
-              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2013%2F10%2F06%2Fonly-for-the-brave-proprietary-amdati-catalyst-fglrx-13-10-beta2-13-20-11-1-rpm-released%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
-            </div>
-            <div class="clear"></div>
-          </div>
-
-          <div class="entry">
-            <h1>Only for the brave, Proprietary AMD/ATI Catalyst fglrx 13.10 BETA2 (13.20.11-1) rpm released</h1>
-<h2>Notice</h2>
-<p>This release concern only owners of radeon HD5xxx or above. And adventurous users who know how to deal with troubles.<br />
-The majority could easily wait the final release, expected somewhat later even if it take a long time <img src='https://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' />
-</p>
-<p>This is experimental &amp; BETA software, it could fix issues you encountered, but also can eat your kittens. You&#8217;ve been warned !<br />
-flgrx build for 3.11 series kernel ( Tumbleweed &amp; 13.1 ).<br />
-But this time I&#8217;ve to update the Sebastian script myself, so I consider also the package as beta stage.
-</p>
-<h3>Installing the new repository</h3>
-<p>Admitting you&#8217;ve the normal repository named FGLRX, (use zypper lr -d to find the number or name you give it). You have to start by disabling it<br />
-so you could fallback to it quickly. Open a root console or add sudo at your convenience and issue the following command:</p>
-<pre>zypper mr -dR FGLRX</pre>
-<p>The beta driver is available for 11.4 (evergreen kernel), 12.1, 12.2, 12.3, 13.1, Tumbleweed (12.3 based + kernel 3.11) at <a href="http://geeko.ioda.net/mirror/amd-fgrlx-beta/">amd-fglrx-beta</a>
-</p>
-<p>To add another repository in the same console as root issue the following command which will install normally the right repository for your distribution</p>
-<pre>zypper ar -n FGLRX-BETA -cgf http://geeko.ioda.net/mirror/amd-fglrx-beta/openSUSE_`lsb-release -r | awk '{print $2}'` FGLRX-BETA</pre>
-<p><b>If you are using Tumbleweed</b> use this one</p>
-<pre>zypper ar -n FGLRX-BETA -cgf http://geeko.ioda.net/mirror/amd-fglrx-beta/openSUSE_Tumbleweed FGLRX-BETA</pre>
-<p>Now the update/upgrade process</p>
-<pre>zypper dup -r FGLRX-BETA</pre>
-<p>Let the system upgrade the package, and try to enjoy the new beta</p>
-<p> <a href="https://lizards.opensuse.org/2013/10/06/only-for-the-brave-proprietary-amdati-catalyst-fglrx-13-10-beta2-13-20-11-1-rpm-released/#more-9973" class="more-link">(more&hellip;)</a></p>
-          </div>
-
-          <p class="postmetadata">Tags: <a href="https://lizards.opensuse.org/tag/11-4/" rel="tag">11.4</a>, <a href="https://lizards.opensuse.org/tag/12-1/" rel="tag">12.1</a>, <a href="https://lizards.opensuse.org/tag/12-2/" rel="tag">12.2</a>, <a href="https://lizards.opensuse.org/tag/12-3/" rel="tag">12.3</a>, <a href="https://lizards.opensuse.org/tag/amd/" rel="tag">amd</a>, <a href="https://lizards.opensuse.org/tag/ati/" rel="tag">ATI</a>, <a href="https://lizards.opensuse.org/tag/beta/" rel="tag">Beta</a>, <a href="https://lizards.opensuse.org/tag/fglrx/" rel="tag">fglrx</a>, <a href="https://lizards.opensuse.org/tag/kernel/" rel="tag">Kernel</a>, <a href="https://lizards.opensuse.org/tag/xorg-2/" rel="tag">xorg</a><br /> Posted in <a href="https://lizards.opensuse.org/category/base-system/" title="View all posts in Base System" rel="category tag">Base System</a>, <a href="https://lizards.opensuse.org/category/distribution/contrib/" title="View all posts in Contrib" rel="category tag">Contrib</a>, <a href="https://lizards.opensuse.org/category/base-system/kernel/" title="View all posts in Kernel" rel="category tag">Kernel</a>, <a href="https://lizards.opensuse.org/category/desktop/xorg/" title="View all posts in X.org" rel="category tag">X.org</a> |   <a href="https://lizards.opensuse.org/2013/10/06/only-for-the-brave-proprietary-amdati-catalyst-fglrx-13-10-beta2-13-20-11-1-rpm-released/#comments" title="Comment on Only for the brave, Proprietary AMD/ATI Catalyst fglrx 13.10 BETA2 (13.20.11-1) rpm released">2 Comments &#187;</a></p>
-
-        </div>
-
-            <div class="post-9888 post type-post status-publish format-standard hentry category-architectures category-contrib category-factory category-hackweek category-kernel category-toolchain">
-          <h3 id="post-9888"><a href="https://lizards.opensuse.org/2013/09/07/new-raspberry-pi-image/" rel="bookmark" title="Permanent Link to New Raspberry Pi Image">New Raspberry Pi Image</a></h3>
-          <small>September 7th, 2013 by <a href="https://lizards.opensuse.org/author/bmwiedemann/" title="Posts by bmwiedemann" rel="author">bmwiedemann</a> </small>
-
-          <div class="share-links">
-	    <div class="share-link">
-              <a href="http://twitter.com/share" class="twitter-share-button"
-                data-url="https://lizards.opensuse.org/2013/09/07/new-raspberry-pi-image/"
-                data-text="openSUSE News: New Raspberry Pi Image"
-                data-count="horizontal"
-                data-hashtags="openSUSE"
-                data-via="openSUSE">Tweet</a>
-            </div>
-            <div class="share-link">
-              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2013%2F09%2F07%2Fnew-raspberry-pi-image%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
-            </div>
-            <div class="clear"></div>
-          </div>
-
-          <div class="entry">
-            <blockquote><p><strong>update:</strong> new image with kernel-3.6 and minimal X11/icewm http://www.zq1.de/~bernhard/linux/opensuse/raspberrypi-opensuse-20130911x.img.xz (103MB)</p></blockquote>
-<p>We got a new armv6 based image for the Raspberry Pi.<br />
-This one is only 82MB compressed, so pretty minimalistic.</p>
-<p>http://www.zq1.de/~bernhard/linux/opensuse/raspberrypi-opensuse-20130907.img.xz</p>
-<p>The exciting new thing is that this was created using an alternative image building automatism which I wrote from scratch in three hours this morning.<br />
-The scripts can be found at</p>
-<p>https://build.opensuse.org/package/show/devel:ARM:Factory:Contrib:RaspberryPi/altimagebuild</p>
-<p>and are also embedded within the image under /home/abuild/rpmbuild/SOURCES/</p>
-<p>This means that everyone can now easily build his own images the way he likes and even branch and do submit requests for changes that are useful for others.<br />
-The way to use this is simple.<br />
-If you have 6GB RAM, you can speed things up with export OSC_BUILD_ROOT=/dev/shm/arm before you do<br />
-<code>osc co devel:ARM:Factory:Contrib:RaspberryPi altimagebuild<br />
-cd devel:ARM:Factory:Contrib:RaspberryPi/altimagebuild<br />
-bash -x main.sh<br />
-</code></p>
-<p>This pseudo-package does not easily build within OBS or osc alone because it needs root permissions for some of the steps (chroot, mknod, mount), which could only be workarounded with User-Mode-Linux or patching osc.<br />
-The build consists of three steps that can be seen in main.sh:</p>
-<ol>
-<li>First, osc build is used to pull in required packages and setup the armv6 rootfs.</li>
-<li>Second, mkrootfs.sh modifies a copy of the rootfs under .root to contain all required configs</li>
-<li>And finally, mkimage.sh takes the .root dir and creates a .img from it that can be booted</li>
-</ol>
-<p>This can build an image from scatch in three minutes. And my Raspberry Pi booted successfully with it within 55 seconds.</p>
-<p>There are some remaining open issues:</p>
-<ul>
-<li>the repo key is initially untrusted</li>
-<li><del datetime="2013-09-11T09:01:03+00:00">still uses old 3.1 kernel</del> &#8211; solved</li>
-<li>build scripts have no error handling</li>
-</ul>
-<p>Compared to the old image, this one has some advantages:</p>
-<ul>
-<li>It is easier to resize because the root partition is the last one</li>
-<li>Compressed image is much smaller</li>
-<li>Reproducible image build, so easy to customize</li>
-<li>It is armv6 with floating point support, so could be faster</li>
-<li>We have over 5200 successfully built packages from <a href="http://download.opensuse.org/ports/armv6hl/factory/repo/oss/">openSUSE:Factory:ARM</a><br />
-so for example you can install a minimalistic graphical environment with <code>zypper install xauth twm xorg-x11-server xinit</code> and start it with <code>startx</code>
-</li>
-</ul>
-<p>So if you wanted to play with openSUSE on RPi, you can do so right now and have a lot of fun.</p>
-          </div>
-
-          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/base-system/architectures/" title="View all posts in Architectures" rel="category tag">Architectures</a>, <a href="https://lizards.opensuse.org/category/distribution/contrib/" title="View all posts in Contrib" rel="category tag">Contrib</a>, <a href="https://lizards.opensuse.org/category/distribution/factory/" title="View all posts in Factory" rel="category tag">Factory</a>, <a href="https://lizards.opensuse.org/category/hackweek/" title="View all posts in Hackweek" rel="category tag">Hackweek</a>, <a href="https://lizards.opensuse.org/category/base-system/kernel/" title="View all posts in Kernel" rel="category tag">Kernel</a>, <a href="https://lizards.opensuse.org/category/base-system/toolchain/" title="View all posts in Toolchain" rel="category tag">Toolchain</a> |   <a href="https://lizards.opensuse.org/2013/09/07/new-raspberry-pi-image/#comments" title="Comment on New Raspberry Pi Image">3 Comments &#187;</a></p>
-
-        </div>
-
-            <div class="post-9754 post type-post status-publish format-standard hentry category-boosters category-distribution">
-          <h3 id="post-9754"><a href="https://lizards.opensuse.org/2013/08/23/more-on-statistics/" rel="bookmark" title="Permanent Link to More on Statistics">More on Statistics</a></h3>
-          <small>August 23rd, 2013 by <a href="https://lizards.opensuse.org/author/calumma/" title="Posts by calumma" rel="author">calumma</a> </small>
-
-          <div class="share-links">
-	    <div class="share-link">
-              <a href="http://twitter.com/share" class="twitter-share-button"
-                data-url="https://lizards.opensuse.org/2013/08/23/more-on-statistics/"
-                data-text="openSUSE News: More on Statistics"
-                data-count="horizontal"
-                data-hashtags="openSUSE"
-                data-via="openSUSE">Tweet</a>
-            </div>
-            <div class="share-link">
-              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2013%2F08%2F23%2Fmore-on-statistics%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
-            </div>
-            <div class="clear"></div>
-          </div>
-
-          <div class="entry">
-            <p>Shortly before the openSUSE Conference, we featured <a href="https://lizards.opensuse.org/2013/07/04/numbers-is-opensuse/">a post about openSUSE statistics</a>. It mostly talked about where we got the numbers, teasing that we&#8217;d share the details at the openSUSE Conference. And <a href="https://conference.opensuse.org/osem/conference/osc2013/proposal/62">Alberto did</a>. Today we&#8217;ll bring you the numbers Alberto did digested in images and text.</p>
-<h2>Downloads and users</h2>
-<p>The simplest statistics for a Linux distribution are of course the numbers of downloads and users, so let&#8217;s start there.</p>
-<h3>ISO downloads</h3>
-<p>The methodology used to count downloads is easy to understand: we count every IP address that hit the server or is redirected to one of the mirrors, and express the intention to start downloading one of the ISO images available for the distribution. In this way, we count independently every download that uses the same proxy and every different product downloaded by the same IP. We can group the downloads by weeks or by month. In both images we can see that we started counting in 2010 and we covered openSUSE 11.0 to 12.3. Also, in both graphs we can see what events explain the peaks, like the release of the distribution.</p>
-<div id="attachment_9782" style="width: 310px" class="wp-caption alignright"><a href="//lizards.opensuse.org/wp-content/uploads/2013/08/download_month.png"><img src="//lizards.opensuse.org/wp-content/uploads/2013/08/download_month-300x177.png" alt="Downloads per month" width="300" height="177" class="size-medium wp-image-9782" /></a><p class="wp-caption-text">Downloads per month</p></div>
-<div id="attachment_9781" style="width: 310px" class="wp-caption alignnone"><a href="//lizards.opensuse.org/wp-content/uploads/2013/08/download_week.png"><img src="//lizards.opensuse.org/wp-content/uploads/2013/08/download_week-300x177.png" alt="Downloads per week" width="300" height="177" class="size-medium wp-image-9781" /></a><p class="wp-caption-text">Downloads per week</p></div>
-<p>To make a more detailed analysis we need to concentrate on the monthly graph. For this plot we calculated a <a href="http://en.wikipedia.org/wiki/Linear_regression">linear regression model</a> using the monthly data (41 samples). In the graph you can see a slight growth but decreasing impact of releases. Extrapolating, we can expect about 560K downloads per month in 2014. Note that this is downloads, not installs! Let&#8217;s talk about those next.</p>
-<h2>Installations</h2>
-<p>To get a more reliable estimation of persistent installations we count systems that regularly update. A count of the encountered unique systems per week or per month is a fair estimator of the number of active installations (<a href="https://en.opensuse.org/openSUSE:Statistics#Note_about_the_Privacy">see details on the counting</a>).<br />
-<a href="//lizards.opensuse.org/wp-content/uploads/2013/08/uuid_month.png"><img src="//lizards.opensuse.org/wp-content/uploads/2013/08/uuid_month-1024x607.png" alt="updates per month" width="700" height="415" class="size-large wp-image-9776" /></a></p>
-<div id="attachment_9775" style="width: 310px" class="wp-caption alignright"><a href="//lizards.opensuse.org/wp-content/uploads/2013/08/uuid_week.png"><img src="//lizards.opensuse.org/wp-content/uploads/2013/08/uuid_week-300x177.png" alt="updates per week" width="300" height="177" class="size-medium wp-image-9775" /></a><p class="wp-caption-text">Updates per week</p></div>
-<p>Here you see many interesting things. For example, the red trace on top of the plot in 2010 and 2011 are Factory users. If you look closely, you also see that usage of a particular version already starts before it is out &#8211; that is due to testers checking out milestones, Beta and RC versions. And you notice how long it takes some users to move over to new versions of openSUSE &#8211; not only has over half of our users not moved to the latest 12.3 yet, but about 140.000 users happily still run releases from before 12.2, most of which (<a href="https://en.opensuse.org/openSUSE:Evergreen">except 11.4</a>) receive no security updates!</p>
-<p>When we plot a <a href="http://en.wikipedia.org/wiki/Linear_regression">linear regression model</a> on this data, we see a less encouraging picture compared to the downloads: on average, we lose around 300 users per month. On the size of our installed base this is not huge, but worrying nonetheless.</p>
-<h3>More data</h3>
-<p>There are more things that we can learn from the data. We can analyze the behavior of users according to the installation medium or the architecture used and in time we can perhaps analyse how repositories are used and which are popular.</p>
-<div id="attachment_9780" style="width: 1034px" class="wp-caption alignnone"><a href="//lizards.opensuse.org/wp-content/uploads/2013/08/medium_arch_week.png"><img src="//lizards.opensuse.org/wp-content/uploads/2013/08/medium_arch_week-1024x607.png" alt="Medium and Architecture per week" width="700" height="415" class="size-large wp-image-9780" /></a><p class="wp-caption-text">Medium and Architecture per week</p></div>
-<h2>The Open Build Service</h2>
-<p>The Open Build Service is what openSUSE uses to build and distribute packages. It is a very integral part of our infrastructure and how we work, and its server logs contain a wealth of information on the work done on openSUSE. For example, mining the list of Submit Requests that go into Factory and devel projects, we created the graph below to give an idea of the development of the number of contributors working on openSUSE, with the total (blue) per month going nicely up as you can see.</p>
-<p><a href="//lizards.opensuse.org/wp-content/uploads/2013/08/obs_data_crop.png"><img src="//lizards.opensuse.org/wp-content/uploads/2013/08/obs_data_crop.png" alt="OBS Contributor Data" width="700" height="438" class="size-full wp-image-9799" /></a></p>
-<h2>Social media</h2>
-<p>Thanks to the help of <a href="http://www.youtube.com/watch?v=zZJP4qJnAuo">Athanasios-Ilias Rousinopoulos</a> (that is a link to his presentation at oSC13) we&#8217;re regularly gathering statistics on our social media, a summary you can see in the graph below. Yes, we&#8217;re doing well getting our message to people, thank you all for your part in that!</p>
-<p><a href="//lizards.opensuse.org/wp-content/uploads/2013/08/social_data.png"><img src="//lizards.opensuse.org/wp-content/uploads/2013/08/social_data-1024x607.png" alt="social media data" width="700" height="415" class="size-large wp-image-9777" /></a></p>
-<h2>Let&#8217;s compare: openSUSE vs. Fedora</h2>
-<p>Numbers are useless if you can&#8217;t compare. We searched for data from other distributions like Ubuntu, Gentoo, Arch or Debian, but only Fedora provides real numbers with <a href="http://fedoraproject.org/wiki/Statistics">the methodology used to generate them</a>. Kudos to our friends at Fedora for being open and transparent!</p>
-<p>Now, they use a different way of gathering data on downloads: counting the number of different IPs seen per day. To count users, they count the number of different IPs seen for this release since the release date. This complicated matters on our side but we&#8217;ve made it work. However, one variable was a bit harder: both distributions have different release cycles and dates. As you see in the graphs, we tried our best to make the comparison as direct as possible. The plots below are in the same scale of time and number of downloads.</p>
-<div id="attachment_9778" style="width: 310px" class="wp-caption alignright"><a href="//lizards.opensuse.org/wp-content/uploads/2013/08/opensuse_fedora_users.png"><img src="//lizards.opensuse.org/wp-content/uploads/2013/08/opensuse_fedora_users-300x177.png" alt="openSUSE and Fedora Users" width="300" height="177" class="size-medium wp-image-9778" /></a><p class="wp-caption-text">openSUSE and Fedora Users</p></div>
-<div id="attachment_9779" style="width: 310px" class="wp-caption alignnone"><a href="//lizards.opensuse.org/wp-content/uploads/2013/08/opensuse_fedora_downloads.png"><img src="//lizards.opensuse.org/wp-content/uploads/2013/08/opensuse_fedora_downloads-300x177.png" alt="openSUSE and Fedora Downloads" width="300" height="177" class="size-medium wp-image-9779" /></a><p class="wp-caption-text">openSUSE and Fedora Downloads</p></div>
-<p>As you can see, Fedora has more downloads than openSUSE. Looking at the users, the situation is reverse: openSUSE has quite a bit more users than Fedora according to this measurement. How is this possible? The explanation is most likely that most openSUSE users upgrade with a &#8216;zypper dup&#8217; command to the new releases, while Fedora users tend to do a fresh installation. Note that, like everybody else, we&#8217;re very much aware of the deceptive nature of statistics: there is always room for mistakes in the analysis of data. To at least provide a way to detect errors and follow the commendable example set by Fedora, here are <a href="https://github.com/aplanas/opensuse-data">our data analysis scripts in github</a>.</p>
-<p><a href="//lizards.opensuse.org/wp-content/uploads/2013/07/statistics-dister-inside-close-up.png"><img src="//lizards.opensuse.org/wp-content/uploads/2013/07/statistics-dister-inside-close-up-282x300.png" alt="statistics dister inside close-up" width="282" height="300" class="alignright size-medium wp-image-9628" /></a></p>
-<h2>Contributor Statistics for week 33</h2>
-<p>All these statistics and still we&#8217;re not done! Here is the top-10 of contributors to Factory last week. As you can see, Stephan &#8216;Coolo&#8217; Kulow is on vacation, freeing up a spot in the table <img src='https://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';-)' class='wp-smiley' /> </p>
-<table border="0" cellspacing="0">
-<tbody>
-<tr>
-<td align="LEFT" height="16">Spot</td>
-<td align="LEFT">Name</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">1</td>
-<td align="LEFT">Raymond Wooninck</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">2</td>
-<td align="LEFT">Dominique Leuenberger</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">3</td>
-<td align="LEFT">Sascha Peilicke</td>
-</tr>
-<tr>
-<td align="RIGHT" height="16">4</td>
-<td align="LEFT">Hans-Peter Jansen</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">5</td>
-<td align="LEFT">Bjørn Lie</td>
-</tr>
-<tr>
-<td align="RIGHT" height="16">6</td>
-<td align="LEFT">Dirk Mueller</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">7</td>
-<td align="LEFT">Ladislav Slezak</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">8</td>
-<td align="LEFT">Ismail Donmez</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">9</td>
-<td align="LEFT">Stefan Dirsch, Jan Engelhardt</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">10</td>
-<td align="LEFT">Hrvoje Senjan</td>
-</tr>
-</tbody>
-</table>
-          </div>
-
-          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/boosters/" title="View all posts in Boosters" rel="category tag">Boosters</a>, <a href="https://lizards.opensuse.org/category/distribution/" title="View all posts in Distribution" rel="category tag">Distribution</a> |   <a href="https://lizards.opensuse.org/2013/08/23/more-on-statistics/#comments" title="Comment on More on Statistics">4 Comments &#187;</a></p>
-
-        </div>
-
-            <div class="post-9757 post type-post status-publish format-standard hentry category-distribution category-gnome category-kde category-kernel category-xorg tag-11-4 tag-12-1 tag-12-2 tag-12-3 tag-13-1 tag-amd tag-ati tag-beta tag-fglrx tag-kernel tag-xorg-2">
-          <h3 id="post-9757"><a href="https://lizards.opensuse.org/2013/08/15/proprietary-amdati-catalyst-fglrx-13-8-beta1-13-20-5-1-rpm-released/" rel="bookmark" title="Permanent Link to Proprietary AMD/ATI Catalyst fglrx 13.8 BETA1 (13.20.5-1) rpm released">Proprietary AMD/ATI Catalyst fglrx 13.8 BETA1 (13.20.5-1) rpm released</a></h3>
-          <small>August 15th, 2013 by <a href="https://lizards.opensuse.org/author/bruno_friedmann/" title="Posts by Bruno Friedmann" rel="author">Bruno Friedmann</a> </small>
-
-          <div class="share-links">
-	    <div class="share-link">
-              <a href="http://twitter.com/share" class="twitter-share-button"
-                data-url="https://lizards.opensuse.org/2013/08/15/proprietary-amdati-catalyst-fglrx-13-8-beta1-13-20-5-1-rpm-released/"
-                data-text="openSUSE News: Proprietary AMD/ATI Catalyst fglrx 13.8 BETA1 (13.20.5-1) rpm released"
-                data-count="horizontal"
-                data-hashtags="openSUSE"
-                data-via="openSUSE">Tweet</a>
-            </div>
-            <div class="share-link">
-              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2013%2F08%2F15%2Fproprietary-amdati-catalyst-fglrx-13-8-beta1-13-20-5-1-rpm-released%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
-            </div>
-            <div class="clear"></div>
-          </div>
-
-          <div class="entry">
-            <h2>Notice</h2>
-<p>This release concern only owners of radeon HD5xxx or above. And adventurous users who know how to deal with troubles.<br />
-The majority could easily wait the final release, expected somewhat later.
-</p>
-<p>This is experimental &amp; BETA sofware, it could fix issues you encountered, but also can eat your kitten. You&#8217;ve been warned !<br />
-But good reports have been collected around, especially with never 3.10x kernel series.
-</p>
-<h3>Installing the new repository</h3>
-<p>Admitting you&#8217;ve the normal repository named FGLRX, (use zypper lr -d to find the number or name you give it). You have to start by disabling it, so you could fallback to it quickly. Open a root console or add sudo at your convenience and issue the following command:</p>
-<pre>zypper mr -dR FGLRX</pre>
-<p>The beta driver is available for 11.4 (evergreen kernel), 12.1, 12.2, 12.3, 13.1, Tumbleweed (12.3 based + kernel 3.10) at <a href="http://geeko.ioda.net/amd-fgrlx-beta/">amd-fglrx-beta</a>
-</p>
-<p>To add another repository in the same console as root issue the following command which will install normally the right repository for your distribution</p>
-<pre>zypper ar -n FGLRX-BETA -cgf http://geeko.ioda.net/amd-fglrx-beta/openSUSE_`lsb-release -r | awk '{print $2}'` FGLRX-BETA</pre>
-<p><b>If you are using Tumbleweed</b> use this one</p>
-<pre>zypper ar -n FGLRX-BETA -cgf http://geeko.ioda.net/amd-fglrx-beta/openSUSE_Tumbleweed FGLRX-BETA</pre>
-<p>Now the update/upgrade process</p>
-<pre>zypper dup -r FGLRX-BETA</pre>
-<p>Let the system upgrade the package, and try to enjoy the new beta</p>
-<p> <a href="https://lizards.opensuse.org/2013/08/15/proprietary-amdati-catalyst-fglrx-13-8-beta1-13-20-5-1-rpm-released/#more-9757" class="more-link">(more&hellip;)</a></p>
-          </div>
-
-          <p class="postmetadata">Tags: <a href="https://lizards.opensuse.org/tag/11-4/" rel="tag">11.4</a>, <a href="https://lizards.opensuse.org/tag/12-1/" rel="tag">12.1</a>, <a href="https://lizards.opensuse.org/tag/12-2/" rel="tag">12.2</a>, <a href="https://lizards.opensuse.org/tag/12-3/" rel="tag">12.3</a>, <a href="https://lizards.opensuse.org/tag/13-1/" rel="tag">13.1</a>, <a href="https://lizards.opensuse.org/tag/amd/" rel="tag">amd</a>, <a href="https://lizards.opensuse.org/tag/ati/" rel="tag">ATI</a>, <a href="https://lizards.opensuse.org/tag/beta/" rel="tag">Beta</a>, <a href="https://lizards.opensuse.org/tag/fglrx/" rel="tag">fglrx</a>, <a href="https://lizards.opensuse.org/tag/kernel/" rel="tag">Kernel</a>, <a href="https://lizards.opensuse.org/tag/xorg-2/" rel="tag">xorg</a><br /> Posted in <a href="https://lizards.opensuse.org/category/distribution/" title="View all posts in Distribution" rel="category tag">Distribution</a>, <a href="https://lizards.opensuse.org/category/desktop/gnome/" title="View all posts in GNOME" rel="category tag">GNOME</a>, <a href="https://lizards.opensuse.org/category/desktop/kde/" title="View all posts in KDE" rel="category tag">KDE</a>, <a href="https://lizards.opensuse.org/category/base-system/kernel/" title="View all posts in Kernel" rel="category tag">Kernel</a>, <a href="https://lizards.opensuse.org/category/desktop/xorg/" title="View all posts in X.org" rel="category tag">X.org</a> |   <a href="https://lizards.opensuse.org/2013/08/15/proprietary-amdati-catalyst-fglrx-13-8-beta1-13-20-5-1-rpm-released/#comments" title="Comment on Proprietary AMD/ATI Catalyst fglrx 13.8 BETA1 (13.20.5-1) rpm released">2 Comments &#187;</a></p>
-
-        </div>
-
-            <div class="post-9497 post type-post status-publish format-standard hentry category-boosters category-build-service category-distribution category-factory category-packaging category-quality-assurance">
-          <h3 id="post-9497"><a href="https://lizards.opensuse.org/2013/06/13/keeping-factory-in-shape/" rel="bookmark" title="Permanent Link to Keeping Factory in shape">Keeping Factory in shape</a></h3>
-          <small>June 13th, 2013 by <a href="https://lizards.opensuse.org/author/calumma/" title="Posts by calumma" rel="author">calumma</a> </small>
-
-          <div class="share-links">
-	    <div class="share-link">
-              <a href="http://twitter.com/share" class="twitter-share-button"
-                data-url="https://lizards.opensuse.org/2013/06/13/keeping-factory-in-shape/"
-                data-text="openSUSE News: Keeping Factory in shape"
-                data-count="horizontal"
-                data-hashtags="openSUSE"
-                data-via="openSUSE">Tweet</a>
-            </div>
-            <div class="share-link">
-              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2013%2F06%2F13%2Fkeeping-factory-in-shape%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
-            </div>
-            <div class="clear"></div>
-          </div>
-
-          <div class="entry">
-            <p><em>Michal Hrušecký</em> has been helping out on maintaining Factory in shape and shares his experiences.</p>
-<p>Factory is development version of openSUSE and it is where the next openSUSE is taking form. Hundreds of packagers send packages into Factory to be integrated as a part of the new release and many more use Factory for testing or for their daily work. Thus it is really important to keep Factory rolling and usable. Everybody knows that <a href="http://news.opensuse.org/2007/08/09/people-of-opensuse-stephan-kulow/">Coolo</a> is the Factory master and he does everything to make next openSUSE be the best ever. But keeping factory in shape is really complicated and stressing task. There are dozens of request everyday and each one of them can potentially break something. So Factory can always use a pair of extra hands and for some time I have been one of them. I&#8217;d like to give you some insight in what we do, working on keeping Factory building and working. <a href="https://lizards.opensuse.org/2013/06/13/keeping-factory-in-shape/#more-9497" class="more-link">(more&hellip;)</a></p>
-          </div>
-
-          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/boosters/" title="View all posts in Boosters" rel="category tag">Boosters</a>, <a href="https://lizards.opensuse.org/category/build-service/" title="View all posts in Build Service" rel="category tag">Build Service</a>, <a href="https://lizards.opensuse.org/category/distribution/" title="View all posts in Distribution" rel="category tag">Distribution</a>, <a href="https://lizards.opensuse.org/category/distribution/factory/" title="View all posts in Factory" rel="category tag">Factory</a>, <a href="https://lizards.opensuse.org/category/packaging/" title="View all posts in Packaging" rel="category tag">Packaging</a>, <a href="https://lizards.opensuse.org/category/quality-assurance/" title="View all posts in Quality Assurance" rel="category tag">Quality Assurance</a> |   <span>Comments Off</span></p>
-
-        </div>
-
-            <div class="post-9440 post type-post status-publish format-standard hentry category-build-service category-distribution category-factory category-infrastructure-2 category-packaging category-quality-assurance category-uncategorized">
-          <h3 id="post-9440"><a href="https://lizards.opensuse.org/2013/06/06/openqa-in-opensuse/" rel="bookmark" title="Permanent Link to openQA in openSUSE">openQA in openSUSE</a></h3>
-          <small>June 6th, 2013 by <a href="https://lizards.opensuse.org/author/calumma/" title="Posts by calumma" rel="author">calumma</a> </small>
-
-          <div class="share-links">
-	    <div class="share-link">
-              <a href="http://twitter.com/share" class="twitter-share-button"
-                data-url="https://lizards.opensuse.org/2013/06/06/openqa-in-opensuse/"
-                data-text="openSUSE News: openQA in openSUSE"
-                data-count="horizontal"
-                data-hashtags="openSUSE"
-                data-via="openSUSE">Tweet</a>
-            </div>
-            <div class="share-link">
-              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2013%2F06%2F06%2Fopenqa-in-opensuse%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
-            </div>
-            <div class="clear"></div>
-          </div>
-
-          <div class="entry">
-            <p><a href="//lizards.opensuse.org/wp-content/uploads/2013/05/factory-tested.png"><img class="size-full wp-image-9447 alignright" alt="factory-tested" src="//lizards.opensuse.org/wp-content/uploads/2013/05/factory-tested.png" width="217" height="232" /></a>Today, we&#8217;ve got for you an introduction of the teams&#8217; work on openQA by <em>Alberto Planas Domínguez</em>.</p>
-<p>The last 12.3 release was important for the openSUSE team for a number of reasons. One reason is that we wanted to integrate QA (Quality Assurance) into the release process in an early stage. You might remember that this release had UEFI and Secure Boot support coming and everybody had read the scary reports about badly broken machines that can only be fixed replacing the firmware. Obviously openSUSE can&#8217;t allow such things to happen to our user base, so we wanted to do more testing. <a href="https://lizards.opensuse.org/2013/06/06/openqa-in-opensuse/#more-9440" class="more-link">(more&hellip;)</a></p>
-          </div>
-
-          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/build-service/" title="View all posts in Build Service" rel="category tag">Build Service</a>, <a href="https://lizards.opensuse.org/category/distribution/" title="View all posts in Distribution" rel="category tag">Distribution</a>, <a href="https://lizards.opensuse.org/category/distribution/factory/" title="View all posts in Factory" rel="category tag">Factory</a>, <a href="https://lizards.opensuse.org/category/infrastructure-2/" title="View all posts in Infrastructure" rel="category tag">Infrastructure</a>, <a href="https://lizards.opensuse.org/category/packaging/" title="View all posts in Packaging" rel="category tag">Packaging</a>, <a href="https://lizards.opensuse.org/category/quality-assurance/" title="View all posts in Quality Assurance" rel="category tag">Quality Assurance</a>, <a href="https://lizards.opensuse.org/category/uncategorized/" title="View all posts in Uncategorized" rel="category tag">Uncategorized</a> |   <a href="https://lizards.opensuse.org/2013/06/06/openqa-in-opensuse/#comments" title="Comment on openQA in openSUSE">4 Comments &#187;</a></p>
-
-        </div>
-
       
       <div class="navigation page-navigation">
         <div class="alignleft"><a href="https://lizards.opensuse.org/category/distribution/page/2/" >&laquo; Older Entries</a></div>
@@ -681,51 +550,51 @@ But good reports have been collected around, especially with never 3.10x kernel 
   <!-- <div class="box box-shadow"> -->
     <ul>
       <li id="text-3" class="widget box box-shadow widget_text"><h3 class="box-subheader">Advertisement</h3>			<div class="textwidget"><center><a href="http://counter.opensuse.org/link/" alt="counter" title="Get it!"><img src="//counter.opensuse.org/small"></a></center></div>
-		</li><li id="tag_cloud-3" class="widget box box-shadow widget_tag_cloud"><h3 class="box-subheader">Tags</h3><div class="tagcloud"><a href='https://lizards.opensuse.org/tag/11-3/' class='tag-link-380' title='15 topics' style='font-size: 13.821782178218pt;'>11.3</a>
-<a href='https://lizards.opensuse.org/tag/11-4/' class='tag-link-414' title='34 topics' style='font-size: 18.534653465347pt;'>11.4</a>
-<a href='https://lizards.opensuse.org/tag/12-1/' class='tag-link-482' title='21 topics' style='font-size: 15.762376237624pt;'>12.1</a>
-<a href='https://lizards.opensuse.org/tag/12-2/' class='tag-link-549' title='12 topics' style='font-size: 12.574257425743pt;'>12.2</a>
-<a href='https://lizards.opensuse.org/tag/12-3/' class='tag-link-559' title='8 topics' style='font-size: 10.356435643564pt;'>12.3</a>
-<a href='https://lizards.opensuse.org/tag/amd/' class='tag-link-434' title='29 topics' style='font-size: 17.70297029703pt;'>amd</a>
-<a href='https://lizards.opensuse.org/tag/arm/' class='tag-link-279' title='7 topics' style='font-size: 9.6633663366337pt;'>ARM</a>
-<a href='https://lizards.opensuse.org/tag/ati/' class='tag-link-384' title='28 topics' style='font-size: 17.425742574257pt;'>ATI</a>
-<a href='https://lizards.opensuse.org/tag/beta/' class='tag-link-343' title='6 topics' style='font-size: 8.970297029703pt;'>Beta</a>
-<a href='https://lizards.opensuse.org/tag/build-service/' class='tag-link-16' title='13 topics' style='font-size: 13.128712871287pt;'>Build Service</a>
-<a href='https://lizards.opensuse.org/tag/buildservice/' class='tag-link-45' title='6 topics' style='font-size: 8.970297029703pt;'>buildservice</a>
-<a href='https://lizards.opensuse.org/tag/c-language/' class='tag-link-575' title='8 topics' style='font-size: 10.356435643564pt;'>C-Language</a>
-<a href='https://lizards.opensuse.org/tag/collaboration/' class='tag-link-59' title='7 topics' style='font-size: 9.6633663366337pt;'>Collaboration</a>
-<a href='https://lizards.opensuse.org/tag/community/' class='tag-link-173' title='24 topics' style='font-size: 16.594059405941pt;'>Community</a>
-<a href='https://lizards.opensuse.org/tag/conference/' class='tag-link-355' title='7 topics' style='font-size: 9.6633663366337pt;'>conference</a>
-<a href='https://lizards.opensuse.org/tag/education/' class='tag-link-214' title='15 topics' style='font-size: 13.821782178218pt;'>Education</a>
-<a href='https://lizards.opensuse.org/tag/event/' class='tag-link-37' title='7 topics' style='font-size: 9.6633663366337pt;'>event</a>
-<a href='https://lizards.opensuse.org/tag/events/' class='tag-link-21' title='7 topics' style='font-size: 9.6633663366337pt;'>Events</a>
-<a href='https://lizards.opensuse.org/tag/factory/' class='tag-link-288' title='12 topics' style='font-size: 12.574257425743pt;'>Factory</a>
-<a href='https://lizards.opensuse.org/tag/fglrx/' class='tag-link-385' title='28 topics' style='font-size: 17.425742574257pt;'>fglrx</a>
-<a href='https://lizards.opensuse.org/tag/fun/' class='tag-link-200' title='14 topics' style='font-size: 13.544554455446pt;'>fun</a>
-<a href='https://lizards.opensuse.org/tag/gnome/' class='tag-link-6' title='12 topics' style='font-size: 12.574257425743pt;'>GNOME</a>
-<a href='https://lizards.opensuse.org/tag/gsoc/' class='tag-link-261' title='11 topics' style='font-size: 12.158415841584pt;'>gsoc</a>
-<a href='https://lizards.opensuse.org/tag/hackweek/' class='tag-link-102' title='7 topics' style='font-size: 9.6633663366337pt;'>Hackweek</a>
-<a href='https://lizards.opensuse.org/tag/kde/' class='tag-link-5' title='21 topics' style='font-size: 15.762376237624pt;'>KDE</a>
+		</li><li id="tag_cloud-3" class="widget box box-shadow widget_tag_cloud"><h3 class="box-subheader">Tags</h3><div class="tagcloud"><a href='https://lizards.opensuse.org/tag/11-3/' class='tag-link-380' title='15 topics' style='font-size: 13.764705882353pt;'>11.3</a>
+<a href='https://lizards.opensuse.org/tag/11-4/' class='tag-link-414' title='37 topics' style='font-size: 18.980392156863pt;'>11.4</a>
+<a href='https://lizards.opensuse.org/tag/12-1/' class='tag-link-482' title='24 topics' style='font-size: 16.509803921569pt;'>12.1</a>
+<a href='https://lizards.opensuse.org/tag/12-2/' class='tag-link-549' title='15 topics' style='font-size: 13.764705882353pt;'>12.2</a>
+<a href='https://lizards.opensuse.org/tag/12-3/' class='tag-link-559' title='11 topics' style='font-size: 12.117647058824pt;'>12.3</a>
+<a href='https://lizards.opensuse.org/tag/13-1/' class='tag-link-570' title='7 topics' style='font-size: 9.6470588235294pt;'>13.1</a>
+<a href='https://lizards.opensuse.org/tag/amd/' class='tag-link-434' title='32 topics' style='font-size: 18.156862745098pt;'>amd</a>
+<a href='https://lizards.opensuse.org/tag/arm/' class='tag-link-279' title='7 topics' style='font-size: 9.6470588235294pt;'>ARM</a>
+<a href='https://lizards.opensuse.org/tag/ati/' class='tag-link-384' title='31 topics' style='font-size: 18.019607843137pt;'>ATI</a>
+<a href='https://lizards.opensuse.org/tag/beta/' class='tag-link-343' title='7 topics' style='font-size: 9.6470588235294pt;'>Beta</a>
+<a href='https://lizards.opensuse.org/tag/buildservice/' class='tag-link-45' title='6 topics' style='font-size: 8.9607843137255pt;'>buildservice</a>
+<a href='https://lizards.opensuse.org/tag/build-service/' class='tag-link-16' title='13 topics' style='font-size: 13.078431372549pt;'>Build Service</a>
+<a href='https://lizards.opensuse.org/tag/c-language/' class='tag-link-575' title='8 topics' style='font-size: 10.333333333333pt;'>C-Language</a>
+<a href='https://lizards.opensuse.org/tag/collaboration/' class='tag-link-59' title='7 topics' style='font-size: 9.6470588235294pt;'>Collaboration</a>
+<a href='https://lizards.opensuse.org/tag/community/' class='tag-link-173' title='24 topics' style='font-size: 16.509803921569pt;'>Community</a>
+<a href='https://lizards.opensuse.org/tag/conference/' class='tag-link-355' title='7 topics' style='font-size: 9.6470588235294pt;'>conference</a>
+<a href='https://lizards.opensuse.org/tag/education/' class='tag-link-214' title='15 topics' style='font-size: 13.764705882353pt;'>Education</a>
+<a href='https://lizards.opensuse.org/tag/event/' class='tag-link-37' title='7 topics' style='font-size: 9.6470588235294pt;'>event</a>
+<a href='https://lizards.opensuse.org/tag/events/' class='tag-link-21' title='7 topics' style='font-size: 9.6470588235294pt;'>Events</a>
+<a href='https://lizards.opensuse.org/tag/factory/' class='tag-link-288' title='12 topics' style='font-size: 12.529411764706pt;'>Factory</a>
+<a href='https://lizards.opensuse.org/tag/fglrx/' class='tag-link-385' title='31 topics' style='font-size: 18.019607843137pt;'>fglrx</a>
+<a href='https://lizards.opensuse.org/tag/fun/' class='tag-link-200' title='14 topics' style='font-size: 13.490196078431pt;'>fun</a>
+<a href='https://lizards.opensuse.org/tag/gnome/' class='tag-link-6' title='12 topics' style='font-size: 12.529411764706pt;'>GNOME</a>
+<a href='https://lizards.opensuse.org/tag/gsoc/' class='tag-link-261' title='11 topics' style='font-size: 12.117647058824pt;'>gsoc</a>
+<a href='https://lizards.opensuse.org/tag/hackweek/' class='tag-link-102' title='7 topics' style='font-size: 9.6470588235294pt;'>Hackweek</a>
+<a href='https://lizards.opensuse.org/tag/kde/' class='tag-link-5' title='21 topics' style='font-size: 15.686274509804pt;'>KDE</a>
 <a href='https://lizards.opensuse.org/tag/kde4/' class='tag-link-52' title='5 topics' style='font-size: 8pt;'>KDE4</a>
-<a href='https://lizards.opensuse.org/tag/kernel/' class='tag-link-14' title='28 topics' style='font-size: 17.425742574257pt;'>Kernel</a>
-<a href='https://lizards.opensuse.org/tag/kraft/' class='tag-link-247' title='8 topics' style='font-size: 10.356435643564pt;'>Kraft</a>
-<a href='https://lizards.opensuse.org/tag/linux/' class='tag-link-362' title='6 topics' style='font-size: 8.970297029703pt;'>Linux</a>
-<a href='https://lizards.opensuse.org/tag/lxde/' class='tag-link-287' title='11 topics' style='font-size: 12.158415841584pt;'>LXDE</a>
-<a href='https://lizards.opensuse.org/tag/marketing/' class='tag-link-26' title='5 topics' style='font-size: 8pt;'>Marketing</a>
-<a href='https://lizards.opensuse.org/tag/obs/' class='tag-link-218' title='6 topics' style='font-size: 8.970297029703pt;'>obs</a>
-<a href='https://lizards.opensuse.org/tag/open-source/' class='tag-link-350' title='6 topics' style='font-size: 8.970297029703pt;'>open source</a>
-<a href='https://lizards.opensuse.org/tag/opensuse/' class='tag-link-38' title='61 topics' style='font-size: 22pt;'>openSUSE</a>
-<a href='https://lizards.opensuse.org/tag/opensuse-id/' class='tag-link-50' title='6 topics' style='font-size: 8.970297029703pt;'>openSUSE-ID</a>
-<a href='https://lizards.opensuse.org/tag/opensuse-lxde/' class='tag-link-386' title='5 topics' style='font-size: 8pt;'>openSUSE-LXDE</a>
-<a href='https://lizards.opensuse.org/tag/opensuse-12-1/' class='tag-link-470' title='6 topics' style='font-size: 8.970297029703pt;'>openSUSE 12.1</a>
-<a href='https://lizards.opensuse.org/tag/package/' class='tag-link-58' title='7 topics' style='font-size: 9.6633663366337pt;'>Package</a>
-<a href='https://lizards.opensuse.org/tag/postgresql/' class='tag-link-367' title='7 topics' style='font-size: 9.6633663366337pt;'>PostgreSQL</a>
-<a href='https://lizards.opensuse.org/tag/python/' class='tag-link-67' title='6 topics' style='font-size: 8.970297029703pt;'>Python</a>
-<a href='https://lizards.opensuse.org/tag/rpm/' class='tag-link-269' title='6 topics' style='font-size: 8.970297029703pt;'>rpm</a>
+<a href='https://lizards.opensuse.org/tag/kernel/' class='tag-link-14' title='31 topics' style='font-size: 18.019607843137pt;'>Kernel</a>
+<a href='https://lizards.opensuse.org/tag/kraft/' class='tag-link-247' title='8 topics' style='font-size: 10.333333333333pt;'>Kraft</a>
+<a href='https://lizards.opensuse.org/tag/linux/' class='tag-link-362' title='6 topics' style='font-size: 8.9607843137255pt;'>Linux</a>
+<a href='https://lizards.opensuse.org/tag/lxde/' class='tag-link-287' title='11 topics' style='font-size: 12.117647058824pt;'>LXDE</a>
+<a href='https://lizards.opensuse.org/tag/marketing/' class='tag-link-26' title='6 topics' style='font-size: 8.9607843137255pt;'>Marketing</a>
+<a href='https://lizards.opensuse.org/tag/obs/' class='tag-link-218' title='7 topics' style='font-size: 9.6470588235294pt;'>obs</a>
+<a href='https://lizards.opensuse.org/tag/open-source/' class='tag-link-350' title='6 topics' style='font-size: 8.9607843137255pt;'>open source</a>
+<a href='https://lizards.opensuse.org/tag/opensuse/' class='tag-link-38' title='62 topics' style='font-size: 22pt;'>openSUSE</a>
+<a href='https://lizards.opensuse.org/tag/opensuse-id/' class='tag-link-50' title='6 topics' style='font-size: 8.9607843137255pt;'>openSUSE-ID</a>
+<a href='https://lizards.opensuse.org/tag/opensuse-12-1/' class='tag-link-470' title='6 topics' style='font-size: 8.9607843137255pt;'>openSUSE 12.1</a>
+<a href='https://lizards.opensuse.org/tag/package/' class='tag-link-58' title='7 topics' style='font-size: 9.6470588235294pt;'>Package</a>
+<a href='https://lizards.opensuse.org/tag/postgresql/' class='tag-link-367' title='7 topics' style='font-size: 9.6470588235294pt;'>PostgreSQL</a>
+<a href='https://lizards.opensuse.org/tag/python/' class='tag-link-67' title='6 topics' style='font-size: 8.9607843137255pt;'>Python</a>
+<a href='https://lizards.opensuse.org/tag/rpm/' class='tag-link-269' title='6 topics' style='font-size: 8.9607843137255pt;'>rpm</a>
 <a href='https://lizards.opensuse.org/tag/ruby/' class='tag-link-381' title='5 topics' style='font-size: 8pt;'>Ruby</a>
-<a href='https://lizards.opensuse.org/tag/xml/' class='tag-link-69' title='7 topics' style='font-size: 9.6633663366337pt;'>XML</a>
-<a href='https://lizards.opensuse.org/tag/xorg-2/' class='tag-link-444' title='19 topics' style='font-size: 15.207920792079pt;'>xorg</a>
-<a href='https://lizards.opensuse.org/tag/yast/' class='tag-link-11' title='12 topics' style='font-size: 12.574257425743pt;'>YaST</a></div>
+<a href='https://lizards.opensuse.org/tag/xml/' class='tag-link-69' title='7 topics' style='font-size: 9.6470588235294pt;'>XML</a>
+<a href='https://lizards.opensuse.org/tag/xorg-2/' class='tag-link-444' title='22 topics' style='font-size: 15.960784313725pt;'>xorg</a>
+<a href='https://lizards.opensuse.org/tag/yast/' class='tag-link-11' title='12 topics' style='font-size: 12.529411764706pt;'>YaST</a></div>
 </li>		<li id="authors-2" class="widget box box-shadow widget_authors">			<h3 class="box-subheader">Lizards</h3>			<ul><li><img alt='' src='https://secure.gravatar.com/avatar/35d487679042b24f99c321ae8e6f28b0?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/adriansuse/" title="Posts by Adrian Schröter">Adrian Schröter</a> (12)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/6b405d89e8a498ae6a52f60246bb1cb3?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/dj_ubun_1/" title="Posts by Agustin Chavarria">Agustin Chavarria</a> (6)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/7b57f7098bdcac987fbd479b48c600cd?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/cabelo/" title="Posts by Alessandro de Oliveira Faria">Alessandro de Oliveira Faria</a> (9)</li>
@@ -739,10 +608,10 @@ But good reports have been collected around, especially with never 3.10x kernel 
 <li><img alt='' src='https://secure.gravatar.com/avatar/0c18cf5651bb5ad3c8c6cd10467be536?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/funkypenguin/" title="Posts by Andrew Wafaa">Andrew Wafaa</a> (31)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/17c5d6b91957787db64c3d65c9a9b234?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/aschnell/" title="Posts by Arvin Schnell">Arvin Schnell</a> (9)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/33b7ed7d1a68409cffbb4fce216c410c?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/badshah400/" title="Posts by badshah400">Atri Bhattacharya</a> (3)</li>
-<li><img alt='' src='https://secure.gravatar.com/avatar/c57258b3faac137a43ddcc63deb22517?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/bmwiedemann/" title="Posts by bmwiedemann">Bernhard Wiedemann</a> (16)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/c57258b3faac137a43ddcc63deb22517?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/bmwiedemann/" title="Posts by bmwiedemann">Bernhard Wiedemann</a> (18)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/3081cb247a705dcb3c912cce12ccb986?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/kurniawan-007/" title="Posts by Bonnie Kurniawan">Bonnie Kurniawan</a> (1)</li>
-<li><img alt='' src='https://secure.gravatar.com/avatar/482b6c0369f4709de8faa6843cd6b347?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/bruno_friedmann/" title="Posts by Bruno Friedmann">Bruno Friedmann</a> (70)</li>
-<li><img alt='' src='https://secure.gravatar.com/avatar/83f40d98130b1fd3a741b9f01b2f76b1?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/calumma/" title="Posts by calumma">Calumma Brevicorne</a> (21)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/482b6c0369f4709de8faa6843cd6b347?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/bruno_friedmann/" title="Posts by Bruno Friedmann">Bruno Friedmann</a> (76)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/83f40d98130b1fd3a741b9f01b2f76b1?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/calumma/" title="Posts by calumma">Calumma Brevicorne</a> (28)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/5fb81daf243732ab579b45f3bb261041?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/caf4926/" title="Posts by Carl Fletcher">Carl Fletcher</a> (1)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/5f12ccab9a5217492279b93dc338f8a3?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/hobbsc/" title="Posts by Christopher Hobbs">Christopher Hobbs</a> (17)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/7a36aa34f42120643cfd761f32ddceca?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/babelworx/" title="Posts by Ciaran Farrell">Ciaran Farrell</a> (3)</li>
@@ -766,7 +635,7 @@ But good reports have been collected around, especially with never 3.10x kernel 
 <li><img alt='' src='https://secure.gravatar.com/avatar/9dbacbc8f5a66d9a6f99c828312bf910?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/helcaraxe/" title="Posts by Jan-Christoph Bornschlegel">Jan-Christoph Bornschlegel</a> (3)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/a73d94bc71ab9211ed8a31e3ede4fbfe?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/dl9pf/" title="Posts by Jan-Simon Möller">Jan-Simon Möller</a> (20)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/8b42838e6dccf7eb90a8ba362e7de858?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/javierllorente/" title="Posts by Javier Llorente">Javier Llorente</a> (12)</li>
-<li><img alt='' src='https://secure.gravatar.com/avatar/8b6e7e1e33323b1499e01776ea5ce307?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/cyberorg/" title="Posts by Jigish Gohil">Jigish Gohil</a> (61)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/8b6e7e1e33323b1499e01776ea5ce307?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/cyberorg/" title="Posts by Jigish Gohil">Jigish Gohil</a> (62)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/aa223e3df0b558eb11d7ffa614e1d309?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/jsrain/" title="Posts by Jiri Srain">Jiri Srain</a> (1)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/248d14d0cc663817e9ea2e5d3915d81d?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/jsuchome/" title="Posts by Jiří Suchomel">Jiří Suchomel</a> (3)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/abd6ad5514475b1ebfa926808c403ad1?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/gogga/" title="Posts by Johan Kotze">Johan Kotze</a> (5)</li>
@@ -803,7 +672,7 @@ But good reports have been collected around, especially with never 3.10x kernel 
 <li><img alt='' src='https://secure.gravatar.com/avatar/1df0fbf4b7fb2b10e93b8d84795a6b4a?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/amonthoth/" title="Posts by Ricardo Chung">Ricardo Chung</a> (7)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/fdd7251cf3e8f4d193e4f7f59238303a?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/ricardovarassantana/" title="Posts by Ricardo Varas Santana">Ricardo Varas Santana</a> (7)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/c0cff57a7e00b3ad4107e5627460b153?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/rbos/" title="Posts by Richard Bos">Richard Bos</a> (11)</li>
-<li><img alt='' src='https://secure.gravatar.com/avatar/827ee21ead846a2cf124ba6683ce885f?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/rjschwei/" title="Posts by rjschwei">Robert Schweikert</a> (10)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/827ee21ead846a2cf124ba6683ce885f?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/rjschwei/" title="Posts by rjschwei">Robert Schweikert</a> (12)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/6c9af0fa89f64b30eb228ee80c30595b?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/g0nz0/" title="Posts by Rossana Motta">Rossana Motta</a> (1)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/abcd749a57b47babab9ac7c8e35ae13a?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/rhorstkoetter/" title="Posts by Rupert Horstkötter">Rupert Horstkötter</a> (10)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/9d46eeed4de01dd50e3fd70bd660969b?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/saigkill/" title="Posts by Sascha Manns">Sascha Manns</a> (66)</li>
@@ -820,10 +689,12 @@ But good reports have been collected around, especially with never 3.10x kernel 
 <li><img alt='' src='https://secure.gravatar.com/avatar/100154b0e5aba0626e8db6191e264783?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/thomasrjones/" title="Posts by Thomas Jones">Thomas Jones</a> (1)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/a2ab55809fc9fc1cde1c4a519e283ef8?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/thomas-schraitle/" title="Posts by Thomas Schraitle">Thomas Schraitle</a> (25)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/926aae47e9d1677af3799a66f39f330d?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/toganm/" title="Posts by Togan Muftuoglu">Togan Muftuoglu</a> (3)</li>
-<li><img alt='' src='https://secure.gravatar.com/avatar/8389419eead797f59285b4da04d33e3d?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/illuusio/" title="Posts by Tuukka Pasanen">Tuukka Pasanen</a> (12)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/8389419eead797f59285b4da04d33e3d?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/illuusio/" title="Posts by Tuukka Pasanen">Tuukka Pasanen</a> (17)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/ae5863e449a99ef82a76b2778262c9d7?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/wstephenson/" title="Posts by Will Stephenson">Will Stephenson</a> (22)</li>
 </ul>					</li>	<li id="archives-4" class="widget box box-shadow widget_archive"><h3 class="box-subheader">Archives</h3>		<ul>
-			<li><a href='https://lizards.opensuse.org/2014/01/'>January 2014</a>&nbsp;(5)</li>
+			<li><a href='https://lizards.opensuse.org/2014/03/'>March 2014</a>&nbsp;(9)</li>
+	<li><a href='https://lizards.opensuse.org/2014/02/'>February 2014</a>&nbsp;(9)</li>
+	<li><a href='https://lizards.opensuse.org/2014/01/'>January 2014</a>&nbsp;(10)</li>
 	<li><a href='https://lizards.opensuse.org/2013/12/'>December 2013</a>&nbsp;(9)</li>
 	<li><a href='https://lizards.opensuse.org/2013/11/'>November 2013</a>&nbsp;(10)</li>
 	<li><a href='https://lizards.opensuse.org/2013/10/'>October 2013</a>&nbsp;(10)</li>

@@ -13,12 +13,91 @@
 	<atom:link href="http://lizards.opensuse.org/category/education/feed/" rel="self" type="application/rss+xml" />
 	<link>http://lizards.opensuse.org</link>
 	<description>Blogs and Ramblings of the openSUSE Members</description>
-	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<lastBuildDate>Mon, 24 Mar 2014 12:46:00 +0000</lastBuildDate>
 	<language>en-US</language>
 		<sy:updatePeriod>hourly</sy:updatePeriod>
 		<sy:updateFrequency>1</sy:updateFrequency>
-	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<generator>http://wordpress.org/?v=3.8.1</generator>
 	<item>
+		<title>Network boot live ISO</title>
+		<link>http://lizards.opensuse.org/2014/01/29/network-boot-live-iso/</link>
+		<comments>http://lizards.opensuse.org/2014/01/29/network-boot-live-iso/#comments</comments>
+		<pubDate>Wed, 29 Jan 2014 06:40:12 +0000</pubDate>
+		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
+				<category><![CDATA[Derivative]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Education]]></category>
+		<category><![CDATA[Network]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[eduction]]></category>
+		<category><![CDATA[howto]]></category>
+		<category><![CDATA[li-f-e]]></category>
+		<category><![CDATA[LTSP]]></category>
+		<category><![CDATA[pxe]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10470</guid>
+		<description><![CDATA[The x86_64 edition of openSUSE Education&#8217;s Li-f-e live DVD supports PXE booting the iso over the network, here is how to do it: * Install Li-f-e (Switch to GRUB from Installation Summary page if your hardware does not support EFI boot ), make sure you have plenty of space assigned to / partition(about 20G) * [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The x86_64 edition of openSUSE Education&#8217;s <a href="http://en.opensuse.org/openSUSE:Education-Li-f-e" title="Li-f-e">Li-f-e</a> live DVD supports PXE booting the iso over the network, here is how to do it:</p>
+<p>* Install Li-f-e (Switch to GRUB from Installation Summary page if your hardware does not support EFI boot ), make sure you have plenty of space assigned to / partition(about 20G)<br />
+* Set up LTSP by following this <a href="https://en.opensuse.org/SDB:LTSP%20quick%20start%2012.2%20Edu" title="LTSP Quick Start">quick start guide</a><br />
+* Create /srv/nfs folder and copy Li-f-e iso there<br />
+* Run the following as root in terminal:<br />
+<code><br />
+mount /srv/nfs/openSUSE-Edu-li-f-e.x86_64-13.1.1.iso /mnt<br />
+cp /mnt/boot/x86_64/loader/linux /srv/tftpboot/boot/linux-life64<br />
+cp /mnt/boot/x86_64/loader/initrd /srv/tftpboot/boot/initrd-life64<br />
+echo "/srv/nfs *(ro,no_root_squash,async,no_subtree_check)" &gt;&gt; /etc/exports<br />
+cat &lt;&lt;EOF&gt;&gt; /srv/tftpboot/pxelinux.cfg/default<br />
+LABEL Li-f-e<br />
+kernel boot/linux-life64<br />
+append initrd=boot/initrd-life64 isofrom_device=nfs:10.0.0.254:/srv/nfs/ isofrom_system=/openSUSE-Edu-li-f-e.x86_64-13.1.1.iso nonm<br />
+IPAPPEND 2<br />
+EOF<br />
+chkconfig rpcbind on &amp;&amp; service rpcbind restart<br />
+chkconfig nfsserver on &amp;&amp; service nfsserver restart<br />
+</code><br />
+Now you can PXE boot any machine over the network, select Li-f-e from the end of the boot menu to boot live DVD iso instead of normal LTSP session.</p>
+<p>Please note that if you install Li-f-e booted over the network then after the installation  you will need to remove &#8220;nonm&#8221; boot option using yast2 bootloader to get NetworkManager working again.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2014/01/29/network-boot-live-iso/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>How to destroy your data from harddisk permamently?</title>
+		<link>http://lizards.opensuse.org/2014/01/24/how-to-destroy-your-data-from-harddisk-permamently/</link>
+		<comments>http://lizards.opensuse.org/2014/01/24/how-to-destroy-your-data-from-harddisk-permamently/#comments</comments>
+		<pubDate>Fri, 24 Jan 2014 12:02:10 +0000</pubDate>
+		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Education]]></category>
+		<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[DBAN]]></category>
+		<category><![CDATA[DWipe]]></category>
+		<category><![CDATA[Nwipe]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10448</guid>
+		<description><![CDATA[First warning and please read it: If you wipe your harddisk, USB-stick or Flash with any of these tips. Your data won&#8217;t magically come back! After correct &#8216;secure rm&#8217; or &#8216;NWipe&#8217; there way is no way to bring your valuable data back. Make backups and happy wiping! Destroying data permanently from hard disk is not [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><strong>First warning and please read it: If you wipe your harddisk, USB-stick or Flash with any of these tips. Your data won&#8217;t magically come back! After correct &#8216;secure rm&#8217; or &#8216;NWipe&#8217; there way is no way to bring your valuable data back. Make backups and happy wiping!<br />
+</strong><br />
+Destroying data permanently from hard disk is not as easy as you think. Sometime hard disks just self destructs without notice but when there is police behind you door knocking and you have destroy as much data as you can it&#8217;s little bit trickier. Even normal cases when there ain&#8217;t police at door and you just want to make sure that your old hard disk is clean and it doesn&#8217;t contain your personal data it&#8217;s a bit of a problem.<span id="more-10448"></span><br />
+Removing with GUIs delete most times just sends files to Trash bin where they can be read normally. Same goes with deleting them permanently. It just tells to filesystem this part of hard disk is up for usage again. It takes many writes in that part of hard disk before it&#8217;s safe to say you can&#8217;t recover any of old data. So if you just accidentally deleted file and popped up here there is still hope but I won&#8217;t tell how to bring it back.<br />
+One method for remove files permanently is use <a href="http://srm.sourceforge.net/" title="Secure rm">secure rm</a> (srm for short). It&#8217;s not fastest way to remove files but after running srm no-one can read your file again and like I say on topic <em>there is no way to bring file back!</em>. Secure rm is nice but it doesn&#8217;t wipe your hard disk entirely.</p>
+<h2>DBAN</h2>
+<p>If you needed hard disk wiping &#8216;<a href="http://www.dban.org/" title="DBAN">Darik&#8217;s Boot And Nuke</a> A.K.A DBAN&#8217; is tool for you. Currently it&#8217;s obtained by Finnish firm that uses same stuff <a href="http://www.blancco.com/en/home/" title="Blancco">so if you are need of professional supported stuff go and ask them</a>. If you are just need for tool for wiping hard disk data go, download and burn latest DBAN image. it&#8217;s easy to use and it will destroy data. Again data is gone after DBAN has runned with default configs so really make backups! <a href="http://www.youtube.com/watch?v=K9jfLDrm2Q0" title="Learn to use DBAN">This is video how to make it with DBAN.</a> If you not pro watch it fully before making any moves.</p>
+<h2>I don&#8217;t want to burn anything to CDR</h2>
+<p>Okay you are in that mood. Many of new laptop doesn&#8217;t contain CD-drive anymore so what to do. Here is my tip for you. <a href="http://en.opensuse.org/SDB:Live_USB_stick" title="openSUSE USB Stick">Create bootable USB stick</a> (read whole thing before doing anything). After you have managed to boot your new shiny openSUSE USB-stick install <a href="http://www.andybev.com/index.php/Nwipe" title="NWipe">NWipe</a>. NWipe is fork of DBAN DWipe that does actual wiping that is ported to work without <a href="http://en.wikipedia.org/wiki/Device_file" title="What are devices and DevFS">devfs</a> (which is obsolette anyways). Install it <a href="http://download.opensuse.org/repositories/home:/illuusio/" title="NWipe rpm">from here</a> with zypper (something like </p>
+<pre>
+zypper install <a href="http://download.opensuse.org/repositories/home:/illuusio/openSUSE_13.1/x86_64/nwipe-0.14-3.1.x86_64.rpm" title="Link to rpm">http://download.opensuse.org/repositories/home:/illuusio/openSUSE_13.1/x86_64/nwipe-0.14-3.1.x86_64.rpm</a>
+</pre>
+<p>) after that run &#8216;nwipe&#8217; application and make sure that you won&#8217;t clean your USB stick.<br />
+After you have chose your partitions and way you want it to be done (I use American army stuff in for wiping but does NSA have some backdoor in those? I don&#8217;t know..) go a head and make your hard disk and processor suffer. <strong>Again once more bit FAT WARNING. If you want to make small joke for your dad or cause anyone hard attack just destroy hard disk for fun there ain&#8217;t coming back (hope you have backups!).</strong> Your partition table is gone same goes with filesystem. No more seeking files with hex editor or dedicated applications. Your files are just random bytes in hard disk.<br />
+and like openSUSE slogan is have a lots of fun when you wipe your disks!</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2014/01/24/how-to-destroy-your-data-from-harddisk-permamently/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
 		<title>openSUSE Education Li-f-e 13.1 x86_64 with UEFI boot support</title>
 		<link>http://lizards.opensuse.org/2014/01/21/opensuse-education-li-f-e-13-1-x86_64-with-uefi-boot-support/</link>
 		<comments>http://lizards.opensuse.org/2014/01/21/opensuse-education-li-f-e-13-1-x86_64-with-uefi-boot-support/#comments</comments>
@@ -480,73 +559,6 @@ You can then also pull the wire (or insert a physical switch) and see gpio17/val
 Your <a href="http://en.opensuse.org/Portal:Education">openSUSE Education</a> Team</p>
 ]]></content:encoded>
 			<wfw:commentRss>http://lizards.opensuse.org/2013/02/06/announcing-the-release-of-opensuse-edu-li-f-e-12-2-2/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
-		<item>
-		<title>Run X2go thin-client using kiwi-ltsp</title>
-		<link>http://lizards.opensuse.org/2012/09/27/run-x2go-thin-client-using-kiwi-ltsp/</link>
-		<comments>http://lizards.opensuse.org/2012/09/27/run-x2go-thin-client-using-kiwi-ltsp/#comments</comments>
-		<pubDate>Thu, 27 Sep 2012 11:18:30 +0000</pubDate>
-		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
-				<category><![CDATA[Build Service]]></category>
-		<category><![CDATA[Derivative]]></category>
-		<category><![CDATA[Desktop]]></category>
-		<category><![CDATA[Education]]></category>
-		<category><![CDATA[Network]]></category>
-		<category><![CDATA[Server]]></category>
-		<category><![CDATA[Systems Management]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9029</guid>
-		<description><![CDATA[Recently, came across x2go packages maintained by Jan Engelhardt for openSUSE and other distributions on open build service. As openSUSE Education Li-f-e has great LTSP integration thanks to KIWI-LTSP, I decided to check out how x2go can fit in with this existing thin-client computing solution. &#8220;x2go is an open (GPL/AGPL) source “server based computing” project. [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>Recently, came across <a title="x2go home" href="http://x2go.org">x2go</a> packages maintained by<a title="People of openSUSE" href="http://news.opensuse.org/2009/04/23/people-of-opensuse-jan-engelhardt/"> Jan Engelhardt</a> for openSUSE and other distributions on <a title="X11:RemoteDesktop:x2go" href="https://build.opensuse.org/project/show?project=X11:RemoteDesktop:x2go">open build service</a>. As <a title="Li-f-e" href="http://en.opensuse.org/openSUSE:Education-Li-f-e">openSUSE Education Li-f-e</a> has great <a title="LTSP home" href="http://ltsp.org">LTSP</a> integration thanks to<a title="KIWI-LTSP on openSUSE wiki" href="http://en.opensuse.org/Portal:KIWI-LTSP"> KIWI-LTSP</a>, I decided to check out how x2go can fit in with this existing thin-client computing solution.</p>
-<p>&#8220;x2go is an open (<acronym title="GNU General Public License">GPL</acronym>/AGPL) source “server based computing” project. Combining the advantages of existing systems it features ease of use, performance and scalability. x2go provides you with access to your desktop &#8211; from within your own network and via the internet. x2go is not limited to particular hardware, it supports a variety of devices and architectures.&#8221; -from their website.</p>
-<p>Some of the features/benefits of x2go that are not available on LTSP are:</p>
-<p>* Remote login from within local lan and internet from any OS<br />
-* Session persistence, you can disconnect session from one client and continue where you left off from any other client<br />
-* Low bandwidth usage<br />
-* Session sharing with other users<br />
-<span id="more-9029"></span><br />
-Apart from these, x2go also supports sound redirection via pulseaudio, folder sharing for access to local disks similar to LTSP.</p>
-<p>I would personally still prefer LTSP session in local network, and as x2goserver and LTSP server can coexist on same server we can choose x2goclient to connect over the internet and log in using LTSP in local lan.</p>
-<p>Here is how to run x2go as kiosk session by PXE booting a thin-client/PC/laptop.</p>
-<p>* Install <a title="kiwi-ltsp-profile-x2go" href="http://software.opensuse.org/package/kiwi-ltsp-profile-x2go">kiwi-ltsp-profile-x2go</a> on openSUSE Edu Li-f-e or 12.2 via <a title="Install via 1-click" href="http://software.opensuse.org/ymp/server:ltsp/openSUSE_12.2/kiwi-ltsp-profile-x2go.ymp">1-click from here</a>.<br />
-* Run <code>kiwi-ltsp -ln openSUSE_12_2_x2go</code> as root to create KIWI-LTSP image that is used for PXE booting clients, (this step requires fast internet connection and about 250M download)<br />
-* Run <code>kiwi-ltsp -c</code> to configure required services<br />
-* Add the following to<strong><em> /srv/tftpboot/KIWI/root.default/etc/lts.conf</strong></em>  under [default] for all clients or under [MA:CA:DD:RE:SS] for a particular client and boot up the client, openSUSE_12_2_x2go will be available at the end of boot menu.<br />
-<code><br />
-        SCREEN_07=kiosk<br />
-        KIOSK_EXE="/usr/bin/x2goclient --no-menu --maximize --link=lan --geometry=fullscreen --thinclient --haltbt --no-session-edit  --add-to-known-hosts"<br />
-        KIOSKUSER=x2goclient<br />
- </code></p>
-<p>You can also have normal LTSP session on tty8 along with this by adding <code>SCREEN_08=ldm</code>. To connect to the server from non-thin-client install and run x2goclient.</p>
-<p>You can simply poweroff the client without the need to disconnect or do normal shutdown.</p>
-<p>Note: this method of using x2go is just for testing and development purpose, you can use x2goserver and x2goclient in a standalone mode without kiwi-ltsp bits. Nothing additional than installing x2goserver package is needed to setup the server, except firewall should allow access to ssh port(22). </p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2012/09/27/run-x2go-thin-client-using-kiwi-ltsp/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
-		<item>
-		<title>Updates for openSUSE Edu Li-f-e</title>
-		<link>http://lizards.opensuse.org/2012/09/15/updates-for-opensuse-edu-li-f-e/</link>
-		<comments>http://lizards.opensuse.org/2012/09/15/updates-for-opensuse-edu-li-f-e/#comments</comments>
-		<pubDate>Sat, 15 Sep 2012 06:09:48 +0000</pubDate>
-		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
-				<category><![CDATA[Derivative]]></category>
-		<category><![CDATA[Distribution]]></category>
-		<category><![CDATA[Education]]></category>
-		<category><![CDATA[Software Management]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9014</guid>
-		<description><![CDATA[With the release of openSUSE Edu Li-f-e 12.2, we also have new KDE waiting in the official update repository. To resolve a couple of conflicts you will need to add Education:update repository before running yast2 online_update. Follow these steps: - Add Education:update repository by using this 1-click install, remain subscribed to the suggested repositories or [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>With the release of<a href="http://news.opensuse.org/2012/09/14/opensuse-edu-li-f-e-12-2-out-now/"> openSUSE Edu Li-f-e 12.2</a>, we also have new KDE waiting in the official update repository. To resolve a couple of conflicts you will need to add Education:update repository before running yast2 online_update.</p>
-<p>Follow these steps:</p>
-<pre>- Add Education:update repository by using this <a href="http://software.opensuse.org/ymp/Education:update/openSUSE_12.2/branding-life.ymp" rel="nofollow">1-click install</a>, remain subscribed to the suggested repositories or via command line:
-  <code><strong>zypper ar obs://Education:update/openSUSE_12.2 Education:update</strong></code> then run<code><strong> yast2 online-update</strong></code>.
- - select replacement for kioaudiocd
- - select deinstallation of yast2-qt-branding-life
- - Proceed with the update</pre>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2012/09/15/updates-for-opensuse-edu-li-f-e/feed/</wfw:commentRss>
 		<slash:comments>0</slash:comments>
 		</item>
 	</channel>

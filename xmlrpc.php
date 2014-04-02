@@ -1,1 +1,1 @@
-	XML-RPC server accepts POST requests only.
+    XML-RPC server accepts POST requests only.

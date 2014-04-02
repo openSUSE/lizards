@@ -13,11 +13,11 @@
 	<atom:link href="http://lizards.opensuse.org/author/mvyskocil/feed/" rel="self" type="application/rss+xml" />
 	<link>http://lizards.opensuse.org</link>
 	<description>Blogs and Ramblings of the openSUSE Members</description>
-	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<lastBuildDate>Mon, 24 Mar 2014 12:46:00 +0000</lastBuildDate>
 	<language>en-US</language>
 		<sy:updatePeriod>hourly</sy:updatePeriod>
 		<sy:updateFrequency>1</sy:updateFrequency>
-	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<generator>http://wordpress.org/?v=3.8.1</generator>
 	<item>
 		<title>Optimizing a boot time, aka 2 second boot (part 2)</title>
 		<link>http://lizards.opensuse.org/2012/07/31/optimizing-a-boot-time-aka-2-second-boot-part-2/</link>
@@ -80,7 +80,7 @@ Startup finished in 2719ms (kernel) + 4333ms (userspace) = 7052ms
 <h2>Way more changes</h2>
 <p>Then the systemd-modules-load.service delay a boot as it block sysinit.service, when basic boot ends. I read strace carefully, but it only load microcode_ctl module, but that took few seconds to be done. Thus I gently masked it.</p>
 <p>The next change is backport from Factory package <a href="https://build.opensuse.org/package/view_file?file=fix-tty-startup.patch&amp;package=systemd&amp;project=Base%3ASystem&amp;rev=f86a82d5af52fca8da6eeb91059d24fb" title="fix-tty-startup.patch"></a> &#8211; this reduce the delay caused by all those tty devices to appear. Fortunately this will be part of next openSUSE as it is an upstream patch.</p>
-<p>And as a last thing I wrote a simple xdm.service, instead of a big xdm init script. It will definitely need more love, but for me just works <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+<p>And as a last thing I wrote a simple xdm.service, instead of a big xdm init script. It will definitely need more love, but for me just works <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /> </p>
 <pre>
 cat /etc/systemd/system/xdm.service
 [Unit]
@@ -109,7 +109,7 @@ Startup finished in 726ms (kernel) + 1609ms (initramfs) + 1581ms (userspace) = 3
 </pre>
 <p><img src="http://lizards.opensuse.org/wp-content/uploads/2012/07/plot004.gif" alt="openSUSE 12.2 boot with initramfs made by dracut" /></p>
 <h2>Disabling way more things</h2>
-<p>As we are now versed in a looking at diagrams, there are still few ms we can save, even those changes are not sane <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';-)' class='wp-smiley' /> . The first one follows the <code>NetworkManager.service</code> &#8211; now <code>sshd.service</code> delays the boot a lot, because it <code>systemd-update-utmp-level.service</code> waits on it&#8217;s finish. So let&#8217;s start it on demand</p>
+<p>As we are now versed in a looking at diagrams, there are still few ms we can save, even those changes are not sane ;-). The first one follows the <code>NetworkManager.service</code> &#8211; now <code>sshd.service</code> delays the boot a lot, because it <code>systemd-update-utmp-level.service</code> waits on it&#8217;s finish. So let&#8217;s start it on demand</p>
 <pre>
 # cat /etc/udev/rules.d/95-start-nm-on-wlan.rules
 SUBSYSTEM=="net", NAME=="wlan?", TAG+="systemd", ACTION=="add", ENV{SYSTEMD_WANTS}="NetworkManager.service sshd.service"
@@ -561,7 +561,7 @@ try:
 except KeyboardInterrupt:
   pass # KeyboardInterrupt supressed
 </pre>
-<p>But it makes a new level of indentation which should be uncomfortable &#8211; especially in Python. Or when you have multiple entry-points, or just don&#8217;t well structured program (which is common when you write your private helper script <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> ), you maybe prefer another solution.</p>
+<p>But it makes a new level of indentation which should be uncomfortable &#8211; especially in Python. Or when you have multiple entry-points, or just don&#8217;t well structured program (which is common when you write your private helper script :)), you maybe prefer another solution.</p>
 <p>Python has a <strong>sys.excepthook</strong>, which is called for traceback printing, so we could define our own and suppress unnecessary output here. And it would be nice suppress only one exception and handle other ones using existing function. And this function make it:</p>
 <pre>
 def suppress_keyboard_interrupt_message():
@@ -575,7 +575,7 @@ def suppress_keyboard_interrupt_message():
 
     sys.excepthook = new_hook
 </pre>
-<p>Function <strong>suppress_keyboard_interrupt_message</strong> (it is really nice name, don&#8217;t it <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';-)' class='wp-smiley' /> ) stores an existing hook and register an inner function <strong>new_hook</strong> as a new one. Advantage is that <strong>old_excepthook</strong> exists only in a scope of this function, so you don&#8217;t need use global variables for it.</p>
+<p>Function <strong>suppress_keyboard_interrupt_message</strong> (it is really nice name, don&#8217;t it ;-)) stores an existing hook and register an inner function <strong>new_hook</strong> as a new one. Advantage is that <strong>old_excepthook</strong> exists only in a scope of this function, so you don&#8217;t need use global variables for it.</p>
 <p><em>Update: typos fixed</em></p>
 ]]></content:encoded>
 			<wfw:commentRss>http://lizards.opensuse.org/2009/05/04/supressing-keyboardinterrupt-traceback-in-python/feed/</wfw:commentRss>

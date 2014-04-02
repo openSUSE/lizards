@@ -13,11 +13,11 @@
 	<atom:link href="http://lizards.opensuse.org/tag/python/feed/" rel="self" type="application/rss+xml" />
 	<link>http://lizards.opensuse.org</link>
 	<description>Blogs and Ramblings of the openSUSE Members</description>
-	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<lastBuildDate>Mon, 24 Mar 2014 12:46:00 +0000</lastBuildDate>
 	<language>en-US</language>
 		<sy:updatePeriod>hourly</sy:updatePeriod>
 		<sy:updateFrequency>1</sy:updateFrequency>
-	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<generator>http://wordpress.org/?v=3.8.1</generator>
 	<item>
 		<title>osc plugin &#8211; changes</title>
 		<link>http://lizards.opensuse.org/2011/03/23/osc-plugin-changes/</link>
@@ -191,7 +191,7 @@ try:
 except KeyboardInterrupt:
   pass # KeyboardInterrupt supressed
 </pre>
-<p>But it makes a new level of indentation which should be uncomfortable &#8211; especially in Python. Or when you have multiple entry-points, or just don&#8217;t well structured program (which is common when you write your private helper script <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> ), you maybe prefer another solution.</p>
+<p>But it makes a new level of indentation which should be uncomfortable &#8211; especially in Python. Or when you have multiple entry-points, or just don&#8217;t well structured program (which is common when you write your private helper script :)), you maybe prefer another solution.</p>
 <p>Python has a <strong>sys.excepthook</strong>, which is called for traceback printing, so we could define our own and suppress unnecessary output here. And it would be nice suppress only one exception and handle other ones using existing function. And this function make it:</p>
 <pre>
 def suppress_keyboard_interrupt_message():
@@ -205,7 +205,7 @@ def suppress_keyboard_interrupt_message():
 
     sys.excepthook = new_hook
 </pre>
-<p>Function <strong>suppress_keyboard_interrupt_message</strong> (it is really nice name, don&#8217;t it <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';-)' class='wp-smiley' /> ) stores an existing hook and register an inner function <strong>new_hook</strong> as a new one. Advantage is that <strong>old_excepthook</strong> exists only in a scope of this function, so you don&#8217;t need use global variables for it.</p>
+<p>Function <strong>suppress_keyboard_interrupt_message</strong> (it is really nice name, don&#8217;t it ;-)) stores an existing hook and register an inner function <strong>new_hook</strong> as a new one. Advantage is that <strong>old_excepthook</strong> exists only in a scope of this function, so you don&#8217;t need use global variables for it.</p>
 <p><em>Update: typos fixed</em></p>
 ]]></content:encoded>
 			<wfw:commentRss>http://lizards.opensuse.org/2009/05/04/supressing-keyboardinterrupt-traceback-in-python/feed/</wfw:commentRss>
@@ -229,7 +229,7 @@ def suppress_keyboard_interrupt_message():
 <p>It&#8217;s been quite a while since I last posted an update on the state of<a href="http://software.opensuse.org/search?baseproject=openSUSE%3A11.1&amp;p=1&amp;q=python-turbogears" target="_self"> python-turbogears</a> in the<a href="http://build.opensuse.org"> openSUSE build service</a>. The <a href="http://www.turbogears.org">TurboGears project</a> currently has three branches open (which seems to cause more confusion that actually help people) &#8211; the 1.0 branch, the 1.1 branch and the 2.0 branch. Whereas newcomers are advised to install from the 1.0 branch and to develop web applications based on that branch, the truth is that most of the active development goes on in the 2.0 branch. TurboGears 2.0 is at beta7 stage right now &#8211; features are frozen and a release data is in sight for the big 2.0.</p>
 <p>Without getting into the major differences between 1.0 and 2.0, many people on the <a href="http://groups.google.com/group/turbogears">TurboGears Google Group</a> have expressed the opinion that the 2.0 branch, despite its beta suffix, is exceptionally stable and well suited to production deployment. One of the major obstacles facing people was how to actually install it. Because it requires some cutting edge packages which might not be standard fare for many distributions, it is recommended to install TurboGears2 (beta) in a virtual python environment using the <a href="http://software.opensuse.org/search?baseproject=openSUSE%3A11.1&amp;p=1&amp;q=python-virtualenv">virtualenv</a> package. Once the new virtual environment is ready and activated, a simple easy_install will automatically install the TurboGears2 package and its requirements. This is <a href="http://turbogears.org/2.0/docs/main/DownloadInstall.html">well documented</a>.</p>
 <p>I got a bit fed up with the virtual environment setup &#8211; it worked fairly well, but I was constantly having to set up completely new virtual environments just to install another TurboGears web application. There is an option when using virtualenv, to make the entire virtual environment &#8220;mobile&#8221; (meaning that you can pack virtual environment plus web app off to another computer easily), but it wasn&#8217;t working for me.</p>
-<p>Enter <a href="http://software.opensuse.org/search?baseproject=openSUSE%3A11.1&amp;p=1&amp;q=python-TurboGears2">python-TurboGears2</a> on the openSUSE build service. It took me a couple of days to get all the dependencies in the correct versions and installing properly, but it looks as if it works now. As TurboGears2 will be in a more or less constant state of flux until the final 2.0 release, there will probably be quite a lot of work to do to keep the packages up to date, but it&#8217;s worth it for the simple zypper in python-TurboGears2 <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' />  What I want to do now is to try creating a<a href="http://www.susestudio.com/"> SUSE Studio</a> based virtual appliance &#8211; that way practically any web app could be created and setup easily &#8211; and with a bit of elbow grease you could probably use apparmor etc to make it rock solid.</p>
+<p>Enter <a href="http://software.opensuse.org/search?baseproject=openSUSE%3A11.1&amp;p=1&amp;q=python-TurboGears2">python-TurboGears2</a> on the openSUSE build service. It took me a couple of days to get all the dependencies in the correct versions and installing properly, but it looks as if it works now. As TurboGears2 will be in a more or less constant state of flux until the final 2.0 release, there will probably be quite a lot of work to do to keep the packages up to date, but it&#8217;s worth it for the simple zypper in python-TurboGears2 <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif" alt=":-)" class="wp-smiley" />  What I want to do now is to try creating a<a href="http://www.susestudio.com/"> SUSE Studio</a> based virtual appliance &#8211; that way practically any web app could be created and setup easily &#8211; and with a bit of elbow grease you could probably use apparmor etc to make it rock solid.</p>
 <p>PS: it would be well cool if people would test the package</p>
 ]]></content:encoded>
 			<wfw:commentRss>http://lizards.opensuse.org/2009/03/06/installpython-turbogears2/feed/</wfw:commentRss>
@@ -306,7 +306,7 @@ You can now download and install python-turbogears using:</p>
 <p>Of course, if you know the bug number you can retrieve it with:</p>
 <p>  <code>$ bugz get 378240</code></p>
 <p>and it will list all the details of the bug. Very useful! I haven&#8217;t tried the other subcommands yet, but I think they are also very convenient.</p>
-<p>There are many more things to discover. So, when was your last time searching for bugs? <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </p>
+<p>There are many more things to discover. So, when was your last time searching for bugs? <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif" alt=":-)" class="wp-smiley" /> </p>
 ]]></content:encoded>
 			<wfw:commentRss>http://lizards.opensuse.org/2008/06/19/how-to-search-more-efficiently-in-bugzilla-with-pybugz/feed/</wfw:commentRss>
 		<slash:comments>0</slash:comments>
@@ -354,7 +354,7 @@ You can now download and install python-turbogears using:</p>
 <p><code>$ <strong>xpathgrep.py</strong> '//chapter[not(@id)]/title' db.xml</code></p>
 <p>(You need the apostroph because of the shell.) The tool outputs this:</p>
 <p><code>&lt;title&gt;Ingredients&lt;/title&gt;</code></p>
-<p>That&#8217;s nice, isn&#8217;t it? There are a lot of more to discover. A few hours ago I send a small patch to the lxml-devel mailinglist to support namespaces. Hopefully, it will be accepted. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+<p>That&#8217;s nice, isn&#8217;t it? There are a lot of more to discover. A few hours ago I send a small patch to the lxml-devel mailinglist to support namespaces. Hopefully, it will be accepted. <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /> </p>
 ]]></content:encoded>
 			<wfw:commentRss>http://lizards.opensuse.org/2008/06/09/query-your-xml-with-xpathgreppy/feed/</wfw:commentRss>
 		<slash:comments>0</slash:comments>

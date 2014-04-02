@@ -13,12 +13,142 @@
 	<atom:link href="http://lizards.opensuse.org/category/base-system/network/feed/" rel="self" type="application/rss+xml" />
 	<link>http://lizards.opensuse.org</link>
 	<description>Blogs and Ramblings of the openSUSE Members</description>
-	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<lastBuildDate>Mon, 24 Mar 2014 12:46:00 +0000</lastBuildDate>
 	<language>en-US</language>
 		<sy:updatePeriod>hourly</sy:updatePeriod>
 		<sy:updateFrequency>1</sy:updateFrequency>
-	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<generator>http://wordpress.org/?v=3.8.1</generator>
 	<item>
+		<title>Is my server alive and how good is my connection</title>
+		<link>http://lizards.opensuse.org/2014/03/10/is-my-server-alive-and-how-good-is-my-connection/</link>
+		<comments>http://lizards.opensuse.org/2014/03/10/is-my-server-alive-and-how-good-is-my-connection/#comments</comments>
+		<pubDate>Mon, 10 Mar 2014 07:25:14 +0000</pubDate>
+		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
+				<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Network]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[bash]]></category>
+		<category><![CDATA[ping]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10639</guid>
+		<description><![CDATA[If you have time to setup real solution and need something reliable test Zabbix (http://zabbix.com). Zabbix is wonderful all in one solutions for monitoring network and your hosts (servers). If you are in need of knowing how good you Internet/(W)LAN connections is then things are getting complicated. Case is like this: You have computer and [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>If you have time to setup real solution and need something reliable test Zabbix (<a href="http://zabbix.com" title="Zabbix">http://zabbix.com</a>). Zabbix is wonderful all in one solutions for monitoring network and your hosts (servers). If you are in need of knowing how good you Internet/(W)LAN connections is then things are getting complicated.<span id="more-10639"></span><br />
+Case is like this: You have computer and WIFI-card (Wireless Internet card). Most of the time it&#8217;s working great! Speed is high and there is no hick-ups any kind. Out of the blue comes troubles. In other network video is not playing from net or you keep getting connection errors in browser.. so what to do? How to debug this one? It can be that other people are just consuming all the router bandwidth available or there is many WIFI routers in same frequency (be sure to check first all the hardware before getting into software level). If hardware is not the case and you have double checked with normal Wire connection to Internet/LAN then there is definitely something else. With WIFI connection it still can be your grandma’s old beloved 1950 microwave oven (If you on 5Ghz band then you can&#8217;t blame her either)..<br />
+So I assume you are on <a href="http://en.wikipedia.org/wiki/TCP/IP" title="TCP/IP">TCP/IP</a>-network if you don&#8217;t know what it is you should first find out and then read the rest of this story.<br />
+WIFI-cards have signal strength monitor. I have notice that many times it&#8217;s just a estimation. You can have 100% strength and your connection is next to nothing. Manufacturers tends to make connections look way too better than they are or they make them look even worst than they are.<br />
+So how to find out is my connection good or bad? Word of warning in this point: this is just one way to find out and it&#8217;s not very good (for some use cases it is). Way is to use little bit BASH (Bourne Again SHell) and <a href="http://www.wikihow.com/Ping-in-Linux" title="ping">ping-command</a> which is installed in openSUSE default.</p>
+<h2>What ping does</h2>
+<p>Ping consumes <a href="http://en.wikipedia.org/wiki/Internet_Control_Message_Protocol" title="ICMP">ICMP-protocol</a> which is very low level and I don&#8217;t know is it used for anything anymore these days (correct me if I&#8217;m very wrong) only with ping-command. If Wikipedia is correct ping calculates round-trip so how long takes data to find it&#8217;s way to server and come back (Small tip here! You can use <a href="http://www.computerhope.com/unix/utracero.htm" title="Traceroute">traceroute</a> to see how you packet is finding it&#8217;s way on the Internet and back to you).<br />
+So how can I use ping to tell me is my server up? Short answer is simple: &#8216;you can&#8217;t&#8217;. Little bit longer answer: &#8216;Yes you can but it&#8217;s little bit more complicated than you first thought&#8217; and the long version: &#8216;You get information about if your server&#8217;s network card answers to (and most of the time kernel network stack) received ICMP-packet. If there is firewall rule that turns ICMP-packet answer off you are out of luck. Ping doesn&#8217;t tell if your service is up or Apache running correctly and reliable. Remember ping answer can work even if most of user space is smashed down and kernel is malfunctioning (been there done that!)&#8217;.<br />
+So what you get it answer from network card and that&#8217;s it. If it&#8217;s enough (99% times it is) keep reading.</p>
+<h2>Script</h2>
+<p>Show me code you scream and I give it to you and please read comments on code before using. This is edited version from <a href="http://stackoverflow.com/questions/18258364/ping-tool-to-check-if-server-is-online" title="Stackoverflow.com">Stackoverflow.com</a> message script (so nothing original here):</p>
+<pre>
+#!/bin/bash
+
+echo "Press [CTRL+C] to stop.."
+
+# Make at least 10 pings in one time
+COUNT=50
+SUCCESS=0
+LASTFAIL=NONE
+# Change this to Domain name/IP
+# or ip you want to monitor
+IP=192.168.1.1
+FAILS=0
+
+while true
+do
+        #
+        # Ping with interval 0.5s to IP (192.168.1.1)
+        # COUNT (50) times
+        # after that we just grep 'byte from' from output
+        # or ping and them calculate how many we got
+        # with wc -l (Lines of output) bacause we drop
+        # other from output
+        # You can use up (normally) 2000 size (-s) of package
+        # to see if it's starts to drop..
+        LINES=$(ping -s 1024 -i 0.5 -c ${COUNT} ${IP} | \
+                grep "bytes from ${SERVERSERVER}" | wc -l)
+
+        # Calculate how many fails there were
+        let FAILS=${COUNT}-${LINES}+${FAILS}
+        # Add to success rate
+        let SUCCESS=${LINES}+${SUCCESS}
+
+        # If there were error but date to LASTFAIL
+        # so if you not every moment looking you can
+        # see when this error happened
+        if [ ${LINES} -ne ${COUNT} ]; then
+             LASTFAIL=$(date)
+        fi
+
+        # Ok ping all together failed
+        if [ $? -ne 0 ] ; then
+          echo "Can't Connect to server ${IP}"
+        else
+          # Print statistics to screen
+          echo "$(date) ${IP} Success: ${LINES} (Tot. F ${FAILS}) \
+(Tot. S ${SUCCESS}) (Last F ${LASTFAIL})"
+        fi
+
+        # Sleep a while (not consume all the bandwidth)
+        sleep 1
+done
+</pre>
+<h2>Output</h2>
+<p>Script prints mystical output. Things that matters that Success rate is 50 (or what pinging rate you are using) and Fails are not rising fast. It they are rising fast packets are dropped if you are not getting anything check IP/domain name. With this one you can get ping time. If success level is 50 but ping time is high you network is still very slow but that you have to check with ping-command by hand. Even with 2G mobile modem you should get under 300ms (3G should be like 100ms).<br />
+To have any clue about your connection you have make this at least 30 minutes (First ping packets can tell everything but if you want to see whole picture). Actually this is stupid way to find out is your server up but if your WIFI-card  is working everywhere else great you can check are you packets going through. If ICMP-packets are dropping very fast then your TCP/IP packages are dropping very fast and you network stack have to re-send them so you notice that your network is slow (even though it has nothing to do with that). Again it can be route, WIFI-card or firewall problem still.. and ping doesn&#8217;t answer to that question. So this was this days script stuff. If you have better ways to do this.. please share I&#8217;m always interested in this topic.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2014/03/10/is-my-server-alive-and-how-good-is-my-connection/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Network boot live ISO</title>
+		<link>http://lizards.opensuse.org/2014/01/29/network-boot-live-iso/</link>
+		<comments>http://lizards.opensuse.org/2014/01/29/network-boot-live-iso/#comments</comments>
+		<pubDate>Wed, 29 Jan 2014 06:40:12 +0000</pubDate>
+		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
+				<category><![CDATA[Derivative]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Education]]></category>
+		<category><![CDATA[Network]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[eduction]]></category>
+		<category><![CDATA[howto]]></category>
+		<category><![CDATA[li-f-e]]></category>
+		<category><![CDATA[LTSP]]></category>
+		<category><![CDATA[pxe]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10470</guid>
+		<description><![CDATA[The x86_64 edition of openSUSE Education&#8217;s Li-f-e live DVD supports PXE booting the iso over the network, here is how to do it: * Install Li-f-e (Switch to GRUB from Installation Summary page if your hardware does not support EFI boot ), make sure you have plenty of space assigned to / partition(about 20G) * [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The x86_64 edition of openSUSE Education&#8217;s <a href="http://en.opensuse.org/openSUSE:Education-Li-f-e" title="Li-f-e">Li-f-e</a> live DVD supports PXE booting the iso over the network, here is how to do it:</p>
+<p>* Install Li-f-e (Switch to GRUB from Installation Summary page if your hardware does not support EFI boot ), make sure you have plenty of space assigned to / partition(about 20G)<br />
+* Set up LTSP by following this <a href="https://en.opensuse.org/SDB:LTSP%20quick%20start%2012.2%20Edu" title="LTSP Quick Start">quick start guide</a><br />
+* Create /srv/nfs folder and copy Li-f-e iso there<br />
+* Run the following as root in terminal:<br />
+<code><br />
+mount /srv/nfs/openSUSE-Edu-li-f-e.x86_64-13.1.1.iso /mnt<br />
+cp /mnt/boot/x86_64/loader/linux /srv/tftpboot/boot/linux-life64<br />
+cp /mnt/boot/x86_64/loader/initrd /srv/tftpboot/boot/initrd-life64<br />
+echo "/srv/nfs *(ro,no_root_squash,async,no_subtree_check)" &gt;&gt; /etc/exports<br />
+cat &lt;&lt;EOF&gt;&gt; /srv/tftpboot/pxelinux.cfg/default<br />
+LABEL Li-f-e<br />
+kernel boot/linux-life64<br />
+append initrd=boot/initrd-life64 isofrom_device=nfs:10.0.0.254:/srv/nfs/ isofrom_system=/openSUSE-Edu-li-f-e.x86_64-13.1.1.iso nonm<br />
+IPAPPEND 2<br />
+EOF<br />
+chkconfig rpcbind on &amp;&amp; service rpcbind restart<br />
+chkconfig nfsserver on &amp;&amp; service nfsserver restart<br />
+</code><br />
+Now you can PXE boot any machine over the network, select Li-f-e from the end of the boot menu to boot live DVD iso instead of normal LTSP session.</p>
+<p>Please note that if you install Li-f-e booted over the network then after the installation  you will need to remove &#8220;nonm&#8221; boot option using yast2 bootloader to get NetworkManager working again.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2014/01/29/network-boot-live-iso/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
 		<title>One that got away &#8211; 12.3 Networking</title>
 		<link>http://lizards.opensuse.org/2013/03/13/one-that-got-away-12-3-networking/</link>
 		<comments>http://lizards.opensuse.org/2013/03/13/one-that-got-away-12-3-networking/#comments</comments>
@@ -36,7 +166,7 @@
 				<content:encoded><![CDATA[<p>Well openSUSE 12.3 is about to go live  and we are all pretty excited. It is, as far as I can tell a rock solid release and we have outdone ourselves. Considering the short release cycle makes this even more impressive.</p>
 <p>One can only thank everyone in the community for pulling together, getting a lot of stuff done and delivering a great release.</p>
 <p>Yet, there&#8217;s one sprinkle that rains on our parade. While we completed the switch to systemd we somewhere along the lines forgot to check the status of NetworkManager on an installed system. Thus, when you upgrade from a previous release and NetworkManager is disabled, it will be enabled and running after the upgrade is complete, sorry. If you happen to be running a network bridge your bridge will not be working and you&#8217;ll end up in some weird network state where <em>ifconfig</em> will tell you that both your bridge and your Ethernet card have an IP address. Your routing table will also be messed up. Addressing the issue is easy.</p>
-<p>Login as root, which you will have to do at the login manager if you happen to run NIS, disable NetworkManager, stop the NetworkManager service, and restart your network. You are now back to your original configuration, no sweat <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';)' class='wp-smiley' />  . Below is a list of commands you want to run as the root user to make this happen:</p>
+<p>Login as root, which you will have to do at the login manager if you happen to run NIS, disable NetworkManager, stop the NetworkManager service, and restart your network. You are now back to your original configuration, no sweat <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif" alt=";)" class="wp-smiley" />  . Below is a list of commands you want to run as the root user to make this happen:</p>
 <p># systemctl &#8211;force disable NetworkManager.service</p>
 <p># systemctl stop NetworkManager.service</p>
 <p># rcnetwork restart</p>
@@ -154,7 +284,7 @@ Squidview has a number of functions. Navigate the log file with the cursor pad k
 <p>Squidview is released under the GPL.
 </p>
 <h3>Examples / Usage</h3>
-<div id="a" style="width: 494px" class="wp-caption alignnone"><img alt="" src="http://www.rillion.net/squidview/pic1.png" width="484" height="316" /><p class="wp-caption-text">The selected line shows a request made for a .gif at the shown time. As luck would have it, the &#039;H&#039; indicates a cache hit <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' />  In this mode user traffic can scroll by. </p></div>
+<img alt="" src="http://www.rillion.net/squidview/pic1.png" width="484" height="316" />
 <div id="b" style="width: 494px" class="wp-caption alignnone"><img alt="" src="http://www.rillion.net/squidview/pic2.png" width="484" height="316" /><p class="wp-caption-text">What the above would be if viewed with less. </p></div>
 <div id="c" style="width: 494px" class="wp-caption alignnone"><img alt="" src="http://www.rillion.net/squidview/pic3.png" width="484" height="316" /><p class="wp-caption-text">A tally of all users against the bandwidth they used. Kept current in near real time. </p></div>
 <div id="d" style="width: 494px" class="wp-caption alignnone"><img alt="" src="http://www.rillion.net/squidview/pic4.png" width="484" height="316" /><p class="wp-caption-text">A quick investigation into the recent history of one user. </p></div>
@@ -309,7 +439,7 @@ sys 0m1.140s</p>
 <p><a href="http://lizards.opensuse.org/wp-content/uploads/2010/06/pnm1.png"><img class="aligncenter size-full wp-image-5373" src="http://lizards.opensuse.org/wp-content/uploads/2010/06/pnm1.png" alt="" width="650" height="346" /></a></p>
 <p>As you can see, NetworkManagement don&#8217;t work well. For example, it can&#8217;t see WiFi connection and don&#8217;t show wired connetcion. Yes, right now we have one bug with module &#8220;networkmanagement&#8221;.</p>
 <p style="text-align: center">
-<p>This module must be loaded after start NetworkManagement, but this is not happening <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_sad.gif' alt=':(' class='wp-smiley' /> </p>
+<p>This module must be loaded after start NetworkManagement, but this is not happening <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_sad.gif" alt=":(" class="wp-smiley" /> </p>
 <p>If you check it, you will see:</p>
 <pre>anaumov@pizza:~/plasma/networkmanagement&gt; qdbus --system org.freedesktop.NetworkManagerUserSettings
 Service 'org.freedesktop.NetworkManagerUserSettings' does not exist.</pre>
@@ -336,81 +466,10 @@ anaumov@pizza:~/plasma/networkmanagement&gt;</pre>
 <p>And WiFi interface can see WiFi connections:</p>
 <p><a href="http://lizards.opensuse.org/wp-content/uploads/2010/06/pnm2.png"><img src="http://lizards.opensuse.org/wp-content/uploads/2010/06/pnm2.png" alt="" width="650" height="338" class="aligncenter size-full wp-image-5377" /></a></p>
 <p>Good, but this works not automaticly. It&#8217;s first what I want to hack on this week.</p>
-<p>And what do you want to do on this week? <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';)' class='wp-smiley' /> </p>
+<p>And what do you want to do on this week? <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif" alt=";)" class="wp-smiley" /> </p>
 ]]></content:encoded>
 			<wfw:commentRss>http://lizards.opensuse.org/2010/06/07/hacking-for-freedom/feed/</wfw:commentRss>
 		<slash:comments>5</slash:comments>
-		</item>
-		<item>
-		<title>Novell Client on openSUSE 11.2</title>
-		<link>http://lizards.opensuse.org/2010/04/20/novell-client-on-opensuse-11-2/</link>
-		<comments>http://lizards.opensuse.org/2010/04/20/novell-client-on-opensuse-11-2/#comments</comments>
-		<pubDate>Tue, 20 Apr 2010 16:05:20 +0000</pubDate>
-		<dc:creator><![CDATA[Christopher Hobbs]]></dc:creator>
-				<category><![CDATA[Desktop]]></category>
-		<category><![CDATA[Documentation]]></category>
-		<category><![CDATA[GNOME]]></category>
-		<category><![CDATA[KDE]]></category>
-		<category><![CDATA[Network]]></category>
-		<category><![CDATA[Usability]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=3750</guid>
-		<description><![CDATA[This has been covered on a couple of forums out there, but I&#8217;ve yet to find a decent comprehensive post. This is for 32bit systems, it&#8217;s easily modified for 64bit setups. First off, search your favorite RPM repo for binutils-2.19-9.3. I like to use http://rpm.pbone.net, but at the time of writing, they happen to be [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>This has been covered on a couple of forums out there, but I&#8217;ve yet to find a decent comprehensive post.  This is for 32bit systems, it&#8217;s easily modified for 64bit setups.</p>
-<p>First off, search your favorite RPM repo for binutils-2.19-9.3.  I like to use http://rpm.pbone.net, but at the time of writing, they happen to be down.</p>
-<p>Get a copy of the Novell Client ISO from http://download.novell.com and mount it:</p>
-<p><code>sudo mount -o loop novell-client-2.0-sp2-sle11-i586.iso /mnt<br />
-</code></p>
-<p>Extract the files from the RPM: </p>
-<p><code>rpm2cpio binutils-2.19-9.3.i586.rpm | cpio -idv<br />
-</code></p>
-<p>This should create a &#8220;usr&#8221; directory in your present working directory.  Go ahead and copy it&#8217;s contents to your filesystem:</p>
-<p><code>sudo cp -R usr/* /usr/<br />
-</code></p>
-<p>Change directories to wherever you mounted your ISO (in this case &#8220;/mnt&#8221;) and run the installer:</p>
-<p><code>cd /mnt &amp;&amp; sudo ./ncl_install</code></p>
-<p>As the packages attempt to install, you&#8217;ll be given options and warnings concerning libbfd and several other packages.  Choose option &#8220;2&#8243; for everything (&#8220;Break dependencies&#8221;).  Don&#8217;t worry about actually breaking anything, just roll with option 2.</p>
-<p>Lastly, issue ldconfig as root and reboot:</p>
-<p><code>sudo /sbin/ldconfig<br />
-sudo /sbin/reboot</code></p>
-<p>That should get you up and running.  You can run &#8220;ncl_tray&#8221; directly from the command line, or create a shortcut to the client.  If you&#8217;re having connection issues, make sure that openSLP is configured.</p>
-<p>The only issues I&#8217;ve had so far is the inability to browse trees, which turned out to be a DNS problem on my end.  Occasionally I get warnings on login about novfs kernel modules not being properly loaded, but this appears to be benign.</p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2010/04/20/novell-client-on-opensuse-11-2/feed/</wfw:commentRss>
-		<slash:comments>5</slash:comments>
-		</item>
-		<item>
-		<title>Solving typical problems of BCM4312 802.11b/g</title>
-		<link>http://lizards.opensuse.org/2010/03/22/solving-typical-problems-of-bcm4312-802-11bg/</link>
-		<comments>http://lizards.opensuse.org/2010/03/22/solving-typical-problems-of-bcm4312-802-11bg/#comments</comments>
-		<pubDate>Mon, 22 Mar 2010 15:22:52 +0000</pubDate>
-		<dc:creator><![CDATA[Alex Barrios]]></dc:creator>
-				<category><![CDATA[Kernel]]></category>
-		<category><![CDATA[Network]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=3599</guid>
-		<description><![CDATA[The problem 1: I have a new Broadcom Wireless that doesn&#8217;t work with the driver B43, even when I download the firmware. The problem 2: I don&#8217;t wanna use the Broadcom WL driver because its buggy, closed source, and doesn&#8217;t support aircrack. The solution: After a while working with this solution, i must say that [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p><strong>The problem 1</strong>: I have a new Broadcom Wireless that doesn&#8217;t work with the driver B43, even when I download the firmware.</p>
-<p><strong>The problem 2</strong>: I don&#8217;t wanna use the Broadcom WL driver because its buggy, closed source, and doesn&#8217;t support aircrack.</p>
-<p><strong>The solution</strong>:</p>
-<p>After a while working with this solution, i must say that the wireless range its improve and everything else working perfectly.</p>
-<p>So, this works for some of those BCM4311-, 12- and those weird cards that don&#8217;t work with only the B43 and the Firmware.</p>
-<ol>
-<li> Install build essentials with: <strong>sudo zypper in -t pattern devel_basis devel_kernel<br />
-</strong></li>
-<li>Download the package <strong>compat-wireless</strong> from <a href="http://wireless.kernel.org/download/compat-wireless-2.6/" target="_self">http://wireless.kernel.org/</a></li>
-<li>Unpack the package somewhere: <strong>tar xvzf compat-wireles.tar.gz</strong></li>
-<li>Enter in the new directory, and execute:<strong> make &amp;&amp; make install</strong></li>
-<li>Wait for a while, and when it ends should say something like &#8220;do make unload&#8221;<strong> DON&#8217;T DO THAT.</strong></li>
-<li>As root exec: <strong>install_bcm43xx_firmware</strong>, this script should be in your system path, but only as root. This will download the firmware to /lib/firmware/b43.</li>
-<li><strong>Reboot</strong>. I found that its more safe to do a clean reboot than write make unload, because i got a kernel panic if i do that. So reboot and your wireless card should be working now with b43. Remember to remove the WL driver so you don&#8217;t have conflict between them.</li>
-</ol>
-<p>I did this for my Aspire One D150 and some HP Laptops and works without problems.</p>
-<p>I hope this information is useful.</p>
-<p>Cheers.</p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2010/03/22/solving-typical-problems-of-bcm4312-802-11bg/feed/</wfw:commentRss>
-		<slash:comments>3</slash:comments>
 		</item>
 	</channel>
 </rss>

@@ -16,8 +16,8 @@
   <meta itemprop="description" content="openSUSE News Blog">
 
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="Magic: It is now possible to use MS Silverlight based websites via pipelight" />
-  <meta property="og:url" content="https://lizards.opensuse.org/2013/09/13/magic-it-is-now-possible-to-use-ms-silverlight-based-website-via-pipelight/" />
+  <meta property="og:title" content="First fruits &#8211; update on openQA and Staging work" />
+  <meta property="og:url" content="https://lizards.opensuse.org/2014/02/19/first-fruits-update-on-openqa-and-staging-work/" />
   <meta property="og:description" content="" />
 
   <!-- include JS from static.opensuse.org -->
@@ -49,8 +49,8 @@
     <link rel="alternate" type="application/rss+xml" title="openSUSE Lizards &raquo; Build Service Category Feed" href="https://lizards.opensuse.org/category/build-service/feed/" />
 <link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://lizards.opensuse.org/xmlrpc.php?rsd" />
 <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://lizards.opensuse.org/wp-includes/wlwmanifest.xml" /> 
-<meta name="generator" content="WordPress 3.7.1" />
-<script type='text/javascript' src='https://lizards.opensuse.org/wp-content/plugins/anti-captcha/anti-captcha-0.3.js.php?ver=576d026223582a390cd323bef4bad026'></script>
+<meta name="generator" content="WordPress 3.8.1" />
+<script type='text/javascript' src='https://lizards.opensuse.org/wp-content/plugins/anti-captcha/anti-captcha-0.3.js.php?ver=df7e148cabfd9b608090fa5ee3348bfe'></script>
 <style type="text/css">
 .avatar {vertical-align:middle}
 .credit {font-size: 50%;}
@@ -123,6 +123,134 @@
         <div class="clearfix"></div>
       </div>
 
+            <div class="post-10570 post type-post status-publish format-standard hentry category-boosters category-build-service category-infrastructure-2">
+          <h3 id="post-10570"><a href="https://lizards.opensuse.org/2014/02/19/first-fruits-update-on-openqa-and-staging-work/" rel="bookmark" title="Permanent Link to First fruits &#8211; update on openQA and Staging work">First fruits &#8211; update on openQA and Staging work</a></h3>
+          <small>February 19th, 2014 by <a href="https://lizards.opensuse.org/author/calumma/" title="Posts by calumma" rel="author">calumma</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2014/02/19/first-fruits-update-on-openqa-and-staging-work/"
+                data-text="openSUSE News: First fruits &#8211; update on openQA and Staging work"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2014%2F02%2F19%2Ffirst-fruits-update-on-openqa-and-staging-work%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>In our <a href="//lizards.opensuse.org/2014/02/07/some-news-from-the-trenches/">previous summary</a>, we talked about some basic research and some ground work to build on. This time we have some first exciting results!</p>
+<h3>openQA</h3>
+<p>Last week we rearranged the repository a little bit, creating a <a href="https://github.com/openSUSE-Team/openQA/tree/devel">new branch called &quot;devel&quot;</a> where all the exciting (and not so exciting) changes are taking place. Our little Factory <img src="https://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif" alt=";-)" class="wp-smiley" /> </p>
+<p>The main difference between this branch as master is that, as you could read in the previous blog, the devel branch is openQA build on <a href="http://mojolicio.us">Mojolicious</a>, a nice web development framework. And having a proper web framework is starting to show its benefits: we have openID login available! Unfortunately the current openSUSE openID provider is a little bit weird, so it doesn&#8217;t play well with our tool yet, but some others are working and openSUSE accounts will be the next step. Having working user accounts is necessary to be able to start defining permissions and to make openQA truly multiuser. And to be able to deploy the new version on a public server!</p>
+<p>The other main focus of this week has been internal polishing. We have revamped the database layout and changed the way in which the different openQA components communicate with each other. The openQA functionality is spread out over several parts: the workers are responsible of actually executing the tests in virtual machines reporting the result after every execution; some client utilities are used to load new ISO images and similar tasks and, finally, we have the one openQA Server to rule them all. Until now, the communication between the server and the other components was done using <a href="http://json-rpc.org/">JSON-RPC</a> (a lightweight alternative to XML-RPC). We have dropped JSON-RPC in favor of a <a href="http://en.wikipedia.org/wiki/Representational_state_transfer">REST-like</a> API with just JSON over plain HTTP. This change allowed us to implement exactly the same functionality in a way that is simpler, perfectly supported by any web framework, natively spoken by browsers and easier to authenticate (using, for example, plain HTTP authentication or openID). This is also the first step to future integration with other services (think OBS, as the ultimate goal is to use openQA to test staging projects).</p>
+<p>But, who tests the tester? openQA is growing and changing quite fast so we have continued with the task of creating a good testing infrastructure to tests openQA itself to make sure that all our changes do not result in breakage. We only have a few tests right now, but we now have a solid foundation to write more and more tests.</p>
+<h3>Staging and package manipulation</h3>
+<p>In the last blog post we told you we were investigating a code test suite to test the abilities of a osc plugin we are writing. osc is the commandline tool for handling the Open Build Service, and this plugin is meant to help with the administration of staging projects. We&#8217;ve been thinking about how to move forward with the testing part as we want to make sure the functionality works as advertised. More important, we write tests to make sure that our additions and changes do not break existing functionality. We have started merging functionality from various scripts handling staging thingies and rings we had into this plugin. This is partially done so we can do basic staging project tasks! We can take a request (be it submit or delete) and put it to test in a staging project. We can also move packages between staging projects and we have a simple YAML in project descriptions to indicate what packages and what requests are there.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2014/02/openqa-staging.png"><img src="//lizards.opensuse.org/wp-content/uploads/2014/02/openqa-staging-300x102.png" alt="We're all green!" width="250" height="85" class="alignright size-medium wp-image-10576" /></a><br />
+Coolo already started using the plugin for some tasks, so you can <a href="https://build.opensuse.org/project/subprojects/openSUSE:Factory:Staging">see pretty titles</a> and <a href="https://build.opensuse.org/project/show/openSUSE:Factory:Staging:C">metadata</a> in staging projects descriptions. Not impressive enough? Let me provide you a good headline:</p>
+<p><b>Thanks to staging projects, no single regression have been introduced this year in the core of Factory</b></p>
+<p>You can enjoy a more detailed description in <a href="http://lists.opensuse.org/opensuse-factory/2014-02/msg00252.html">this announcement</a> written by coolo to the Factory mailing list and have some visual joy in the included screenshot (genuine pr0n for QA engineers).</p>
+<p>Last but not least, we also did some cleanup of the sources in the repo and of course we added more tests (as functionality grows). And there has been work on other parts of the plugin, like taking rings into account.</p>
+<h3>Result</h3>
+<p>We already have some useful functionality which we are going to expand and build on. Not that much to show yet, but we are progressing towards our goal. You can follow our progress either in the way of tasks (<a href="https://progress.opensuse.org/projects/openqav3">openQA</a> and <a href="https://progress.opensuse.org/projects/stagings">staging projects</a>) or just follow our commit history on github (again for both <a href="https://github.com/openSUSE-Team/openQA/tree/devel">openQA</a> and <a href="https://github.com/openSUSE/osc-plugin-factory">staging plugin</a>).</p>
+<p>We are very much looking forward to feedback and thoughts &#8211; these changes aim to make Factory development easier and thus we need to hear from all you!</p>
+          </div>
+
+          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/boosters/" title="View all posts in Boosters" rel="category tag">Boosters</a>, <a href="https://lizards.opensuse.org/category/build-service/" title="View all posts in Build Service" rel="category tag">Build Service</a>, <a href="https://lizards.opensuse.org/category/infrastructure-2/" title="View all posts in Infrastructure" rel="category tag">Infrastructure</a> |   <a href="https://lizards.opensuse.org/2014/02/19/first-fruits-update-on-openqa-and-staging-work/#respond" title="Comment on First fruits &#8211; update on openQA and Staging work">No Comments &#187;</a></p>
+
+        </div>
+
+            <div class="post-10518 post type-post status-publish format-standard hentry category-boosters category-build-service category-distribution category-factory category-programming">
+          <h3 id="post-10518"><a href="https://lizards.opensuse.org/2014/02/07/some-news-from-the-trenches/" rel="bookmark" title="Permanent Link to Some news from the trenches">Some news from the trenches</a></h3>
+          <small>February 7th, 2014 by <a href="https://lizards.opensuse.org/author/calumma/" title="Posts by calumma" rel="author">calumma</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2014/02/07/some-news-from-the-trenches/"
+                data-text="openSUSE News: Some news from the trenches"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2014%2F02%2F07%2Fsome-news-from-the-trenches%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>As you might know, we are focusing our development efforts in two fronts, namely <a href="http://lists.opensuse.org/opensuse-factory/2014-01/msg00317.html">openQA</a> and <a href="http://lists.opensuse.org/opensuse-factory/2014-01/msg00278.html">staging projects</a>. As we just started we don&#8217;t have fireworks for you (yet) but we did some solid ground work that we are going to build upon.</p>
+<h3>Working on openQA</h3>
+<p>We are organizing our daily job in openQA into highly focused sprints of two weeks. The focus of the first sprint was clear: cleanup the current codebase to empower future development and lower the entry barrier for casual contributors, which can be translated as &#8220;cleaning our own mess&#8221;. We created <a href="https://progress.opensuse.org/versions/67">some tasks in progress</a>, grouped in a version with a surprising and catchy name: Sprint 01.</p>
+<h4>Got my mojo workin&#8217;</h4>
+<p>Up to now, openQA web interface was written using just a bunch of custom CGI scripts and some configuration directives in Apache. We missed a convenient way to access to all the bell and whistles of modern web development and some tools to make the code more readable, reliable and easier to extend and test. In short, we missed a proper web development framework. We evaluated the most popular Perl-based alternatives and we finally decided to go for <a href="http://mojolicio.us/">Mojolicious</a> for several reasons:</p>
+<ul>
+<li>It provides all the functionality we demand from a web framework while being lightweight and unbloated.</li>
+<li>It&#8217;s stated as a &#8220;real time framework&#8221; which, buzzwords apart, means that is designed from the ground to fully support Comet (long-polling), EventSource and WebSockets. Very handy technologies for implementing some features in openQA.</li>
+<li>It really &#8220;feels&#8221; very close to <a href="http://www.sinatrarb.com/">Sinatra</a>, which makes Ruby on Rails     developers feel like at home. And we have quite some Rails developers hanging around, don&#8217;t we? Just think about OBS, software.o.o, WebYast, progress.o.o, OSEM, the TSP app&#8230;
+<li>Mojolicious motto is &#8220;web development can be fun again&#8221;. Who could resist to that?</li>
+</ul>
+<p>We&#8217;ve now reached the end of the sprint and we already have something that looks exactly the same than what we had before, but using Mojolicious internally. We are very happy with the framework and we are pretty confident that future development of openQA will be easier and faster than ever. OpenQA has mojo!</p>
+<h4>The database layer in openQA</h4>
+<p>Another part that we worked on during first sprint was the database layer. The user interface part of openQA use a SQLite database to store the jobs and workers registered in the system. The connection between the code and the database was expressed directly in SQL using a simple API.</p>
+<p>We have replaced this layer with another equivalent that uses an ORM (Object-relational mapping) in Perl (<a href="http://www.dbix-class.org/">DBIx::Class</a>). Every data model in openQA is now a true object that can be created, copied and moved between the different layers of the application. Quite handy.</p>
+<p>To make sure we don&#8217;t forget anything, we created a bunch of tests covering the whole functionality of the original code, running this test suite after each step of the migration. In this way we have achieved two goals: we now have a simple way to share and update information through the whole system and we can migrate very easily to a different database engine (something that we plan to do in the future).</p>
+<h3>What to do with staging</h3>
+<p>Over the time, coolo had accumulated quite some scripts that helped him with Factory. Most of them are actually related to something we are doing right now: the staging projects. So in the end we basically migrated all relevant ones to <a href="https://github.com/openSUSE/osc-plugin-factory">github</a> and one by one we are merging their functionality to staging plugin. We also experimented with test frameworks that we could use to test the plugin itself, selected few and we even have a first test! The final plan is to have the whole plugin functionality covered with a proper test suite, so we will know when something breaks. Currently, there is a lot of mess in our repo and the plugin itself need big cleanup, but we are working on it.</p>
+<h3>Contributions are welcome</h3>
+<p>If you want to help but wonder where to start, we identified tasks that are good to dive into the topic and named them &#8220;easy hacks&#8221;: mostly self contained tasks we expect to have little effort but we lack the time to do right now. Just jump over the list for <a href="https://progress.opensuse.org/versions/73">openQA</a> or <a href="https://progress.opensuse.org/versions/69">staging projects</a>.</p>
+<p>For grabbing the code related to staging project, you only need to clone the <a href="https://github.com/openSUSE/osc-plugin-factory">already mentioned repository</a>. The openQA code is spread in several repositories (<a href="https://github.com/openSUSE-Team/os-autoinst">one</a>, <a href="https://github.com/openSUSE-Team/openQA">two</a>, <a href="https://github.com/openSUSE-Team/os-autoinst-distri-opensuse">three</a> and <a href="https://github.com/openSUSE-Team/os-autoinst-needles-opensuse">four</a>), but setting up your own instance to play and hack is a piece of cake using <a href="http://software.opensuse.org/package/openQA">the packages</a> available in OBS (built automatically for every git push).</p>
+<p>If you simply want to see what we are doing in more detail, take a look at progress.o.o, we have both <a href="https://progress.opensuse.org/projects/openqav3">openQA</a> and <a href="https://progress.opensuse.org/projects/stagings">Staging projects</a> there.</p>
+<p>We are having a lot of fun, and we encourage you to join us!</p>
+          </div>
+
+          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/boosters/" title="View all posts in Boosters" rel="category tag">Boosters</a>, <a href="https://lizards.opensuse.org/category/build-service/" title="View all posts in Build Service" rel="category tag">Build Service</a>, <a href="https://lizards.opensuse.org/category/distribution/" title="View all posts in Distribution" rel="category tag">Distribution</a>, <a href="https://lizards.opensuse.org/category/distribution/factory/" title="View all posts in Factory" rel="category tag">Factory</a>, <a href="https://lizards.opensuse.org/category/programming/" title="View all posts in Programming" rel="category tag">Programming</a> |   <a href="https://lizards.opensuse.org/2014/02/07/some-news-from-the-trenches/#respond" title="Comment on Some news from the trenches">No Comments &#187;</a></p>
+
+        </div>
+
+            <div class="post-10484 post type-post status-publish format-standard hentry category-build-service category-distribution category-packaging category-quality-assurance">
+          <h3 id="post-10484"><a href="https://lizards.opensuse.org/2014/01/31/spec-cleaner-hide-all-your-precious-cruft/" rel="bookmark" title="Permanent Link to spec-cleaner: hide all your precious cruft!">spec-cleaner: hide all your precious cruft!</a></h3>
+          <small>January 31st, 2014 by <a href="https://lizards.opensuse.org/author/calumma/" title="Posts by calumma" rel="author">calumma</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2014/01/31/spec-cleaner-hide-all-your-precious-cruft/"
+                data-text="openSUSE News: spec-cleaner: hide all your precious cruft!"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2014%2F01%2F31%2Fspec-cleaner-hide-all-your-precious-cruft%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>As we stated in our communication over the time, our team&#8217;s main focus for foreseeable future is Factory and how to manage all those contributions. Goal is <strong>not</strong> to increase the number of SRs that is coming to Factory, but to make sure we can process more and to make sure we see even well hidden consequences to make sure that Factory is &#8220;stable&#8221; and &#8220;usable&#8221;.</p>
+<p><img src="//lizards.opensuse.org/wp-content/uploads/2014/01/sprayg-263x300.jpg" alt="sprayg" width="263" height="300" class="alignright size-medium wp-image-10485" />
+<p>Not really part of our current sprints, but something that will hopefully help us is <i>spec-cleaner</i> that Tomáš Chvátal and Tomáš Čech were working on lately during their free time/hackweek. What is it trying to address? Currently, there are some packaging guidelines, but when you write a spec file for your software, you still have plenty of choices. How do you order all the information in the header? Do you use curly brackets around macros? Do you use macros? Which ones do you use and which not? Do you use binaries in dependencies? Package config? Perl symbols? Package names? There is <i>format_spec_file</i> obs service that tries to unify a little bit the coding style but leaves quite some of the stuff up to you. Not necessarily a bad thing, but if you have to compare changes and review packages that are using completely different coding styles the process becomes harder and slower.</p>
+<p><i>spec-cleaner</i> is <i>format_spec_file</i> taken to another level. It tries to unify coding style as much as it can. It uses consistent conventions, makes most of the decisions mentioned previously for you and if you already decided for one way in the past, it will try to convert your spec file to follow the conventions that it specifies. It&#8217;s not enforcing anything, it&#8217;s standalone script and therefore you don&#8217;t have to be worried that you spec file will be out of your control. You can run it, verify the result (actually, you should verify the results as there might still be some bugs) and commit it to OBS. If we all do it, our packages will all look more alike and it will be easier to read and review them.</p>
+<p>How to try it? How to help? Well, code is on <a href="https://github.com/openSUSE/spec-cleaner">GitHub</a> and packages are in <a href="https://build.opensuse.org/package/show/openSUSE:Tools/spec-cleaner">OBS</a>. You may have a version of it in your distribution, but that one is heavily outdated (even the 13.1 version), so add openSUSE:Tools repo and try the version from there.</p>
+<pre>zypper ar -f obs://openSUSE:Tools/openSUSE_13.1 openSUSE-Tools
+zypper in spec-cleaner</pre>
+<p>You can then go to some local checkout and try what changes does it propose for your spec file. Easiest way is to just let it do stuff by calling it and taking a look at changes afterwards.</p>
+<pre>spec-cleaner -p -i *.spec
+osc diff</pre>
+<p>If it works, great, we will have more unified spec files. If it doesn&#8217;t, file a  <a href="https://github.com/openSUSE/spec-cleaner/issues">bug</a> <img src="https://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif" alt=";-)" class="wp-smiley" /> </p>
+          </div>
+
+          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/build-service/" title="View all posts in Build Service" rel="category tag">Build Service</a>, <a href="https://lizards.opensuse.org/category/distribution/" title="View all posts in Distribution" rel="category tag">Distribution</a>, <a href="https://lizards.opensuse.org/category/packaging/" title="View all posts in Packaging" rel="category tag">Packaging</a>, <a href="https://lizards.opensuse.org/category/quality-assurance/" title="View all posts in Quality Assurance" rel="category tag">Quality Assurance</a> |   <a href="https://lizards.opensuse.org/2014/01/31/spec-cleaner-hide-all-your-precious-cruft/#respond" title="Comment on spec-cleaner: hide all your precious cruft!">No Comments &#187;</a></p>
+
+        </div>
+
             <div class="post-9913 post type-post status-publish format-standard hentry category-build-service category-mono category-packaging tag-microsoft tag-mono tag-pipelight tag-silverlight tag-wine">
           <h3 id="post-9913"><a href="https://lizards.opensuse.org/2013/09/13/magic-it-is-now-possible-to-use-ms-silverlight-based-website-via-pipelight/" rel="bookmark" title="Permanent Link to Magic: It is now possible to use MS Silverlight based websites via pipelight">Magic: It is now possible to use MS Silverlight based websites via pipelight</a></h3>
           <small>September 13th, 2013 by <a href="https://lizards.opensuse.org/author/rbos/" title="Posts by Richard Bos" rel="author">Richard Bos</a> </small>
@@ -143,7 +271,7 @@
           </div>
 
           <div class="entry">
-            <p>It has long been a challenge to use MS Silverlight based websites on linux systems.  Especially in The Netherlands this is a big hurdle as many (&gt;80%) of the secondary school websites that pupils must use to communicate with their school (for homework, marks, etc) are equipped with Silverlight.  Yes, really&#8230; <img src='https://lizards.opensuse.org/wp-includes/images/smilies/icon_sad.gif' alt=':(' class='wp-smiley' /> </p>
+            <p>It has long been a challenge to use MS Silverlight based websites on linux systems.  Especially in The Netherlands this is a big hurdle as many (&gt;80%) of the secondary school websites that pupils must use to communicate with their school (for homework, marks, etc) are equipped with Silverlight.  Yes, really&#8230; <img src="https://lizards.opensuse.org/wp-includes/images/smilies/icon_sad.gif" alt=":(" class="wp-smiley" /> </p>
 <p>Fortunately at the end of August 2013 I discovered <a href="http://fds-team.de/cms/articles/2013-08/pipelight-using-silverlight-in-linux-browsers.html#section_1_4" title="An incredible solution ">pipelight</a>, a very smart idea to use MS Silverlight based website natively on Linux.  The problem was however to find a working pipelight package for openSUSE.  As there was none, I decided to build one myself using the incredible <a href="https://build.opensuse.org/">openSUSE Build Service</a>.  It was quite a quest to obtain a working package, but due to very good cooperation with the pipelight developers, I&#8217;m now able to present a working pipelight package to the openSUSE community.  Oh, and while working on the package I reported a bug via the bug report system, that was solved and published via an rpm package within 1 hour after reporting it (that was during out of office hours).  Indeed within 1 hour after reporting the problem it was; accepted, investigated, analysed, fixed, tested, handed over to me, packaged, tested and published!  The amazing world of Open Source Software!</p>
 <p>Pipelight works okay for the following sites (<a href="http://fds-team.de/cms/articles/2013-08/pipelight-using-silverlight-in-linux-browsers.html#section_5">among many others</a>): arte, LOVEFiLM, Netflix, Magister based NL schoolwebsites, WATCHEVER, etc.  View the complete list on the <a href="http://fds-team.de/cms/articles/2013-08/pipelight-using-silverlight-in-linux-browsers.html">pipelight website</a>.</p>
 <p>The <a href="http://fds-team.de/cms/articles/2013-08/pipelight-using-silverlight-in-linux-browsers.html#section_1_4">installation instructions</a> are on the pipelight website.  Be aware though, that pipelight requires the wine package that is provided via the home:rbos:pipelight repository.  With any other wine package, pipelight will (very likely) not work.  If you rely on your currently installed wine package and installed MS applications and are unsure that the wine package provided via the home:rbos:pipelight repository will leave your currently in use MS applications untouched: don&#8217;t install pipelight (or only after making very good backups).  You can always start by installing pipelight in a virtual machine.</p>
@@ -230,7 +358,7 @@
           </div>
 
           <div class="entry">
-            <p>Anyone using the Open Build Service in the last couple of weeks will notice how hopelessly overloaded it is.  I blame the ARM lads <img src='https://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';)' class='wp-smiley' /> .  But there is something that we should all do as responsible community members: delete or disable your old stuff.</p>
+            <p>Anyone using the Open Build Service in the last couple of weeks will notice how hopelessly overloaded it is.  I blame the ARM lads ;).  But there is something that we should all do as responsible community members: delete or disable your old stuff.</p>
 <p>I&#8217;ve just spent 15 minutes going through my Open Build Service <a href="https://build.opensuse.org/project/show?project=home%3Awstephenson">home:wstephenson</a> project, deleting unfinished works in progress, finished branches that were never deleted, inherited repositories in branched projects that aren&#8217;t relevant to the tweaks I&#8217;m making, and I think I&#8217;ve saved about 100 repositories for the OBS scheduler to recalculate and look at publishing.</p>
 <p>Time for you to spring clean too?</p>
           </div>
@@ -335,175 +463,6 @@ commands.</p>
 
         </div>
 
-            <div class="post-9029 post type-post status-publish format-standard hentry category-build-service category-derivative category-desktop category-education category-network category-server category-systems-management">
-          <h3 id="post-9029"><a href="https://lizards.opensuse.org/2012/09/27/run-x2go-thin-client-using-kiwi-ltsp/" rel="bookmark" title="Permanent Link to Run X2go thin-client using kiwi-ltsp">Run X2go thin-client using kiwi-ltsp</a></h3>
-          <small>September 27th, 2012 by <a href="https://lizards.opensuse.org/author/cyberorg/" title="Posts by Jigish Gohil" rel="author">Jigish Gohil</a> </small>
-
-          <div class="share-links">
-	    <div class="share-link">
-              <a href="http://twitter.com/share" class="twitter-share-button"
-                data-url="https://lizards.opensuse.org/2012/09/27/run-x2go-thin-client-using-kiwi-ltsp/"
-                data-text="openSUSE News: Run X2go thin-client using kiwi-ltsp"
-                data-count="horizontal"
-                data-hashtags="openSUSE"
-                data-via="openSUSE">Tweet</a>
-            </div>
-            <div class="share-link">
-              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2012%2F09%2F27%2Frun-x2go-thin-client-using-kiwi-ltsp%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
-            </div>
-            <div class="clear"></div>
-          </div>
-
-          <div class="entry">
-            <p>Recently, came across <a title="x2go home" href="http://x2go.org">x2go</a> packages maintained by<a title="People of openSUSE" href="http://news.opensuse.org/2009/04/23/people-of-opensuse-jan-engelhardt/"> Jan Engelhardt</a> for openSUSE and other distributions on <a title="X11:RemoteDesktop:x2go" href="https://build.opensuse.org/project/show?project=X11:RemoteDesktop:x2go">open build service</a>. As <a title="Li-f-e" href="http://en.opensuse.org/openSUSE:Education-Li-f-e">openSUSE Education Li-f-e</a> has great <a title="LTSP home" href="http://ltsp.org">LTSP</a> integration thanks to<a title="KIWI-LTSP on openSUSE wiki" href="http://en.opensuse.org/Portal:KIWI-LTSP"> KIWI-LTSP</a>, I decided to check out how x2go can fit in with this existing thin-client computing solution.</p>
-<p>&#8220;x2go is an open (<acronym title="GNU General Public License">GPL</acronym>/AGPL) source “server based computing” project. Combining the advantages of existing systems it features ease of use, performance and scalability. x2go provides you with access to your desktop &#8211; from within your own network and via the internet. x2go is not limited to particular hardware, it supports a variety of devices and architectures.&#8221; -from their website.</p>
-<p>Some of the features/benefits of x2go that are not available on LTSP are:</p>
-<p>* Remote login from within local lan and internet from any OS<br />
-* Session persistence, you can disconnect session from one client and continue where you left off from any other client<br />
-* Low bandwidth usage<br />
-* Session sharing with other users<br />
- <a href="https://lizards.opensuse.org/2012/09/27/run-x2go-thin-client-using-kiwi-ltsp/#more-9029" class="more-link">(more&hellip;)</a></p>
-          </div>
-
-          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/build-service/" title="View all posts in Build Service" rel="category tag">Build Service</a>, <a href="https://lizards.opensuse.org/category/distribution/derivative/" title="View all posts in Derivative" rel="category tag">Derivative</a>, <a href="https://lizards.opensuse.org/category/desktop/" title="View all posts in Desktop" rel="category tag">Desktop</a>, <a href="https://lizards.opensuse.org/category/education/" title="View all posts in Education" rel="category tag">Education</a>, <a href="https://lizards.opensuse.org/category/base-system/network/" title="View all posts in Network" rel="category tag">Network</a>, <a href="https://lizards.opensuse.org/category/server/" title="View all posts in Server" rel="category tag">Server</a>, <a href="https://lizards.opensuse.org/category/systems-management/" title="View all posts in Systems Management" rel="category tag">Systems Management</a> |   <span>Comments Off</span></p>
-
-        </div>
-
-            <div class="post-8943 post type-post status-publish format-standard hentry category-build-service category-gsoc-2">
-          <h3 id="post-8943"><a href="https://lizards.opensuse.org/2012/08/16/osc2-syntax-update/" rel="bookmark" title="Permanent Link to osc2: syntax update">osc2: syntax update</a></h3>
-          <small>August 16th, 2012 by <a href="https://lizards.opensuse.org/author/marcus_h/" title="Posts by Marcus Hüwe" rel="author">Marcus Hüwe</a> </small>
-
-          <div class="share-links">
-	    <div class="share-link">
-              <a href="http://twitter.com/share" class="twitter-share-button"
-                data-url="https://lizards.opensuse.org/2012/08/16/osc2-syntax-update/"
-                data-text="openSUSE News: osc2: syntax update"
-                data-count="horizontal"
-                data-hashtags="openSUSE"
-                data-via="openSUSE">Tweet</a>
-            </div>
-            <div class="share-link">
-              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2012%2F08%2F16%2Fosc2-syntax-update%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
-            </div>
-            <div class="clear"></div>
-          </div>
-
-          <div class="entry">
-            <p>Hi,</p>
-<p>as I already I wrote in an earlier post the last week I worked on implementing osc2&#8242;s &#8220;request&#8221;<br />
-command. In order to create a new submit request the user has to run<br />
-<code>osc request create --submit api://src_project/src_package api://tgt_project</code><br />
-What&#8217;s still needed is a way to specify a revision of the src_package. It isn&#8217;t possible<br />
-to introduce a &#8220;&#8211;revision &#8221; option because it&#8217;s possible to specify multiple submit<br />
-actions for a request (so we can&#8217;t distinguish to which &#8211;submit action a revision<br />
-belongs to).<br />
-Finally I implemented darix&#8217; cool idea: simply use a svn-like syntax:<br />
-<code>osc request create --submit api://src_project/src_package@rev api://tgt_project</code></p>
-<p>Marcus</p>
-          </div>
-
-          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/build-service/" title="View all posts in Build Service" rel="category tag">Build Service</a>, <a href="https://lizards.opensuse.org/category/gsoc-2/" title="View all posts in GSOC" rel="category tag">GSOC</a> |   <span>Comments Off</span></p>
-
-        </div>
-
-            <div class="post-8936 post type-post status-publish format-standard hentry category-build-service category-gsoc-2">
-          <h3 id="post-8936"><a href="https://lizards.opensuse.org/2012/08/15/gsoc-osc2-client-summary-of-week-12/" rel="bookmark" title="Permanent Link to [gsoc] osc2 client &#8211; summary of week 12">[gsoc] osc2 client &#8211; summary of week 12</a></h3>
-          <small>August 15th, 2012 by <a href="https://lizards.opensuse.org/author/marcus_h/" title="Posts by Marcus Hüwe" rel="author">Marcus Hüwe</a> </small>
-
-          <div class="share-links">
-	    <div class="share-link">
-              <a href="http://twitter.com/share" class="twitter-share-button"
-                data-url="https://lizards.opensuse.org/2012/08/15/gsoc-osc2-client-summary-of-week-12/"
-                data-text="openSUSE News: [gsoc] osc2 client &#8211; summary of week 12"
-                data-count="horizontal"
-                data-hashtags="openSUSE"
-                data-via="openSUSE">Tweet</a>
-            </div>
-            <div class="share-link">
-              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2012%2F08%2F15%2Fgsoc-osc2-client-summary-of-week-12%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
-            </div>
-            <div class="clear"></div>
-          </div>
-
-          <div class="entry">
-            <p>Hi,</p>
-<p>here’s a small summary of the 12th (coding) week. The last week I continued<br />
-the work on the new user interface. As a result the &#8220;request&#8221; command is more<br />
-or less implemented. Yesterday I pushed the current code and it&#8217;s also possible<br />
-to play around with it:</p>
-<ul>
-<li>checkout the code <a href="http://https://github.com/openSUSE/osc2">[1]</a></li>
-<li>cd osc2/osc/cli</li>
-<li>export PYTHONPATH=/path/to/osc2</li>
-<li>python cli.py -h (for more information)</li>
-</ul>
-<p>Example:<br />
-In order to list a request it is sufficient to run<br />
-&#8220;python cli.py request api://your_project&#8221; (Note: all https requests are<br />
-_insecure_ &#8211; so far the certificate etc. is not checked).</p>
-<p>Some implementation details:<br />
-In my last mail/post I described how a new (sub)command can be specified<br />
-so I&#8217;ll leave out the details here.<br />
-In the following I&#8217;ll shortly explain how the arguments specified by the<br />
-user at the commandline are passed to a function (which does the actual<br />
-work &#8211; like listing the requests).</p>
-<pre><code>
-class RequestList(CommandDescription, Request):
-    """
-    ...
-    """
-    cmd = 'list'
-    args = 'api://project?/package?'
-    opt_user = Option('U', 'user', 'list only requests for USER')
-    func = call(request.list)
-</code></pre>
-<p>As we can see the project and package parameters are optional. After<br />
-the parsing process a so called &#8220;info&#8221; object is returned which encapsulates<br />
-the specified arguments. Assume the user runs &#8220;request list api://test_prj&#8221;<br />
-then the info object has the following attributes:</p>
-<pre><code>
-    info.apiurl = the default apiurl
-    info.project = 'test_prj'
-    info.package = None
-</code></pre>
-<p>The question is how can we pass this data to the request.list function?<br />
-A simple (and naive) approach would be to simply pass the &#8220;info&#8221; object<br />
-to the request.list function that is &#8220;list&#8221; has the following signature<br />
-&#8220;def list(info)&#8221;. As a consequence inside the method we always have to<br />
-use &#8220;info.project&#8221;, &#8220;info.package&#8221; etc. which is a bit awkward &#8211; at least<br />
-for parameters which are quite frequently used in the method definition.</p>
-<p>So it would be nice if there&#8217;s a way to pass frequently used parameters<br />
-directly to the method (that is they&#8217;re declared as formal parameters<br />
-in the method definition) and infrequently used parameters can still be<br />
-accessed via the info object. Exactly like this it is currently<br />
-implementend in osc2.</p>
-<p>So the following signatures would be correct for our example:</p>
-<pre><code>
-    def list(project, package, info)
-    def list(project, package, user)
-    def list(project, package, user, info)
-    def list(project, info)
-    def list(info, project)
-    def list(project)  # using the info object is not mandatory
-    def list()  # quite useless...
-    ...
-</code></pre>
-<p>Invalid signatures:</p>
-<pre><code>
-    def list(prj, pkg, info)
-    def list(foo, info)
-    ...
-</code></pre>
-<p>So it is up to the developer how to define the signature of the<br />
-request.list function &#8211; it is not completely dictated by osc:)</p>
-<p>Marcus</p>
-<p>[1] <a href="http://https://github.com/openSUSE/osc2">https://github.com/openSUSE/osc2</a></p>
-          </div>
-
-          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/build-service/" title="View all posts in Build Service" rel="category tag">Build Service</a>, <a href="https://lizards.opensuse.org/category/gsoc-2/" title="View all posts in GSOC" rel="category tag">GSOC</a> |   <span>Comments Off</span></p>
-
-        </div>
-
       
       <div class="navigation page-navigation">
         <div class="alignleft"><a href="https://lizards.opensuse.org/category/build-service/page/2/" >&laquo; Older Entries</a></div>
@@ -516,51 +475,51 @@ request.list function &#8211; it is not completely dictated by osc:)</p>
   <!-- <div class="box box-shadow"> -->
     <ul>
       <li id="text-3" class="widget box box-shadow widget_text"><h3 class="box-subheader">Advertisement</h3>			<div class="textwidget"><center><a href="http://counter.opensuse.org/link/" alt="counter" title="Get it!"><img src="//counter.opensuse.org/small"></a></center></div>
-		</li><li id="tag_cloud-3" class="widget box box-shadow widget_tag_cloud"><h3 class="box-subheader">Tags</h3><div class="tagcloud"><a href='https://lizards.opensuse.org/tag/11-3/' class='tag-link-380' title='15 topics' style='font-size: 13.821782178218pt;'>11.3</a>
-<a href='https://lizards.opensuse.org/tag/11-4/' class='tag-link-414' title='34 topics' style='font-size: 18.534653465347pt;'>11.4</a>
-<a href='https://lizards.opensuse.org/tag/12-1/' class='tag-link-482' title='21 topics' style='font-size: 15.762376237624pt;'>12.1</a>
-<a href='https://lizards.opensuse.org/tag/12-2/' class='tag-link-549' title='12 topics' style='font-size: 12.574257425743pt;'>12.2</a>
-<a href='https://lizards.opensuse.org/tag/12-3/' class='tag-link-559' title='8 topics' style='font-size: 10.356435643564pt;'>12.3</a>
-<a href='https://lizards.opensuse.org/tag/amd/' class='tag-link-434' title='29 topics' style='font-size: 17.70297029703pt;'>amd</a>
-<a href='https://lizards.opensuse.org/tag/arm/' class='tag-link-279' title='7 topics' style='font-size: 9.6633663366337pt;'>ARM</a>
-<a href='https://lizards.opensuse.org/tag/ati/' class='tag-link-384' title='28 topics' style='font-size: 17.425742574257pt;'>ATI</a>
-<a href='https://lizards.opensuse.org/tag/beta/' class='tag-link-343' title='6 topics' style='font-size: 8.970297029703pt;'>Beta</a>
-<a href='https://lizards.opensuse.org/tag/build-service/' class='tag-link-16' title='13 topics' style='font-size: 13.128712871287pt;'>Build Service</a>
-<a href='https://lizards.opensuse.org/tag/buildservice/' class='tag-link-45' title='6 topics' style='font-size: 8.970297029703pt;'>buildservice</a>
-<a href='https://lizards.opensuse.org/tag/c-language/' class='tag-link-575' title='8 topics' style='font-size: 10.356435643564pt;'>C-Language</a>
-<a href='https://lizards.opensuse.org/tag/collaboration/' class='tag-link-59' title='7 topics' style='font-size: 9.6633663366337pt;'>Collaboration</a>
-<a href='https://lizards.opensuse.org/tag/community/' class='tag-link-173' title='24 topics' style='font-size: 16.594059405941pt;'>Community</a>
-<a href='https://lizards.opensuse.org/tag/conference/' class='tag-link-355' title='7 topics' style='font-size: 9.6633663366337pt;'>conference</a>
-<a href='https://lizards.opensuse.org/tag/education/' class='tag-link-214' title='15 topics' style='font-size: 13.821782178218pt;'>Education</a>
-<a href='https://lizards.opensuse.org/tag/event/' class='tag-link-37' title='7 topics' style='font-size: 9.6633663366337pt;'>event</a>
-<a href='https://lizards.opensuse.org/tag/events/' class='tag-link-21' title='7 topics' style='font-size: 9.6633663366337pt;'>Events</a>
-<a href='https://lizards.opensuse.org/tag/factory/' class='tag-link-288' title='12 topics' style='font-size: 12.574257425743pt;'>Factory</a>
-<a href='https://lizards.opensuse.org/tag/fglrx/' class='tag-link-385' title='28 topics' style='font-size: 17.425742574257pt;'>fglrx</a>
-<a href='https://lizards.opensuse.org/tag/fun/' class='tag-link-200' title='14 topics' style='font-size: 13.544554455446pt;'>fun</a>
-<a href='https://lizards.opensuse.org/tag/gnome/' class='tag-link-6' title='12 topics' style='font-size: 12.574257425743pt;'>GNOME</a>
-<a href='https://lizards.opensuse.org/tag/gsoc/' class='tag-link-261' title='11 topics' style='font-size: 12.158415841584pt;'>gsoc</a>
-<a href='https://lizards.opensuse.org/tag/hackweek/' class='tag-link-102' title='7 topics' style='font-size: 9.6633663366337pt;'>Hackweek</a>
-<a href='https://lizards.opensuse.org/tag/kde/' class='tag-link-5' title='21 topics' style='font-size: 15.762376237624pt;'>KDE</a>
+		</li><li id="tag_cloud-3" class="widget box box-shadow widget_tag_cloud"><h3 class="box-subheader">Tags</h3><div class="tagcloud"><a href='https://lizards.opensuse.org/tag/11-3/' class='tag-link-380' title='15 topics' style='font-size: 13.764705882353pt;'>11.3</a>
+<a href='https://lizards.opensuse.org/tag/11-4/' class='tag-link-414' title='37 topics' style='font-size: 18.980392156863pt;'>11.4</a>
+<a href='https://lizards.opensuse.org/tag/12-1/' class='tag-link-482' title='24 topics' style='font-size: 16.509803921569pt;'>12.1</a>
+<a href='https://lizards.opensuse.org/tag/12-2/' class='tag-link-549' title='15 topics' style='font-size: 13.764705882353pt;'>12.2</a>
+<a href='https://lizards.opensuse.org/tag/12-3/' class='tag-link-559' title='11 topics' style='font-size: 12.117647058824pt;'>12.3</a>
+<a href='https://lizards.opensuse.org/tag/13-1/' class='tag-link-570' title='7 topics' style='font-size: 9.6470588235294pt;'>13.1</a>
+<a href='https://lizards.opensuse.org/tag/amd/' class='tag-link-434' title='32 topics' style='font-size: 18.156862745098pt;'>amd</a>
+<a href='https://lizards.opensuse.org/tag/arm/' class='tag-link-279' title='7 topics' style='font-size: 9.6470588235294pt;'>ARM</a>
+<a href='https://lizards.opensuse.org/tag/ati/' class='tag-link-384' title='31 topics' style='font-size: 18.019607843137pt;'>ATI</a>
+<a href='https://lizards.opensuse.org/tag/beta/' class='tag-link-343' title='7 topics' style='font-size: 9.6470588235294pt;'>Beta</a>
+<a href='https://lizards.opensuse.org/tag/buildservice/' class='tag-link-45' title='6 topics' style='font-size: 8.9607843137255pt;'>buildservice</a>
+<a href='https://lizards.opensuse.org/tag/build-service/' class='tag-link-16' title='13 topics' style='font-size: 13.078431372549pt;'>Build Service</a>
+<a href='https://lizards.opensuse.org/tag/c-language/' class='tag-link-575' title='8 topics' style='font-size: 10.333333333333pt;'>C-Language</a>
+<a href='https://lizards.opensuse.org/tag/collaboration/' class='tag-link-59' title='7 topics' style='font-size: 9.6470588235294pt;'>Collaboration</a>
+<a href='https://lizards.opensuse.org/tag/community/' class='tag-link-173' title='24 topics' style='font-size: 16.509803921569pt;'>Community</a>
+<a href='https://lizards.opensuse.org/tag/conference/' class='tag-link-355' title='7 topics' style='font-size: 9.6470588235294pt;'>conference</a>
+<a href='https://lizards.opensuse.org/tag/education/' class='tag-link-214' title='15 topics' style='font-size: 13.764705882353pt;'>Education</a>
+<a href='https://lizards.opensuse.org/tag/event/' class='tag-link-37' title='7 topics' style='font-size: 9.6470588235294pt;'>event</a>
+<a href='https://lizards.opensuse.org/tag/events/' class='tag-link-21' title='7 topics' style='font-size: 9.6470588235294pt;'>Events</a>
+<a href='https://lizards.opensuse.org/tag/factory/' class='tag-link-288' title='12 topics' style='font-size: 12.529411764706pt;'>Factory</a>
+<a href='https://lizards.opensuse.org/tag/fglrx/' class='tag-link-385' title='31 topics' style='font-size: 18.019607843137pt;'>fglrx</a>
+<a href='https://lizards.opensuse.org/tag/fun/' class='tag-link-200' title='14 topics' style='font-size: 13.490196078431pt;'>fun</a>
+<a href='https://lizards.opensuse.org/tag/gnome/' class='tag-link-6' title='12 topics' style='font-size: 12.529411764706pt;'>GNOME</a>
+<a href='https://lizards.opensuse.org/tag/gsoc/' class='tag-link-261' title='11 topics' style='font-size: 12.117647058824pt;'>gsoc</a>
+<a href='https://lizards.opensuse.org/tag/hackweek/' class='tag-link-102' title='7 topics' style='font-size: 9.6470588235294pt;'>Hackweek</a>
+<a href='https://lizards.opensuse.org/tag/kde/' class='tag-link-5' title='21 topics' style='font-size: 15.686274509804pt;'>KDE</a>
 <a href='https://lizards.opensuse.org/tag/kde4/' class='tag-link-52' title='5 topics' style='font-size: 8pt;'>KDE4</a>
-<a href='https://lizards.opensuse.org/tag/kernel/' class='tag-link-14' title='28 topics' style='font-size: 17.425742574257pt;'>Kernel</a>
-<a href='https://lizards.opensuse.org/tag/kraft/' class='tag-link-247' title='8 topics' style='font-size: 10.356435643564pt;'>Kraft</a>
-<a href='https://lizards.opensuse.org/tag/linux/' class='tag-link-362' title='6 topics' style='font-size: 8.970297029703pt;'>Linux</a>
-<a href='https://lizards.opensuse.org/tag/lxde/' class='tag-link-287' title='11 topics' style='font-size: 12.158415841584pt;'>LXDE</a>
-<a href='https://lizards.opensuse.org/tag/marketing/' class='tag-link-26' title='5 topics' style='font-size: 8pt;'>Marketing</a>
-<a href='https://lizards.opensuse.org/tag/obs/' class='tag-link-218' title='6 topics' style='font-size: 8.970297029703pt;'>obs</a>
-<a href='https://lizards.opensuse.org/tag/open-source/' class='tag-link-350' title='6 topics' style='font-size: 8.970297029703pt;'>open source</a>
-<a href='https://lizards.opensuse.org/tag/opensuse/' class='tag-link-38' title='61 topics' style='font-size: 22pt;'>openSUSE</a>
-<a href='https://lizards.opensuse.org/tag/opensuse-id/' class='tag-link-50' title='6 topics' style='font-size: 8.970297029703pt;'>openSUSE-ID</a>
-<a href='https://lizards.opensuse.org/tag/opensuse-lxde/' class='tag-link-386' title='5 topics' style='font-size: 8pt;'>openSUSE-LXDE</a>
-<a href='https://lizards.opensuse.org/tag/opensuse-12-1/' class='tag-link-470' title='6 topics' style='font-size: 8.970297029703pt;'>openSUSE 12.1</a>
-<a href='https://lizards.opensuse.org/tag/package/' class='tag-link-58' title='7 topics' style='font-size: 9.6633663366337pt;'>Package</a>
-<a href='https://lizards.opensuse.org/tag/postgresql/' class='tag-link-367' title='7 topics' style='font-size: 9.6633663366337pt;'>PostgreSQL</a>
-<a href='https://lizards.opensuse.org/tag/python/' class='tag-link-67' title='6 topics' style='font-size: 8.970297029703pt;'>Python</a>
-<a href='https://lizards.opensuse.org/tag/rpm/' class='tag-link-269' title='6 topics' style='font-size: 8.970297029703pt;'>rpm</a>
+<a href='https://lizards.opensuse.org/tag/kernel/' class='tag-link-14' title='31 topics' style='font-size: 18.019607843137pt;'>Kernel</a>
+<a href='https://lizards.opensuse.org/tag/kraft/' class='tag-link-247' title='8 topics' style='font-size: 10.333333333333pt;'>Kraft</a>
+<a href='https://lizards.opensuse.org/tag/linux/' class='tag-link-362' title='6 topics' style='font-size: 8.9607843137255pt;'>Linux</a>
+<a href='https://lizards.opensuse.org/tag/lxde/' class='tag-link-287' title='11 topics' style='font-size: 12.117647058824pt;'>LXDE</a>
+<a href='https://lizards.opensuse.org/tag/marketing/' class='tag-link-26' title='6 topics' style='font-size: 8.9607843137255pt;'>Marketing</a>
+<a href='https://lizards.opensuse.org/tag/obs/' class='tag-link-218' title='7 topics' style='font-size: 9.6470588235294pt;'>obs</a>
+<a href='https://lizards.opensuse.org/tag/open-source/' class='tag-link-350' title='6 topics' style='font-size: 8.9607843137255pt;'>open source</a>
+<a href='https://lizards.opensuse.org/tag/opensuse/' class='tag-link-38' title='62 topics' style='font-size: 22pt;'>openSUSE</a>
+<a href='https://lizards.opensuse.org/tag/opensuse-id/' class='tag-link-50' title='6 topics' style='font-size: 8.9607843137255pt;'>openSUSE-ID</a>
+<a href='https://lizards.opensuse.org/tag/opensuse-12-1/' class='tag-link-470' title='6 topics' style='font-size: 8.9607843137255pt;'>openSUSE 12.1</a>
+<a href='https://lizards.opensuse.org/tag/package/' class='tag-link-58' title='7 topics' style='font-size: 9.6470588235294pt;'>Package</a>
+<a href='https://lizards.opensuse.org/tag/postgresql/' class='tag-link-367' title='7 topics' style='font-size: 9.6470588235294pt;'>PostgreSQL</a>
+<a href='https://lizards.opensuse.org/tag/python/' class='tag-link-67' title='6 topics' style='font-size: 8.9607843137255pt;'>Python</a>
+<a href='https://lizards.opensuse.org/tag/rpm/' class='tag-link-269' title='6 topics' style='font-size: 8.9607843137255pt;'>rpm</a>
 <a href='https://lizards.opensuse.org/tag/ruby/' class='tag-link-381' title='5 topics' style='font-size: 8pt;'>Ruby</a>
-<a href='https://lizards.opensuse.org/tag/xml/' class='tag-link-69' title='7 topics' style='font-size: 9.6633663366337pt;'>XML</a>
-<a href='https://lizards.opensuse.org/tag/xorg-2/' class='tag-link-444' title='19 topics' style='font-size: 15.207920792079pt;'>xorg</a>
-<a href='https://lizards.opensuse.org/tag/yast/' class='tag-link-11' title='12 topics' style='font-size: 12.574257425743pt;'>YaST</a></div>
+<a href='https://lizards.opensuse.org/tag/xml/' class='tag-link-69' title='7 topics' style='font-size: 9.6470588235294pt;'>XML</a>
+<a href='https://lizards.opensuse.org/tag/xorg-2/' class='tag-link-444' title='22 topics' style='font-size: 15.960784313725pt;'>xorg</a>
+<a href='https://lizards.opensuse.org/tag/yast/' class='tag-link-11' title='12 topics' style='font-size: 12.529411764706pt;'>YaST</a></div>
 </li>		<li id="authors-2" class="widget box box-shadow widget_authors">			<h3 class="box-subheader">Lizards</h3>			<ul><li><img alt='' src='https://secure.gravatar.com/avatar/35d487679042b24f99c321ae8e6f28b0?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/adriansuse/" title="Posts by Adrian Schröter">Adrian Schröter</a> (12)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/6b405d89e8a498ae6a52f60246bb1cb3?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/dj_ubun_1/" title="Posts by Agustin Chavarria">Agustin Chavarria</a> (6)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/7b57f7098bdcac987fbd479b48c600cd?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/cabelo/" title="Posts by Alessandro de Oliveira Faria">Alessandro de Oliveira Faria</a> (9)</li>
@@ -574,10 +533,10 @@ request.list function &#8211; it is not completely dictated by osc:)</p>
 <li><img alt='' src='https://secure.gravatar.com/avatar/0c18cf5651bb5ad3c8c6cd10467be536?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/funkypenguin/" title="Posts by Andrew Wafaa">Andrew Wafaa</a> (31)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/17c5d6b91957787db64c3d65c9a9b234?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/aschnell/" title="Posts by Arvin Schnell">Arvin Schnell</a> (9)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/33b7ed7d1a68409cffbb4fce216c410c?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/badshah400/" title="Posts by badshah400">Atri Bhattacharya</a> (3)</li>
-<li><img alt='' src='https://secure.gravatar.com/avatar/c57258b3faac137a43ddcc63deb22517?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/bmwiedemann/" title="Posts by bmwiedemann">Bernhard Wiedemann</a> (16)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/c57258b3faac137a43ddcc63deb22517?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/bmwiedemann/" title="Posts by bmwiedemann">Bernhard Wiedemann</a> (18)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/3081cb247a705dcb3c912cce12ccb986?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/kurniawan-007/" title="Posts by Bonnie Kurniawan">Bonnie Kurniawan</a> (1)</li>
-<li><img alt='' src='https://secure.gravatar.com/avatar/482b6c0369f4709de8faa6843cd6b347?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/bruno_friedmann/" title="Posts by Bruno Friedmann">Bruno Friedmann</a> (70)</li>
-<li><img alt='' src='https://secure.gravatar.com/avatar/83f40d98130b1fd3a741b9f01b2f76b1?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/calumma/" title="Posts by calumma">Calumma Brevicorne</a> (21)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/482b6c0369f4709de8faa6843cd6b347?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/bruno_friedmann/" title="Posts by Bruno Friedmann">Bruno Friedmann</a> (76)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/83f40d98130b1fd3a741b9f01b2f76b1?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/calumma/" title="Posts by calumma">Calumma Brevicorne</a> (28)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/5fb81daf243732ab579b45f3bb261041?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/caf4926/" title="Posts by Carl Fletcher">Carl Fletcher</a> (1)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/5f12ccab9a5217492279b93dc338f8a3?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/hobbsc/" title="Posts by Christopher Hobbs">Christopher Hobbs</a> (17)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/7a36aa34f42120643cfd761f32ddceca?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/babelworx/" title="Posts by Ciaran Farrell">Ciaran Farrell</a> (3)</li>
@@ -601,7 +560,7 @@ request.list function &#8211; it is not completely dictated by osc:)</p>
 <li><img alt='' src='https://secure.gravatar.com/avatar/9dbacbc8f5a66d9a6f99c828312bf910?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/helcaraxe/" title="Posts by Jan-Christoph Bornschlegel">Jan-Christoph Bornschlegel</a> (3)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/a73d94bc71ab9211ed8a31e3ede4fbfe?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/dl9pf/" title="Posts by Jan-Simon Möller">Jan-Simon Möller</a> (20)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/8b42838e6dccf7eb90a8ba362e7de858?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/javierllorente/" title="Posts by Javier Llorente">Javier Llorente</a> (12)</li>
-<li><img alt='' src='https://secure.gravatar.com/avatar/8b6e7e1e33323b1499e01776ea5ce307?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/cyberorg/" title="Posts by Jigish Gohil">Jigish Gohil</a> (61)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/8b6e7e1e33323b1499e01776ea5ce307?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/cyberorg/" title="Posts by Jigish Gohil">Jigish Gohil</a> (62)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/aa223e3df0b558eb11d7ffa614e1d309?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/jsrain/" title="Posts by Jiri Srain">Jiri Srain</a> (1)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/248d14d0cc663817e9ea2e5d3915d81d?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/jsuchome/" title="Posts by Jiří Suchomel">Jiří Suchomel</a> (3)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/abd6ad5514475b1ebfa926808c403ad1?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/gogga/" title="Posts by Johan Kotze">Johan Kotze</a> (5)</li>
@@ -638,7 +597,7 @@ request.list function &#8211; it is not completely dictated by osc:)</p>
 <li><img alt='' src='https://secure.gravatar.com/avatar/1df0fbf4b7fb2b10e93b8d84795a6b4a?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/amonthoth/" title="Posts by Ricardo Chung">Ricardo Chung</a> (7)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/fdd7251cf3e8f4d193e4f7f59238303a?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/ricardovarassantana/" title="Posts by Ricardo Varas Santana">Ricardo Varas Santana</a> (7)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/c0cff57a7e00b3ad4107e5627460b153?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/rbos/" title="Posts by Richard Bos">Richard Bos</a> (11)</li>
-<li><img alt='' src='https://secure.gravatar.com/avatar/827ee21ead846a2cf124ba6683ce885f?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/rjschwei/" title="Posts by rjschwei">Robert Schweikert</a> (10)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/827ee21ead846a2cf124ba6683ce885f?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/rjschwei/" title="Posts by rjschwei">Robert Schweikert</a> (12)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/6c9af0fa89f64b30eb228ee80c30595b?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/g0nz0/" title="Posts by Rossana Motta">Rossana Motta</a> (1)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/abcd749a57b47babab9ac7c8e35ae13a?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/rhorstkoetter/" title="Posts by Rupert Horstkötter">Rupert Horstkötter</a> (10)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/9d46eeed4de01dd50e3fd70bd660969b?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/saigkill/" title="Posts by Sascha Manns">Sascha Manns</a> (66)</li>
@@ -655,10 +614,12 @@ request.list function &#8211; it is not completely dictated by osc:)</p>
 <li><img alt='' src='https://secure.gravatar.com/avatar/100154b0e5aba0626e8db6191e264783?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/thomasrjones/" title="Posts by Thomas Jones">Thomas Jones</a> (1)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/a2ab55809fc9fc1cde1c4a519e283ef8?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/thomas-schraitle/" title="Posts by Thomas Schraitle">Thomas Schraitle</a> (25)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/926aae47e9d1677af3799a66f39f330d?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/toganm/" title="Posts by Togan Muftuoglu">Togan Muftuoglu</a> (3)</li>
-<li><img alt='' src='https://secure.gravatar.com/avatar/8389419eead797f59285b4da04d33e3d?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/illuusio/" title="Posts by Tuukka Pasanen">Tuukka Pasanen</a> (12)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/8389419eead797f59285b4da04d33e3d?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/illuusio/" title="Posts by Tuukka Pasanen">Tuukka Pasanen</a> (17)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/ae5863e449a99ef82a76b2778262c9d7?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/wstephenson/" title="Posts by Will Stephenson">Will Stephenson</a> (22)</li>
 </ul>					</li>	<li id="archives-4" class="widget box box-shadow widget_archive"><h3 class="box-subheader">Archives</h3>		<ul>
-			<li><a href='https://lizards.opensuse.org/2014/01/'>January 2014</a>&nbsp;(5)</li>
+			<li><a href='https://lizards.opensuse.org/2014/03/'>March 2014</a>&nbsp;(9)</li>
+	<li><a href='https://lizards.opensuse.org/2014/02/'>February 2014</a>&nbsp;(9)</li>
+	<li><a href='https://lizards.opensuse.org/2014/01/'>January 2014</a>&nbsp;(10)</li>
 	<li><a href='https://lizards.opensuse.org/2013/12/'>December 2013</a>&nbsp;(9)</li>
 	<li><a href='https://lizards.opensuse.org/2013/11/'>November 2013</a>&nbsp;(10)</li>
 	<li><a href='https://lizards.opensuse.org/2013/10/'>October 2013</a>&nbsp;(10)</li>

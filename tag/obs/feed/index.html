@@ -10,18 +10,60 @@
 
 <channel>
 	<title>openSUSE Lizards &#187; obs</title>
-	<atom:link href="http://lizards.opensuse.org/tag/obs/feed/" rel="self" type="application/rss+xml" />
-	<link>http://lizards.opensuse.org</link>
+	<atom:link href="https://lizards.opensuse.org/tag/obs/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
 	<description>Blogs and Ramblings of the openSUSE Members</description>
-	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<lastBuildDate>Mon, 24 Mar 2014 12:46:00 +0000</lastBuildDate>
 	<language>en-US</language>
 		<sy:updatePeriod>hourly</sy:updatePeriod>
 		<sy:updateFrequency>1</sy:updateFrequency>
-	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<generator>http://wordpress.org/?v=3.8.1</generator>
 	<item>
+		<title>Code quality and Code guidelines</title>
+		<link>https://lizards.opensuse.org/2014/02/19/code-quality-and-code-guidelines/</link>
+		<comments>https://lizards.opensuse.org/2014/02/19/code-quality-and-code-guidelines/#comments</comments>
+		<pubDate>Wed, 19 Feb 2014 08:07:11 +0000</pubDate>
+		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
+				<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[obs]]></category>
+		<category><![CDATA[Programming]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10582</guid>
+		<description><![CDATA[Today I like to take you precious time to talk about thing that get so less attention in open source world. I like to talk little bit about QA and Coding guidelines. Many reader who are in companies that take care of themselves or are involved some major open source or free software project like [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Today I like to take you precious time to talk about thing that get so less attention in open source world. I like to talk little bit about QA and Coding guidelines.<br />
+Many reader who are in companies that take care of themselves or are involved some major open source or free software project like KDE, GNOME or Linux kernel knows that they/we have Coding guidelines. KDE have it <a href="http://techbase.kde.org/Policies/Kdelibs_Coding_Style" title="KDE code guidelines">here</a> and Kernel have it <a href="https://www.kernel.org/doc/Documentation/CodingStyle" title="Kernel code guidelines">here</a>. So they have them and whats the big deal?<span id="more-10582"></span></p>
+<h2>Why have code guideline and hang on it?</h2>
+<p>I&#8217;ve been coding since I was kid. I didn&#8217;t know better way to waste my time that sitting front of Commodore 64 and hack together some BASIC code and my code was horrible.<br />
+I didn&#8217;t have any clue how to organize it or how to make it more readable (BASIC ain&#8217;t that BASIC when you try to read it afterwards). Years after some major Assembly experiences on 286 and 386 I found Pascal. Then I understood one thing. If you don&#8217;t understand your stuff you write you don&#8217;t understand it after a while! So I tried to be more constructed what I did (Pascal/Delphi still have soft spot in my heart.. always!) and forget it sort after that for almost 10 years.</p>
+<h2>Doing it professionally</h2>
+<p>If you code for living you have to be very sure you can read your code and others can also. You can stop developing your code after that someone else can come to maintaining that particular code and this is situation in open source most of the time.<br />
+You never know how long you code will be used, forked or maintained by someone else brave after you have moved on to something more interesting.<br />
+Following code guidelines is not very difficult. You just forget about your excuses about beauty of your code and ignorance about making code look solid with rest of application. Most horrible<br />
+is read some code that where you have to learn how different people write code and their definition about good code guidelines.<br />
+If you lazy like me you can use tools like:</p>
+<ul>
+<li><a href="http://astyle.sourceforge.net/" title="Artistic Style">http://astyle.sourceforge.net/</a></li>
+<li><a href="http://jsbeautifier.org/" title="Javascript beautifier">http://jsbeautifier.org/</a></li>
+<li><a href="http://pear.php.net/package/PHP_Beautifier" title="PHP Beautifier">http://pear.php.net/package/PHP_Beautifier</a>/</li>
+</ul>
+<h2>I do want my code to look like I did it</h2>
+<p>No you don&#8217;t if you contribute to someone else project you make you code look like his or her code. Structured code is always looking good.<br />
+We have policy that version control system make decision how code should look like. So there is some tool and version control hook script that structures code to what is our stated our code guidelines and believe me it have worked better than I expect. People still have to make changes but you have reply what is wrong. No more rants about what is correct looking code and people giving me excuses why code is not following code guidelines. There is only one that have dictatorship here and it&#8217;s version control system and 99.9% it does good job.</p>
+<h2>Code guidelines are not equal Code quality</h2>
+<p>No they are not. They have nothing to do with Code quality control or do they? openSUSE Build service have very good for everyone to take good example. To make your RPM package SPEC-file compile to binary or source RPM you have to follow machine checked rules. If you correct at least those it will be all okay. Scripts check that you don&#8217;t have million bytes long jargon in Summary-line or you have Summary-line at all. They run rpmlint and check C-code for some we&#8217;ll known problems. If they are qualified enough to go through this you won&#8217;t get your RPM/DEB/Arch-package.<br />
+Now we can argue long time do static code checking have any value but long time user of static code checking tools like <a href="http://cppcheck.sourceforge.net/" title="Cppcheck">cppcheck</a> I can tell static analyzing find many that people just ignore to find because they don&#8217;t have time to thing whole logic or understand that memory handling issue.<br />
+Best way to use them I again run them on version control system hook before code gets in. It won&#8217;t make code perfect but you make developer fear for commiting and when developer fear they make better code.<br />
+After you have structured code and machine checks it statically it&#8217;s much easier to get in to point and find problems. So you can talk about what is really wrong or right with code. It&#8217;s easier to read some text if that have passed thesaurus in Libreoffice and again openSUSE obs policy is very very efficient. It spots stuff that you don&#8217;t care about and yes I miss SPEC code structure-script in OBS but you can&#8217;t have all.<br />
+Now it&#8217;s time make code guidelines to you project and use some tool to make all project look like it (My opinion is that have always some for example Artistic Style tool example how to structure code for your with code guidelines) and that FFmpeg stuff is coming when I feel it&#8217;s ready to rock!</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2014/02/19/code-quality-and-code-guidelines/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
 		<title>openSUSE and GCC part 10: Distributing to other distributions than openSUSE with OBS</title>
-		<link>http://lizards.opensuse.org/2014/01/07/opensuse-and-gcc-part-10/</link>
-		<comments>http://lizards.opensuse.org/2014/01/07/opensuse-and-gcc-part-10/#comments</comments>
+		<link>https://lizards.opensuse.org/2014/01/07/opensuse-and-gcc-part-10/</link>
+		<comments>https://lizards.opensuse.org/2014/01/07/opensuse-and-gcc-part-10/#comments</comments>
 		<pubDate>Tue, 07 Jan 2014 08:15:54 +0000</pubDate>
 		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
 				<category><![CDATA[lizards.openSUSE.org]]></category>
@@ -41,13 +83,13 @@
 <p>Arch is most unknown distribution for me but it has vibrant community and active development so providing packages to them is good thing. They seems to like live bleeding edge. So Just add Arch distribution in your project in OBS and then fill PKGBUILD-file with necessary lines and like magic you have Arch supported (<a href="https://build.opensuse.org/package/show/home:illuusio:example/sdl_displaybitmap" title="PKGBUILD">Look at example PKGBUILD-file if you don&#8217;t understand a thing</a>).</p>
 <p>This was it! No more articles about GCC or around it. Next I&#8217;ve going to dive low level Linux Multimedia especially in audio and FFmpeg (and how you do them in openSUSE). <a href="//lizards.opensuse.org/author/illuusio/" title="Blog">if you haven&#8217;t read rest of articles and you feel you missed something</a>. Go on a read them and if you missed good <a href="http://smithfarm-thebrain.blogspot.fi/2013/08/opensuse-packaging-workflow.html" title="OBS client OSC">OSC-blog you can read it too</a>.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2014/01/07/opensuse-and-gcc-part-10/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2014/01/07/opensuse-and-gcc-part-10/feed/</wfw:commentRss>
 		<slash:comments>0</slash:comments>
 		</item>
 		<item>
 		<title>openSUSE and GCC part 9: Open Build Service why should I use it?</title>
-		<link>http://lizards.opensuse.org/2013/12/11/opensuse-and-gcc-part-9/</link>
-		<comments>http://lizards.opensuse.org/2013/12/11/opensuse-and-gcc-part-9/#comments</comments>
+		<link>https://lizards.opensuse.org/2013/12/11/opensuse-and-gcc-part-9/</link>
+		<comments>https://lizards.opensuse.org/2013/12/11/opensuse-and-gcc-part-9/#comments</comments>
 		<pubDate>Wed, 11 Dec 2013 13:52:40 +0000</pubDate>
 		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
 				<category><![CDATA[lizards.openSUSE.org]]></category>
@@ -66,15 +108,15 @@ OBS thing is you can just push (with some excuses and oopses) your rpm spec file
 <h2>This was it? now what?</h2>
 <p>Look around and think if it&#8217;s for you. I like OBS enough to drop you a tip about it but it&#8217;s just my opinion. Take some time and learn how to use OBS and probably command line util &#8216;<a href="http://en.opensuse.org/openSUSE:OSC" title="OSC">osc</a>&#8216;. Then you start to make extraneous RPM packages with OBS and start distributing your best-on-earth open source project binary packages for multiple Linux distributions with ease and speed you never have seen before or you just keep on doing what you are doing.</p>
 <h2>But but I got closed source application and want to use this system</h2>
-<p><strong>Okay this is shameless commercial part! Don&#8217;t read any futher if you don&#8217;t want to.</strong> Then you can <a href="http://ilmi.fi" title="Ilmi Solutions Oy">contact me</a> and i&#8217;ll consult you out or read one more <a href="//lizards.opensuse.org/2013/12/11/discussing-about-the-future-of-opensuse/" title="Open Build Servive">what reads here</a>. Like you probably find out they have version of OBS that is open source and if you set it up all by yourself it doesn&#8217;t cost you a dime or <a href="http://www.b1-systems.de/index.php?option=com_content&amp;view=article&amp;id=34&amp;Itemid=1&amp;lang=en" title="Open Build Service Consulting">save some time and buy support from B1</a> . it&#8217;s up to you again <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';)' class='wp-smiley' /> .</p>
+<p><strong>Okay this is shameless commercial part! Don&#8217;t read any futher if you don&#8217;t want to.</strong> Then you can <a href="http://ilmi.fi" title="Ilmi Solutions Oy">contact me</a> and i&#8217;ll consult you out or read one more <a href="//lizards.opensuse.org/2013/12/11/discussing-about-the-future-of-opensuse/" title="Open Build Servive">what reads here</a>. Like you probably find out they have version of OBS that is open source and if you set it up all by yourself it doesn&#8217;t cost you a dime or <a href="http://www.b1-systems.de/index.php?option=com_content&amp;view=article&amp;id=34&amp;Itemid=1&amp;lang=en" title="Open Build Service Consulting">save some time and buy support from B1</a> . it&#8217;s up to you again ;).</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/12/11/opensuse-and-gcc-part-9/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/12/11/opensuse-and-gcc-part-9/feed/</wfw:commentRss>
 		<slash:comments>0</slash:comments>
 		</item>
 		<item>
 		<title>bareos an interesting replacement to bacula</title>
-		<link>http://lizards.opensuse.org/2013/06/02/bareos-an-interesting-replacement-to-bacula/</link>
-		<comments>http://lizards.opensuse.org/2013/06/02/bareos-an-interesting-replacement-to-bacula/#comments</comments>
+		<link>https://lizards.opensuse.org/2013/06/02/bareos-an-interesting-replacement-to-bacula/</link>
+		<comments>https://lizards.opensuse.org/2013/06/02/bareos-an-interesting-replacement-to-bacula/#comments</comments>
 		<pubDate>Sun, 02 Jun 2013 13:48:00 +0000</pubDate>
 		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
 				<category><![CDATA[Uncategorized]]></category>
@@ -107,13 +149,13 @@ What&#8217;s your own feedback, your thoughts about it?</p>
 [1] <a href="http://www.bareos.org">http://www.bareos.org</a><br />
 [2] <a href="http://openbuildservice.org">http://openbuildservice.org</a></p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/06/02/bareos-an-interesting-replacement-to-bacula/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/06/02/bareos-an-interesting-replacement-to-bacula/feed/</wfw:commentRss>
 		<slash:comments>1</slash:comments>
 		</item>
 		<item>
 		<title>openSUSE 11.2 and OBS at Universidad Latina</title>
-		<link>http://lizards.opensuse.org/2010/07/05/opensuse-11-2-and-obs-at-universidad-latina/</link>
-		<comments>http://lizards.opensuse.org/2010/07/05/opensuse-11-2-and-obs-at-universidad-latina/#comments</comments>
+		<link>https://lizards.opensuse.org/2010/07/05/opensuse-11-2-and-obs-at-universidad-latina/</link>
+		<comments>https://lizards.opensuse.org/2010/07/05/opensuse-11-2-and-obs-at-universidad-latina/#comments</comments>
 		<pubDate>Mon, 05 Jul 2010 19:09:31 +0000</pubDate>
 		<dc:creator><![CDATA[Ricardo Chung]]></dc:creator>
 				<category><![CDATA[Desktop]]></category>
@@ -136,13 +178,13 @@ What&#8217;s your own feedback, your thoughts about it?</p>
 				<content:encoded><![CDATA[<p><!-- 		@page { margin: 2cm } 		P { margin-bottom: 0.21cm } 		A:link { so-language: zxx } -->Universidad Latina, Facultad de Ingeniería. “<em><strong>LibreSoft</strong></em>”.  <span style="text-decoration: underline">July 1<sup>st</sup>., 2010</span> from 6:00 p.m. To 10:30 p.m. (- 5 EST) several FOSS individual representatives held a meeting  on  3<sup>rd</sup> floor of the main building, gave some talks about FOSS, software developments, open source, licensing, sharing code, community contributions, and applications to the general public, Telecommunications and Industrial  Engineering students, professors, dean and lawyers. <strong>OpenSUSE Ambassador, Ricardo Chung</strong>, shared the space with Diego Tejera (Ubuntu LoCo Team), Alejandro Perez ( Fedora Ambassador ), Abdel Martinez ( Fedora Campus Ambassador), Adrien Scott ( <a href="http://www.fosdev.com/">www.fosdev.com</a>) and others.  Ricardo gave a talk about openSUSE 11.2 features and some sneak preview features on openSUSE 11.3 ( <a href="http://en.opensuse.org/Product_highlights_11.3">http://en.opensuse.org/Product_highlights_11.3</a>), the openSUSE Build Service 2.0 ( <a href="http://en.opensuse.org/Build_Service">http://en.opensuse.org/Build_Service</a>) as software development and colaboration platform useful for any Linux distribution, SUSE Studio to customize our distribution on different enviroments, and KIWI to make an operating system image available on physical media ( <a href="http://en.opensuse.org/Kiwi">http://en.opensuse.org/Kiwi</a> ). Ricardo also, answer some questions about openSUSE community and local users group, installation, as well as some questions about  Novell and Microsoft alliances were clarified. After the talk an openSUSE and Novell trivia was given and the winners got some openSUSE 11.2 CDs with Gnome Desktop by default.</p>
 <p>Make a click on <a href="http://picasaweb.google.com/RICARDO.A.CHUNG/OpenSUSEAtLibreSoft">http://picasaweb.google.com/RICARDO.A.CHUNG/OpenSUSEAtLibreSoft</a>#  to watch some photos</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2010/07/05/opensuse-11-2-and-obs-at-universidad-latina/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2010/07/05/opensuse-11-2-and-obs-at-universidad-latina/feed/</wfw:commentRss>
 		<slash:comments>0</slash:comments>
 		</item>
 		<item>
 		<title>New/updated Apps @ home:saigkill</title>
-		<link>http://lizards.opensuse.org/2009/04/04/newupdated-apps-homesaigkill/</link>
-		<comments>http://lizards.opensuse.org/2009/04/04/newupdated-apps-homesaigkill/#comments</comments>
+		<link>https://lizards.opensuse.org/2009/04/04/newupdated-apps-homesaigkill/</link>
+		<comments>https://lizards.opensuse.org/2009/04/04/newupdated-apps-homesaigkill/#comments</comments>
 		<pubDate>Sat, 04 Apr 2009 18:50:10 +0000</pubDate>
 		<dc:creator><![CDATA[Sascha Manns]]></dc:creator>
 				<category><![CDATA[Build Service]]></category>
@@ -158,13 +200,13 @@ What&#8217;s your own feedback, your thoughts about it?</p>
 kqlives 20080202 (Zelda like RPG)                                                  NEW submitrequest to games:/</p>
 <p>kde4-kblogger 1.0svn948858 (Blogging Client for KDE4)       NEW</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2009/04/04/newupdated-apps-homesaigkill/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/04/04/newupdated-apps-homesaigkill/feed/</wfw:commentRss>
 		<slash:comments>1</slash:comments>
 		</item>
 		<item>
 		<title>New/Updated Software</title>
-		<link>http://lizards.opensuse.org/2009/02/10/newupdated-software/</link>
-		<comments>http://lizards.opensuse.org/2009/02/10/newupdated-software/#comments</comments>
+		<link>https://lizards.opensuse.org/2009/02/10/newupdated-software/</link>
+		<comments>https://lizards.opensuse.org/2009/02/10/newupdated-software/#comments</comments>
 		<pubDate>Tue, 10 Feb 2009 12:19:40 +0000</pubDate>
 		<dc:creator><![CDATA[Sascha Manns]]></dc:creator>
 				<category><![CDATA[Build Service]]></category>
@@ -188,7 +230,7 @@ kde4-skrooge</p>
 boinctray<br />
 tktray</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2009/02/10/newupdated-software/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/02/10/newupdated-software/feed/</wfw:commentRss>
 		<slash:comments>0</slash:comments>
 		</item>
 	</channel>

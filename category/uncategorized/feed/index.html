@@ -10,18 +10,324 @@
 
 <channel>
 	<title>openSUSE Lizards &#187; Uncategorized</title>
-	<atom:link href="http://lizards.opensuse.org/category/uncategorized/feed/" rel="self" type="application/rss+xml" />
-	<link>http://lizards.opensuse.org</link>
+	<atom:link href="https://lizards.opensuse.org/category/uncategorized/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
 	<description>Blogs and Ramblings of the openSUSE Members</description>
-	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<lastBuildDate>Mon, 24 Mar 2014 12:46:00 +0000</lastBuildDate>
 	<language>en-US</language>
 		<sy:updatePeriod>hourly</sy:updatePeriod>
 		<sy:updateFrequency>1</sy:updateFrequency>
-	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<generator>http://wordpress.org/?v=3.8.1</generator>
 	<item>
+		<title>How to filter a certain class of hardware in dhcpd.conf</title>
+		<link>https://lizards.opensuse.org/2014/03/19/how-to-filter-a-certain-class-of-hardware-in-dhcpd-conf/</link>
+		<comments>https://lizards.opensuse.org/2014/03/19/how-to-filter-a-certain-class-of-hardware-in-dhcpd-conf/#comments</comments>
+		<pubDate>Wed, 19 Mar 2014 12:00:59 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Uncategorized]]></category>
+		<category><![CDATA[dhcpd]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10675</guid>
+		<description><![CDATA[To prepare the end of the XP world Atfer 8th April 2014, Windows XP system will be Like children in the lions&#8217; den, if connected to internet In a network around, all the still running XP are all vmware virtual machine, and none of the end-users are the right to modify the settings of the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<h2>To prepare the end of the XP world</h2>
+<p>Atfer 8th April 2014, Windows XP system will be Like children in the lions&#8217; den, if connected to internet</p>
+<p>In a network around, all the still running XP are all vmware virtual machine, and none of the end-users are the right to modify the settings of the virtual machine, nor has administrative right under XP</p>
+<p>The idea is the simply to just suppress the gateway of the network.</p>
+<h3>Playing with dhcpd.conf</h3>
+<p>There&#8217;s lot of way to handle this classification, but I discover that you need to find the right syntax, and understand how the binary-to-ascii function of dhcpd work.</p>
+<p>First binary-to-ascii remove any leading 0, then we will just readd them <img src="https://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif" alt=":-)" class="wp-smiley" /> </p>
+<p>Extract of the dhcpd.conf</p>
+<pre>
+# binary-to-ascii remove leading 0 rebuild the complete MAC
+set testmac = concat ( suffix (concat ("0", binary-to-ascii (16, 8, "", substring(hardware,1,1))),2), ":", suffix (concat ("0", binary-to-ascii (16, 8, "", substring(hardware,2,1))),2), ":", suffix (concat ("0", binary-to-ascii (16, 8, "", substring(hardware,3,1))),2), ":", suffix (concat ("0", binary-to-ascii (16, 8, "", substring(hardware,4,1))),2), ":",  suffix (concat ("0", binary-to-ascii (16, 8, "", substring(hardware,5,1))),2), ":", suffix (concat ("0", binary-to-ascii (16, 8, "", substring(hardware,6,1))),2) );
+
+# Extract the only first 8 chars 
+set testclass = substring(testmac, 0, 8);
+# You will find a lot of this on internet but doesn't work
+# set testmac = binary-to-ascii(16, 8, ":", substring(hardware, 1, 6));
+
+# All our VMware VM use the same prefix
+if ( testclass = "00:0c:29" ){
+  # put dummy router
+  option routers 127.0.0.1;
+  # useful debug log
+  log (info, "xp32 lease");
+}else{
+  # Default gateway for anyone else
+  option routers 192.168.1.254;
+  log (info, "standard lease");
+}
+</pre>
+<p>That&#8217;s all for today</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2014/03/19/how-to-filter-a-certain-class-of-hardware-in-dhcpd-conf/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>osc build with kvm on an encrypted volume group</title>
+		<link>https://lizards.opensuse.org/2014/03/15/osc-build-with-kvm-on-an-encrypted-volume-group/</link>
+		<comments>https://lizards.opensuse.org/2014/03/15/osc-build-with-kvm-on-an-encrypted-volume-group/#comments</comments>
+		<pubDate>Sat, 15 Mar 2014 17:34:14 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Uncategorized]]></category>
+		<category><![CDATA[Build]]></category>
+		<category><![CDATA[kvm]]></category>
+		<category><![CDATA[osc]]></category>
+		<category><![CDATA[virtio]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10665</guid>
+		<description><![CDATA[How-to build a initrd-virtio on a fully encrypted volume group If like me you care about your data stored on your laptop, you certainly use a fully encrypted (excepted /boot) configuration based on lvm. In my case I also like to create, build, fix packages locally with our tool osc. I&#8217;ve plenty of power, beefy [&#8230;]]]></description>
+				<content:encoded><![CDATA[<h1>How-to build a initrd-virtio on a fully encrypted volume group</h1>
+<p>If like me you care about your data stored on your laptop, you certainly use a fully encrypted (excepted /boot) configuration based on lvm.</p>
+<p>In my case I also like to create, build, fix packages locally with our tool osc. I&#8217;ve plenty of power, beefy ssd, so I dedicate a logical lvm for building cleanly package with qemu-kvm configuration, like <a href="http://build.opensuse.org">obs</a> does</p>
+<h2>Prepare the kvm building system</h2>
+<p>As root you create 2 lvm volume with lvcreate, one will be the build root, the other one will be the additional swap</p>
+<p>In ~/.oscrc I enable the following parameters</p>
+<pre>
+build-type = kvm
+build-device = /dev/mapper/vg0-lvobsbuild
+build-swap = /dev/mapper/vg1-lvobsswap
+build-memory = 4096
+build-vmdisk-rootsize = 16000
+build-vmdisk-swapsize = 4000
+build-vmdisk-filesystem = ext4
+</pre>
+<p>You just have to adjust the Memory quantity and the device to what you create for your own environment.</p>
+<p><span id="more-10665"></span></p>
+<h2>Building with qemu-kvm</h2>
+<p>Once the preparation is done you could try to build a package</p>
+<pre>
+Skipping verification of package signatures due to secure VM build
+Writing build configuration
+Running build
+No initrd that provides virtio support found. virtio accelleration disabled.
+Run the following command as root to enable virtio:
+ "env" "rootfstype=ext4" "mkinitrd" "-d" "/dev/null" "-m" "ext3 ext4 btrfs reiserfs binfmt_misc virtio_pci virtio_blk" "-k" "/boot/vmlinuz" "-i" "/boot/initrd-3.13.6-1.g4727218-desktop-virtio"
+VM_IMAGE: /dev/mapper/vg0-lvobsbuild, VM_SWAP: /dev/mapper/vg1-lvobsswap
+Creating ext4 filesystem on /dev/mapper/vg0-lvobsbuild
+tune2fs 1.42.8 (20-Jun-2013)
+Setting maximal mount count to -1
+mkswap /dev/mapper/vg1-lvobsswap
+Setting up swapspace version 1, size = 4194300 KiB
+no label, UUID=935f0e2d-52d7-4013-8a7f-7d48c813a482
+logging output to /tmp/obsbuild/.build.log...
+</pre>
+<p>As you can see, it warn you that you could create a -virtio initrd to use virtio acceleration (who contribute a patch for the typo <img src="https://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif" alt=":-)" class="wp-smiley" /><br />
+<br />But the command line is not completely correct in our case. It need the -d to be filled with the lvm buildroot to work as expected. If you successfully create the initrd-virtio you still will face a number of trouble, due to the way mkinitrd work.
+</p>
+<h2>Defeating the errors</h2>
+<p>You remember that we have a fully encrypted volume group, and as a clever tool mkinitrd will feed the initrd with all the tools needed to boot your system.<br />
+<br />But that mean it will forget the lv buildroot we ask, and will put unnecessary tools and options.
+</p>
+<p>Typical errors with a non optimized -virtio initrd</p>
+<pre>
+[    3s] /usr/bin/qemu-kvm -no-reboot -nographic -vga none -net none -cpu host -kernel /boot/vmlinuz -initrd /boot/initrd-3.13.6-1.g4727218-desktop -append root=/dev/sda panic=1 quiet no-kvmclock nmi_watchdog=0 rw elevator=noop console=ttyS0 init=/.build/build -m 4096 -hda /dev/mapper/vg0-lvobsbuild -drive file=/dev/mapper/vg1-lvobsswap,if=ide,index=1,cache=none -smp 8
+[    9s] FATAL: Error inserting nvidia (/lib/modules/3.13.6-1.g4727218-desktop/updates/nvidia.ko): No such device
+[    9s]   WARNING: Failed to connect to lvmetad: No such file or directory. Falling back to internal scanning.
+[    9s]   Volume group "vg0" not found
+[    9s]   WARNING: Failed to connect to lvmetad: No such file or directory. Falling back to internal scanning.
+[    9s]   Volume group "vg0" not found
+[    9s] *** Note: only US keyboard layout is supported.
+[    9s] *** Please ensure that the password is typed correctly.
+[   41s] Waiting for device /dev/disk/by-id/ata-Corsair_Force_GT_blah-part2 to appear: ..............................Unlocking cr_sda2 (/dev/disk/by-id/ata-Corsair_Force_GT_blah-part2)
+[   41s] Device /dev/disk/by-id/ata-Corsair_Force_GT_blah-part2 doesn't exist or access denied.
+[   41s] Trying manual resume from /dev/vg0/lvswap
+[   41s] resume device /dev/vg0/lvswap not found (ignoring)
+[   41s] Trying manual resume from /dev/vg0/lvswap
+[   41s] resume device /dev/vg0/lvswap not found (ignoring)
+[   73s] Waiting for device /dev/sda to appear: ..............................Could not find /dev/sda.
+[   73s] Want me to fall back to /dev/vg0/lvsuse? (Y/n)
+</pre>
+<p><b>Rescue</b> you have as root to kill all build process.</p>
+<pre>for P in $(ps auxw| grep build | grep -v grep | awk {'print $2'} );do kill $P;done</pre>
+<p>
+<h2>Find a solution</h2>
+<p>We want an optimized -virtio initrd, which filter all the lvm and crypting tools we don&#8217;t need. Also there&#8217;s no need to encumber it with graphic blob.<br />
+Then I create a small script I&#8217;ve called patch-initrd-virtio (source below) which exactly do that work anytime I&#8217;ve a kernel change.<br />
+As it need to be run by root only, I normally place it in /root/bin/
+</p>
+<h2>patch-initrd-virtio sources</h2>
+<pre>
+#!/usr/bin/env bash
+
+# WTF License 1.0 
+# Author Bruno Friedmann tigerfoot (at) opensuse.org
+
+# Usage : this script will create an optimized virtio initrd without
+# lvm, crypt, gfx tool
+# by using the actual /boot/initrd symlink you have.
+# Edit the 2 devices you target to use 
+# 
+DEVBUILD='/dev/vg0/lvobsbuild'
+DEVSWAP='/dev/vg1/lvobsswap'
+
+nokms(){
+sed -i '/^NO_KMS_IN_INITRD/s/no/yes/' /etc/sysconfig/kernel
+}
+
+kms(){
+sed -i '/^NO_KMS_IN_INITRD/s/yes/no/' /etc/sysconfig/kernel
+}
+
+echo "cleanup /tmp"
+rm -fr /tmp/initrd*
+
+# Patch the virtio initrd
+if [ -z "$1" ];then
+export VER=`uname -r`
+else
+export VER="$1"
+fi
+export INITRD="/boot/initrd-$VER-virtio"
+echo "Setting nokms"
+nokms
+
+echo "Building -virtio initrd ..."
+"env" "rootfstype=ext4,resume=$DEVSWAP,rootdev=$DEVBUILD,udevtimeout=2,udev_timeout=2,nosplash,noluks" "mkinitrd" "-B" "-d" "$DEVBUILD" "-m" "ext4 btrfs binfmt_misc virtio_pci virtio_blk" "-k" "/boot/vmlinuz-$VER" "-i" "$INITRD"
+
+ls -l $INITRD
+
+echo "Setting kms"
+kms
+
+# copy the *.virtio initrd to /tmp
+cp -vfa $INITRD /tmp/initrd-virtio.gz
+
+# ungzip it gzip -d initrd
+cd /tmp
+mkdir initrd.build
+gzip -d initrd-virtio.gz
+
+cd initrd.build
+
+# uncpio cpio -id &lt; ../initrd
+cpio -id  ../initrd
+rm -fv ../initrd-virtio
+echo "rebuilding initrd ..."
+find . | cpio --create --format='newc' &gt; ../initrd-virtio
+cd ../
+echo "Compressing initrd ..."
+# Install pigz if you want to save half an hour of your life.
+if [ -x /usr/bin/pigz ];then
+ pigz -9v initrd-virtio
+else
+ gzip -9v initrd-virtio
+fi
+# copy to /boot
+cp -v initrd-virtio.gz $INITRD
+echo "Done ..."
+
+</pre>
+<h2>Usage of patch-initrd-virtio</h2>
+<p>Here&#8217;s the result of a run</p>
+<pre>
+cleanup /tmp
+Setting nokms
+Building -virtio initrd ...
+
+Kernel image:   /boot/vmlinuz-3.13.6-1.g4727218-desktop
+Initrd image:   /boot/initrd-3.13.6-1.g4727218-desktop-virtio
+Root device:    /dev/vg0/lvobsbuild (mounted on / as ext4)
+Resume device:  /dev/vg0/lvswap
+enabling LUKS support for /dev/disk/by-id/ata-Corsair_Force_GT_blah-part2 (cr_sda2)
+Microcode: Adding Intel microcode 06-2a-07
+Kernel Modules: thermal_sys thermal processor fan libcrc32c xor raid6_pq btrfs binfmt_misc virtio virtio_ring virtio_pci virtio_blk dm-mod dm-crypt dm-log dm-region-hash dm-mirror dm-snapshot scsi_dh scsi_dh_hp_sw scsi_dh_alua scsi_dh_rdac scsi_dh_emc xhci-hcd hid-logitech-dj hid-holtek-kbd hid-lenovo-tpkbd hid-ortek hid-roccat hid-roccat-common hid-roccat-arvo hid-roccat-isku hid-samsung ohci-pci linear arc4 sha256_generic cryptd crct10dif-pclmul crc32-pclmul crc32c-intel ghash-clmulni-intel aes-x86_64 glue_helper gf128mul lrw ablk_helper aesni-intel
+Features:       acpi dm intel_microcode block usb lvm2 luks btrfs resume.userspace resume.kernel
+Did not refresh the bootloader. You might need to refresh it manually.
+-rw------- 1 root root 29338540 Mar 15 18:18 /boot/initrd-3.13.6-1.g4727218-desktop-virtio
+Setting kms
+‘/boot/initrd-3.13.6-1.g4727218-desktop-virtio’ -&gt; ‘/tmp/initrd-virtio.gz’
+160249 blocks
+removed ‘./boot/71-luks.sh’
+removed ‘./config/luks.sh’
+removed ‘../initrd-virtio’
+rebuilding initrd ...
+160239 blocks
+Compressing initrd ...
+initrd-virtio to initrd-virtio.gz
+‘initrd-virtio.gz’ -&gt; ‘/boot/initrd-3.13.6-1.g4727218-desktop-virtio’
+Done ...
+</pre>
+<h2>Finally start a build with -virtio activated</h2>
+<p>So with our new optimized initrd-virtio we can restart a fully qemu-kvm build with osc build &#8211;clean</p>
+<pre>
+Skipping verification of package signatures due to secure VM build
+Writing build configuration
+Running build
+VM_IMAGE: /dev/mapper/vg0-lvobsbuild, VM_SWAP: /dev/mapper/vg1-lvobsswap
+Creating ext4 filesystem on /dev/mapper/vg0-lvobsbuild
+tune2fs 1.42.8 (20-Jun-2013)
+Setting maximal mount count to -1
+mkswap /dev/mapper/vg1-lvobsswap
+mkswap: /dev/mapper/vg1-lvobsswap: warning: wiping old swap signature.
+Setting up swapspace version 1, size = 4194300 KiB
+no label, UUID=c19c873b-2b6c-4200-9575-a60adc581204
+logging output to /tmp/obsbuild/.build.log...
+[    0s] Using BUILD_ROOT=/tmp/obsbuild/.mount
+[    0s] Using BUILD_ARCH=x86_64:i686:i586:i486:i386
+[    0s] Doing kvm build in /dev/mapper/vg0-lvobsbuild
+[    0s] 
+[    0s] 
+[    0s] c-3po.labaroche.ioda.net started "build postgresql-plr.spec" at Sat Mar 15 17:27:18 UTC 2014.
+[    0s] 
+[    0s] 
+[    0s] processing specfile /home/bruno/openSUSE/obs/home:bruno_friedmann:branches:openSUSE:12.3:Update/postgresql-plr.openSUSE_12.3_Update/postgresql-plr.spec ...
+[    0s] running changelog2spec --target rpm --file /home/bruno/openSUSE/obs/home:bruno_friedmann:branches:openSUSE:12.3:Update/postgresql-plr.openSUSE_12.3_Update/postgresql-plr.spec
+[    0s] init_buildsystem --configdir /usr/lib/build/configs --cachedir /var/cache/build --prepare --clean --rpmlist /tmp/rpmlist.Vy31Li /home/bruno/openSUSE/obs/home:bruno_friedmann:branches:openSUSE:12.3:Update/postgresql-plr.openSUSE_12.3_Update/postgresql-plr.spec ...
+[    1s] cycle: pam -&gt; permissions -&gt; coreutils
+[    1s]   breaking dependency permissions -&gt; coreutils
+[    1s] [1/29] preinstalling filesystem...
+
+</pre>
+<p>Hope this give you the taste of building!</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2014/03/15/osc-build-with-kvm-on-an-encrypted-volume-group/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Trying to add some light</title>
+		<link>https://lizards.opensuse.org/2014/02/03/trying-to-add-some-light/</link>
+		<comments>https://lizards.opensuse.org/2014/02/03/trying-to-add-some-light/#comments</comments>
+		<pubDate>Mon, 03 Feb 2014 08:28:31 +0000</pubDate>
+		<dc:creator><![CDATA[calumma]]></dc:creator>
+				<category><![CDATA[Boosters]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Uncategorized]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10489</guid>
+		<description><![CDATA[Lately there was some confusion regarding our communication. We, at the openSUSE Team@SUSE are deeply aware that our communication needs to be improved. So in the hope to make everything clear again, here is the summary to clear up what is really going on and what was not happening. Long story short: There WILL be [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Lately there was some confusion regarding our communication. We, at the <a href="https://en.opensuse.org/openSUSE:OpenSUSE_team">openSUSE Team@SUSE</a> are deeply aware that our communication needs to be improved. So in the hope to make everything clear again, here is the summary to clear up what is really going on and what was not happening.</p>
+<h3>Long story short:</h3>
+<ul>
+<li>There <strong>WILL</strong> be openSUSE 13.2 in November 2014</li>
+<li>13.2 <strong>WILL</strong> have security and maintenance support provided by SUSE</li>
+<li>We <strong>WILL</strong> have coolo as release manager for 13.2</li>
+<li>SUSE is <strong>NOT decreasing</strong> manpower put into openSUSE</li>
+<li>Everybody from the community is welcome and encouraged to be involved with, and if they want to, take over some parts of the release process and we will support you the best we can in doing that</li>
+</ul>
+<h3>Now for the long story.</h3>
+<p>Our team and only our team &#8211; openSUSE@SUSE &#8211; is going to work on improving &#8216;tooling&#8217; side of the openSUSE project until August. These changes will benefit openSUSE by making it easier to produce better releases in the future.</p>
+<p>Nothing changes for the rest of SUSE. SUSE is not abandoning openSUSE. The rest of SUSE will still do the same things they were doing until now and continue to keep openSUSE awesome. This includes Maintenance, Security, Infrastructure, and many other teams besides the openSUSE Team at SUSE who actively support the openSUSE project.</p>
+<h3>What is our plan?</h3>
+<p>Our plan is to make sure that future openSUSE releases are easier for everyone to produce. As we grow we could keep putting in more and more full-time release managers (if we find them somewhere), but this approach is probably unsustainable and, more importantly, goes against our desire to empower the community to do more as part of openSUSE.</p>
+<p>Therefore, we decided to improve our tools to ensure that making a release is much more straightforward and reliable and we can reduce and distribute the workload needed for integration and release. To make this happen we need time and everyone from the team to work on adapting the tooling side. We also would welcome volunteers to help us with tools and with the following release(s).</p>
+<p>With the release date now set in November (mirroring roadmap for 13.1), first milestone should be released in May. That is a perfect oportunity to go to openSUSE Conference in Croatia where we can meet up, gather volunteers to help and discuss how to work. Remember that openSUSE Travel Support is in place to sponsor everyone who needs financial help to get to the event.</p>
+<p>Hopefully now we cleared things up a little and we are really sorry again for our poor communication &#8211; We&#8217;re going to work on it.</p>
+<p>Your truely confused <a href="https://en.opensuse.org/openSUSE:OpenSUSE_team">openSUSE Team</a></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2014/02/03/trying-to-add-some-light/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
 		<title>No forgotten patch to YaST anymore</title>
-		<link>http://lizards.opensuse.org/2014/01/17/no-forgotten-patch-to-yast-anymore/</link>
-		<comments>http://lizards.opensuse.org/2014/01/17/no-forgotten-patch-to-yast-anymore/#comments</comments>
+		<link>https://lizards.opensuse.org/2014/01/17/no-forgotten-patch-to-yast-anymore/</link>
+		<comments>https://lizards.opensuse.org/2014/01/17/no-forgotten-patch-to-yast-anymore/#comments</comments>
 		<pubDate>Fri, 17 Jan 2014 13:58:34 +0000</pubDate>
 		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
 				<category><![CDATA[Uncategorized]]></category>
@@ -33,13 +339,13 @@
 <p>This script is handled by our <a href="http://ci.opensuse.org/view/Yast" target="_blank">public Jenkins server</a> where it pulls the latest version of the script every working day and if there is any pending pull request it will send an <a href="http://lists.opensuse.org/yast-devel/2014-01/msg00065.html" target="_blank">email with its result</a> to the YaST mailing list.</p>
 <p>After a month of sending emails we have handled all longer running pull requests we have for YaST, so none of them have gone without activity longer than a month. I hope it encourages developers to create more pull requests as they will not be forgotten. We plan also to deploy such reminder for the <a href="http://github.com/libyui" title="libyui" target="_blank">libyui organization</a>.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2014/01/17/no-forgotten-patch-to-yast-anymore/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2014/01/17/no-forgotten-patch-to-yast-anymore/feed/</wfw:commentRss>
 		<slash:comments>0</slash:comments>
 		</item>
 		<item>
 		<title>Waouh, Thank you, Merci, Danke, etc</title>
-		<link>http://lizards.opensuse.org/2013/12/16/waouh-thank-you-merci-danke-etc/</link>
-		<comments>http://lizards.opensuse.org/2013/12/16/waouh-thank-you-merci-danke-etc/#comments</comments>
+		<link>https://lizards.opensuse.org/2013/12/16/waouh-thank-you-merci-danke-etc/</link>
+		<comments>https://lizards.opensuse.org/2013/12/16/waouh-thank-you-merci-danke-etc/#comments</comments>
 		<pubDate>Mon, 16 Dec 2013 17:28:34 +0000</pubDate>
 		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
 				<category><![CDATA[Ambassadors]]></category>
@@ -59,13 +365,13 @@ I really &amp; sincerely thank all of our members who not only took the risk of 
 Be assured to my strong commitment in our project and community.</p>
 <p>See you on earth!</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/12/16/waouh-thank-you-merci-danke-etc/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/12/16/waouh-thank-you-merci-danke-etc/feed/</wfw:commentRss>
 		<slash:comments>6</slash:comments>
 		</item>
 		<item>
 		<title>AMD flgrx status</title>
-		<link>http://lizards.opensuse.org/2013/11/12/amd-flgrx-status/</link>
-		<comments>http://lizards.opensuse.org/2013/11/12/amd-flgrx-status/#comments</comments>
+		<link>https://lizards.opensuse.org/2013/11/12/amd-flgrx-status/</link>
+		<comments>https://lizards.opensuse.org/2013/11/12/amd-flgrx-status/#comments</comments>
 		<pubDate>Tue, 12 Nov 2013 20:31:31 +0000</pubDate>
 		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
 				<category><![CDATA[Uncategorized]]></category>
@@ -82,13 +388,13 @@ Be assured to my strong commitment in our project and community.</p>
 <p>For owners of old HD2xx-HD4xx, don&#8217;t dream, the legacy driver didn&#8217;t get update, so your choice is easy, use open source radeon driver. </p>
 <p>I just hope I&#8217;m wrong in my feeling that we will have to wait until January, the launch of AMD new processor &amp; apu.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/11/12/amd-flgrx-status/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/11/12/amd-flgrx-status/feed/</wfw:commentRss>
 		<slash:comments>6</slash:comments>
 		</item>
 		<item>
 		<title>Use the Scan to PC function on a Samsung Multifunction</title>
-		<link>http://lizards.opensuse.org/2013/10/01/use-the-scan-to-pc-function-on-a-samsung-multifunction/</link>
-		<comments>http://lizards.opensuse.org/2013/10/01/use-the-scan-to-pc-function-on-a-samsung-multifunction/#comments</comments>
+		<link>https://lizards.opensuse.org/2013/10/01/use-the-scan-to-pc-function-on-a-samsung-multifunction/</link>
+		<comments>https://lizards.opensuse.org/2013/10/01/use-the-scan-to-pc-function-on-a-samsung-multifunction/#comments</comments>
 		<pubDate>Tue, 01 Oct 2013 16:09:40 +0000</pubDate>
 		<dc:creator><![CDATA[Ciaran Farrell]]></dc:creator>
 				<category><![CDATA[Uncategorized]]></category>
@@ -100,13 +406,13 @@ Be assured to my strong commitment in our project and community.</p>
 <p>So where can you get it? The package is available at http://software.opensuse.org/package/python-samsungScannerServer &#8211; but you&#8217;ll need to install the Samsung Unified Driver for Linux first. I found it at http://www.samsung.com/us/support/owners/product/CLX-3305FN but apparently bchemnet.com has a repo for debian/ubuntu where you can download it too. Once you install that and my package, you&#8217;ll probably have to do a systemctl start samsungScannerServer (&#8220;probably&#8221; because I don&#8217;t really  know how systemd worked and schustered together a .service file based on google search results).</p>
 <p>Another nice hackweek project would be to use something like inotify to discover incoming scanned files, gpg to encrypt them and email them to the user (and then delete the unencrypted version). I also need to look into getting the unified samsung driver working on ARM so I can use my raspberry as a scan server which sends encrypted scans to my email address&#8230;</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/10/01/use-the-scan-to-pc-function-on-a-samsung-multifunction/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/10/01/use-the-scan-to-pc-function-on-a-samsung-multifunction/feed/</wfw:commentRss>
 		<slash:comments>1</slash:comments>
 		</item>
 		<item>
 		<title>I will miss the 5th edition of openSUSE Conference</title>
-		<link>http://lizards.opensuse.org/2013/06/16/i-will-miss-the-5th-edition-of-opensuse-conference/</link>
-		<comments>http://lizards.opensuse.org/2013/06/16/i-will-miss-the-5th-edition-of-opensuse-conference/#comments</comments>
+		<link>https://lizards.opensuse.org/2013/06/16/i-will-miss-the-5th-edition-of-opensuse-conference/</link>
+		<comments>https://lizards.opensuse.org/2013/06/16/i-will-miss-the-5th-edition-of-opensuse-conference/#comments</comments>
 		<pubDate>Sun, 16 Jun 2013 13:48:19 +0000</pubDate>
 		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
 				<category><![CDATA[Uncategorized]]></category>
@@ -124,7 +430,7 @@ I can understand the choice main sponsor SUSE do, and their need to spread osc a
 <div id="attachment_9581" style="width: 310px" class="wp-caption alignleft"><a href="//lizards.opensuse.org/wp-content/uploads/2013/06/thessaloniki-back-port.jpg"><img src="//lizards.opensuse.org/wp-content/uploads/2013/06/thessaloniki-back-port-300x200.jpg" alt="Thessaloniki port" width="300" height="200" class="size-medium wp-image-9581" /></a><p class="wp-caption-text">Thessaloniki port</p></div><br />
 Secondly after February marketing hack-fest, I missed (I still don&#8217;t know how) the opportunity to get my travel reimbursed by the TSP and then loose half of the budget for osc. Before TSP get improved, and send a bounce email to ask you to send back your forms. So if you are sponsored for osc, fill and send back your expenses quickly after the event. Don&#8217;t believe you do it, check twice you really do it! Don&#8217;t suppose, be sure!</p>
 <p>Another side, I already knew that a customer project will happen during that time-frame. As it concerns a lot of partner&#8217;s I&#8217;ve to take in account the availability of each of them. Unfortunately, after believing that it could be doable to free-up time for osc I decide to stop persecuting myself, and make a deal to live in peace and go ahead: no osc this year.</p>
-<p>Maths have their say: statistically, more osc will be, more the chance to miss one will increase <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' />  ( I know still not a real excuses)</p>
+<p>Maths have their say: statistically, more osc will be, more the chance to miss one will increase <img src="https://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif" alt=":-)" class="wp-smiley" />  ( I know still not a real excuses)</p>
 <p>I would like to share my deep apologizes to the whole Greek Community in charge of OSC13. You all know, how I was and still am a big found of your commitment and really appreciate each of you.<br />
 I will all miss you!</p>
 <p>I really hope osc13 will stay in history as one of the ever greatest conference organized. </p>
@@ -132,13 +438,13 @@ I will all miss you!</p>
 I&#8217;ll be back soon!</p>
 <p><a href="http://www.youtube.com/watch?v=StZQsoOtEnM" title="Αχ Θεσσαλονικη - Αντωνης Βαρδης" target="_blank">Αχ Θεσσαλονικη &#8211; Αντωνης Βαρδης</a></p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/06/16/i-will-miss-the-5th-edition-of-opensuse-conference/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/06/16/i-will-miss-the-5th-edition-of-opensuse-conference/feed/</wfw:commentRss>
 		<slash:comments>2</slash:comments>
 		</item>
 		<item>
 		<title>openQA in openSUSE</title>
-		<link>http://lizards.opensuse.org/2013/06/06/openqa-in-opensuse/</link>
-		<comments>http://lizards.opensuse.org/2013/06/06/openqa-in-opensuse/#comments</comments>
+		<link>https://lizards.opensuse.org/2013/06/06/openqa-in-opensuse/</link>
+		<comments>https://lizards.opensuse.org/2013/06/06/openqa-in-opensuse/#comments</comments>
 		<pubDate>Thu, 06 Jun 2013 12:00:26 +0000</pubDate>
 		<dc:creator><![CDATA[calumma]]></dc:creator>
 				<category><![CDATA[Build Service]]></category>
@@ -203,13 +509,13 @@ I&#8217;ll be back soon!</p>
 <p>We&#8217;re very happy that Bernhard has helped us, both with work and advice, to get these changes implemented. Several improvements were integrated in the <a href="https://github.com/bmwiedemann/os-autoinst/">current production version of openQA</a> and most of the more invasive ones are part of the V2 branch of openQA. We plan to sit together with Bernhard to see about deploying V2 to <a title="openQA in action" href="http://openqa.opensuse.org/results/" target="_blank">openqa.opensuse.org</a> for testing factory as soon as possible.</p>
 <p>There is still work to be done. For example, for full integration testing we need to expand on the current ability which allows to run the tests on real hardware. This will for example allow testing graphics and network cards. Also, writing proper documentation is on the todo list. For those interested in helping out putting openQA to work and keeping the quality of our distribution high, the <a title="openSUSE Conference site" href="http://conference.opensuse.org" target="_blank">openSUSE Conference</a> will feature a workshop on creating tests for Factory.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/06/06/openqa-in-opensuse/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/06/06/openqa-in-opensuse/feed/</wfw:commentRss>
 		<slash:comments>4</slash:comments>
 		</item>
 		<item>
 		<title>bareos an interesting replacement to bacula</title>
-		<link>http://lizards.opensuse.org/2013/06/02/bareos-an-interesting-replacement-to-bacula/</link>
-		<comments>http://lizards.opensuse.org/2013/06/02/bareos-an-interesting-replacement-to-bacula/#comments</comments>
+		<link>https://lizards.opensuse.org/2013/06/02/bareos-an-interesting-replacement-to-bacula/</link>
+		<comments>https://lizards.opensuse.org/2013/06/02/bareos-an-interesting-replacement-to-bacula/#comments</comments>
 		<pubDate>Sun, 02 Jun 2013 13:48:00 +0000</pubDate>
 		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
 				<category><![CDATA[Uncategorized]]></category>
@@ -242,81 +548,8 @@ What&#8217;s your own feedback, your thoughts about it?</p>
 [1] <a href="http://www.bareos.org">http://www.bareos.org</a><br />
 [2] <a href="http://openbuildservice.org">http://openbuildservice.org</a></p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/06/02/bareos-an-interesting-replacement-to-bacula/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/06/02/bareos-an-interesting-replacement-to-bacula/feed/</wfw:commentRss>
 		<slash:comments>1</slash:comments>
-		</item>
-		<item>
-		<title>openSUSE Multimedia, Based on opensuse 12.3</title>
-		<link>http://lizards.opensuse.org/2013/05/10/opensuse-multimedia-based-on-opensuse-12-3-2/</link>
-		<comments>http://lizards.opensuse.org/2013/05/10/opensuse-multimedia-based-on-opensuse-12-3-2/#comments</comments>
-		<pubDate>Fri, 10 May 2013 07:45:56 +0000</pubDate>
-		<dc:creator><![CDATA[Saydul Akram]]></dc:creator>
-				<category><![CDATA[Distribution]]></category>
-		<category><![CDATA[GNOME]]></category>
-		<category><![CDATA[Uncategorized]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9419</guid>
-		<description><![CDATA[openSUSE Multimedia is a modified version of openSUSE with the goal of making it more usable, in particular for users without an internet connection, while trying to remain compatible with openSUSE. Features compared to openSUSE include better multimedia support by including codec audio &#38; video (Restricted Format), and other software,such as gimp,inkscape,imagewriter,vlc,audacity,smplayer,gmplayer,amarok,banshe and etc.. openSUSE [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>openSUSE Multimedia is a modified version of openSUSE with the goal of making it more usable, in particular for users without an internet connection, while trying to remain compatible with openSUSE. Features compared to openSUSE include better multimedia support by including codec audio &amp; video (Restricted Format), and other software,such as gimp,inkscape,imagewriter,vlc,audacity,smplayer,gmplayer,amarok,banshe and etc..</p>
-<p>openSUSE Multimedia 32bit x86 based on openSUSE 12.3 with default desktop Gnome3 http://en.opensuse.org/openSUSE:GNOME_3.0</p>
-<p>download :http://susestudio.com/a/haHwG8/opensuse-multimedia</p>
-<p>Thanks to openSUSE Indonesia, KPLI Kendari</p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/05/10/opensuse-multimedia-based-on-opensuse-12-3-2/feed/</wfw:commentRss>
-		<slash:comments>2</slash:comments>
-		</item>
-		<item>
-		<title>hackweek9: Lightweight KDE Desktop project</title>
-		<link>http://lizards.opensuse.org/2013/04/11/hackweek9-lightweight-kde-desktop-project/</link>
-		<comments>http://lizards.opensuse.org/2013/04/11/hackweek9-lightweight-kde-desktop-project/#comments</comments>
-		<pubDate>Thu, 11 Apr 2013 12:26:45 +0000</pubDate>
-		<dc:creator><![CDATA[Will Stephenson]]></dc:creator>
-				<category><![CDATA[Uncategorized]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9360</guid>
-		<description><![CDATA[It&#8217;s Hack Week 9 at SUSE, and I&#8217;m working on a cracking project this time around. I&#8217;ve codenamed it &#8216;KLyDE&#8217;, for K Lightweight Desktop Environment, and it&#8217;s an effort to point KDE at the lightweight desktop market.  Surely some mistake, you say?  KDE and lightweight kan&#8217;t fit in the same sentence.  I think they can. [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>It&#8217;s Hack Week 9 at SUSE, and I&#8217;m working on a cracking project this time around. I&#8217;ve codenamed it &#8216;KLyDE&#8217;, for K Lightweight Desktop Environment, and it&#8217;s an effort to point KDE at the lightweight desktop market.  Surely some mistake, you say?  KDE and lightweight kan&#8217;t fit in the same sentence.  I think they can.</p>
-<p>This project has been bouncing around my head for a couple of years now, starting on a train ride back from the KDE PIM meeting in Osnabrück in 2010, then <a href="http://www.youtube.com/watch?v=6lfAjdtwECc">I presented it at COSCUP 2012</a> in Taiwan last August. But work commitments and family always got in the way of completing/finishing it.  SUSE&#8217;s hack week gives me 40 hours to throw at it and this time I wasn&#8217;t going to tackle it alone, so I enlisted my bro(grammer)s Jos and Klaas.</p>
-<p>As has been repeated on Planet KDE over the past decade, KDE is not intrinisically bloated.  At its core, it jumps through a lot of hoops for memory efficiency and speed, and is modular to a fault. But most packagings of KDE take a kitchen sink approach, and when you install your KDE distribution you get a full suite of desktop, applets and applications.  The other major criticism of KDE is that it is too configurable.  The KlyDE project applies KDE&#8217;s modularity and configurability to the challenge of making a lightweight desktop.  However, what I don&#8217;t want to do is a hatchet job where functionality is crudely chopped out of the desktop to fit some conception of light weight.</p>
-<p>We&#8217;re approaching problem from 3 sides:</p>
-<p><strong>Minimal footprint</strong></p>
-<p>The first method of attacking this is by packaging. It involves factoring optional components of the KDE desktop out of the base installation into subpackages that the main packages only have weak dependencies upon, allowing a minimal installation without them.  This targets big lumps of ram/cpu usage and objects of user hatred like Nepomuk and Akonadi, but also smaller items like Activities and Attica (social desktop support) and non-core window decorations/styles/etc.  The actual KDE build includes everything; the optional components are always available, so those who do need one of them can just add the package and start using it.</p>
-<p>The second approach is by configuration.  This allows different profiles of KDE desktop with the same installed packages.  We&#8217;ve collected sets of configs that represent these profiles, but I&#8217;m not entirely sure how to package this yet.  One way would be to ship default profiles as X sessions.  Another would be a first run wizard or KCModule so users can select profile and apply it to their configuration after login.</p>
-<p><strong>Simple config</strong><br />
-Is a mixture of usability and perception.  A simplified configuration presents fewer choices and is therefore easier to understand.  It also looks faster and more lightweight, because people equate visual simplicity with efficiency.  This is incorrect, of course, but I&#8217;m not above exploiting this fallacy to give people what they want. For this aspect, we&#8217;re providing an alternate set of System Settings metadata to give it a cut down tree.  The full set remains available, if needed.</p>
-<p><strong>Fast startup</strong></p>
-<p>Is the most high-risk-for-reward effort.  It&#8217;s mostly a perception/first impression thing.  A working desktop shouldn&#8217;t need to be started up all the time.  But for people trying out KLyDE for the first time, a fast startup supports the claim to minimalism.  The interesting thing I note so far is that the package splitting and configuration in 1) makes very little different to startup time.  The optional components of KDE are already highly optimised to not affect startup time.  So I&#8217;m investigating alternate startup systems; refactoring startkde, Dantti&#8217;s systemk, Plasma Active&#8217;s startactive, and a systemd-managed startup.</p>
-<p><strong>Progress</strong></p>
-<p>The packaging effort is mostly done; we have packages in an <a href="https://build.opensuse.org/project/show?project=home%3Awstephenson%3Aworkbench%3Aklyde">Open Build Service project</a>, that give you a bare Plasma Workspace when installed on top of a minimal X SUSE 12.3 installation with &#8211;no-recommends.</p>
-<p>Jos has put a great effort into understanding System Settings and has produced a simple layout, I just need to complete my patch to allow it to use the alternative metadata scheme at runtime.  If we have time, we&#8217;ll also customise some KCMs to provide a simple way to control KDE&#8217;s theming.</p>
-<p>I&#8217;ve been busy converting systemd, kdeinit and ksmserver into a native systemd startup by defining systemd unit files.  It&#8217;s a steep learning curve as it exposes a number of assumptions on both sides, but I&#8217;m getting there.  The unoptimised systemdkde.target starts up in 4s here, vs 6s for the same .kde4 started by startkde.  That might be due to legacy/fault tolerance parts of startkde being left out, so I won&#8217;t give more detailed numbers yet.</p>
-<p><strong>Next steps</strong></p>
-<p>You can see the state of the project on <a href="https://trello.com/board/klyde/515be014e9d9a5cf48007e01">Trello</a>. I&#8217;d like to see if there is a startup time  win by parallelizing kded and ksmserver starting modules and apps. I&#8217;d like to make an openSUSE pattern for existing installations, and an iso or a disk image for testers.  I&#8217;ve also submitted a talk on the subject for Akademy, so I&#8217;d like to work on that and get some real data to support this work.</p>
-<p>&nbsp;</p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/04/11/hackweek9-lightweight-kde-desktop-project/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
-		<item>
-		<title>openSUSE 12.3 (12.2) and nvidia drivers</title>
-		<link>http://lizards.opensuse.org/2013/03/17/opensuse-12-3-12-2-and-nvidia-drivers/</link>
-		<comments>http://lizards.opensuse.org/2013/03/17/opensuse-12-3-12-2-and-nvidia-drivers/#comments</comments>
-		<pubDate>Sun, 17 Mar 2013 20:15:45 +0000</pubDate>
-		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
-				<category><![CDATA[Uncategorized]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9327</guid>
-		<description><![CDATA[Just a small quick note. If you are using the nvidia proprietary drivers from our openSUSE repos. Take care of the following fact. By default the new drivers didn&#8217;t add your user to the video group. Getting Gnome, kdm, kde, or other application running well you have to add your user to the video group. [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>Just a small quick note.</p>
-<p>If you are using the nvidia proprietary drivers from our openSUSE repos. Take care of the following fact. By default the new drivers didn&#8217;t add your user to the video group.</p>
-<p>Getting Gnome, kdm, kde, or other application running well you have to add your user to the video group.</p>
-<p>YaST User &amp; group management being your kindly Gui friend.<br />
-or use usermod </p>
-<p>sudo usermod -A video <em>yourusername</em></p>
-<p>Happy 3D acceleration!</p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/03/17/opensuse-12-3-12-2-and-nvidia-drivers/feed/</wfw:commentRss>
-		<slash:comments>9</slash:comments>
 		</item>
 	</channel>
 </rss>

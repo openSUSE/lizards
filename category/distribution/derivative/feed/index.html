@@ -13,12 +13,56 @@
 	<atom:link href="http://lizards.opensuse.org/category/distribution/derivative/feed/" rel="self" type="application/rss+xml" />
 	<link>http://lizards.opensuse.org</link>
 	<description>Blogs and Ramblings of the openSUSE Members</description>
-	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<lastBuildDate>Mon, 24 Mar 2014 12:46:00 +0000</lastBuildDate>
 	<language>en-US</language>
 		<sy:updatePeriod>hourly</sy:updatePeriod>
 		<sy:updateFrequency>1</sy:updateFrequency>
-	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<generator>http://wordpress.org/?v=3.8.1</generator>
 	<item>
+		<title>Network boot live ISO</title>
+		<link>http://lizards.opensuse.org/2014/01/29/network-boot-live-iso/</link>
+		<comments>http://lizards.opensuse.org/2014/01/29/network-boot-live-iso/#comments</comments>
+		<pubDate>Wed, 29 Jan 2014 06:40:12 +0000</pubDate>
+		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
+				<category><![CDATA[Derivative]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Education]]></category>
+		<category><![CDATA[Network]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[eduction]]></category>
+		<category><![CDATA[howto]]></category>
+		<category><![CDATA[li-f-e]]></category>
+		<category><![CDATA[LTSP]]></category>
+		<category><![CDATA[pxe]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10470</guid>
+		<description><![CDATA[The x86_64 edition of openSUSE Education&#8217;s Li-f-e live DVD supports PXE booting the iso over the network, here is how to do it: * Install Li-f-e (Switch to GRUB from Installation Summary page if your hardware does not support EFI boot ), make sure you have plenty of space assigned to / partition(about 20G) * [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The x86_64 edition of openSUSE Education&#8217;s <a href="http://en.opensuse.org/openSUSE:Education-Li-f-e" title="Li-f-e">Li-f-e</a> live DVD supports PXE booting the iso over the network, here is how to do it:</p>
+<p>* Install Li-f-e (Switch to GRUB from Installation Summary page if your hardware does not support EFI boot ), make sure you have plenty of space assigned to / partition(about 20G)<br />
+* Set up LTSP by following this <a href="https://en.opensuse.org/SDB:LTSP%20quick%20start%2012.2%20Edu" title="LTSP Quick Start">quick start guide</a><br />
+* Create /srv/nfs folder and copy Li-f-e iso there<br />
+* Run the following as root in terminal:<br />
+<code><br />
+mount /srv/nfs/openSUSE-Edu-li-f-e.x86_64-13.1.1.iso /mnt<br />
+cp /mnt/boot/x86_64/loader/linux /srv/tftpboot/boot/linux-life64<br />
+cp /mnt/boot/x86_64/loader/initrd /srv/tftpboot/boot/initrd-life64<br />
+echo "/srv/nfs *(ro,no_root_squash,async,no_subtree_check)" &gt;&gt; /etc/exports<br />
+cat &lt;&lt;EOF&gt;&gt; /srv/tftpboot/pxelinux.cfg/default<br />
+LABEL Li-f-e<br />
+kernel boot/linux-life64<br />
+append initrd=boot/initrd-life64 isofrom_device=nfs:10.0.0.254:/srv/nfs/ isofrom_system=/openSUSE-Edu-li-f-e.x86_64-13.1.1.iso nonm<br />
+IPAPPEND 2<br />
+EOF<br />
+chkconfig rpcbind on &amp;&amp; service rpcbind restart<br />
+chkconfig nfsserver on &amp;&amp; service nfsserver restart<br />
+</code><br />
+Now you can PXE boot any machine over the network, select Li-f-e from the end of the boot menu to boot live DVD iso instead of normal LTSP session.</p>
+<p>Please note that if you install Li-f-e booted over the network then after the installation  you will need to remove &#8220;nonm&#8221; boot option using yast2 bootloader to get NetworkManager working again.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2014/01/29/network-boot-live-iso/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
 		<title>openSUSE Education Li-f-e 13.1 x86_64 with UEFI boot support</title>
 		<link>http://lizards.opensuse.org/2014/01/21/opensuse-education-li-f-e-13-1-x86_64-with-uefi-boot-support/</link>
 		<comments>http://lizards.opensuse.org/2014/01/21/opensuse-education-li-f-e-13-1-x86_64-with-uefi-boot-support/#comments</comments>
@@ -338,46 +382,6 @@ Apart from these, x2go also supports sound redirection via pulseaudio, folder sh
 ]]></content:encoded>
 			<wfw:commentRss>http://lizards.opensuse.org/2012/09/13/live-fat-stick/feed/</wfw:commentRss>
 		<slash:comments>8</slash:comments>
-		</item>
-		<item>
-		<title>openSUSE Edu Li-f-e 12.1 out now!</title>
-		<link>http://lizards.opensuse.org/2011/12/22/edu-li-f-e-12-1-out/</link>
-		<comments>http://lizards.opensuse.org/2011/12/22/edu-li-f-e-12-1-out/#comments</comments>
-		<pubDate>Thu, 22 Dec 2011 07:37:21 +0000</pubDate>
-		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
-				<category><![CDATA[Apache]]></category>
-		<category><![CDATA[Derivative]]></category>
-		<category><![CDATA[Desktop]]></category>
-		<category><![CDATA[Distribution]]></category>
-		<category><![CDATA[Education]]></category>
-		<category><![CDATA[GNOME]]></category>
-		<category><![CDATA[KDE]]></category>
-		<category><![CDATA[Programming]]></category>
-		<category><![CDATA[Samba]]></category>
-		<category><![CDATA[Server]]></category>
-		<category><![CDATA[Virtualization]]></category>
-		<category><![CDATA[12.1]]></category>
-		<category><![CDATA[li-f-e]]></category>
-		<category><![CDATA[LTSP]]></category>
-		<category><![CDATA[openSUSE]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8365</guid>
-		<description><![CDATA[openSUSE Education team is proud to present another edition of openSUSE-Edu Li-f-e (Linux for Education) based on openSUSE 12.1. Li-f-e comes loaded with everything that students, parents, teachers and system admins of educational institutions may need.   more screenshots&#8230; Softwares for mathematics, chemistry, astronomy etc, servers like KIWI-LTSP, Fedena school ERP, Moodle course management etc., [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>openSUSE Education team is proud to present another edition of <strong>openSUSE-Edu Li-f-e</strong> (Linux for Education) based on <a title="12.1" href="http://en.opensuse.org/12.1">openSUSE 12.1</a>. Li-f-e comes loaded with everything that students, parents, teachers and system admins of educational institutions may need.</p>
-<p><a href="http://en.opensuse.org/images/b/b9/Life-12.1-0.png"><img class="alignnone" src="http://en.opensuse.org/images/thumb/b/b9/Life-12.1-0.png/120px-Life-12.1-0.png" alt="" width="120" height="90" /></a> <a href="http://en.opensuse.org/images/b/b4/Life-12.11-0.png"><img class="alignnone" src="http://en.opensuse.org/images/thumb/b/b4/Life-12.11-0.png/120px-Life-12.11-0.png" alt="" width="120" height="90" /></a> <a href="http://en.opensuse.org/images/6/60/Life-12.1-2.png"><img class="alignnone" src="http://en.opensuse.org/images/thumb/6/60/Life-12.1-2.png/120px-Life-12.1-2.png" alt="" width="120" height="89" /></a> <a href="http://en.opensuse.org/images/8/86/Life-12.1-6.png"><img class="alignnone" src="http://en.opensuse.org/images/thumb/8/86/Life-12.1-6.png/120px-Life-12.1-6.png" alt="" width="120" height="90" /></a> <a href="http://en.opensuse.org/Screenshots#openSUSE_Edu_Li-f-e">more screenshots&#8230;</a></p>
-<p><span id="more-8365"></span>Softwares for mathematics, chemistry, astronomy etc, servers like <a href="LTSP_quick_start_12.1_Edu">KIWI-LTSP</a>, <a href="http://fedena.com/">Fedena</a> school ERP, <a href="http://moodle.org/">Moodle</a> course management etc., full multimedia, graphics, office suite, many popular programming languages including AMP stack, java, C, C++, python, ruby, latest stable Gnome and KDE desktop environments and lot more is packed in this release. More about softwares included <a href="http://en.opensuse.org/openSUSE:Education-Li-f-e">here</a>.</p>
-<p>To know more about openSUSE Education project, file bugs, request enhancements, participate, or to get in touch with us visit <a href="http://en.opensuse.org/Portal:Education">Education Portal</a>.</p>
-<p>Create <a href="http://en.opensuse.org/Live_USB_stick">live USB stick</a> or DVD with this image. About 15GB disk space and 1GB RAM is required for installation, more is better. Please note that we release 32bit image only, for users with RAM 4G or more install and use kernel-pae package.</p>
-<p>Happy holidays&#8230;</p>
-<p><a href="http://en.opensuse.org/openSUSE:Education-Li-f-e#Download"><img src="http://lizards.opensuse.org/wp-content/uploads/2009/11/screenshot11.png" alt="" width="138" height="47" /></a></p>
-<h3><a href="https://sourceforge.net/projects/opensuse-edu/" rel="nofollow">Hosted at sourceforge.net</a></h3>
-<p><a href="http://sourceforge.net/projects/opensuse-edu/files/download/ISOs/openSUSE-Edu-li-f-e-12.1-latest-i686.iso/download" rel="nofollow">Direct Download</a> | <a href="http://sourceforge.net/projects/opensuse-edu/files/download/ISOs/openSUSE-Edu-li-f-e-12.1-latest-i686.iso.md5/download" rel="nofollow">md5sum</a></p>
-<h3><a href="http://www.opensuse-education.org/download/ISOs/" rel="nofollow">Hosted at opensuse-education.org</a></h3>
-<p><a href="http://www.opensuse-education.org/download/ISOs/openSUSE-Edu-li-f-e-12.1-latest-i686.iso" rel="nofollow">Direct Download </a>| <a href="http://www.opensuse-education.org/download/ISOs/openSUSE-Edu-li-f-e-12.1-1-i686.iso.meta4" rel="nofollow">new metalink</a> | <a href="http://www.opensuse-education.org/download/ISOs/openSUSE-Edu-li-f-e-12.1-1-i686.iso.metalink" rel="nofollow">old metalink</a> | <a href="http://www.opensuse-education.org/download/ISOs/openSUSE-Edu-li-f-e-12.1-latest-i686.iso.md5" rel="nofollow">md5sum</a> | <a title="Torrent file for openSUSE-Edu-li-f-e" href="http://www.opensuse-education.org/download/ISOs/openSUSE-Edu-li-f-e-12.1-latest-i686.iso.torrent" target="_blank">torrent</a></p>
-<p>Use download manager or <a title="SDB:Metalink" href="http://en.opensuse.org/SDB:Metalink">Metalink</a> client such as aria2c for most efficient way to download.</p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2011/12/22/edu-li-f-e-12-1-out/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
 		</item>
 	</channel>
 </rss>

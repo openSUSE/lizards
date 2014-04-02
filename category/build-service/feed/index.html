@@ -10,18 +10,119 @@
 
 <channel>
 	<title>openSUSE Lizards &#187; Build Service</title>
-	<atom:link href="http://lizards.opensuse.org/category/build-service/feed/" rel="self" type="application/rss+xml" />
-	<link>http://lizards.opensuse.org</link>
+	<atom:link href="https://lizards.opensuse.org/category/build-service/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
 	<description>Blogs and Ramblings of the openSUSE Members</description>
-	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<lastBuildDate>Mon, 24 Mar 2014 12:46:00 +0000</lastBuildDate>
 	<language>en-US</language>
 		<sy:updatePeriod>hourly</sy:updatePeriod>
 		<sy:updateFrequency>1</sy:updateFrequency>
-	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<generator>http://wordpress.org/?v=3.8.1</generator>
 	<item>
+		<title>First fruits &#8211; update on openQA and Staging work</title>
+		<link>https://lizards.opensuse.org/2014/02/19/first-fruits-update-on-openqa-and-staging-work/</link>
+		<comments>https://lizards.opensuse.org/2014/02/19/first-fruits-update-on-openqa-and-staging-work/#comments</comments>
+		<pubDate>Wed, 19 Feb 2014 08:40:39 +0000</pubDate>
+		<dc:creator><![CDATA[calumma]]></dc:creator>
+				<category><![CDATA[Boosters]]></category>
+		<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Infrastructure]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10570</guid>
+		<description><![CDATA[In our previous summary, we talked about some basic research and some ground work to build on. This time we have some first exciting results! openQA Last week we rearranged the repository a little bit, creating a new branch called &#34;devel&#34; where all the exciting (and not so exciting) changes are taking place. Our little [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>In our <a href="//lizards.opensuse.org/2014/02/07/some-news-from-the-trenches/">previous summary</a>, we talked about some basic research and some ground work to build on. This time we have some first exciting results!</p>
+<h3>openQA</h3>
+<p>Last week we rearranged the repository a little bit, creating a <a href="https://github.com/openSUSE-Team/openQA/tree/devel">new branch called &quot;devel&quot;</a> where all the exciting (and not so exciting) changes are taking place. Our little Factory <img src="https://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif" alt=";-)" class="wp-smiley" /> </p>
+<p>The main difference between this branch as master is that, as you could read in the previous blog, the devel branch is openQA build on <a href="http://mojolicio.us">Mojolicious</a>, a nice web development framework. And having a proper web framework is starting to show its benefits: we have openID login available! Unfortunately the current openSUSE openID provider is a little bit weird, so it doesn&#8217;t play well with our tool yet, but some others are working and openSUSE accounts will be the next step. Having working user accounts is necessary to be able to start defining permissions and to make openQA truly multiuser. And to be able to deploy the new version on a public server!</p>
+<p>The other main focus of this week has been internal polishing. We have revamped the database layout and changed the way in which the different openQA components communicate with each other. The openQA functionality is spread out over several parts: the workers are responsible of actually executing the tests in virtual machines reporting the result after every execution; some client utilities are used to load new ISO images and similar tasks and, finally, we have the one openQA Server to rule them all. Until now, the communication between the server and the other components was done using <a href="http://json-rpc.org/">JSON-RPC</a> (a lightweight alternative to XML-RPC). We have dropped JSON-RPC in favor of a <a href="http://en.wikipedia.org/wiki/Representational_state_transfer">REST-like</a> API with just JSON over plain HTTP. This change allowed us to implement exactly the same functionality in a way that is simpler, perfectly supported by any web framework, natively spoken by browsers and easier to authenticate (using, for example, plain HTTP authentication or openID). This is also the first step to future integration with other services (think OBS, as the ultimate goal is to use openQA to test staging projects).</p>
+<p>But, who tests the tester? openQA is growing and changing quite fast so we have continued with the task of creating a good testing infrastructure to tests openQA itself to make sure that all our changes do not result in breakage. We only have a few tests right now, but we now have a solid foundation to write more and more tests.</p>
+<h3>Staging and package manipulation</h3>
+<p>In the last blog post we told you we were investigating a code test suite to test the abilities of a osc plugin we are writing. osc is the commandline tool for handling the Open Build Service, and this plugin is meant to help with the administration of staging projects. We&#8217;ve been thinking about how to move forward with the testing part as we want to make sure the functionality works as advertised. More important, we write tests to make sure that our additions and changes do not break existing functionality. We have started merging functionality from various scripts handling staging thingies and rings we had into this plugin. This is partially done so we can do basic staging project tasks! We can take a request (be it submit or delete) and put it to test in a staging project. We can also move packages between staging projects and we have a simple YAML in project descriptions to indicate what packages and what requests are there.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2014/02/openqa-staging.png"><img src="//lizards.opensuse.org/wp-content/uploads/2014/02/openqa-staging-300x102.png" alt="We're all green!" width="250" height="85" class="alignright size-medium wp-image-10576" /></a><br />
+Coolo already started using the plugin for some tasks, so you can <a href="https://build.opensuse.org/project/subprojects/openSUSE:Factory:Staging">see pretty titles</a> and <a href="https://build.opensuse.org/project/show/openSUSE:Factory:Staging:C">metadata</a> in staging projects descriptions. Not impressive enough? Let me provide you a good headline:</p>
+<p><b>Thanks to staging projects, no single regression have been introduced this year in the core of Factory</b></p>
+<p>You can enjoy a more detailed description in <a href="http://lists.opensuse.org/opensuse-factory/2014-02/msg00252.html">this announcement</a> written by coolo to the Factory mailing list and have some visual joy in the included screenshot (genuine pr0n for QA engineers).</p>
+<p>Last but not least, we also did some cleanup of the sources in the repo and of course we added more tests (as functionality grows). And there has been work on other parts of the plugin, like taking rings into account.</p>
+<h3>Result</h3>
+<p>We already have some useful functionality which we are going to expand and build on. Not that much to show yet, but we are progressing towards our goal. You can follow our progress either in the way of tasks (<a href="https://progress.opensuse.org/projects/openqav3">openQA</a> and <a href="https://progress.opensuse.org/projects/stagings">staging projects</a>) or just follow our commit history on github (again for both <a href="https://github.com/openSUSE-Team/openQA/tree/devel">openQA</a> and <a href="https://github.com/openSUSE/osc-plugin-factory">staging plugin</a>).</p>
+<p>We are very much looking forward to feedback and thoughts &#8211; these changes aim to make Factory development easier and thus we need to hear from all you!</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2014/02/19/first-fruits-update-on-openqa-and-staging-work/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Some news from the trenches</title>
+		<link>https://lizards.opensuse.org/2014/02/07/some-news-from-the-trenches/</link>
+		<comments>https://lizards.opensuse.org/2014/02/07/some-news-from-the-trenches/#comments</comments>
+		<pubDate>Fri, 07 Feb 2014 18:21:01 +0000</pubDate>
+		<dc:creator><![CDATA[calumma]]></dc:creator>
+				<category><![CDATA[Boosters]]></category>
+		<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Programming]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10518</guid>
+		<description><![CDATA[As you might know, we are focusing our development efforts in two fronts, namely openQA and staging projects. As we just started we don&#8217;t have fireworks for you (yet) but we did some solid ground work that we are going to build upon. Working on openQA We are organizing our daily job in openQA into [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>As you might know, we are focusing our development efforts in two fronts, namely <a href="http://lists.opensuse.org/opensuse-factory/2014-01/msg00317.html">openQA</a> and <a href="http://lists.opensuse.org/opensuse-factory/2014-01/msg00278.html">staging projects</a>. As we just started we don&#8217;t have fireworks for you (yet) but we did some solid ground work that we are going to build upon.</p>
+<h3>Working on openQA</h3>
+<p>We are organizing our daily job in openQA into highly focused sprints of two weeks. The focus of the first sprint was clear: cleanup the current codebase to empower future development and lower the entry barrier for casual contributors, which can be translated as &#8220;cleaning our own mess&#8221;. We created <a href="https://progress.opensuse.org/versions/67">some tasks in progress</a>, grouped in a version with a surprising and catchy name: Sprint 01.</p>
+<h4>Got my mojo workin&#8217;</h4>
+<p>Up to now, openQA web interface was written using just a bunch of custom CGI scripts and some configuration directives in Apache. We missed a convenient way to access to all the bell and whistles of modern web development and some tools to make the code more readable, reliable and easier to extend and test. In short, we missed a proper web development framework. We evaluated the most popular Perl-based alternatives and we finally decided to go for <a href="http://mojolicio.us/">Mojolicious</a> for several reasons:</p>
+<ul>
+<li>It provides all the functionality we demand from a web framework while being lightweight and unbloated.</li>
+<li>It&#8217;s stated as a &#8220;real time framework&#8221; which, buzzwords apart, means that is designed from the ground to fully support Comet (long-polling), EventSource and WebSockets. Very handy technologies for implementing some features in openQA.</li>
+<li>It really &#8220;feels&#8221; very close to <a href="http://www.sinatrarb.com/">Sinatra</a>, which makes Ruby on Rails     developers feel like at home. And we have quite some Rails developers hanging around, don&#8217;t we? Just think about OBS, software.o.o, WebYast, progress.o.o, OSEM, the TSP app&#8230;
+<li>Mojolicious motto is &#8220;web development can be fun again&#8221;. Who could resist to that?</li>
+</ul>
+<p>We&#8217;ve now reached the end of the sprint and we already have something that looks exactly the same than what we had before, but using Mojolicious internally. We are very happy with the framework and we are pretty confident that future development of openQA will be easier and faster than ever. OpenQA has mojo!</p>
+<h4>The database layer in openQA</h4>
+<p>Another part that we worked on during first sprint was the database layer. The user interface part of openQA use a SQLite database to store the jobs and workers registered in the system. The connection between the code and the database was expressed directly in SQL using a simple API.</p>
+<p>We have replaced this layer with another equivalent that uses an ORM (Object-relational mapping) in Perl (<a href="http://www.dbix-class.org/">DBIx::Class</a>). Every data model in openQA is now a true object that can be created, copied and moved between the different layers of the application. Quite handy.</p>
+<p>To make sure we don&#8217;t forget anything, we created a bunch of tests covering the whole functionality of the original code, running this test suite after each step of the migration. In this way we have achieved two goals: we now have a simple way to share and update information through the whole system and we can migrate very easily to a different database engine (something that we plan to do in the future).</p>
+<h3>What to do with staging</h3>
+<p>Over the time, coolo had accumulated quite some scripts that helped him with Factory. Most of them are actually related to something we are doing right now: the staging projects. So in the end we basically migrated all relevant ones to <a href="https://github.com/openSUSE/osc-plugin-factory">github</a> and one by one we are merging their functionality to staging plugin. We also experimented with test frameworks that we could use to test the plugin itself, selected few and we even have a first test! The final plan is to have the whole plugin functionality covered with a proper test suite, so we will know when something breaks. Currently, there is a lot of mess in our repo and the plugin itself need big cleanup, but we are working on it.</p>
+<h3>Contributions are welcome</h3>
+<p>If you want to help but wonder where to start, we identified tasks that are good to dive into the topic and named them &#8220;easy hacks&#8221;: mostly self contained tasks we expect to have little effort but we lack the time to do right now. Just jump over the list for <a href="https://progress.opensuse.org/versions/73">openQA</a> or <a href="https://progress.opensuse.org/versions/69">staging projects</a>.</p>
+<p>For grabbing the code related to staging project, you only need to clone the <a href="https://github.com/openSUSE/osc-plugin-factory">already mentioned repository</a>. The openQA code is spread in several repositories (<a href="https://github.com/openSUSE-Team/os-autoinst">one</a>, <a href="https://github.com/openSUSE-Team/openQA">two</a>, <a href="https://github.com/openSUSE-Team/os-autoinst-distri-opensuse">three</a> and <a href="https://github.com/openSUSE-Team/os-autoinst-needles-opensuse">four</a>), but setting up your own instance to play and hack is a piece of cake using <a href="http://software.opensuse.org/package/openQA">the packages</a> available in OBS (built automatically for every git push).</p>
+<p>If you simply want to see what we are doing in more detail, take a look at progress.o.o, we have both <a href="https://progress.opensuse.org/projects/openqav3">openQA</a> and <a href="https://progress.opensuse.org/projects/stagings">Staging projects</a> there.</p>
+<p>We are having a lot of fun, and we encourage you to join us!</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2014/02/07/some-news-from-the-trenches/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>spec-cleaner: hide all your precious cruft!</title>
+		<link>https://lizards.opensuse.org/2014/01/31/spec-cleaner-hide-all-your-precious-cruft/</link>
+		<comments>https://lizards.opensuse.org/2014/01/31/spec-cleaner-hide-all-your-precious-cruft/#comments</comments>
+		<pubDate>Fri, 31 Jan 2014 08:33:31 +0000</pubDate>
+		<dc:creator><![CDATA[calumma]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10484</guid>
+		<description><![CDATA[As we stated in our communication over the time, our team&#8217;s main focus for foreseeable future is Factory and how to manage all those contributions. Goal is not to increase the number of SRs that is coming to Factory, but to make sure we can process more and to make sure we see even well [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>As we stated in our communication over the time, our team&#8217;s main focus for foreseeable future is Factory and how to manage all those contributions. Goal is <strong>not</strong> to increase the number of SRs that is coming to Factory, but to make sure we can process more and to make sure we see even well hidden consequences to make sure that Factory is &#8220;stable&#8221; and &#8220;usable&#8221;.</p>
+<p><img src="//lizards.opensuse.org/wp-content/uploads/2014/01/sprayg-263x300.jpg" alt="sprayg" width="263" height="300" class="alignright size-medium wp-image-10485" />
+<p>Not really part of our current sprints, but something that will hopefully help us is <i>spec-cleaner</i> that Tomáš Chvátal and Tomáš Čech were working on lately during their free time/hackweek. What is it trying to address? Currently, there are some packaging guidelines, but when you write a spec file for your software, you still have plenty of choices. How do you order all the information in the header? Do you use curly brackets around macros? Do you use macros? Which ones do you use and which not? Do you use binaries in dependencies? Package config? Perl symbols? Package names? There is <i>format_spec_file</i> obs service that tries to unify a little bit the coding style but leaves quite some of the stuff up to you. Not necessarily a bad thing, but if you have to compare changes and review packages that are using completely different coding styles the process becomes harder and slower.</p>
+<p><i>spec-cleaner</i> is <i>format_spec_file</i> taken to another level. It tries to unify coding style as much as it can. It uses consistent conventions, makes most of the decisions mentioned previously for you and if you already decided for one way in the past, it will try to convert your spec file to follow the conventions that it specifies. It&#8217;s not enforcing anything, it&#8217;s standalone script and therefore you don&#8217;t have to be worried that you spec file will be out of your control. You can run it, verify the result (actually, you should verify the results as there might still be some bugs) and commit it to OBS. If we all do it, our packages will all look more alike and it will be easier to read and review them.</p>
+<p>How to try it? How to help? Well, code is on <a href="https://github.com/openSUSE/spec-cleaner">GitHub</a> and packages are in <a href="https://build.opensuse.org/package/show/openSUSE:Tools/spec-cleaner">OBS</a>. You may have a version of it in your distribution, but that one is heavily outdated (even the 13.1 version), so add openSUSE:Tools repo and try the version from there.</p>
+<pre>zypper ar -f obs://openSUSE:Tools/openSUSE_13.1 openSUSE-Tools
+zypper in spec-cleaner</pre>
+<p>You can then go to some local checkout and try what changes does it propose for your spec file. Easiest way is to just let it do stuff by calling it and taking a look at changes afterwards.</p>
+<pre>spec-cleaner -p -i *.spec
+osc diff</pre>
+<p>If it works, great, we will have more unified spec files. If it doesn&#8217;t, file a  <a href="https://github.com/openSUSE/spec-cleaner/issues">bug</a> <img src="https://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif" alt=";-)" class="wp-smiley" /> </p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2014/01/31/spec-cleaner-hide-all-your-precious-cruft/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
 		<title>Magic: It is now possible to use MS Silverlight based websites via pipelight</title>
-		<link>http://lizards.opensuse.org/2013/09/13/magic-it-is-now-possible-to-use-ms-silverlight-based-website-via-pipelight/</link>
-		<comments>http://lizards.opensuse.org/2013/09/13/magic-it-is-now-possible-to-use-ms-silverlight-based-website-via-pipelight/#comments</comments>
+		<link>https://lizards.opensuse.org/2013/09/13/magic-it-is-now-possible-to-use-ms-silverlight-based-website-via-pipelight/</link>
+		<comments>https://lizards.opensuse.org/2013/09/13/magic-it-is-now-possible-to-use-ms-silverlight-based-website-via-pipelight/#comments</comments>
 		<pubDate>Fri, 13 Sep 2013 20:42:55 +0000</pubDate>
 		<dc:creator><![CDATA[Richard Bos]]></dc:creator>
 				<category><![CDATA[Build Service]]></category>
@@ -34,19 +135,19 @@
 
 		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9913</guid>
 		<description><![CDATA[It has long been a challenge to use MS Silverlight based websites on linux systems. Especially in The Netherlands this is a big hurdle as many (&#62;80%) of the secondary school websites that pupils must use to communicate with their school (for homework, marks, etc) are equipped with Silverlight. Yes, really&#8230; Fortunately at the end [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>It has long been a challenge to use MS Silverlight based websites on linux systems.  Especially in The Netherlands this is a big hurdle as many (&gt;80%) of the secondary school websites that pupils must use to communicate with their school (for homework, marks, etc) are equipped with Silverlight.  Yes, really&#8230; <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_sad.gif' alt=':(' class='wp-smiley' /> </p>
+				<content:encoded><![CDATA[<p>It has long been a challenge to use MS Silverlight based websites on linux systems.  Especially in The Netherlands this is a big hurdle as many (&gt;80%) of the secondary school websites that pupils must use to communicate with their school (for homework, marks, etc) are equipped with Silverlight.  Yes, really&#8230; <img src="https://lizards.opensuse.org/wp-includes/images/smilies/icon_sad.gif" alt=":(" class="wp-smiley" /> </p>
 <p>Fortunately at the end of August 2013 I discovered <a href="http://fds-team.de/cms/articles/2013-08/pipelight-using-silverlight-in-linux-browsers.html#section_1_4" title="An incredible solution ">pipelight</a>, a very smart idea to use MS Silverlight based website natively on Linux.  The problem was however to find a working pipelight package for openSUSE.  As there was none, I decided to build one myself using the incredible <a href="https://build.opensuse.org/">openSUSE Build Service</a>.  It was quite a quest to obtain a working package, but due to very good cooperation with the pipelight developers, I&#8217;m now able to present a working pipelight package to the openSUSE community.  Oh, and while working on the package I reported a bug via the bug report system, that was solved and published via an rpm package within 1 hour after reporting it (that was during out of office hours).  Indeed within 1 hour after reporting the problem it was; accepted, investigated, analysed, fixed, tested, handed over to me, packaged, tested and published!  The amazing world of Open Source Software!</p>
 <p>Pipelight works okay for the following sites (<a href="http://fds-team.de/cms/articles/2013-08/pipelight-using-silverlight-in-linux-browsers.html#section_5">among many others</a>): arte, LOVEFiLM, Netflix, Magister based NL schoolwebsites, WATCHEVER, etc.  View the complete list on the <a href="http://fds-team.de/cms/articles/2013-08/pipelight-using-silverlight-in-linux-browsers.html">pipelight website</a>.</p>
 <p>The <a href="http://fds-team.de/cms/articles/2013-08/pipelight-using-silverlight-in-linux-browsers.html#section_1_4">installation instructions</a> are on the pipelight website.  Be aware though, that pipelight requires the wine package that is provided via the home:rbos:pipelight repository.  With any other wine package, pipelight will (very likely) not work.  If you rely on your currently installed wine package and installed MS applications and are unsure that the wine package provided via the home:rbos:pipelight repository will leave your currently in use MS applications untouched: don&#8217;t install pipelight (or only after making very good backups).  You can always start by installing pipelight in a virtual machine.</p>
 <p>Have fun with pipelight.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/09/13/magic-it-is-now-possible-to-use-ms-silverlight-based-website-via-pipelight/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/09/13/magic-it-is-now-possible-to-use-ms-silverlight-based-website-via-pipelight/feed/</wfw:commentRss>
 		<slash:comments>3</slash:comments>
 		</item>
 		<item>
 		<title>Keeping Factory in shape</title>
-		<link>http://lizards.opensuse.org/2013/06/13/keeping-factory-in-shape/</link>
-		<comments>http://lizards.opensuse.org/2013/06/13/keeping-factory-in-shape/#comments</comments>
+		<link>https://lizards.opensuse.org/2013/06/13/keeping-factory-in-shape/</link>
+		<comments>https://lizards.opensuse.org/2013/06/13/keeping-factory-in-shape/#comments</comments>
 		<pubDate>Thu, 13 Jun 2013 12:00:41 +0000</pubDate>
 		<dc:creator><![CDATA[calumma]]></dc:creator>
 				<category><![CDATA[Boosters]]></category>
@@ -93,13 +194,13 @@
 <li>Niels Abspoel</li>
 </ol>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/06/13/keeping-factory-in-shape/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/06/13/keeping-factory-in-shape/feed/</wfw:commentRss>
 		<slash:comments>0</slash:comments>
 		</item>
 		<item>
 		<title>openQA in openSUSE</title>
-		<link>http://lizards.opensuse.org/2013/06/06/openqa-in-opensuse/</link>
-		<comments>http://lizards.opensuse.org/2013/06/06/openqa-in-opensuse/#comments</comments>
+		<link>https://lizards.opensuse.org/2013/06/06/openqa-in-opensuse/</link>
+		<comments>https://lizards.opensuse.org/2013/06/06/openqa-in-opensuse/#comments</comments>
 		<pubDate>Thu, 06 Jun 2013 12:00:26 +0000</pubDate>
 		<dc:creator><![CDATA[calumma]]></dc:creator>
 				<category><![CDATA[Build Service]]></category>
@@ -164,30 +265,30 @@
 <p>We&#8217;re very happy that Bernhard has helped us, both with work and advice, to get these changes implemented. Several improvements were integrated in the <a href="https://github.com/bmwiedemann/os-autoinst/">current production version of openQA</a> and most of the more invasive ones are part of the V2 branch of openQA. We plan to sit together with Bernhard to see about deploying V2 to <a title="openQA in action" href="http://openqa.opensuse.org/results/" target="_blank">openqa.opensuse.org</a> for testing factory as soon as possible.</p>
 <p>There is still work to be done. For example, for full integration testing we need to expand on the current ability which allows to run the tests on real hardware. This will for example allow testing graphics and network cards. Also, writing proper documentation is on the todo list. For those interested in helping out putting openQA to work and keeping the quality of our distribution high, the <a title="openSUSE Conference site" href="http://conference.opensuse.org" target="_blank">openSUSE Conference</a> will feature a workshop on creating tests for Factory.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/06/06/openqa-in-opensuse/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/06/06/openqa-in-opensuse/feed/</wfw:commentRss>
 		<slash:comments>4</slash:comments>
 		</item>
 		<item>
 		<title>Tidy home, tidy Build Service</title>
-		<link>http://lizards.opensuse.org/2013/04/06/tidy-home-tidy-build-service/</link>
-		<comments>http://lizards.opensuse.org/2013/04/06/tidy-home-tidy-build-service/#comments</comments>
+		<link>https://lizards.opensuse.org/2013/04/06/tidy-home-tidy-build-service/</link>
+		<comments>https://lizards.opensuse.org/2013/04/06/tidy-home-tidy-build-service/#comments</comments>
 		<pubDate>Sat, 06 Apr 2013 11:50:08 +0000</pubDate>
 		<dc:creator><![CDATA[Will Stephenson]]></dc:creator>
 				<category><![CDATA[Build Service]]></category>
 
 		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9354</guid>
-		<description><![CDATA[Anyone using the Open Build Service in the last couple of weeks will notice how hopelessly overloaded it is.  I blame the ARM lads .  But there is something that we should all do as responsible community members: delete or disable your old stuff. I&#8217;ve just spent 15 minutes going through my Open Build Service [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>Anyone using the Open Build Service in the last couple of weeks will notice how hopelessly overloaded it is.  I blame the ARM lads <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';)' class='wp-smiley' /> .  But there is something that we should all do as responsible community members: delete or disable your old stuff.</p>
+		<description><![CDATA[Anyone using the Open Build Service in the last couple of weeks will notice how hopelessly overloaded it is.  I blame the ARM lads ;).  But there is something that we should all do as responsible community members: delete or disable your old stuff. I&#8217;ve just spent 15 minutes going through my Open Build Service [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Anyone using the Open Build Service in the last couple of weeks will notice how hopelessly overloaded it is.  I blame the ARM lads ;).  But there is something that we should all do as responsible community members: delete or disable your old stuff.</p>
 <p>I&#8217;ve just spent 15 minutes going through my Open Build Service <a href="https://build.opensuse.org/project/show?project=home%3Awstephenson">home:wstephenson</a> project, deleting unfinished works in progress, finished branches that were never deleted, inherited repositories in branched projects that aren&#8217;t relevant to the tweaks I&#8217;m making, and I think I&#8217;ve saved about 100 repositories for the OBS scheduler to recalculate and look at publishing.</p>
 <p>Time for you to spring clean too?</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/04/06/tidy-home-tidy-build-service/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/04/06/tidy-home-tidy-build-service/feed/</wfw:commentRss>
 		<slash:comments>1</slash:comments>
 		</item>
 		<item>
 		<title>wxRuby is now on BuildService</title>
-		<link>http://lizards.opensuse.org/2013/03/22/wxruby-is-now-on-buildservice/</link>
-		<comments>http://lizards.opensuse.org/2013/03/22/wxruby-is-now-on-buildservice/#comments</comments>
+		<link>https://lizards.opensuse.org/2013/03/22/wxruby-is-now-on-buildservice/</link>
+		<comments>https://lizards.opensuse.org/2013/03/22/wxruby-is-now-on-buildservice/#comments</comments>
 		<pubDate>Fri, 22 Mar 2013 09:29:12 +0000</pubDate>
 		<dc:creator><![CDATA[FabioMux]]></dc:creator>
 				<category><![CDATA[Build Service]]></category>
@@ -204,13 +305,13 @@
 <p>After some day spent to investigate about a possible upgrade of the SWIG dependency to the current 2.0 version, i produced some patches to fix this and the other annoying compiling errors, and finally, thanks to the Buildservice infrastructure, a wxRuby RPM compiled from sources with the relative patches are now availables for all openSUSE users!</p>
 <p>As far i googled this should be the first distro to have a precompiled and working wxruby gem among its repositories (being compiled from sources the gem is generated for 32 and 64 bits architecture from Buildservice itself), so Rubyists take a look on software.opensuse.org, select the package coming from my home project account and enjoy!</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/03/22/wxruby-is-now-on-buildservice/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/03/22/wxruby-is-now-on-buildservice/feed/</wfw:commentRss>
 		<slash:comments>0</slash:comments>
 		</item>
 		<item>
 		<title>openSUSE 12.3 Image available for ARM64 (AArch64)</title>
-		<link>http://lizards.opensuse.org/2013/03/05/opensuse-12-3-image-available-for-arm64-aarch64/</link>
-		<comments>http://lizards.opensuse.org/2013/03/05/opensuse-12-3-image-available-for-arm64-aarch64/#comments</comments>
+		<link>https://lizards.opensuse.org/2013/03/05/opensuse-12-3-image-available-for-arm64-aarch64/</link>
+		<comments>https://lizards.opensuse.org/2013/03/05/opensuse-12-3-image-available-for-arm64-aarch64/#comments</comments>
 		<pubDate>Tue, 05 Mar 2013 12:56:02 +0000</pubDate>
 		<dc:creator><![CDATA[Dirk Müller]]></dc:creator>
 				<category><![CDATA[Base System]]></category>
@@ -226,13 +327,13 @@
 <p>As an open distribution, it is important to make contributions easy and we worked hard to enable others to participate in our effort. We extended OBS to automatically spawn a <a href="http://www.arm.com/products/tools/models/fast-models/foundation-model.php">Foundation Model</a> virtual machine when you want to build for aarch64. This works remotely on the OBS server as well as locally using osc build. More information on this is available on the <a href="http://en.opensuse.org/Portal:ARM/AArch64">respective wiki page</a>.</p>
 <p>So, dive right into it:  Get the image and start with openSUSE on AArch64 by following our wiki page: <a href="https://en.opensuse.org/Portal:ARM/AArch64">https://en.opensuse.org/Portal:ARM/AArch64</a>.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/03/05/opensuse-12-3-image-available-for-arm64-aarch64/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/03/05/opensuse-12-3-image-available-for-arm64-aarch64/feed/</wfw:commentRss>
 		<slash:comments>0</slash:comments>
 		</item>
 		<item>
 		<title>new osc buildlog &#8211;strip-time option</title>
-		<link>http://lizards.opensuse.org/2012/12/17/new-osc-buildlog-strip-time-option/</link>
-		<comments>http://lizards.opensuse.org/2012/12/17/new-osc-buildlog-strip-time-option/#comments</comments>
+		<link>https://lizards.opensuse.org/2012/12/17/new-osc-buildlog-strip-time-option/</link>
+		<comments>https://lizards.opensuse.org/2012/12/17/new-osc-buildlog-strip-time-option/#comments</comments>
 		<pubDate>Mon, 17 Dec 2012 13:49:05 +0000</pubDate>
 		<dc:creator><![CDATA[Marcus Hüwe]]></dc:creator>
 				<category><![CDATA[Build Service]]></category>
@@ -249,163 +350,7 @@ The &#8220;&#8211;strip-time&#8221; option is also supported by the &#8220;local
 commands.</p>
 <p>Marcus</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2012/12/17/new-osc-buildlog-strip-time-option/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
-		<item>
-		<title>Run X2go thin-client using kiwi-ltsp</title>
-		<link>http://lizards.opensuse.org/2012/09/27/run-x2go-thin-client-using-kiwi-ltsp/</link>
-		<comments>http://lizards.opensuse.org/2012/09/27/run-x2go-thin-client-using-kiwi-ltsp/#comments</comments>
-		<pubDate>Thu, 27 Sep 2012 11:18:30 +0000</pubDate>
-		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
-				<category><![CDATA[Build Service]]></category>
-		<category><![CDATA[Derivative]]></category>
-		<category><![CDATA[Desktop]]></category>
-		<category><![CDATA[Education]]></category>
-		<category><![CDATA[Network]]></category>
-		<category><![CDATA[Server]]></category>
-		<category><![CDATA[Systems Management]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9029</guid>
-		<description><![CDATA[Recently, came across x2go packages maintained by Jan Engelhardt for openSUSE and other distributions on open build service. As openSUSE Education Li-f-e has great LTSP integration thanks to KIWI-LTSP, I decided to check out how x2go can fit in with this existing thin-client computing solution. &#8220;x2go is an open (GPL/AGPL) source “server based computing” project. [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>Recently, came across <a title="x2go home" href="http://x2go.org">x2go</a> packages maintained by<a title="People of openSUSE" href="http://news.opensuse.org/2009/04/23/people-of-opensuse-jan-engelhardt/"> Jan Engelhardt</a> for openSUSE and other distributions on <a title="X11:RemoteDesktop:x2go" href="https://build.opensuse.org/project/show?project=X11:RemoteDesktop:x2go">open build service</a>. As <a title="Li-f-e" href="http://en.opensuse.org/openSUSE:Education-Li-f-e">openSUSE Education Li-f-e</a> has great <a title="LTSP home" href="http://ltsp.org">LTSP</a> integration thanks to<a title="KIWI-LTSP on openSUSE wiki" href="http://en.opensuse.org/Portal:KIWI-LTSP"> KIWI-LTSP</a>, I decided to check out how x2go can fit in with this existing thin-client computing solution.</p>
-<p>&#8220;x2go is an open (<acronym title="GNU General Public License">GPL</acronym>/AGPL) source “server based computing” project. Combining the advantages of existing systems it features ease of use, performance and scalability. x2go provides you with access to your desktop &#8211; from within your own network and via the internet. x2go is not limited to particular hardware, it supports a variety of devices and architectures.&#8221; -from their website.</p>
-<p>Some of the features/benefits of x2go that are not available on LTSP are:</p>
-<p>* Remote login from within local lan and internet from any OS<br />
-* Session persistence, you can disconnect session from one client and continue where you left off from any other client<br />
-* Low bandwidth usage<br />
-* Session sharing with other users<br />
-<span id="more-9029"></span><br />
-Apart from these, x2go also supports sound redirection via pulseaudio, folder sharing for access to local disks similar to LTSP.</p>
-<p>I would personally still prefer LTSP session in local network, and as x2goserver and LTSP server can coexist on same server we can choose x2goclient to connect over the internet and log in using LTSP in local lan.</p>
-<p>Here is how to run x2go as kiosk session by PXE booting a thin-client/PC/laptop.</p>
-<p>* Install <a title="kiwi-ltsp-profile-x2go" href="http://software.opensuse.org/package/kiwi-ltsp-profile-x2go">kiwi-ltsp-profile-x2go</a> on openSUSE Edu Li-f-e or 12.2 via <a title="Install via 1-click" href="http://software.opensuse.org/ymp/server:ltsp/openSUSE_12.2/kiwi-ltsp-profile-x2go.ymp">1-click from here</a>.<br />
-* Run <code>kiwi-ltsp -ln openSUSE_12_2_x2go</code> as root to create KIWI-LTSP image that is used for PXE booting clients, (this step requires fast internet connection and about 250M download)<br />
-* Run <code>kiwi-ltsp -c</code> to configure required services<br />
-* Add the following to<strong><em> /srv/tftpboot/KIWI/root.default/etc/lts.conf</strong></em>  under [default] for all clients or under [MA:CA:DD:RE:SS] for a particular client and boot up the client, openSUSE_12_2_x2go will be available at the end of boot menu.<br />
-<code><br />
-        SCREEN_07=kiosk<br />
-        KIOSK_EXE="/usr/bin/x2goclient --no-menu --maximize --link=lan --geometry=fullscreen --thinclient --haltbt --no-session-edit  --add-to-known-hosts"<br />
-        KIOSKUSER=x2goclient<br />
- </code></p>
-<p>You can also have normal LTSP session on tty8 along with this by adding <code>SCREEN_08=ldm</code>. To connect to the server from non-thin-client install and run x2goclient.</p>
-<p>You can simply poweroff the client without the need to disconnect or do normal shutdown.</p>
-<p>Note: this method of using x2go is just for testing and development purpose, you can use x2goserver and x2goclient in a standalone mode without kiwi-ltsp bits. Nothing additional than installing x2goserver package is needed to setup the server, except firewall should allow access to ssh port(22). </p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2012/09/27/run-x2go-thin-client-using-kiwi-ltsp/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
-		<item>
-		<title>osc2: syntax update</title>
-		<link>http://lizards.opensuse.org/2012/08/16/osc2-syntax-update/</link>
-		<comments>http://lizards.opensuse.org/2012/08/16/osc2-syntax-update/#comments</comments>
-		<pubDate>Thu, 16 Aug 2012 11:18:59 +0000</pubDate>
-		<dc:creator><![CDATA[Marcus Hüwe]]></dc:creator>
-				<category><![CDATA[Build Service]]></category>
-		<category><![CDATA[GSOC]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8943</guid>
-		<description><![CDATA[Hi, as I already I wrote in an earlier post the last week I worked on implementing osc2&#8242;s &#8220;request&#8221; command. In order to create a new submit request the user has to run osc request create --submit api://src_project/src_package api://tgt_project What&#8217;s still needed is a way to specify a revision of the src_package. It isn&#8217;t possible [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>Hi,</p>
-<p>as I already I wrote in an earlier post the last week I worked on implementing osc2&#8242;s &#8220;request&#8221;<br />
-command. In order to create a new submit request the user has to run<br />
-<code>osc request create --submit api://src_project/src_package api://tgt_project</code><br />
-What&#8217;s still needed is a way to specify a revision of the src_package. It isn&#8217;t possible<br />
-to introduce a &#8220;&#8211;revision &#8221; option because it&#8217;s possible to specify multiple submit<br />
-actions for a request (so we can&#8217;t distinguish to which &#8211;submit action a revision<br />
-belongs to).<br />
-Finally I implemented darix&#8217; cool idea: simply use a svn-like syntax:<br />
-<code>osc request create --submit api://src_project/src_package@rev api://tgt_project</code></p>
-<p>Marcus</p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2012/08/16/osc2-syntax-update/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
-		<item>
-		<title>[gsoc] osc2 client &#8211; summary of week 12</title>
-		<link>http://lizards.opensuse.org/2012/08/15/gsoc-osc2-client-summary-of-week-12/</link>
-		<comments>http://lizards.opensuse.org/2012/08/15/gsoc-osc2-client-summary-of-week-12/#comments</comments>
-		<pubDate>Wed, 15 Aug 2012 15:40:49 +0000</pubDate>
-		<dc:creator><![CDATA[Marcus Hüwe]]></dc:creator>
-				<category><![CDATA[Build Service]]></category>
-		<category><![CDATA[GSOC]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8936</guid>
-		<description><![CDATA[Hi, here’s a small summary of the 12th (coding) week. The last week I continued the work on the new user interface. As a result the &#8220;request&#8221; command is more or less implemented. Yesterday I pushed the current code and it&#8217;s also possible to play around with it: checkout the code [1] cd osc2/osc/cli export [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>Hi,</p>
-<p>here’s a small summary of the 12th (coding) week. The last week I continued<br />
-the work on the new user interface. As a result the &#8220;request&#8221; command is more<br />
-or less implemented. Yesterday I pushed the current code and it&#8217;s also possible<br />
-to play around with it:</p>
-<ul>
-<li>checkout the code <a href="http://https://github.com/openSUSE/osc2">[1]</a></li>
-<li>cd osc2/osc/cli</li>
-<li>export PYTHONPATH=/path/to/osc2</li>
-<li>python cli.py -h (for more information)</li>
-</ul>
-<p>Example:<br />
-In order to list a request it is sufficient to run<br />
-&#8220;python cli.py request api://your_project&#8221; (Note: all https requests are<br />
-_insecure_ &#8211; so far the certificate etc. is not checked).</p>
-<p>Some implementation details:<br />
-In my last mail/post I described how a new (sub)command can be specified<br />
-so I&#8217;ll leave out the details here.<br />
-In the following I&#8217;ll shortly explain how the arguments specified by the<br />
-user at the commandline are passed to a function (which does the actual<br />
-work &#8211; like listing the requests).</p>
-<pre><code>
-class RequestList(CommandDescription, Request):
-    """
-    ...
-    """
-    cmd = 'list'
-    args = 'api://project?/package?'
-    opt_user = Option('U', 'user', 'list only requests for USER')
-    func = call(request.list)
-</code></pre>
-<p>As we can see the project and package parameters are optional. After<br />
-the parsing process a so called &#8220;info&#8221; object is returned which encapsulates<br />
-the specified arguments. Assume the user runs &#8220;request list api://test_prj&#8221;<br />
-then the info object has the following attributes:</p>
-<pre><code>
-    info.apiurl = the default apiurl
-    info.project = 'test_prj'
-    info.package = None
-</code></pre>
-<p>The question is how can we pass this data to the request.list function?<br />
-A simple (and naive) approach would be to simply pass the &#8220;info&#8221; object<br />
-to the request.list function that is &#8220;list&#8221; has the following signature<br />
-&#8220;def list(info)&#8221;. As a consequence inside the method we always have to<br />
-use &#8220;info.project&#8221;, &#8220;info.package&#8221; etc. which is a bit awkward &#8211; at least<br />
-for parameters which are quite frequently used in the method definition.</p>
-<p>So it would be nice if there&#8217;s a way to pass frequently used parameters<br />
-directly to the method (that is they&#8217;re declared as formal parameters<br />
-in the method definition) and infrequently used parameters can still be<br />
-accessed via the info object. Exactly like this it is currently<br />
-implementend in osc2.</p>
-<p>So the following signatures would be correct for our example:</p>
-<pre><code>
-    def list(project, package, info)
-    def list(project, package, user)
-    def list(project, package, user, info)
-    def list(project, info)
-    def list(info, project)
-    def list(project)  # using the info object is not mandatory
-    def list()  # quite useless...
-    ...
-</code></pre>
-<p>Invalid signatures:</p>
-<pre><code>
-    def list(prj, pkg, info)
-    def list(foo, info)
-    ...
-</code></pre>
-<p>So it is up to the developer how to define the signature of the<br />
-request.list function &#8211; it is not completely dictated by osc:)</p>
-<p>Marcus</p>
-<p>[1] <a href="http://https://github.com/openSUSE/osc2">https://github.com/openSUSE/osc2</a></p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2012/08/15/gsoc-osc2-client-summary-of-week-12/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2012/12/17/new-osc-buildlog-strip-time-option/feed/</wfw:commentRss>
 		<slash:comments>0</slash:comments>
 		</item>
 	</channel>

@@ -16,8 +16,8 @@
   <meta itemprop="description" content="openSUSE News Blog">
 
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="Unterstanding the nvidia driver process" />
-  <meta property="og:url" content="https://lizards.opensuse.org/2014/01/15/unterstanding-the-nvidia-driver-process/" />
+  <meta property="og:title" content="Help yourselves to our low hanging fruit!" />
+  <meta property="og:url" content="https://lizards.opensuse.org/2014/03/13/help-yourselves-to-our-low-hanging-fruit/" />
   <meta property="og:description" content="" />
 
   <!-- include JS from static.opensuse.org -->
@@ -49,8 +49,8 @@
     <link rel="alternate" type="application/rss+xml" title="openSUSE Lizards &raquo; Boosters Category Feed" href="https://lizards.opensuse.org/category/boosters/feed/" />
 <link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://lizards.opensuse.org/xmlrpc.php?rsd" />
 <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://lizards.opensuse.org/wp-includes/wlwmanifest.xml" /> 
-<meta name="generator" content="WordPress 3.7.1" />
-<script type='text/javascript' src='https://lizards.opensuse.org/wp-content/plugins/anti-captcha/anti-captcha-0.3.js.php?ver=30aaa42805c04522a16e12d7e5b87437'></script>
+<meta name="generator" content="WordPress 3.8.1" />
+<script type='text/javascript' src='https://lizards.opensuse.org/wp-content/plugins/anti-captcha/anti-captcha-0.3.js.php?ver=cc9b3c69b56df284846bf2432f1cba90'></script>
 <style type="text/css">
 .avatar {vertical-align:middle}
 .credit {font-size: 50%;}
@@ -122,6 +122,268 @@
         <div class="alignright"></div>
         <div class="clearfix"></div>
       </div>
+
+            <div class="post-10658 post type-post status-publish format-standard hentry category-boosters">
+          <h3 id="post-10658"><a href="https://lizards.opensuse.org/2014/03/13/help-yourselves-to-our-low-hanging-fruit/" rel="bookmark" title="Permanent Link to Help yourselves to our low hanging fruit!">Help yourselves to our low hanging fruit!</a></h3>
+          <small>March 13th, 2014 by <a href="https://lizards.opensuse.org/author/calumma/" title="Posts by calumma" rel="author">calumma</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2014/03/13/help-yourselves-to-our-low-hanging-fruit/"
+                data-text="openSUSE News: Help yourselves to our low hanging fruit!"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2014%2F03%2F13%2Fhelp-yourselves-to-our-low-hanging-fruit%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>An update on what we&#8217;re doing and a call for help!<br />
+<div id="attachment_10661" style="width: 310px" class="wp-caption alignright"><a href="//lizards.opensuse.org/wp-content/uploads/2014/03/openQA.png"><img src="//lizards.opensuse.org/wp-content/uploads/2014/03/openQA-300x210.png" alt="openQAv2" width="300" height="210" class="size-medium wp-image-10661" /></a><p class="wp-caption-text">openQAv2</p></div></p>
+<h2>What was going on</h2>
+<p>From our previous posts you probably know what do we do these days. We are working on our goal to make Factory more stable by using staging projects and openQA. Both projects are close to reaching important milestones. Regarding the osc plugin that is helping out with staging, we are in the state that coolo and scarabeus can manage Factory and staging projects using it. We did some work on covering it with tests and currently we are somewhere half-way there. Yes, there is a room for improvement (patches are welcome), but it is good enough for now. We are missing integration with OBS, automation and much more. But as the most important part of all this is integration with openQA, we decided to put this sprint on hold and focus even more on openQA.</p>
+<h2>How to play with it and help move this forward?</h2>
+<p>During our work, we found some tasks that are not blocking us but would be nice to have. Some of these are quite easy for people interested in diving in and making a difference in these projects. We put them aside in <a href="https://progress.opensuse.org/">progress.opensuse.org</a> to make it easilly recognizable that these tasks can be taken and are relatively easy. Let&#8217;s take a closer look at what tasks are there to play with. Of course &#8211; it would be very cool if, through using the new tools, you find out other things that improve the work flow!</p>
+<ul>
+<li><a href="https://progress.opensuse.org/versions/69">Helping staging</a>. I already mentioned one way you can help our factory staging plugin.</li>
+<li><a href="https://progress.opensuse.org/issues/1908">Improving test coverage</a>. It might sound boring at first, but is a quite entertaining task. We have a <a href="https://github.com/openSUSE/osc-plugin-factory/blob/master/tests/README.asciidoc">short documentation</a> explaining how tests work. In summary, we have a class simulating a limited subset of OBS and we just run commands and wait whether our fake OBS ends up in correct state. This makes writing tests much easier. To make it more interesting, we use Travis CI and <a href="https://coveralls.io/r/openSUSE/osc-plugin-factory">Coveralls</a>. Big advantage of those is that it does a test run on every pull request and shows you how you improved the test coverage. It also shows what is not covered yet. In other words, it shows what should be covered next <img src="https://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif" alt=":-)" class="wp-smiley" /> </li>
+<li>What else needs to be done to make staging project more reliable is to <a href="https://progress.opensuse.org/issues/1321">fix all packages</a> that are randomly failing. This is mostly packaging/obs debugging task. So doesn&#8217;t require any python and can be done package by package.</li>
+<li>Last thing on the staging projects todo list for now is <a href="https://progress.opensuse.org/issues/1761">making the staging api class into singletons</a>. For those who know python this is actually really easy. But while at it, you will be taking a look at the rest of our code and we will definitely not mind anybody polishing it or removing bugs!</li>
+</ul>
+<div id="attachment_10662" style="width: 310px" class="wp-caption alignright"><a href="//lizards.opensuse.org/wp-content/uploads/2014/03/coveralls.png"><img src="//lizards.opensuse.org/wp-content/uploads/2014/03/coveralls-300x201.png" alt="coveralls in action" width="300" height="201" class="size-medium wp-image-10662" /></a><p class="wp-caption-text">coveralls in action</p></div>
+<h2>Helping openQA</h2>
+<p>In openQA, currently we have code cleaning <a href="https://progress.opensuse.org/versions/73">tasks</a>. It&#8217;s about polishing the code we have &#8211; like removing useless index controller and fixing code highlighting. Or doing simple optimizations &#8211; like caching image thumbnails.</p>
+<p>In case of openQA, you might be a little confused where to send your code. We have been doing some short and mid term planning with Bernhard M. Wiedemann, the man behind openqa.opensuse.org and one of the original openQA developers, together with Dominik Heidler. Now the code considered to be &#8216;upstream&#8217; have been moved to several repositories under the <a href="https://github.com/os-autoinst">os-autoinst organization in github</a>. This code contains all the improvements introduced to extensivelly test our beloved openSUSE 13.1. The next generation of the tool is being developed right now in <a href="https://github.com/openSUSE-Team/openQA/tree/devel">a separate repository</a> and will be merged into upstream as soon as we feel confident enough, which means more automated testing, more staging deployments and more code revisions and audits. If you want to help us, you are welcome to send pull requests to either of those repositories and someone will take a look at them.</p>
+<h2>What next?</h2>
+<p>As we wrote, we are currently putting all our effort into openQA. We already have basic authentication and authorization, we are working on tests, fixing bugs and making sure the service in general is easy to deploy. And of course we are working toward our main goal &#8211; having a new openQA instance with all cool features available in public. Currently it is already kind of easy to get your own instance running, so if you are web or perl developer, nothing should stop you from playing with it and making it more awesome!</p>
+          </div>
+
+          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/boosters/" title="View all posts in Boosters" rel="category tag">Boosters</a> |   <a href="https://lizards.opensuse.org/2014/03/13/help-yourselves-to-our-low-hanging-fruit/#respond" title="Comment on Help yourselves to our low hanging fruit!">No Comments &#187;</a></p>
+
+        </div>
+
+            <div class="post-10627 post type-post status-publish format-standard hentry category-boosters">
+          <h3 id="post-10627"><a href="https://lizards.opensuse.org/2014/03/06/short-report-from-installfest-2014-prague/" rel="bookmark" title="Permanent Link to Short report from Installfest 2014 Prague">Short report from Installfest 2014 Prague</a></h3>
+          <small>March 6th, 2014 by <a href="https://lizards.opensuse.org/author/calumma/" title="Posts by calumma" rel="author">calumma</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2014/03/06/short-report-from-installfest-2014-prague/"
+                data-text="openSUSE News: Short report from Installfest 2014 Prague"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2014%2F03%2F06%2Fshort-report-from-installfest-2014-prague%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p><a href="//lizards.opensuse.org/wp-content/uploads/2014/03/installfest-prague.jpg"><img src="//lizards.opensuse.org/wp-content/uploads/2014/03/installfest-prague-300x169.jpg" alt="installfest prague" width="300" height="169" class="alignright size-medium wp-image-10628" /></a><em>This week, Michal and Tomáš write about their visit of the Installfest 2014 in Prague.</em></p>
+<p><a href="http://installfest.cz/if14/" target="_blank">Installfest Prague</a> is a local conference that despite it&#8217;s name has talk tracks and sometime even quite technical topics. We, Michal Hrušecký and Tomáš Chvátal, attended this event and spread the Geeko News around&#8230;</p>
+<h2>Linux for beginners workshop</h2>
+<p>Tomáš worked with local community member <a href="https://plus.google.com/u/0/113374907586002424670" target="_blank">Amy Winston</a> to show that our lovely openSUSE 13.1 is great for day-to-day usage, even (or especially) for people migrating from windows. We demonstrated KDE&#8217;s Plasma Desktop, how to use YaST to achieve common tasks and then asked the audience for specific requests about things to demonstrate. We can tell you the participants liked Steam a lot! Apart from  the talking about and demonstrating openSUSE we also explained people that SUSE is selling SLE and they can <a href="https://www.suse.com/shop/" target="_blank">buy it in the store </a>if they want a rock-solid stable OS.</p>
+<p>The workshop setup was a bit tricky because the machines didn&#8217;t have optical drives and we didn&#8217;t have enough usb sticks to work around the issue. Our solution was to boot up the ISO directly from PXE server and force NetworkManager to not start during the boot because it happily overwrote the network configuration and thus loosing the ISO it was booting from.</p>
+<h2>Factory workflow presentation</h2>
+<p>Over the last months, our team has been working on improving the way we develop openSUSE: theF Factory Workflow. You can read up on it in earlier blogs here. During the Installfest, we showcased our new workflow which uses openQA and staging projects. We discussed what we try to achieve what we can already do right now with osc/obs/openQA combo. People were quite enthusiastic and two people in the audience already used Factory!</p>
+<p>As always we mentioned that we have Easy hacks and we really really want people to work on them.</p>
+<h2>Overall SUSE presence</h2>
+<p>openSUSE/SUSE presence was as usual high on this event so we tried our best to let people know that we are cool as project and great as company. We shared with everyone our openSUSE/SLE dvds, posters, stickers, &#8230; During the talks/workshops we also gave out SUSE swag as presents to people who answered some tricky questions.</p>
+<h2>Job offerings</h2>
+<p>We let everyone know that we are looking for plenty of new people in various departements. Namely QA/QAM to which few people got interested and took the printed out prospects. So hopefully our teams will grow <img src="https://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /> </p>
+          </div>
+
+          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/boosters/" title="View all posts in Boosters" rel="category tag">Boosters</a> |   <a href="https://lizards.opensuse.org/2014/03/06/short-report-from-installfest-2014-prague/#respond" title="Comment on Short report from Installfest 2014 Prague">No Comments &#187;</a></p>
+
+        </div>
+
+            <div class="post-10618 post type-post status-publish format-standard hentry category-boosters">
+          <h3 id="post-10618"><a href="https://lizards.opensuse.org/2014/02/28/about-openqa-and-authentication/" rel="bookmark" title="Permanent Link to About openQA and authentication">About openQA and authentication</a></h3>
+          <small>February 28th, 2014 by <a href="https://lizards.opensuse.org/author/calumma/" title="Posts by calumma" rel="author">calumma</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2014/02/28/about-openqa-and-authentication/"
+                data-text="openSUSE News: About openQA and authentication"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2014%2F02%2F28%2Fabout-openqa-and-authentication%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p><img src="//lizards.opensuse.org/wp-content/uploads/2013/05/factory-tested.png" alt="factory-tested" width="217" height="232" class="alignright size-full wp-image-9447" /><br />
+As you might have read in our previous post, our most important milestone in improving openQA is to make it possible to run the new version in public and accessible to everyone. To achieve this we need to add support for some form of authentication. This blog is about what we chose to support and why.</p>
+<h2>So what do we need?</h2>
+<p>openQA has several components that communicate with each other. The central point is the openQA server. It coordinates execution, stores the results and provides both the web interface for human beings and a REST-like API for the less-human beings. The REST API is needed for the so-called &#8216;workers&#8217;, which run the tests and send the results back to the server, but also for client command line utilities. Since this API can be used to schedule new tests, control job execution or upload results to the server, some kind of authentication is needed. We don&#8217;t want to write a whole article about REST authentication, but maybe some overview of the general problem could be useful to explain the chosen solution.</p>
+<h3>Authentication vs authorization</h3>
+<p>Let&#8217;s first clarify two related concepts: authentication vs authorization. Web authentication is easy when there is no API involved. You simply have a user and a password for accessing the service. You provide both to the server through your web browser so the server knows that you are the legitimate owner of the account, that&#8217;s all. That means a (hopefully different) combination of user and password for each service which is annoying and insecure. This is where <a href="http://en.wikipedia.org/wiki/OpenID">openID</a> comes into play. It allows any website to delegate authentication to a third party (an openID provider) so you can login in that website using your Google, Github or openSUSE account. In any case, it doesn&#8217;t matter if you are using a specific user, an openID user or another alternative system &#8211; authentication is always about proving to the server that you are the legitimate owner of the account so you can use it for whatever purpose in the website.<br />
+<img src="//lizards.opensuse.org/wp-content/uploads/2014/02/openid-icon-250x250.png" alt="openid-icon-250x250" width="250" height="250" class="alignright size-full wp-image-10621" /></p>
+<p>But, what about if you also provide a API meant to be consumed by applications instead of humans using a web browser? That&#8217;s where authorization comes into play. The owner of the account issues an authorization that can be used by an application to access a given subset of the information or the functionality. This authorization has nothing to do with the system used for real authentication. The application has no access to the user credentials (username or password) and is not impersonating the user in any way. It is just acting on his or her behalf for a limited subset of actions. The user can decide to revoke this authorization at any time (they usually simply expire in a certain period of time). Of course, a new problem arises: we need to verify that every request comes from a legitimately authorized entity.</p>
+<h2>Technologies we picked</h2>
+<p>We need a way to authenticate users, a way to authorize the client applications (like the workers) to act on their behalf and a way to check the validity of the authorizations. We could rely on the openSUSE login infrastructure (powered by <a href="https://www.netiq.com/products/access-manager/">Access Manager</a>), but we want openQA to be usable and secure for everybody willing to install it. Without caring if he is inside or outside the openSUSE umbrella.</p>
+<h3>openID</h3>
+<p>There&#8217;s not much to say about user authentication; openID was the obvious choice. Open, highly standarized and supported and compatible with the openSUSE system and with some popular providers like Google or Github. And even more important, a great way to save ourself the work and the risk of managing user credentials.</p>
+<h3>authentication &#8211; harder</h3>
+<p>According to the level of popularity and standardization, the equivalent of openID for authorization would be <a href="http://en.wikipedia.org/wiki/Oauth">oAuth</a>, but a closer look into it revealed some drawbacks, complexity being the first. oAuth is also not free of controversy, resulting in three alternative specifications: 1.0, 1.0a and 2.0. Despite what the numbers suggest, different specifications are not just versions of the same thing, but different approaches to the problem that have their own supporters and detractors. Using oAuth would mean enabling the openQA server to be able to act as an oAuth provider and the different client applications to act as oAuth consumers. Aside from the complexity and various versions of the standard, one of the steps of the oAuth authorization flow (used for adding a new script or tool) is redirecting the user to the oAuth provider web page in order for him/her to explicitly authorize the application. Which means that a browser is needed, not nice at all when the consumer is a command line tool (usually executed remotely). We want to keep it simple and we don&#8217;t want to run a browser to configure the workers or any other client tool. Let&#8217;s look for less popular alternatives.</p>
+<p>There are two sides to the authorization coin: identifying who is sending the request (and hence the privileges) and verifying that the request is legitimate and the server is not being cheated about that identity. The first part is usually achieved with an <a href="http://en.wikipedia.org/wiki/Application_programming_interface_key">API key</a>, a useful solution for open APIs in order to keep service volume under control, but not enough for a full authorization system. To achieve the second part, there is a strategy which is both easy to implement and safe enough for most cases: <a href="http://en.wikipedia.org/wiki/Hmac">HMAC</a> with a &#8220;shared secret&#8221;. </p>
+<p>In short, every authorization includes two automatically generated hash keys, the already mentioned API key and an additional private one which is only known to the server and to the application using that authorization. In each request, several headers are added: at least one with the timestamp of the request, another with the API key and a third one which is the result of applying an encryption algorithm (such as SHA-1) to the request itself (including the timestamp and the parameters) using the private hash as salt. In the server, queries with old timestamps are discarded. For fresh requests, the API key header is used to determine the associated private key and the same encryption algorithm is applied to the query, checking the result against the corresponding header to verify both the integrity of the request and the legitimacy of the sender.</p>
+<p>We decided to go for this as it is both simple and secure enough for our use case. Of course, the private key still needs to be stored both server and client side, but it&#8217;s not the users&#8217; password. It&#8217;s just a random shared secret with no relation to the real user credentials or identity. It also can be revoked at any point and can only be used for actions like upload a test result or cancel a job. Secure enough for a system like openQA, with no personal information stored and no critical functionality exposed.</p>
+<h2>Conclusion</h2>
+<p>So, we&#8217;ve implemented openID and are working on a lightweight HMAC based authorization system. Next week we&#8217;ll update you on the other things we are working on, including our staging projects progress!</p>
+          </div>
+
+          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/boosters/" title="View all posts in Boosters" rel="category tag">Boosters</a> |   <a href="https://lizards.opensuse.org/2014/02/28/about-openqa-and-authentication/#respond" title="Comment on About openQA and authentication">No Comments &#187;</a></p>
+
+        </div>
+
+            <div class="post-10570 post type-post status-publish format-standard hentry category-boosters category-build-service category-infrastructure-2">
+          <h3 id="post-10570"><a href="https://lizards.opensuse.org/2014/02/19/first-fruits-update-on-openqa-and-staging-work/" rel="bookmark" title="Permanent Link to First fruits &#8211; update on openQA and Staging work">First fruits &#8211; update on openQA and Staging work</a></h3>
+          <small>February 19th, 2014 by <a href="https://lizards.opensuse.org/author/calumma/" title="Posts by calumma" rel="author">calumma</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2014/02/19/first-fruits-update-on-openqa-and-staging-work/"
+                data-text="openSUSE News: First fruits &#8211; update on openQA and Staging work"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2014%2F02%2F19%2Ffirst-fruits-update-on-openqa-and-staging-work%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>In our <a href="//lizards.opensuse.org/2014/02/07/some-news-from-the-trenches/">previous summary</a>, we talked about some basic research and some ground work to build on. This time we have some first exciting results!</p>
+<h3>openQA</h3>
+<p>Last week we rearranged the repository a little bit, creating a <a href="https://github.com/openSUSE-Team/openQA/tree/devel">new branch called &quot;devel&quot;</a> where all the exciting (and not so exciting) changes are taking place. Our little Factory <img src="https://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif" alt=";-)" class="wp-smiley" /> </p>
+<p>The main difference between this branch as master is that, as you could read in the previous blog, the devel branch is openQA build on <a href="http://mojolicio.us">Mojolicious</a>, a nice web development framework. And having a proper web framework is starting to show its benefits: we have openID login available! Unfortunately the current openSUSE openID provider is a little bit weird, so it doesn&#8217;t play well with our tool yet, but some others are working and openSUSE accounts will be the next step. Having working user accounts is necessary to be able to start defining permissions and to make openQA truly multiuser. And to be able to deploy the new version on a public server!</p>
+<p>The other main focus of this week has been internal polishing. We have revamped the database layout and changed the way in which the different openQA components communicate with each other. The openQA functionality is spread out over several parts: the workers are responsible of actually executing the tests in virtual machines reporting the result after every execution; some client utilities are used to load new ISO images and similar tasks and, finally, we have the one openQA Server to rule them all. Until now, the communication between the server and the other components was done using <a href="http://json-rpc.org/">JSON-RPC</a> (a lightweight alternative to XML-RPC). We have dropped JSON-RPC in favor of a <a href="http://en.wikipedia.org/wiki/Representational_state_transfer">REST-like</a> API with just JSON over plain HTTP. This change allowed us to implement exactly the same functionality in a way that is simpler, perfectly supported by any web framework, natively spoken by browsers and easier to authenticate (using, for example, plain HTTP authentication or openID). This is also the first step to future integration with other services (think OBS, as the ultimate goal is to use openQA to test staging projects).</p>
+<p>But, who tests the tester? openQA is growing and changing quite fast so we have continued with the task of creating a good testing infrastructure to tests openQA itself to make sure that all our changes do not result in breakage. We only have a few tests right now, but we now have a solid foundation to write more and more tests.</p>
+<h3>Staging and package manipulation</h3>
+<p>In the last blog post we told you we were investigating a code test suite to test the abilities of a osc plugin we are writing. osc is the commandline tool for handling the Open Build Service, and this plugin is meant to help with the administration of staging projects. We&#8217;ve been thinking about how to move forward with the testing part as we want to make sure the functionality works as advertised. More important, we write tests to make sure that our additions and changes do not break existing functionality. We have started merging functionality from various scripts handling staging thingies and rings we had into this plugin. This is partially done so we can do basic staging project tasks! We can take a request (be it submit or delete) and put it to test in a staging project. We can also move packages between staging projects and we have a simple YAML in project descriptions to indicate what packages and what requests are there.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2014/02/openqa-staging.png"><img src="//lizards.opensuse.org/wp-content/uploads/2014/02/openqa-staging-300x102.png" alt="We're all green!" width="250" height="85" class="alignright size-medium wp-image-10576" /></a><br />
+Coolo already started using the plugin for some tasks, so you can <a href="https://build.opensuse.org/project/subprojects/openSUSE:Factory:Staging">see pretty titles</a> and <a href="https://build.opensuse.org/project/show/openSUSE:Factory:Staging:C">metadata</a> in staging projects descriptions. Not impressive enough? Let me provide you a good headline:</p>
+<p><b>Thanks to staging projects, no single regression have been introduced this year in the core of Factory</b></p>
+<p>You can enjoy a more detailed description in <a href="http://lists.opensuse.org/opensuse-factory/2014-02/msg00252.html">this announcement</a> written by coolo to the Factory mailing list and have some visual joy in the included screenshot (genuine pr0n for QA engineers).</p>
+<p>Last but not least, we also did some cleanup of the sources in the repo and of course we added more tests (as functionality grows). And there has been work on other parts of the plugin, like taking rings into account.</p>
+<h3>Result</h3>
+<p>We already have some useful functionality which we are going to expand and build on. Not that much to show yet, but we are progressing towards our goal. You can follow our progress either in the way of tasks (<a href="https://progress.opensuse.org/projects/openqav3">openQA</a> and <a href="https://progress.opensuse.org/projects/stagings">staging projects</a>) or just follow our commit history on github (again for both <a href="https://github.com/openSUSE-Team/openQA/tree/devel">openQA</a> and <a href="https://github.com/openSUSE/osc-plugin-factory">staging plugin</a>).</p>
+<p>We are very much looking forward to feedback and thoughts &#8211; these changes aim to make Factory development easier and thus we need to hear from all you!</p>
+          </div>
+
+          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/boosters/" title="View all posts in Boosters" rel="category tag">Boosters</a>, <a href="https://lizards.opensuse.org/category/build-service/" title="View all posts in Build Service" rel="category tag">Build Service</a>, <a href="https://lizards.opensuse.org/category/infrastructure-2/" title="View all posts in Infrastructure" rel="category tag">Infrastructure</a> |   <a href="https://lizards.opensuse.org/2014/02/19/first-fruits-update-on-openqa-and-staging-work/#respond" title="Comment on First fruits &#8211; update on openQA and Staging work">No Comments &#187;</a></p>
+
+        </div>
+
+            <div class="post-10518 post type-post status-publish format-standard hentry category-boosters category-build-service category-distribution category-factory category-programming">
+          <h3 id="post-10518"><a href="https://lizards.opensuse.org/2014/02/07/some-news-from-the-trenches/" rel="bookmark" title="Permanent Link to Some news from the trenches">Some news from the trenches</a></h3>
+          <small>February 7th, 2014 by <a href="https://lizards.opensuse.org/author/calumma/" title="Posts by calumma" rel="author">calumma</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2014/02/07/some-news-from-the-trenches/"
+                data-text="openSUSE News: Some news from the trenches"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2014%2F02%2F07%2Fsome-news-from-the-trenches%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>As you might know, we are focusing our development efforts in two fronts, namely <a href="http://lists.opensuse.org/opensuse-factory/2014-01/msg00317.html">openQA</a> and <a href="http://lists.opensuse.org/opensuse-factory/2014-01/msg00278.html">staging projects</a>. As we just started we don&#8217;t have fireworks for you (yet) but we did some solid ground work that we are going to build upon.</p>
+<h3>Working on openQA</h3>
+<p>We are organizing our daily job in openQA into highly focused sprints of two weeks. The focus of the first sprint was clear: cleanup the current codebase to empower future development and lower the entry barrier for casual contributors, which can be translated as &#8220;cleaning our own mess&#8221;. We created <a href="https://progress.opensuse.org/versions/67">some tasks in progress</a>, grouped in a version with a surprising and catchy name: Sprint 01.</p>
+<h4>Got my mojo workin&#8217;</h4>
+<p>Up to now, openQA web interface was written using just a bunch of custom CGI scripts and some configuration directives in Apache. We missed a convenient way to access to all the bell and whistles of modern web development and some tools to make the code more readable, reliable and easier to extend and test. In short, we missed a proper web development framework. We evaluated the most popular Perl-based alternatives and we finally decided to go for <a href="http://mojolicio.us/">Mojolicious</a> for several reasons:</p>
+<ul>
+<li>It provides all the functionality we demand from a web framework while being lightweight and unbloated.</li>
+<li>It&#8217;s stated as a &#8220;real time framework&#8221; which, buzzwords apart, means that is designed from the ground to fully support Comet (long-polling), EventSource and WebSockets. Very handy technologies for implementing some features in openQA.</li>
+<li>It really &#8220;feels&#8221; very close to <a href="http://www.sinatrarb.com/">Sinatra</a>, which makes Ruby on Rails     developers feel like at home. And we have quite some Rails developers hanging around, don&#8217;t we? Just think about OBS, software.o.o, WebYast, progress.o.o, OSEM, the TSP app&#8230;
+<li>Mojolicious motto is &#8220;web development can be fun again&#8221;. Who could resist to that?</li>
+</ul>
+<p>We&#8217;ve now reached the end of the sprint and we already have something that looks exactly the same than what we had before, but using Mojolicious internally. We are very happy with the framework and we are pretty confident that future development of openQA will be easier and faster than ever. OpenQA has mojo!</p>
+<h4>The database layer in openQA</h4>
+<p>Another part that we worked on during first sprint was the database layer. The user interface part of openQA use a SQLite database to store the jobs and workers registered in the system. The connection between the code and the database was expressed directly in SQL using a simple API.</p>
+<p>We have replaced this layer with another equivalent that uses an ORM (Object-relational mapping) in Perl (<a href="http://www.dbix-class.org/">DBIx::Class</a>). Every data model in openQA is now a true object that can be created, copied and moved between the different layers of the application. Quite handy.</p>
+<p>To make sure we don&#8217;t forget anything, we created a bunch of tests covering the whole functionality of the original code, running this test suite after each step of the migration. In this way we have achieved two goals: we now have a simple way to share and update information through the whole system and we can migrate very easily to a different database engine (something that we plan to do in the future).</p>
+<h3>What to do with staging</h3>
+<p>Over the time, coolo had accumulated quite some scripts that helped him with Factory. Most of them are actually related to something we are doing right now: the staging projects. So in the end we basically migrated all relevant ones to <a href="https://github.com/openSUSE/osc-plugin-factory">github</a> and one by one we are merging their functionality to staging plugin. We also experimented with test frameworks that we could use to test the plugin itself, selected few and we even have a first test! The final plan is to have the whole plugin functionality covered with a proper test suite, so we will know when something breaks. Currently, there is a lot of mess in our repo and the plugin itself need big cleanup, but we are working on it.</p>
+<h3>Contributions are welcome</h3>
+<p>If you want to help but wonder where to start, we identified tasks that are good to dive into the topic and named them &#8220;easy hacks&#8221;: mostly self contained tasks we expect to have little effort but we lack the time to do right now. Just jump over the list for <a href="https://progress.opensuse.org/versions/73">openQA</a> or <a href="https://progress.opensuse.org/versions/69">staging projects</a>.</p>
+<p>For grabbing the code related to staging project, you only need to clone the <a href="https://github.com/openSUSE/osc-plugin-factory">already mentioned repository</a>. The openQA code is spread in several repositories (<a href="https://github.com/openSUSE-Team/os-autoinst">one</a>, <a href="https://github.com/openSUSE-Team/openQA">two</a>, <a href="https://github.com/openSUSE-Team/os-autoinst-distri-opensuse">three</a> and <a href="https://github.com/openSUSE-Team/os-autoinst-needles-opensuse">four</a>), but setting up your own instance to play and hack is a piece of cake using <a href="http://software.opensuse.org/package/openQA">the packages</a> available in OBS (built automatically for every git push).</p>
+<p>If you simply want to see what we are doing in more detail, take a look at progress.o.o, we have both <a href="https://progress.opensuse.org/projects/openqav3">openQA</a> and <a href="https://progress.opensuse.org/projects/stagings">Staging projects</a> there.</p>
+<p>We are having a lot of fun, and we encourage you to join us!</p>
+          </div>
+
+          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/boosters/" title="View all posts in Boosters" rel="category tag">Boosters</a>, <a href="https://lizards.opensuse.org/category/build-service/" title="View all posts in Build Service" rel="category tag">Build Service</a>, <a href="https://lizards.opensuse.org/category/distribution/" title="View all posts in Distribution" rel="category tag">Distribution</a>, <a href="https://lizards.opensuse.org/category/distribution/factory/" title="View all posts in Factory" rel="category tag">Factory</a>, <a href="https://lizards.opensuse.org/category/programming/" title="View all posts in Programming" rel="category tag">Programming</a> |   <a href="https://lizards.opensuse.org/2014/02/07/some-news-from-the-trenches/#respond" title="Comment on Some news from the trenches">No Comments &#187;</a></p>
+
+        </div>
+
+            <div class="post-10489 post type-post status-publish format-standard hentry category-boosters category-distribution category-factory category-uncategorized">
+          <h3 id="post-10489"><a href="https://lizards.opensuse.org/2014/02/03/trying-to-add-some-light/" rel="bookmark" title="Permanent Link to Trying to add some light">Trying to add some light</a></h3>
+          <small>February 3rd, 2014 by <a href="https://lizards.opensuse.org/author/calumma/" title="Posts by calumma" rel="author">calumma</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2014/02/03/trying-to-add-some-light/"
+                data-text="openSUSE News: Trying to add some light"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2014%2F02%2F03%2Ftrying-to-add-some-light%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>Lately there was some confusion regarding our communication. We, at the <a href="https://en.opensuse.org/openSUSE:OpenSUSE_team">openSUSE Team@SUSE</a> are deeply aware that our communication needs to be improved. So in the hope to make everything clear again, here is the summary to clear up what is really going on and what was not happening.</p>
+<h3>Long story short:</h3>
+<ul>
+<li>There <strong>WILL</strong> be openSUSE 13.2 in November 2014</li>
+<li>13.2 <strong>WILL</strong> have security and maintenance support provided by SUSE</li>
+<li>We <strong>WILL</strong> have coolo as release manager for 13.2</li>
+<li>SUSE is <strong>NOT decreasing</strong> manpower put into openSUSE</li>
+<li>Everybody from the community is welcome and encouraged to be involved with, and if they want to, take over some parts of the release process and we will support you the best we can in doing that</li>
+</ul>
+<h3>Now for the long story.</h3>
+<p>Our team and only our team &#8211; openSUSE@SUSE &#8211; is going to work on improving &#8216;tooling&#8217; side of the openSUSE project until August. These changes will benefit openSUSE by making it easier to produce better releases in the future.</p>
+<p>Nothing changes for the rest of SUSE. SUSE is not abandoning openSUSE. The rest of SUSE will still do the same things they were doing until now and continue to keep openSUSE awesome. This includes Maintenance, Security, Infrastructure, and many other teams besides the openSUSE Team at SUSE who actively support the openSUSE project.</p>
+<h3>What is our plan?</h3>
+<p>Our plan is to make sure that future openSUSE releases are easier for everyone to produce. As we grow we could keep putting in more and more full-time release managers (if we find them somewhere), but this approach is probably unsustainable and, more importantly, goes against our desire to empower the community to do more as part of openSUSE.</p>
+<p>Therefore, we decided to improve our tools to ensure that making a release is much more straightforward and reliable and we can reduce and distribute the workload needed for integration and release. To make this happen we need time and everyone from the team to work on adapting the tooling side. We also would welcome volunteers to help us with tools and with the following release(s).</p>
+<p>With the release date now set in November (mirroring roadmap for 13.1), first milestone should be released in May. That is a perfect oportunity to go to openSUSE Conference in Croatia where we can meet up, gather volunteers to help and discuss how to work. Remember that openSUSE Travel Support is in place to sponsor everyone who needs financial help to get to the event.</p>
+<p>Hopefully now we cleared things up a little and we are really sorry again for our poor communication &#8211; We&#8217;re going to work on it.</p>
+<p>Your truely confused <a href="https://en.opensuse.org/openSUSE:OpenSUSE_team">openSUSE Team</a></p>
+          </div>
+
+          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/boosters/" title="View all posts in Boosters" rel="category tag">Boosters</a>, <a href="https://lizards.opensuse.org/category/distribution/" title="View all posts in Distribution" rel="category tag">Distribution</a>, <a href="https://lizards.opensuse.org/category/distribution/factory/" title="View all posts in Factory" rel="category tag">Factory</a>, <a href="https://lizards.opensuse.org/category/uncategorized/" title="View all posts in Uncategorized" rel="category tag">Uncategorized</a> |   <a href="https://lizards.opensuse.org/2014/02/03/trying-to-add-some-light/#respond" title="Comment on Trying to add some light">No Comments &#187;</a></p>
+
+        </div>
 
             <div class="post-10402 post type-post status-publish format-standard hentry category-base-system category-boosters category-distribution category-packaging category-toolchain">
           <h3 id="post-10402"><a href="https://lizards.opensuse.org/2014/01/15/unterstanding-the-nvidia-driver-process/" rel="bookmark" title="Permanent Link to Unterstanding the nvidia driver process">Unterstanding the nvidia driver process</a></h3>
@@ -310,7 +572,7 @@ Finally, openSUSE Linux 13.1 <a href="https://news.opensuse.org/2013/11/19/opens
 <p>Maybe you&#8217;re wondering what exactly we&#8217;ve been doing in these weeks previous to the release, well, that&#8217;s what Antonio Larossa is going to talk about in this post. <a href="https://lizards.opensuse.org/2013/11/22/working-on-an-opensuse-release/#more-10164" class="more-link">(more&hellip;)</a></p>
           </div>
 
-          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/boosters/" title="View all posts in Boosters" rel="category tag">Boosters</a> |   <a href="https://lizards.opensuse.org/2013/11/22/working-on-an-opensuse-release/#respond" title="Comment on Working on an openSUSE Release">No Comments &#187;</a></p>
+          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/boosters/" title="View all posts in Boosters" rel="category tag">Boosters</a> |   <span>Comments Off</span></p>
 
         </div>
 
@@ -405,696 +667,6 @@ Finally, openSUSE Linux 13.1 <a href="https://news.opensuse.org/2013/11/19/opens
 
         </div>
 
-            <div class="post-10026 post type-post status-publish format-standard hentry category-boosters">
-          <h3 id="post-10026"><a href="https://lizards.opensuse.org/2013/10/17/beta-and-rc-work/" rel="bookmark" title="Permanent Link to Beta and RC work">Beta and RC work</a></h3>
-          <small>October 17th, 2013 by <a href="https://lizards.opensuse.org/author/calumma/" title="Posts by calumma" rel="author">calumma</a> </small>
-
-          <div class="share-links">
-	    <div class="share-link">
-              <a href="http://twitter.com/share" class="twitter-share-button"
-                data-url="https://lizards.opensuse.org/2013/10/17/beta-and-rc-work/"
-                data-text="openSUSE News: Beta and RC work"
-                data-count="horizontal"
-                data-hashtags="openSUSE"
-                data-via="openSUSE">Tweet</a>
-            </div>
-            <div class="share-link">
-              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2013%2F10%2F17%2Fbeta-and-rc-work%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
-            </div>
-            <div class="clear"></div>
-          </div>
-
-          <div class="entry">
-            <p><img src="//lizards.opensuse.org/wp-content/uploads/2013/05/dister-mechanic-small-150x150.png" alt="dister-mechanic-small" width="150" height="150" class="alignright size-thumbnail wp-image-9433" /><br />
-As part of the openSUSE community efforts gearing up for openSUSE 13.1, the openSUSE team has been hard at work on a variety of things. Ludwig Nussel, in his role of <em>controller</em> in the team, keeps an eye on progress of the tasks we have been assigned. He gives an overview of some of the things we have been doing.</p>
-<h2>For beta 1</h2>
-<p>For beta 1 the focus was on testing and of course practical changes in a variety of areas. Here&#8217;s a list of the tasks on <a href="https://progress.opensuse.org/projects/opensuse-13-1-release/issues?c[]=project&amp;c[]=tracker&amp;c[]=priority&amp;c[]=status&amp;c[]=subject&amp;c[]=author&amp;c[]=assigned_to&amp;c[]=fixed_version&amp;c[]=due_date&amp;c[]=relations&amp;f[]=status_id&amp;f[]=fixed_version_id&amp;f[]=&amp;group_by=&amp;op[fixed_version_id]==&amp;op[status_id]=c&amp;per_page=50&amp;set_filter=1&amp;utf8=✓&amp;v[fixed_version_id][]=43">progress.opensuse.org</a>.</p>
-<p>After the btrfs discussion we checked out how often it is used and did some recommendations to give it extra testing. The result was that it was clearly mentioned in the Beta announcement and that during the installation YaST2 would ask if you could test btrfs.</p>
-<p><a href="https://progress.opensuse.org/projects/opensuse-13-1-release/issues/gantt?f[]=status_id&amp;f[]=&amp;month=3&amp;months=8&amp;op[status_id]=*&amp;set_filter=1&amp;utf8=%E2%9C%93&amp;year=2013&amp;zoom=3"><img src="//lizards.opensuse.org/wp-content/uploads/2013/10/gantt-chart-1024x517.png" alt="gantt chart" width="700" height="357" class="alignnone size-large wp-image-10038" /></a></p>
-<p>We organized the Beta Pizza Hackaton, getting internal help from the SLE team on fixing openSUSE bugs. The idea came up to make it a contest. We went over the bugs that were reported, putting them in categories (bronze/silver/gold) to signify importance for the release. We developed an IRC bot to announce changes and a script to record who-did-what to help a committee of &#8216;wise men&#8217; to decide who would win.</p>
-<p>In the technical area, we agreed with the documentation team to move the manuals into activedoc. That way they are easier to maintain and always up to date. And Greek was included as primary language on the dvd! We also had to work with MS to get the bootloader and kernel signed properly for UEFI systems, we documented the development process, hacked further on testing tools, and of course there was a lot of writing of articles for news.opensuse.org.</p>
-<p>Last but not least, we&#8217;ve been talking to Open Source press and helping them to ensure we have a boxed version of openSUSE 13.1 in Germany. We (and the openSUSE Board, as it is their decision) are still looking for providers in other countries!<br />
-<a href="//lizards.opensuse.org/wp-content/uploads/2013/10/13.1_openSUSE_3D_400px.png"><img src="//lizards.opensuse.org/wp-content/uploads/2013/10/13.1_openSUSE_3D_400px-264x300.png" alt="13.1 openSUSE 3D box" width="264" height="300" class="alignright size-medium wp-image-10030" /></a></p>
-<h2>RC1</h2>
-<p>Here&#8217;s a list of the tasks on <a href="https://progress.opensuse.org/projects/opensuse-13-1-release/issues?utf8=%E2%9C%93&amp;set_filter=1&amp;f[]=status_id&amp;op[status_id]=c&amp;f[]=fixed_version_id&amp;op[fixed_version_id]=%3D&amp;v[fixed_version_id][]=44&amp;f[]=&amp;c[]=project&amp;c[]=tracker&amp;c[]=priority&amp;c[]=status&amp;c[]=subject&amp;c[]=author&amp;c[]=assigned_to&amp;c[]=fixed_version&amp;c[]=due_date&amp;c[]=relations&amp;group_by=">progress.opensuse.org</a>. And the summary:</p>
-<p>To help the marketing team, we made and ran a script to remind packagers to tell marketing about their features. Based on this and help from the community, we made a start with the feature guide, writing about KDE, GNOME and the Linux kernel. A second goal was to get the &#8216;promote openSUSE 13.1&#8242; article out, for which we had to kick people for artwork and we had to update countdown.opensuse.org. We also updated software.opensuse.org with information about the USB stick installation.</p>
-<p>On the technical side, we did a lot of testing work and of course pick fixes to go into Factory. There was also work with Legal for a new EULA (End User License Agreement) which does not mention Novell anymore (will be included in the final); and we added openSUSE 13.1 to bugzilla, pinged our translators about the release and kicked people about the community repos.</p>
-<h2>A lot</h2>
-<p>As you can see, there are a lot of tasks we have to juggle. <a href="http://progress.opensuse.org">progress.opensuse.org</a> with it&#8217;s <a href="https://progress.opensuse.org/projects/opensuse-13-1-release/issues/gantt?f[]=status_id&amp;f[]=&amp;month=3&amp;months=8&amp;op[status_id]=*&amp;set_filter=1&amp;utf8=%E2%9C%93&amp;year=2013&amp;zoom=3">useful Gantt chart</a> is a big help for that, but it also simply requires work: checking what is done, what is not done, kicking people to do their thing. We&#8217;re hoping to get more community members involved with progress.opensuse.org &#8211; a few are already helping out via this tool and you&#8217;re welcome to check out how we do it!</p>
-<p>The end result is that we can release a quality product, on time &#8211; something to be proud of!</p>
-<h2>Statistics</h2>
-<p>We&#8217;re back with weekly statistics (the stats from last week were in the <a href="https://news.opensuse.org/2013/10/11/opensuse-13-1-rc-1-available-time-to-test/">RC1 announcement</a>. Here are the top-10 contributors to openSUSE Factory of the last week:</p>
-<table border="0" cellspacing="0">
-<tbody>
-<tr>
-<td align="LEFT" height="16">Spot</td>
-<td align="LEFT">Hacker</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">1</td>
-<td align="LEFT">Denisart Benjamin</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">2</td>
-<td align="LEFT">Dominique Leuenberger</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">3</td>
-<td align="LEFT">Raymond Wooninck</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">4</td>
-<td align="LEFT">Hrvoje Senjan</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">5</td>
-<td align="LEFT">Tomáš Chvátal</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">6</td>
-<td align="LEFT">Stephan Kulow</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">7</td>
-<td align="LEFT">Marguerite Su</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">8</td>
-<td align="LEFT">Sascha Peilicke, Matthias Mailänder, Marcus Meissner</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">9</td>
-<td align="LEFT">Cristian Rodríguez</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">10</td>
-<td align="LEFT">Guido Berhörster, Dirk Mueller, Andreas Schwab</td>
-</tr>
-</tbody>
-</table>
-          </div>
-
-          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/boosters/" title="View all posts in Boosters" rel="category tag">Boosters</a> |   <span>Comments Off</span></p>
-
-        </div>
-
-            <div class="post-9949 post type-post status-publish format-standard hentry category-boosters">
-          <h3 id="post-9949"><a href="https://lizards.opensuse.org/2013/10/02/creating-openqa-test-cases-for-opensuse-13-1/" rel="bookmark" title="Permanent Link to Creating openQA Test Cases for openSUSE 13.1">Creating openQA Test Cases for openSUSE 13.1</a></h3>
-          <small>October 2nd, 2013 by <a href="https://lizards.opensuse.org/author/calumma/" title="Posts by calumma" rel="author">calumma</a> </small>
-
-          <div class="share-links">
-	    <div class="share-link">
-              <a href="http://twitter.com/share" class="twitter-share-button"
-                data-url="https://lizards.opensuse.org/2013/10/02/creating-openqa-test-cases-for-opensuse-13-1/"
-                data-text="openSUSE News: Creating openQA Test Cases for openSUSE 13.1"
-                data-count="horizontal"
-                data-hashtags="openSUSE"
-                data-via="openSUSE">Tweet</a>
-            </div>
-            <div class="share-link">
-              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2013%2F10%2F02%2Fcreating-openqa-test-cases-for-opensuse-13-1%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
-            </div>
-            <div class="clear"></div>
-          </div>
-
-          <div class="entry">
-            <p><a href="//lizards.opensuse.org/wp-content/uploads/2013/05/factory-tested.png"><img class="size-full wp-image-9447 alignright" alt="factory-tested" src="//lizards.opensuse.org/wp-content/uploads/2013/05/factory-tested.png" width="217" height="232" /></a>It is time for an update on openQA! <em>Alberto Planas Domínguez</em> discusses how to install and create tests (or &#8220;<em>needles</em>&#8220;) for the tool that helps keep openSUSE Factory stable.</p>
-<h2>openQA and testing openSUSE</h2>
-<p>Our work on openQA <a href="//lizards.opensuse.org/2013/06/06/openqa-in-opensuse/">was introduced a few months ago</a> on this blog. To recap, the major improvements we made were related to the detection of failed and succeeded tests by introducing the &#8216;needles&#8217; (PNG files with metadata associated in JSON format) and using openCV to determine test results; and a host of changes to speed up the testing process and improve the webUI a bit. The work is currently <a href="https://github.com/openSUSE-Team/openQA">residing in a branch by the openSUSE team on github</a> but the original author, Bernhard Wiedemann, <a href="https://hackweek.suse.com/projects/49">plans to test, integrate and deploy openQA</a> during hackweek.</p>
-<p>The fact that the new code isn&#8217;t running on <a href="http://openqa.opensuse.org">openqa.opensuse.org</a> yet is unfortunate but not a huge issue. Right now, to contribute test cases, you have to install and run openQA yourself. And with the packages available for openSUSE this is not a huge deal.</p>
-<p>So, let&#8217;s talk about using openQA and creating test cases!</p>
-<h3>Installing openQA</h3>
-<p>Installing openQA is easy. Add a repository in zypper, install some packages and run some scripts. You can find a full description of the installation process in the <a href="https://github.com/openSUSE-Team/os-autoinst/raw/master/doc/tutorial.pdf">openQA Tutorial</a>. In summary, you have to go through these steps:</p>
-<p><strong>Install the repository and the packages and reboot</strong><br />
-<code>% zypper ar <a href="http://download.opensuse.org/repositories/devel:openQA/openSUSE_12.3">http://download.opensuse.org/repositories/devel:openQA/openSUSE_12.3</a> devel:openQA</code><br />
-<code>% zypper in openQA kvm OVMF</code><br />
-<code>% reboot</code></p>
-<p><strong>Install needles and fix ownership</strong><br />
-<code>% /usr/lib/os-autoinst/tools/fetchneedles</code><br />
-<code>% cd /var/lib/os-autoinst/needles</code><br />
-<code>% sudo chown -R wwwrun distri</code></p>
-<div id="attachment_9476" style="width: 310px" class="wp-caption alignright"><a href="//lizards.opensuse.org/wp-content/uploads/2013/06/factory.png"><img class="size-medium wp-image-9476 " title="testing in progress!" alt="testing in progress!" src="//lizards.opensuse.org/wp-content/uploads/2013/06/factory_crop-300x169.png" width="300" height="169" /></a><p class="wp-caption-text">testing in progress!</p></div>
-<p>After that we need to make some adjustment in the apache configuration before we can run the service. See the <a href="https://github.com/openSUSE-Team/os-autoinst/raw/master/doc/tutorial.pdf">openQA Tutorial</a> for the details.</p>
-<h3>Get testing</h3>
-<p>openQA testing works on the base of ISO images which we have to provide to openQA. So the next logical step is to download the last development ISO image from <a href="http://software.opensuse.org/developer/">software.opensuse.org/developer</a> and copy it to /var/lib/openqa/factory/iso. Now we can create the jobs (different test sets) and launch the server:</p>
-<p><code>% rpc.pl --host localhost iso_new /var/lib/openqa/factory/iso/*.iso </code></p>
-<p>If we have systemd running, the workers will take the jobs, create a virtual machine, and run the tests in order.</p>
-<h3>Look Ma, my first test!</h3>
-<p>Once openQA is installed we can start creating and running tests. Tests are written in Perl, and use an API exported by openQA to the applications. The internal logic of a test is something like the following:</p>
-<ul>
-<li>The test sends a set of events (keystrokes) to the virtual machine</li>
-<li>openQA takes screenshots of the consequences of these events</li>
-<li>The test compares the resulting images with a database of images (or needles, see the <a href="//lizards.opensuse.org/2013/06/06/openqa-in-opensuse/">previous openQA article</a> for details)</li>
-</ul>
-<p><a href="//lizards.opensuse.org/wp-content/uploads/2013/05/stopwatch.png"><img class="size-medium wp-image-9448 alignright" alt="stopwatch" src="//lizards.opensuse.org/wp-content/uploads/2013/05/stopwatch-227x300.png" width="113" height="150" /></a></p>
-<p>We can move through the installation process using this cycle multiple times. For example, in the test 051_installation_mode.pm we can find this:</p>
-<p><code>sendkey $cmd{"next"};</code><br />
-<code>waitforneedle("inst-timezone", 30) || die 'no timezone';</code></p>
-<p>In the first command we send a keystroke to the system, in this case alt-n because the dictionary $cmd maps the “next” key to this keystroke. After that we wait 30 seconds and check if we find an image compatible with the “inst-timezone” needle.</p>
-<p>Inside a test, the main function that can be used to send events is sendkey(), and sendautotype() when we want to send a full string. When we want to assert the current image we can use waitforneedle(), which launches an exception if the needle is not found, and checkneedle(), which returns the result in case that we have a match between the current image and a needle.</p>
-<h3>More complicated tests</h3>
-<p>Using this basic functionally we can build higher levels of abstraction to simplify the interaction between the test and the system. For example, we can build a function that writes the password when we execute a sudo command. One of the problems when we execute a program as a root inside a test is that the system not always asks for the root password when we call the sudo program. We can work around this as follows:</p>
-<p><code>sub sudo() {</code><br />
-<code>my $passwd = shift;</code><br />
-<code>my $prog = shift;</code><br />
-<code>sendautotype("sudo $prog\n");</code><br />
-<code>if (checkneedle("sudo-passwordprompt", 2)) {</code><br />
-<code>sendautotype(passwd);</code><br />
-<code>sendkey "ret";</code><br />
-<code>}</code><br />
-<code>}</code></p>
-<p>We use checkneedle() instead of waitforneedle() to make a decision inside the test instead of making an assert and marking the test as failed.</p>
-<p>An openQA test is in fact an instance of an object. We usually inherit from a base class an overwrite one of the methods to run the test. The basic structure of a test is:<br />
-<div style="width: 310px" class="wp-caption alignright"><a href="http://www.flickr.com/photos/63567936@N00/4210167891/" title="Headless Horse by Perry McKenna, on Flickr"><img src="http://farm3.staticflickr.com/2632/4210167891_dbfe5d540f_n.jpg" width="320" height="192" class="alignright" alt="Finding the needle"></a><p class="wp-caption-text">Horsies looking for needles</p></div></p>
-<p><code>use base "basetest";</code><br />
-<code>use strict;</code><br />
-<code>use bmwqemu;</code><br />
-<code># Determine if the test can run.</code><br />
-<code>sub is_applicable() {</code><br />
-<code>}</code><br />
-<code># Main code of the test</code><br />
-<code>sub run() {</code><br />
-<code>}</code><br />
-<code># Return a map of flags to decide if the fail</code><br />
-<code># of this test is important, or to decide a</code><br />
-<code># rollback of the VM status.</code><br />
-<code>sub test_flags() {</code><br />
-<code>}</code><br />
-<code>1;</code></p>
-<p>The method is_applicable() is called to check if the test can run for a given configuration (more about this later). If the function returns true, openQA will call the run() method. It is in this function that we need to put the test code.</p>
-<p>The test_flags() is used to decide what to do when the test fails. Depending on what this function returns, openQA can decide to mark the ISO as a wrong ISO if the test fails, or mark only this tests as failed and continue with the next test. There is one more interesting feature here. OpenQA makes snapshots of the CPU, the memory and the hard disk (using a QEMU option). If the test goes well openQA creates a snapshot labeled &#8216;lastgood&#8217; that can be recovered if the next test fails. This feature is useful to guarantee that every test can be started from a stable system (and failing tests can put the system in an non stable state).</p>
-<h3>Variables</h3>
-<p>When openQA creates a new test job, what is really doing is setting a specific combination of environment variables that need to be checked by the test in order to adjust the test&#8217;s behavior or to discard itself (through the is_applicable() method).</p>
-<p>For example, when we want to test the KDE Desktop Environment, openQA create a new variable named DESKTOP with value “KDE”. This variable can be checked in the test code using $ENV{DESKTOP}. As another example, say we want to create a test to check if Firefox is working properly on two desktops. We can use:</p>
-<p><code>sub is_applicable() {</code><br />
-<code>return $ENV{DESKTOP}=~/kde|gnome/;</code><br />
-<code>}</code></p>
-<p>If the variable DESKTOP is not KDE or GNOME, the test will not be executed.</p>
-<h3>I want to learn more</h3>
-<p>If you want to dig into openQA, you can check the source code and the different tests that are now running every day in our deployed instance. You can find the source code of V1 in Bernhard Wiederman&#8217;s repository <a href="https://github.com/bmwiedemann/os-autoinst">github.com/bmwiedemann/os-autoinst</a> and <a href="https://github.com/bmwiedemann/openQA">github.com/bmwiedemann/openQA</a>, V2 is currently in the openSUSE Github account at <a href="https://github.com/openSUSE-Team/os-autoinst">github.com/openSUSE-Team/os-autoinst</a> and <a href="https://github.com/openSUSE-Team/openQA">github.com/openSUSE-Team/openQA</a> with here the <a href="https://github.com/openSUSE-Team/os-autoinst-needles">needles</a>. As mentioned before, Bernhard plans on integrating the V1- and V2 code during <a href="http://hackweek.suse.com">hackweek</a>.</p>
-<p>You can grab the code to learn by checking other tests, like for example the ones in x11test.d and inst.d.</p>
-<h2>Contribute!</h2>
-<p>There is a simple way to start contributing to openSUSE through openQA:</p>
-<ol>
-<li>Install openQA</li>
-<li>Create a new test in x11test.d to test your application</li>
-<li>Send a pull request to the project with the test and the needles</li>
-</ol>
-<p>Currently, these tests would then be used by the openSUSE team (running internally) to keep the quality of the upcoming release up, but once V1 and V2 are merged and deployed, you can see and act on the results on <a href="http://openqa.opensuse.org">openqa.opensuse.org</a>.<br />
-<a href="//lizards.opensuse.org/wp-content/uploads/2013/07/statistics-dister-inside-close-up.png"><img src="//lizards.opensuse.org/wp-content/uploads/2013/07/statistics-dister-inside-close-up-282x300.png" alt="statistics dister inside close-up" width="282" height="300" class="alignright size-medium wp-image-9628" /></a></p>
-<h2>The weekly statistics</h2>
-<p>And as every week, here&#8217;s the top-10 contributors to openSUSE Factory of last week. We&#8217;re pretty much in bug fixing mode now so a big thanks to each of the contributors for helping make openSUSE 13.1 stable!</p>
-<table border="0" cellspacing="0">
-<tbody>
-<tr>
-<td align="LEFT" height="16">Spot</td>
-<td align="LEFT">Name</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">1</td>
-<td align="LEFT">Dominique Leuenberger</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">2</td>
-<td align="LEFT">Denisart Benjamin</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">3</td>
-<td align="LEFT">Dirk Mueller</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">4</td>
-<td align="LEFT">Sascha Peilicke</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">5</td>
-<td align="LEFT">Dr. Werner Fink</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">6</td>
-<td align="LEFT">Marcus Meissner, Bjørn Lie</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">7</td>
-<td align="LEFT">Ismail Donmez</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">8</td>
-<td align="LEFT">Todd R</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">9</td>
-<td align="LEFT">Stephan Kulow, Hrvoje Senjan</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">10</td>
-<td align="LEFT">Niels Abspoel</td>
-</tr>
-</tbody>
-</table>
-          </div>
-
-          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/boosters/" title="View all posts in Boosters" rel="category tag">Boosters</a> |   <a href="https://lizards.opensuse.org/2013/10/02/creating-openqa-test-cases-for-opensuse-13-1/#comments" title="Comment on Creating openQA Test Cases for openSUSE 13.1">1 Comment &#187;</a></p>
-
-        </div>
-
-            <div class="post-9856 post type-post status-publish format-standard hentry category-boosters">
-          <h3 id="post-9856"><a href="https://lizards.opensuse.org/2013/09/25/merchandising-where-we-are-going/" rel="bookmark" title="Permanent Link to Merchandising: where we are going">Merchandising: where we are going</a></h3>
-          <small>September 25th, 2013 by <a href="https://lizards.opensuse.org/author/calumma/" title="Posts by calumma" rel="author">calumma</a> </small>
-
-          <div class="share-links">
-	    <div class="share-link">
-              <a href="http://twitter.com/share" class="twitter-share-button"
-                data-url="https://lizards.opensuse.org/2013/09/25/merchandising-where-we-are-going/"
-                data-text="openSUSE News: Merchandising: where we are going"
-                data-count="horizontal"
-                data-hashtags="openSUSE"
-                data-via="openSUSE">Tweet</a>
-            </div>
-            <div class="share-link">
-              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2013%2F09%2F25%2Fmerchandising-where-we-are-going%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
-            </div>
-            <div class="clear"></div>
-          </div>
-
-          <div class="entry">
-            <p><a href="http://blog.jospoortvliet.com">Jos Poortvliet</a> wrote shortly before the conference <a href="https://lizards.opensuse.org/2013/07/11/merchandising/">about merchandising</a>. Today, he updates us on the status.</p>
-<h2>Recap</h2>
-<p>As a quick recap from the earlier blog, note that the goal of the merchandising program is to support openSUSE ambassadors in visiting events and representing openSUSE there. The old program suffered from some issues, including bad planning, bad materials and very expensive shipping. It was simply not very efficient and we didn&#8217;t know how much good it did (or not).</p>
-<h2>The plans</h2>
-<p>What we want to do can be best summarized as emphasizing quality over quantity and having a proper process. That means making a decent plan for supplying important events with a big box of quality materials and making sure we get a good return on the efforts we put in. And, as started with the <a href="http://blog.jospoortvliet.com/2012/02/opensuse-travel-support-program.html" target="_blank">Travel Support Program</a>, we&#8217;d like the community to be in charge of it all, not SUSE.</p>
-<h3>Process</h3>
-<p>A simplified process picture would look somewhat like this:<br />
-<a href="//lizards.opensuse.org/wp-content/uploads/2013/08/Booth-materials-process.jpg"><img src="//lizards.opensuse.org/wp-content/uploads/2013/08/Booth-materials-process-888x1024.jpg" alt="Booth materials process" width="500" height="600" class="alignnone size-large wp-image-9857" /></a></p>
-<p>The ambassador/local coordinator/TSP teams make an event plan every six months or every year, looking at what events are coming. They classify them, determining what level of support each gets and who is going. This is of course coordinated with the individual ambassadors. The team then asks the openSUSE Team at SUSE to send the materials to the ambassadors, who in turn go and visit the event. At the end of every month we can let the wider community know about the events we visited!</p>
-<h3>Where we are</h3>
-<p>Right now, we&#8217;ve assembled a list of events, based on ambassador feedback and earlier event plans. I&#8217;ve also figured out what shipping options we have and what they would cost and made a plan for the contents of the box. I&#8217;d like to start with two different boxes, a big and a small one, and I have selected about 20 events which would get a box. 7 events will have visitors from the openSUSE team, so we&#8217;d be supporting 27 events with materials and people. Of course, the Travel Support Team can support other events &#8211; and we have the ability to locally produce materials as well. And after the first year, all this can be changed, with more and cheaper boxes (or fewer and bigger), different event selections and improved content.</p>
-<h3>Issues</h3>
-<p>We&#8217;re aware that this plan is not perfect: quite a few people who received materials in the last years won&#8217;t with this plan. But that&#8217;s what happens when you decide to focus on a smaller number of events&#8230; And we have and can think about solutions for that; for example, create a 1-kg event box with very reasonable shipping costs. Second, planning is hard and harsh, and we want to be flexible in that regard, and open for feedback.</p>
-<h2>Current status</h2>
-<p>So where are we now? Unfortunately, there has not been as much progress since the openSUSE conference as we hoped. A blocking issue is the availability of an artist handling the creation of materials we decided on. This will have to be done at SUSE with only a limiting role (for now) by the community artists. We are of course working on hiring somebody for this task but unfortunately one doesn&#8217;t <em>just</em> hire somebody.</p>
-<p>However, what we do have is a good idea of shipping, a decent event plan and we not only determined mostly what we&#8217;d like to ship in each box (and how heavy they will be) but also have already started talking to suppliers. So as soon as we can get the artwork situation resolved, we should be able to get up and running in relatively short order &#8211; hopefully before the end of this year.</p>
-<p>To give you a bit of an idea of what we have, see the image below.<br />
-<img src="//lizards.opensuse.org/wp-content/uploads/2013/08/openSUSE-Booth-styled_numbers.png" alt="openSUSE Booth styled" width="700" height="550" class="alignnone size-full wp-image-9858" /></p>
-<ul>
-<ol><strong>1.</strong> There is about 2 kg of basic tools like duct tape, colored markers, a network and a vga cable, a dozen openSUSE pens and some trash bags (only in the big box)</ol>
-<ol><strong>2.</strong> There is stuff for the table: a table cloth, flyer holder, table display (cube) and we&#8217;d like to have caps or bandana&#8217;s for the team</ol>
-<ol><strong>3.</strong> Of course we have a cool and lightweight X-banner (if we can make it fit, they&#8217;re either big, heavy or both)</ol>
-<ol><strong>4.</strong> We include some posters with information and for putting up a schedule</ol>
-<ol><strong>5.</strong> And then there are some give-aways like stickers, flyers and perhaps cool posters with Unix Cheat Sheets or other info on them</ol>
-</ul>
-<p>A big thanks for Anditosan for making the images that make the example booth picture here look good. He&#8217;s already gathering potential artwork for the booths and if you have any input &#8211; direct it to the <a href="http://lists.opensuse.org/opensuse-artwork/">openSUSE artwork mailing list</a>.</p>
-<h2>Next</h2>
-<p>So, the plan now is that once we have a designer, we create and print the materials, assemble the boxes, make appointments with the ambassadors for the events we&#8217;ve planned and start shipping.</p>
-<h2>Statistics</h2>
-<p>While merchandising seems to be on ice, development is still very active. Factory is now frozen with the Beta out, so we&#8217;re going to focus on bugfixing. The top contributors last week were:</p>
-<table border="0" cellspacing="0">
-<tbody>
-<tr>
-<td align="LEFT" height="16">Spot</td>
-<td align="LEFT">Name</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">1</td>
-<td align="LEFT">Tomáš Chvátal</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">2</td>
-<td align="LEFT">Dominique Leuenberger</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">3</td>
-<td align="LEFT">Michal Vyskocil</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">4</td>
-<td align="LEFT">Petr Gajdos</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">5</td>
-<td align="LEFT">Dr. Werner Fink</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">6</td>
-<td align="LEFT">Bjørn Lie</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">7</td>
-<td align="LEFT">Raymond Wooninck</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">8</td>
-<td align="LEFT">Stefan Dirsch</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">9</td>
-<td align="LEFT">Hrvoje Senjan</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">10</td>
-<td align="LEFT">Sascha Peilicke</td>
-</tr>
-</tbody>
-</table>
-          </div>
-
-          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/boosters/" title="View all posts in Boosters" rel="category tag">Boosters</a> |   <span>Comments Off</span></p>
-
-        </div>
-
-            <div class="post-9924 post type-post status-publish format-standard hentry category-boosters">
-          <h3 id="post-9924"><a href="https://lizards.opensuse.org/2013/09/18/documenting-the-opensuse-development-and-release-process/" rel="bookmark" title="Permanent Link to Documenting the openSUSE Development and Release Process">Documenting the openSUSE Development and Release Process</a></h3>
-          <small>September 18th, 2013 by <a href="https://lizards.opensuse.org/author/calumma/" title="Posts by calumma" rel="author">calumma</a> </small>
-
-          <div class="share-links">
-	    <div class="share-link">
-              <a href="http://twitter.com/share" class="twitter-share-button"
-                data-url="https://lizards.opensuse.org/2013/09/18/documenting-the-opensuse-development-and-release-process/"
-                data-text="openSUSE News: Documenting the openSUSE Development and Release Process"
-                data-count="horizontal"
-                data-hashtags="openSUSE"
-                data-via="openSUSE">Tweet</a>
-            </div>
-            <div class="share-link">
-              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2013%2F09%2F18%2Fdocumenting-the-opensuse-development-and-release-process%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
-            </div>
-            <div class="clear"></div>
-          </div>
-
-          <div class="entry">
-            <p><a href="//lizards.opensuse.org/wp-content/uploads/2011/03/osc_plugin_and_lego.jpeg"><img src="//lizards.opensuse.org/wp-content/uploads/2011/03/osc_plugin_and_lego.jpeg" alt="build" width="221" height="283" class="alignright size-full wp-image-6818" /></a><br />
-This week, the openSUSE Team Blog is written by <a href="http://toscalix.blogspot.de/" title="Agustin's blog" target="_blank">Agustin Benito</a> who talks about how we&#8217;ve been documenting our work around openSUSE.</p>
-<p>Development a GNU/Linux based distribution like openSUSE can be divided in two major phases:</p>
-<ul>
-<li>openSUSE Development process: creation and integration of the different packages. Milestones (alphas) and Beta.</li>
-<li>openSUSE Release process: stabilization, QA and task related with the availability of the different images. Update process. From Beta to the Release.</li>
-</ul>
-<p>There are also three major continuous actions throughout the process:</p>
-<ul>
-<li>Management of the process.</li>
-<li>Communication and marketing related tasks.</li>
-<li>Development of new features</li>
-</ul>
-<p>The development of new features usually happens upstream or within SUSE (in collaboration with community members) before it is added to the distribution. This phase takes place before or in parallel with the Development process (of packages and integration).</p>
-<h2>Focus: the openSUSE Team</h2>
-<p>The decision taken by SUSE during 12.2 to concentrate the SUSE employees working on openSUSE in a single department by creating the openSUSE Team had as consequence that new people has joined us to work in openSUSE. One of the early decisions within the openSUSE Team at SUSE was to put more focus on the distribution. The Release Team was created as a subset of the openSUSE Team, formed by Coolo and Tomas (Ismail Dönmez and Michal Hrušecký were also part of it in the past) to take care of the Development process. It was also decided that the whole Team would have as major goal to drive the Release process.<br />
-<a href="//lizards.opensuse.org/wp-content/uploads/2013/09/documentation.png"><img src="//lizards.opensuse.org/wp-content/uploads/2013/09/documentation.png" alt="documentation icon" width="161" height="176" class="alignright size-full wp-image-9928" /></a></p>
-<h2>Documenting the process</h2>
-<p>Starting in July 2012, the openSUSE Team at SUSE has put effort in documenting the Development + Release process. Throughout the years, the process has evolved and some of those changes were not documented or the documentation was not up to date. We have taken the opportunity to analyze the the Dev+Release process, so we could learn from it and being able to design and execute changes to improve it.</p>
-<h3>The release process</h3>
-<p>As Team, we focused first on the Release process. We made an initial effort during the last few weeks of the 12.2 Release process, and we improved it during the first milestones of the 12.3 Release. For this 13.1 Release, only minor updates have been required.</p>
-<p>Increasing the efficiency of the management side of things and structuring our work as a formal project has been another aspect of this. We set up a management tool that now is used together with the openSUSE sysadmin team. Ludwig Nussel is the controller of our efforts as team in the Release, planned through <a href="https://progress.opensuse.org/projects/opensuse-13-1-release">progress.opensuse.org</a>. The combination of this planning and the improved release documentation has helped us to increase our efficiency despite new people joining our team.</p>
-<h3>The development process</h3>
-<p>During the past few weeks we have concentrated our efforts in analyzing and documenting the Development process. Our goal has been to analyze it, providing a high level view and just the minimum amount of details required to understand it by people with some knowledge of these kind of software integration processes.</p>
-<p>We have recently published a <a href="http://lists.opensuse.org/opensuse-factory/2013-09/msg00086.html">draft of the Development process</a> on the openSUSE Factory mailing list and are open for feedback.</p>
-<h4>Writing process</h4>
-<p>How was this document done?</p>
-<ul>
-<ol>1.- The first action was to analyze existing documentation about the Development process. We took as sources several articles from openSUSE wiki and some previous analysis done by the former Boosters Team in this area.</ol>
-<ol>2.- We organized two sessions in which different people described the different steps of the process. These sessions were taped.</ol>
-<ol>3.- We transcribed the sessions and created a first document containing all the information about the process. </ol>
-<ol>4.- We processed that &#8220;story&#8221; in order to get the high level view of the process.</ol>
-<ol>5.- Using the ETVX methodology, we elaborated a first draft of the document.</ol>
-<ol>6.- We analyzed the result within the openSUSE Team and, after introducing some changes, we opened the discussion about it to other SUSE employees involved in the Development process.</ol>
-<ol>7.- Finally, in order to make the document easier to read (it is a complex process, so the documentation needs time to digest), we introduced improvements in the format and published in the openSUSE wiki, together with the .pdf version.</ol>
-</ul>
-<p>This process has allowed us to analyze and discuss the process as a team, learning not just about the hows but the whys. It has also worked as a test for documenting future changes in how openSUSE is developed. We also hope that the effort can be worth it to contributors that want to get a high level view of how openSUSE works, since some of the tasks are done in house. This document has to be seen also as an exercise of transparency.</p>
-<h2>Improvements</h2>
-<p>At openSUSE Team, we are strong believers of the principle &#8220;<em>no data -&gt; no analysis -&gt; no improvements</em>&#8220;. We think we are better prepare now to propose to the community improvements in factory to make it more usable for a wider range of contributors.<br />
-<a href="//lizards.opensuse.org/wp-content/uploads/2013/06/statistics-inside.png"><img src="//lizards.opensuse.org/wp-content/uploads/2013/06/statistics-inside-212x300.png" alt="statistics with Geeko inside" width="212" height="300" class="alignright size-medium wp-image-9572" /></a></p>
-<h2>Statistics Time</h2>
-<p>And like every week, we present you the top-ten of contributors to Factory!</p>
-<table border="0" cellspacing="0">
-<tbody>
-<tr>
-<td align="LEFT" height="16">Spot</td>
-<td align="LEFT">Hacker</td>
-</tr>
-<tr>
-<td align="LEFT" height="17">1</td>
-<td align="LEFT">Raymond Wooninck</td>
-</tr>
-<tr>
-<td align="LEFT" height="17">2</td>
-<td align="LEFT">Dominique Leuenberger</td>
-</tr>
-<tr>
-<td align="LEFT" height="17">3</td>
-<td align="LEFT">Dirk Mueller</td>
-</tr>
-<tr>
-<td align="LEFT" height="17">4</td>
-<td align="LEFT">Dr. Werner Fink, Bjørn Lie</td>
-</tr>
-<tr>
-<td align="LEFT" height="17">5</td>
-<td align="LEFT">Sascha Peilicke</td>
-</tr>
-<tr>
-<td align="LEFT" height="17">6</td>
-<td align="LEFT">luce johann, Michal Vyskocil</td>
-</tr>
-<tr>
-<td align="LEFT" height="17">7</td>
-<td align="LEFT">Michael Schröder</td>
-</tr>
-<tr>
-<td align="LEFT" height="17">8</td>
-<td align="LEFT">Stephan Kulow</td>
-</tr>
-<tr>
-<td align="LEFT" height="17">9</td>
-<td align="LEFT">Ismail Donmez</td>
-</tr>
-<tr>
-<td align="LEFT" height="17">10</td>
-<td align="LEFT">Cristian Rodríguez</td>
-</tr>
-</tbody>
-</table>
-          </div>
-
-          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/boosters/" title="View all posts in Boosters" rel="category tag">Boosters</a> |   <a href="https://lizards.opensuse.org/2013/09/18/documenting-the-opensuse-development-and-release-process/#comments" title="Comment on Documenting the openSUSE Development and Release Process">1 Comment &#187;</a></p>
-
-        </div>
-
-            <div class="post-9850 post type-post status-publish format-standard hentry category-boosters">
-          <h3 id="post-9850"><a href="https://lizards.opensuse.org/2013/09/05/obs-webui-gets-new-search-functionality/" rel="bookmark" title="Permanent Link to OBS Webui Gets New Search Functionality">OBS Webui Gets New Search Functionality</a></h3>
-          <small>September 5th, 2013 by <a href="https://lizards.opensuse.org/author/calumma/" title="Posts by calumma" rel="author">calumma</a> </small>
-
-          <div class="share-links">
-	    <div class="share-link">
-              <a href="http://twitter.com/share" class="twitter-share-button"
-                data-url="https://lizards.opensuse.org/2013/09/05/obs-webui-gets-new-search-functionality/"
-                data-text="openSUSE News: OBS Webui Gets New Search Functionality"
-                data-count="horizontal"
-                data-hashtags="openSUSE"
-                data-via="openSUSE">Tweet</a>
-            </div>
-            <div class="share-link">
-              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2013%2F09%2F05%2Fobs-webui-gets-new-search-functionality%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
-            </div>
-            <div class="clear"></div>
-          </div>
-
-          <div class="entry">
-            <p><a href="//lizards.opensuse.org/wp-content/uploads/2013/06/obs-logo.png"><img class="alignright size-full wp-image-9543" alt="obs-logo" src="//lizards.opensuse.org/wp-content/uploads/2013/06/obs-logo.png" width="243" height="101" /></a><br />
-Our team blog this week is written by <a href="https://plus.google.com/111216911194600408657" target="_blank">Stephan &#8216;coolo&#8217; Kulow</a> and he talks about work in the team done on the Open Build Service.</p>
-<h2>Search</h2>
-<p>For years one of the biggest complaint about the webUI was that it is impossible to find packages. The <a href="https://build.opensuse.org/search" target="_blank">search ability</a> has been part of the interface from the beginning, but with over 200.000 packages being build today it is crucial to get the <strong>right</strong> package.</p>
-<h3>Where is my kernel?</h3>
-<p>Especially for developers new to openSUSE and the build service it is common to have to search for the package to fix for a specific bug. So you find yourself looking for <em>kernel</em> in the webUI and you are prompted with tons of results that are displayed in a rather random order and the notion that your search resulted in more than 200 hits and is basically invalid. Huh? home:foobar:latest-experiments:kernel is surely <em>not</em> the openSUSE kernel to fix, but then what is?</p>
-<p>Now if you ask google about <a href="https://www.google.com/search?q=kernel+site%3Abuild.opensuse.org&amp;hl=en">&#8220;kernel site:build.opensuse.org&#8221;</a> you get closer to the problem at hand: &#8220;About 16,800 results&#8221; &#8211; that is a lot to pick the first 20 results to display from. The OBS webUI tried to find a good pick with an algorithm that might have been clever when build.opensuse.org had 100 projects. Today, it can only be called old and useless.<br />
-<a href="//lizards.opensuse.org/wp-content/uploads/2013/09/obs-in-action.jpg"><img src="//lizards.opensuse.org/wp-content/uploads/2013/09/obs-in-action-300x199.jpg" alt="obs in the dark" width="300" height="199" class="alignright size-medium wp-image-9864" /></a></p>
-<h2>Ancor for world fame</h2>
-<p>So I tricked <a href="https://plus.google.com/114260811841185028896/about">Ancor</a> to look into the problem by claiming he would get all the praises in the OBS world for implementing a sane search.</p>
-<p>The problem is far from trivial, but there are good tools to get a better result than what we had now and Ancor has a lot of experience with these (and <a href="http://en.wikipedia.org/wiki/Ruby_on_Rails" target="_blank">Rails</a> in general). So it seemed like he could attain a great balance between effort and outcome.</p>
-<p>But as always the devil lay in the details, so this post is also about getting feedback about the actual result.</p>
-<h3>What we did</h3>
-<p>Ancor integrated <a href="http://pat.github.io/thinking-sphinx/">Thinking Sphinx</a> into the OBS, so the name, title and description can be combined with other attributes into one big index that allows page ranking.</p>
-<p>Additionally there is no limit of 200 results anymore, the webUI will display all results now, but only 20 at a time as you might have seen in larger sites offering search results display&#8230;</p>
-<p>We collected attributes which are most likely relevant for people searching for packages. For example, we gather the linkcount of a package into the database (so far only the backend knows what is a link and what is a plain package). The idea is to move links down in the source results.</p>
-<p>Coming back to the kernel example, the kernel-source package is the <em>real</em> package, while kernel-default, kernel-desktop, kernel-xen, &#8230;. exist too but are all links to kernel-source. So it is fair to present kernel-source first.</p>
-<p>Problem is: there are still 228 kernel-source packages in the build service (yes, people like branching the kernel &#8211; a lot), so the number of links pointing <strong>to</strong> the package is another attribute. Packages that other packages branch go up in the list while the resulting branches move down. What also plays a role in the calculation: is a package the devel package of another? (which is the final punch to have Kernel:HEAD/kernel-source as <a href="https://build.opensuse.org/search?utf8=%E2%9C%93&amp;search_text=kernel&amp;commit=Senden&amp;issue_tracker=bnc&amp;issue=&amp;project=0&amp;project=1&amp;package=0&amp;package=1&amp;name=0&amp;name=1&amp;title=0&amp;description=0&amp;attrib_type_id=" target="_blank">first result displayed</a>, as opposed to the old searching algorithm displaying a discontinued &#8220;linux-kernel-nutshell&#8221; as shown in the screen shots).<br />
-<a href="https://build.opensuse.org/search?utf8=%E2%9C%93&amp;search_text=kernel&amp;commit=Senden&amp;issue_tracker=bnc&amp;issue=&amp;project=0&amp;project=1&amp;package=0&amp;package=1&amp;name=0&amp;name=1&amp;title=0&amp;description=0&amp;attrib_type_id="><img src="//lizards.opensuse.org/wp-content/uploads/2013/09/search-kernel.gif" alt="search for kernel on OBS" width="688" height="406" class="alignnone size-full wp-image-9872" /></a></p>
-<p>To sort the vast majority of results that are all _links, not linked to and not devel packages, we take the activity index. This is a number the OBS tracks for every package, but is nowhere displayed. It goes from 0 to 100 and goes down with time and goes up with regular commits. So if you look for kde, you will actually see KDE:Unstable:Playground as first project to match. This is because of two things:</p>
-<ul>
-<li>kde is indeed a very bad search term</li>
-<li>the unstable playground sees a lot of commits, so your chance of getting something fresh there is the highest</li>
-</ul>
-<h2>Your feedback wanted</h2>
-<p>Of course nobody is perfect, and while the code of Ancor is close to, the weights given to the attributes were my choice, so all problems in the sorting you see are my fault. Please take some time and redo some <a href="https://build.opensuse.org/search" target="_blank">searches</a> you might have done in the past and report if the results are sane to your experienced eye. Within the HTML of the search results is a hidden span with the raw attributes used in the calculation, so if you find something strange, look for weight, linked_count, activity_index, is_devel and co. Possibly the package that looks bogus to you in the top results is just very active.</p>
-<p>Depending on the feedback we get, we might need to change the weights or add yet more attributes in the search and ranking. Do your own experiments on <a href="https://build.opensuse.org/search" target="_blank">build.opensuse.org</a> today!</p>
-<p><a href="//lizards.opensuse.org/wp-content/uploads/2013/06/statistics-inside.png"><img src="//lizards.opensuse.org/wp-content/uploads/2013/06/statistics-inside-212x300.png" alt="statistics with Geeko inside" width="212" height="300" class="alignright size-medium wp-image-9572" /></a><br />
-<h2>Statistics</h2>
-<p>And as always, we finish with the top-ten contributors to openSUSE Factory of last week!</p>
-<table border="0" cellspacing="0">
-<tbody>
-<tr>
-<td align="LEFT" height="16">Spot</td>
-<td align="LEFT">Name</td>
-</tr>
-<tr>
-<td align="LEFT" height="17">1</td>
-<td align="LEFT">Michal Vyskocil</td>
-</tr>
-<tr>
-<td align="LEFT" height="17">2</td>
-<td align="LEFT">Dominique Leuenberger</td>
-</tr>
-<tr>
-<td align="LEFT" height="17">3</td>
-<td align="LEFT">Ladislav Slezak</td>
-</tr>
-<tr>
-<td align="LEFT" height="17">4</td>
-<td align="LEFT">Marcus Meissner</td>
-</tr>
-<tr>
-<td align="LEFT" height="17">5</td>
-<td align="LEFT">Hrvoje Senjan</td>
-</tr>
-<tr>
-<td align="LEFT" height="17">6</td>
-<td align="LEFT">Lars Müller, Ismail Donmez, Cristian Rodríguez, Bjørn Lie</td>
-</tr>
-<tr>
-<td align="LEFT" height="17">7</td>
-<td align="LEFT">Stefan Dirsch, Matthias Mailänder, Jan Engelhardt, Dmitry Roshchin</td>
-</tr>
-<tr>
-<td align="LEFT" height="17">8</td>
-<td align="LEFT">Tomasz Konojacki</td>
-</tr>
-<tr>
-<td align="LEFT" height="17">9</td>
-<td align="LEFT">Ludwig Nussel, Dirk Mueller</td>
-</tr>
-<tr>
-<td align="LEFT" height="17">10</td>
-<td align="LEFT">Raymond Wooninck, Lukas Ocilka</td>
-</tr>
-</tbody>
-</table>
-          </div>
-
-          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/boosters/" title="View all posts in Boosters" rel="category tag">Boosters</a> |   <span>Comments Off</span></p>
-
-        </div>
-
-            <div class="post-9823 post type-post status-publish format-standard hentry category-boosters">
-          <h3 id="post-9823"><a href="https://lizards.opensuse.org/2013/08/29/the-opensuse-release-process/" rel="bookmark" title="Permanent Link to The openSUSE Release process">The openSUSE Release process</a></h3>
-          <small>August 29th, 2013 by <a href="https://lizards.opensuse.org/author/calumma/" title="Posts by calumma" rel="author">calumma</a> </small>
-
-          <div class="share-links">
-	    <div class="share-link">
-              <a href="http://twitter.com/share" class="twitter-share-button"
-                data-url="https://lizards.opensuse.org/2013/08/29/the-opensuse-release-process/"
-                data-text="openSUSE News: The openSUSE Release process"
-                data-count="horizontal"
-                data-hashtags="openSUSE"
-                data-via="openSUSE">Tweet</a>
-            </div>
-            <div class="share-link">
-              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2013%2F08%2F29%2Fthe-opensuse-release-process%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
-            </div>
-            <div class="clear"></div>
-          </div>
-
-          <div class="entry">
-            <p><a href="http://michal.hrusecky.net/" target="_blank">Michal &#8220;|Miska|&#8221; Hrusecky</a> writes this week about the openSUSE release process. He gave a <a href="https://conference.opensuse.org/osem/conference/osc2013/proposal/77">talk about this subject</a> at the openSUSE conference this year and the content of this talk is reproduced below (the marketing section, just like with the presentation, is by <a href="http://blog.jospoortvliet.com" target="_blank">Jos Poortvliet</a>).</p>
-<h2>Release Process</h2>
-<p>To get openSUSE out is a lot of work. We already shared part of what we are doing to <a href="//lizards.opensuse.org/2013/06/13/keeping-factory-in-shape/">keep Factory rolling</a>. But as you can guess, there is much more to it. But let&#8217;s pretend it is a simple three-step process:</p>
-<h3>Step one: developing Factory</h3>
-<p>When release openSUSE, we immediately start working on the next version: a never ending story. First thing that happens during a new release cycle is coolo announcing the road map. This is the schedule of the release and important checkpoints that we have to reach on our way. After the release Factory (our development version) is not frozen anymore and people can start submitting new stuff. Usually they go crazy and submit a lot of bleeding edge and experimental packages and quite some parts of Factory will get broken.</p>
-<p>Now comes the time for <a href="//lizards.opensuse.org/2013/06/13/keeping-factory-in-shape/">keeping Factory rolling</a>. As one picture can say more than thousand words, take a look at how packages get into factory:</p>
-<p><a href="//lizards.opensuse.org/wp-content/uploads/2013/08/factory.png"><img src="//lizards.opensuse.org/wp-content/uploads/2013/08/factory-1024x462.png" alt="factory" width="700" height="350" class="aligncenter size-large wp-image-9834" /></a></p>
-<p>A developer creates a package in his home repository and then sends it to the devel project where it get&#8217;s some basic review (depends on how the team is setup there). From there, package goes to the factory, where are several automatic checks (will mention them later) and manual review by review team. Once the package passes all these checks, it gets into Factory. And breaks something else there. So somebody has to branch it, fix it, and go through the same process now with a different package&#8230;</p>
-<p>We&#8217;re working on documenting the Factory development process in a little more detail so you can expect a blog on that subject in the coming months!</p>
-<h4>Checking up on you&#8230;</h4>
-<p>There are several bots that check packages send to Factory. First is <i>factory-auto</i>, which does some basic checks regarding you spec file, rpmlint warnings and similar. If you pass this quick test, it&#8217;s time for more thorough testing. A bot named <i>factory-repo-checker</i> tries to actually install your package in a testing environment to make sure it is possible and it also looks for possible file conflicts, so you wouldn&#8217;t overwrite somebody elses package. Last check before a package gets in front of the review team is <i>legal-auto</i>. This one checks the licence (did it change? is it a new package?) and if needed calls in our legal team to take a look at the package. The final step is manual review by members of review team which will try to spot mistakes that automatic checks overlook.</p>
-<h3>Step two: freezing</h3>
-<p>We could be breaking and fixing stuff forever, but as we have to release at some point we have to do some freezes. First one is the <i>Toolchain Freeze</i>. When we reach that, no new version of compilers will get in, only fixes. This way the rest can fix all the new compiler warning and errors without fear of getting new ones. Next in the line is <i>Base System Freeze</i> which means frozen kernel, KDE, Gnome, X11 and bellow&#8230; All these are core components with many packages depending on them. The rest of packages (after getting fixed/upgraded) gets frozen last with release of Beta 1 when we reach <i>Full Feature Freeze</i>. At that point only fixes go in, no new versions and features or anything else that could break anything.</p>
-<h3>Step three: branching and selecting an ISO</h3>
-<p>As we get close to the release, Factory gets branched into separate repository, currently 13.1. Factory then gets unfrozen and starts to live it own life again. The newly born release goes through the last stabilization and deep testing phase (both manual and through <a href="https://lizards.opensuse.org/2013/06/06/openqa-in-opensuse/" target="_blank">openQA</a>). Every automatically build iso gets tested until the <i>Gold Master</i> is selected. Gold Master has to be installable andcannot contain any critical <em>ship stopper bugs</em>. It still can contain known bugs, we would never release if we would wait for bug free release. But all these bugs can be fixed via updates and some of them will even get fixed before official release date. After selecting <i>Gold Master</i> it takes us usually about a week to get it synchronized to our mirrors and to get everything ready for the big day. In that time, developers keeps fixing bugs and when you get our fresh release, we already have many fixes ready and waiting.</p>
-<p><a href="//lizards.opensuse.org/wp-content/uploads/2013/08/what-I-think-I-do-marketing.png"><img src="//lizards.opensuse.org/wp-content/uploads/2013/08/what-I-think-I-do-marketing-300x221.png" alt="what I think I do marketing" width="300" height="221" class="alignright size-medium wp-image-9832" /></a></p>
-<h2>Marketing process</h2>
-<p>Let&#8217;s talk release marketing now. We&#8217;ve got a HUGE list of things we work on in the marketing team.</p>
-<h3>Building excitement</h3>
-<p>There is preparation for the release, stuff we do usually in the 2 months before the release. Think about material like the release counters, posters and badges for on websites or at conferences; writing the sneak peek articles and organizing release parties.</p>
-<h3>Releasing openSUSE</h3>
-<p>Then there is the release marketing itself. We write a feature guide, extract feature highlights, create screen shots, write announcements for our news site and for the press. Then we put all of the above, combined with a list of people to be interviewed and a link to the gold master into a press kit we send one week before the release to journalists. This way we can have reviews published on the release date.<br />
-<a href="//lizards.opensuse.org/wp-content/uploads/2013/08/braindump.png"><img src="//lizards.opensuse.org/wp-content/uploads/2013/08/braindump-300x162.png" alt="the braindumptruck" width="300" height="162" class="alignright size-medium wp-image-9831" /></a></p>
-<h3>How it all comes about</h3>
-<p>All that is essentially build upon the list of new features for openSUSE. We gather the developers&#8217; brain dumps at <a href="http://en.opensuse.org/openSUSE:Major_features">this wiki page</a>. They share with us a bullet list of what changed <em>since the previous release</em> and <em>how important it is for their users</em>.</p>
-<h4>Pirates</h4>
-<p>We take these features to a pirate pad and start looking for everything that is missing (which, usually, is a lot: much of the features we don&#8217;t know about because developers don&#8217;t tell us). We gather info from the sites of projects like KDE and GNOME about their new versions and put it in. We work on the bullet points to make pretty text and we try to bring in some structure.</p>
-<p>Once it is reasonably complete, we move it to a wiki page where we start to polish it up and add screenshots, links and video&#8217;s if we have em. The end result you are probably familiar with: <a href="https://en.opensuse.org/Features">the Features page</a>. Note that most of this does not really need much experience, almost anybody can help!<br />
-<a href="//lizards.opensuse.org/wp-content/uploads/2013/08/Featureguide.png"><img src="//lizards.opensuse.org/wp-content/uploads/2013/08/Featureguide-300x198.png" alt="Feature guide writing process" width="300" height="198" class="alignright size-medium wp-image-9837" /></a></p>
-<h4>Highlighting</h4>
-<p>Then the next step is to look at that draft and the structure it has gotten and put in some deep thinking to pick the major features for the highlights. There is a lot of whiteboarding in this step: figuring out what the message of our release is, the theme, that is not easy.</p>
-<p>These are the main part of the announcement and everything else, which is then &#8216;just&#8217; hard work &#8211; a lot of it. This step needs the most experienced writing and a lot of feedback-improvement-feedback-improvement cycles.</p>
-<h3>Timeline: work gets crazy at Beta</h3>
-<p>The biggest problem with all this is that it can&#8217;t be done in a very relaxed way because we&#8217;re in a hurry. Beta 1 is about 6 weeks before we have the Goldmaster! When the Goldmaster is done, we need to send our stuff out to the press. At that point we can make only VERY minor changes. After all &#8211; just a week later we do the release. In that week, we only write social media messages (and translations) and get our websites, servers and everything else in order. Marketing is ready for the release!</p>
-<h2>Releasing a conclusion</h2>
-<p>We hope the above gives some sense of how the openSUSE release process works. Yes, it is long, laborious, but also <em>a lot of fun</em>! And of course it results in the awesome operating system which is <a href="http://software.opensuse.org">openSUSE</a>!</p>
-<p><img src="//lizards.opensuse.org/wp-content/uploads/2013/05/dister-mechanic-small-300x300.png" alt="dister-mechanic-small" width="300" height="300" class="alignright size-medium wp-image-9433" /></p>
-<h2>Weekly statistics</h2>
-<p>And it is that time again: the unveiling of our statistics of openSUSE top contributors of the last week! Here&#8217;s the top-ten most active Factory hackers:</p>
-<table border="0" cellspacing="0">
-<tbody>
-<tr>
-<td align="LEFT" height="16">Spot</td>
-<td align="LEFT">Name</td>
-</tr>
-<tr>
-<td align="LEFT" height="17">1</td>
-<td align="LEFT">Dominique Leuenberger</td>
-</tr>
-<tr>
-<td align="LEFT" height="17">2</td>
-<td align="LEFT">Michal Vyskocil</td>
-</tr>
-<tr>
-<td align="LEFT" height="17">3</td>
-<td align="LEFT">Bjørn Lie</td>
-</tr>
-<tr>
-<td align="LEFT" height="17">4</td>
-<td align="LEFT">Tomáš Chvátal</td>
-</tr>
-<tr>
-<td align="LEFT" height="17">5</td>
-<td align="LEFT">Ismail Donmez</td>
-</tr>
-<tr>
-<td align="LEFT" height="17">6</td>
-<td align="LEFT">Hrvoje Senjan</td>
-</tr>
-<tr>
-<td align="LEFT" height="17">7</td>
-<td align="LEFT">Andrey Karepin</td>
-</tr>
-<tr>
-<td align="LEFT" height="17">8</td>
-<td align="LEFT">Vitezslav Cizek, Ludwig Nussel</td>
-</tr>
-<tr>
-<td align="LEFT" height="17">9</td>
-<td align="LEFT">Cristian Rodríguez</td>
-</tr>
-<tr>
-<td align="LEFT" height="17">10</td>
-<td align="LEFT">Todd R, Hillwood Yang</td>
-</tr>
-</tbody>
-</table>
-          </div>
-
-          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/boosters/" title="View all posts in Boosters" rel="category tag">Boosters</a> |   <a href="https://lizards.opensuse.org/2013/08/29/the-opensuse-release-process/#comments" title="Comment on The openSUSE Release process">5 Comments &#187;</a></p>
-
-        </div>
-
       
       <div class="navigation page-navigation">
         <div class="alignleft"><a href="https://lizards.opensuse.org/category/boosters/page/2/" >&laquo; Older Entries</a></div>
@@ -1107,51 +679,51 @@ Our team blog this week is written by <a href="https://plus.google.com/111216911
   <!-- <div class="box box-shadow"> -->
     <ul>
       <li id="text-3" class="widget box box-shadow widget_text"><h3 class="box-subheader">Advertisement</h3>			<div class="textwidget"><center><a href="http://counter.opensuse.org/link/" alt="counter" title="Get it!"><img src="//counter.opensuse.org/small"></a></center></div>
-		</li><li id="tag_cloud-3" class="widget box box-shadow widget_tag_cloud"><h3 class="box-subheader">Tags</h3><div class="tagcloud"><a href='https://lizards.opensuse.org/tag/11-3/' class='tag-link-380' title='15 topics' style='font-size: 13.821782178218pt;'>11.3</a>
-<a href='https://lizards.opensuse.org/tag/11-4/' class='tag-link-414' title='34 topics' style='font-size: 18.534653465347pt;'>11.4</a>
-<a href='https://lizards.opensuse.org/tag/12-1/' class='tag-link-482' title='21 topics' style='font-size: 15.762376237624pt;'>12.1</a>
-<a href='https://lizards.opensuse.org/tag/12-2/' class='tag-link-549' title='12 topics' style='font-size: 12.574257425743pt;'>12.2</a>
-<a href='https://lizards.opensuse.org/tag/12-3/' class='tag-link-559' title='8 topics' style='font-size: 10.356435643564pt;'>12.3</a>
-<a href='https://lizards.opensuse.org/tag/amd/' class='tag-link-434' title='29 topics' style='font-size: 17.70297029703pt;'>amd</a>
-<a href='https://lizards.opensuse.org/tag/arm/' class='tag-link-279' title='7 topics' style='font-size: 9.6633663366337pt;'>ARM</a>
-<a href='https://lizards.opensuse.org/tag/ati/' class='tag-link-384' title='28 topics' style='font-size: 17.425742574257pt;'>ATI</a>
-<a href='https://lizards.opensuse.org/tag/beta/' class='tag-link-343' title='6 topics' style='font-size: 8.970297029703pt;'>Beta</a>
-<a href='https://lizards.opensuse.org/tag/build-service/' class='tag-link-16' title='13 topics' style='font-size: 13.128712871287pt;'>Build Service</a>
-<a href='https://lizards.opensuse.org/tag/buildservice/' class='tag-link-45' title='6 topics' style='font-size: 8.970297029703pt;'>buildservice</a>
-<a href='https://lizards.opensuse.org/tag/c-language/' class='tag-link-575' title='8 topics' style='font-size: 10.356435643564pt;'>C-Language</a>
-<a href='https://lizards.opensuse.org/tag/collaboration/' class='tag-link-59' title='7 topics' style='font-size: 9.6633663366337pt;'>Collaboration</a>
-<a href='https://lizards.opensuse.org/tag/community/' class='tag-link-173' title='24 topics' style='font-size: 16.594059405941pt;'>Community</a>
-<a href='https://lizards.opensuse.org/tag/conference/' class='tag-link-355' title='7 topics' style='font-size: 9.6633663366337pt;'>conference</a>
-<a href='https://lizards.opensuse.org/tag/education/' class='tag-link-214' title='15 topics' style='font-size: 13.821782178218pt;'>Education</a>
-<a href='https://lizards.opensuse.org/tag/event/' class='tag-link-37' title='7 topics' style='font-size: 9.6633663366337pt;'>event</a>
-<a href='https://lizards.opensuse.org/tag/events/' class='tag-link-21' title='7 topics' style='font-size: 9.6633663366337pt;'>Events</a>
-<a href='https://lizards.opensuse.org/tag/factory/' class='tag-link-288' title='12 topics' style='font-size: 12.574257425743pt;'>Factory</a>
-<a href='https://lizards.opensuse.org/tag/fglrx/' class='tag-link-385' title='28 topics' style='font-size: 17.425742574257pt;'>fglrx</a>
-<a href='https://lizards.opensuse.org/tag/fun/' class='tag-link-200' title='14 topics' style='font-size: 13.544554455446pt;'>fun</a>
-<a href='https://lizards.opensuse.org/tag/gnome/' class='tag-link-6' title='12 topics' style='font-size: 12.574257425743pt;'>GNOME</a>
-<a href='https://lizards.opensuse.org/tag/gsoc/' class='tag-link-261' title='11 topics' style='font-size: 12.158415841584pt;'>gsoc</a>
-<a href='https://lizards.opensuse.org/tag/hackweek/' class='tag-link-102' title='7 topics' style='font-size: 9.6633663366337pt;'>Hackweek</a>
-<a href='https://lizards.opensuse.org/tag/kde/' class='tag-link-5' title='21 topics' style='font-size: 15.762376237624pt;'>KDE</a>
+		</li><li id="tag_cloud-3" class="widget box box-shadow widget_tag_cloud"><h3 class="box-subheader">Tags</h3><div class="tagcloud"><a href='https://lizards.opensuse.org/tag/11-3/' class='tag-link-380' title='15 topics' style='font-size: 13.764705882353pt;'>11.3</a>
+<a href='https://lizards.opensuse.org/tag/11-4/' class='tag-link-414' title='37 topics' style='font-size: 18.980392156863pt;'>11.4</a>
+<a href='https://lizards.opensuse.org/tag/12-1/' class='tag-link-482' title='24 topics' style='font-size: 16.509803921569pt;'>12.1</a>
+<a href='https://lizards.opensuse.org/tag/12-2/' class='tag-link-549' title='15 topics' style='font-size: 13.764705882353pt;'>12.2</a>
+<a href='https://lizards.opensuse.org/tag/12-3/' class='tag-link-559' title='11 topics' style='font-size: 12.117647058824pt;'>12.3</a>
+<a href='https://lizards.opensuse.org/tag/13-1/' class='tag-link-570' title='7 topics' style='font-size: 9.6470588235294pt;'>13.1</a>
+<a href='https://lizards.opensuse.org/tag/amd/' class='tag-link-434' title='32 topics' style='font-size: 18.156862745098pt;'>amd</a>
+<a href='https://lizards.opensuse.org/tag/arm/' class='tag-link-279' title='7 topics' style='font-size: 9.6470588235294pt;'>ARM</a>
+<a href='https://lizards.opensuse.org/tag/ati/' class='tag-link-384' title='31 topics' style='font-size: 18.019607843137pt;'>ATI</a>
+<a href='https://lizards.opensuse.org/tag/beta/' class='tag-link-343' title='7 topics' style='font-size: 9.6470588235294pt;'>Beta</a>
+<a href='https://lizards.opensuse.org/tag/buildservice/' class='tag-link-45' title='6 topics' style='font-size: 8.9607843137255pt;'>buildservice</a>
+<a href='https://lizards.opensuse.org/tag/build-service/' class='tag-link-16' title='13 topics' style='font-size: 13.078431372549pt;'>Build Service</a>
+<a href='https://lizards.opensuse.org/tag/c-language/' class='tag-link-575' title='8 topics' style='font-size: 10.333333333333pt;'>C-Language</a>
+<a href='https://lizards.opensuse.org/tag/collaboration/' class='tag-link-59' title='7 topics' style='font-size: 9.6470588235294pt;'>Collaboration</a>
+<a href='https://lizards.opensuse.org/tag/community/' class='tag-link-173' title='24 topics' style='font-size: 16.509803921569pt;'>Community</a>
+<a href='https://lizards.opensuse.org/tag/conference/' class='tag-link-355' title='7 topics' style='font-size: 9.6470588235294pt;'>conference</a>
+<a href='https://lizards.opensuse.org/tag/education/' class='tag-link-214' title='15 topics' style='font-size: 13.764705882353pt;'>Education</a>
+<a href='https://lizards.opensuse.org/tag/event/' class='tag-link-37' title='7 topics' style='font-size: 9.6470588235294pt;'>event</a>
+<a href='https://lizards.opensuse.org/tag/events/' class='tag-link-21' title='7 topics' style='font-size: 9.6470588235294pt;'>Events</a>
+<a href='https://lizards.opensuse.org/tag/factory/' class='tag-link-288' title='12 topics' style='font-size: 12.529411764706pt;'>Factory</a>
+<a href='https://lizards.opensuse.org/tag/fglrx/' class='tag-link-385' title='31 topics' style='font-size: 18.019607843137pt;'>fglrx</a>
+<a href='https://lizards.opensuse.org/tag/fun/' class='tag-link-200' title='14 topics' style='font-size: 13.490196078431pt;'>fun</a>
+<a href='https://lizards.opensuse.org/tag/gnome/' class='tag-link-6' title='12 topics' style='font-size: 12.529411764706pt;'>GNOME</a>
+<a href='https://lizards.opensuse.org/tag/gsoc/' class='tag-link-261' title='11 topics' style='font-size: 12.117647058824pt;'>gsoc</a>
+<a href='https://lizards.opensuse.org/tag/hackweek/' class='tag-link-102' title='7 topics' style='font-size: 9.6470588235294pt;'>Hackweek</a>
+<a href='https://lizards.opensuse.org/tag/kde/' class='tag-link-5' title='21 topics' style='font-size: 15.686274509804pt;'>KDE</a>
 <a href='https://lizards.opensuse.org/tag/kde4/' class='tag-link-52' title='5 topics' style='font-size: 8pt;'>KDE4</a>
-<a href='https://lizards.opensuse.org/tag/kernel/' class='tag-link-14' title='28 topics' style='font-size: 17.425742574257pt;'>Kernel</a>
-<a href='https://lizards.opensuse.org/tag/kraft/' class='tag-link-247' title='8 topics' style='font-size: 10.356435643564pt;'>Kraft</a>
-<a href='https://lizards.opensuse.org/tag/linux/' class='tag-link-362' title='6 topics' style='font-size: 8.970297029703pt;'>Linux</a>
-<a href='https://lizards.opensuse.org/tag/lxde/' class='tag-link-287' title='11 topics' style='font-size: 12.158415841584pt;'>LXDE</a>
-<a href='https://lizards.opensuse.org/tag/marketing/' class='tag-link-26' title='5 topics' style='font-size: 8pt;'>Marketing</a>
-<a href='https://lizards.opensuse.org/tag/obs/' class='tag-link-218' title='6 topics' style='font-size: 8.970297029703pt;'>obs</a>
-<a href='https://lizards.opensuse.org/tag/open-source/' class='tag-link-350' title='6 topics' style='font-size: 8.970297029703pt;'>open source</a>
-<a href='https://lizards.opensuse.org/tag/opensuse/' class='tag-link-38' title='61 topics' style='font-size: 22pt;'>openSUSE</a>
-<a href='https://lizards.opensuse.org/tag/opensuse-id/' class='tag-link-50' title='6 topics' style='font-size: 8.970297029703pt;'>openSUSE-ID</a>
-<a href='https://lizards.opensuse.org/tag/opensuse-lxde/' class='tag-link-386' title='5 topics' style='font-size: 8pt;'>openSUSE-LXDE</a>
-<a href='https://lizards.opensuse.org/tag/opensuse-12-1/' class='tag-link-470' title='6 topics' style='font-size: 8.970297029703pt;'>openSUSE 12.1</a>
-<a href='https://lizards.opensuse.org/tag/package/' class='tag-link-58' title='7 topics' style='font-size: 9.6633663366337pt;'>Package</a>
-<a href='https://lizards.opensuse.org/tag/postgresql/' class='tag-link-367' title='7 topics' style='font-size: 9.6633663366337pt;'>PostgreSQL</a>
-<a href='https://lizards.opensuse.org/tag/python/' class='tag-link-67' title='6 topics' style='font-size: 8.970297029703pt;'>Python</a>
-<a href='https://lizards.opensuse.org/tag/rpm/' class='tag-link-269' title='6 topics' style='font-size: 8.970297029703pt;'>rpm</a>
+<a href='https://lizards.opensuse.org/tag/kernel/' class='tag-link-14' title='31 topics' style='font-size: 18.019607843137pt;'>Kernel</a>
+<a href='https://lizards.opensuse.org/tag/kraft/' class='tag-link-247' title='8 topics' style='font-size: 10.333333333333pt;'>Kraft</a>
+<a href='https://lizards.opensuse.org/tag/linux/' class='tag-link-362' title='6 topics' style='font-size: 8.9607843137255pt;'>Linux</a>
+<a href='https://lizards.opensuse.org/tag/lxde/' class='tag-link-287' title='11 topics' style='font-size: 12.117647058824pt;'>LXDE</a>
+<a href='https://lizards.opensuse.org/tag/marketing/' class='tag-link-26' title='6 topics' style='font-size: 8.9607843137255pt;'>Marketing</a>
+<a href='https://lizards.opensuse.org/tag/obs/' class='tag-link-218' title='7 topics' style='font-size: 9.6470588235294pt;'>obs</a>
+<a href='https://lizards.opensuse.org/tag/open-source/' class='tag-link-350' title='6 topics' style='font-size: 8.9607843137255pt;'>open source</a>
+<a href='https://lizards.opensuse.org/tag/opensuse/' class='tag-link-38' title='62 topics' style='font-size: 22pt;'>openSUSE</a>
+<a href='https://lizards.opensuse.org/tag/opensuse-id/' class='tag-link-50' title='6 topics' style='font-size: 8.9607843137255pt;'>openSUSE-ID</a>
+<a href='https://lizards.opensuse.org/tag/opensuse-12-1/' class='tag-link-470' title='6 topics' style='font-size: 8.9607843137255pt;'>openSUSE 12.1</a>
+<a href='https://lizards.opensuse.org/tag/package/' class='tag-link-58' title='7 topics' style='font-size: 9.6470588235294pt;'>Package</a>
+<a href='https://lizards.opensuse.org/tag/postgresql/' class='tag-link-367' title='7 topics' style='font-size: 9.6470588235294pt;'>PostgreSQL</a>
+<a href='https://lizards.opensuse.org/tag/python/' class='tag-link-67' title='6 topics' style='font-size: 8.9607843137255pt;'>Python</a>
+<a href='https://lizards.opensuse.org/tag/rpm/' class='tag-link-269' title='6 topics' style='font-size: 8.9607843137255pt;'>rpm</a>
 <a href='https://lizards.opensuse.org/tag/ruby/' class='tag-link-381' title='5 topics' style='font-size: 8pt;'>Ruby</a>
-<a href='https://lizards.opensuse.org/tag/xml/' class='tag-link-69' title='7 topics' style='font-size: 9.6633663366337pt;'>XML</a>
-<a href='https://lizards.opensuse.org/tag/xorg-2/' class='tag-link-444' title='19 topics' style='font-size: 15.207920792079pt;'>xorg</a>
-<a href='https://lizards.opensuse.org/tag/yast/' class='tag-link-11' title='12 topics' style='font-size: 12.574257425743pt;'>YaST</a></div>
+<a href='https://lizards.opensuse.org/tag/xml/' class='tag-link-69' title='7 topics' style='font-size: 9.6470588235294pt;'>XML</a>
+<a href='https://lizards.opensuse.org/tag/xorg-2/' class='tag-link-444' title='22 topics' style='font-size: 15.960784313725pt;'>xorg</a>
+<a href='https://lizards.opensuse.org/tag/yast/' class='tag-link-11' title='12 topics' style='font-size: 12.529411764706pt;'>YaST</a></div>
 </li>		<li id="authors-2" class="widget box box-shadow widget_authors">			<h3 class="box-subheader">Lizards</h3>			<ul><li><img alt='' src='https://secure.gravatar.com/avatar/35d487679042b24f99c321ae8e6f28b0?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/adriansuse/" title="Posts by Adrian Schröter">Adrian Schröter</a> (12)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/6b405d89e8a498ae6a52f60246bb1cb3?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/dj_ubun_1/" title="Posts by Agustin Chavarria">Agustin Chavarria</a> (6)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/7b57f7098bdcac987fbd479b48c600cd?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/cabelo/" title="Posts by Alessandro de Oliveira Faria">Alessandro de Oliveira Faria</a> (9)</li>
@@ -1165,10 +737,10 @@ Our team blog this week is written by <a href="https://plus.google.com/111216911
 <li><img alt='' src='https://secure.gravatar.com/avatar/0c18cf5651bb5ad3c8c6cd10467be536?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/funkypenguin/" title="Posts by Andrew Wafaa">Andrew Wafaa</a> (31)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/17c5d6b91957787db64c3d65c9a9b234?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/aschnell/" title="Posts by Arvin Schnell">Arvin Schnell</a> (9)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/33b7ed7d1a68409cffbb4fce216c410c?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/badshah400/" title="Posts by badshah400">Atri Bhattacharya</a> (3)</li>
-<li><img alt='' src='https://secure.gravatar.com/avatar/c57258b3faac137a43ddcc63deb22517?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/bmwiedemann/" title="Posts by bmwiedemann">Bernhard Wiedemann</a> (16)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/c57258b3faac137a43ddcc63deb22517?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/bmwiedemann/" title="Posts by bmwiedemann">Bernhard Wiedemann</a> (18)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/3081cb247a705dcb3c912cce12ccb986?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/kurniawan-007/" title="Posts by Bonnie Kurniawan">Bonnie Kurniawan</a> (1)</li>
-<li><img alt='' src='https://secure.gravatar.com/avatar/482b6c0369f4709de8faa6843cd6b347?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/bruno_friedmann/" title="Posts by Bruno Friedmann">Bruno Friedmann</a> (70)</li>
-<li><img alt='' src='https://secure.gravatar.com/avatar/83f40d98130b1fd3a741b9f01b2f76b1?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/calumma/" title="Posts by calumma">Calumma Brevicorne</a> (21)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/482b6c0369f4709de8faa6843cd6b347?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/bruno_friedmann/" title="Posts by Bruno Friedmann">Bruno Friedmann</a> (76)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/83f40d98130b1fd3a741b9f01b2f76b1?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/calumma/" title="Posts by calumma">Calumma Brevicorne</a> (28)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/5fb81daf243732ab579b45f3bb261041?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/caf4926/" title="Posts by Carl Fletcher">Carl Fletcher</a> (1)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/5f12ccab9a5217492279b93dc338f8a3?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/hobbsc/" title="Posts by Christopher Hobbs">Christopher Hobbs</a> (17)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/7a36aa34f42120643cfd761f32ddceca?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/babelworx/" title="Posts by Ciaran Farrell">Ciaran Farrell</a> (3)</li>
@@ -1192,7 +764,7 @@ Our team blog this week is written by <a href="https://plus.google.com/111216911
 <li><img alt='' src='https://secure.gravatar.com/avatar/9dbacbc8f5a66d9a6f99c828312bf910?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/helcaraxe/" title="Posts by Jan-Christoph Bornschlegel">Jan-Christoph Bornschlegel</a> (3)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/a73d94bc71ab9211ed8a31e3ede4fbfe?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/dl9pf/" title="Posts by Jan-Simon Möller">Jan-Simon Möller</a> (20)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/8b42838e6dccf7eb90a8ba362e7de858?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/javierllorente/" title="Posts by Javier Llorente">Javier Llorente</a> (12)</li>
-<li><img alt='' src='https://secure.gravatar.com/avatar/8b6e7e1e33323b1499e01776ea5ce307?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/cyberorg/" title="Posts by Jigish Gohil">Jigish Gohil</a> (61)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/8b6e7e1e33323b1499e01776ea5ce307?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/cyberorg/" title="Posts by Jigish Gohil">Jigish Gohil</a> (62)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/aa223e3df0b558eb11d7ffa614e1d309?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/jsrain/" title="Posts by Jiri Srain">Jiri Srain</a> (1)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/248d14d0cc663817e9ea2e5d3915d81d?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/jsuchome/" title="Posts by Jiří Suchomel">Jiří Suchomel</a> (3)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/abd6ad5514475b1ebfa926808c403ad1?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/gogga/" title="Posts by Johan Kotze">Johan Kotze</a> (5)</li>
@@ -1229,7 +801,7 @@ Our team blog this week is written by <a href="https://plus.google.com/111216911
 <li><img alt='' src='https://secure.gravatar.com/avatar/1df0fbf4b7fb2b10e93b8d84795a6b4a?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/amonthoth/" title="Posts by Ricardo Chung">Ricardo Chung</a> (7)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/fdd7251cf3e8f4d193e4f7f59238303a?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/ricardovarassantana/" title="Posts by Ricardo Varas Santana">Ricardo Varas Santana</a> (7)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/c0cff57a7e00b3ad4107e5627460b153?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/rbos/" title="Posts by Richard Bos">Richard Bos</a> (11)</li>
-<li><img alt='' src='https://secure.gravatar.com/avatar/827ee21ead846a2cf124ba6683ce885f?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/rjschwei/" title="Posts by rjschwei">Robert Schweikert</a> (10)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/827ee21ead846a2cf124ba6683ce885f?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/rjschwei/" title="Posts by rjschwei">Robert Schweikert</a> (12)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/6c9af0fa89f64b30eb228ee80c30595b?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/g0nz0/" title="Posts by Rossana Motta">Rossana Motta</a> (1)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/abcd749a57b47babab9ac7c8e35ae13a?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/rhorstkoetter/" title="Posts by Rupert Horstkötter">Rupert Horstkötter</a> (10)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/9d46eeed4de01dd50e3fd70bd660969b?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/saigkill/" title="Posts by Sascha Manns">Sascha Manns</a> (66)</li>
@@ -1246,10 +818,12 @@ Our team blog this week is written by <a href="https://plus.google.com/111216911
 <li><img alt='' src='https://secure.gravatar.com/avatar/100154b0e5aba0626e8db6191e264783?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/thomasrjones/" title="Posts by Thomas Jones">Thomas Jones</a> (1)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/a2ab55809fc9fc1cde1c4a519e283ef8?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/thomas-schraitle/" title="Posts by Thomas Schraitle">Thomas Schraitle</a> (25)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/926aae47e9d1677af3799a66f39f330d?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/toganm/" title="Posts by Togan Muftuoglu">Togan Muftuoglu</a> (3)</li>
-<li><img alt='' src='https://secure.gravatar.com/avatar/8389419eead797f59285b4da04d33e3d?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/illuusio/" title="Posts by Tuukka Pasanen">Tuukka Pasanen</a> (12)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/8389419eead797f59285b4da04d33e3d?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/illuusio/" title="Posts by Tuukka Pasanen">Tuukka Pasanen</a> (17)</li>
 <li><img alt='' src='https://secure.gravatar.com/avatar/ae5863e449a99ef82a76b2778262c9d7?s=32&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/wstephenson/" title="Posts by Will Stephenson">Will Stephenson</a> (22)</li>
 </ul>					</li>	<li id="archives-4" class="widget box box-shadow widget_archive"><h3 class="box-subheader">Archives</h3>		<ul>
-			<li><a href='https://lizards.opensuse.org/2014/01/'>January 2014</a>&nbsp;(5)</li>
+			<li><a href='https://lizards.opensuse.org/2014/03/'>March 2014</a>&nbsp;(9)</li>
+	<li><a href='https://lizards.opensuse.org/2014/02/'>February 2014</a>&nbsp;(9)</li>
+	<li><a href='https://lizards.opensuse.org/2014/01/'>January 2014</a>&nbsp;(10)</li>
 	<li><a href='https://lizards.opensuse.org/2013/12/'>December 2013</a>&nbsp;(9)</li>
 	<li><a href='https://lizards.opensuse.org/2013/11/'>November 2013</a>&nbsp;(10)</li>
 	<li><a href='https://lizards.opensuse.org/2013/10/'>October 2013</a>&nbsp;(10)</li>

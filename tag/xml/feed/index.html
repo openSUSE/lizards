@@ -13,11 +13,11 @@
 	<atom:link href="http://lizards.opensuse.org/tag/xml/feed/" rel="self" type="application/rss+xml" />
 	<link>http://lizards.opensuse.org</link>
 	<description>Blogs and Ramblings of the openSUSE Members</description>
-	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<lastBuildDate>Mon, 24 Mar 2014 12:46:00 +0000</lastBuildDate>
 	<language>en-US</language>
 		<sy:updatePeriod>hourly</sy:updatePeriod>
 		<sy:updateFrequency>1</sy:updateFrequency>
-	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<generator>http://wordpress.org/?v=3.8.1</generator>
 	<item>
 		<title>Editing KIWI configurations with Emacs</title>
 		<link>http://lizards.opensuse.org/2012/08/31/editing-kiwi-configurations-with-emacs/</link>
@@ -99,7 +99,7 @@ Now have fun with Emacs, Kiwi and your openSUSE</p>
 <h2>Invent it—The History</h2>
 <p>When KIWI was young, it used a <a href="http://en.wikipedia.org/wiki/XML_Schema_%28W3C%29" target="_blank">W3C XML schema</a> to validate its configuration file. Well, for several reasons (which is unimportant for this post) I don&#8217;t really like this schema language. Some time ago I discovered RELAX NG, a schema language which was used to develop DocBook 5.<br />
 RELAX NG has less than 30 elements, can be written in XML or in a compact syntax and is surprisingly simple. To become more familiar with this schema language, I thought it would be a good idea to rewrite KIWI&#8217;s W3C XML Schema into RELAX NG.</p>
-<p>Although there are tools that can convert it, it is much more fun to do it manually. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' />   Well, the old schema was also partely documented, so I thought this could be integrated as well. Well, after some testing I&#8217;ve sent the first draft of the RELAX NG schema to Marcus on November 11, 2007. I never thought he would integrate it into his production code. Well, you know the result. Thanks Marcus! <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </p>
+<p>Although there are tools that can convert it, it is much more fun to do it manually. :)  Well, the old schema was also partely documented, so I thought this could be integrated as well. Well, after some testing I&#8217;ve sent the first draft of the RELAX NG schema to Marcus on November 11, 2007. I never thought he would integrate it into his production code. Well, you know the result. Thanks Marcus! <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif" alt=":-)" class="wp-smiley" /> </p>
 <h2>Design it—What We Need</h2>
 <p>Based on Marcus&#8217; former W3C schema, the RELAX NG schema had the following design decisions in mind:</p>
 <ul>
@@ -182,7 +182,7 @@ k.user.attlist &amp;= k.user.remote.attribute?</pre>
 Finally, we just extend the existing attribute collection <tt>k.user.attlist</tt> with our new attribute. This is done with the <tt>&amp;=</tt> notation. If you used <tt>=</tt> you would <em>overwrite</em> the <tt>k.user.remote.attribute</tt> named pattern. The result is one attribute <tt>remote</tt> in the element <tt>user</tt> which is not what we intended.</p>
 <p>I know, the example is a bit artifical. Normally you don&#8217;t need to touch the KIWI schema. However, if you need it, the article has demonstrated how you can extend the schema with just a few lines of code.</p>
 <p>Save the above lines in a file and move it into the directory where the KIWI RNC schema is stored. Use the customization file in your code instead of the original schema to &#8220;activate&#8221; it. Your configuration file validates with the new, optional <tt>remote</tt> attribute in the <tt>user</tt> element.</p>
-<p>Enjoy! <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </p>
+<p>Enjoy! <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif" alt=":-)" class="wp-smiley" /> </p>
 ]]></content:encoded>
 			<wfw:commentRss>http://lizards.opensuse.org/2009/12/06/kiwi-relaxng-schema-explained/feed/</wfw:commentRss>
 		<slash:comments>0</slash:comments>
@@ -288,7 +288,7 @@ TEXT
 content=http://www.w3.org/2001/XMLSchema-datatyp...</pre>
 <p>As you can see, the KIWI schema defines 5 namespaces in the <tt>grammar</tt> element. A RELAX NG schema uses the namespace <tt>http://relaxng.org/ns/structure/1.0</tt> which is bound to the <tt>rng</tt> prefix in our case. For convenience reason, we define it with the <tt>setns</tt> command just as <tt>r</tt>:</p>
 <pre>/ &gt; <span style="color: #339966">setns</span> r=http://relaxng.org/ns/structure/1.0</pre>
-<p>The prefix is unimportant, important is the namespace. We could use the one which is definied in the schema, it wouldn&#8217;t matter. But &#8220;r&#8221; is shorter than &#8220;rng&#8221;. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' />  After you have definied the XML namespace, you can enter all XPath expressions. However, you have to insert the prefix in front of your element names. For example, we can count all definied elements in the KIWI schema. RELAX NG uses the name <tt>element</tt> (surprise!) for this. To get the number of all definied elements, apply the XPath function <tt>count</tt> on the <tt>//</tt> expression:</p>
+<p>The prefix is unimportant, important is the namespace. We could use the one which is definied in the schema, it wouldn&#8217;t matter. But &#8220;r&#8221; is shorter than &#8220;rng&#8221;. <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" />  After you have definied the XML namespace, you can enter all XPath expressions. However, you have to insert the prefix in front of your element names. For example, we can count all definied elements in the KIWI schema. RELAX NG uses the name <tt>element</tt> (surprise!) for this. To get the number of all definied elements, apply the XPath function <tt>count</tt> on the <tt>//</tt> expression:</p>
 <pre>/ &gt; <span style="color: #339966">xpath</span> count(//r:element)
 Object is a number : 80</pre>
 <p>Generally, every RELAX NG schema contains a <tt>start</tt> element. What contains it?</p>
@@ -342,9 +342,9 @@ Set contains 3 nodes:
 1  ELEMENT a:documentation
 2  ELEMENT db:para
 3  ELEMENT interleave</pre>
-<p>The first two elements (<tt>a:documentation</tt>, <tt>db:para</tt>) are just for documentation. Interesting part is <tt>interleave</tt>. I leave it up to you, to investigate XPath and the KIWI schema. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </p>
+<p>The first two elements (<tt>a:documentation</tt>, <tt>db:para</tt>) are just for documentation. Interesting part is <tt>interleave</tt>. I leave it up to you, to investigate XPath and the KIWI schema. <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif" alt=":-)" class="wp-smiley" /> </p>
 <p>This was just an overview of the xmllint shell. It is very helpful to test some XPath expressions before you integrate them in XSLT or in programs.</p>
-<p>Happy XPath-ing! <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </p>
+<p>Happy XPath-ing! <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif" alt=":-)" class="wp-smiley" /> </p>
 ]]></content:encoded>
 			<wfw:commentRss>http://lizards.opensuse.org/2009/11/23/playing-with-xpath-expressions-in-the-xmllint-shell/feed/</wfw:commentRss>
 		<slash:comments>2</slash:comments>
@@ -395,7 +395,7 @@ Set contains 3 nodes:
 </ul>
 <p>Interessiert? Eine <a href="http://www.millin.de/lp-978-3-938626-14-6.pdf" target="_blank">Leseprobe</a> ist als PDF erhältlich.</p>
 <h1>Technisches</h1>
-<p>Beim Erstellen des Buches wurde nahezu ausschließlich Programme       aus kontrolliertem Open-Source-Anbau verwendet. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif' alt=';-)' class='wp-smiley' />  Einzige       Ausnahmen waren der XML-Editor und der FO-Formatierer.</p>
+<p>Beim Erstellen des Buches wurde nahezu ausschließlich Programme       aus kontrolliertem Open-Source-Anbau verwendet. <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif" alt=";-)" class="wp-smiley" />  Einzige       Ausnahmen waren der XML-Editor und der FO-Formatierer.</p>
 <p>In der ersten Auflage wurde der DocBook 4-Quellcode noch nach       LaTeX transformiert und daraus PDF bzw. PostScript erzeugt. Für       die zweite Auflage wurde zuerst der vorhandene Quellcode mittels       XSLT nach DocBook 5 umgewandelt. Mit Hilfe einer       XSLT-Transformation wurde eine XSL-FO-Datei erstellt, die von       einem FO-Formatierer eingelesen und in PDF umgewandelt wurde.</p>
 <p>Als Textschrift wird die <a title="Charis Font" href="http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&amp;id=CharisSILFont" target="_blank">Charis</a> von SIL International verwendet, für Überschriften die <a title="TheSans Font" href="http://www.lucasfonts.com/fonts/thesans/" target="_blank">TheSans</a> und für Listings die <a title="TheSans Monospaced Condensed Font" href="http://www.lucasfonts.com/fonts/thesansmono/thesansmono-condensed/" target="_blank">TheSansMono Condensed</a>; die beiden Letzteren stammen von <a title="Fontdesigner" href="http://www.lucasfonts.com/" target="_blank">Lucas de Groot</a>. Die Grafiken wurden entweder direkt in SVG mit <a href="http://www.inkscape.org" target="_blank">Inkscape</a> gezeichnet oder in <a title="OpenOffice.org Draw" href="http://de.openoffice.org/doc/howto/draw/index.html" target="_blank">OpenOffice.org Draw</a> erstellt, nach PDF exportiert und im DocBook-Code entsprechend referenziert. Das Cover-Bild wurde mit <a title="DTP Programm" href="http://www.scribus.net" target="_blank">Scribus</a> erstellt und für die Druckerei nach TIFF exportiert.</p>
 <p>Noch eine kleine Statistik: Das Buch enthält 23 Kapitel, 3       Anhänge, 230 Beispiele, 40 Abbildungen, 64 Tabellen, 65 Schritt-für-Schritt-Anleitungen, über 900 kleine und große Listings, 252       Links, 27 Zitate und über 970 Querverweise.</p>
@@ -403,7 +403,7 @@ Set contains 3 nodes:
 <p>Das Buch können Sie in drei Versionen bestellen:</p>
 <ul>
 <li>Als 662 Seiten starkes <a title="DocBook-XML Buch" href="http://www.millin.de/index.php?page=shop.product_details&amp;flypage=shop.flypage&amp;product_id=18&amp;category_id=3&amp;manufacturer_id=0&amp;option=com_virtuemart&amp;Itemid=83" target="_blank">gedrucktes Buch</a> (ISBN-13-Nummer: 978-3-938626-14-6) oder</li>
-<li>als <a title="DocBook-XML Buch als EPUB, PDF und HTML" href="http://www.vorkon.de/index.php?page=shop.product_details&amp;flypage=shop.flypage&amp;product_id=129&amp;category_id=31&amp;manufacturer_id=0&amp;option=com_virtuemart&amp;Itemid=83" target="_blank">Online-Paket</a>, bestehend aus <a title="EPUB-Format (E-Books)" href="http://de.wikipedia.org/wiki/EPUB" target="_blank">EPUB</a>, PDF und HTML zu <em>einem</em> Preis! Somit steht einem Einsatz auf E-Book-Readern, Laptops oder Browsern nichts im Wege. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </li>
+<li>als <a title="DocBook-XML Buch als EPUB, PDF und HTML" href="http://www.vorkon.de/index.php?page=shop.product_details&amp;flypage=shop.flypage&amp;product_id=129&amp;category_id=31&amp;manufacturer_id=0&amp;option=com_virtuemart&amp;Itemid=83" target="_blank">Online-Paket</a>, bestehend aus <a title="EPUB-Format (E-Books)" href="http://de.wikipedia.org/wiki/EPUB" target="_blank">EPUB</a>, PDF und HTML zu <em>einem</em> Preis! Somit steht einem Einsatz auf E-Book-Readern, Laptops oder Browsern nichts im Wege. <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif" alt=":-)" class="wp-smiley" /> </li>
 <li>In Planung ist derzeit, dass einzelne Kapitel separat         heruntergeladen werden können. Somit können Sie sich nur die         Kapitel heraussuchen, für die Sie sich interessieren.</li>
 </ul>
 <p>Alle im Buch besprochenen Programme befinden sich bereits als einfach zu installierende Pakete für openSUSE. Weitere können von meinem <a title="Toms' Buildserver Repo" href="http://download.opensuse.org/repositories/home:/thomas-schraitle/" target="_blank">Buildserver Repository </a>nachinstalliert werden.</p>
@@ -522,7 +522,7 @@ RELAX NG schemas can be written in two forms: as XML and as a compact syntax. Th
 <p><code>$ <strong>xpathgrep.py</strong> '//chapter[not(@id)]/title' db.xml</code></p>
 <p>(You need the apostroph because of the shell.) The tool outputs this:</p>
 <p><code>&lt;title&gt;Ingredients&lt;/title&gt;</code></p>
-<p>That&#8217;s nice, isn&#8217;t it? There are a lot of more to discover. A few hours ago I send a small patch to the lxml-devel mailinglist to support namespaces. Hopefully, it will be accepted. <img src='http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+<p>That&#8217;s nice, isn&#8217;t it? There are a lot of more to discover. A few hours ago I send a small patch to the lxml-devel mailinglist to support namespaces. Hopefully, it will be accepted. <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /> </p>
 ]]></content:encoded>
 			<wfw:commentRss>http://lizards.opensuse.org/2008/06/09/query-your-xml-with-xpathgreppy/feed/</wfw:commentRss>
 		<slash:comments>0</slash:comments>

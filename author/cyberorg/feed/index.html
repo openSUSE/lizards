@@ -13,12 +13,56 @@
 	<atom:link href="http://lizards.opensuse.org/author/cyberorg/feed/" rel="self" type="application/rss+xml" />
 	<link>http://lizards.opensuse.org</link>
 	<description>Blogs and Ramblings of the openSUSE Members</description>
-	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<lastBuildDate>Mon, 24 Mar 2014 12:46:00 +0000</lastBuildDate>
 	<language>en-US</language>
 		<sy:updatePeriod>hourly</sy:updatePeriod>
 		<sy:updateFrequency>1</sy:updateFrequency>
-	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<generator>http://wordpress.org/?v=3.8.1</generator>
 	<item>
+		<title>Network boot live ISO</title>
+		<link>http://lizards.opensuse.org/2014/01/29/network-boot-live-iso/</link>
+		<comments>http://lizards.opensuse.org/2014/01/29/network-boot-live-iso/#comments</comments>
+		<pubDate>Wed, 29 Jan 2014 06:40:12 +0000</pubDate>
+		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
+				<category><![CDATA[Derivative]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Education]]></category>
+		<category><![CDATA[Network]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[eduction]]></category>
+		<category><![CDATA[howto]]></category>
+		<category><![CDATA[li-f-e]]></category>
+		<category><![CDATA[LTSP]]></category>
+		<category><![CDATA[pxe]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10470</guid>
+		<description><![CDATA[The x86_64 edition of openSUSE Education&#8217;s Li-f-e live DVD supports PXE booting the iso over the network, here is how to do it: * Install Li-f-e (Switch to GRUB from Installation Summary page if your hardware does not support EFI boot ), make sure you have plenty of space assigned to / partition(about 20G) * [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The x86_64 edition of openSUSE Education&#8217;s <a href="http://en.opensuse.org/openSUSE:Education-Li-f-e" title="Li-f-e">Li-f-e</a> live DVD supports PXE booting the iso over the network, here is how to do it:</p>
+<p>* Install Li-f-e (Switch to GRUB from Installation Summary page if your hardware does not support EFI boot ), make sure you have plenty of space assigned to / partition(about 20G)<br />
+* Set up LTSP by following this <a href="https://en.opensuse.org/SDB:LTSP%20quick%20start%2012.2%20Edu" title="LTSP Quick Start">quick start guide</a><br />
+* Create /srv/nfs folder and copy Li-f-e iso there<br />
+* Run the following as root in terminal:<br />
+<code><br />
+mount /srv/nfs/openSUSE-Edu-li-f-e.x86_64-13.1.1.iso /mnt<br />
+cp /mnt/boot/x86_64/loader/linux /srv/tftpboot/boot/linux-life64<br />
+cp /mnt/boot/x86_64/loader/initrd /srv/tftpboot/boot/initrd-life64<br />
+echo "/srv/nfs *(ro,no_root_squash,async,no_subtree_check)" &gt;&gt; /etc/exports<br />
+cat &lt;&lt;EOF&gt;&gt; /srv/tftpboot/pxelinux.cfg/default<br />
+LABEL Li-f-e<br />
+kernel boot/linux-life64<br />
+append initrd=boot/initrd-life64 isofrom_device=nfs:10.0.0.254:/srv/nfs/ isofrom_system=/openSUSE-Edu-li-f-e.x86_64-13.1.1.iso nonm<br />
+IPAPPEND 2<br />
+EOF<br />
+chkconfig rpcbind on &amp;&amp; service rpcbind restart<br />
+chkconfig nfsserver on &amp;&amp; service nfsserver restart<br />
+</code><br />
+Now you can PXE boot any machine over the network, select Li-f-e from the end of the boot menu to boot live DVD iso instead of normal LTSP session.</p>
+<p>Please note that if you install Li-f-e booted over the network then after the installation  you will need to remove &#8220;nonm&#8221; boot option using yast2 bootloader to get NetworkManager working again.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2014/01/29/network-boot-live-iso/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
 		<title>openSUSE Education Li-f-e 13.1 x86_64 with UEFI boot support</title>
 		<link>http://lizards.opensuse.org/2014/01/21/opensuse-education-li-f-e-13-1-x86_64-with-uefi-boot-support/</link>
 		<comments>http://lizards.opensuse.org/2014/01/21/opensuse-education-li-f-e-13-1-x86_64-with-uefi-boot-support/#comments</comments>
@@ -335,30 +379,6 @@ Apart from these, x2go also supports sound redirection via pulseaudio, folder sh
 <p>Note: this method of using x2go is just for testing and development purpose, you can use x2goserver and x2goclient in a standalone mode without kiwi-ltsp bits. Nothing additional than installing x2goserver package is needed to setup the server, except firewall should allow access to ssh port(22). </p>
 ]]></content:encoded>
 			<wfw:commentRss>http://lizards.opensuse.org/2012/09/27/run-x2go-thin-client-using-kiwi-ltsp/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
-		<item>
-		<title>Updates for openSUSE Edu Li-f-e</title>
-		<link>http://lizards.opensuse.org/2012/09/15/updates-for-opensuse-edu-li-f-e/</link>
-		<comments>http://lizards.opensuse.org/2012/09/15/updates-for-opensuse-edu-li-f-e/#comments</comments>
-		<pubDate>Sat, 15 Sep 2012 06:09:48 +0000</pubDate>
-		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
-				<category><![CDATA[Derivative]]></category>
-		<category><![CDATA[Distribution]]></category>
-		<category><![CDATA[Education]]></category>
-		<category><![CDATA[Software Management]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9014</guid>
-		<description><![CDATA[With the release of openSUSE Edu Li-f-e 12.2, we also have new KDE waiting in the official update repository. To resolve a couple of conflicts you will need to add Education:update repository before running yast2 online_update. Follow these steps: - Add Education:update repository by using this 1-click install, remain subscribed to the suggested repositories or [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>With the release of<a href="http://news.opensuse.org/2012/09/14/opensuse-edu-li-f-e-12-2-out-now/"> openSUSE Edu Li-f-e 12.2</a>, we also have new KDE waiting in the official update repository. To resolve a couple of conflicts you will need to add Education:update repository before running yast2 online_update.</p>
-<p>Follow these steps:</p>
-<pre>- Add Education:update repository by using this <a href="http://software.opensuse.org/ymp/Education:update/openSUSE_12.2/branding-life.ymp" rel="nofollow">1-click install</a>, remain subscribed to the suggested repositories or via command line:
-  <code><strong>zypper ar obs://Education:update/openSUSE_12.2 Education:update</strong></code> then run<code><strong> yast2 online-update</strong></code>.
- - select replacement for kioaudiocd
- - select deinstallation of yast2-qt-branding-life
- - Proceed with the update</pre>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2012/09/15/updates-for-opensuse-edu-li-f-e/feed/</wfw:commentRss>
 		<slash:comments>0</slash:comments>
 		</item>
 	</channel>

@@ -13,12 +13,185 @@
 	<atom:link href="http://lizards.opensuse.org/category/programming/feed/" rel="self" type="application/rss+xml" />
 	<link>http://lizards.opensuse.org</link>
 	<description>Blogs and Ramblings of the openSUSE Members</description>
-	<lastBuildDate>Tue, 21 Jan 2014 06:20:50 +0000</lastBuildDate>
+	<lastBuildDate>Mon, 24 Mar 2014 12:46:00 +0000</lastBuildDate>
 	<language>en-US</language>
 		<sy:updatePeriod>hourly</sy:updatePeriod>
 		<sy:updateFrequency>1</sy:updateFrequency>
-	<generator>http://wordpress.org/?v=3.7.1</generator>
+	<generator>http://wordpress.org/?v=3.8.1</generator>
 	<item>
+		<title>Emscripten and openSUSE: Hands on.. Hands up!</title>
+		<link>http://lizards.opensuse.org/2014/03/24/emscripten-and-opensuse-hands-on-hands-up/</link>
+		<comments>http://lizards.opensuse.org/2014/03/24/emscripten-and-opensuse-hands-on-hands-up/#comments</comments>
+		<pubDate>Mon, 24 Mar 2014 08:09:43 +0000</pubDate>
+		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
+				<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[emscripten]]></category>
+		<category><![CDATA[SDL]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10686</guid>
+		<description><![CDATA[I can code with javascript and I&#8217;m fairly good at it (not marvelous just brialiant!). If you have read some of my resent blog post I think in C/C++/Perl or Bash. I also have some kind of a hobby to help out with UnReal world RPG game. Mostly my part is to make it work [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><img src="https://github-camo.global.ssl.fastly.net/b13f9c10472ae855af98d549d5bb47c3b3ec486c/687474703a2f2f646c2e64726f70626f782e636f6d2f752f38303636343934362f656d736372697074656e5f6c6f676f2e6a7067" width="700" height="250" alt="Emscripten logo" class="alignnone" /><br />
+I can code with javascript and I&#8217;m fairly good at it (not marvelous just brialiant!). If you have read some of my resent <a href="//lizards.opensuse.org/2013/10/15/opensuse-and-gcc-part-2/" title="openSUSE and GCC part 2: compiling ‘Hello World’">blog</a> <a href="//lizards.opensuse.org/2013/11/12/opensuse-and-gcc-part-6/" title="openSUSE and GCC part 6: Introduction to autotools">post</a> I think in C/C++/Perl or Bash. I also have some kind of a hobby to help out with <a href="http://unrealworld.fi">UnReal world RPG</a> game. Mostly my part is to make it work with *nix platform (mainly Linux and Mac OS X).<br />
+As we have seen world is moving fast forward towards web. It&#8217;s  the-place-to-be for everyone. There is huge potential for players just wandering around and yelling for pleasure to play UrW! So I thought let&#8217;s see if we could port SDL to javascript/Flash or something straight from same source. after tiny amount of searching I popped up <a href="https://github.com/kripken/emscripten" title="Emscripten">Emscripten</a>.<span id="more-10686"></span></p>
+<h2>Emscripten in nutshell</h2>
+<p>Emscripten is stated in their Github page (which seems to be only place to reach this project) like this:</p>
+<pre>
+Emscripten is an LLVM-to-JavaScript compiler. It takes LLVM bitcode - which can be generated from C/C++, using llvm-gcc or clang, or any other language that can be converted into LLVM - and compiles that into JavaScript, which can be run on the web (or anywhere else JavaScript can run).
+</pre>
+<p>So in other words you can your existing C++ or C source code and compile it (with minor changes) to javascript pseudocode with LLVM back-end. I thought it can&#8217;t be working and started digging further.</p>
+<h2>How to test it on openSUSE</h2>
+<p>If you have openSUSE 12.3 or above you are good to go or you need to install LLVM 3.2 or above from OBS. You can do it with zypper like this:</p>
+<pre>
+zypper install llvm llvm-devel llvm-clang llvm-clang-devel git nodejs
+</pre>
+<p>Ain&#8217;t Clang just another C-compiler? So why not use GCC? Answer is  LLVM is very flexible system (GCC is kinda married to C/C++. even there is many other backends) that turns code to <a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree" title="Abstract syntax tree">Abstract syntax tree</a> and then back-end compiles it to binary (which can anything from machine code to some of your favorite byte code like Java/C#). So in other words you have parser (clang) and you write back-end to generate code (javascript) quite easily (in theory). I think it was kind idea behind GCC in version 3.0 but as said it doesn&#8217;t work as seamlessly as it works in LLVM. Another strong point with LLVM is license. (L)GPL is fine license but if you have compiler you license should be as free as it gets.</p>
+<h2>So HOW TO TEST IT?</h2>
+<p>I haven&#8217;t got time to make rpm-package from Emscripten because I&#8217;m still learning by myself but I&#8217;ll share now what I have learned:</p>
+<ul>
+<li><a href="https://github.com/kripken/emscripten">Read documentatio</a>n</li>
+<li><a href="https://github.com/kripken/emscripten/wiki/Tutorial">Read documentation</a></li>
+<li><a href="http://kripken.github.io/clangor/demo.html">Read documentation</a></li>
+</ul>
+<p>Ok now you have read Emscripten documentation and you have clang, nodejs and git installed. Clone the Emscripten Git-repo</p>
+<pre>
+git clone https://github.com/kripken/emscripten.git
+</pre>
+<p>If you just want to test something you can follow this tutorial: <a href="http://sol.gfxile.net/emscripten/">http://sol.gfxile.net/emscripten/</a> so you get the idea. This how far I&#8217;ll take you this time. I&#8217;ll figure out some SDL examples to be ported (since UnReal World RPG uses SDL) in near future so stay tuned. </p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2014/03/24/emscripten-and-opensuse-hands-on-hands-up/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Is my server alive and how good is my connection</title>
+		<link>http://lizards.opensuse.org/2014/03/10/is-my-server-alive-and-how-good-is-my-connection/</link>
+		<comments>http://lizards.opensuse.org/2014/03/10/is-my-server-alive-and-how-good-is-my-connection/#comments</comments>
+		<pubDate>Mon, 10 Mar 2014 07:25:14 +0000</pubDate>
+		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
+				<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Network]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[bash]]></category>
+		<category><![CDATA[ping]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10639</guid>
+		<description><![CDATA[If you have time to setup real solution and need something reliable test Zabbix (http://zabbix.com). Zabbix is wonderful all in one solutions for monitoring network and your hosts (servers). If you are in need of knowing how good you Internet/(W)LAN connections is then things are getting complicated. Case is like this: You have computer and [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>If you have time to setup real solution and need something reliable test Zabbix (<a href="http://zabbix.com" title="Zabbix">http://zabbix.com</a>). Zabbix is wonderful all in one solutions for monitoring network and your hosts (servers). If you are in need of knowing how good you Internet/(W)LAN connections is then things are getting complicated.<span id="more-10639"></span><br />
+Case is like this: You have computer and WIFI-card (Wireless Internet card). Most of the time it&#8217;s working great! Speed is high and there is no hick-ups any kind. Out of the blue comes troubles. In other network video is not playing from net or you keep getting connection errors in browser.. so what to do? How to debug this one? It can be that other people are just consuming all the router bandwidth available or there is many WIFI routers in same frequency (be sure to check first all the hardware before getting into software level). If hardware is not the case and you have double checked with normal Wire connection to Internet/LAN then there is definitely something else. With WIFI connection it still can be your grandma’s old beloved 1950 microwave oven (If you on 5Ghz band then you can&#8217;t blame her either)..<br />
+So I assume you are on <a href="http://en.wikipedia.org/wiki/TCP/IP" title="TCP/IP">TCP/IP</a>-network if you don&#8217;t know what it is you should first find out and then read the rest of this story.<br />
+WIFI-cards have signal strength monitor. I have notice that many times it&#8217;s just a estimation. You can have 100% strength and your connection is next to nothing. Manufacturers tends to make connections look way too better than they are or they make them look even worst than they are.<br />
+So how to find out is my connection good or bad? Word of warning in this point: this is just one way to find out and it&#8217;s not very good (for some use cases it is). Way is to use little bit BASH (Bourne Again SHell) and <a href="http://www.wikihow.com/Ping-in-Linux" title="ping">ping-command</a> which is installed in openSUSE default.</p>
+<h2>What ping does</h2>
+<p>Ping consumes <a href="http://en.wikipedia.org/wiki/Internet_Control_Message_Protocol" title="ICMP">ICMP-protocol</a> which is very low level and I don&#8217;t know is it used for anything anymore these days (correct me if I&#8217;m very wrong) only with ping-command. If Wikipedia is correct ping calculates round-trip so how long takes data to find it&#8217;s way to server and come back (Small tip here! You can use <a href="http://www.computerhope.com/unix/utracero.htm" title="Traceroute">traceroute</a> to see how you packet is finding it&#8217;s way on the Internet and back to you).<br />
+So how can I use ping to tell me is my server up? Short answer is simple: &#8216;you can&#8217;t&#8217;. Little bit longer answer: &#8216;Yes you can but it&#8217;s little bit more complicated than you first thought&#8217; and the long version: &#8216;You get information about if your server&#8217;s network card answers to (and most of the time kernel network stack) received ICMP-packet. If there is firewall rule that turns ICMP-packet answer off you are out of luck. Ping doesn&#8217;t tell if your service is up or Apache running correctly and reliable. Remember ping answer can work even if most of user space is smashed down and kernel is malfunctioning (been there done that!)&#8217;.<br />
+So what you get it answer from network card and that&#8217;s it. If it&#8217;s enough (99% times it is) keep reading.</p>
+<h2>Script</h2>
+<p>Show me code you scream and I give it to you and please read comments on code before using. This is edited version from <a href="http://stackoverflow.com/questions/18258364/ping-tool-to-check-if-server-is-online" title="Stackoverflow.com">Stackoverflow.com</a> message script (so nothing original here):</p>
+<pre>
+#!/bin/bash
+
+echo "Press [CTRL+C] to stop.."
+
+# Make at least 10 pings in one time
+COUNT=50
+SUCCESS=0
+LASTFAIL=NONE
+# Change this to Domain name/IP
+# or ip you want to monitor
+IP=192.168.1.1
+FAILS=0
+
+while true
+do
+        #
+        # Ping with interval 0.5s to IP (192.168.1.1)
+        # COUNT (50) times
+        # after that we just grep 'byte from' from output
+        # or ping and them calculate how many we got
+        # with wc -l (Lines of output) bacause we drop
+        # other from output
+        # You can use up (normally) 2000 size (-s) of package
+        # to see if it's starts to drop..
+        LINES=$(ping -s 1024 -i 0.5 -c ${COUNT} ${IP} | \
+                grep "bytes from ${SERVERSERVER}" | wc -l)
+
+        # Calculate how many fails there were
+        let FAILS=${COUNT}-${LINES}+${FAILS}
+        # Add to success rate
+        let SUCCESS=${LINES}+${SUCCESS}
+
+        # If there were error but date to LASTFAIL
+        # so if you not every moment looking you can
+        # see when this error happened
+        if [ ${LINES} -ne ${COUNT} ]; then
+             LASTFAIL=$(date)
+        fi
+
+        # Ok ping all together failed
+        if [ $? -ne 0 ] ; then
+          echo "Can't Connect to server ${IP}"
+        else
+          # Print statistics to screen
+          echo "$(date) ${IP} Success: ${LINES} (Tot. F ${FAILS}) \
+(Tot. S ${SUCCESS}) (Last F ${LASTFAIL})"
+        fi
+
+        # Sleep a while (not consume all the bandwidth)
+        sleep 1
+done
+</pre>
+<h2>Output</h2>
+<p>Script prints mystical output. Things that matters that Success rate is 50 (or what pinging rate you are using) and Fails are not rising fast. It they are rising fast packets are dropped if you are not getting anything check IP/domain name. With this one you can get ping time. If success level is 50 but ping time is high you network is still very slow but that you have to check with ping-command by hand. Even with 2G mobile modem you should get under 300ms (3G should be like 100ms).<br />
+To have any clue about your connection you have make this at least 30 minutes (First ping packets can tell everything but if you want to see whole picture). Actually this is stupid way to find out is your server up but if your WIFI-card  is working everywhere else great you can check are you packets going through. If ICMP-packets are dropping very fast then your TCP/IP packages are dropping very fast and you network stack have to re-send them so you notice that your network is slow (even though it has nothing to do with that). Again it can be route, WIFI-card or firewall problem still.. and ping doesn&#8217;t answer to that question. So this was this days script stuff. If you have better ways to do this.. please share I&#8217;m always interested in this topic.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2014/03/10/is-my-server-alive-and-how-good-is-my-connection/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Some news from the trenches</title>
+		<link>http://lizards.opensuse.org/2014/02/07/some-news-from-the-trenches/</link>
+		<comments>http://lizards.opensuse.org/2014/02/07/some-news-from-the-trenches/#comments</comments>
+		<pubDate>Fri, 07 Feb 2014 18:21:01 +0000</pubDate>
+		<dc:creator><![CDATA[calumma]]></dc:creator>
+				<category><![CDATA[Boosters]]></category>
+		<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Programming]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10518</guid>
+		<description><![CDATA[As you might know, we are focusing our development efforts in two fronts, namely openQA and staging projects. As we just started we don&#8217;t have fireworks for you (yet) but we did some solid ground work that we are going to build upon. Working on openQA We are organizing our daily job in openQA into [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>As you might know, we are focusing our development efforts in two fronts, namely <a href="http://lists.opensuse.org/opensuse-factory/2014-01/msg00317.html">openQA</a> and <a href="http://lists.opensuse.org/opensuse-factory/2014-01/msg00278.html">staging projects</a>. As we just started we don&#8217;t have fireworks for you (yet) but we did some solid ground work that we are going to build upon.</p>
+<h3>Working on openQA</h3>
+<p>We are organizing our daily job in openQA into highly focused sprints of two weeks. The focus of the first sprint was clear: cleanup the current codebase to empower future development and lower the entry barrier for casual contributors, which can be translated as &#8220;cleaning our own mess&#8221;. We created <a href="https://progress.opensuse.org/versions/67">some tasks in progress</a>, grouped in a version with a surprising and catchy name: Sprint 01.</p>
+<h4>Got my mojo workin&#8217;</h4>
+<p>Up to now, openQA web interface was written using just a bunch of custom CGI scripts and some configuration directives in Apache. We missed a convenient way to access to all the bell and whistles of modern web development and some tools to make the code more readable, reliable and easier to extend and test. In short, we missed a proper web development framework. We evaluated the most popular Perl-based alternatives and we finally decided to go for <a href="http://mojolicio.us/">Mojolicious</a> for several reasons:</p>
+<ul>
+<li>It provides all the functionality we demand from a web framework while being lightweight and unbloated.</li>
+<li>It&#8217;s stated as a &#8220;real time framework&#8221; which, buzzwords apart, means that is designed from the ground to fully support Comet (long-polling), EventSource and WebSockets. Very handy technologies for implementing some features in openQA.</li>
+<li>It really &#8220;feels&#8221; very close to <a href="http://www.sinatrarb.com/">Sinatra</a>, which makes Ruby on Rails     developers feel like at home. And we have quite some Rails developers hanging around, don&#8217;t we? Just think about OBS, software.o.o, WebYast, progress.o.o, OSEM, the TSP app&#8230;
+<li>Mojolicious motto is &#8220;web development can be fun again&#8221;. Who could resist to that?</li>
+</ul>
+<p>We&#8217;ve now reached the end of the sprint and we already have something that looks exactly the same than what we had before, but using Mojolicious internally. We are very happy with the framework and we are pretty confident that future development of openQA will be easier and faster than ever. OpenQA has mojo!</p>
+<h4>The database layer in openQA</h4>
+<p>Another part that we worked on during first sprint was the database layer. The user interface part of openQA use a SQLite database to store the jobs and workers registered in the system. The connection between the code and the database was expressed directly in SQL using a simple API.</p>
+<p>We have replaced this layer with another equivalent that uses an ORM (Object-relational mapping) in Perl (<a href="http://www.dbix-class.org/">DBIx::Class</a>). Every data model in openQA is now a true object that can be created, copied and moved between the different layers of the application. Quite handy.</p>
+<p>To make sure we don&#8217;t forget anything, we created a bunch of tests covering the whole functionality of the original code, running this test suite after each step of the migration. In this way we have achieved two goals: we now have a simple way to share and update information through the whole system and we can migrate very easily to a different database engine (something that we plan to do in the future).</p>
+<h3>What to do with staging</h3>
+<p>Over the time, coolo had accumulated quite some scripts that helped him with Factory. Most of them are actually related to something we are doing right now: the staging projects. So in the end we basically migrated all relevant ones to <a href="https://github.com/openSUSE/osc-plugin-factory">github</a> and one by one we are merging their functionality to staging plugin. We also experimented with test frameworks that we could use to test the plugin itself, selected few and we even have a first test! The final plan is to have the whole plugin functionality covered with a proper test suite, so we will know when something breaks. Currently, there is a lot of mess in our repo and the plugin itself need big cleanup, but we are working on it.</p>
+<h3>Contributions are welcome</h3>
+<p>If you want to help but wonder where to start, we identified tasks that are good to dive into the topic and named them &#8220;easy hacks&#8221;: mostly self contained tasks we expect to have little effort but we lack the time to do right now. Just jump over the list for <a href="https://progress.opensuse.org/versions/73">openQA</a> or <a href="https://progress.opensuse.org/versions/69">staging projects</a>.</p>
+<p>For grabbing the code related to staging project, you only need to clone the <a href="https://github.com/openSUSE/osc-plugin-factory">already mentioned repository</a>. The openQA code is spread in several repositories (<a href="https://github.com/openSUSE-Team/os-autoinst">one</a>, <a href="https://github.com/openSUSE-Team/openQA">two</a>, <a href="https://github.com/openSUSE-Team/os-autoinst-distri-opensuse">three</a> and <a href="https://github.com/openSUSE-Team/os-autoinst-needles-opensuse">four</a>), but setting up your own instance to play and hack is a piece of cake using <a href="http://software.opensuse.org/package/openQA">the packages</a> available in OBS (built automatically for every git push).</p>
+<p>If you simply want to see what we are doing in more detail, take a look at progress.o.o, we have both <a href="https://progress.opensuse.org/projects/openqav3">openQA</a> and <a href="https://progress.opensuse.org/projects/stagings">Staging projects</a> there.</p>
+<p>We are having a lot of fun, and we encourage you to join us!</p>
+]]></content:encoded>
+			<wfw:commentRss>http://lizards.opensuse.org/2014/02/07/some-news-from-the-trenches/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
 		<title>openSUSE and GCC part 10: Distributing to other distributions than openSUSE with OBS</title>
 		<link>http://lizards.opensuse.org/2014/01/07/opensuse-and-gcc-part-10/</link>
 		<comments>http://lizards.opensuse.org/2014/01/07/opensuse-and-gcc-part-10/#comments</comments>
@@ -437,290 +610,6 @@ SDL_DisplayBitmap_LDFLAGS = $(SDL_LIBS)
 <p>Yes that was so easy and nice. Next time is time to make RPM from our example application.</p>
 ]]></content:encoded>
 			<wfw:commentRss>http://lizards.opensuse.org/2013/11/19/opensuse-and-gcc-part-7/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
-		<item>
-		<title>openSUSE and GCC part 6: Introduction to autotools</title>
-		<link>http://lizards.opensuse.org/2013/11/12/opensuse-and-gcc-part-6/</link>
-		<comments>http://lizards.opensuse.org/2013/11/12/opensuse-and-gcc-part-6/#comments</comments>
-		<pubDate>Tue, 12 Nov 2013 06:47:56 +0000</pubDate>
-		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
-				<category><![CDATA[lizards.openSUSE.org]]></category>
-		<category><![CDATA[Programming]]></category>
-		<category><![CDATA[aclocal]]></category>
-		<category><![CDATA[autoconf]]></category>
-		<category><![CDATA[automake]]></category>
-		<category><![CDATA[autotools]]></category>
-		<category><![CDATA[C-Language]]></category>
-		<category><![CDATA[libtool]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10114</guid>
-		<description><![CDATA[Autotools, autotools and once again autotools. Years ago I started with autotools I thought, &#8216;Hey someone has really get into linking and compiling&#8217;. I was sold for a while and tried to learn it inside out. Then I understood that I will never be good at autotools (So I started to go to gym instead). [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p><a href="http://en.wikipedia.org/wiki/GNU_build_system" title="Wikipedia autotools">Autotools, autotools and once again autotools</a>. Years ago I started with autotools I thought, &#8216;Hey someone has really get into linking and compiling&#8217;. I was sold for a while and tried to learn it inside out. Then I understood that I will never be good at <a href="http://www.gnu.org/savannah-checkouts/gnu/automake/manual/html_node/Autotools-Introduction.html" title="An Introduction to the Autotools">autotools</a> (So I started to go to gym instead). <a href="http://en.wikipedia.org/wiki/M4_%28computer_language%29" title="M4 language">M4 macro language</a> it is not my thing.<br />
-It&#8217;s just something that should be put on one way Mars shuttle and send to gray ones to figure out. I think mr. Spock&#8217;s brains functioned with M4 but mine won&#8217;t. If there is some M4 specialist. Send me e-mail or post comment about it and tell why M4 is best macro language on earth. If nobody stands up for poor M4-macro language I&#8217;ll keep unloving it. I can start liking it because I was so wrong with <a href="http://en.wikipedia.org/wiki/REXX" title="Rexx">Rexx</a>.<span id="more-10114"></span></p>
-<h2>Autotools</h2>
-<p>Autotools are designed to work with GNU GCC (GNU Compiler Collection) and visa versa. You can use Autotools with any C-compiler or with any language but it works best when compiling GNU C or C++ applications. Autotools are actually four tools aclocal, <a href="http://www.gnu.org/software/libtool/" title="Libtool">libtool</a>, <a href="http://www.gnu.org/software/autoconf/" title="Autoconf">autoconf</a> and <a href="http://www.gnu.org/software/automake/" title="Automake">automake</a>.</p>
-<h3>GNU aclocal</h3>
-<p>It&#8217;s easier to tell what aclocal is not than what it is. Aclocal checks your needed M4 macros and copies or symlinks them to your project. I hope you never need to tackle with this or write your own M4 macro for find you great library (use pkg-config I say it once more use pkg-config) or new something that other M4 macros sucks to do. I don&#8217;t have anything else to say about this.</p>
-<h3>GNU libtool</h3>
-<p>If you like to make Share Objects (.so), Windows DLL or something your operating system supports libtool is your friend. You&#8217;ll need this anyways wanted or not.</p>
-<h3>GNU autoconf</h3>
-<p>This one is also strange tool. I compiles from M4 macros an &#8216;configure&#8217;-named bash script. So you have &#8216;configure.ac&#8217; M4 based script that is formulated to &#8216;configure&#8217;-named bash script and autoconf does that.</p>
-<h3>GNU automake</h3>
-<p><a href="//lizards.opensuse.org/2013/11/05/opensuse-and-gcc-part-5/" title="openSUSE and GCC part 5: Make love me do">Last time we talked about Makefiles</a> and how to use them with compiling. Autotools is make based. You can probably use other build tools but I never have seen them in use. Automake seeks for &#8216;Makefile.am&#8217; files and turns macros and stuff inside them to &#8216;Makefile.in&#8217; that is usable with &#8216;configure&#8217;-script from autoconf. Actually its not that simple but with this you can live you life happilly ever after.<br />
-Because everyone wants to know <a href="https://www.lrde.epita.fr/~adl/autotools.html" title="Autotools Tutorial">everything these days read more here</a>.</p>
-<h2>And this was complicated you moron!</h2>
-<p>Yes I can admit it! I&#8217;m not very clever guy. When I was young I though hell there ain&#8217;t nobody that I better than me. Now I can admin there is and I&#8217;m just a ordinary guy from Finland. So you think you are more clever than me okay let&#8217;s test it. I&#8217;ll just throw you a bone and you tackle with by yourself and search machine (I won&#8217;t use that G-word there is so many other ones also). <a href="//lizards.opensuse.org/2013/10/28/opensuse-and-gcc-part4/" title="openSUSE and GCC part 4: Pkg-config and what one can do with it">Example is the same</a> that have been use in other posts and all the needed info is here so you should be able to figure this out by yourself and ask from mr. NSA the rest. Here are configure.ac and Makefile.am but how to utilize them? Good question.. hmm.. use zypper to install automake.. maybe.. maybe?</p>
-<h3>configure.ac</h3>
-<pre>
-AC_PREREQ([2.57])
-AC_CONFIG_MACRO_DIR([m4])
-AC_INIT([SDL_DisplayBitmap], [1.0], [http&#058;//lizards.opensuse.org])
-AM_INIT_AUTOMAKE([foreign dist-bzip2])
-
-EXTRA_DIST = LICENSE.TXT image.bmp
-
-AC_LANG_C
-AC_PROG_CC
-AM_PROG_LIBTOOL
-
-C_OPTIONS="-ansi -Wall -Werror -std=c99 -fno-strict-aliasing"
-
-AC_SUBST(C_OPTIONS)
-
-PKG_CHECK_MODULES(SDL, SDL_image)
-
-AC_OUTPUT([Makefile])</pre>
-<h3>Makefile.am</h3>
-<pre>
-INCLUDES = $(SDL_CFLAGS) $(C_OPTIONS)
-
-EXTRA_DIST = LICENSE.TXT image.bmp
-
-noinst_PROGRAMS = SDL_DisplayBitmap
-
-SDL_DisplayBitmap_SOURCES = SDL_DisplayBitmap.c
-SDL_DisplayBitmap_LDFLAGS = $(SDL_LIBS)</pre>
-<p>Now you have everything and go for the bad thing. Next time I&#8217;ll tell how I do it..</p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/11/12/opensuse-and-gcc-part-6/feed/</wfw:commentRss>
-		<slash:comments>2</slash:comments>
-		</item>
-		<item>
-		<title>openSUSE and GCC part 5: Make love me do</title>
-		<link>http://lizards.opensuse.org/2013/11/05/opensuse-and-gcc-part-5/</link>
-		<comments>http://lizards.opensuse.org/2013/11/05/opensuse-and-gcc-part-5/#comments</comments>
-		<pubDate>Tue, 05 Nov 2013 07:03:08 +0000</pubDate>
-		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
-				<category><![CDATA[Education]]></category>
-		<category><![CDATA[Programming]]></category>
-		<category><![CDATA[C-Language]]></category>
-		<category><![CDATA[make]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10095</guid>
-		<description><![CDATA[In this point of time if you haven&#8217;t any idea what is pkg-config or GCC you should be reading this. Or if you still do please make sure you read about them from these blog posts. &#8216;Make&#8216; as a tool doesn&#8217;t do anything easier it just hides not-so-easy-part from eyes of public. &#8216;Make&#8217;-tool executes (in [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>In this point of time if you haven&#8217;t any idea what is <a href="http://www.freedesktop.org/wiki/Software/pkg-config/" title="pkg-config">pkg-config</a> or <a href="http://gcc.gnu.org/" title="the GNU Compiler Collection">GCC</a> you should be reading this. Or if you still do please make sure you read about them from these <a href="//lizards.opensuse.org/2013/10/15/opensuse-and-gcc-part-2/" title="openSUSE and GCC part 2: compiling ‘Hello World’">blog</a> <a href="//lizards.opensuse.org/2013/10/28/opensuse-and-gcc-part4/" title="openSUSE and GCC part 4: Pkg-config and what one can do with it">posts</a>. &#8216;<a href="https://www.gnu.org/software/make/" title="GNU Make">Make</a>&#8216; as a tool doesn&#8217;t do anything easier it just hides not-so-easy-part from eyes of public. &#8216;Make&#8217;-tool executes (in default) Makefile-script that should tell how to build your applications step by step. There is no guaranties that it&#8217;s easier to understand how it&#8217;s build or you to understand that after a while.<span id="more-10095"></span></p>
-<h2>What should I make then?</h2>
-<p>As &#8216;make&#8217; spreads <a href="https://en.wikipedia.org/wiki/Make_%28software%29" title="Make (software)">wide area of operating system</a> it&#8217;s not very new tool. You can use make in AIX, HP/UX, BSD variants, Linux, Windows or Solaris. Most of them they got their own make tool that got it&#8217;s own dialect. If you are not using AIX, HP-UX, Solaris or pure nmake from Visual Studio I recommend to learn GNU Make dialect. With that you can easily adapt those others. One can pretend that &#8216;make&#8217; is nearly programming language for building application.<br />
-Mostly because &#8216;make&#8217; ain&#8217;t cleanest way building applications there is also other tools as well: <a href="http://scons.org/" title="SCons">Python Scons</a>, <a href="https://ant.apache.org/" title="Apache Ant">Apache Ant</a> and <a href="http://cmake.org/" title="CMake">CMake</a> for example. They all are as powerful as &#8216;make&#8217; if compare them as building tools. You got to remeber Ant is mostly for Java applications but you can use it for anything if you are willing and SCons is general building tool. One can argue all the day and night which of them is the best. One thing is correct &#8216;make&#8217; <em>is not the cleanest</em> but is factory standard.</p>
-<h2>First forget everything</h2>
-<p>First thing I like to say about make is forget everything you have learned in your life. There is only one way on doing things in &#8216;make&#8217; and it&#8217;s only open for those who are true believers. Now forget those two sentences and you are in correct state of taking example building script as it is. This particular builds <a href="//lizards.opensuse.org/2013/10/28/opensuse-and-gcc-part4/" title="openSUSE and GCC part 4: Pkg-config and what one can do with it">last blogs</a> &#8216;SDL_image&#8217; example program. First we install make</p>
-<pre>
-zypper install make
-</pre>
-<p>then make script. Save this in sample directory/Folder as &#8216;SDL_DisplayBitmap.c&#8217; named &#8216;Makefile&#8217; (In this case capitals are needed). If you use pico/nano make sure intend tabs are tabs not spaces if they are converted make won&#8217;t work.</p>
-<pre>
-SRC := SDL_DisplayBitmap.c
-CFLAGS = $(shell pkg-config --cflags SDL_image)
-LIBS = $(shell pkg-config --libs SDL_image)
-
-all: 
-	@echo "Building with make is so fun"
-	gcc -o SDL_DisplayBitmap $(SRC) $(CFLAGS) $(LIBS)
-
-.PHONY: install clean
-
-clean:
-	rm -f SDL_DisplayBitmap
-
-install:
-	@echo "This just PHONY install target"
-</pre>
-<h2>What does it mean?</h2>
-<p>Okay let&#8217;s go line by line</p>
-<pre>
-SRC := SDL_DisplayBitmap.c
-</pre>
-<p>Variable that contains &#8216;SDL_DisplayBitmap.c&#8217;. Why it got &#8216;:=&#8217; and no &#8216;=&#8217; that&#8217;s is up to you find out.</p>
-<pre>
-CFLAGS = $(shell pkg-config --cflags SDL_image)
-LIBS = $(shell pkg-config --libs SDL_image)
-</pre>
-<p>This could be done in one variable but it&#8217;s easier to use in future if it&#8217;s divided in two. Tell to run &#8216;pkg-config&#8217;-tool and pass what ever is output to variable &#8216;CFLAGS&#8217; or &#8216;LIBS&#8217;. So they now have correct building flags and libraries.</p>
-<pre>
-all: 
-&lt;TAB&gt;@echo "Building with make is so fun"
-&lt;TAB&gt;gcc -o SDL_DisplayBitmap $(SRC) $(CFLAGS) $(LIBS)
-</pre>
-<p>Okay this is the main thing of &#8216;all:&#8217;-target. Traditionally there is &#8216;all&#8217;-target in &#8216;Makefile&#8217; to build applications from ground up.<br />
-Now be attended! <strong>Always use intending tabs before commands in &#8216;Makefile&#8217; no spaces</strong>. Okay? If &#8216;make&#8217;-tool says you are using spaces to intend convert them to tabs. &#8216;@&#8217;-mark is just don&#8217;t show what we are doing only print what is outputted to stdout and after that we compile using SRC, CFLAGS and LIBS variables. If you are using variable in Makefile it have to be &#8216;$(VARIABLENAME)&#8217; not &#8216;$VARIABLENAME&#8217; or &#8216;VARIABLENAME&#8217;. You can also use lowercase names but again tradition and habits comes in a way.</p>
-<pre>
-.PHONY: install clean
-
-clean:
-&lt;TAB&gt;rm -f SDL_DisplayBitmap
-
-install:
-&lt;TAB&gt;@echo "This just PHONY install target"
-</pre>
-<p>Normally there is clean and install targets available in every &#8216;Makefile&#8217;. It&#8217;s more easier your life stuff than must. I recommend to create them! It will not lead you to hate or suffering. These targets are easy to explain &#8216;clean&#8217;-target should get you source tree in state that if was before building and &#8216;install&#8217;-target should install your binary/binaries. Ahh.. and then there is &#8216;.PHONY&#8217; target is you really are interested <a href="https://www.gnu.org/software/make/manual/html_node/Phony-Targets.html" title=".PHONY Docs">read all about it from docs</a>.</p>
-<h2>How to make application</h2>
-<p>Copy Makefile to folder/directory you have &#8216;SDL_DisplayBitmap.c&#8217; and run</p>
-<pre>
-make
-</pre>
-<p>after that you should have binary &#8216;SDL_DisplayBitmap&#8217;. if you want to clean your source just run</p>
-<pre>
-make clean
-</pre>
-<p>This was just hands dirty example. Make is so much more and more complicated you ever can imagine. Next we jump into Autotools for couple of blogs as they use make as tools to build applications.</p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/11/05/opensuse-and-gcc-part-5/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
-		<item>
-		<title>openSUSE and GCC part 4: Pkg-config and what one can do with it</title>
-		<link>http://lizards.opensuse.org/2013/10/28/opensuse-and-gcc-part4/</link>
-		<comments>http://lizards.opensuse.org/2013/10/28/opensuse-and-gcc-part4/#comments</comments>
-		<pubDate>Mon, 28 Oct 2013 16:37:38 +0000</pubDate>
-		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
-				<category><![CDATA[Education]]></category>
-		<category><![CDATA[lizards.openSUSE.org]]></category>
-		<category><![CDATA[Miscellaneous]]></category>
-		<category><![CDATA[Programming]]></category>
-		<category><![CDATA[C-Language]]></category>
-		<category><![CDATA[Gcc]]></category>
-		<category><![CDATA[pkg-config]]></category>
-		<category><![CDATA[rpm]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10083</guid>
-		<description><![CDATA[When I re-booted my blogging habits with very UN-sexy and technical topic &#8216;GNU C Compiler and how to make it with openSUSE&#8217;. I thought nobody bothers to read these because A) Everyone who reads openSUSE blogs are PRO B) everyone wants to do Javascript, Python or &#8216;Put your script language here not C. I can [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>When I re-booted my blogging habits with very UN-sexy and technical topic &#8216;GNU C Compiler and how to make it with openSUSE&#8217;. I thought nobody bothers to read these because A) Everyone who reads openSUSE blogs are PRO B) everyone wants to do Javascript, Python or &#8216;Put your script language here not C. I can tell actually C ain&#8217;t that bad you just have to shoot yourself to leg and then learn how to walk again.<br />
-Last blog entry was about &#8216;<a href="//lizards.opensuse.org/2013/10/22/opensuse-and-gcc-part-3/" title="openSUSE and GCC part 3: RPM devel packages">openSUSE and GCC part 3: RPM devel packages</a>&#8216; someone (thanks for pointing that out really!) noted that I should fix C-Code example I was stunned! There were someone that really readied blog entry. Okay he/she didn&#8217;t say did he/she like it but some one read it.<br />
-I have one real reason to this blog-stuff. I hope I have found something like this when I young and I was starting my journey in Linux land. Currently there is so many more people now in populating it and it&#8217;s coming up fast. So If you find errors or don&#8217;t understand something be welcome to ask or want to know about something specific let me know! Now we get on today’s topic that is &#8216;pkg-config and what one can do with it&#8217;.<span id="more-10083"></span></p>
-<h2>Pkg-config makes things easy/complicated (choose one)</h2>
-<p>You can live you whole C developer life with Linux and GCC without ever toughing &#8216;<a href="http://www.freedesktop.org/wiki/Software/pkg-config/" title="pkg-config">pkg-config</a>&#8216;. pkg-config is just something that can make you life easier with C. It&#8217;s not easy to say in couple of words what it does but closest I can get it provides information how to compile application with specific C-library. In other words if you <a href="//lizards.opensuse.org/2013/10/22/opensuse-and-gcc-part-3/" title="openSUSE and GCC part 3: RPM devel packages">read blog before</a> there were these bare &#8216;gcc&#8217; library entries in command-line (-lname stuff).<br />
-With more complicated libaries: like GTK+ or SDL you can get yourself wondering what libraries shall I include and what not that I can get my application build. Every self respecting developer wants to keep library dependencies as low as possible. So if you don&#8217;t want to wonder anymore you can use &#8216;pkg-config&#8217;.</p>
-<h3>So what it really does?</h3>
-<p>Last time I promised SDL_image 1.2 example as it&#8217;s little bit more complicated to get build. Actually it&#8217;s not that complicated but it&#8217;s simple example library and you get nice GUI stuff. First we have to zypper or YaST pkg-config, unzip and SDL_image-devel packages so we can use and link against SDL_image.</p>
-<pre>
-zypper install pkg-config SDL_image-devel unzip
-</pre>
-<p>after you have managed to install it you can download this blog example application made by <em>Ryan Clark</em> from here: &#8216;<a href="http://content.gpwiki.org/images/2/2f/SDL_DisplayBitmap.zip" title="SDL_DisplayBitmap.zip">SDL_DisplayBitmap.zip</a>&#8216;. It comes from nice <a href="http://content.gpwiki.org/index.php/SDL" title="SDL ">SDL gaming wiki</a> (<a href="http://content.gpwiki.org/index.php/SDL:Tutorials:Displaying_a_Bitmap" title="Displaying a Bitmap">This tutorial actually</a>) and so if you are interested making games with <a href="http://www.libsdl.org/" title="Simple Direct Layer">SDL 1.2 or 2.0</a> you should pop there. You can download files and unzip it or you can crap same source below and save it as &#8216;SDL_DisplayBitmap.c&#8217; if you do that remember to have some <a href="http://www.fileformat.info/format/bmp/egff.htm">BMP-image</a> in same directory where you compile named: &#8216;<em>image.bmp</em>&#8216;. Real nerds goes with unzip. If you do it <b>like me</b> it goes like this.</p>
-<pre>
-unzip SDL_DisplayBitmap.zip
-cd SDL_DisplayBitmap
-</pre>
-<p>Or code for copying</p>
-<pre>
-// THIS WORK, INCLUDING THE SOURCE CODE, DOCUMENTATION
-// AND RELATED MEDIA AND DATA, IS PLACED INTO THE PUBLIC DOMAIN.
-//
-// THE ORIGINAL AUTHOR IS RYAN CLARK.
-//
-// THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY
-// OF ANY KIND, NOT EVEN THE IMPLIED WARRANTY OF
-// MERCHANTABILITY. THE AUTHOR OF THIS SOFTWARE,
-// ASSUMES _NO_ RESPONSIBILITY FOR ANY CONSEQUENCE
-// RESULTING FROM THE USE, MODIFICATION, OR
-// REDISTRIBUTION OF THIS SOFTWARE.
-
-#include &lt;stdlib.h&gt;
-#include &lt;SDL/SDL.h&amp;lgt;
-
-int main(int argc, char *argv[])
-{
-	SDL_Surface *screen;	//This pointer will reference the backbuffer
-	SDL_Surface *image;	//This pointer will reference our bitmap sprite
-	SDL_Surface *temp;	//This pointer will temporarily reference our bitmap sprite
-	SDL_Rect src, dest;	//These rectangles will describe the source and destination regions of our blit
-	
-	//We must first initialize the SDL video component, and check for success
-	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-		printf("Unable to initialize SDL: %s\n", SDL_GetError());
-		return 1;
-	}
-	
-	//When this program exits, SDL_Quit must be called
-	atexit(SDL_Quit);
-	
-	//Set the video mode to fullscreen 640x480 with 16bit colour and double-buffering
-	screen = SDL_SetVideoMode(640, 480, 16, SDL_DOUBLEBUF | SDL_FULLSCREEN);
-	if (screen == NULL) {
-		printf("Unable to set video mode: %s\n", SDL_GetError());
-		return 1;
-	}
-	
-	//Load the bitmap into a temporary surface, and check for success
-	temp = SDL_LoadBMP("image.bmp");
-	if (temp == NULL) {
-		printf("Unable to load bitmap: %s\n", SDL_GetError());
-		return 1;
-	}
-	
-	//Convert the surface to the appropriate display format
-	image = SDL_DisplayFormat(temp);
-	
-	//Release the temporary surface
-	SDL_FreeSurface(temp);
-	
-	//Construct the source rectangle for our blit
-	src.x = 0;
-	src.y = 0;
-	src.w = image-&gt;w;	//Use image-&gt;w to display the entire width of the image
-	src.h = image-&gt;h;	//Use image-&gt;h to display the entire height of the image
-	
-	//Construct the destination rectangle for our blit
-	dest.x = 100;		//Display the image at the (X,Y) coordinates (100,100)
-	dest.y = 100;
-	dest.w = image-&gt;w;	//Ensure the destination is large enough for the image's entire width/height
-	dest.h = image-&gt;h;
-	
-	//Blit the image to the backbuffer
-	SDL_BlitSurface(image, &amp;src, screen, &amp;dest);
-	
-	//Flip the backbuffer to the primary
-	SDL_Flip(screen);
-	
-	//Wait for 2500ms (2.5 seconds) so we can see the image
-	SDL_Delay(2500);
-	
-	//Release the surface
-	SDL_FreeSurface(image);
-	
-	//Return success!
-	return 0;
-}
-</pre>
-<p>I chose this one because it doesn&#8217;t have any compiling aid for poor fellow in ZIP. So we can compile it in openSUSE and most of Linux distros like this:</p>
-<pre>
-gcc -o SDL_Display Bitmap SDL_DisplayBitmap.c $(pkg-config --libs --cflags SDL_image)
-./SDL_Display
-</pre>
-<p>You should just see nice spaceship for 2.5 seconds nothing more or you own nice BMP-image.</p>
-<h2>Do I have to be BASH wizard and what even is BASH?</h2>
-<p>If you are reading this in openSUSE you probably use <a href="http://en.wikipedia.org/wiki/Bash_%28Unix_shell%29" title="BASH">BASH (Bourne Again Shell)</a> and that is all I want to say about that. It&#8217;s not the topic and you can forget all about it. You don&#8217;t have to be wizard of BASH to understand what happens in that sentence above. again we are compiling with &#8216;<em>gcc</em>&#8216; file named &#8216;<em>SDL_DisplayBitmap.c</em>&#8216; to binary &#8216;<em>SDL_DisplayBitmap</em>&#8216;. New stuff starts after that. It just tells to BASH ask from &#8216;pkg-config&#8217; libraries and needed c-flags that comes with SDL_image and attach them here. If you just run you get something like this</p>
-<pre>
-pkg-config --libs --cflags SDL_image
--D_GNU_SOURCE=1 -D_REENTRANT -I/usr/include/SDL  -lSDL_image -lSDL -lpthread
-</pre>
-<p>So compile string is actual then</p>
-<pre>
-gcc -o SDL_Display Bitmap SDL_DisplayBitmap.c -D_GNU_SOURCE=1 -D_REENTRANT -I/usr/include/SDL  -lSDL_image -lSDL -lpthread
-</pre>
-<p>But in every distro tends to tune these cflags stuff and every release of &#8216;SDL_image&#8217; can tune needed libraries. This what you don&#8217;t want to know anything about! You don&#8217;t want to hassle openSUSE&#8217;s or Fedora&#8217;s or Ubuntu&#8217;s global building flags or include neither library locations by hand. You should just go with the automatic &#8216;pkg-config&#8217; way.  If I can give you one bit of advise other than always use suncream for libraries have &#8216;pkg-config&#8217;-config files and use them. Next we get on &#8216;make&#8217; and Makefiles. As I&#8217;m too lazy to copy&#8217;n'paste my &#8216;<em>gcc</em>&#8216; strings here.</p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/10/28/opensuse-and-gcc-part4/feed/</wfw:commentRss>
 		<slash:comments>0</slash:comments>
 		</item>
 	</channel>
