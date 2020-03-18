@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Portaudio &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/portaudio/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Linux audio library smackdown part1: Portaudio</title>
+		<link>https://lizards.opensuse.org/2015/01/16/linux-audio-library-smackdown-part1-portaudio/</link>
+		<comments>https://lizards.opensuse.org/2015/01/16/linux-audio-library-smackdown-part1-portaudio/#comments</comments>
+		<pubDate>Fri, 16 Jan 2015 08:12:33 +0000</pubDate>
+		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
+				<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Audio]]></category>
+		<category><![CDATA[Gcc]]></category>
+		<category><![CDATA[Portaudio]]></category>
+		<category><![CDATA[Pulseaudio]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11182</guid>
+		<description><![CDATA[Common disinformation people tends to believe in is that Linux Audio is in bad shape. Actually it&#8217;s not. They are right ALSA is getting bit rusty and it&#8217;s not top of the notch but list of supported sound cards is long. There have been speak about next generation audio API for Linux but nothing is [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Common disinformation people tends to believe in is that Linux Audio is in bad shape. Actually it&#8217;s not. They are right ALSA is getting bit rusty and it&#8217;s not top of the notch but list of supported sound cards is long. There have been speak about next generation audio API for Linux but nothing is really happening (I&#8217;m happy if you prove me wrong!). Last year I had task to evaluate different Linux audio libraries for playing audio and recording. So these articles try to make some light to my journey and what did I found. inpatient can go to Github  <a title="Portaudio audio example" href="https://github.com/illuusio/linux-audio-example/tree/master/portaudio">https://github.com/illuusio/linux-audio-example/tree/master/portaudio</a>. There is other library examples also but only Portaudio is currently updated to my last version. I wrote same very simple application to test every audio library. I&#8217;ll upgrade rest of the examples and add also Xiph libao and GStreamer.<span id="more-11182"></span></p>
+<h2>Application</h2>
+<p>Like I said example applications are very simple. With Every library I tried to write playback and record example. If you can use blocking API interface there is blocking example also. In these Examples I use <a title="libsndfile" href="http://www.mega-nerd.com/libsndfile/">sndfile</a> because API is super easy to use and I could test with WAV. So no troubles big bobbles approach.</p>
+<h2>Code</h2>
+<p>I won&#8217;t be posting code here it can be found on <a title="Portaudio audio example" href="https://github.com/illuusio/linux-audio-example/tree/master/portaudio">Github repository</a>. I tried to be super clear as they are examples and added comments as needed but if you don&#8217;t get glue fault is all mine.</p>
+<h2>Portaudio</h2>
+<p><strong>Supported outputs:</strong> Alsa, Oss, Jack, Mac OS X CoreAudio and Many Windows Audio API&#8217;s</p>
+<p>Why do want to use something else than ALSA? If you need to support other platforms than Linux you get idea of cross platform API for audio. <a title="Portaudio" href="http://portaudio.com/">Portaudio</a> is hidden gem of Linux audio libraries. It&#8217;s stable as can get. Portaudio has blocking and callback support. It has Float 32-bit Int 32-, 16- and 8-bit input/output. I tries to be very high end in every corner. Also licensing is very liberal.  For a while It&#8217;s has seen slowing development  because main developers have something else to do in life.</p>
+<p>For me biggest no-no for me was lack of Pulseaudio support (I go so upset that I wrote <a title="Portaudio Pulseaudio hostApi" href="https://build.opensuse.org/package/show/home:illuusio:portaudio/portaudio">Pulseaudio  hostApi</a> for Portaudio but that is worth of another blog post). Portaudio supports Windows, Linux and Mac OS X so it&#8217;s good choice if you need same quality audio in every platform.</p>
+<p>Biggest minus in Portaudio is there ain&#8217;t much applications using it. There is some highlights like <a title="Mixxx" href="http://mixxx.org">Mixxx</a> and <a title="Audacity" href="http://audacity.sourceforge.net/">Audacity</a>. Rest of the list can be <a title="Portaudio apps" href="http://portaudio.com/apps.html">found here</a>. Why it&#8217;s not more popular I can&#8217;t say because it&#8217;s easy to use.</p>
+<p><strong>Summary:</strong> Simple but powerful API for I/O which I can recommend. So go and see examples if it&#8217;s for you and <a title="Portaudio documentation" href="http://portaudio.com/docs/v19-doxydocs/index.html">documentation from official pages</a>. Next time we get on Pulseaudio.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2015/01/16/linux-audio-library-smackdown-part1-portaudio/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+	</channel>
+</rss>

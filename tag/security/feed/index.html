@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Security &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/security/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Encrypted installation media</title>
+		<link>https://lizards.opensuse.org/2017/11/17/encrypted-installation-media/</link>
+		<pubDate>Fri, 17 Nov 2017 14:21:57 +0000</pubDate>
+		<dc:creator><![CDATA[Steffen Winterfeldt]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[Security]]></category>
+		<category><![CDATA[Uncategorized]]></category>
+		<category><![CDATA[booting]]></category>
+		<category><![CDATA[openSUSE]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12886</guid>
+		<description><![CDATA[Hackweek project: create encrypted installation media You&#8217;re still carrying around your precious autoyast config files on an unencrypted usb stick? You have a customized installation disk that could reveal lots of personal details? You use ad blockers, private browser tabs, or even tor but still carry around your install or rescue disk unencrypted for everyone [&#8230;]]]></description>
+				<content:encoded><![CDATA[<h2>Hackweek project: create encrypted installation media</h2>
+<ul>
+<li>You&#8217;re still carrying around your precious autoyast config files on an unencrypted usb stick?</li>
+<li>You have a customized installation disk that could reveal lots of personal details?</li>
+<li>You use ad blockers, private browser tabs, or even <code>tor</code> but still carry around your install or rescue disk unencrypted for everyone to see?</li>
+<li>You have your personal files and an openSUSE installation tree on the same partition just because you are lazy and can&#8217;t be bothered to tidy things up?</li>
+<li>A simple Linux install stick is just not geekish enough for you?</li>
+</ul>
+<p><strong>Not any longer!</strong></p>
+<p><code>mksusecd</code> can now (well, once <a href="https://github.com/openSUSE/mksusecd/pull/27">this pull request</a> has been merged) create fully encrypted installation media (both UEFI and legacy BIOS bootable).</p>
+<p>Everything (but the plain grub) is on a LUKS-encrypted partition. If you&#8217;re creating a customized boot image and add sensitive data via <code>--boot</code> or add an add-on repo or autoyast config or some secret driver update &#8211; this is all safe now!</p>
+<p>You can get the latest <code>mksusecd-1.54</code> already <a href="https://build.opensuse.org/package/show/home%3Asnwint/mksusecd">here</a> to try it out! (Or visit <a href="https://software.opensuse.org/package/mksusecd">software.opensuse.org</a> and look for (at least) version 1.54 under &#8216;Show other versions&#8217;.</p>
+<p>It&#8217;s as easy as</p>
+<pre>mksusecd --create crypto.img --crypto --password=xxx some_tumbleweed.iso
+</pre>
+<p>And then <code>dd</code> the image to your usb stick.</p>
+<p>But if your Tumbleweed or SLE/Leap 15 install media are a bit old (well, as of now they are) check the &#8216;Crypto notes&#8217; in <code>mksusecd --help</code> first! &#8211; You will need to add two extra options.</p>
+<p>This is how the first screen looks then<br />
+<img src="http://users.suse.com/~snwint/encrypted_install.png"></img></p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Securing SSH (Secure Shell) from attacker</title>
+		<link>https://lizards.opensuse.org/2011/03/22/securing-ssh-secure-shell-from-brute-force-attempts/</link>
+		<pubDate>Tue, 22 Mar 2011 17:11:04 +0000</pubDate>
+		<dc:creator><![CDATA[Saydul Akram]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Network]]></category>
+		<category><![CDATA[Security]]></category>
+		<category><![CDATA[networking]]></category>
+		<category><![CDATA[ssh]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=6847</guid>
+		<description><![CDATA[Secure Shell or SSH is a network protocol that allows exchange of data through secure channels between two network devices. Particularly widely used on Linux and Unix-based system to access your shell, SSHwas designed as a substitute for Telnet and other insecure remote shells, which sentinformation, especially passwords, in the form of simple text that makes it easy to be intercepted. Encryption used by SSH provides confidentiality and integrity of dataover an insecure network like the Internet. For the Security Server We From Attacks The attacker who usually Always Use SSHAs a door Early Entry Into System To us, of course, become an admin obligation todispel various Efforts That. There are several ways which ordinary people do to secure SSH from a variety ofattacks which one of them is by editing the file / etc / ssh / sshd_config. before doing the configuration in the file / etc / ssh / sshd_config make sure SSH isinstalled on your linux distribution, and for openSUSE that I use it already automatically installed. #vim /etc/ssh/sshd_config change options, as below : LoginGraceTime 2m PermitRootLogin no MaxAuthTries 3 LoginGraceTime which option is used to give a time limit of user logins, so please [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Secure Shell or SSH is a network protocol that allows exchange of data through secure channels between two network devices.</p>
+<p>Particularly widely used on Linux and Unix-based system to access your shell, SSHwas designed as a substitute for Telnet and other insecure remote shells, which sentinformation, especially passwords, in the form of simple text that makes it easy to be intercepted. Encryption used by SSH provides confidentiality and integrity of dataover an insecure network like the Internet.</p>
+<p>For the Security Server We From Attacks The attacker who usually Always Use SSHAs a door Early Entry Into System To us, of course, become an admin obligation todispel various Efforts That.</p>
+<p>There are several ways which ordinary people do to secure SSH from a variety ofattacks which one of them is by editing the file / etc / ssh / sshd_config.</p>
+<p>before doing the configuration in the file / etc / ssh / sshd_config make sure SSH isinstalled on your linux distribution, and for openSUSE that I use it already automatically installed.</p>
+<blockquote><p>#vim /etc/ssh/sshd_config</p></blockquote>
+<p>change options, as below :</p>
+<blockquote><p>LoginGraceTime 2m<br />
+PermitRootLogin no<br />
+MaxAuthTries 3</p></blockquote>
+<p><strong>LoginGraceTime</strong> which option is used to give a time limit of user logins, so please change these options according to your wishes.</p>
+<p><strong>PermitRootLogin</strong> is no option to allow the root user can login to ssh or not to give yes or no value on the options tersebut.sebaiknya give no value, so that users can not loginas root into your ssh.</p>
+<p><strong>MaxAuthTries</strong> 3 to give the limit on the number of errors allowed when the user logs in,this is very useful to avoid attackers do brute force on the server anda.dimana usersonly allowed to make a mistake typing the password in accordance with that alreadyset on the options.</p>
+<p>If you want only certain users who may log into your ssh add AllowUsers option at the end of the line followed by a distinguished user name in the allowed login.</p>
+<p>otherwise, you can install software, <a href="http://software.opensuse.org/search?q=denyhost&amp;baseproject=openSUSE%3A11.4&amp;lang=en&amp;exclude_debug=true" target="_blank">denyhost</a>, for your ssh security</p>
+<p style="text-align: left"><em>NB:do not enable the root user, for ssh login</em></p>
+<p>Similarly, a fairly simple tutorial .. hopefully this can be useful.</p>
+<div>Best Regards</div>
+<div>Saydul Akram</div>
+<div>Email : idulk@opensuse.org</div>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>New Package: kpassgen</title>
+		<link>https://lizards.opensuse.org/2009/07/20/new-package-kpassgen/</link>
+		<comments>https://lizards.opensuse.org/2009/07/20/new-package-kpassgen/#comments</comments>
+		<pubDate>Mon, 20 Jul 2009 15:20:24 +0000</pubDate>
+		<dc:creator><![CDATA[Sascha Manns]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Contrib]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Security]]></category>
+		<category><![CDATA[passwords]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1572</guid>
+		<description><![CDATA[Today i&#8217;ve released the kpassgen Package in KDE:KDE4:Community. It is planned to publish in Contrib too.Generates a set of random passwords of any length that can include the letter a-z, A-Z any number and symbols. WARNING: I cannot guarantee the strength of the passwords generated by this program. TODO: &#8211; Implement drag and droping &#8211; [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Today i&#8217;ve released the kpassgen Package in KDE:KDE4:Community. It is planned to publish in Contrib too.<span id="more-1572"></span>Generates a set of random passwords of any length that can include the letter a-z, A-Z any number and symbols.</p>
+<h3 class="contenttext">WARNING: I cannot guarantee the strength of the passwords generated by this program.</h3>
+<h3 class="contenttext">TODO:<br />
+&#8211; Implement drag and droping<br />
+&#8211; Allow lower case letter to be unselected<br />
+&#8211; Simple password mode (favours lower case letters)</h3>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/07/20/new-package-kpassgen/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Saschas Backtrace: Interview with Petko D. Petkov on Netsecurify</title>
+		<link>https://lizards.opensuse.org/2008/12/24/saschas-backtrace-interview-with-petko-d-petkov-on-netsecurify/</link>
+		<pubDate>Wed, 24 Dec 2008 12:13:41 +0000</pubDate>
+		<dc:creator><![CDATA[Sascha Manns]]></dc:creator>
+				<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Marketing]]></category>
+		<category><![CDATA[Network]]></category>
+		<category><![CDATA[Security]]></category>
+		<category><![CDATA[netsecurify]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=329</guid>
+		<description><![CDATA[Petko D. Petkov is one of the founding-members of the Gnucitizen-hacker-network. They work inbetween internet, computers and security and always have very interesting projects going on, for example the &#8220;House of Hackers&#8221; a social-network for hackers and security experts. The Gnucitizen define themself as &#8220;a leading information security think tank, delivering solutions to local, national [&#8230;]]]></description>
+				<content:encoded><![CDATA[<div class="entry-body">
+<p>Petko D. Petkov is one of the founding-members of the Gnucitizen-hacker-network. They work inbetween internet, computers and security and always have very interesting projects going on, for example the &#8220;House of Hackers&#8221; a social-network for hackers and security experts. The Gnucitizen define themself as &#8220;<strong>a leading information security think tank, delivering solutions to local, national and international clients</strong>&#8220;.</p>
+<p>Thier latest project is <strong><a href="http://www.netsecurify.com/" target="_blank">Netsecurify</a>, an automated, webbased, remote testing tool, that enables security-testings of applications</strong>. One of the primary goal of the projects is not only to have a pioneering sort-of feeling, but foremost to support low-profit or non-profit organisations to have a robust and stable security-testing tools for free. They think of organisations, that otherwise would not be able to affort security experts and testing. We had a short interview with Petko D. Petkov on Netsecurify, their motivation, software design and overall goals.</p>
+<h4>What does the tool Netsecurify exactly do?</h4>
+<blockquote><p>Netsecurify is a remote, automated, vulnerability assessment tool. The tool follows the SaaS (Software as a Service) model, i.e. it is a service which runs from Amazon&#8217;s scalable computing infrastructure. <strong>In it&#8217;s core, the tool performs several assessments, all based on open source technologies</strong>, and also provides recommendations through a flexible recommendation engine. <strong>The tool also allows 3rd-party organizations to enhance the reports</strong>.</p></blockquote>
+<blockquote><p>Netsecurify is very simple to use. All the user has to do is to login and schedule a test for a particular network range. Once we approach the specified scheduled data, we run the test. When the test is done, the user is notified via email or by other means which we are working on at the moment. The user then logs in and downloads a copy of the report. For security reasons, the report is destroyed 30 days after it has been completed.</p></blockquote>
+</div>
+<h4>What was your motivation for starting the project?</h4>
+<blockquote><p><strong>The primarily motivation for starting this project is to provide free, quality, flexible, automated information security testing tool</strong> which can be employed by charity organizations, 3rd world countries, and in general, organizations and companies who cannot afford to spend money on security. Also, a huge motivational factor is the fact that no one has done a project like this. We are the first to do it. <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> This is pretty cool.</p></blockquote>
+<h4>Who are the people behind the project and how is the project organized (agency, virtual, decentralized)?</h4>
+<blockquote><p>Technically speaking, the people behind Netsecurify are GNUCITIZEN. However, we welcome anyone who is interested to join us and help us improve it. <strong>Because the testing engine is based on open source technologies which we have glued together and we are continually enhancing, we are planning to contribute back to the community everything that we do and as such close the circle of energy.</strong> In theory, this makes the entire security community part of the Netsecurify project.</p></blockquote>
+<h4>What is the basic design concept and how do you think will the project develop and evolve?</h4>
+<blockquote><p>We have a scalable backend and very easy to use and flexible frontend. In between we have several APIs which allow us to expand the service as we go. <strong>The tool hasn&#8217;t been just built from scratch. There was a lot of thought and design considerations put into this project before the actual code.</strong> We follow the KISS (Keep it Simple Stupid) principle. We find that this approach works quite well for us. <strong>In the future we are planning to continue simplifying and enhancing the product.</strong></p></blockquote>
+<h4>Do you have other projects planned, that will be coming at us in the future?</h4>
+<blockquote><p>We always have. Expect to see more from the <a href="http://gnucitizen.com/services" target="_blank">GNUCITIZEN</a> team soon.</p></blockquote>
+<blockquote><p>Thanks to Martin Wisniowsky (mw@node300.com)</p></blockquote>
+<blockquote><p>Original Link to this Interview: <a title="Link to node3000.com" href="http://digitaltools.node3000.com/5minutes/interview_with_petko_d_petkov_on_netsecurify_testing_tool.php" target="_blank">http://digitaltools.node3000.com/5minutes/interview_with_petko_d_petkov_on_netsecurify_testing_tool.php</a></p></blockquote>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

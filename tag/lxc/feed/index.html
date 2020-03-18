@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>lxc &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/lxc/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Matryoshka</title>
+		<link>https://lizards.opensuse.org/2010/10/20/matryoshka/</link>
+		<comments>https://lizards.opensuse.org/2010/10/20/matryoshka/#comments</comments>
+		<pubDate>Wed, 20 Oct 2010 10:49:37 +0000</pubDate>
+		<dc:creator><![CDATA[Togan Muftuoglu]]></dc:creator>
+				<category><![CDATA[Virtualization]]></category>
+		<category><![CDATA[containers]]></category>
+		<category><![CDATA[lxc]]></category>
+		<category><![CDATA[susestudio]]></category>
+		<category><![CDATA[virtualization]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=5482</guid>
+		<description><![CDATA[A matryoshka doll, also known as a Russian nesting doll or a babushka doll, is a set of dolls of decreasing sizes placed one inside the other. Virtualization is a concept similar to the Matryoshka analogy. There is another system running inside the host machine. So it is box in a box. Each performs and executes exactly like a stand-alone server; a container can be rebooted independently and have root access, users, IP addresses, memory, processes, files, applications, system libraries and configuration files.]]></description>
+				<content:encoded><![CDATA[<p>A <strong>matryoshka doll</strong>, also known as a <strong>Russian nesting doll</strong> or a <strong>babushka doll</strong>, is a set of dolls of decreasing sizes placed one inside the other. A set of matryoshkas consists of a wooden figure which separates, top  from bottom, to reveal a smaller figure of the same sort inside, which  has, in turn, another figure inside of it, and so on. <a href="http://en.wikipedia.org/wiki/Matryoshka_doll"><img class="alignright" src="http://upload.wikimedia.org/wikipedia/commons/3/3d/First_matryoshka_museum_doll_open.jpg" alt="Matryoshka Doll" width="500" height="352" /></a></p>
+<p>Virtualization is a concept similar to the Matryoshka analogy. There is another system running inside the host machine. So it is box in a box. There are many virtualization techniques available at the disposal of the user; <a href="http://www.vmware.com/" target="_blank">vmware</a>,<a href="http://www.virtualbox.org/" target="_blank"> virtualbox</a>, <a href="http://www.xen.org/" target="_blank">xen</a> to name a few which requires lots of resources. Another alternative which is <a href="http://wiki.openvz.org/Main_Page" target="_blank">OpenVZ</a> , container-based virtualization for Linux. Each container performs and executes exactly like a stand-alone server;  a container can be rebooted independently and have root access, users,  IP addresses, memory, processes, files, applications, system libraries  and configuration files.</p>
+<p>Here is a quote from <a title="Introducing Linux Virtual Containers" href="http://blogs.techrepublic.com.com/opensource/?p=1289&amp;tag=leftCol;post-1299" target="_blank">TechRepublic Blog :</a></p>
+<blockquote><p>In the past we have looked at using <a href="http://blogs.techrepublic.com.com/opensource/?p=615" target="_blank">OpenVZ for container virtualization</a> on Linux. OpenVZ is great as it allows you to run compartmentalized  “servers” within an operating system so you can separate systems, much  like running virtual machines on a host system. With OpenVZ, you can get  the benefits of virtualization without the overhead.</p>
+<p>The downside of OpenVZ is that it isn’t in the mainline kernel. This  means you need to run a kernel provided by the OpenVZ project. By itself  this isn’t necessarily a problem, unless you are running an unsupported  Linux distribution, and also if you don’t mind a bit of lag from  upstream security fixes</p></blockquote>
+<p>So what is an alternative; well maybe lxc is the answer.According to <a title="Linux Containers" href="http://lxc.sourceforge.net/" target="_blank">http://lxc.sourceforge.net/</a></p>
+<blockquote><p>The  container  technology  is actively being pushed into the mainstream  linux kernel. It provides the resource management through the control  groups aka process containers and resource isolation through the  namespaces.</p></blockquote>
+<p>There is very little information regarding LXC in the opensuse wiki and the <a href="http://en.opensuse.org/LXC" target="_blank">only one available</a> is still draft, yet provides enough information to start rolling up your containers.  Here is the preamble of the above mentioned page:</p>
+<blockquote><p>LXC is a form of paravirtualization. Being a sort of super duper  chroot jail, it is limited to running linux binaries, but offers  essentially native perfomance as if those binaries were running as  normal processes right in the host kernel. Which in fact, they are.</p>
+<p>LXC is interesting primarily in that:</p>
+<ul>
+<li> It can be used to run a mere application, service, or a full operating system.</li>
+<li> It offers essentially native performance. A binary running as  an LXC guest is actually running as a normal process directly in the  host os kernel just like any other process. In particular this means  that cpu and i/o scheduling are a lot more fair and tunable, and you get  native disk i/o performance which you can not have with real  virtualization (even Xen, even in paravirt mode) This means you can  containerize disk i/o heavy database apps. It also means that you can  only run binaries that the host kernel can execute. (ie: you can run  Linux binaries, not another OS like Solaris or Windows)</li>
+</ul>
+</blockquote>
+<p>The same page also states there is not another HOWTO or documentation explaining how to use lxc with opensuse even though the lxc package has been part of the main oss repo since 11.2 version. Furthermore there are no scripts like lxc-fedora or lxc-debian  that will automate the creation or installation of opensuse. Now while it may be true that there are no opensuse specific scripts are available (at least I could not find through a Google search), though there is an interesting video on<a href="http://www.youtube.com/watch?v=4S2_SaK9Bg0" target="_blank"> youtube showing the lxc with opensuse 11.2. </a></p>
+<p>Based on the the information on the<a href="http://en.opensuse.org/LXC" target="_blank"> LXC</a> wiki page, using the  <a href="http://susestudio.com/" target="_blank">SUSEStudio</a> , I built an appliance which  is almost ready to use lxc. In order to create a container image, a very primitive lxc_opensuse script that will do a fairly basic job is also included. Once the script is issued,it will download opensuse 11.3 base system and the user can start playing with the wonders of lxc. For the impatient, who wants do discover Matryoshka, <a href="http://susegallery.com/a/4dMNWp/matryoshka" target="_blank">here is the link for  the appliance</a> .</p>
+<p>Have fun with <strong><em>Matryoshka</em></strong> !</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2010/10/20/matryoshka/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+	</channel>
+</rss>

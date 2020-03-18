@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>namespace &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/namespace/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Playing With XPath Expressions in The xmllint Shell</title>
+		<link>https://lizards.opensuse.org/2009/11/23/playing-with-xpath-expressions-in-the-xmllint-shell/</link>
+		<comments>https://lizards.opensuse.org/2009/11/23/playing-with-xpath-expressions-in-the-xmllint-shell/#comments</comments>
+		<pubDate>Mon, 23 Nov 2009 09:22:06 +0000</pubDate>
+		<dc:creator><![CDATA[Thomas Schraitle]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[KIWI]]></category>
+		<category><![CDATA[namespace]]></category>
+		<category><![CDATA[RELAX NG]]></category>
+		<category><![CDATA[XML]]></category>
+		<category><![CDATA[xpath]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=2589</guid>
+		<description><![CDATA[When XML is transformed into something else, in most cases XSLT comes to play. One of the challenges of XSLT is to select just the nodes you are interested in. This task is done by XPath, &#8220;a query language for selecting nodes from a XML document.&#8221; However, it can be tedious to create a XPath [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>When XML is transformed into something else, in most cases <a title="XSLT" href="http://en.wikipedia.org/wiki/XSLT">XSLT</a> comes to play. One of the challenges of XSLT is to select just the nodes you are interested in. This task is done by <a title="XPath" href="http://en.wikipedia.org/wiki/XPath">XPath</a>, &#8220;a query language for selecting nodes from a XML document.&#8221;</p>
+<p>However, it can be tedious to create a XPath expression, run the transformation, and check if you got the expected result. After hours of debugging you find out: It&#8217;s the wrong XPath expression!</p>
+<p>To make it easier: Test your XPath expressions in the internal <a href="http://xmlsoft.org/">xmllint</a> shell!</p>
+<p><span id="more-2589"></span></p>
+<h1>Using Easy XPath Expressions</h1>
+<p>Generally, xmllint is known as a popular tool to validate your XML structure. Mostly unknown is its internal shell. With this shell you can make some spiffy XPath tests and check if it returns exactly what you want. Let&#8217;s consider the following DocBook 4 document:</p>
+<pre>&lt;book lang="en"&gt;
+  &lt;title&gt;Dancing with Penguins&lt;/title&gt;
+  &lt;bookinfo&gt;
+    &lt;author&gt;
+      &lt;firstname&gt;Tux&lt;/firstname&gt;
+     &lt;surname&gt;Penguin&lt;/surname&gt;
+    &lt;/author&gt;
+  &lt;/bookinfo&gt;
+  &lt;chapter id="know.penguins"&gt;
+    &lt;title&gt;Getting to Know Penguins&lt;/title&gt;
+    &lt;abstract&gt;
+      &lt;para&gt;Penguins are cute.&lt;/para&gt;
+    &lt;/abstract&gt;
+    &lt;sect1&gt;
+      &lt;title&gt;The Head&lt;/title&gt;
+      &lt;para&gt;...&lt;/para&gt;
+    &lt;/sect1&gt;
+    &lt;!-- A small comment --&gt;
+    &lt;sect1 id="penguin.coat"&gt;
+      &lt;title&gt;The Coat&lt;/title&gt;
+      &lt;para&gt;...&lt;/para&gt;
+    &lt;/sect1&gt;
+  &lt;/chapter&gt;
+&lt;/book&gt;</pre>
+<p>The content is not so important than the structure. To examine some XPath features of xmllint, we load the document into its shell using its <tt>--shell</tt> option:</p>
+<pre>xmllint --shell penguin-dance.xml</pre>
+<p>You first see the prompt:</p>
+<pre>/ &gt;</pre>
+<p>The prompt shows you the path to your current node. After loading you just see the root node, which is indicated as <tt>/</tt>. Pretty similar than a Linux path notation.</p>
+<p>Use <tt>help</tt> to list all available commands. For this little post, we focus on the <tt>xpath</tt> command. It evaluates an XPath expression in the context and prints the result. Let&#8217;s try an absolute XPath:</p>
+<pre>/ &gt; <span style="color: #339966">xpath</span> /book
+Object is a Node Set :
+Set contains 1 nodes:
+1  ELEMENT book
+    ATTRIBUTE lang
+      TEXT
+        content=en</pre>
+<p>Well, that was to be expected.  The interesting part is, you can change the context. For example, we could change it to the first chapter:</p>
+<pre>/ &gt; <span style="color: #339966">cd</span> book/chapter
+  chapter &gt;</pre>
+<p>Surprised we didn&#8217;t use an absolute XPath? Well, our context was already the root node, containing the book node. In this case, it doesn&#8217;t matter to use a relative or absolute XPath. Both lead to the same node. However, this is not always the case.</p>
+<p>Let&#8217;s see what we have inside book:</p>
+<pre>chapter &gt; <span style="color: #339966">xpath</span> *
+  1  ELEMENT title
+  2  ELEMENT abstract
+  3  ELEMENT sect1
+  4  ELEMENT sect1</pre>
+<p>Yes, that&#8217;s right. Ok, we want all sections in this chapter, that don&#8217;t have an <tt>id</tt> attribute. This can be achieved by using a <a href="http://www.w3.org/TR/xpath#NT-Predicate">XPath predicate</a> and the XPath function <tt>not</tt>:</p>
+<pre>chapter &gt; <span style="color: #339966">xpath</span> sect1[not(@id)]
+  Object is a Node Set :
+  Set contains 1 nodes:
+  1  ELEMENT sect1</pre>
+<p>We need the title, so we just append <tt>/title</tt> after the previous expression:</p>
+<pre>chapter &gt; <span style="color: #339966">xpath</span> sect1[not(@id)]/title
+  1  ELEMENT title</pre>
+<p>and we want the content so we wrap it into the <tt>string</tt> XPath function:</p>
+<pre>chapter &gt; <span style="color: #339966">xpath</span> string(sect1[not(@id)]/title)
+  Object is a string : The Head</pre>
+<p>We could use a lot more expressions to get the previous or following nodes, the parent nodes or the child nodes. For now, this section is enough and I make it a bit more difficult.</p>
+<p><!-- ********** --></p>
+<h1>Using Namespaces in XPath Expressions</h1>
+<p>When dealing with XML it is not uncommon that documents contain one or more <a href="http://en.wikipedia.org/wiki/XML_Namespace">XML namespaces</a>. To work with such structures, it is not enough to reuse the previous expressions. They will not work. Before you can work with namespaces, you have to define it first.</p>
+<p>Let&#8217;s consider <a href="http://en.opensuse.org/KIWI">KIWI</a>. The configuration is a XML file, based on a <a href="http://en.wikipedia.org/wiki/RELAX_NG">RELAX NG</a> schema. The RELAX NG schema are bound to a namespace. Load the KIWI schema with the following command:</p>
+<pre>xmllint --shell http://gitorious.org/kiwi/kiwi/blobs/raw/master/modules/KIWISchema.rng</pre>
+<p>As the KIWI schema can (and probably will) change, your results might be a little different than mine. But the principle is the same.</p>
+<p>Now we want to know, what contains the root element. As we do not know (yet) the root element&#8217;s name, we use a <em>wildcard</em>:</p>
+<pre>/ &gt; <span style="color: #339966">xpath</span> *
+Object is a Node Set :
+Set contains 1 nodes:
+1  ELEMENT grammar
+namespace db href=http://docbook.org/ns/docbook
+namespace a href=http://relaxng.org/ns/compatibility/anno...
+namespace rng href=http://relaxng.org/ns/structure/1.0
+namespace xsi href=http://www.w3.org/2001/XMLSchema-instanc...
+default namespace href=http://relaxng.org/ns/structure/1.0
+ATTRIBUTE datatypeLibrary
+TEXT
+content=http://www.w3.org/2001/XMLSchema-datatyp...</pre>
+<p>As you can see, the KIWI schema defines 5 namespaces in the <tt>grammar</tt> element. A RELAX NG schema uses the namespace <tt>http://relaxng.org/ns/structure/1.0</tt> which is bound to the <tt>rng</tt> prefix in our case. For convenience reason, we define it with the <tt>setns</tt> command just as <tt>r</tt>:</p>
+<pre>/ &gt; <span style="color: #339966">setns</span> r=http://relaxng.org/ns/structure/1.0</pre>
+<p>The prefix is unimportant, important is the namespace. We could use the one which is definied in the schema, it wouldn&#8217;t matter. But &#8220;r&#8221; is shorter than &#8220;rng&#8221;. <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> After you have definied the XML namespace, you can enter all XPath expressions. However, you have to insert the prefix in front of your element names. For example, we can count all definied elements in the KIWI schema. RELAX NG uses the name <tt>element</tt> (surprise!) for this. To get the number of all definied elements, apply the XPath function <tt>count</tt> on the <tt>//</tt> expression:</p>
+<pre>/ &gt; <span style="color: #339966">xpath</span> count(//r:element)
+Object is a number : 80</pre>
+<p>Generally, every RELAX NG schema contains a <tt>start</tt> element. What contains it?</p>
+<pre>/ &gt; <span style="color: #339966">xpath</span> /r:grammar/r:start/*
+Object is a Node Set :
+Set contains 1 nodes:
+1  ELEMENT ref
+    ATTRIBUTE name
+      TEXT
+        content=k.image</pre>
+<p>Aha, there is a <tt>ref</tt> element. This element contains an attribute <tt>name</tt>. We could also use an absolute path. Let&#8217;s try it:</p>
+<pre>/ &gt; <span style="color: #339966">xpath</span> /r:grammar/r:start/r:ref/@name
+Object is a Node Set :
+Set contains 1 nodes:
+1  ATTRIBUTE name
+    TEXT
+      content=k.image</pre>
+<p>In RELAX NG, every <tt>ref</tt> element has to point to a  <tt>define</tt> element. Let&#8217;s see what we get, when we want it all, using the <tt>//</tt> expression again:</p>
+<pre>/ &gt; <span style="color: #339966">xpath</span> //r:define
+Object is a Node Set :
+Set contains 310 nodes:
+1  ELEMENT define
+    ATTRIBUTE name
+      TEXT
+        content=k.image.name.attribute
+...
+310  ELEMENT define
+    ATTRIBUTE name
+      TEXT
+        content=k.users</pre>
+<p>Ohh, that&#8217;s a bit too much. We want to know just the one from <tt>/r:grammar/r:start/r:ref/@name</tt>. The good news is: you can combine both with a predicate:</p>
+<pre>/ &gt; <span style="color: #339966">xpath</span> //r:define[@name=/r:grammar/r:start/r:ref/@name ]
+Object is a Node Set :
+Set contains 1 nodes:
+1  ELEMENT define
+    ATTRIBUTE name
+      TEXT
+        content=k.image</pre>
+<p>What&#8217;s inside?</p>
+<pre>/ &gt; <span style="color: #339966">xpath</span> //r:define[@name=/r:grammar/r:start/r:ref/@name ]/*
+Object is a Node Set :
+Set contains 1 nodes:
+1  ELEMENT element
+    ATTRIBUTE name
+      TEXT
+        content=image</pre>
+<p>An <tt>image</tt> element! This element appears as root element in every KIWI configuration (which you guessed already.) And what&#8217;s the definition?</p>
+<pre>/ &gt; <span style="color: #339966">xpath</span> //r:define[@name=/r:grammar/r:start/r:ref/@name ]/r:element/*
+Object is a Node Set :
+Set contains 3 nodes:
+1  ELEMENT a:documentation
+2  ELEMENT db:para
+3  ELEMENT interleave</pre>
+<p>The first two elements (<tt>a:documentation</tt>, <tt>db:para</tt>) are just for documentation. Interesting part is <tt>interleave</tt>. I leave it up to you, to investigate XPath and the KIWI schema. <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>This was just an overview of the xmllint shell. It is very helpful to test some XPath expressions before you integrate them in XSLT or in programs.</p>
+<p>Happy XPath-ing! <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/11/23/playing-with-xpath-expressions-in-the-xmllint-shell/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+	</channel>
+</rss>

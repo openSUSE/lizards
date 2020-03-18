@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>websocket &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/websocket/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>another way to access a cloud VM&#8217;s VNC console</title>
+		<link>https://lizards.opensuse.org/2014/02/08/another-way-to-access-a-cloud-vms-vnc-console/</link>
+		<pubDate>Sat, 08 Feb 2014 08:14:58 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[cloud]]></category>
+		<category><![CDATA[openqa]]></category>
+		<category><![CDATA[openstack]]></category>
+		<category><![CDATA[websocket]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10538</guid>
+		<description><![CDATA[If you have used a cloud, that was based on OpenStack, you will have seen the dashboard including a web-based VNC access using noVNC + WebSockets. However, it was not possible to access this VNC directly (e.g. with my favourite gvncviewer from the gtk-vnc-tools package), because the actual compute nodes are hidden and accessing them [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>If you have used a cloud, that was based on OpenStack, you will have seen the dashboard including a web-based VNC access using noVNC + WebSockets.<br />
+However, it was not possible to access this VNC directly (e.g. with my favourite gvncviewer from the gtk-vnc-tools package), because the actual compute nodes are hidden and accessing them would circumvent authentication, too.</p>
+<p>I want this for the option to add an OpenStack-backend to openQA, my OS-autotesting framework, which emulates a user by using a few primitives: grabbing screenshots and typing keys (can be done through VNC), powering up a machine(=nova boot), inserting/ejecting an installation medium (=nova volume-attach / volume-detach).</p>
+<p>To allow for this, I wrote a small perl script, that translates a TCP-connection into a WebSocket-connection.<br />
+It is installed like this<br />
+<code>git clone https://github.com/bmwiedemann/connectionproxy.git<br />
+sudo /sbin/OneClickInstallUI http://multiymp.zq1.de/perl-Protocol-WebSocket?base=http://download.opensuse.org/repositories/devel:languages:perl</code></p>
+<p>and is used like this<br />
+<code>nova get-vnc-console $YOURINSTANCE novnc<br />
+perl wsconnectionproxy.pl --port 5942 --to http://cloud.example.com:6080/vnc_auto.html?token=73a3e035-cc28-49b4-9013-a9692671788e<br />
+gvncviewer localhost:42</code></p>
+<p>I hope this neat code will be useful for other people and tasks as well and wish you a lot of fun with it.</p>
+<p>Some technical details:</p>
+<ul>
+<li>The code is able to handle multiple connections in a single thread using select.</li>
+<li>HTTPS is not supported in the code, but likely could be done with stunnel.</li>
+<li>WebSocket-code was written in 3h.</li>
+<li>noVNC tokens expire after a few minutes.</li>
+</ul>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

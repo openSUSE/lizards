@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>C++ &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/c/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Emscripten and openSUSE: Hands on.. Hands up!</title>
+		<link>https://lizards.opensuse.org/2014/03/24/emscripten-and-opensuse-hands-on-hands-up/</link>
+		<pubDate>Mon, 24 Mar 2014 08:09:43 +0000</pubDate>
+		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
+				<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[emscripten]]></category>
+		<category><![CDATA[SDL]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10686</guid>
+		<description><![CDATA[I can code with javascript and I&#8217;m fairly good at it (not marvelous just brialiant!). If you have read some of my resent blog post I think in C/C++/Perl or Bash. I also have some kind of a hobby to help out with UnReal world RPG game. Mostly my part is to make it work [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><img src="https://github-camo.global.ssl.fastly.net/b13f9c10472ae855af98d549d5bb47c3b3ec486c/687474703a2f2f646c2e64726f70626f782e636f6d2f752f38303636343934362f656d736372697074656e5f6c6f676f2e6a7067" width="700" height="250" alt="Emscripten logo" class="alignnone" /><br />
+I can code with javascript and I&#8217;m fairly good at it (not marvelous just brialiant!). If you have read some of my resent <a href="//lizards.opensuse.org/2013/10/15/opensuse-and-gcc-part-2/" title="openSUSE and GCC part 2: compiling ‘Hello World’">blog</a> <a href="//lizards.opensuse.org/2013/11/12/opensuse-and-gcc-part-6/" title="openSUSE and GCC part 6: Introduction to autotools">post</a> I think in C/C++/Perl or Bash. I also have some kind of a hobby to help out with <a href="http://unrealworld.fi">UnReal world RPG</a> game. Mostly my part is to make it work with *nix platform (mainly Linux and Mac OS X).<br />
+As we have seen world is moving fast forward towards web. It&#8217;s  the-place-to-be for everyone. There is huge potential for players just wandering around and yelling for pleasure to play UrW! So I thought let&#8217;s see if we could port SDL to javascript/Flash or something straight from same source. after tiny amount of searching I popped up <a href="https://github.com/kripken/emscripten" title="Emscripten">Emscripten</a>.<span id="more-10686"></span></p>
+<h2>Emscripten in nutshell</h2>
+<p>Emscripten is stated in their Github page (which seems to be only place to reach this project) like this:</p>
+<pre>
+Emscripten is an LLVM-to-JavaScript compiler. It takes LLVM bitcode - which can be generated from C/C++, using llvm-gcc or clang, or any other language that can be converted into LLVM - and compiles that into JavaScript, which can be run on the web (or anywhere else JavaScript can run).
+</pre>
+<p>So in other words you can your existing C++ or C source code and compile it (with minor changes) to javascript pseudocode with LLVM back-end. I thought it can&#8217;t be working and started digging further.</p>
+<h2>How to test it on openSUSE</h2>
+<p>If you have openSUSE 12.3 or above you are good to go or you need to install LLVM 3.2 or above from OBS. You can do it with zypper like this:</p>
+<pre>
+zypper install llvm llvm-devel llvm-clang llvm-clang-devel git nodejs
+</pre>
+<p>Ain&#8217;t Clang just another C-compiler? So why not use GCC? Answer is  LLVM is very flexible system (GCC is kinda married to C/C++. even there is many other backends) that turns code to <a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree" title="Abstract syntax tree">Abstract syntax tree</a> and then back-end compiles it to binary (which can anything from machine code to some of your favorite byte code like Java/C#). So in other words you have parser (clang) and you write back-end to generate code (javascript) quite easily (in theory). I think it was kind idea behind GCC in version 3.0 but as said it doesn&#8217;t work as seamlessly as it works in LLVM. Another strong point with LLVM is license. (L)GPL is fine license but if you have compiler you license should be as free as it gets.</p>
+<h2>So HOW TO TEST IT?</h2>
+<p>I haven&#8217;t got time to make rpm-package from Emscripten because I&#8217;m still learning by myself but I&#8217;ll share now what I have learned:</p>
+<ul>
+<li><a href="https://github.com/kripken/emscripten">Read documentatio</a>n</li>
+<li><a href="https://github.com/kripken/emscripten/wiki/Tutorial">Read documentation</a></li>
+<li><a href="http://kripken.github.io/clangor/demo.html">Read documentation</a></li>
+</ul>
+<p>Ok now you have read Emscripten documentation and you have clang, nodejs and git installed. Clone the Emscripten Git-repo</p>
+<pre>
+git clone https://github.com/kripken/emscripten.git
+</pre>
+<p>If you just want to test something you can follow this tutorial: <a href="http://sol.gfxile.net/emscripten/">http://sol.gfxile.net/emscripten/</a> so you get the idea. This how far I&#8217;ll take you this time. I&#8217;ll figure out some SDL examples to be ported (since UnReal World RPG uses SDL) in near future so stay tuned. </p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

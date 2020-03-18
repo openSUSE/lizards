@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>42.1 &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/42-1/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>AMD/ATI Catalyst fglrx rpms, end of an era!</title>
+		<link>https://lizards.opensuse.org/2016/12/07/amdati-catalyst-fglrx-rpms-end-of-an-era/</link>
+		<comments>https://lizards.opensuse.org/2016/12/07/amdati-catalyst-fglrx-rpms-end-of-an-era/#comments</comments>
+		<pubDate>Wed, 07 Dec 2016 20:09:48 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.1]]></category>
+		<category><![CDATA[12.2]]></category>
+		<category><![CDATA[12.3]]></category>
+		<category><![CDATA[13.1]]></category>
+		<category><![CDATA[13.2]]></category>
+		<category><![CDATA[42.1]]></category>
+		<category><![CDATA[42.2]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[fglrx]]></category>
+		<category><![CDATA[Tumbleweed]]></category>
+		<category><![CDATA[unified]]></category>
+		<category><![CDATA[xorg]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12178</guid>
+		<description><![CDATA[Long time not talking about fglrx rpm, mostly because they&#8217;ve got no update since last December 2015. Short Summary In a word as hundred, fglrx is now a dead horse! We had the hope of getting it working for Leap 42.2 in October, but except freezing kernel and xorg, you will not get what you [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Long time not talking about fglrx rpm, mostly because they&#8217;ve got no update since last December 2015.</p>
+<h3 style="color:red">Short Summary</h3>
+<p>In a word as hundred, fglrx is now a dead horse!</p>
+<p><img src="https://image.slidesharecdn.com/090214failsoftwaredevelopment-1234881541128932-3/95/090214-fail-software-development-6-728.jpg?cb=1234860218" alt="Dead horse" /></p>
+<p>We had the hope of getting it working for Leap 42.2 in October, but except freezing kernel and xorg, you will not get what you would expect: a stable xorg session</p>
+<p><strong>Say goodbye fglrx!, repeat after me, goodbye fglrx.</strong></p>
+<blockquote><p>If you are locked down and forced for any reasons to use fglrx with your gpu, and are still using 42.1, then don&#8217;t upgrade to 42.2, without a plan B</p></blockquote>
+<p>It has no more support from AMD upstream, and that&#8217;s it!, if someone want to break its computer, it&#8217;s still possible to pick the last files and try it by yourself, but the repository will never contain it for 42.2 (see below how-to)</p>
+<p>That&#8217;s said, I&#8217;m not still sure, to keep for a long time the repository, I&#8217;ve been managing since 6 years now.</p>
+<h3>A bit of history</h3>
+<p>In 2010, when we were working hard to get 11.1 out, the news that no supported ATI (at that time) will be available for end-users, as we have for nvidia gpu</p>
+<p>I didn&#8217;t check back the irc log, but we were a few, that would like to have this still available, by pure commodity. Especially that I&#8217;ve just exchanged a non working gpu by my new hd5750.</p>
+<p>I remember the first chaotic steps, how to build that, and create repeating builds, what about the license? Did we have the right to offer a pre-build rpm etc. I spent some time fixing all of this stuff.<br />
+And start the build on real hardware. Hey afterward kvm was really in infancy stage.
+</p>
+<p>Release after release amd/ati and openSUSE, the driver was build, on hardware for each supported distribution. When beginning of 2013 Sebastian Siebert, who got some direct contacts with AMD, release<br />
+his own script, we collaborate to have the possibility to build on virtual machines, which allow me to simplify the build process, as having on kvm for each openSUSE release supported.
+</p>
+<p>Afterward, AMD start to split fglrx with the fglrx for HD5xx and above, and fglrx-legacy. So 2 drivers to maintain, but as always with proprietary software, the legacy version became rapidly obsolete,<br />
+and non usable. Not that bad, in the meantime the AMD effort on the free and open source radeon driver, quickly overcome the performance of legacy.</p>
+<p>Still from 2013, to 2016 I&#8217;ve been able to propose ready to use rpm for several version of openSUSE&#8217;s distributions. I think the repository serve quite well end users, and I never got big flames.</p>
+<p>I can&#8217;t avoid to mention the openSUSE powered server and sponsored by <a href="http://www.ioda-net.ch">Ioda-Net Sàrl</a> that has serve this objective so well during that time frame.</p>
+<h3>Future of the repository</h3>
+<p>Now that fglrx is becoming obsolete, I think seriously about why the repository online should stay online.</p>
+<p>At openSUSE project level, we still have 13.1, 13.2, 42.1 and 42.2 that are mostly active. 13.1 is already almost out of the game of evergreen,<br />
+13.2 will follow soon, and I don&#8217;t know yet the exact plan for 42.1, but it will certainly go out of maintenance in less than a year.
+</p>
+<p>If you feel or have the need of the repository, please express that in the comments below.</p>
+<h3>Wait there&#8217;s amd-gpu-pro, no?</h3>
+<p>Yeap there&#8217;s a closed driver, called amd-gpu-pro, available, for newer cards. But there&#8217;s two things that bring me out of the game, first I don&#8217;t have those newer gpu,<br />
+and don&#8217;t have the need to replace my hd5750 for the moment. The second and certainly the most important, those drivers are only available for Ubuntu or at least in .deb format.</p>
+<p>I will certainly not help proprietary crap, if I don&#8217;t have a solid base to work with, and a bit of help from their side. I wish good luck to those who want to try those drivers,<br />
+I&#8217;ve got a look inside, and got a blame face.</p>
+<h3>For crazy, and those who don&#8217;t love their computer</h3>
+<p>So you want to loose your time? you can! I&#8217;ve kept <a href="http://geeko.ioda.net/mirror/amd-fglrx/raw-src">in raw-src directory</a> all the script used to build the driver.<br />
+They differ a bit compared to <a href="http://www.sebastian-siebert.de/">Sebastian Siebert last version</a> in the sense of making Leap 422 as a possible target.<br />
+If you dig a bit around, you should be able to build them, but you&#8217;re alone on that way, you&#8217;ve been warned!
+</p>
+<p>I&#8217;m not against a republished version, if someone find a way to make them working, just drop me a message.</p>
+<p>That&#8217;s all for this journey, Have Fun! <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2016/12/07/amdati-catalyst-fglrx-rpms-end-of-an-era/feed/</wfw:commentRss>
+		<slash:comments>15</slash:comments>
+		</item>
+		<item>
+		<title>Basic Nextcloud installation on openSUSE Leap</title>
+		<link>https://lizards.opensuse.org/2016/10/28/nextcloud-installation-on-opensuse-leap/</link>
+		<comments>https://lizards.opensuse.org/2016/10/28/nextcloud-installation-on-opensuse-leap/#comments</comments>
+		<pubDate>Fri, 28 Oct 2016 15:09:09 +0000</pubDate>
+		<dc:creator><![CDATA[Efstathios Iosifidis]]></dc:creator>
+				<category><![CDATA[Apache]]></category>
+		<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Server]]></category>
+		<category><![CDATA[42.1]]></category>
+		<category><![CDATA[cloud]]></category>
+		<category><![CDATA[Leap]]></category>
+		<category><![CDATA[nextcloud]]></category>
+		<category><![CDATA[openSUSE]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12089</guid>
+		<description><![CDATA[I see the official documentation has full tutorial for RHEL 6 or CentOS 6 and RHEL 7 or CentOS 7. The main documentation covers Ubuntu 14.04 LTS openSUSE already has the Nextcloud client packaged in Tumbelweed and the Server is in the PHP extra repo! Personally, I prefer to install eveything from official repository, so [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><img src="https://en.opensuse.org/images/0/0f/Nextcloud.png" alt="Nextcloud Logo" width="40%" height="40%" /></p>
+<p>I see the official documentation has full tutorial for <a href="https://docs.nextcloud.com/server/10/admin_manual/installation/php_54_installation.html" target="1">RHEL 6 or CentOS 6</a> and <a href="https://docs.nextcloud.com/server/10/admin_manual/installation/php_55_installation.html" target="1">RHEL 7 or CentOS 7</a>. The main documentation covers <a href="https://docs.nextcloud.com/server/10/admin_manual/installation/source_installation.html" target="1">Ubuntu 14.04 LTS</a></p>
+<p>openSUSE already has the <a href="https://software.opensuse.org/search?utf8=%E2%9C%93&amp;q=nextcloud&amp;search_devel=false&amp;search_unsupported=false&amp;baseproject=openSUSE%3AFactory" target="1">Nextcloud client packaged in Tumbelweed and the Server is in the PHP extra repo!</a> Personally, I prefer to install eveything from official repository, so when an update is available, I can have it without a glitch. This tutorial describes how to install Nextcloud using command line. I followed the official documentation of <a href="https://docs.nextcloud.com/server/10/admin_manual/installation/source_installation.html" target="1">Ubuntu 14.04 LTS installation</a>.</p>
+<p>Why choose <a href="https://en.opensuse.org/Portal:Leap" target="1">openSUSE Leap</a>? openSUSE Leap is a brand new way of building openSUSE and is new type of hybrid Linux distribution. Leap uses source from <a href="https://www.suse.com/promo/sle/" target="1">SUSE Linux Enterprise (SLE)</a>, which gives Leap a level of stability unmatched by other Linux distributions, and combines that with community developments to give users, developers and sysadmins the best stable Linux experience available. Contributor and enterprise efforts for Leap bridge a gap between matured packages and newer packages found in openSUSE’s other distribution Tumbleweed. You can download openSUSE Leap from the site <a href="https://software.opensuse.org/" target="1">https://software.opensuse.org/</a>.<br />
+<span id="more-12089"></span><br />
+Make sure that ssh (sshd) is enabled and also the firewall either is disabled or <a href="https://en.opensuse.org/SuSEfirewall2" target="1">make an exception to the apache and ssh services</a>. You can also set a static IP (<a href="http://eiosifidis.blogspot.gr/2015/05/set-static-ip-on-your-opensuse-raspberry-pi.html" target="1">check out how</a>).</p>
+<p>First of all, let&#8217;s install the required and recommended modules for a typical Nextcloud installation, using Apache and MariaDB, by issuing the following commands in a terminal:</p>
+<div class="code"><strong>zypper in apache2 mariadb apache2-mod_php5 php5-gd php5-json php5-fpm php5-mysql php5-curl php5-intl php5-mcrypt php5-zip php5-mbstring php5-zlib</strong></div>
+<p><b>Create Database (optional since it&#8217;ll create eveything automatically)</b><br />
+Next step, create a database. First of all start the service.</p>
+<div class="code"><strong>systemctl start mysql.service<br />
+systemctl enable mysql.service</strong></div>
+<p>The root password is empty by default. That means that you can press enter and you can use your root user. That&#8217;s not safe at all. So you can set a password using the command:</p>
+<div class="code"><strong>mysqladmin -u root password newpass</strong></div>
+<p>Where newpass is the password you want.</p>
+<p>Now you set the root password, create the database.</p>
+<blockquote><p>mysql -u root -p<br />
+#you&#8217;ll be asked for your root passwordCREATE DATABASE nextcloudb;</p>
+<p>GRANT ALL ON nextcloudb.* TO ncuser@localhost IDENTIFIED BY &#8216;dbpass&#8217;;</p></blockquote>
+<p>Database user: <b>ncuser</b><br />
+Database name: <b>nextcloudb</b><br />
+Database user password: <b>dbpass</b></p>
+<p>You can change the above information accordingly.</p>
+<p><b>PHP changes</b><br />
+Now you should edit the php.ini file.</p>
+<blockquote><p>nano /etc/php5/apache2/php.ini</p></blockquote>
+<p>change the values</p>
+<blockquote><p>post_max_size = 50G<br />
+upload_max_filesize = 25G<br />
+max_file_uploads = 200<br />
+max_input_time = 3600<br />
+max_execution_time = 3600<br />
+session.gc_maxlifetime = 3600<br />
+memory_limit = 512M</p></blockquote>
+<p>and finally enable the extensions.</p>
+<blockquote><p>extension=php_gd2.dll<br />
+extension=php_mbstring.dll</p></blockquote>
+<p><b>Apache Configuration</b><br />
+You should enable some modules. Some might be already enabled.</p>
+<blockquote><p>a2enmod php5<br />
+a2enmod rewrite<br />
+a2enmod headers<br />
+a2enmod env<br />
+a2enmod dir<br />
+a2enmod mime</p></blockquote>
+<p>Now start the apache service.</p>
+<blockquote><p>systemctl start apache2.service<br />
+systemctl enable apache2.service</p></blockquote>
+<p><b>Install Nextcloud from source code (option 1, preferable)</b><br />
+Before the installation, create the data folder and give the right permissions (preferably outside the server directory for security reasons). I created a directory in the <i>/mnt</i> directory. You can mount a USB disk, add it to fstab and save your data there. The commands are:</p>
+<blockquote><p>mkdir /mnt/nextcloud_data<br />
+chmod -R 0770 /mnt/nextcloud_data<br />
+chown wwwrun /mnt/nextcloud_data</p></blockquote>
+<p>Now download Nextcloud (find the latest version at <a href="https://nextcloud.com/install/" target="1">https://nextcloud.com/install/</a>). Then unzip and move the folder to the server directory.</p>
+<blockquote><p>wget https://download.nextcloud.com/server/releases/nextcloud-10.0.0.zip<br />
+unzip nextcloud-10.0.0.zip<br />
+cp -r nextcloud /srv/www/htdocs<br />
+chown -R wwwrun /srv/www/htdocs/nextcloud/</p></blockquote>
+<p>Make sure that everything is OK and then delete the folder nextcloud and nextcloud-10.0.0.zip from the root (user) directory.</p>
+<p>Now open your browser to the server IP/nextcloud</p>
+<p><a href="https://www.dropbox.com/s/45s9l5te6ektb5s/nextcloud_install.png?raw=1" target="1"><img src="https://www.dropbox.com/s/45s9l5te6ektb5s/nextcloud_install.png?raw=1" width="80%" height="80%" /></a>Set your administrator username and password.<br />
+Your data directory is: /mnt/nextcloud_data<br />
+Regarding database, use the following.<br />
+Database user: <b>ncuser</b><br />
+Database name: <b>nextcloudb</b><br />
+Database user password: <b>dbpass</b></p>
+<p>Wait until it ends the installation. The page you&#8217;ll see is the following.</p>
+<p><a href="https://www.dropbox.com/s/e0mbm5tdktilmsp/nextcloud_first_login.png?raw=1" target="1"><img src="https://www.dropbox.com/s/e0mbm5tdktilmsp/nextcloud_first_login.png?raw=1" width="80%" height="80%" /></a></p>
+<p><b>Install Nextcloud using the respository (option 2)</b></p>
+<p>If you want to have automatic updates of your Nextcloud instance when there&#8217;s a new version, you can add the repository. There are packages available for openSUSE Leap 42.1, 42.2 and Tumbleweed (we recommend openSUSE Leap 42.1). You should be an administrator, so you can install Nextloud on your server.</p>
+<p>1. Add the Nextcloud repository.<br />
+<strong>openSUSE_Leap_42.2</strong></p>
+<blockquote><p>zypper ar http://download.opensuse.org/repositories/server:/php:/applications/openSUSE_Leap_42.2/ Nextcloud</p></blockquote>
+<p><strong>openSUSE_Leap_42.1</strong></p>
+<blockquote><p>zypper ar http://download.opensuse.org/repositories/server:/php:/applications/openSUSE_Leap_42.1/ Nextcloud</p></blockquote>
+<p><strong>openSUSE_Leap_Tumbleweed</strong></p>
+<blockquote><p>zypper ar http://download.opensuse.org/repositories/server:/php:/applications/openSUSE_Tumbleweed/ Nextcloud</p></blockquote>
+<p>2. Refresh your repositories</p>
+<blockquote><p>zypper refresh</p></blockquote>
+<p>3. Install Nextcloud (be careful you have to install LAMP first and change permissions of the files).</p>
+<blockquote><p>zypper install nextcloud</p></blockquote>
+<p>4. Open http://serverIP/nextcloud to install your instance (admin user account). Be careful to create another folder with the proper permissions for your data (as described).</p>
+<p>5. Login and use Nextloud.</p>
+<p>For more information about Nextcloud on openSUSE, check <a href="https://en.opensuse.org/SDB:Nextcloud" target="_blank">openSUSE wiki</a>.</p>
+<p>For any changes, check the <a href="https://github.com/iosifidis/nextcloud-opensuse-leap" target="1">github page</a>.</p>
+<p>For more configuration, you can follow the <a href="https://docs.nextcloud.com/server/10/admin_manual/contents.html" target="1">official documentation</a>. That was the basic installation on openSUSE Leap.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2016/10/28/nextcloud-installation-on-opensuse-leap/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>AMD Catalyst 15.12 for openSUSE – new makerpm-amd-script is available</title>
+		<link>https://lizards.opensuse.org/2016/03/17/amd-catalyst-15-12-for-opensuse-new-makerpm-amd-script-is-available/</link>
+		<comments>https://lizards.opensuse.org/2016/03/17/amd-catalyst-15-12-for-opensuse-new-makerpm-amd-script-is-available/#comments</comments>
+		<pubDate>Thu, 17 Mar 2016 18:41:13 +0000</pubDate>
+		<dc:creator><![CDATA[Sebastian Siebert]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.1]]></category>
+		<category><![CDATA[12.2]]></category>
+		<category><![CDATA[12.3]]></category>
+		<category><![CDATA[13.1]]></category>
+		<category><![CDATA[13.2]]></category>
+		<category><![CDATA[42.1]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[driver]]></category>
+		<category><![CDATA[fglrx]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[radeon]]></category>
+		<category><![CDATA[rpm]]></category>
+		<category><![CDATA[Tumbleweed]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11773</guid>
+		<description><![CDATA[AMD has released the new AMD Catalyst 15.12 (Radeon Crimson Edition). My script replaces the existing packaging script with an updated packaging script. It supports up to Kernel 4.5. (Official support up to Kernel 3.19) Important note: The driver does not work on openSUSE Tumbleweed. Unfortunately, the version of X-server is too new for the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>AMD has released the new AMD Catalyst 15.12 (Radeon Crimson Edition). My script replaces the existing packaging script with an updated packaging script. It supports up to Kernel 4.5. (Official support up to Kernel 3.19)</p>
+<p><strong>Important note:</strong> The driver does not work on openSUSE Tumbleweed. Unfortunately, the version of X-server is too new for the driver.</p>
+<p>SHA1 is obsolete by now. The script used SHA256 for integrity of the downloaded files.</p>
+<p>New Feature from packaging script:</p>
+<ul>
+<li>systemd support</li>
+</ul>
+<p>Resolved Issues:</p>
+<ul>
+<li>[SWDEV-82980] Ubuntu 15.10 fails when building the .deb packages</li>
+</ul>
+<p>Link: <a href="http://support.amd.com/en-us/kb-articles/Pages/AMDRadeonSoftwareCrimsonEdition15-12LINReleaseNotes.aspx">AMD Catalyst 15.12 Release Notes</a></p>
+<p>Downloads:</p>
+<ul>
+<li>Script: <a href="https://www.sebastian-siebert.de/downloads/makerpm-amd-15.12.sh" target="_blank">makerpm-amd-15.12.sh</a></li>
+<li>SHA1: <a href="https://www.sebastian-siebert.de/downloads/makerpm-amd-15.12.sh.sha256" target="_blank">makerpm-amd-15.12.sh.sha256</a></li>
+</ul>
+<p>Installation guide (English):<br />
+<a href="http://en.opensuse.org/SDB:AMD_fglrx#Building_the_rpm_yourself">http://en.opensuse.org/SDB:AMD_fglrx#Building_the_rpm_yourself</a></p>
+<p>Bruno Friedmann will build the new RPM packages in the fglrx repository. Stay tune!</p>
+<p>If you find any issue with the driver. Don’t hesitate to contact me. I am in contact with AMD and can forward your issue to the right place. Feedback are welcome.</p>
+<p>A report of your system is very helpful beside your feedback. You can generate it with the script:<br />
+<code>su -c 'sh makerpm-amd-15.12.sh -ur'</code></p>
+<p>Have a lot of fun!</p>
+<p>Sebastian<br />
+openSUSE member / Official AMD Packaging Script Maintainer for openSUSE<br />
+German Blog: <a href="https://www.sebastian-siebert.de/2016/03/17/opensuse-proprietaeren-grafik-treiber-amd-catalyst-15-12-als-rpm-installieren/">openSUSE – proprietären Grafik-Treiber AMD Catalyst 15.12 als RPM installieren</a></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2016/03/17/amd-catalyst-15-12-for-opensuse-new-makerpm-amd-script-is-available/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>Proprietary AMD/ATI Catalyst fglrx rpms new release 15.11 (15.300.1025-1)</title>
+		<link>https://lizards.opensuse.org/2015/12/06/proprietary-amdati-catalyst-fglrx-rpms-new-release-15-11-15-300-1025-1/</link>
+		<pubDate>Sun, 06 Dec 2015 19:37:24 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[XFCE]]></category>
+		<category><![CDATA[13.1]]></category>
+		<category><![CDATA[13.2]]></category>
+		<category><![CDATA[42.1]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[fglrx]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Tumbleweed]]></category>
+		<category><![CDATA[unified]]></category>
+		<category><![CDATA[xorg]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11582</guid>
+		<description><![CDATA[Time to get an update for fglrx: the new release has been build for 13.1, 13.2, Leap 42.1, and tumbleweed 20151201 Tumbleweed beware : broken Xorg It seems since the release, that a number of report of broken xorg with gdm, ssdm and so&#8230; segfaulting You can still use the previous version hanging on the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Time to get an update for fglrx: the new release has been build for 13.1, 13.2, Leap 42.1, and tumbleweed 20151201</p>
+<h1 style="color:red">Tumbleweed beware : broken Xorg</h1>
+<p>It seems since the release, that a number of report of broken xorg with gdm, ssdm and so&#8230; segfaulting</p>
+<p>You can still use the previous version hanging on the server. But I doubt it would work better</p>
+<p>As soon, with Sebastian Siebert we have a patch for, I will republish a new build</p>
+<p>Informations &amp; bugreport <a href="https://www.sebastian-siebert.de/2015/12/05/opensuse-proprietaeren-grafik-treiber-amd-catalyst-15-11-als-rpm-installieren">Sebastian&#8217;s blog</a> or <a href="https://lizards.opensuse.org/2015/12/05/amd-catalyst-15-11-for-opensuse-new-makerpm-amd-script-is-available/">lizards.o.o</a><br />
+<br />
+The proposed drivers support kernel up to version 4.4
+</p>
+<p>AMD release note <a href="http://support.amd.com/en-us/kb-articles/Pages/AMDRadeonSoftwareCrimsonEdition15-11LINReleaseNotes.aspx">available</p>
+<h4>Sebastien Siebert making script</h4>
+<p style="clear:both"><a href="http://www.sebastian-siebert.de/">Sebastian Siebert posts about fglrx</a></p>
+<p>If you have any problems with the driver, don&#8217;t be afraid to report to Sebastian (German and English bugreports are gladly accepted).<br />
+he will try, as far as I am able to reproduce the bug. Together with the necessary system information, he will go directly to the right place at AMD to have the bug fixed in the next driver release.<br />
+Thank you very much, Sebastian.
+</p>
+<p>See below what to do in case of troubles.</p>
+<p>Or you can also ping him on irc (freespacer)</p>
+<h4>Debugging troubles</h4>
+<p>I recommend in case of trouble the use of <a href="http://www.sebastian-siebert.de/downloads/makerpm-amd-15.11.sh">his script</a> which can collect the whole informations needed to help you. then you just have to issue a simple commande in console to collect all informations, you can review them, and finally transmit them.<br />
+Check the website to get the latest.
+</p>
+<pre>su -c 'sh makerpm-amd-15.11.sh -ur'
+The system report 'amd-report.txt' was generated.                                                                                                          [ OK ]
+Do you want to read the system report 'amd-report.txt' now? yes/no [y/n]: y
+Are you sure to upload the above-named system report to sprunge.us? yes/no [y/n]: y
+
+The report was uploaded to sprunge.us.
+   The link is:  <a href="http://sprunge.us/eMEB">http://sprunge.us/eMEB</a>
+</pre>
+<p>Copy paste the link in the comment zone of Sebastian post</p>
+<p>All proudly distributed by openSUSE powered server and sponsored by <a href="http://www.ioda-net.ch">Ioda-Net Sàrl</a></p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>AMD Catalyst 15.11 for openSUSE – new makerpm-amd-script is available</title>
+		<link>https://lizards.opensuse.org/2015/12/05/amd-catalyst-15-11-for-opensuse-new-makerpm-amd-script-is-available/</link>
+		<comments>https://lizards.opensuse.org/2015/12/05/amd-catalyst-15-11-for-opensuse-new-makerpm-amd-script-is-available/#comments</comments>
+		<pubDate>Sat, 05 Dec 2015 23:00:55 +0000</pubDate>
+		<dc:creator><![CDATA[Sebastian Siebert]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.1]]></category>
+		<category><![CDATA[12.2]]></category>
+		<category><![CDATA[12.3]]></category>
+		<category><![CDATA[13.1]]></category>
+		<category><![CDATA[13.2]]></category>
+		<category><![CDATA[42.1]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[driver]]></category>
+		<category><![CDATA[fglrx]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[radeon]]></category>
+		<category><![CDATA[rpm]]></category>
+		<category><![CDATA[Tumbleweed]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11579</guid>
+		<description><![CDATA[AMD has released the new AMD Catalyst 15.11 (Radeon Crimson Edition). My script replaces the existing packaging script with an updated packaging script. It supports up to Kernel 4.4. (Official support up to Kernel 3.19) I have adapted the AMD driver to the Kernel 4.4 (rc3). For the moment it works for Kernel 4.4-rc3. Unfortunately [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>AMD has released the new AMD Catalyst 15.11 (Radeon Crimson Edition). My script replaces the existing packaging script with an updated packaging script. It supports up to Kernel 4.4. (Official support up to Kernel 3.19)</p>
+<p>I have adapted the AMD driver to the Kernel 4.4 (rc3). For the moment it works for Kernel 4.4-rc3. Unfortunately the AMD driver has a compatibility issue in combination with the GNOME Desktopmanager and X-Server. As a workaround, I recommend for GNOME another Desktopmanager such as lightdm until the issue is hopefully fixed.</p>
+<p>Resolved Issues:</p>
+<ul>
+<li>[SWDEV-55204] Stuttering when running glxgears with VSync enabled</li>
+<li>[SWDEV-7339] Intermittent mouse cursor corruption</li>
+</ul>
+<p>Link: <a href="http://support.amd.com/en-us/kb-articles/Pages/AMDRadeonSoftwareCrimsonEdition15-11LINReleaseNotes.aspx">AMD Catalyst 15.11 Release Notes</a></p>
+<p>Downloads:</p>
+<ul>
+<li>Script: <a href="https://www.sebastian-siebert.de/downloads/makerpm-amd-15.11.sh" target="_blank">makerpm-amd-15.11.sh</a></li>
+<li>SHA1: <a href="https://www.sebastian-siebert.de/downloads/makerpm-amd-15.11.sh.sha1" target="_blank">makerpm-amd-15.11.sh.sha1</a></li>
+</ul>
+<p>Installation guide (English):<br />
+<a href="http://en.opensuse.org/SDB:AMD_fglrx#Building_the_rpm_yourself">http://en.opensuse.org/SDB:AMD_fglrx#Building_the_rpm_yourself</a></p>
+<p>Bruno Friedmann will build the new RPM packages in the fglrx repository. Stay tune!</p>
+<p>If you find any issue with the driver. Don’t hesitate to contact me. I am in contact with AMD and can forward your issue to the right place. Feedback are welcome.</p>
+<p>A report of your system is very helpful beside your feedback. You can generate it with the script:<br />
+<code>su -c 'sh makerpm-amd-15.11.sh -ur'</code></p>
+<p>Have a lot of fun!</p>
+<p>Sebastian<br />
+openSUSE member / Official AMD Packaging Script Maintainer for openSUSE<br />
+German Blog: <a href="https://www.sebastian-siebert.de/2015/12/05/opensuse-proprietaeren-grafik-treiber-amd-catalyst-15-11-als-rpm-installieren/">openSUSE – proprietären Grafik-Treiber AMD Catalyst 15.11 als RPM installieren</a></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2015/12/05/amd-catalyst-15-11-for-opensuse-new-makerpm-amd-script-is-available/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>Proprietary AMD/ATI Catalyst fglrx rpms released for LEAP 42.1</title>
+		<link>https://lizards.opensuse.org/2015/10/31/proprietary-amdati-catalyst-fglrx-rpms-released-for-leap-42-1/</link>
+		<comments>https://lizards.opensuse.org/2015/10/31/proprietary-amdati-catalyst-fglrx-rpms-released-for-leap-42-1/#comments</comments>
+		<pubDate>Sat, 31 Oct 2015 20:04:56 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[42.1]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[fglrx]]></category>
+		<category><![CDATA[Leap]]></category>
+		<category><![CDATA[xorg]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11558</guid>
+		<description><![CDATA[Since the last few months, we all know that the new openSUSE Leap 42.1 is on its road. But fglrx drivers were missing. Even with the 15.9 release in September. Warnings There&#8217;s really no warranties the drivers will work, for you! If you are satisfied with the open-source radeon drivers, don&#8217;t risk to break your [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Since the last few months, we all know that the new openSUSE Leap 42.1 is on its road.<br />
+<br />
+But fglrx drivers were missing. Even with the 15.9 release in September.
+</p>
+<h3>Warnings</h3>
+<p>There&#8217;s really no warranties the drivers will work, for you!</p>
+<p>If you are satisfied with the open-source radeon drivers, <b style="color:red">don&#8217;t risk to break your computer</b></p>
+<p>All the trouble present in 15.9 will be there, like the failing gnome3 gdm start, see previous article from Sebastian, his scripts also available on the raw-src directory on the mirror, allow you to apply a quirk patch.
+</p>
+<p>I&#8217;m considering the release of thoses rpms as experimental, they work for some, and sometimes are convenient. But they can also create kernel segfault on some configurations.<br />
+If you are in trouble start your openSUSE in rescue mode with nomodeset on boot line, and then zypper rm fglrx related packages, reboot and you should safely return to free radeon.
+</p>
+<h3>Story</h3>
+<p>Today, while packing my stuff for the SUSECON15 in Amsterdam, I was pleased on irc to have feedback of users<br />
+who were able to run fglrx Tumbleweed packages on their Leap 42.1
+</p>
+<p>I&#8217;ve then start a Leap vm and hack a bit Sebastian Siebert&#8217;s script for 15.9 to add support for Leap.<br />
+The drivers build, and install correctly. I&#8217;ve also updated the one-click installer for people using this<br />
+technology.
+</p>
+<p>
+Leap being available only for x86_64 bit plateform, the driver follow the same available arch.
+</p>
+<p>Links to the new repository <a href="http://geeko.ioda.net/mirror/amd-fglrx/openSUSE_Leap_42.1">openSUSE_Leap_42</a></p>
+<p>Have fun!</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2015/10/31/proprietary-amdati-catalyst-fglrx-rpms-released-for-leap-42-1/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+	</channel>
+</rss>

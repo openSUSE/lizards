@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0"
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -9,19 +8,133 @@
 	>
 
 <channel>
-	<title>openSUSE Lizards &#187; YaST</title>
-	<atom:link href="http://lizards.opensuse.org/tag/yast/feed/" rel="self" type="application/rss+xml" />
-	<link>http://lizards.opensuse.org</link>
+	<title>YaST &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/yast/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
 	<description>Blogs and Ramblings of the openSUSE Members</description>
-	<lastBuildDate>Mon, 24 Mar 2014 12:46:00 +0000</lastBuildDate>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
 	<language>en-US</language>
-		<sy:updatePeriod>hourly</sy:updatePeriod>
-		<sy:updateFrequency>1</sy:updateFrequency>
-	<generator>http://wordpress.org/?v=3.8.1</generator>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
 	<item>
+		<title>Highlights of YaST Development Sprint 81</title>
+		<link>https://lizards.opensuse.org/2019/07/29/highlights-of-yast-development-sprint-81/</link>
+		<pubDate>Mon, 29 Jul 2019 13:00:43 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+		<category><![CDATA[bootloader]]></category>
+		<category><![CDATA[console]]></category>
+		<category><![CDATA[keyboard]]></category>
+		<category><![CDATA[raid]]></category>
+		<category><![CDATA[repository]]></category>
+		<category><![CDATA[snapper]]></category>
+		<category><![CDATA[upgrade]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=13955</guid>
+		<description><![CDATA[Console Keyboard Layouts Better Handling of Broken Bootloader Setups during Upgrade AutoYaST: Repositories not containing Products Snapper on RAID Unifying the Console Keyboard Layouts for SLE and openSUSE The way of managing internationalization in Linux systems has changed through the years, as well as the technologies used to represent the different alphabets and characters used [&#8230;]]]></description>
+				<content:encoded><![CDATA[<ul>
+<li><a href="#unifying-the-console-keyboard-layouts-for-sle-and-opensuse">Console Keyboard Layouts</a></li>
+<li><a href="#better-handling-of-broken-bootloader-setups-during-upgrade">Better Handling of Broken Bootloader Setups during Upgrade</a></li>
+<li>AutoYaST:
+<ul>
+<li><a href="#exporting-user-defined-repositories-to-autoyast-configuration-file.">Repositories not containing Products</a></li>
+<li><a href="#old-storage-new-features">Snapper on RAID</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="unifying-the-console-keyboard-layouts-for-sle-and-opensuse">Unifying the Console Keyboard Layouts for SLE and openSUSE</h3>
+<p>The way of managing internationalization in Linux systems has changed through the years, as well as the technologies used to represent the different alphabets and characters used in every language. YaST tries to offer a centralized way of managing the system-wide settings in that regard. An apparently simple action like changing the language in the YaST interface implies many aspects like setting the font and the keyboard map to be used in the text-based consoles, doing the same for the graphical X11 environment and keeping those fonts and keyboard maps in sync, ensuring the compatibility between all the pieces.</p>
+<p>For that purpose, YaST maintains a list with all the correspondences between keyboard layouts and its corresponding &quot;keymap&quot; files living under <code>/usr/share/kbd/keymaps</code>. Some time ago the content of that list diverged between openSUSE and SLE-based products. During this sprint we took the opportunity to analyze the situation and try to unify criteria in that regard.</p>
+<p>We analyzed the status and origin of all the keymap files used in both families of distributions (you can see a rather comprehensive research starting in <a href="https://bugzilla.suse.com/show_bug.cgi?id=1124921#c18">comment #18 of bug#1124921</a>) and we came to the conclusions that:</p>
+<ul>
+<li>The openSUSE list needed some minor adjustments.</li>
+<li>Leaving that aside, the keymaps used in openSUSE were in general a better option because they are more modern and aligned with current upstream development.</li>
+</ul>
+<p>So we decided to unify all systems to adopt the openSUSE approach. That will have basically no impact for our openSUSE users but may have some implications for users installing the upcoming SLE-15-SP2. In any case, we hope that change will be for the better in most cases. Time will tell.</p>
+<h3 id="exporting-user-defined-repositories-to-autoyast-configuration-file.">Exporting User Defined Repositories to AutoYaST Configuration File.</h3>
+<p>With the call <code>yast clone_system</code> an AutoYaST configuration file will be generated which reflects the state of the running system. Up to now only SUSE Add-Ons have been defined in the AutoYaST configration module. Now also user defined repositories will be exported in an own subsection <code>&lt;add_on_others&gt;</code> of the <code>&lt;add-on&gt;</code> section.</p>
+<div class="sourceCode">
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;add-on&gt;</span>
+  <span class="kw">&lt;add_on_others</span><span class="ot"> config:type=</span><span class="st">&quot;list&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;listentry&gt;</span>
+      <span class="kw">&lt;alias&gt;</span>yast_head<span class="kw">&lt;/alias&gt;</span>
+      <span class="kw">&lt;media_url&gt;</span>https://download.opensuse.org/repositories/YaST:/Head/openSUSE_Leap_15.1/<span class="kw">&lt;/media_url&gt;</span>
+      <span class="kw">&lt;name&gt;</span>Yast head<span class="kw">&lt;/name&gt;</span>
+      <span class="kw">&lt;priority</span><span class="ot"> config:type=</span><span class="st">&quot;integer&quot;</span><span class="kw">&gt;</span>99<span class="kw">&lt;/priority&gt;</span>
+      <span class="kw">&lt;product_dir&gt;</span>/<span class="kw">&lt;/product_dir&gt;</span>
+    <span class="kw">&lt;/listentry&gt;</span>
+  <span class="kw">&lt;/add_on_others&gt;</span>
+  <span class="kw">&lt;add_on_products</span><span class="ot"> config:type=</span><span class="st">&quot;list&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;listentry&gt;</span>
+      <span class="kw">&lt;media_url&gt;</span>dvd:/?devices=/dev/sr1<span class="kw">&lt;/media_url&gt;</span>
+      <span class="kw">&lt;product&gt;</span>sle-module-desktop-applications<span class="kw">&lt;/product&gt;</span>
+      <span class="kw">&lt;product_dir&gt;</span>/Module-Desktop-Applications<span class="kw">&lt;/product_dir&gt;</span>
+    <span class="kw">&lt;/listentry&gt;</span>
+    <span class="kw">&lt;listentry&gt;</span>
+      <span class="kw">&lt;media_url&gt;</span>dvd:/?devices=/dev/sr1<span class="kw">&lt;/media_url&gt;</span>
+      <span class="kw">&lt;product&gt;</span>sle-module-basesystem<span class="kw">&lt;/product&gt;</span>
+      <span class="kw">&lt;product_dir&gt;</span>/Module-Basesystem<span class="kw">&lt;/product_dir&gt;</span>
+    <span class="kw">&lt;/listentry&gt;</span>
+  <span class="kw">&lt;/add_on_products&gt;</span>
+<span class="kw">&lt;/add-on&gt;</span></code></pre>
+</div>
+<p>The format of the <code>&lt;add_on_others&gt;</code> section is the same as the <code>&lt;add_on_products&gt;</code> section.</p>
+<h3 id="better-handling-of-broken-bootloader-setups-during-upgrade">Better Handling of Broken Bootloader Setups during Upgrade</h3>
+<p>With the current versions of SLE and openSUSE, using the installation media to upgrade a system which contains a badly broken GRUB2 configuration (e.g. contains references to udev links that do not longer exist) can result in an ugly internal error during the process.</p>
+<p>The first possible problem could arise in the summary screen. Like shown in this screenshot.</p>
+<div class="figure">
+<a href="//lizards.opensuse.org/wp-content/uploads/2019/07/61807675-49bd7500-ae3a-11e9-97e6-4ec7d722425e.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/07/61807675-49bd7500-ae3a-11e9-97e6-4ec7d722425e-300x225.png" alt="" width="300" height="225" class="aligncenter size-medium wp-image-13956" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/07/61807675-49bd7500-ae3a-11e9-97e6-4ec7d722425e-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/07/61807675-49bd7500-ae3a-11e9-97e6-4ec7d722425e-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/07/61807675-49bd7500-ae3a-11e9-97e6-4ec7d722425e.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a>
+</div>
+<p>If the error didn&#8217;t pop-up or if the user managed to recover from it, it was possible to reach the final phase of the upgrade process. But then the same internal error could still pop up in a different place:</p>
+<div class="figure">
+<a href="//lizards.opensuse.org/wp-content/uploads/2019/07/61807871-a6209480-ae3a-11e9-8e6c-38cfd322d7c0.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/07/61807871-a6209480-ae3a-11e9-8e6c-38cfd322d7c0-300x225.png" alt="" width="300" height="225" class="aligncenter size-medium wp-image-13957" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/07/61807871-a6209480-ae3a-11e9-8e6c-38cfd322d7c0-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/07/61807871-a6209480-ae3a-11e9-8e6c-38cfd322d7c0-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/07/61807871-a6209480-ae3a-11e9-8e6c-38cfd322d7c0.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a>
+</div>
+<p>Those errors will be fixed in the upcoming releases of SLE-12-SP5 and SLE-15-SP2 and, of course, in the corresponding openSUSE Leap version and in Tumbleweed. Now if such a broken setup is detected in the summary screen, a proper warning is displayed, including the technical details and a tip on what to do to fix the problem.</p>
+<div class="figure">
+<a href="//lizards.opensuse.org/wp-content/uploads/2019/07/61808101-129b9380-ae3b-11e9-966e-02061f99b758.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/07/61808101-129b9380-ae3b-11e9-966e-02061f99b758-300x225.png" alt="" width="300" height="225" class="aligncenter size-medium wp-image-13958" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/07/61808101-129b9380-ae3b-11e9-966e-02061f99b758-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/07/61808101-129b9380-ae3b-11e9-966e-02061f99b758-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/07/61808101-129b9380-ae3b-11e9-966e-02061f99b758.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a>
+</div>
+<p>The user can ignore the problem or click on &quot;booting&quot; to fix it. In the latter case, the usual pop-up with instructions will appear.</p>
+<div class="figure">
+<a href="//lizards.opensuse.org/wp-content/uploads/2019/07/61808202-3f4fab00-ae3b-11e9-8e88-85c2599e56a2.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/07/61808202-3f4fab00-ae3b-11e9-8e88-85c2599e56a2-300x225.png" alt="" width="300" height="225" class="aligncenter size-medium wp-image-13959" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/07/61808202-3f4fab00-ae3b-11e9-8e88-85c2599e56a2-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/07/61808202-3f4fab00-ae3b-11e9-8e88-85c2599e56a2-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/07/61808202-3f4fab00-ae3b-11e9-8e88-85c2599e56a2.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a>
+</div>
+<p>If the final stage of the upgrade process is reached without fixing the error, the wild internal error is now replaced by an informative message that does not interrupt the process.</p>
+<div class="figure">
+<a href="//lizards.opensuse.org/wp-content/uploads/2019/07/61808336-7aea7500-ae3b-11e9-96fc-a49dc9fbe507.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/07/61808336-7aea7500-ae3b-11e9-96fc-a49dc9fbe507-300x225.png" alt="" width="300" height="225" class="aligncenter size-medium wp-image-13960" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/07/61808336-7aea7500-ae3b-11e9-96fc-a49dc9fbe507-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/07/61808336-7aea7500-ae3b-11e9-96fc-a49dc9fbe507-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/07/61808336-7aea7500-ae3b-11e9-96fc-a49dc9fbe507.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a>
+</div>
+<p>Hopefully most of our users will never see these improvements. But users with a broken system will likely appreciate the extra guidance.</p>
+<h3 id="old-storage-new-features">Old Storage, New Features</h3>
+<p>If you are an usual reader of this blog, most likely you already know that YaST has a completely re-implemented Storage stack (a.k.a. storage-ng). That new storage code did its debut with the SLE 15 (and openSUSE Leap 15.0) family. And thanks to this revamped code, our beloved users can enjoy today some new great features in YaST like Bcache, partitionable Software RAIDs or multi-device Btrfs file system (just to mention a few examples). But SLE 12 (openSUSE 42) products are still alive and getting improvements with every maintenance update! Of course, the old Storage stack is not an exception, and now on a new installation scenario is supported.</p>
+<p>Thanks to a <a href="https://bugzilla.suse.com/show_bug.cgi?id=1135083">bug report</a>, we realized that <a href="http://snapper.io/">Snapper</a> could not be configured in some cases. More specifically, the reporter was trying to install with AutoYaST over a directly formatted Software RAID by using Btrfs for root and enabling snapper. The installation was perfectly performed, but it turned out that snapper was not correctly enabled in the installed system. After having a deeper look into the problem, we discovered that this was not a bug exactly but a completely missing feature. But no problems, YaST got down to work and now it is nicely supported.</p>
+<div class="figure">
+<a href="//lizards.opensuse.org/wp-content/uploads/2019/07/62031334-03bc3480-b1df-11e9-9bce-f8f45b34ebd3.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/07/62031334-03bc3480-b1df-11e9-9bce-f8f45b34ebd3-300x225.png" alt="" width="300" height="225" class="aligncenter size-medium wp-image-13961" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/07/62031334-03bc3480-b1df-11e9-9bce-f8f45b34ebd3-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/07/62031334-03bc3480-b1df-11e9-9bce-f8f45b34ebd3-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/07/62031334-03bc3480-b1df-11e9-9bce-f8f45b34ebd3.png 800w" sizes="(max-width: 300px) 100vw, 300px" /></a>
+</div>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Let&#8217;s blog about YaST</title>
+		<link>https://lizards.opensuse.org/2015/12/15/lets-blog-about-yast/</link>
+		<pubDate>Tue, 15 Dec 2015 12:56:51 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[YaST]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[Tumbleweed]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11584</guid>
+		<description><![CDATA[Since some months ago, the YaST Team at SUSE has been using Scrum to organize the work. Among other things, that means the whole team takes part in a review meeting every three weeks to showcase the fixed bugs and the implemented features. To support those review meetings we often create screenshots, text summaries, short [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Since some months ago, the YaST Team at SUSE has been using <a href="https://en.wikipedia.org/wiki/Scrum_(software_development)">Scrum</a> to organize the work. Among other things, that means the whole team takes part in a review meeting every three weeks to showcase the fixed bugs and the implemented features. To support those review meetings we often create screenshots, text summaries, short videos and other material. Is it not a pity that all that content get unnoticed for curious users and potential contributors?</p>
+<p>In order to give the SUSE and openSUSE communities an opportunity to lurk into those review meetings, we have decided to create this team blog and post here the highlights after every meeting. Not all the fixes and features will be covered, but we&#8217;ll try to blog about the most exciting or relevant changes.</p>
+<p>Obviously, many of those posts will be more exciting for developers and Tumbleweed users than for users of the stable release (bugfixes tend to be unexciting). But, as some kind of bonus track, Leap 42.1 users can always revisit the <a href="https://en.opensuse.org/Features#openSUSE_technologies">summary of what the recent release brought</a> to the YaST (and friends) world.</p>
+<p>The current sprint ends right before Christmas, so stay tuned!</p>
+]]></content:encoded>
+			</item>
+		<item>
 		<title>YaST++: next step in system management</title>
-		<link>http://lizards.opensuse.org/2012/02/15/yast-next-step-in-system-management/</link>
-		<comments>http://lizards.opensuse.org/2012/02/15/yast-next-step-in-system-management/#comments</comments>
+		<link>https://lizards.opensuse.org/2012/02/15/yast-next-step-in-system-management/</link>
+		<comments>https://lizards.opensuse.org/2012/02/15/yast-next-step-in-system-management/#comments</comments>
 		<pubDate>Wed, 15 Feb 2012 10:07:46 +0000</pubDate>
 		<dc:creator><![CDATA[Jiří Suchomel]]></dc:creator>
 				<category><![CDATA[Systems Management]]></category>
@@ -39,21 +152,21 @@
 <blockquote><p>YLib::Users::read({})</p></blockquote>
 <p>you get the list of current users. If the script gets additional parameters, it can list e.g. all data about selected user, or only specific information about all:</p>
 <blockquote><p>&gt; ./users_read root<br />
-{&#8220;gid&#8221;=&gt;&#8221;0&#8243;, &#8220;name&#8221;=&gt;&#8221;root&#8221;, &#8220;uid&#8221;=&gt;&#8221;0&#8243;, &#8220;shell&#8221;=&gt;&#8221;/bin/bash&#8221;, &#8220;password&#8221;=&gt;&#8221;x&#8221;, &#8220;home&#8221;=&gt;&#8221;/root&#8221;}</p>
+{&#8220;gid&#8221;=&gt;&#8221;0&#8221;, &#8220;name&#8221;=&gt;&#8221;root&#8221;, &#8220;uid&#8221;=&gt;&#8221;0&#8221;, &#8220;shell&#8221;=&gt;&#8221;/bin/bash&#8221;, &#8220;password&#8221;=&gt;&#8221;x&#8221;, &#8220;home&#8221;=&gt;&#8221;/root&#8221;}</p>
 <p>&gt; ./users_read only name<br />
-{&#8220;result&#8221;=&gt;["Batch jobs daemon", "User for Avahi", "bin", "Daemon", "dnsmasq", "FTP account", "Games account", "User for haldaemon", "User for OpenLDAP", "LightDM daemon", "Printing daemon", "Mailer daemon", "Manual pages viewer", "User for D-Bus", "MySQL database admin", "News system", "user for nginx", "nobody", "NTP daemon", "User for build service backend", "openslp daemon", "PolicyKit", "Postfix Daemon", "PulseAudio daemon", "qemu user", "Router ADVertisement Daemon for", "root", "RealtimeKit", "Smart Card Reader", "user for smolt", "SSH daemon", "NFS statd daemon", "Novell Customer Center User", "TFTP account", "usbmuxd daemon", "Unix-to-Unix CoPy system", "WWW daemon apache", "User for YaST-Webservice", "LXDE Display Manager daemon"]}</p></blockquote>
+{&#8220;result&#8221;=&gt;[&#8220;Batch jobs daemon&#8221;, &#8220;User for Avahi&#8221;, &#8220;bin&#8221;, &#8220;Daemon&#8221;, &#8220;dnsmasq&#8221;, &#8220;FTP account&#8221;, &#8220;Games account&#8221;, &#8220;User for haldaemon&#8221;, &#8220;User for OpenLDAP&#8221;, &#8220;LightDM daemon&#8221;, &#8220;Printing daemon&#8221;, &#8220;Mailer daemon&#8221;, &#8220;Manual pages viewer&#8221;, &#8220;User for D-Bus&#8221;, &#8220;MySQL database admin&#8221;, &#8220;News system&#8221;, &#8220;user for nginx&#8221;, &#8220;nobody&#8221;, &#8220;NTP daemon&#8221;, &#8220;User for build service backend&#8221;, &#8220;openslp daemon&#8221;, &#8220;PolicyKit&#8221;, &#8220;Postfix Daemon&#8221;, &#8220;PulseAudio daemon&#8221;, &#8220;qemu user&#8221;, &#8220;Router ADVertisement Daemon for&#8221;, &#8220;root&#8221;, &#8220;RealtimeKit&#8221;, &#8220;Smart Card Reader&#8221;, &#8220;user for smolt&#8221;, &#8220;SSH daemon&#8221;, &#8220;NFS statd daemon&#8221;, &#8220;Novell Customer Center User&#8221;, &#8220;TFTP account&#8221;, &#8220;usbmuxd daemon&#8221;, &#8220;Unix-to-Unix CoPy system&#8221;, &#8220;WWW daemon apache&#8221;, &#8220;User for YaST-Webservice&#8221;, &#8220;LXDE Display Manager daemon&#8221;]}</p></blockquote>
 <p>YaST++ developement is in its early stage (even the name is not final), but we already have something to offer.</p>
 <p>Check the code and documentation at <a href="https://github.com/yast/yast--">github project</a>. There&#8217;s already a simple <a href="https://github.com/yast/yast--/wiki/Tutorial">tutorial</a> for those who want to try writing new parts.</p>
 <p>Download packages from <a href="https://build.opensuse.org/project/show?project=YaST%3AHead%3AYaST%2B%2B">Build Service project</a>.</p>
 <p>Comment/propose/oppose in public <a href="http://lists.opensuse.org/yast-devel/">YaST mailing list</a>.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2012/02/15/yast-next-step-in-system-management/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2012/02/15/yast-next-step-in-system-management/feed/</wfw:commentRss>
 		<slash:comments>12</slash:comments>
 		</item>
 		<item>
 		<title>Mockup :: GNOME3 and YaST</title>
-		<link>http://lizards.opensuse.org/2011/04/30/mockup-gnome3-and-yast/</link>
-		<comments>http://lizards.opensuse.org/2011/04/30/mockup-gnome3-and-yast/#comments</comments>
+		<link>https://lizards.opensuse.org/2011/04/30/mockup-gnome3-and-yast/</link>
+		<comments>https://lizards.opensuse.org/2011/04/30/mockup-gnome3-and-yast/#comments</comments>
 		<pubDate>Sat, 30 Apr 2011 22:47:10 +0000</pubDate>
 		<dc:creator><![CDATA[Nelson Marques]]></dc:creator>
 				<category><![CDATA[Accessibility]]></category>
@@ -85,13 +198,13 @@
 <p>My proposal would be something like (maybe to be served as an extension for gnome-shell). Please neglect my &#8216;lame&#8217; photo manipulation skills:</p>
 <div style="width: 723px" class="wp-caption aligncenter"><img src="http://susepaste.org/images/68933649.png" alt="" width="713" height="434" /><p class="wp-caption-text">Mockup: YaST2 on GNOME3</p></div>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2011/04/30/mockup-gnome3-and-yast/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2011/04/30/mockup-gnome3-and-yast/feed/</wfw:commentRss>
 		<slash:comments>8</slash:comments>
 		</item>
 		<item>
 		<title>Introducing snapper: A tool for managing btrfs snapshots</title>
-		<link>http://lizards.opensuse.org/2011/04/01/introducing-snapper/</link>
-		<comments>http://lizards.opensuse.org/2011/04/01/introducing-snapper/#comments</comments>
+		<link>https://lizards.opensuse.org/2011/04/01/introducing-snapper/</link>
+		<comments>https://lizards.opensuse.org/2011/04/01/introducing-snapper/#comments</comments>
 		<pubDate>Fri, 01 Apr 2011 10:11:53 +0000</pubDate>
 		<dc:creator><![CDATA[Arvin Schnell]]></dc:creator>
 				<category><![CDATA[Systems Management]]></category>
@@ -120,8 +233,8 @@ single | 1 |       | Wed Mar 30 14:52:17 2011 |          | initia
 pre    | 2 |       | Wed Mar 30 14:57:10 2011 | number   | yast users
 post   | 3 | 2     | Wed Mar 30 14:57:35 2011 | number   |
 single | 4 |       | Wed Mar 30 15:00:01 2011 | timeline | timeline</pre>
-<p>Snapshot #0 always refers to the current system. Snapshot #2 and #3 were created by YaST. Snapshot #4 was created by an hourly cronjob.
-<p>Getting the list of modified files between to snapshots is easy:</p>
+<p>Snapshot #0 always refers to the current system. Snapshot #2 and #3 were created by YaST. Snapshot #4 was created by an hourly cronjob.</p>
+<p><p>Getting the list of modified files between to snapshots is easy:</p>
 <pre># snapper diff 2 3
 c... /etc/group
 c... /etc/group.YaST2save
@@ -144,20 +257,20 @@ c... /var/tmp/kdecache-linux/plasma_theme_openSUSEdefault.kcache</pre>
 <p>The main feature of course is to revert the changes between two snapshots:</p>
 <pre># snapper rollback 2 3</pre>
 <p>Finally yast2-snapper provides a YaST UI for snapper.</p>
-<p><a href="http://lizards.opensuse.org/wp-content/uploads/2011/04/snapper.png"><img class="size-full wp-image-6977 alignnone" src="http://lizards.opensuse.org/wp-content/uploads/2011/04/snapper.png" alt="" width="580" height="426" /></a></p>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2011/04/snapper.png"><img class="size-full wp-image-6977 alignnone" src="http://lizards.opensuse.org/wp-content/uploads/2011/04/snapper.png" alt="" width="580" height="426" srcset="https://lizards.opensuse.org/wp-content/uploads/2011/04/snapper.png 828w, https://lizards.opensuse.org/wp-content/uploads/2011/04/snapper-300x220.png 300w" sizes="(max-width: 580px) 100vw, 580px" /></a></p>
 <h3>Testing</h3>
 <p>Playing with snapper should only be done on test machines. Both btrfs and snapper are not finished and included known bugs. Here is a <a href="http://en.opensuse.org/openSUSE:Snapper_install">step-by-step manual</a> for installing and configuring snapper for openSUSE 11.4.</p>
 <h3>Feedback</h3>
 <p>We would like to get feedback, esp. about general problems and further ideas. There are also tasks everybody can work on, e.g. the <a href="http://en.opensuse.org/Portal:Snapper">snapper wiki page</a> or a man-page for snapper.</p>
 <p>For the time being there is no dedicated mailing-list so just use opensuse-factory@opensuse.org.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2011/04/01/introducing-snapper/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2011/04/01/introducing-snapper/feed/</wfw:commentRss>
 		<slash:comments>2</slash:comments>
 		</item>
 		<item>
 		<title>HowTo: Regular cleanup the Tempfolders</title>
-		<link>http://lizards.opensuse.org/2009/07/19/howto-regular-cleanup-the-tempfolders/</link>
-		<comments>http://lizards.opensuse.org/2009/07/19/howto-regular-cleanup-the-tempfolders/#comments</comments>
+		<link>https://lizards.opensuse.org/2009/07/19/howto-regular-cleanup-the-tempfolders/</link>
+		<comments>https://lizards.opensuse.org/2009/07/19/howto-regular-cleanup-the-tempfolders/#comments</comments>
 		<pubDate>Sun, 19 Jul 2009 18:14:24 +0000</pubDate>
 		<dc:creator><![CDATA[Sascha Manns]]></dc:creator>
 				<category><![CDATA[Documentation]]></category>
@@ -182,7 +295,7 @@ That you can leave.<br />
 That means: First List from Folders, that can be deleted.<br />
 Default: /tmp</p>
 <p>MAX_DAYS_IN_TMP = 0<br />
-Change to: &#8220;1&#8243; (=deletes all Files who are older than 24h)<br />
+Change to: &#8220;1&#8221; (=deletes all Files who are older than 24h)<br />
 Means: Max. File Lifetime in days. That is for the Files, defined in TMP_DIRS_TO_CLEAR.<br />
 Default: 0 (=disabled)</p>
 <p>Close the Editor. You see all changes and you can close the Editor.</p>
@@ -199,13 +312,13 @@ Default: 0 (= disabled)<br />
 Possible Option: “28″</p>
 <p>Based on Reinhard Haase&#8217;s HowTo on: <a href="http://tiefenwirkung.wordpress.com/2009/07/19/temporare-dateien-unter-linux/">http://tiefenwirkung.wordpress.com/2009/07/19/temporare-dateien-unter-linux/</a></p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2009/07/19/howto-regular-cleanup-the-tempfolders/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/07/19/howto-regular-cleanup-the-tempfolders/feed/</wfw:commentRss>
 		<slash:comments>2</slash:comments>
 		</item>
 		<item>
 		<title>User readable logging of YaST modules</title>
-		<link>http://lizards.opensuse.org/2009/04/06/user-readable-logging-of-yast-modules/</link>
-		<comments>http://lizards.opensuse.org/2009/04/06/user-readable-logging-of-yast-modules/#comments</comments>
+		<link>https://lizards.opensuse.org/2009/04/06/user-readable-logging-of-yast-modules/</link>
+		<comments>https://lizards.opensuse.org/2009/04/06/user-readable-logging-of-yast-modules/#comments</comments>
 		<pubDate>Mon, 06 Apr 2009 14:38:53 +0000</pubDate>
 		<dc:creator><![CDATA[Jiří Suchomel]]></dc:creator>
 				<category><![CDATA[Systems Management]]></category>
@@ -232,7 +345,7 @@ Possible Option: “28″</p>
 2009-02-05 15:16:12 &lt;note&gt; rivendell Home directory removed: &#8216;/bin/rm -rf /local/home/cc&#8217;<br />
 2009-02-05 15:16:12 &lt;note&gt; rivendell User post-deletion script called: &#8216;/usr/sbin/userdel-post.local cc 1003 100 /local/home/cc&#8217;<br />
 2009-02-05 15:16:13 &lt;item&gt; rivendell User and Group Management module finished</p></blockquote>
-<p>Now, it is not bad, but the item &#8220;File written: &#8216;/etc/group&#8217;&#8221; doesn&#8217;t give much detailed info about what was done to that file. Stano proposed printing the diffs of the original and modified one, it could look this way:</p>
+<p>Now, it is not bad, but the item &#8220;File written: &#8216;/etc/group'&#8221; doesn&#8217;t give much detailed info about what was done to that file. Stano proposed printing the diffs of the original and modified one, it could look this way:</p>
 <blockquote><p>2009-02-09 10:05:50 &lt;item&gt; rivendell User and Group Management module started<br />
 2009-02-09 11:05:49 &lt;note&gt; rivendell Backup created: &#8216;/bin/cp /etc/group /etc/group.YaST2save&#8217;<br />
 2009-02-09 11:05:49 &lt;note&gt; rivendell File written: &#8216;/etc/group&#8217;<br />
@@ -291,13 +404,13 @@ others), since at the time of writing we don&#8217;t know the &#8220;user action
 <p>So &#8211; comments? Proposals?</p>
 <p>(*) Actually it would need to be cached during the UI-clicking and logged at the time of writing only if user doesn&#8217;t cancel the actions.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2009/04/06/user-readable-logging-of-yast-modules/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/04/06/user-readable-logging-of-yast-modules/feed/</wfw:commentRss>
 		<slash:comments>7</slash:comments>
 		</item>
 		<item>
 		<title>Writing first YCP program</title>
-		<link>http://lizards.opensuse.org/2009/02/13/writing-first-ycp-program/</link>
-		<comments>http://lizards.opensuse.org/2009/02/13/writing-first-ycp-program/#comments</comments>
+		<link>https://lizards.opensuse.org/2009/02/13/writing-first-ycp-program/</link>
+		<comments>https://lizards.opensuse.org/2009/02/13/writing-first-ycp-program/#comments</comments>
 		<pubDate>Fri, 13 Feb 2009 10:18:26 +0000</pubDate>
 		<dc:creator><![CDATA[Alexander Orlovskyy]]></dc:creator>
 				<category><![CDATA[Systems Management]]></category>
@@ -305,9 +418,9 @@ others), since at the time of writing we don&#8217;t know the &#8220;user action
 		<category><![CDATA[YCP]]></category>
 
 		<guid isPermaLink="false">http://lizards.opensuse.org/?p=424</guid>
-		<description><![CDATA[Hi folks! It was a long time since my last blog. Today, i will show you my first program, it`s a simple test program which shows basic functions of YCP Let`s start!! first of all, you need all core development YaST and QT packages (All mentioned bottom steps, can be made with normal user ) [&#8230;]]]></description>
+		<description><![CDATA[Hi folks! It was a long time since my last blog. 😉 Today, i will show you my first program, it`s a simple test program which shows basic functions of YCP Let`s start!! first of all, you need all core development YaST and QT packages (All mentioned bottom steps, can be made with normal user [&#8230;]]]></description>
 				<content:encoded><![CDATA[<p>Hi folks!</p>
-<p>It was a long time since my last blog. <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif" alt=";)" class="wp-smiley" /> </p>
+<p>It was a long time since my last blog. <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
 <p>Today, i will show you my first program, it`s a simple test program which shows basic functions of YCP</p>
 <p><strong>Let`s start!!</strong></p>
 <p>first of all, you need all core development YaST and QT packages</p>
@@ -350,13 +463,13 @@ UI::CloseDialog();<br />
 <p><strong>You have written only one code , which can be used in two different gui environments graphical and  text mode!</strong></p>
 <p>In my next blog i will write about creating own SCR Agent.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2009/02/13/writing-first-ycp-program/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/02/13/writing-first-ycp-program/feed/</wfw:commentRss>
 		<slash:comments>7</slash:comments>
 		</item>
 		<item>
 		<title>Writing wrapper packages for server applications or a generic YaST module?</title>
-		<link>http://lizards.opensuse.org/2009/01/27/writing-wrapper-packages-for-server-applications-or-a-generic-yast-module/</link>
-		<comments>http://lizards.opensuse.org/2009/01/27/writing-wrapper-packages-for-server-applications-or-a-generic-yast-module/#comments</comments>
+		<link>https://lizards.opensuse.org/2009/01/27/writing-wrapper-packages-for-server-applications-or-a-generic-yast-module/</link>
+		<comments>https://lizards.opensuse.org/2009/01/27/writing-wrapper-packages-for-server-applications-or-a-generic-yast-module/#comments</comments>
 		<pubDate>Tue, 27 Jan 2009 19:43:13 +0000</pubDate>
 		<dc:creator><![CDATA[kl_eisbaer]]></dc:creator>
 				<category><![CDATA[Packaging]]></category>
@@ -372,7 +485,7 @@ UI::CloseDialog();<br />
 <ol>
 <li>write a README.SuSE (which is already the case for many packages) and place it in /usr/share/doc/packages/&lt;packagename&gt;/README.SuSE explaning how to proceed</li>
 <li>sugget what the user always wants to do and do it via %post-script after the installation of the RPM</li>
-<li>combine 1&amp;2 and point the user to a script in the README.SuSE <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif" alt=":-)" class="wp-smiley" /> </li>
+<li>combine 1&amp;2 and point the user to a script in the README.SuSE <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></li>
 <li>write a YaST module which can be started during installation or afterwards</li>
 <li>any other option I missed (please inform me!)</li>
 </ol>
@@ -404,13 +517,13 @@ UI::CloseDialog();<br />
 <p>I think, there&#8217;s room for many enhancements in this area &#8211; what do you think ?</p>
 <p>Should/Could we produce something like a &#8220;Windows-Installer&#8221; for openSUSE? Or is it enough to provide special &#8220;wrapper packages&#8221;? Or is &#8220;what was hard to write, should be hard to install&#8221; still a valid answer?</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2009/01/27/writing-wrapper-packages-for-server-applications-or-a-generic-yast-module/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/01/27/writing-wrapper-packages-for-server-applications-or-a-generic-yast-module/feed/</wfw:commentRss>
 		<slash:comments>1</slash:comments>
 		</item>
 		<item>
 		<title>Integration of YaST Server Modules to YaST System Services</title>
-		<link>http://lizards.opensuse.org/2009/01/08/integration-of-yast-server-modules-to-yast-system-services/</link>
-		<comments>http://lizards.opensuse.org/2009/01/08/integration-of-yast-server-modules-to-yast-system-services/#comments</comments>
+		<link>https://lizards.opensuse.org/2009/01/08/integration-of-yast-server-modules-to-yast-system-services/</link>
+		<comments>https://lizards.opensuse.org/2009/01/08/integration-of-yast-server-modules-to-yast-system-services/#comments</comments>
 		<pubDate>Thu, 08 Jan 2009 13:11:55 +0000</pubDate>
 		<dc:creator><![CDATA[Stanislav Visnovsky]]></dc:creator>
 				<category><![CDATA[YaST]]></category>
@@ -418,70 +531,20 @@ UI::CloseDialog();<br />
 		<guid isPermaLink="false">http://lizards.opensuse.org/?p=348</guid>
 		<description><![CDATA[Today, I&#8217;ve played a bit with an idea to allow starting of YaST Server module from the YaST System Services module. The only visible difference is the additional &#8220;Configure&#8230;&#8217; button at the bottom of the dialog. This button would be active only if there is a YaST module associated with the entry. After clicking it, [&#8230;]]]></description>
 				<content:encoded><![CDATA[<p>Today, I&#8217;ve played a bit with an idea to allow starting of YaST Server module from the YaST System Services module.</p>
-<p style="center;"><img class="size-medium wp-image-349" src="http://lizards.opensuse.org/wp-content/uploads/2009/01/runlevel-286x300.png" alt="YaST System Services (Runlevel) Editor" width="286" height="300" /></p>
+<p style="center;"><img class="size-medium wp-image-349" src="http://lizards.opensuse.org/wp-content/uploads/2009/01/runlevel-286x300.png" alt="YaST System Services (Runlevel) Editor" width="286" height="300" srcset="https://lizards.opensuse.org/wp-content/uploads/2009/01/runlevel-286x300.png 286w, https://lizards.opensuse.org/wp-content/uploads/2009/01/runlevel.png 617w" sizes="(max-width: 286px) 100vw, 286px" /></p>
 <p>The only visible difference is the additional &#8220;Configure&#8230;&#8217; button at the bottom of the dialog. This button would be active only if there is a YaST module associated with the entry. After clicking it, the respective YaST module would be started:</p>
-<p style="center;"><a href="http://lizards.opensuse.org/wp-content/uploads/2009/01/firewall.png"><img class="size-medium wp-image-350" src="http://lizards.opensuse.org/wp-content/uploads/2009/01/firewall-300x236.png" alt="YaST Firewall module invoked from YaST System Services module" width="300" height="236" /></a></p>
+<p style="center;"><a href="http://lizards.opensuse.org/wp-content/uploads/2009/01/firewall.png"><img class="size-medium wp-image-350" src="http://lizards.opensuse.org/wp-content/uploads/2009/01/firewall-300x236.png" alt="YaST Firewall module invoked from YaST System Services module" width="300" height="236" srcset="https://lizards.opensuse.org/wp-content/uploads/2009/01/firewall-300x236.png 300w, https://lizards.opensuse.org/wp-content/uploads/2009/01/firewall.png 893w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
 <p>With this simple principle, the YaST control center &#8216;Network Services&#8217; section would be reduced to:</p>
-<p style="center;"><a href="http://lizards.opensuse.org/wp-content/uploads/2009/01/cc2.png"><img class="alignnone size-medium wp-image-352 aligncenter" src="http://lizards.opensuse.org/wp-content/uploads/2009/01/cc2-300x208.png" alt="YaST Control Center, Network Services section" width="300" height="208" /></a></p>
+<p style="center;"><a href="http://lizards.opensuse.org/wp-content/uploads/2009/01/cc2.png"><img class="alignnone size-medium wp-image-352 aligncenter" src="http://lizards.opensuse.org/wp-content/uploads/2009/01/cc2-300x208.png" alt="YaST Control Center, Network Services section" width="300" height="208" srcset="https://lizards.opensuse.org/wp-content/uploads/2009/01/cc2-300x208.png 300w, https://lizards.opensuse.org/wp-content/uploads/2009/01/cc2.png 718w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
 <p>And all those YaST modules would be available from &#8216;System&#8217; section:</p>
-<p><a href="http://lizards.opensuse.org/wp-content/uploads/2009/01/cc1.png"><img class="aligncenter size-medium wp-image-351" src="http://lizards.opensuse.org/wp-content/uploads/2009/01/cc1-300x205.png" alt="YaST Control Center, System section" width="300" height="205" /></a></p>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2009/01/cc1.png"><img class="aligncenter size-medium wp-image-351" src="http://lizards.opensuse.org/wp-content/uploads/2009/01/cc1-300x205.png" alt="YaST Control Center, System section" width="300" height="205" srcset="https://lizards.opensuse.org/wp-content/uploads/2009/01/cc1-300x205.png 300w, https://lizards.opensuse.org/wp-content/uploads/2009/01/cc1.png 726w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
 <p>This approach could be used even further. You can see that the &#8216;Network Services&#8217; section contents do not really match the section name anymore. In fact, most of the items could be moved to other modules as well. E.g. introducing a module for authentication/authorization, which would cover Kerberos client, LDAP client, etc. The NFS client is in fact a part of the new Disk Partitioning module already. So, the section could vaporize completely.</p>
 <p>However, there are drawbacks. The biggest one I see is a &#8216;starting point&#8217; problem. Just imagine you want to have a Apache2 running in your system. Until now, the YaST HTTP module is installed and can be used to bootstrap your configuration &#8211; it will install the packages and help to set up the basics. But with the new approach, the apache2 package is not installed, therefore System Services module would not see the apache2 service (init script) and does not show it at all! I&#8217;m not sure how to address this. Maybe the best would be to attach the YaST  module to apache2 package or HTTP server pattern and the Software Management module would become such starting point. Would it be better? I don&#8217;t know.</p>
 <p>Then, there is an issue of a quick access &#8211; if you are moderately experienced user, you know what you are looking for and you start a proper module right away. But to figure out what is the configuration starting point if it&#8217;s hidden in another module, that might be a blocker.</p>
 <p>I&#8217;m sure there are more problems. Anyway, I find the idea quite useful for reducing the number of YaST modules. What do you think?</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2009/01/08/integration-of-yast-server-modules-to-yast-system-services/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/01/08/integration-of-yast-server-modules-to-yast-system-services/feed/</wfw:commentRss>
 		<slash:comments>3</slash:comments>
-		</item>
-		<item>
-		<title>YaST releases independent of openSUSE releases?</title>
-		<link>http://lizards.opensuse.org/2008/11/07/yast-releases-independent-of-opensuse-releases/</link>
-		<comments>http://lizards.opensuse.org/2008/11/07/yast-releases-independent-of-opensuse-releases/#comments</comments>
-		<pubDate>Fri, 07 Nov 2008 14:58:05 +0000</pubDate>
-		<dc:creator><![CDATA[Stanislav Visnovsky]]></dc:creator>
-				<category><![CDATA[YaST]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=275</guid>
-		<description><![CDATA[YaST is one of the cornerstones of openSUSE. It is developed for openSUSE and is released as part of openSUSE. There never was a release of YaST independent of openSUSE. Even the versioning of YaST is tied to openSUSE &#8211; the versions are 2.X.Y, where X is increased for every openSUSE release (17 for 11.1) [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>YaST is one of the cornerstones of openSUSE. It is developed for openSUSE and is released as part of openSUSE. There never was a release of YaST independent of openSUSE. Even the versioning of YaST is tied to openSUSE &#8211; the versions are 2.X.Y, where X is increased for every openSUSE release (17 for 11.1) and Y is simply a patch level, whenever a new fix or feature is added. Even more, every YaST package has its own versioning, so the only way to ensure you have a consistent set of YaST packages is via dependencies set in the .spec file of the YaST packages.</p>
-<p>But in principle, YaST is a tool that can be used across distributions and there are people interested in this to happen. There are technical barriers to do releases independent of openSUSE (e.g. a lot of openSUSE-specific knowledge and behavior coded in YaST) as well as procedural. During past years, a lot of these non-technical issues has been addressed as we opened up the YaST development (re-licensing the code under GPL, opening up source control system and mailing lists, etc).</p>
-<p>But still, there is one big thing left: YaST packages are released in concert with openSUSE. Yes, it is very convenient for openSUSE, but it makes it almost impossible to track the development during for people outside of our great distribution.</p>
-<p>If one looks at the way the YaST packages are updated during the hotphase of an openSUSE release, the core parts of YaST (yast2-devtools, yast2-core, libyui, &#8230;) are rarely updated, they get a bug fix here and there. However, the distribution specific parts (yast2-pkg-bindings, yast2 common libraries, bootloader, storage, networking, &#8230;) get a fast flow of patch-level releases, typically several between openSUSE milestones.</p>
-<p>Thus, the way forward I like the most right now is a compromise: a core YaST system should be released independently of the openSUSE release cycle while specific modules could keep their crescendo during openSUSE hot phase. How to do that?</p>
-<p>For core YaST packages (a list to be defined) would be released independently of openSUSE and during hot phase, they would be handled the way other FOSS parts of openSUSE are &#8211; by patching the code in the package. The rest of the YaST, current practice would stay untouched.</p>
-<p>There are clearly advantages &#8211; the YaST developers can do a proper release management of the core code and it is much more predictable how the core part of YaST will be released. On the other hand, people would need to be aware of the split.</p>
-<p>However, I can imagine there is a lot of I did not realize. I&#8217;m definitely interested in comments about this topic.</p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2008/11/07/yast-releases-independent-of-opensuse-releases/feed/</wfw:commentRss>
-		<slash:comments>6</slash:comments>
-		</item>
-		<item>
-		<title>Learning YaST (YCP language)</title>
-		<link>http://lizards.opensuse.org/2008/09/12/learning-yast-ycp-language/</link>
-		<comments>http://lizards.opensuse.org/2008/09/12/learning-yast-ycp-language/#comments</comments>
-		<pubDate>Fri, 12 Sep 2008 10:02:59 +0000</pubDate>
-		<dc:creator><![CDATA[Alexander Orlovskyy]]></dc:creator>
-				<category><![CDATA[Systems Management]]></category>
-		<category><![CDATA[YaST]]></category>
-		<category><![CDATA[trainee]]></category>
-		<category><![CDATA[y2base]]></category>
-		<category><![CDATA[YaST2]]></category>
-		<category><![CDATA[YCP]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=175</guid>
-		<description><![CDATA[My name is Alexander i`m a trainee at SUSE. In my blog i will write about my experience with learning YCP (YaST Control Language) First of all, most important part of learning is to have a good manual. Here you have some links to start: YCP book -&#62;must read! (up to date) YCP Reference book [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>My name is Alexander i`m a trainee at SUSE.</p>
-<p>In my blog i will write about my experience with learning YCP (<span class="emphasis"><em>YaST Control 		Language</em></span>)</p>
-<p>First of all, most important part of learning is to have a good manual.</p>
-<p>Here you have some links to start:</p>
-<p><a href="http://forgeftp.novell.com/yast/doc/SL11.1/tdg/index.html">YCP book -&gt;must read! (up to date)</a></p>
-<p><a href="http://forgeftp.novell.com/yast/doc/SL11.0/tdg/Book-YaSTReference.html">YCP Reference book </a></p>
-<p><a href="http://forgeftp.novell.com/yast/doc/SL11.0/tdg/Book-UIReference.html">YCP User interface referece book</a></p>
-<p><a href="http://en.opensuse.org/YaST/Tutorials/YaST_Development_in_General"> YaST Development in General</a></p>
-<p>Later i add additional info &#8230;..</p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2008/09/12/learning-yast-ycp-language/feed/</wfw:commentRss>
-		<slash:comments>1</slash:comments>
 		</item>
 	</channel>
 </rss>

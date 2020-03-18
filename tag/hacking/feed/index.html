@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>hacking &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/hacking/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>osc plugin &#8211; changes</title>
+		<link>https://lizards.opensuse.org/2011/03/23/osc-plugin-changes/</link>
+		<pubDate>Wed, 23 Mar 2011 12:21:27 +0000</pubDate>
+		<dc:creator><![CDATA[Alexander Naumov]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[fun]]></category>
+		<category><![CDATA[hacking]]></category>
+		<category><![CDATA[Python]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=6817</guid>
+		<description><![CDATA[OSC is a powerful tool for packaging experts, exposing all the latest and greats features of the Build Service. It&#8217;s written on python and easy in studying and using. However there are situations when its functionality is not enough; sometimes we need something special. In this case to us will help plug-in mechanism, which in [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><img class="alignright size-full wp-image-6818" src="http://lizards.opensuse.org/wp-content/uploads/2011/03/osc_plugin_and_lego.jpeg" alt="" width="161" height="207" /><a href="http://en.opensuse.org/openSUSE:OSC">OSC</a> is a powerful tool for packaging experts, exposing all the latest and greats features of the <a href="https://build.opensuse.org/">Build Service</a>. It&#8217;s written on python and easy in studying and using. However there are situations when its functionality is not enough; sometimes we need something special. In this case to us will help plug-in mechanism, which in osc is realised very simply.<br />
+<a href="http://en.opensuse.org/openSUSE:OSC_plugins">Plugin</a> can use all of the features, which already implemented osc, as well as provide an output in a convenient format for you. For example, if I want to check changes in kdelibs4 between openSUSE:11.3 and openSUSE:11.4, I can do something like this:</p>
+<pre>&gt; osc rdiff openSUSE:11.3 kdelibs4 openSUSE:Factory kdelibs4</pre>
+<p>After that I will receive a detailed output about all changes. Yes, that&#8217;s great… but not always it&#8217;s convenient. For example, in this case output will contain more than 2000 strings, and I need time to find, say, a *.changes file if I want quickly to understand that has been changed. In case if I want to transfer output to processing to another program (as often happens in practice), I have to shape this data. Unfortunately osc is not as intelligent and can&#8217;t show changes from one file (from *.changes, for example) only&#8230;</p>
+<h2 style="text-align: right">Hello world</h2>
+<p>Let&#8217;s me show how we can create a very simple osc-plugin. In the derectory /var/lib/osc-plugins/ we create a new file tell_me_something.py with such content:</p>
+<pre>@cmdln.alias('say')
+def do_say_something(self, subcmd, opts, *args):
+    if sys.argv[2] == "something":
+        print "openSUSE rulezzz"
+    else:
+        print sys.argv[2]</pre>
+<p>At start, osc will check this directory and will register all found there plugins. In that case, if in the plugin&#8217;s content there are errors, osc will report about it immediately. If now we run</p>
+<pre>&gt; osc help</pre>
+<p>we will see in the list our function <strong>say_something</strong> and the key to start it &#8211; <strong>say</strong>. Let&#8217;s test:</p>
+<pre>&gt; osc say "hello"
+hello
+&gt; osc say GNU/Linux
+GNU/Linux
+&gt; osc say something
+openSUSE rulezzz
+&gt;</pre>
+<p>As you can see, it&#8217;s very easy &#8211; just python and nothing else. Let&#8217;s go back to the output of the function rdiff(), which we mentioned at the beginning.</p>
+<h2 style="text-align: right">show me changes</h2>
+<p>In output of rdiff() nothing wrong, but I would like to immediately get information about what exactly has been done and, for example, which bugzilla-reports (related to this package) have been closed, etc. All what I need, are in rdiff&#8217;s output. It means that all what I have to do is just to shape this output.</p>
+<p>In 40 minutes of hacking I got such output:</p>
+<pre>&gt; osc changes kdelibs4 openSUSE:11.3 openSUSE:11.4
+PACKAGE: kdelibs4
+BUGZILLA_NOVELL: 668185, 670426, 644236, 596021
+BUGZILLA_OTHER: 246652, 170806, 149991, 221989, 252280, 253387, 253294, 193364, 253414
+CHANGES:
+
+- work around random error on first startup, bnc#668185,
+  kubuntu has a similiar patch applied
+- call update-mime-database in pre/post install scripts
+- don't show synthetic volume label when none is really available,
+  allow kio_sysinfo to fall back to device path (bnc#670426)
+- update to KDE Platform 4.6.0
+  * Plasma applets can be written in QML
+  * Plasma data engines can be written in Javascript
+  * Plasma data engines can use generic cache for offline mode
+  * udev, udisks, upower replace HAL in Solid
+  * For more details, see http://kde.org/announcements/4.6
+- add patch from 4.6 branch to fix plasma crash on exit
+- Add dependencies on udisks and upower for 11.3 and up for Solid
+- update to 4.5.95
+  * KDE 4.6 RC2
+  * no upstream changelog available.
+- update to 4.5.90
+  * KDE 4.6 RC1
+  * no upstream changelog available.
+- For 11.2 and 11.3 only : Will build now with polkit-qt-1
+  v 0.99.1, which is an official requirement of KDE 4.6
+- update to 4.5.85
+  * KDE 4.6 Beta2
+  * Final Beta before RC, various fixes from Beta1
+  * no upstream changelog available.
+- For 11.2 and 11.3 only : Added patch to revert changes that
+  requires a higher version of polkit-qt-1
+- update to 4.5.80
+  * KDE 4.6 Beta1
+  * no upstream changelog available.
+-  Closing the shell via CTRL+D crashes [bko#246652]
+- fix build with gcc 4.6
+- tighten qt4 dependencies
+- update to 4.5.3
+  * see http://kde.org/announcements/changelogs/changelog4_5_2to4_5_3.php for details
+- update branch diff for various bugs in 4.5:
+  * Crash on configure toolbars (bko#170806)
+  * KCookieJar can't read cookies from another port (bko#149991)
+  * Fix oversized number input widgets (bko#221989)
+  * CSS conformance issue (bko#252280)
+  * Fix helper protocols such as mailto: and telnet:
+  * Plasma crash on comic applet switch (bko#253387)
+  * HTTPS urls in KMail do not open properly in browser (bko#253294)
+  * Mailto: links in FireFox started by kmailservice fail (bnc#644236)
+  * Crash in directory listings when toggling
+    show hidden files flag (bko#193364)
+- Upstream patch added for kmail issue (bko#253414)
+- update to 4.5.2
+  * see http://kde.org/announcements/changelogs/changelog4_5_1to4_5_2.php for details
+- build apidocs separately to reduce build time
+- BuildRequire utempter-devel
+- update to 4.5.1
+  * see http://kde.org/announcements/changelogs/changelog4_5_0to4_5_1.php for details
+- new package: kdelibs4-apidocs (bnc#596021)
+- update to 4.5.0
+  * KDE 4.5.0 final (version bump over RC3)
+- update to 4.4.95
+  * KDE 4.5 RC3 (not announced)
+  * critical fixes for 4.5.0 release
+- Add libsoprano-devel Require to libkde4-devel
+- update to 4.4.93svn1149349
+- update to 4.4.5
+  * bugfixes over 4.4.4
+  * see http://kde.org/announcements/changelogs/changelog4_4_4to4_4_5.php for details</pre>
+<p>and between 11.4 and factory:</p>
+<pre>&gt; osc changes kdelibs4 openSUSE:11.4 openSUSE:Factory
+PACKAGE: kdelibs4
+CHANGES:
+
+- update to 4.6.1
+  * Bugfixes over KDE 4.6.0
+  *  see http://kde.org/announcements/changelogs/changelog4_6_0to4_6_1.php for details
+- remove upstreamed patches</pre>
+<p>aha&#8230; and what&#8217;s about vim between 11.2 and 11.3?</p>
+<pre>&gt; osc changes vim openSUSE:11.2 openSUSE:11.3
+PACKAGE: vim
+BUGZILLA_NOVELL: 598903
+CHANGES:
+
+- Add screen control sequences to inputrc (bnc#598903)
+- Use the icon from the tarball instead of our custom icon. It
+  looks much better.
+- Drop gvim.png from the source package.
+- build data subpackage as noarch
+- updated patches to apply with fuzz=0</pre>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2011/03/lego2.jpg"><img class="alignright size-full wp-image-6869" src="http://lizards.opensuse.org/wp-content/uploads/2011/03/lego2.jpg" alt="" width="161" height="117" /></a>Now we can see exactly what was has been done and which bugzilla-reports was fixed/closed. Yes, we have bnc# and bko# reports: reports from bugzilla.novell.com and bugs.kde.org (it cut be also bugs.kernel.org). Second group will be always different (KDE/Gnome/Mozilla/Kernel&#8230;).</p>
+<p>Source code of plugin is <a href="http://paste.opensuse.org/80006482">here</a>, and I hope this post will be useful for you if you&#8217;ve never written a plugin before.</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Documentation</title>
+		<link>https://lizards.opensuse.org/2010/10/13/documentation/</link>
+		<comments>https://lizards.opensuse.org/2010/10/13/documentation/#comments</comments>
+		<pubDate>Wed, 13 Oct 2010 18:53:43 +0000</pubDate>
+		<dc:creator><![CDATA[Alexander Naumov]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Contrib]]></category>
+		<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Usability]]></category>
+		<category><![CDATA[fun]]></category>
+		<category><![CDATA[hacking]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=5474</guid>
+		<description><![CDATA[Hi folks, this post is just request for all obs-packagers. Please, don&#8217;t forget write some documentation about your projects (which you maintain or develop). I mean, documentation for developers. This make more easy to understand logic of program, connection between some modules inside or interfaces between widget/applet and &#8220;system/hardware part&#8221;. For sure, comments in source [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi folks,</p>
+<p>this post is just request for all obs-packagers. Please, don&#8217;t forget write some documentation about your projects (which you maintain or develop). I mean, documentation for developers. This make more easy to understand logic of program, connection between some modules inside or interfaces between widget/applet and &#8220;system/hardware part&#8221;. For sure, comments in source code (or in changelog) help, but some times they give not so much clarity.</p>
+<p>This is not so complicated to write one-two pages about project, which you hack. This also can save time of new developers. They will not ask you about architecture of project, and that will save your time too <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>I don&#8217;t know how will be better to do it: use wiki (create a new page) or add just text-file in source project. Anyway it&#8217;s not so important where will be this documentation, main things that this documentation will be exist <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2010/10/13/documentation/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Tokamak4</title>
+		<link>https://lizards.opensuse.org/2010/02/27/tokamak_4/</link>
+		<pubDate>Sat, 27 Feb 2010 11:02:24 +0000</pubDate>
+		<dc:creator><![CDATA[Alexander Naumov]]></dc:creator>
+				<category><![CDATA[Events]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Network]]></category>
+		<category><![CDATA[fun]]></category>
+		<category><![CDATA[hacking]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=5441</guid>
+		<description><![CDATA[On this week the leading KDE developers met together again. This time it was held in Nürnberg, in the openSUSE premises and was kindly made possible by Novell and KDE e.V. 26 hackers, who make KDE better. For me it was first time, where I met hackers not for drinking a cup of beer, but [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><img class="alignright" src="http://techbase.kde.org/images.techbase/6/67/Plasma_logo.jpg" alt="" width="200" height="100" />On this week the leading KDE developers met <a href="http://techbase.kde.org/Projects/Plasma/Tokamak4">together again</a>. This time it was held in Nürnberg, in the openSUSE premises and was kindly made possible by Novell and KDE e.V.<br />
+26 hackers, who make KDE better.</p>
+<p>For me it was first time, where I met hackers not for drinking a cup of beer, but for working, for hacking, for learning&#8230; and I think in this time I got much more fun.</p>
+<p>We started at 9-10 am and finished it at 1-2 am. Yes, these two days we hacked like crazy. I&#8217;m not so good in KDE, I mean &#8211; I&#8217;m just trainee in SUSE/Novell, but in these two days I took a lot of information about KDE (arhitecture), Solid, Plasma, methods of project&#8217;s buildings (cmake), etc.</p>
+<p>I have uploaded photos. You can find these <a href="http://picasaweb.google.com/posix.ru/MeetTheKDEPlasmaDevelopersAtSUSE#">here</a>.</p>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2010/10/KDE_Plasma.jpg"><img class="aligncenter size-full wp-image-5445" src="http://lizards.opensuse.org/wp-content/uploads/2010/10/KDE_Plasma.jpg" alt="" width="650" height="396" srcset="https://lizards.opensuse.org/wp-content/uploads/2010/10/KDE_Plasma.jpg 650w, https://lizards.opensuse.org/wp-content/uploads/2010/10/KDE_Plasma-300x182.jpg 300w" sizes="(max-width: 650px) 100vw, 650px" /></a></p>
+<p>I have worked before on KNetworkManager. It was just a couple of patches (Qt/KDE3 based), and KNM has another aspects of integration with hardware as we have now in KDE4. In KDE4 we have <a href="http://solid.kde.org/">SOLID</a>, and this makes more easy to asking for such things like, for example, wired connection or to find hidden SSID wi-fi&#8230; </p>
+<p>Yes, my current project is <a href="http://userbase.kde.org/NetworkManagement">Network Management</a> plasma applet.</p>
+<p>With Sebastian Kügler and Will Stephenson, we worked together on functionality to easily connect to wired, wireless and mobile broadband networks and also to VPNs. As I said, I don&#8217;t did so much, but I started working on support for connection. Maybe next month I will be able to show that I did.</p>
+<p>I would like to thank everyone with whom I spent those 2 days. Especially Will, who always supports and helps me to become a KDE developer.</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0"
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -9,19 +8,99 @@
 	>
 
 <channel>
-	<title>openSUSE Lizards &#187; Hackweek</title>
-	<atom:link href="http://lizards.opensuse.org/tag/hackweek/feed/" rel="self" type="application/rss+xml" />
-	<link>http://lizards.opensuse.org</link>
+	<title>Hackweek &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/hackweek/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
 	<description>Blogs and Ramblings of the openSUSE Members</description>
-	<lastBuildDate>Mon, 24 Mar 2014 12:46:00 +0000</lastBuildDate>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
 	<language>en-US</language>
-		<sy:updatePeriod>hourly</sy:updatePeriod>
-		<sy:updateFrequency>1</sy:updateFrequency>
-	<generator>http://wordpress.org/?v=3.8.1</generator>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
 	<item>
+		<title>Encrypted installation media</title>
+		<link>https://lizards.opensuse.org/2017/11/17/encrypted-installation-media/</link>
+		<pubDate>Fri, 17 Nov 2017 14:21:57 +0000</pubDate>
+		<dc:creator><![CDATA[Steffen Winterfeldt]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[Security]]></category>
+		<category><![CDATA[Uncategorized]]></category>
+		<category><![CDATA[booting]]></category>
+		<category><![CDATA[openSUSE]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12886</guid>
+		<description><![CDATA[Hackweek project: create encrypted installation media You&#8217;re still carrying around your precious autoyast config files on an unencrypted usb stick? You have a customized installation disk that could reveal lots of personal details? You use ad blockers, private browser tabs, or even tor but still carry around your install or rescue disk unencrypted for everyone [&#8230;]]]></description>
+				<content:encoded><![CDATA[<h2>Hackweek project: create encrypted installation media</h2>
+<ul>
+<li>You&#8217;re still carrying around your precious autoyast config files on an unencrypted usb stick?</li>
+<li>You have a customized installation disk that could reveal lots of personal details?</li>
+<li>You use ad blockers, private browser tabs, or even <code>tor</code> but still carry around your install or rescue disk unencrypted for everyone to see?</li>
+<li>You have your personal files and an openSUSE installation tree on the same partition just because you are lazy and can&#8217;t be bothered to tidy things up?</li>
+<li>A simple Linux install stick is just not geekish enough for you?</li>
+</ul>
+<p><strong>Not any longer!</strong></p>
+<p><code>mksusecd</code> can now (well, once <a href="https://github.com/openSUSE/mksusecd/pull/27">this pull request</a> has been merged) create fully encrypted installation media (both UEFI and legacy BIOS bootable).</p>
+<p>Everything (but the plain grub) is on a LUKS-encrypted partition. If you&#8217;re creating a customized boot image and add sensitive data via <code>--boot</code> or add an add-on repo or autoyast config or some secret driver update &#8211; this is all safe now!</p>
+<p>You can get the latest <code>mksusecd-1.54</code> already <a href="https://build.opensuse.org/package/show/home%3Asnwint/mksusecd">here</a> to try it out! (Or visit <a href="https://software.opensuse.org/package/mksusecd">software.opensuse.org</a> and look for (at least) version 1.54 under &#8216;Show other versions&#8217;.</p>
+<p>It&#8217;s as easy as</p>
+<pre>mksusecd --create crypto.img --crypto --password=xxx some_tumbleweed.iso
+</pre>
+<p>And then <code>dd</code> the image to your usb stick.</p>
+<p>But if your Tumbleweed or SLE/Leap 15 install media are a bit old (well, as of now they are) check the &#8216;Crypto notes&#8217; in <code>mksusecd --help</code> first! &#8211; You will need to add two extra options.</p>
+<p>This is how the first screen looks then<br />
+<img src="http://users.suse.com/~snwint/encrypted_install.png"></img></p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>oSC15 &#8211; 200, Why not packaging workshop like mini hack sprint</title>
+		<link>https://lizards.opensuse.org/2015/01/17/osc15-200-why-not-packaging-workshop-like-mini-hack-sprint/</link>
+		<pubDate>Sat, 17 Jan 2015 16:01:50 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Events]]></category>
+		<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[2015]]></category>
+		<category><![CDATA[osc]]></category>
+		<category><![CDATA[workshop]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11193</guid>
+		<description><![CDATA[Hello Geekos. I&#8217;m contacting you personally, as an openSUSE Board member. You certainly already know that we want to have a kicking openSUSE conference next 1st-4th May 2015 at the Haag (NL). Thus I&#8217;ve found that creating special workshop organized by development project could foster our beloved distribution. oSC is the unique case in the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><a href="//lizards.opensuse.org/wp-content/uploads/2015/01/li2.png"><img src="//lizards.opensuse.org/wp-content/uploads/2015/01/li2-163x300.png" alt="welcome" width="163" height="300" class="alignright size-medium wp-image-11198" srcset="https://lizards.opensuse.org/wp-content/uploads/2015/01/li2-163x300.png 163w, https://lizards.opensuse.org/wp-content/uploads/2015/01/li2.png 214w" sizes="(max-width: 163px) 100vw, 163px" /></a>Hello Geekos. </p>
+<p>I&#8217;m contacting you personally, as an openSUSE Board member.</p>
+<p>You certainly already know that we want to have a kicking openSUSE conference next 1st-4th May 2015 at the Haag (NL).</p>
+<p>Thus I&#8217;ve found that creating special workshop organized by development project could foster our beloved distribution.</p>
+<p>oSC is the unique case in the year, where Geekos from all around the world meet together.<br />
+Let&#8217;s imagine you, meeting perhaps for the first time your fellows, having nice discussions, and hacking around the software you maintain.<br />
+There&#8217;s high level of chance to meet also your end users, and have constructive exchanges.</p>
+<p>That&#8217;s why I invite you to propose a workshop directly to our event tools:<br />
+<a href="https://events.opensuse.org/conference/osc15/proposal" target="_blank">https://events.opensuse.org/conference/osc15/proposal</a></p>
+<p>Having a workshop run like a mini-hack sprint, would help any of us in the distribution and the project.<br />
+Be it like learn people how to submit nice package, how to do maintenance, or how to do bug triage.<br />
+<a href="//lizards.opensuse.org/wp-content/uploads/2015/01/li1.png"><img src="//lizards.opensuse.org/wp-content/uploads/2015/01/li1.png" alt="li1" width="248" height="287" class="aligncenter size-full wp-image-11197" /></a><br />
+I feel confident that you will have the creative approach to resolve your own problematic.<br />
+The event place has small rooms for unattended sessions and they could be used to extend your workshop to get some more work done.</p>
+<p>Some practical aspects:<br />
+oSC website : <a href="https://events.opensuse.org/conference/oSC15" target="_blank">https://events.opensuse.org/conference/oSC15</a></p>
+<p>And soon the travel support program for oSC 15 will be opened to handle your request about getting financial support for going to oSC.<br />
+<a href="https://connect.opensuse.org/travel-support/" target="_blank">https://connect.opensuse.org/travel-support/</a></p>
+<p>If you have any questions, thoughts or ideas, don&#8217;t hesitate to ask on -project mailing list<br />
+or ping me by reply.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2015/01/li3.png"><img src="//lizards.opensuse.org/wp-content/uploads/2015/01/li3.png" alt="" width="191" height="280" class="alignleft size-full wp-image-11199" /></a>A final note about the why you should do it? Well beside being one of our &#8220;heroes&#8221; even if nobody need them <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /><br />
+You and your co-maintainers will be able to explain your &#8220;job&#8221; on the project.<br />
+Don&#8217;t you want to inspire new comers, lead them directly to the right direction, and share the load.<br />
+Meeting you there, will also help our &#8220;marketing&#8221; force to light up a bit the work done in the shadow.</p>
+<p>I really will appreciate your presence, afterwards, it&#8217;s you that create our distribution.<br />
+The time has come for you to be warmly thank.</p>
+<p>I&#8217;m looking forward to see you there.</p>
+]]></content:encoded>
+			</item>
+		<item>
 		<title>Optimizing a boot time, aka 2 second boot</title>
-		<link>http://lizards.opensuse.org/2012/07/26/optimizing-a-boot-time-aka-2-second-boot/</link>
-		<comments>http://lizards.opensuse.org/2012/07/26/optimizing-a-boot-time-aka-2-second-boot/#comments</comments>
+		<link>https://lizards.opensuse.org/2012/07/26/optimizing-a-boot-time-aka-2-second-boot/</link>
+		<comments>https://lizards.opensuse.org/2012/07/26/optimizing-a-boot-time-aka-2-second-boot/#comments</comments>
 		<pubDate>Thu, 26 Jul 2012 13:30:07 +0000</pubDate>
 		<dc:creator><![CDATA[Michal Vyskocil]]></dc:creator>
 				<category><![CDATA[Base System]]></category>
@@ -159,13 +238,13 @@ $ systemd-analyze
 <p>There are a lot of factors slowing our boot &#8211; reducing it to 8 seconds is not that bad. One have to go carefully through blame and plot output to see what delays his computer in start. I would say making NetworkManager default one at least when installing laptop pattern would be nice and simple change as well as continue on <em>&#8220;systemdifization&#8221;</em> of openSUSE.</p>
 <p>There are few other tricks, which get us closer to the target time, but I&#8217;ll post them next day.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2012/07/26/optimizing-a-boot-time-aka-2-second-boot/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2012/07/26/optimizing-a-boot-time-aka-2-second-boot/feed/</wfw:commentRss>
 		<slash:comments>12</slash:comments>
 		</item>
 		<item>
 		<title>Boo</title>
-		<link>http://lizards.opensuse.org/2011/01/28/boo/</link>
-		<comments>http://lizards.opensuse.org/2011/01/28/boo/#comments</comments>
+		<link>https://lizards.opensuse.org/2011/01/28/boo/</link>
+		<comments>https://lizards.opensuse.org/2011/01/28/boo/#comments</comments>
 		<pubDate>Fri, 28 Jan 2011 15:34:14 +0000</pubDate>
 		<dc:creator><![CDATA[Michal Marek]]></dc:creator>
 				<category><![CDATA[Hackweek]]></category>
@@ -174,16 +253,15 @@ $ systemd-analyze
 
 		<guid isPermaLink="false">http://lizards.opensuse.org/?p=6501</guid>
 		<description><![CDATA[Arts, buffer, check, clutter, cobbler, colorblind, concurrent, convert, cook, crash, dialog, dump, expect, file, folks, fortune, genius, global, hello, indent, less, links, meanwhile, mirror, screen, sparse, suck, tree, units, words. What do these ordinary English words have in common? They are also names of software projects, which becomes a problem if you want to recognize [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>Arts, buffer, check, clutter, cobbler, colorblind, concurrent, convert, cook, crash, dialog, dump, expect, file, folks, fortune, genius, global, hello, indent, less, links, meanwhile, mirror, screen, sparse, suck, tree, units, words. What do these ordinary English words have in common? They are also names of software projects, which becomes a problem if you want to <a href="https://features.opensuse.org/311128">recognize package names in text</a>. I understand that in the old days, the name of a command or application was only relevant in the context of the computer it ran on, and file names had to be short. Some of these names have allowed for a variety of <a href="http://wiki.bash-hackers.org/misc/shell_humor">jokes</a>. But why, in the age of portable programs, WWW and search engines, can&#8217;t people come up with less ambiguous names? I mean, it&#8217;s not hard to join two words, or, at a minimum, prefix a word with a vowel, like, uhm, a round fruit does. <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /> </p>
+				<content:encoded><![CDATA[<p>Arts, buffer, check, clutter, cobbler, colorblind, concurrent, convert, cook, crash, dialog, dump, expect, file, folks, fortune, genius, global, hello, indent, less, links, meanwhile, mirror, screen, sparse, suck, tree, units, words. What do these ordinary English words have in common? They are also names of software projects, which becomes a problem if you want to <a href="https://features.opensuse.org/311128">recognize package names in text</a>. I understand that in the old days, the name of a command or application was only relevant in the context of the computer it ran on, and file names had to be short. Some of these names have allowed for a variety of <a href="http://wiki.bash-hackers.org/misc/shell_humor">jokes</a>. But why, in the age of portable programs, WWW and search engines, can&#8217;t people come up with less ambiguous names? I mean, it&#8217;s not hard to join two words, or, at a minimum, prefix a word with a vowel, like, uhm, a round fruit does. <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
 <p>Oh, and did I mention that we have over 160 packages with a 2-3 letter name? The one mentioned in the title is a <a href="http://boo.codehaus.org/">programming language</a>, btw.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2011/01/28/boo/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2011/01/28/boo/feed/</wfw:commentRss>
 		<slash:comments>2</slash:comments>
 		</item>
 		<item>
 		<title>Hackweek V: Local caching for CIFS network file system</title>
-		<link>http://lizards.opensuse.org/2010/06/14/hackweek-v-local-caching-for-cifs-network-file-system/</link>
-		<comments>http://lizards.opensuse.org/2010/06/14/hackweek-v-local-caching-for-cifs-network-file-system/#comments</comments>
+		<link>https://lizards.opensuse.org/2010/06/14/hackweek-v-local-caching-for-cifs-network-file-system/</link>
 		<pubDate>Mon, 14 Jun 2010 12:41:54 +0000</pubDate>
 		<dc:creator><![CDATA[Suresh Jayaraman]]></dc:creator>
 				<category><![CDATA[Network]]></category>
@@ -230,13 +308,11 @@ sys 0m8.569s</p>
 user 0m0.008s<br />
 sys 0m1.140s</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2010/06/14/hackweek-v-local-caching-for-cifs-network-file-system/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
+			</item>
 		<item>
 		<title>Novell Hackweek Five</title>
-		<link>http://lizards.opensuse.org/2010/05/28/novell-hackweek-fife/</link>
-		<comments>http://lizards.opensuse.org/2010/05/28/novell-hackweek-fife/#comments</comments>
+		<link>https://lizards.opensuse.org/2010/05/28/novell-hackweek-fife/</link>
+		<comments>https://lizards.opensuse.org/2010/05/28/novell-hackweek-fife/#comments</comments>
 		<pubDate>Fri, 28 May 2010 15:57:57 +0000</pubDate>
 		<dc:creator><![CDATA[Klaas Freitag]]></dc:creator>
 				<category><![CDATA[Boosters]]></category>
@@ -245,21 +321,20 @@ sys 0m1.140s</p>
 		<category><![CDATA[openFATE]]></category>
 
 		<guid isPermaLink="false">http://lizards.opensuse.org/?p=4195</guid>
-		<description><![CDATA[I am really looking forward to the next Hackweek that we have in Novell &#8211; it will be in the week from 7-11 of June 2010. In that week, Novell allows a whole lot of people to spend the full work time (and more to work on whatever free software they want. That is really [&#8230;]]]></description>
+		<description><![CDATA[I am really looking forward to the next Hackweek that we have in Novell &#8211; it will be in the week from 7-11 of June 2010. In that week, Novell allows a whole lot of people to spend the full work time (and more 😉 to work on whatever free software they want. That is [&#8230;]]]></description>
 				<content:encoded><![CDATA[<p><img src="http://en.opensuse.org/images/7/72/Hackfife.png" alt="Hackweek Five Logo" align="left" margin="5px"/>I am really looking forward to the next Hackweek that we have in Novell &#8211; it will be in the week from <strong>7-11 of June 2010</strong>.<br />
-In that week, Novell allows a whole lot of people to spend the full work time (and more <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif" alt=";-)" class="wp-smiley" />  to work on whatever free software they want. That is really a huge thing, because we&#8217;re talking about hundrets of engineers.<br />
+In that week, Novell allows a whole lot of people to spend the full work time (and more <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> to work on whatever free software they want. That is really a huge thing, because we&#8217;re talking about hundrets of engineers.<br />
 What everybody is working on is as said not at all prescribed, except that it should benefit the idea of free software. There is a <a href="https://features.opensuse.org/query/run?search_products%5B%5D=hackweek_5&#038;type=find">list maintained</a> of ideas which people have for <a href="https://features.opensuse.org/hackweek">Hackweek Five</a> in order to find somebody joining the team or to pick the idea up at all.<br />
 The good thing now is that of course <a href="https://features.opensuse.org">openFATE</a> is used to maintain this list and thus it is open for the openSUSE Community to also add ideas, comment or vote on whats already there. This is of course no guarantee that the idea is going to be picked up but still. So everybody who thinks she has an idea that will inspire someone on Hackweek Five, feel free to add it to openFATE and talk about.<br />
-Of course it is also possible and appreciated to work on Hackweek projects also as non Novell employee <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif" alt=":-)" class="wp-smiley" /><br />
+Of course it is also possible and appreciated to work on Hackweek projects also as non Novell employee <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /><br />
 Get in touch &#8211; it will be exciting!</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2010/05/28/novell-hackweek-fife/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2010/05/28/novell-hackweek-fife/feed/</wfw:commentRss>
 		<slash:comments>4</slash:comments>
 		</item>
 		<item>
 		<title>HackWeek III Day 2 &#8211; Diary Of An Outsider</title>
-		<link>http://lizards.opensuse.org/2008/08/28/hackweek-iii-day-2-diary-of-an-outsider/</link>
-		<comments>http://lizards.opensuse.org/2008/08/28/hackweek-iii-day-2-diary-of-an-outsider/#comments</comments>
+		<link>https://lizards.opensuse.org/2008/08/28/hackweek-iii-day-2-diary-of-an-outsider/</link>
 		<pubDate>Thu, 28 Aug 2008 10:20:21 +0000</pubDate>
 		<dc:creator><![CDATA[Andrew Wafaa]]></dc:creator>
 				<category><![CDATA[Events]]></category>
@@ -267,22 +342,20 @@ Get in touch &#8211; it will be exciting!</p>
 		<category><![CDATA[BBQ]]></category>
 
 		<guid isPermaLink="false">http://lizards.opensuse.org/?p=143</guid>
-		<description><![CDATA[So the fun and sun in Nurenberg continues Again day 2 started off very much as day 1 &#8211; lots of discussions.  This is not a bad thing, and maybe Novell would consider sponsoring a ChatWeek (it could be condensed into 2 or 3 days), it is a fact that communication is the one major [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>So the fun and sun in Nurenberg continues <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_biggrin.gif" alt=":D" class="wp-smiley" /> </p>
+		<description><![CDATA[So the fun and sun in Nurenberg continues 😀 Again day 2 started off very much as day 1 &#8211; lots of discussions.  This is not a bad thing, and maybe Novell would consider sponsoring a ChatWeek (it could be condensed into 2 or 3 days), it is a fact that communication is the one [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>So the fun and sun in Nurenberg continues <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f600.png" alt="&#x1f600;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
 <p>Again day 2 started off very much as day 1 &#8211; lots of discussions.  This is not a bad thing, and maybe Novell would consider sponsoring a ChatWeek (it could be condensed into 2 or 3 days), it is a fact that communication is the one major stumbling block that any company/community suffers from and Novell and openSUSE are no exception to this.</p>
 <p>We started with general discussions and continuing some of the discussions we had over dinner last night.  After lunch we then continued our discussions on openSUSE and what/how things could be improved &#8211; highly productive and very inspiring to get internal and external community members to speak honestly and bluntly about their thoughts and ideas.  <strong></strong></p>
 <p><strong>Note to the community (yes, all of you!):</strong> If you have thoughts on what or how to help imporve anything within the openSUSE universe speak up!!  If you&#8217;re not sure who or how to do so, the key contact details (in no particular order) are <a title="openSUSE Community Manager" href="http://zonker.opensuse.org">Zonker</a>, <a title="Communicating within openSUSE" href="http://en.opensuse.org/Communicate">opensuse-project mailing list</a>, <a title="openSUSE Project irc channel on freenode.net" href="irc://irc.freenode.net/opensuse-project">#opensuse-project</a> irc channel and of course the <a title="The openSUSE Board" href="http://en.opensuse.org/Board">openSUSE Board</a>.  One of the advantages of openSUSE is that you can pick things up and run with them, if you need any help just ask and people will rally around (sometimes it takes a bit of time but it does happen, honest).</p>
 <p>After all the discussions I had just enough time to grab a drink before the first <a title="openSUSE Marketing Team" href="http://en.opensuse.org/Marketing_Team">openSUSE Marketing Team</a> <a title="First openSUSE Marketing Team irc Meeting transcript" href="http://en.opensuse.org/Marketing_Team/Meetings/2008_08_26-transcript">irc meeting</a> took place.  This was shorter than I would personally have like, but that was down to one very important reason &#8211; the HackWeek BBQ!</p>
-<p>The BBQ was and is a great opportunity for people just to chat on all levels, and general have fun with some fine food and some fine Bavarian Beer &#8211; <a title="yaloki - the openSUSE jack of all trades" href="http://dev-loki.blogspot.com/">Pascal</a> will certainly disagree with me on the last point, but then again he is kind of correct; being Belgian he is used to a much wider variety and quality of beers, just go to <a title="Europe's premier Open Source event" href="http://fosdem.org">FOSDEM</a> to find out ;-)  You can see a montage of the video that I took over <a title="OMGWTFBBQ Montage" href="http://blip.tv/file/1210485">here</a> &#8211; yes I know it&#8217;s evil flash!</p>
+<p>The BBQ was and is a great opportunity for people just to chat on all levels, and general have fun with some fine food and some fine Bavarian Beer &#8211; <a title="yaloki - the openSUSE jack of all trades" href="http://dev-loki.blogspot.com/">Pascal</a> will certainly disagree with me on the last point, but then again he is kind of correct; being Belgian he is used to a much wider variety and quality of beers, just go to <a title="Europe's premier Open Source event" href="http://fosdem.org">FOSDEM</a> to find out <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" />  You can see a montage of the video that I took over <a title="OMGWTFBBQ Montage" href="http://blip.tv/file/1210485">here</a> &#8211; yes I know it&#8217;s evil flash!</p>
 <p>The party atmosphere went on long into the night and everyone managed to enjoy themselves.  Thank you SUSE for the fine food and beer, and thank you Pascal for bringing some prized Belgian beers for comparison with the Bavarian ones.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2008/08/28/hackweek-iii-day-2-diary-of-an-outsider/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
+			</item>
 		<item>
 		<title>Unifying Progress During Installation</title>
-		<link>http://lizards.opensuse.org/2008/08/27/hackweek-unifying-progress-during-installation/</link>
-		<comments>http://lizards.opensuse.org/2008/08/27/hackweek-unifying-progress-during-installation/#comments</comments>
+		<link>https://lizards.opensuse.org/2008/08/27/hackweek-unifying-progress-during-installation/</link>
+		<comments>https://lizards.opensuse.org/2008/08/27/hackweek-unifying-progress-during-installation/#comments</comments>
 		<pubDate>Wed, 27 Aug 2008 14:31:07 +0000</pubDate>
 		<dc:creator><![CDATA[Stanislav Visnovsky]]></dc:creator>
 				<category><![CDATA[Hackweek]]></category>
@@ -299,36 +372,33 @@ Get in touch &#8211; it will be exciting!</p>
 <li>Writing final configuration before reboot</li>
 </ol>
 <p>My goal for this hackweek is to unify them as much as possible. So, now I have something to show. The prototype works on openSUSE 11.0 Alpha2 and unifies steps 1-3. Here is a screenshot:</p>
-<p><a href="http://lizards.opensuse.org/wp-content/uploads/2008/08/yast-common-details-images.png"><img class="alignnone size-medium wp-image-139" src="http://lizards.opensuse.org/wp-content/uploads/2008/08/yast-common-details-images-300x225.png" alt="Installer deploying images, switched to the details view" width="300" height="225" /></a></p>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2008/08/yast-common-details-images.png"><img class="alignnone size-medium wp-image-139" src="http://lizards.opensuse.org/wp-content/uploads/2008/08/yast-common-details-images-300x225.png" alt="Installer deploying images, switched to the details view" width="300" height="225" srcset="https://lizards.opensuse.org/wp-content/uploads/2008/08/yast-common-details-images-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2008/08/yast-common-details-images.png 800w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2008/08/27/hackweek-unifying-progress-during-installation/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2008/08/27/hackweek-unifying-progress-during-installation/feed/</wfw:commentRss>
 		<slash:comments>3</slash:comments>
 		</item>
 		<item>
 		<title>HackWeek III Day 1 &#8211; Diary Of An Outsider</title>
-		<link>http://lizards.opensuse.org/2008/08/26/hackweek-iii-day-1-diary-of-an-outsider/</link>
-		<comments>http://lizards.opensuse.org/2008/08/26/hackweek-iii-day-1-diary-of-an-outsider/#comments</comments>
+		<link>https://lizards.opensuse.org/2008/08/26/hackweek-iii-day-1-diary-of-an-outsider/</link>
 		<pubDate>Tue, 26 Aug 2008 15:20:40 +0000</pubDate>
 		<dc:creator><![CDATA[Andrew Wafaa]]></dc:creator>
 				<category><![CDATA[Hackweek]]></category>
 
 		<guid isPermaLink="false">http://lizards.opensuse.org/?p=136</guid>
-		<description><![CDATA[After my disasterous attempt to travel out to Nurenberg on Sunday &#8211; I managed to get my passport stolen at security of all places (I thought I had lost it, but nothing found yet).  I managed to travel out first thing on Monday. The timing was perfect, I managed to get to the SUSE offices [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>After my disasterous attempt to travel out to Nurenberg on Sunday &#8211; I managed to get my passport stolen at security of all places <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_sad.gif" alt=":(" class="wp-smiley" />  (I thought I had lost it, but nothing found yet).  I managed to travel out first thing on Monday.</p>
+		<description><![CDATA[After my disasterous attempt to travel out to Nurenberg on Sunday &#8211; I managed to get my passport stolen at security of all places 🙁 (I thought I had lost it, but nothing found yet).  I managed to travel out first thing on Monday. The timing was perfect, I managed to get to the SUSE [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>After my disasterous attempt to travel out to Nurenberg on Sunday &#8211; I managed to get my passport stolen at security of all places <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f641.png" alt="&#x1f641;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> (I thought I had lost it, but nothing found yet).  I managed to travel out first thing on Monday.</p>
 <p><img src="http://farm4.static.flickr.com/3209/2798787693_03058aab8b_b.jpg" alt="Geekos and Tux" width="1024" height="768" /></p>
 <p>The timing was perfect, I managed to get to the SUSE offices in NUE just in time to drop my bags and meet up with Andreas for a little tour/familiarisation of the site.  This was great because we (openSUSE invited about 10 community members to NUE) got to see a load of the great folks that work on the project and see how they do it (including the ever elusive Beineri:</p>
 <p><img src="http://farm4.static.flickr.com/3098/2799637348_1a20d6bbde_b.jpg" alt="Stephan Binner" width="1024" height="768" /></p>
 <p>We then had a pleasant brunch, and afterwards sat down to start hacking on our respective projects.</p>
-<p>So what is one doing for HackWeek? Well it isnt exactly hacking (well not initially although I may have to so I can get the end product out); I&#8217;m hoping to do some videos of HackWeek, both documentary style(ish) and some interviews.  Why do I say &#8220;hoping&#8221;? Well I&#8217;ve hardly filmed anything <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_sad.gif" alt=":(" class="wp-smiley" />  I have been way too busy discussing and speaking about openSUSE with people.</p>
-<p>Day 1 was very much a ChatWeek moment rather than HackWeek :-)  The chatting took place all around the offices, and even in Meeting Rooms where we discussed many aspects of the project.  I continued chatting with fellow openSUSE peeps over dinner and well into the night:</p>
+<p>So what is one doing for HackWeek? Well it isnt exactly hacking (well not initially although I may have to so I can get the end product out); I&#8217;m hoping to do some videos of HackWeek, both documentary style(ish) and some interviews.  Why do I say &#8220;hoping&#8221;? Well I&#8217;ve hardly filmed anything <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f641.png" alt="&#x1f641;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> I have been way too busy discussing and speaking about openSUSE with people.</p>
+<p>Day 1 was very much a ChatWeek moment rather than HackWeek <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" />  The chatting took place all around the offices, and even in Meeting Rooms where we discussed many aspects of the project.  I continued chatting with fellow openSUSE peeps over dinner and well into the night:</p>
 <p><img src="http://farm4.static.flickr.com/3144/2799655198_2b26a9c2a3_o.jpg" alt="Chatting over dinner" width="768" height="1024" /></p>
 <p><img src="http://farm4.static.flickr.com/3075/2799658588_c91969bafc_o.jpg" alt="Chatting into the night" width="768" height="1024" /></p>
-<p>It isn&#8217;t all chatting though, some people did manage to get some coding done albeit in between chats :-)  By the way Andreas isn&#8217;t laughing at the code quality and Benji isn&#8217;t playing an advanced level of nethack &#8211; honest!</p>
+<p>It isn&#8217;t all chatting though, some people did manage to get some coding done albeit in between chats <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" />  By the way Andreas isn&#8217;t laughing at the code quality and Benji isn&#8217;t playing an advanced level of nethack &#8211; honest!</p>
 <p><img src="http://farm4.static.flickr.com/3237/2798827005_ee7d844cb3_o.jpg" alt="Actually hacking" width="768" height="1024" /></p>
-<p>I&#8217;m certainly hoping to be able to get some video recorded on Day 2, but these people at SUSE are just so damned social that it&#8217;s really hard!! <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_biggrin.gif" alt=":D" class="wp-smiley" /> </p>
+<p>I&#8217;m certainly hoping to be able to get some video recorded on Day 2, but these people at SUSE are just so damned social that it&#8217;s really hard!! <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f600.png" alt="&#x1f600;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2008/08/26/hackweek-iii-day-1-diary-of-an-outsider/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
+			</item>
 	</channel>
 </rss>

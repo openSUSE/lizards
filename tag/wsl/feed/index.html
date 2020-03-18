@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>WSL &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/wsl/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>using YaST firstboot wizard in WSL</title>
+		<link>https://lizards.opensuse.org/2019/11/21/using-yast-firstboot-wizard-in-wsl/</link>
+		<comments>https://lizards.opensuse.org/2019/11/21/using-yast-firstboot-wizard-in-wsl/#comments</comments>
+		<pubDate>Thu, 21 Nov 2019 12:29:04 +0000</pubDate>
+		<dc:creator><![CDATA[lnussel]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Uncategorized]]></category>
+		<category><![CDATA[YaST]]></category>
+		<category><![CDATA[WSL]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=14173</guid>
+		<description><![CDATA[When starting a WSL distribution for the first time, a text prompt for user name and password appears: The code for that is partially in the Windows launcher. The Windows side actually prompts for the user name: https://github.com/microsoft/WSL-DistroLauncher/blob/master/DistroLauncher/DistroLauncher.cpp#L44 and passes it to &#8216;adduser&#8217;: https://github.com/microsoft/WSL-DistroLauncher/blob/1f8551f7e2ea22bba2e6fb02f01e7a5f7fb757f3/DistroLauncher/DistributionInfo.cpp#L14 That seems to be a Debian specific tool that also prompts [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>When starting a WSL distribution for the first time, a text prompt for user name and password appears:</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/10/wsl-u.png"><img class="alignnone size-medium wp-image-14137" src="//lizards.opensuse.org/wp-content/uploads/2019/10/wsl-u-300x52.png" alt="" width="300" height="52" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/10/wsl-u-300x52.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/10/wsl-u-768x133.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/10/wsl-u.png 769w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>The code for that is partially in the Windows launcher. The Windows side actually prompts for the user name:<br />
+<a href="https://github.com/microsoft/WSL-DistroLauncher/blob/master/DistroLauncher/DistroLauncher.cpp#L44">https://github.com/microsoft/WSL-DistroLauncher/blob/master/DistroLauncher/DistroLauncher.cpp#L44</a></p>
+<p>and passes it to &#8216;adduser&#8217;:<br />
+<a href="https://github.com/microsoft/WSL-DistroLauncher/blob/1f8551f7e2ea22bba2e6fb02f01e7a5f7fb757f3/DistroLauncher/DistributionInfo.cpp#L14">https://github.com/microsoft/WSL-DistroLauncher/blob/1f8551f7e2ea22bba2e6fb02f01e7a5f7fb757f3/DistroLauncher/DistributionInfo.cpp#L14</a></p>
+<p>That seems to be a Debian specific tool that also prompts for a password. We don&#8217;t have it in openSUSE. When done, the Windows part actually calls into the Linux environment again with &#8216;id -u&#8217; to get the uid of the added user:<br />
+<a href="https://github.com/microsoft/WSL-DistroLauncher/blob/1f8551f7e2ea22bba2e6fb02f01e7a5f7fb757f3/DistroLauncher/DistributionInfo.cpp#L44">https://github.com/microsoft/WSL-DistroLauncher/blob/1f8551f7e2ea22bba2e6fb02f01e7a5f7fb757f3/DistroLauncher/DistributionInfo.cpp#L44</a></p>
+<p>So in order to also prompt for the password we&#8217;d have to write a wrapper like the Debian one or implement another prompt in the launcher. Implementing such a prompt in Windows code seems boring to me. When writing a wrapper, I&#8217;d do something dialog based to make it look more fancy. There&#8217;s already <a href="https://github.com/openSUSE/jeos-firstboot">jeos-firstboot</a> that does something similar already and more. But then the WSL image doesn&#8217;t have to be really minimal, which means we have YaST!</p>
+<p>So even though WSL doesn&#8217;t really boot as it has no systemd it would be still possible to run the YaST firstboot wizard on first start. What modules it launches is configurable via xml file. So leaving out hardware/VM specific things like network configuration it works pretty well:</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-1.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-1-300x234.png" alt="" width="300" height="234" class="alignnone size-medium wp-image-14183" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-1-300x234.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-1-768x600.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-1.png 800w" sizes="(max-width: 300px) 100vw, 300px" /></a><br />
+<a href="//lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-2.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-2-300x234.png" alt="" width="300" height="234" class="alignnone size-medium wp-image-14185" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-2-300x234.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-2-768x600.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-2.png 800w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-3.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-3-300x234.png" alt="" width="300" height="234" class="alignnone size-medium wp-image-14186" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-3-300x234.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-3-768x600.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-3.png 800w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-4.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-4-300x234.png" alt="" width="300" height="234" class="alignnone size-medium wp-image-14187" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-4-300x234.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-4-768x600.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-4.png 800w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>For the launcher to know the name of the created user a small <a href="https://build.opensuse.org/package/view_file/Virtualization:WSL/yast2-firstboot-wsl/firstboot_write_wsl.rb?expand=1">YaST module</a> was needed to write the name into /run/wsl_firstboot_uid. The launcher fetches it from there.</p>
+<p>Using the YaST firstboot wizard also allows to use e.g. the existing registration dialogs on SLE or add other useful configuration steps. One feature I have in mind would be for example is the role selection screen to offer some pre defined package selections for WSL use cases.</p>
+<p>Tumbleweed and Leap appx files to test this are available from <a href="https://download.opensuse.org/repositories/Virtualization:/WSL/">download.opensuse.org</a>. Keep in mind that one needs to <a href="https://en.opensuse.org/WSL/Manual_Installation">import the certificates</a> used by OBS for signing first.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2019/11/21/using-yast-firstboot-wizard-in-wsl/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+	</channel>
+</rss>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	
+	>
+<channel>
+	<title>Comments on: A New Font Repository</title>
+	<atom:link href="https://lizards.opensuse.org/2012/05/21/a-new-font-repository/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org/2012/05/21/a-new-font-repository/</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 17:50:09 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>By: Niki</title>
+		<link>https://lizards.opensuse.org/2012/05/21/a-new-font-repository/#comment-7500</link>
+		<dc:creator><![CDATA[Niki]]></dc:creator>
+		<pubDate>Tue, 29 May 2012 08:01:40 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8668#comment-7500</guid>
+		<description><![CDATA[[CODE]#!/bin/bash
+#download fonts from www.dafont.com
+
+echo &quot;To Download type number&quot;
+
+echo &quot;Retro - 115&quot;
+echo &quot;Fancy Initials - 116&quot;
+echo &quot;Grid - 117&quot;
+echo &quot;Russian - 205&quot;
+echo &quot;Medieval - 401&quot;
+echo &quot;Gothic Initials - 404&quot;
+echo &quot;Sans serif - 501&quot;
+echo &quot;Serif - 502&quot;
+echo &quot;Fixed width - 503&quot;
+echo &quot;Calligraphy - 601&quot;
+echo &quot;Ancient - 704&quot;
+echo &quot;Shapes - 710&quot;
+echo &quot;Bar Code - 711&quot;
+echo &quot;Nature - 712&quot;
+echo &quot;Sport - 713&quot;
+echo &quot;Logos - 717&quot;
+echo &quot;Music - 720&quot;
+echo &quot;VariousD - 721&quot;
+
+
+read n
+clear
+echo &quot;Wait downloading....&quot;
+mkdir dafonts/$n
+URL=&quot;http://www.dafont.com/theme.php?cat=$n&quot;
+#сваля инфо
+lynx -dump $URL &#062; l.html
+
+#показва линковете за страниците
+cat l.html &#124; awk &quot;/${n}/&#038;&#038;/page/&quot;&#124;awk &#039;!/null/ {print $2}&#039; &#124;uniq &#124;sort -u &#062;&#062; pages.txt
+
+
+#сваляне на всички страниците
+cat pages.txt&#124;while read url;do lynx -dump &quot;${url}&quot; &#062;&#062; l.html;done
+
+#от 1 страница
+cat l.html &#124; awk &#039;/img/&#124;&#124;/dl/&#039;&#124;sort -u &#124;awk &#039;!/demo/ {print $2}&#039; &#062;&#062; fonts.txt
+
+wget --content-disposition -qci fonts.txt -P ~/dafonts/$n
+
+f=`cat l.html&#124;head -22&#124;tail -2&#124;cut -d\&#062; -f2`
+
+
+cd ~/dafonts
+mv $n $f
+cd $f
+b=`ls &#124;wc -l`
+echo &quot; $b fonts downloaded &quot;
+cd ~/
+rm fonts.txt l.html pages.txt
+exit
+[CODE]]]></description>
+		<content:encoded><![CDATA[<p>[CODE]#!/bin/bash<br />
+#download fonts from <a href="http://www.dafont.com" rel="nofollow">http://www.dafont.com</a></p>
+<p>echo &#8220;To Download type number&#8221;</p>
+<p>echo &#8220;Retro &#8211; 115&#8221;<br />
+echo &#8220;Fancy Initials &#8211; 116&#8221;<br />
+echo &#8220;Grid &#8211; 117&#8221;<br />
+echo &#8220;Russian &#8211; 205&#8221;<br />
+echo &#8220;Medieval &#8211; 401&#8221;<br />
+echo &#8220;Gothic Initials &#8211; 404&#8221;<br />
+echo &#8220;Sans serif &#8211; 501&#8221;<br />
+echo &#8220;Serif &#8211; 502&#8221;<br />
+echo &#8220;Fixed width &#8211; 503&#8221;<br />
+echo &#8220;Calligraphy &#8211; 601&#8221;<br />
+echo &#8220;Ancient &#8211; 704&#8221;<br />
+echo &#8220;Shapes &#8211; 710&#8221;<br />
+echo &#8220;Bar Code &#8211; 711&#8221;<br />
+echo &#8220;Nature &#8211; 712&#8221;<br />
+echo &#8220;Sport &#8211; 713&#8221;<br />
+echo &#8220;Logos &#8211; 717&#8221;<br />
+echo &#8220;Music &#8211; 720&#8221;<br />
+echo &#8220;VariousD &#8211; 721&#8221;</p>
+<p>read n<br />
+clear<br />
+echo &#8220;Wait downloading&#8230;.&#8221;<br />
+mkdir dafonts/$n<br />
+URL=&#8221;http://www.dafont.com/theme.php?cat=$n&#8221;<br />
+#сваля инфо<br />
+lynx -dump $URL &gt; l.html</p>
+<p>#показва линковете за страниците<br />
+cat l.html | awk &#8220;/${n}/&amp;&amp;/page/&#8221;|awk &#8216;!/null/ {print $2}&#8217; |uniq |sort -u &gt;&gt; pages.txt</p>
+<p>#сваляне на всички страниците<br />
+cat pages.txt|while read url;do lynx -dump &#8220;${url}&#8221; &gt;&gt; l.html;done</p>
+<p>#от 1 страница<br />
+cat l.html | awk &#8216;/img/||/dl/&#8217;|sort -u |awk &#8216;!/demo/ {print $2}&#8217; &gt;&gt; fonts.txt</p>
+<p>wget &#8211;content-disposition -qci fonts.txt -P ~/dafonts/$n</p>
+<p>f=`cat l.html|head -22|tail -2|cut -d\&gt; -f2`</p>
+<p>cd ~/dafonts<br />
+mv $n $f<br />
+cd $f<br />
+b=`ls |wc -l`<br />
+echo &#8221; $b fonts downloaded &#8221;<br />
+cd ~/<br />
+rm fonts.txt l.html pages.txt<br />
+exit<br />
+[CODE]</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

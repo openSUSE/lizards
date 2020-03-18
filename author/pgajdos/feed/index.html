@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Petr Gajdos &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/author/pgajdos/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>yast-fonts got user mode</title>
+		<link>https://lizards.opensuse.org/2015/04/29/yast-fonts-got-user-mode/</link>
+		<pubDate>Wed, 29 Apr 2015 12:15:10 +0000</pubDate>
+		<dc:creator><![CDATA[Petr Gajdos]]></dc:creator>
+				<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11383</guid>
+		<description><![CDATA[as I promised in fonts @ openSUSE, I have given per user yast-fonts setting a try in the last hackweek. The user setting is built on the top of distribution setting the same way as system setting is in system mode. See help of the module for more details. With some exceptions, setting in ~/.config/fontconfig/fonts.conf [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>as I promised in <a href="//lizards.opensuse.org/2015/02/17/fonts-opensuse/">fonts @ openSUSE</a>, I have given per user <code>yast-fonts</code> setting a try in the last hackweek.</p>
+<p><a href="https://lizards.opensuse.org/wp-content/uploads/2015/04/yast-fonts-user.png"><img class="alignnone wp-image-11384 size-full" src="https://lizards.opensuse.org/wp-content/uploads/2015/04/yast-fonts-user.png" alt="yast-fonts-user" width="606" height="664" srcset="https://lizards.opensuse.org/wp-content/uploads/2015/04/yast-fonts-user.png 606w, https://lizards.opensuse.org/wp-content/uploads/2015/04/yast-fonts-user-274x300.png 274w" sizes="(max-width: 606px) 100vw, 606px" /></a></p>
+<p>The <i>user setting</i> is built on the top of <i>distribution setting</i> the same way as <i>system setting</i> is in system mode. See help of the module for more details.</p>
+<p>With some exceptions, setting in <code>~/.config/fontconfig/fonts.conf</code> should have a precedence over yast-fonts setting. But anyway, I would not combine <code>yast-fonts</code> user mode with other user font setting tools.</p>
+<p>This also required to add user support to <code>fonts-config</code>. <code>yast-fonts</code> 3.1.13 and <code>fonts-config</code> 20150424 are on its way to Tumbleweed. User mode is experimental these days, we will see if it is viable.</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>fonts @ openSUSE</title>
+		<link>https://lizards.opensuse.org/2015/02/17/fonts-opensuse/</link>
+		<comments>https://lizards.opensuse.org/2015/02/17/fonts-opensuse/#comments</comments>
+		<pubDate>Tue, 17 Feb 2015 09:55:58 +0000</pubDate>
+		<dc:creator><![CDATA[Petr Gajdos]]></dc:creator>
+				<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[X.org]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11254</guid>
+		<description><![CDATA[Since I maintain fontconfig, time to time I hear contradicting opinions which font families should be used in the system if not said otherwise, i. e. which families should be preferred for sans, serif and monospace generic aliases and how they should be rendered. Bug reports I got was talking about overall system defaults, concerning [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Since I maintain <em>fontconfig,</em> time to time I hear contradicting opinions which font families should be used in the system if not said otherwise, i. e. which families should be preferred for <strong>sans, serif </strong>and <strong>monospace</strong> generic aliases and how they should be <strong>rendered.</strong> Bug reports I got was talking about overall system defaults, concerning fontconfig rules therefore.</p>
+<p>General idea was to weaken the word <em>&#8216;default&#8217;</em> in regard to font setting by creating a direct window into basic fontconfig setting of the system (of course: for advanced effects, fontconfig xml coding is still needed).</p>
+<p>For my convenience, <strong>YaST</strong> framework was used and new module called <strong>fonts</strong> had seen the light of the day not long ago. It is <a href="http://software.opensuse.org/package/yast2-fonts?search_term=yast2-fonts">packaged</a> as <strong>yast2-fonts</strong> in <em>Tumbleweed</em> and in my <a href="https://build.opensuse.org/package/show?project=home%3Apgajdos%3Afont-setting&amp;package=yast2-fonts">home</a> for <em>openSUSE 13.2.</em></p>
+<p style="text-align: center"><a href="//lizards.opensuse.org/wp-content/uploads/2015/02/yast-fonts-tabS.gif"><img class="alignnone wp-image-11264 size-full" src="//lizards.opensuse.org/wp-content/uploads/2015/02/yast-fonts-tabS-e1424177083891.gif" alt="yast-fonts-tabS" width="600" height="394" /></a></p>
+<p style="text-align: left">I hope that, together with <a href="http://fontinfo.opensuse.org/">fontinfo.o.o</a>, tuning your fonts will be much easier!</p>
+<p style="text-align: left">Certainly, this module is not done. Firstly, I would like to fix bugs which users will meet. After this stabilizing period, perhaps next hackweek, I will consider how hard would be to add per-user setting capability to <em>fonts-config </em>script, which would almost automatically mean per-user<em> </em>font setting capability in the module itself.</p>
+<p style="text-align: left">HTH</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2015/02/17/fonts-opensuse/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+	</channel>
+</rss>

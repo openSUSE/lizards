@@ -1,0 +1,179 @@
+#coding:utf-8
+import yui
+import zypp
+import os
+import sys
+
+factory = yui.YUI.widgetFactory()
+dialog = factory.createMainDialog()
+
+
+#######
+# GUI #
+#######
+
+#
+# What do we need ?
+# a VBOX ! dialog can hold only 1 widget, a VBox stacks multiple widgets vertically
+mainVBox = factory.createVBox(dialog)
+#
+# a HBox for the upper part
+upperHBox = factory.createHBox(mainVBox)
+upperHBox.setWeight(1, 10) # 1 = vertical, 10 % size
+#
+# a Logwindow for the output
+
+lowerLog = factory.createLogView(mainVBox, "Output", 4, 200)
+lowerLog.setWeight(1, 90) # 1 = vertical, 90 % size
+#
+# let's add the input/combo/buttons to #1
+#
+# Input
+myInput = factory.createInputField(upperHBox, "Repository URL")
+myInput.setValue("http://software.opensuse.org/repositories/home:/dl9pf:/yuitest/openSUSE_11.0/")
+myInput.setStretchable( 0, True ) # stretch the inputbox (0 = horizontally)
+#
+# ComboBox
+myComboBox = factory.createComboBox(upperHBox, "Repository type")
+myComboBox.addItem("RPM-MD")
+myComboBox.setNotify()
+#
+# "Go"-Button
+myGO = factory.createPushButton(upperHBox, "GO!")
+myGO.setStretchable( 1, True ) # strech it vertically
+#
+# Close
+Close = factory.createPushButton(mainVBox, "Close")
+
+#############
+# ZYpp init #
+#############
+repoTmpPath = "/tmp/repoTmpPath"
+#
+# remove old
+if os.path.exists(repoTmpPath):
+    for root, dirs, files in os.walk(repoTmpPath, topdown=False):
+        print str(root)+" "+str(dirs)+" "+str(files)
+        for name in files:
+            os.remove(os.path.join(root, name))
+        for name in dirs:
+            os.rmdir(os.path.join(root, name))
+    os.removedirs(repoTmpPath)
+    os.makedirs(repoTmpPath)
+else:
+    os.makedirs(repoTmpPath)
+
+myZypp = zypp.ZYppFactory_instance().getZYpp()
+myTarget = myZypp.initializeTarget(zypp.Pathname(repoTmpPath))
+repoManagerOptions = zypp.RepoManagerOptions(zypp.Pathname(repoTmpPath))
+repoManager = zypp.RepoManager(repoManagerOptions)
+pool = myZypp.pool()
+
+
+
+
+#############
+# functions #
+#############
+def checkRepo(myRepoString):
+    # check for availability 
+    # remove old repos , we want a _clean_ run
+    for repo in repoManager.knownRepositories():
+        try:
+            repoManager.removeRepository(repo)
+        except: # no clue what possibly could happen here
+            e = sys.exc_info()[1]
+            lowerLog.appendLines("Error: "+str(e)+"\n")
+    #
+    # construct a repoInfo
+    myRepoInfo = zypp.RepoInfo()
+    myRepoInfo.addBaseUrl(zypp.Url(myRepoString))
+    myRepoInfo.setAlias("default")
+    myRepoInfo.setName("default")
+    myRepoInfo.setEnabled(True)
+    myRepoInfo.setType(zypp.RepoType.RPMMD) # for now
+    myRepoInfo.setGpgCheck(False)
+    return myRepoInfo
+
+def getRepoData(myRepoInfo):
+    # get metadata
+    #
+    # add repo
+    try:  # RuntimeError s can happen here
+        result = repoManager.addRepository(myRepoInfo)
+        result = repoManager.refreshMetadata(myRepoInfo)
+        result = repoManager.buildCache(myRepoInfo)
+        result = repoManager.loadFromCache(myRepoInfo)
+    except RuntimeError:
+        e = sys.exc_info()[1]
+        lowerLog.appendLines("Error: "+str(e)+"\n")
+    except:
+        e = sys.exc_info()[1]
+        lowerLog.appendLines("Error: "+str(e)+"\n")
+
+
+def listRepo():
+    # list packages
+    #
+    # clear the logwindow
+    lowerLog.clearText()
+    #
+    # try to iterate over the pool
+    try:
+        msg = "" 
+        #
+        # iterate over the pool
+        for item in pool:
+            #
+            # only packages, no sources/patches
+            if zypp.isKindPackage(item):
+                msg += "Name: "
+                msg += str(item.name())
+                msg += "  - "
+                msg += "Version: "
+                msg += str(zypp.asKindPackage(item).edition())
+                msg += "  - "
+                msg += "Summary: "
+                msg += str(zypp.asKindPackage(item).summary())
+                msg += "\n"
+                lowerLog.appendLines(str(msg))
+    except:
+        e = sys.exc_info()[1]
+        lowerLog.appendLines("Error: "+str(e)+"\n")
+    #
+    # Mark end
+    lowerLog.appendLines(str("#############################################\n"))
+    lowerLog.appendLines(str("################## D o n e ####################\n"))
+    lowerLog.appendLines(str("#############################################\n"))
+
+
+#############
+# EVENTLOOP #
+#############
+#
+while True:
+    # wait for the next event and return it
+    event = dialog.waitForEvent()
+    if not event: # no event ? skip !
+        continue
+    #
+    # [x] in the top right corner ;)
+    if event.eventType() == yui.YEvent.CancelEvent: 
+        dialog.destroy() # bail out
+        break
+    #
+    # check widgets …
+    if event.widget() == myGO:
+        # read input again
+        repoString = myInput.value()
+        lowerLog.appendLines( str( "Repository URL set to : "+str(repoString) ) )
+        lowerLog.appendLines("\n")
+        #todo:
+        repoInfo = checkRepo(repoString)
+        getRepoData(repoInfo)
+        listRepo()
+    #
+    # Close / Quit
+    if event.widget() == Close:
+        dialog.destroy() # bail out
+        break

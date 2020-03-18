@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>nexus &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/nexus/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>How I ran openSUSE on a Nexus 7</title>
+		<link>https://lizards.opensuse.org/2013/09/22/how-i-ran-opensuse-on-a-nexus-7/</link>
+		<pubDate>Sun, 22 Sep 2013 09:21:22 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[nexus]]></category>
+		<category><![CDATA[raspberry]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9935</guid>
+		<description><![CDATA[The Nexus 7 (2012 version) is a 7 inch tablet by Google+Asus. The nice thing about it is, that it has an unlockable bootloader. Also it has an armv7 CPU and we built openSUSE for this CPU for some years. I had one such device with a broken display, so doing some more risky things [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The Nexus 7 (2012 version) is a 7 inch tablet by Google+Asus.<br />
+The nice thing about it is, that it has an unlockable bootloader. Also it has an armv7 CPU and we built openSUSE for this CPU for some years. I had one such device with a broken display, so doing some more risky things with it seemed to be appropriate.<br />
+I wanted to run my own software on it. Running openSUSE in a chroot (change-root) environment is usually a lot easier than replacing the whole system, so this is where I went.</p>
+<p>First, I needed two tools. One is the &#8220;adb&#8221; &#8211; Android DeBug tool from the official sdk and the other is &#8220;fastboot&#8221; which was hard to find, so I <a href="http://www.zq1.de/bernhard/mirror/android/fastboot.zip">mirror it here</a>.<br />
+I got me the stable ROM from <a href="http://wiki.cyanogenmod.org/w/Grouper_Info">http://wiki.cyanogenmod.org/w/Grouper_Info</a> and followed their installation instructions. adb shell only seemed to work while in bootloader (which you reach by holding Volume-Down+Power during boot)<br />
+The hardest part was to <a href="http://developer.android.com/tools/device.html#setting-up">re-enable USB-debugging</a> by going into Settings/About tablet and tapping Build-Number seven times.</p>
+<p>Also before zapping everything that was there, I did in adb shell : <code>cp -a /system/app /sdcard/</code><br />
+and back later.<br />
+So after following all the other installation steps, I had cyanogenmod booting. I attached a bluetooth keyboard so that I can better type. The ROM comes with a terminal app, which I opened. type <code>su -</code> to become root after a security popup.<br />
+Now, I downloaded my lastest Raspberry-Pi image from <a href="http://www.zq1.de/bernhard/linux/opensuse/">http://www.zq1.de/bernhard/linux/opensuse/</a>. This is under /sdcard/Download where I unpacked it with xz -d<br />
+Then comes the tricky part. The image has a partition table, but here we just need the root filesystem. With <code>fdisk -lu</code> we can see that it starts at sector 309248. One could copy out that part with dd or use a loop device with offset like this:<br />
+<code>#!/system/xbin/sh<br />
+mknod /dev/loop0 b 7 0<br />
+losetup -d /dev/loop0 # cleanup of previous try<br />
+losetup -o `expr 512 \* 309248` /dev/loop0 rasp*img<br />
+mkdir -p mnt<br />
+mount -t ext2 /dev/loop0 mnt<br />
+</code></p>
+<p>Now we have access to the openSUSE files under mnt.<br />
+In there I created me a chroot.sh:<br />
+<code>#!/system/xbin/sh<br />
+for m in proc sys dev ; do    mount -o bind /$m $m ; done<br />
+HOME=/root PATH=/sbin:/usr/sbin:/usr/local/sbin:/root/bin:/usr/local/bin:/usr/bin:/bin:/usr/bin/X11:/usr/X11R6/bin /system/xbin/chroot . bin/bash<br />
+for m in proc sys dev ; do    umount $m ; done<br />
+</code></p>
+<p>With that, the only remaining thing to do was to add a nameserver line to /etc/resolv.conf before I could use zypper to install software e.g. <code>zypper install yast2-network yast2-ncurses</code>.<br />
+Running <code>yast lan</code> on the Nexus 7 <a href="https://plus.google.com/photos/108928462394474625418/albums/5701558097275278593/5926357383234418210">gives nice sight</a>.</p>
+<p>I guess one could also use <a href="http://download.opensuse.org/ports/armv7hl/distribution/12.3/images/openSUSE-12.3-ARM-JeOS-rootfs.armv7l-1.12.1-Build47.1.tbz">the armv7 rootfs</a> to have software built for armv7 instead of the compatible armv6. But for me it does not matter much.</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

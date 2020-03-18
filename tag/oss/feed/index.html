@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>OSS &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/oss/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Linux audio library smackdown part2: Pulseaudio</title>
+		<link>https://lizards.opensuse.org/2015/01/27/linux-audio-library-smackdown-part2-pulseaudio/</link>
+		<comments>https://lizards.opensuse.org/2015/01/27/linux-audio-library-smackdown-part2-pulseaudio/#comments</comments>
+		<pubDate>Tue, 27 Jan 2015 08:02:59 +0000</pubDate>
+		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
+				<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[ALSA]]></category>
+		<category><![CDATA[Audio]]></category>
+		<category><![CDATA[OSS]]></category>
+		<category><![CDATA[Pulseaudio]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11207</guid>
+		<description><![CDATA[Oh yes.. those were great times! Open Sound System was rocking my Linux based sound system and I was having a time of my life. Like we all know good doesn&#8217;t last long. Soon after happiness I find out that OSS couldn&#8217;t do recording and playing (full duplex) same time. Fiery same time this was [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Oh yes.. those were great times! Open Sound System was rocking my Linux based sound system and I was having a time of my life. Like we all know good doesn&#8217;t last long. Soon after happiness I find out that OSS couldn&#8217;t do recording and playing (full duplex) same time. Fiery same time this was working on Windows 98 very well. I was shocked how the heck my Linux box is so <strong>borked</strong>? Luckily times were changing and this time they formed only better. ALSA was about to take over OSS in Kernel version 2.6. Why I&#8217;m talking about ALSA and OSS when I should talk about Pulseaudio? Read further to find out why or go examples for Pulseaudio here: <a title="Pulseaudio examples" href="https://github.com/illuusio/linux-audio-example/tree/master/pulseaudio">https://github.com/illuusio/linux-audio-example/tree/master/pulseaudio</a><span id="more-11207"></span></p>
+<h2>Open Sound System</h2>
+<p>First let&#8217;s talk about <a title="OSS" href="http://en.wikipedia.org/wiki/Open_Sound_System">Open Sound System</a> first before going to ALSA. After that we talk about todays topic: Pulseaudio.  I recall correct OSS was the first sound system that provided support for audio in Linux kernel. Even today it&#8217;s emulated by ALSA and you can use it as output with Pulseaudio. Real OSS still lives as Proprietary library and it&#8217;s implemented in several OS like FreeBSD.<br />
+If you look OSS as API point of view it&#8217;s very blocking because it uses heavily IOCTL-calls and because they are direct memory calls you have to wait. Only reason I can imagine why someone wants to support OSS in new application is trying to support whole UNIX family. If it&#8217;s not must then trust me you don&#8217;t want OSS. Event lack of duplex audio wasn&#8217;t biggest problem at late &#8217;90.  I had Gravis Ultrasound and OSS support sucked a lot. ALSA wasn&#8217;t even pre-alpha and without thinking I jumped that rapidly moving wagon.</p>
+<h2>ALSA</h2>
+<p><a title="ALSA" href="http://www.alsa-project.org/main/index.php/Main_Page">Advanced Linux Sound Architecture</a> is current Linux Audio API. You should use it for new applications and it has impressive set of supported audio chips. I haven&#8217;t find a single audio hardware that doesn&#8217;t work. Only problem with ALSA is that is so stable that it&#8217;s getting little bit too mature. times have change from &#8217;90 and ALSA is starting look not fantastic like I thought about it first but just OK.<br />
+Getting your hardware working is not the complicated case with ALSA. Hard part comes whne you want set up more complicated patterns like USB audio, Bluetooth or send audio to another machine for playing.</p>
+<p>Nowadays Every other platforms than Linux desktop had neat audio servers. There have been several attempts for Linux also <a href="http://en.wikipedia.org/wiki/ESound">ESD</a>,<a href="http://en.wikipedia.org/wiki/ARts"> KDE audio server</a> and several others that never reached much attention. There is also JACK but it&#8217;s again little bit too hard to use and not for old morons like me. Believe I have use it for high-end stuff and I cannot recommend it more but when you just want your audio come from the speaker without routing it half an hour then Pulseaudio is just better, sorry you can hate me being old senile fart.</p>
+<h2>Pulseaudio</h2>
+<p><strong>Supported outputs:</strong> Alsa, Oss, Jack, Mac OS X, Windows<br />
+<strong>License:</strong> GNU Lesser General Public License 2.1</p>
+<p>So why we talked ALSA and OSS? Because Pulseaudio doesn&#8217;t handle sound cards. It expects that someone else have knowledge about what cards are in system and how to use them. Pulseaudio just provides common way to use them. But let&#8217;s start from beginning shall we? <a title="Lennart Poettering" href="http://en.wikipedia.org/wiki/Lennart_Poettering">Lennart Poettering</a> is who created <a title="Pulseaudio" href="http://www.freedesktop.org/wiki/Software/PulseAudio/">Pulseaudio</a>. His new beast <a title="Systemd" href="http://www.freedesktop.org/wiki/Software/systemd/">Systemd</a> is just like Pulseaudio hated from the start and dividing Linux community but making huge impact in Linux. Pulseaudio was meant to be replacement for <a title="ESD" href="http://en.wikipedia.org/wiki/Enlightened_Sound_Daemon">Gnome ESD</a> and there is compatibility layer for ESD available.  Pulseaudio works for  KDE, XFCE and others. Prove me wrong but I don&#8217;t know anyone how misses ESD! I miss KDE 2.0 Audio server Arts in sentimental moments but in my point of view ESD was horrible piece of crap. My opinion is only Android A<a title="Audioflinger" href="https://source.android.com/devices/audio/terminology.html">udioflinger</a> is more popular audio server in Linux world. Sometimes I wonder why Pulseaudio doesn&#8217;t provide Audioflinger compatibility layer? How does Pulseaudio sit top of the Linux audio stack. I try to make nice picture of it.</p>
+<div align="center">
+<table style="width: 50%">
+<tbody>
+<tr align="center">
+<td bgcolor="#404040">Sound card or chip</td>
+</tr>
+<tr align="center">
+<td>↑↓</td>
+</tr>
+<tr align="center">
+<td bgcolor="#585858">ALSA kernel drv</td>
+</tr>
+<tr align="center">
+<td>↑↓</td>
+</tr>
+<tr align="center">
+<td bgcolor="#585858">ALSA C-library API</td>
+</tr>
+<tr align="center">
+<td>↑↓</td>
+</tr>
+<tr align="center">
+<td bgcolor="#707070">Pulseaudio ALSA drv</td>
+</tr>
+<tr align="center">
+<td>↑↓</td>
+</tr>
+<tr align="center">
+<td bgcolor="#707070">Pulseaudio C-library API</td>
+</tr>
+<tr align="center">
+<td>↑↓</td>
+</tr>
+<tr align="center">
+<td bgcolor="#33CCCC">Application</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>If you want to talk to sound card you make connection to Pulseaudio server with Pulseaudio C-library and talk to the Pulseaudio. Not direct to ALSA not direct to sound card. Pulseaudio is built upon sockets so you can access Pulseaudio from another machine or from network if you have bandwidth and play your tunes from or to other machine. Pulseaudio takes care about find out what sound cards you may have and connecting to them for example Bluetooth audio device. What is so wrong with Pulseaudio if it&#8217;s working so well? Basicly, it adds latency between application and audio coming out of speakers. Not me or not you not your mother are going to spot it but those nerdy super HIFI audio humans (Homo HIFIcus) can spot it. If you have some very bad audio chip there you notice but 99% times you are happier with Pulseaudio than without it.</p>
+<h2>Stop praising Pulseaudio and get to API</h2>
+<p>As beautiful as Pulseaudio API is it&#8217;s horrible same time! Modern slick callback based monster that just does something and at the you get audio or you can play it so feed me with bytes. I think they noticed this and made blocking Simple API. Which is very simple and easy to use. If you don&#8217;t want to use Pulseaudio Simple API then oh boy!<br />
+There is two main mode which you can use if we count Simple API out. There is normal mainloop and threaded mainloop. So if you want to control everything you choose mainloop mode. You iterate your mainloop and get events to your callbacks or you can let Pulseaudio do it with <a title="pa_mainloop_run" href="http://freedesktop.org/software/pulseaudio/doxygen/mainloop_8h.html#afbcd8f4eba09cdfd5323ac9db3718ae8">pa_mainloop_run()</a> command. In threaded version it just runs and gives you callback as you go. Difference is that threaded loop stays away of you sight and normal blocks your application.</p>
+<h2>What kind of callbacks there is?</h2>
+<p>In Pulseaudio question is more like what doesn&#8217;t have callback. Stream is ready, check, buffer underrrun, check, something weird just happen, check. You just choose what to implement and then they appear as they happen. Then you choose do something or not.</p>
+<p>Is there something wrong with this. No there isn&#8217;t, it works as expected. Actually it worked better than I was expecting. Learning curve for Pulseaudio is bit high because fully understanding how Pulseaudio works takes time and patience.</p>
+<p><strong>Summary:</strong>  Little bit weird pure C API but when correctly implemented very powerful. Widely spread in Linux world such all major distributions use it. Even it support Mac OS X and Windows it&#8217;s not really as easily portable at it sounds. It&#8217;s little bit Linux specific although BSD family is  beginning to use it. But if you need to support Linux and want to have higher level API than ALSA then this is for you but most frameworks support it so you can also leave it to them and not shovel into API.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2015/01/27/linux-audio-library-smackdown-part2-pulseaudio/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+	</channel>
+</rss>

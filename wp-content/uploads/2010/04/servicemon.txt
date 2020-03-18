@@ -1,0 +1,25 @@
+#!/bin/bash
+# -------------------------------------------------------------------------
+# Copyright (c) 2003 nixCraft project <http://cyberciti.biz/fb/>
+# This script is licensed under GNU GPL version 2.0 or above
+# -------------------------------------------------------------------------
+# This script is part of nixCraft shell script http://en.wikipedia.org/wiki/Shell_script collection (NSSC)
+# Visit http://bash.cyberciti.biz/ for more information.
+# Copyright (c) 2010 CyberOrg Info. Modification to watch any process/service 
+# -------------------------------------------------------------------------
+RESTART="/etc/init.d/sshd restart"
+PGREP="/usr/bin/pgrep"
+processtowatch="sshd"
+x=1
+while [ $x = 1 ];
+do 
+	# find pid
+	$PGREP ${processtowatch}
+	if [ $? -ne 0 ]
+	then
+		echo "`date` : $processtowatch went down, restarting" >> /var/log/restart.log
+		$RESTART
+	fi
+	sleep 30
+done
+

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>btrfs &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/btrfs/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Introducing snapper: A tool for managing btrfs snapshots</title>
+		<link>https://lizards.opensuse.org/2011/04/01/introducing-snapper/</link>
+		<comments>https://lizards.opensuse.org/2011/04/01/introducing-snapper/#comments</comments>
+		<pubDate>Fri, 01 Apr 2011 10:11:53 +0000</pubDate>
+		<dc:creator><![CDATA[Arvin Schnell]]></dc:creator>
+				<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+		<category><![CDATA[btrfs]]></category>
+		<category><![CDATA[rollback]]></category>
+		<category><![CDATA[snapper]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=6972</guid>
+		<description><![CDATA[Today we want to present the current development of snapper, a tool for managing btrfs snapshots. For years we had the request to provide rollbacks for YaST and zypper but things never got far due to various technical problems. With the rise of btrfs snapshots we finally saw the possibility for a usable solution. The [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Today we want to present the current development of snapper, a tool for managing btrfs snapshots.</p>
+<p>For years we had the request to provide rollbacks for YaST and zypper but things never got far due to various technical problems. With the rise of btrfs snapshots we finally saw the possibility for a usable solution. The basic idea is to create a snapshot before and after running YaST or zypper, compare the two snapshots and finally provide a tool to revert the differences between the two snapshots. That was the birth of snapper. Soon the idea was extended to create hourly snapshots as a backup system against general user mistakes.</p>
+<p>The tool is now in a state where you can play with it. On the other hand there is still room and time for modifications and new features.</p>
+<h3>Overview</h3>
+<p>We provide a command line tool and a YaST UI module. Here is a brief tour:</p>
+<p>First we manually create a snapshot:</p>
+<pre># snapper create --description "initial"</pre>
+<p>Running YaST automatically creates two snapshots:</p>
+<pre># yast2 users</pre>
+<p>Now we can list our snapshots:</p>
+<pre># snapper list
+Type   | # | Pre # | Date                     | Cleanup  | Description
+-------+---+-------+--------------------------+----------+-------------
+single | 0 |       |                          |          | current
+single | 1 |       | Wed Mar 30 14:52:17 2011 |          | initial
+pre    | 2 |       | Wed Mar 30 14:57:10 2011 | number   | yast users
+post   | 3 | 2     | Wed Mar 30 14:57:35 2011 | number   |
+single | 4 |       | Wed Mar 30 15:00:01 2011 | timeline | timeline</pre>
+<p>Snapshot #0 always refers to the current system. Snapshot #2 and #3 were created by YaST. Snapshot #4 was created by an hourly cronjob.</p>
+<p><p>Getting the list of modified files between to snapshots is easy:</p>
+<pre># snapper diff 2 3
+c... /etc/group
+c... /etc/group.YaST2save
+c... /etc/passwd
+c... /etc/passwd.YaST2save
+c... /etc/shadow
+c... /etc/shadow.YaST2save
+c... /etc/sysconfig/displaymanager
+c... /var/tmp/kdecache-linux/icon-cache.kcache
+c... /var/tmp/kdecache-linux/plasma_theme_openSUSEdefault.kcache</pre>
+<p>You can also compare a single file between two snapshots:</p>
+<pre># snapper diff --file /etc/passwd 2 3
+--- /snapshots/2/snapshot/etc/passwd    2011-03-30 14:41:45.943000001 +0200
++++ /snapshots/3/snapshot/etc/passwd    2011-03-30 14:57:33.916000003 +0200
+@@ -22,3 +22,4 @@
+ uucp:x:10:14:Unix-to-Unix CoPy system:/etc/uucp:/bin/bash
+ wwwrun:x:30:8:WWW daemon apache:/var/lib/wwwrun:/bin/false
+ linux:x:1000:100:linux:/home/linux:/bin/bash
++tux:x:1001:100:tux:/home/tux:/bin/bash</pre>
+<p>The main feature of course is to revert the changes between two snapshots:</p>
+<pre># snapper rollback 2 3</pre>
+<p>Finally yast2-snapper provides a YaST UI for snapper.</p>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2011/04/snapper.png"><img class="size-full wp-image-6977 alignnone" src="http://lizards.opensuse.org/wp-content/uploads/2011/04/snapper.png" alt="" width="580" height="426" srcset="https://lizards.opensuse.org/wp-content/uploads/2011/04/snapper.png 828w, https://lizards.opensuse.org/wp-content/uploads/2011/04/snapper-300x220.png 300w" sizes="(max-width: 580px) 100vw, 580px" /></a></p>
+<h3>Testing</h3>
+<p>Playing with snapper should only be done on test machines. Both btrfs and snapper are not finished and included known bugs. Here is a <a href="http://en.opensuse.org/openSUSE:Snapper_install">step-by-step manual</a> for installing and configuring snapper for openSUSE 11.4.</p>
+<h3>Feedback</h3>
+<p>We would like to get feedback, esp. about general problems and further ideas. There are also tasks everybody can work on, e.g. the <a href="http://en.opensuse.org/Portal:Snapper">snapper wiki page</a> or a man-page for snapper.</p>
+<p>For the time being there is no dedicated mailing-list so just use opensuse-factory@opensuse.org.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2011/04/01/introducing-snapper/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+	</channel>
+</rss>

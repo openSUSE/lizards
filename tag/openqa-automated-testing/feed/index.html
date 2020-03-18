@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openQA automated testing &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/openqa-automated-testing/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>openQA is testing for you</title>
+		<link>https://lizards.opensuse.org/2011/01/20/openqa-is-testing-for-you/</link>
+		<pubDate>Thu, 20 Jan 2011 19:10:01 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[openQA automated testing]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=6418</guid>
+		<description><![CDATA[You might have read the announcement of the factory-tested repo (or not, because it did not go on planet.o.o). There have been many additions to the testing during the last eight weeks. openQA.o.o is a machine running automated software tests all the time to decide if factory-tested can be updated. If you think, this was [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>You might have read <a href="http://lizards.opensuse.org/2010/11/29/announcing-factory-tested/">the announcement of the factory-tested repo</a> (or not, because it did not go on planet.o.o). There have been many additions to the testing during the last eight weeks.</p>
+<p>openQA.o.o is a machine running automated software tests all the time to decide if factory-tested can be updated. If you think, this was boring, you might find out that it is not, since every testrun generates a video of approx 4 minutes that can be conveniently viewed in firefox.</p>
+<p>You can view those test results on <a href="http://openqa.opensuse.org/results/">the openQA page</a>.</p>
+<p>And those are the updates:</p>
+<ul>
+<li>I have added testing of development repos, so that it is now possible to detect bugs before they even get into Factory (most of those tests have &#8220;devel&#8221; at the end of their name). In fact, this has already found two such bugs.</li>
+<li>The test system&#8217;s hardware was upgraded with a sponsored SSD and the software adapted to allow running multiple tests in parallel (using <em>make -j3</em>)</li>
+<li>I have updated the web-interface to use the nice Bento theme</li>
+<li>And I found yet another cool use-case for automated testing: it allows to bisect bugs. I did a binary search in old results for <a href="https://bugzilla.novell.com/show_bug.cgi?id=665413">a live-installer bug</a> which made it really easy to find the causing commit. However, seeing how long such a bug went unnoticed, made me think, that it would be nice if more people would check the results for anomalies, since not all of those can easily be auto-detected. As this just needs a firefox and little time, this is pretty easy to do. Much easier than to actually setup a test-system in any case.</li>
+<li>An IRC notification bot was added, keeping #opensuse-openqa updated with new test results</li>
+<li>Then, I am looking for additional <a href="http://lists.opensuse.org/opensuse-factory/2011-01/msg00228.html">automatic test-scripts</a>, that also work standalone on an openSUSE install. It is especially important to test high-impact things. Things that break often or block many users if they break. And it would be nice to have a small result range such as OK|fail|unknown or it should at least be mappable to such.</li>
+<li>Jürgen Weigert has packaged <a href="http://software.opensuse.org/search?q=sikuli&amp;baseproject=openSUSE%3A11.3">sikuli</a>, so it is easy to create GUI tests with it, that could then be included in the test-suite.</li>
+</ul>
+<p>Then there are still some things on the ToDo list&#8230;</p>
+<ul>
+<li>Hermes integration to get email alerts and RDF feeds for newsreaders</li>
+<li>Have more test variants auto-scheduled (-live and -dup)</li>
+<li>Find a way to have Add-On-Repos with custom priority (otherwise Factory packages might be used, as happened for kernel-default-2.6.37-rc7) &#8211; using linuxrc&#8217;s driverupdate feature could be one way.</li>
+</ul>
+<p>your input is highly appreciated</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

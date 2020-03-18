@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>pi &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/pi/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>GPIO on Raspberry Pi</title>
+		<link>https://lizards.opensuse.org/2013/03/31/gpio-on-raspberry-pi/</link>
+		<pubDate>Sun, 31 Mar 2013 09:12:18 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Education]]></category>
+		<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[gpio]]></category>
+		<category><![CDATA[pi]]></category>
+		<category><![CDATA[raspberry]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9342</guid>
+		<description><![CDATA[We have these working openSUSE Factory images for the Raspberry Pi, which is an ARM-based mini-computer, and since I want to encourage my kid to do more with computers than playing games (even if they are open-source), I looked into how GPIOs worked. For that, you need to find the pin allocation &#8211; e.g. in [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>We have these working openSUSE Factory images for the Raspberry Pi, which is an ARM-based mini-computer, and since I want to encourage my kid to do more with computers than playing games (even if they are open-source), I looked into how GPIOs worked.<br />
+For that, you need to find the pin allocation &#8211; e.g.<br />
+in <a href="http://elinux.org/RPi_Low-level_peripherals#General_Purpose_Input.2FOutput_.28GPIO.29">the elinux GPIO description</a> or<br />
+<a href="http://www.raspberrypi.org/archives/1417">http://www.raspberrypi.org/archives/1417</a><br />
+has a video which has it explained at 03:00</p>
+<p>For my test, I wired together pin11 and pin12, which are GPIO17 and GPIO18.<br />
+I wanted GPIO17 to receive what is sent by GPIO18.<br />
+This is how this looked for me: <img src="http://www.zq1.de/~bernhard/images/arm/Raspberry-gpio1718.jpg" alt="foto of GPIO17 and 18 wired together" /></p>
+<p>Using it directly from the shell is simple:<br />
+<code>echo 17 &gt; /sys/class/gpio/export<br />
+echo 18 &gt; /sys/class/gpio/export<br />
+echo out &gt; /sys/class/gpio/gpio18/direction<br />
+echo 1 &gt; /sys/class/gpio/gpio18/value<br />
+watch -n 1 head /sys/class/gpio/gpio*/value<br />
+</code></p>
+<p>If the wiring and configuration was right, the &#8220;watch&#8221; will show gpio17/value to become 1 too.<br />
+You can then also pull the wire (or insert a physical switch) and see gpio17/value dropping to 0 again, when it is no more receiving the current from the other pin.</p>
+<p>If you managed to get this working, you reached level one of hardware-hackery.</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

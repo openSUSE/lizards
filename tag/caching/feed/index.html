@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>caching &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/caching/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Local caching for CIFS network file system &#8211; followup</title>
+		<link>https://lizards.opensuse.org/2010/08/05/local-caching-for-cifs-network-file-system-followup/</link>
+		<pubDate>Thu, 05 Aug 2010 06:09:30 +0000</pubDate>
+		<dc:creator><![CDATA[Suresh Jayaraman]]></dc:creator>
+				<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Samba]]></category>
+		<category><![CDATA[Server]]></category>
+		<category><![CDATA[caching]]></category>
+		<category><![CDATA[cifs]]></category>
+		<category><![CDATA[fscache]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=4865</guid>
+		<description><![CDATA[Here&#8217;s a follow-up to my previous post on Hackweek V: Local caching for CIFS network file system Since the previous post, I worked on improving the patches that add local caching, fixed a few bugs, addressed review comments from the community and re-posted the patches. I also gave a talk about it at the SUSE [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Here&#8217;s a follow-up to my previous post on <a href="http://lizards.opensuse.org/2010/06/14/hackweek-v-local-caching-for-cifs-network-file-system/">Hackweek V: Local caching for CIFS network file system</a></p>
+<p>Since the previous post, I worked on improving the patches that add local caching, fixed a few bugs, addressed review comments from the community and re-posted the patches. I also gave a talk about it at the SUSE Labs Conference 2010 took place at Prague. The slides can be found here: <a href="http://www.suse.com/~sjayaraman/talks/cifs-fsc-labsconf-2010.pdf">FS-Cache aware CIFS.</a></p>
+<p>This patchset was merged in the upstream Linux kernel yesterday (Yay!) which means this feature would be available starting from kernel version 2.6.35-rc1.</p>
+<p>The primary aim of caching data on the client side is to reduce the network calls to the CIFS Server whenever possible, thereby reducing the server load as well the network load. This will indirectly improve the performance and the scalability of the CIFS Server and will improve the number of clients per Server ratio. This feature could be useful in a number of scenarios:</p>
+<p> &#8211; Render farms in Entertainment industry &#8211; used to distribute textures to individual rendering units<br />
+ &#8211; Read only multimedia workloads<br />
+ &#8211; Accelerate distributed web-servers<br />
+ &#8211; Web server cluster nodes serve content from the cache<br />
+ &#8211; /usr distributed by a network file system &#8211; to avoid spamming Servers when there is a power outage<br />
+ &#8211; Caching Server with SSDs reexporting netfs data<br />
+ &#8211; where a persistent cache remains across reboots is useful</p>
+<p><em>However, be warned that local caching may not suitable for all workloads and a few workloads could suffer a slight performance hit (for e.g. read-once type workloads). So, you need to careful consider your workload/scenario before you start using local disk caching.<br />
+</em><br />
+When I reposted this patchset, I got asked whether I have done any benchmarking and could share the performance numbers. Here are the results from a 100Mb/s network:</p>
+<p>Environment<br />
+&#8212;&#8212;&#8212;&#8212;</p>
+<p>I&#8217;m using my T60p laptop as the CIFS server (running Samba) and one of my test machines as CIFS client, connected over an ethernet of reported speed 1000 Mb/s. ethtool was used to throttle the speed to 100 Mb/s. The TCP bandwidth as seen by a pair of netcats between the client and the server is about 89.555 Mb/s.</p>
+<p>Client has a 2.8 GHz Pentium D CPU with 2GB RAM<br />
+Server has a 2.33GHz Core2 CPU (T7600) with 2GB RAM</p>
+<p>Test<br />
+&#8212;&#8211;<br />
+The benchmark involves pulling a 200 MB file over CIFS to the client using cat to /dev/zero under `time&#8217;. The wall clock time reported was recorded.</p>
+<p>First, the test was run on the server twice and the second result was recorded (noted as Server below i.e. time taken by the Server when file is loaded on the RAM).<br />
+Secondly, the client was rebooted and the test was run with caching disabled (noted as None below).<br />
+Next, the client was rebooted, the cache contents (if any) were erased with mkfs.ext3 and test was run again with cachefilesd running (noted as COLD)<br />
+Next the client was rebooted, tests were run with caching enabled this time with a populated disk cache (noted as HOT).<br />
+Finally, the test was run again without unmounting or rebooting to ensure pagecache remains valid (noted as PGCACHE).</p>
+<p>The benchmark was repeated twice:</p>
+<p>Cache (state) Run #1  Run#2<br />
+=============  =======  =======<br />
+Server         0.104 s  0.107 s<br />
+<strong>None           26.042 s 26.576 s</strong><br />
+COLD           26.703 s 26.787 s<br />
+<strong>HOT            5.115 s  5.147 s</strong><br />
+PGCACHE        0.091 s  0.092 s</p>
+<p>As it can be seen when the disk cache is hot, the performance is roughly 5X times than reading over the network. And, it has to be noted that the Scalability improvement due to reduced network traffic cannot be seen as the test involves only a single client and the Server. The read performance with more number of clients would be more interesting as the cache can positively impact the scalability.</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Hackweek V: Local caching for CIFS network file system</title>
+		<link>https://lizards.opensuse.org/2010/06/14/hackweek-v-local-caching-for-cifs-network-file-system/</link>
+		<pubDate>Mon, 14 Jun 2010 12:41:54 +0000</pubDate>
+		<dc:creator><![CDATA[Suresh Jayaraman]]></dc:creator>
+				<category><![CDATA[Network]]></category>
+		<category><![CDATA[caching]]></category>
+		<category><![CDATA[cifs]]></category>
+		<category><![CDATA[fscache]]></category>
+		<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[hackweek V]]></category>
+		<category><![CDATA[Kernel]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=4400</guid>
+		<description><![CDATA[Hackweek It&#8217;s that time of the year when SUSE/Novell developers use their Innovation Time-off to do a project of their interest/wish &#8211; called as Hackweek. Last week was Hackweek V. I worked on making the Common Internet File System (CIFS) cache aware, i.e. local caching for CIFS Network File System. Linux FS-Cache Caching can result [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hackweek</p>
+<p>It&#8217;s that time of the year when SUSE/Novell developers use their Innovation Time-off to do a project of their interest/wish &#8211; called as Hackweek. Last week was Hackweek V. I worked on making the Common Internet File System (CIFS) cache aware, i.e. local caching for CIFS Network File System.</p>
+<p>Linux FS-Cache</p>
+<p>Caching can result in performance improvements in network filesystems where access to network and media is slow. The cache can indirectly improve performance of the network and the server by reduced network calls. Caching can be also viewed as a preparatory work for making disconnected operation (Offline) work with network filesystems.</p>
+<p>The Linux Kernel recently added a generic caching facility (FS-Cache) that any network filesystem like NFS or CIFS or other service can use to cache data locally. FS-Cache supports a variety of cache backends i.e. different types of cache that have different trade-offs (like CacheFiles, CacheFS etc.) FS-Cache mediates between cache backends and the network filesystems. Some of the network filesystems such as NFS and AFS are already integrated with FS-Cache.</p>
+<p>Making CIFS FS-Cache capable</p>
+<p>To make any network filesystem FS-Cache aware, there are a few things to consider. Let&#8217;s consider them step by step (though not in detail):</p>
+<p>* First, we need to define the network filesystem and it should be able to register/unregister with the FS-Cache interface.<br />
+* The network filesystem has to define the index hierarchy which could be used to locate a file object or discard a certain subset of all the files cached.<br />
+* We need to define the objects and the methods associated.<br />
+* All the indices in the index hierarchy and the data file need to be registered. This could be done by requesting a cookie for each index or data file. Upon successful registration, a corresponding cookie is returned.<br />
+* Functions to store and retrieve pages in the cache.<br />
+* Way to identify whether the cache for a file is valid or not.<br />
+* Function to release any in-memory representation for the network filesystem page.<br />
+* Way to invalidate a data file or index subtree and relinquish cookies.</p>
+<p>Implementation</p>
+<p>I wanted to get the prototype working within a week. So the way I have implemented it is rudimentary and has lot of room for improvement.</p>
+<p>The index hierarchy is not very deep. It has three levels &#8211; Server, Share and Inode. The only way that I know of identifying files with CIFS is by &#8216;UniqueId&#8217; which is supposed to be unique. However, some server do not ensure that the &#8216;UniqueId&#8217; is always unique (for example when there is more than one filesystem in the exported share). The cache coherency is currently ensured by verifying the &#8216;LastWriteTime&#8217; and size of the file. This is not a reliable way of detecting changes as some CIFS servers will not update the time until the filehandle is closed.</p>
+<p>The rudimentary implementation is ready and the cumulative patch can be found here:</p>
+<p>http://www.kernel.org/pub/linux/kernel/people/jays/patches/</p>
+<p>[WARNING: The patch is lightly tested and of prototype quality.]</p>
+<p>Here are some initial performance numbers with the patch:</p>
+<p>Copying one big file of size ~150 MB.</p>
+<p>$time cp /mnt/cifs/amuse.zip .<br />
+(Cache initialized)</p>
+<p>real 1m18.603s<br />
+user 0m0.016s<br />
+sys 0m8.569s</p>
+<p>$time cp /mnt/cifs/amuse.zip /<br />
+(Read from Cache)</p>
+<p>real 0m28.055s<br />
+user 0m0.008s<br />
+sys 0m1.140s</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

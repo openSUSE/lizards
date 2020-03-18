@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0"
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -9,19 +8,81 @@
 	>
 
 <channel>
-	<title>openSUSE Lizards &#187; Josef Reidinger</title>
-	<atom:link href="http://lizards.opensuse.org/author/jreidinger/feed/" rel="self" type="application/rss+xml" />
-	<link>http://lizards.opensuse.org</link>
+	<title>Josef Reidinger &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/author/jreidinger/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
 	<description>Blogs and Ramblings of the openSUSE Members</description>
-	<lastBuildDate>Mon, 24 Mar 2014 12:46:00 +0000</lastBuildDate>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
 	<language>en-US</language>
-		<sy:updatePeriod>hourly</sy:updatePeriod>
-		<sy:updateFrequency>1</sy:updateFrequency>
-	<generator>http://wordpress.org/?v=3.8.1</generator>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
 	<item>
+		<title>Ruby: Do not use += in loops</title>
+		<link>https://lizards.opensuse.org/2014/10/08/ruby-do-not-use-in-loops/</link>
+		<comments>https://lizards.opensuse.org/2014/10/08/ruby-do-not-use-in-loops/#respond</comments>
+		<pubDate>Wed, 08 Oct 2014 08:54:03 +0000</pubDate>
+		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
+				<category><![CDATA[Uncategorized]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11045</guid>
+		<description><![CDATA[Hi, My motivation for writing this blog post is to have one simple place where I can point everybody using += in a loop. I will describe here why it can kill the performance of any application or library and will also show some measurement to demonstrate it. Let&#8217;s start with practical measurement. I created [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi,<br />
+My motivation for writing this blog post is to have one simple place where I can point everybody using += in a loop. I will describe here why it can kill the performance of any application or library and will also show some measurement to demonstrate it.<span id="more-11045"></span></p>
+<p>Let&#8217;s start with practical measurement. I created a simple measurement script which looks like this:</p>
+<pre>
+require "benchmark"
+
+N = 100000
+Benchmark.bm(15) do |x|
+  x.report("Array#+=") do
+    arr = []
+    N.times { arr += [1] }
+  end
+
+  x.report("Array#concat") do
+    arr = []
+    N.times { arr.concat [1] }
+  end
+
+  x.report("String#+=") do
+    s = ""
+    N.times { s += "1" }
+  end
+
+  x.report("String#&lt;&lt;&quot;) do
+    s = &quot;&quot;
+    N.times { s &lt;&lt; &quot;1&quot;  }
+  end
+end
+</pre>
+<p>And result for N = 10 000 looks like this:</p>
+<pre>
+                      user     system      total        real
+Array#+=          0.280000   0.020000   0.300000 (  0.302993)
+Array#concat      0.000000   0.000000   0.000000 (  0.002291)
+String#+=         0.040000   0.000000   0.040000 (  0.041442)
+String#&lt;&lt;         0.000000   0.000000   0.000000 (  0.002437)
+</pre>
+<p>and for N = 100 000 looks like this:</p>
+<pre>
+                      user     system      total        real
+Array#+=         31.410000   6.940000  38.350000 ( 38.635201)
+Array#concat      0.030000   0.000000   0.030000 (  0.028933)
+String#+=         3.590000   0.020000   3.610000 (  3.635690)
+String#&lt;&lt;         0.030000   0.000000   0.030000 (  0.029524)
+</pre>
+<p>As can be seen, it does not raise in a linear way and now it is time for some theory to explain why.</p>
+<p>When you push elements to the same object, the complexity class of the loop is O(n), since it grows in a linear way. For += it needs to create a copy of the array or string first and then append the new part. The copy complexity class is also O(n) as it depends on array size (the approximation would be O(n/2), which means an O(n) complexity class because half is constant). Copy optimization mechanisms can help, but the complexity class will remain the same. The result is that you need to perform n times the copy operation, which is O(n). So += complexity class is O(n^2). That explains why the times do not raise linearly but quadratically.</p>
+<p>Therefore, += should never, ever, be used in loops. If you need to have a new object, then create an empty Array or String before the loop and push new elements into it. It is more efficient. Sure Ruby is not your tool if you are looking for a way to reduce every millisecond, but there is no excuse to use the worse algorithm as it can make application unusable performance-wise.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2014/10/08/ruby-do-not-use-in-loops/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
 		<title>No forgotten patch to YaST anymore</title>
-		<link>http://lizards.opensuse.org/2014/01/17/no-forgotten-patch-to-yast-anymore/</link>
-		<comments>http://lizards.opensuse.org/2014/01/17/no-forgotten-patch-to-yast-anymore/#comments</comments>
+		<link>https://lizards.opensuse.org/2014/01/17/no-forgotten-patch-to-yast-anymore/</link>
+		<comments>https://lizards.opensuse.org/2014/01/17/no-forgotten-patch-to-yast-anymore/#respond</comments>
 		<pubDate>Fri, 17 Jan 2014 13:58:34 +0000</pubDate>
 		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
 				<category><![CDATA[Uncategorized]]></category>
@@ -33,13 +94,13 @@
 <p>This script is handled by our <a href="http://ci.opensuse.org/view/Yast" target="_blank">public Jenkins server</a> where it pulls the latest version of the script every working day and if there is any pending pull request it will send an <a href="http://lists.opensuse.org/yast-devel/2014-01/msg00065.html" target="_blank">email with its result</a> to the YaST mailing list.</p>
 <p>After a month of sending emails we have handled all longer running pull requests we have for YaST, so none of them have gone without activity longer than a month. I hope it encourages developers to create more pull requests as they will not be forgotten. We plan also to deploy such reminder for the <a href="http://github.com/libyui" title="libyui" target="_blank">libyui organization</a>.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2014/01/17/no-forgotten-patch-to-yast-anymore/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2014/01/17/no-forgotten-patch-to-yast-anymore/feed/</wfw:commentRss>
 		<slash:comments>0</slash:comments>
 		</item>
 		<item>
 		<title>Continuing Opening YaST</title>
-		<link>http://lizards.opensuse.org/2013/12/16/continuing-opening-yast/</link>
-		<comments>http://lizards.opensuse.org/2013/12/16/continuing-opening-yast/#comments</comments>
+		<link>https://lizards.opensuse.org/2013/12/16/continuing-opening-yast/</link>
+		<comments>https://lizards.opensuse.org/2013/12/16/continuing-opening-yast/#respond</comments>
 		<pubDate>Mon, 16 Dec 2013 11:58:14 +0000</pubDate>
 		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
 				<category><![CDATA[Programming]]></category>
@@ -55,13 +116,13 @@
 <p>Another change is deletion of the internal YaST IRC channel and now all communication happens on the <a href="http://webchat.freenode.net/?channels=%23yast" target="_blank">#yast</a> Freenode channel. This change really increases the chance that you catch YaST developers on IRC. Others ways are the <a href="http://lists.opensuse.org/yast-devel/" target="_blank">YaST mailing list</a>, <a href="https://en.opensuse.org/openSUSE:Report_a_YaST_bug" target="_blank">Bugzilla</a>, <a href="https://github.com/organizations/yast" target="_blank">GitHub</a> or <a href="https://features.opensuse.org/" target="_blank">openSUSE feature tracker</a>.</p>
 <p>So let&#8217;s start hacking YaST and if you find any obstacle, contact us, so we can remove it.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/12/16/continuing-opening-yast/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/12/16/continuing-opening-yast/feed/</wfw:commentRss>
 		<slash:comments>0</slash:comments>
 		</item>
 		<item>
 		<title>Ruby: Why to use symbols as Hash keys ( and why not )</title>
-		<link>http://lizards.opensuse.org/2012/05/24/ruby-why-use-symbols-in-hash-instead-of-strings-and-when-dont-do-it/</link>
-		<comments>http://lizards.opensuse.org/2012/05/24/ruby-why-use-symbols-in-hash-instead-of-strings-and-when-dont-do-it/#comments</comments>
+		<link>https://lizards.opensuse.org/2012/05/24/ruby-why-use-symbols-in-hash-instead-of-strings-and-when-dont-do-it/</link>
+		<comments>https://lizards.opensuse.org/2012/05/24/ruby-why-use-symbols-in-hash-instead-of-strings-and-when-dont-do-it/#comments</comments>
 		<pubDate>Thu, 24 May 2012 11:57:03 +0000</pubDate>
 		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
 				<category><![CDATA[Uncategorized]]></category>
@@ -160,13 +221,13 @@ end
 <p>And now consider what happens if attacker sends there non-friendly long string. He can easily cause DOS from one machine.<br />
 I welcome any questions or suggestions in your comments.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2012/05/24/ruby-why-use-symbols-in-hash-instead-of-strings-and-when-dont-do-it/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2012/05/24/ruby-why-use-symbols-in-hash-instead-of-strings-and-when-dont-do-it/feed/</wfw:commentRss>
 		<slash:comments>2</slash:comments>
 		</item>
 		<item>
 		<title>CLI to upload image to openstack cloud</title>
-		<link>http://lizards.opensuse.org/2012/04/18/cli-to-upload-image-to-openstack-cloud/</link>
-		<comments>http://lizards.opensuse.org/2012/04/18/cli-to-upload-image-to-openstack-cloud/#comments</comments>
+		<link>https://lizards.opensuse.org/2012/04/18/cli-to-upload-image-to-openstack-cloud/</link>
+		<comments>https://lizards.opensuse.org/2012/04/18/cli-to-upload-image-to-openstack-cloud/#respond</comments>
 		<pubDate>Wed, 18 Apr 2012 11:18:39 +0000</pubDate>
 		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
 				<category><![CDATA[Programming]]></category>
@@ -193,7 +254,8 @@ a solution.</p>
 environment variables. But it allows to use an authentication token. So we<br />
 just need to get such a token. With help of Martin Vidner we have this script,<br />
   that returns a valid token.</p>
-<blockquote><pre># cloud_auth_token.sh
+<blockquote>
+<pre># cloud_auth_token.sh
 OS_AUTH_URL="http://cloud.example.com:5000/v2.0"
 OS_TENANT_NAME=$NOVA_USERNAME
 OS_USERNAME=$NOVA_USERNAME
@@ -216,29 +278,32 @@ system to parse the response and get the token.</p>
   testing it is a problem. Thanks to Christoph Thiel we solved it with the<br />
   conversion to qcow2. Qcow2 is also supported in OpenStack and qcow2 allows<br />
   compression. The final script for conversion:</p>
-<blockquote><pre>qemu-img convert -c -f raw -O qcow2 img.raw img.qcow2
+<blockquote>
+<pre>qemu-img convert -c -f raw -O qcow2 img.raw img.qcow2
 qemu-img resize img.qcow2 +10G</pre>
 </blockquote>
 <h4>Using it Together</h4>
 <p>Now we have prepared an image and a helper script to get a cloud auth<br />
   token. So let&#8217;s upload the image.</p>
-<blockquote><pre>cat img.qcow2 | glance -H cloud.example.com -A `sh cloud_auth_token.sh` add name='testing_img' is_public=False disk_format=qcow2 container_format=bare</pre>
+<blockquote>
+<pre>cat img.qcow2 | glance -H cloud.example.com -A `sh cloud_auth_token.sh` add name='testing_img' is_public=False disk_format=qcow2 container_format=bare</pre>
 </blockquote>
 <h4>Cleaning Up After Testing</h4>
 <p>We use it for testing and release new versions of the testing appliance often,<br />
   therefore we need cleaning up. It is quite simple with unix text utils:</p>
-<blockquote><pre>for i in `nova image-list | grep "image_name" | sed "s/^|[[:space:]]\+\([[:xdigit:]-]\+\).*$/\1/"`; do nova image-delete $i; done</pre>
+<blockquote>
+<pre>for i in `nova image-list | grep "image_name" | sed "s/^|[[:space:]]\+\([[:xdigit:]-]\+\).*$/\1/"`; do nova image-delete $i; done</pre>
 </blockquote>
 <p>I hope that it helps you with automatic uploading of images to<br />
-  OpenStack. It works for me with the Diablo release and there is no guarantee that it is the best way <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /> </p>
+  OpenStack. It works for me with the Diablo release and there is no guarantee that it is the best way <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2012/04/18/cli-to-upload-image-to-openstack-cloud/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2012/04/18/cli-to-upload-image-to-openstack-cloud/feed/</wfw:commentRss>
 		<slash:comments>0</slash:comments>
 		</item>
 		<item>
 		<title>Temporary overwrite method for specific task</title>
-		<link>http://lizards.opensuse.org/2011/03/18/temporary-overwrite-method-for-specific-task/</link>
-		<comments>http://lizards.opensuse.org/2011/03/18/temporary-overwrite-method-for-specific-task/#comments</comments>
+		<link>https://lizards.opensuse.org/2011/03/18/temporary-overwrite-method-for-specific-task/</link>
+		<comments>https://lizards.opensuse.org/2011/03/18/temporary-overwrite-method-for-specific-task/#comments</comments>
 		<pubDate>Fri, 18 Mar 2011 12:37:01 +0000</pubDate>
 		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
 				<category><![CDATA[Miscellaneous]]></category>
@@ -280,13 +345,13 @@ T.new.m
 <p>as you can see after modification class is exact same as before ( except if there is method a, but it is possible to handle it via introspection and dynamic choose of method). I don&#8217;t need to change whole stack of calls to add parameter or introduce new singleton class which can have flag.<br />
 I hope it help someone with his fix of not so well written piece of software.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2011/03/18/temporary-overwrite-method-for-specific-task/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2011/03/18/temporary-overwrite-method-for-specific-task/feed/</wfw:commentRss>
 		<slash:comments>2</slash:comments>
 		</item>
 		<item>
 		<title>Easy scripting actions with susestudio alias new rubygem studio_api</title>
-		<link>http://lizards.opensuse.org/2010/12/23/rubygem-studio_api/</link>
-		<comments>http://lizards.opensuse.org/2010/12/23/rubygem-studio_api/#comments</comments>
+		<link>https://lizards.opensuse.org/2010/12/23/rubygem-studio_api/</link>
+		<comments>https://lizards.opensuse.org/2010/12/23/rubygem-studio_api/#respond</comments>
 		<pubDate>Thu, 23 Dec 2010 17:37:45 +0000</pubDate>
 		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
 				<category><![CDATA[Miscellaneous]]></category>
@@ -364,13 +429,13 @@ How to install it:</p>
 <a href="http://rubygems.org/gems/studio_api">gem at rubygems.org</a></p>
 <p>Thanks for attention and I welcome any comments</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2010/12/23/rubygem-studio_api/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2010/12/23/rubygem-studio_api/feed/</wfw:commentRss>
 		<slash:comments>0</slash:comments>
 		</item>
 		<item>
 		<title>Hackweek 5 &#8211; LXDE</title>
-		<link>http://lizards.opensuse.org/2010/06/08/hackweek5/</link>
-		<comments>http://lizards.opensuse.org/2010/06/08/hackweek5/#comments</comments>
+		<link>https://lizards.opensuse.org/2010/06/08/hackweek5/</link>
+		<comments>https://lizards.opensuse.org/2010/06/08/hackweek5/#comments</comments>
 		<pubDate>Tue, 08 Jun 2010 14:10:04 +0000</pubDate>
 		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
 				<category><![CDATA[Desktop]]></category>
@@ -382,13 +447,13 @@ How to install it:</p>
 <p>Code can be located in <a href="http://pcmanfm.git.sourceforge.net/git/gitweb.cgi?p=pcmanfm/gfusevfs;a=summary"> pcman git repository</a>. Idea of implementation is quite simple. Don&#8217;t use daemons and special code to handle different backends. Instead use fuse and its already written fs based on fuse. As first I start with ftps and its sshfs implementation. Code for single fs is simple and short. Today I finish first working proof of concept of gvfs extension and its gfile extension. It can query and copy file on gvfs as you can see in file gfusevfs.c where is testing program. Main problem which I still see is that fs is not umounted so it takes some sources, but umount it after file operation can lead to annoying behavior like passing password on each file operation.</p>
 <p>I welcome any comments and ideas about this project.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2010/06/08/hackweek5/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2010/06/08/hackweek5/feed/</wfw:commentRss>
 		<slash:comments>1</slash:comments>
 		</item>
 		<item>
 		<title>Encrypted directory</title>
-		<link>http://lizards.opensuse.org/2009/12/03/encrypted-directory/</link>
-		<comments>http://lizards.opensuse.org/2009/12/03/encrypted-directory/#comments</comments>
+		<link>https://lizards.opensuse.org/2009/12/03/encrypted-directory/</link>
+		<comments>https://lizards.opensuse.org/2009/12/03/encrypted-directory/#comments</comments>
 		<pubDate>Thu, 03 Dec 2009 14:40:12 +0000</pubDate>
 		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
 				<category><![CDATA[Base System]]></category>
@@ -404,13 +469,13 @@ encfs /home/jreidinger/.encrypted /home/jreidinger/encrypted<br />
 Easy, not? Then encrypted directory contain your data. you can unmount it by <em>fusermount -u encrypted</em>.<br />
 After reboot you must attach it again. Maybe it is possible to do it easier, but I need that data only if I work from home, so I mount it manually. It is same as if you create <em> encfs /home/jreidinger/.encrypted /home/jreidinger/encrypted</em></p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2009/12/03/encrypted-directory/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/12/03/encrypted-directory/feed/</wfw:commentRss>
 		<slash:comments>1</slash:comments>
 		</item>
 		<item>
 		<title>Ruby on rails, Ajax and memory watching</title>
-		<link>http://lizards.opensuse.org/2009/05/14/ruby-on-rails-ajax-and-memory-watching/</link>
-		<comments>http://lizards.opensuse.org/2009/05/14/ruby-on-rails-ajax-and-memory-watching/#comments</comments>
+		<link>https://lizards.opensuse.org/2009/05/14/ruby-on-rails-ajax-and-memory-watching/</link>
+		<comments>https://lizards.opensuse.org/2009/05/14/ruby-on-rails-ajax-and-memory-watching/#respond</comments>
 		<pubDate>Thu, 14 May 2009 14:44:09 +0000</pubDate>
 		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
 				<category><![CDATA[YaST]]></category>
@@ -439,27 +504,8 @@ end<br />
 </code></p>
 <p>And thats all to watch your server usage.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2009/05/14/ruby-on-rails-ajax-and-memory-watching/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/05/14/ruby-on-rails-ajax-and-memory-watching/feed/</wfw:commentRss>
 		<slash:comments>0</slash:comments>
-		</item>
-		<item>
-		<title>Edit system on iso image</title>
-		<link>http://lizards.opensuse.org/2009/04/02/edit-system-on-iso-image/</link>
-		<comments>http://lizards.opensuse.org/2009/04/02/edit-system-on-iso-image/#comments</comments>
-		<pubDate>Thu, 02 Apr 2009 12:37:55 +0000</pubDate>
-		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
-				<category><![CDATA[Base System]]></category>
-		<category><![CDATA[Systems Management]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=671</guid>
-		<description><![CDATA[I start maintaining yast2-repair and first bug which I start solving is that repair from DVD menu doesn&#8217;t work same as from installation menu. Find where is problem and also test if fix is correct is not trivial. I describe below how to modify inst-sys on DVD or software on LiveCD. I found useful information [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>I start maintaining yast2-repair and first bug which I start solving is that repair from DVD menu doesn&#8217;t work same as from installation menu. Find where is problem and also test if fix is correct is not trivial. I describe below how to modify inst-sys on DVD or software on LiveCD.</p>
-<p><span id="more-671"></span>
-<p>I found useful information on our wiki &#8211; <a href="http://en.opensuse.org/Linuxrc/Creating_Modified_Installation_System"> Creating modified installation system</a>. But I don&#8217;t want install from network, as it doesn&#8217;t shown same menu as on DVD. I try use mkisofs, but it is not easy set same boot sector as have original iso image. And there I found good software &#8211; isomaster. This allows you to replace file on iso image and remember from original iso image where it has its boot sector. This iso should be easily tested in e.g. Virtual Box and I can verify, that my fix work before we release first DVD with opensuse 11.2. Just sidenote &#8211; linuxrc show warning, that your inst-sys doesn&#8217;t match checksum.</p>
-<p>Same way is possible edit whole LiveCD. Simple mount and copy content of live system to your disc and with zypper &#8211;root you can change software in your LiveCD. Then create squashfs ( I use <em>mksquashfs live_root  openSUSE-kde-11.1-read-only.i686-2.7.0 -no-duplicates -noappend</em> ) and with isomaster replace file openSUSE-* and you have your modified liveCD.</p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2009/04/02/edit-system-on-iso-image/feed/</wfw:commentRss>
-		<slash:comments>1</slash:comments>
 		</item>
 	</channel>
 </rss>

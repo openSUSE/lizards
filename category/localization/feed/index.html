@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Localization &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/category/localization/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Highlights of YaST Development Sprint 75</title>
+		<link>https://lizards.opensuse.org/2019/04/10/yast-sprint-75/</link>
+		<comments>https://lizards.opensuse.org/2019/04/10/yast-sprint-75/#comments</comments>
+		<pubDate>Wed, 10 Apr 2019 11:18:24 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Localization]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=13736</guid>
+		<description><![CDATA[With the upcoming releases of openSUSE Leap 15.1 and SLE-15-SP1 approaching, the YaST Team at SUSE is investing a quite significant time in polishing details and fixing small (and not so small) bugs. But fortunately, that still leaves us enough time to also work in our mid term goals. So welcome to our usual selection [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>With the upcoming releases of openSUSE Leap 15.1 and SLE-15-SP1 approaching, the YaST Team at SUSE is investing a quite significant time in polishing details and fixing small (and not so small) bugs. But fortunately, that still leaves us enough time to also work in our mid term goals.</p>
+<p>So welcome to our usual selection of selected bug-fixes (listing them all would be boring) and exciting new stuff. This edition includes:</p>
+<ul>
+<li>A nice howto for reporting Snapper bugs</li>
+<li>Tons of fixes for right-to-left languages like Arabic</li>
+<li>Some adjustments and improvements in the storage area</li>
+<li>A sneak peak into the future of the yast2-network code</li>
+<li>Some contributor-oriented content: like our new pull request templates and revamped Docker images for testing</li>
+</ul>
+<h3>Snapper Bug Reporting Howto</h3>
+<p>During this sprint we fixed a bug that was causing Snapper to crash under very specific circumstances. The scenario was quite unusual so we had to request quite some information from the reporter of the bug to confirm what was happening. As a nice consequence, in addition to having now a more robust Snapper (one bug killed) you can also enjoy <a href="https://en.opensuse.org/openSUSE:Bugreport_Snapper">a new page in the openSUSE wiki</a> listing the information you should attach to Bugzilla if you find a bug in Snapper while using (open)SUSE.</p>
+<p>Which is also a nice excuse to remind you about the equivalent &quot;<a href="https://en.opensuse.org/openSUSE:Report_a_YaST_bug">Report a YaST bug</a>&quot; page.</p>
+<h3>YaST around the globe&#8230; in all directions</h3>
+<p>Many of the YaST users and of our blog readers are not native English speakers that surely appreciate the fact that YaST and (open)SUSE in general can be used in several languages. But have you ever thought about the implications of developing a multi-language software? Sure? In all of them? <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>Human languages are so diverse as the human cultures and there are many details to take into account, from the usage of different alphabets to the various ways of dealing with genre or number (in English the words have just one form for singular and another for plural, but that can be way more complex in other languages). In today&#8217;s issue we will take a look to one of our favorite translation issues &#8211; languages that are written from right to left, like Arabic.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/04/39228769-ae4c125a-4857-11e8-8b3a-649e2b751e15.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/04/39228769-ae4c125a-4857-11e8-8b3a-649e2b751e15-300x225.png" alt="The installer summary in Arabic" width="300" height="225" class="aligncenter size-medium wp-image-13739" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/04/39228769-ae4c125a-4857-11e8-8b3a-649e2b751e15-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/04/39228769-ae4c125a-4857-11e8-8b3a-649e2b751e15-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/04/39228769-ae4c125a-4857-11e8-8b3a-649e2b751e15.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Dealing with text that is a mixture of Latin and Arabic script is complex and sometimes we have to deal with interesting bugs. Fortunately we have our own weapon to fight those bugs. If in Star Wars they have protocol droids like C3PO, in the YaST team we have Martin Vidner, which is the closer human equivalent.</p>
+<p>He fixed all the reported bugs and even created a tool to help debugging similar problems in the future. You can find <a href="https://github.com/mvidner/bidi-debugger">the source code of that tool</a> in Github. There is even a <a href="https://bidi-debugger.herokuapp.com/">hosted instance</a> of the tool to be used by translators or anyone who is curious. </p>
+<p>Now, even complex interfaces like our Partitioner look correct enough in right-to-left languages, so we will not have to send mirrors to all our Arabic users.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/04/ar-partitioner-installed-system.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/04/ar-partitioner-installed-system-300x227.png" alt="The YaST Partitioner in Arabic" width="300" height="227" class="aligncenter size-medium wp-image-13740" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/04/ar-partitioner-installed-system-300x227.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/04/ar-partitioner-installed-system-768x581.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/04/ar-partitioner-installed-system.png 971w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>If you want to know more about this exciting but very complex problem of bidirectional texts, you can start with the following documents.</p>
+<ul>
+<li><a href="https://gist.github.com/mvidner/e96ac917d9a54e09d9730220a34b0d24#file-bidi-problems-md">Martin&#8217;s great summary</a> of the types problems found in YaST and their respective solutions.</li>
+<li><a href="https://en.wikipedia.org/wiki/Bi-directional_text">Wikipedia: Bi-directional text</a>, an overview of the concepts</li>
+<li>Unicode Standard Annex #9: <a href="http://www.unicode.org/reports/tr9/">Unicode Bidirectional Algorithm</a>, the gory details, 50 pages of them
+</li>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/04/bidi-989383-hack.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/04/bidi-989383-hack-300x185.png" alt="More Arabic YaST" width="300" height="185" class="aligncenter size-medium wp-image-13741" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/04/bidi-989383-hack-300x185.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/04/bidi-989383-hack-768x474.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/04/bidi-989383-hack.png 801w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>On related news, we got also some reports about some problems visualizing bullet-points in Korean with the beta versions of the future SLE-15-SP1. But as we could verify, all those problems are gone now.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/04/korean-bullets-sles15sp1.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/04/korean-bullets-sles15sp1-300x194.png" alt="SLES installer in Korean" width="300" height="194" class="aligncenter size-medium wp-image-13744" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/04/korean-bullets-sles15sp1-300x194.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/04/korean-bullets-sles15sp1-768x497.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/04/korean-bullets-sles15sp1.png 809w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3>Storage Fixes</h3>
+<p>Other area that has received some attention in this sprint is the storage management. Three related features needed adjustments before the upcoming (open)SUSE releases:</p>
+<ul>
+<li>Fixed the detection of the boot disk in the Partitioner warnings.</li>
+<li>The Guided Setup now works better when doing several attempts in different disks.</li>
+<li>AutoYaST can now install over NFS.</li>
+</ul>
+<p>One of the last storage features that the YaST Team has developed is the support for Bcache devices in the Expert Partitioner. While our QA team was testing it, they found a bug. The Partitioner was complaining because the boot disk did not contain a partition table, which is a mandatory condition for a Legacy (non-UEFI) x86 system. But it was a bogus warning, since they had actually defined a <code>/boot</code> partition in another disk.</p>
+<p>That&#8217;s how we found that our Partitioner gets confused if there is a separate partition mounted at <code>/boot</code> and located in a different disk than the root file-system. The Partitioner insisted in considering the disk containing <code>/</code> to be the one that would be using for booting, instead of checking the structure of the disk containing <code>/boot</code>. Now that is fixed and the improvement will be available for the upcoming SLE 15 SP1, Leap 15.1 and, of course, openSUSE Tumbleweed.</p>
+<p>But that was not the only storage bug fixed just in time for the upcoming releases. Some sprints ago, the Storage Proposal algorithm for the initial proposal was modified to try installing on each of the individual disks. If the installation was not possible over a given disk, even after disabling all optional configurations (e.g., snapshots and separate <code>/home</code>), a new proposal is tried over the next disk and so on. The problem was that the disabled options in the previous attempt were not restored back when switching to the next disk. This caused some ugly side effects, for example, if the swap partition was disabled when trying over the first disk, then the proposal did not try to create a swap when it was performing the proposal over the next disk. But now this is also fixed and it will work as expected.</p>
+<p>And last but not least, AutoYaST now supports to install over a Network File System (NFS). This feature was left back when the new YaST storage stack was re-implemented for SLE 15 GA. Actually, this is a non documented feature. That&#8217;s why we overlooked that SUSE 12 was able to do it using some hacks and a non-validating AutoYaST profile. But no worries, the feature is available again and such profile will work now in any updated SLE-15 or Leap 15.0. Of course, it will also work while installing SLE-15-SP1 or openSUSE Leap 15.1 and Tumbleweed.</p>
+<p>Nevertheless, we are working on a better and documented way of supporting that scenario in the future, with no need to twist the specification of the AutoYaST profile. Stay tuned for more information.</p>
+<h3>Rethinking the Location of Special Boot Partitions</h3>
+<p>And now that the storage layer looks sane and healthy for the upcoming releases, we also took some time to think about future improvements. As you know, the storage Guided Setup always proposes to create special boot partitions as needed on each case. That can be a BIOS BOOT (for Legacy x86 systems with GPT), an ESP (for UEFI systems), PReP (for PPC systems) or zipl (for S/390 systems). Strictly speaking those partitions doesn&#8217;t have to always be in the same disk than the root partition and in some cases having it on a separate one can have some advantages (like sharing the ESP partition with another operating systems).</p>
+<p>But we have been reconsidering all the cases, the expectations of most users and of the majority of BIOS vendors and the known bugs in other operating systems about sharing boot partitions. We have decided to be more strict in the future about the location of those partitions. Starting today with openSUSE Tumbleweed and in the 15.2 releases of openSUSE Leap and SLE, the Guided Setup will always propose those partitions in the system disk. That is, in the disk containing <code>/boot</code> and the root filesystem.</p>
+<h3>The future of YaST Network is here</h3>
+<p>Those who follow this blog know that we invested quite some time on the last couple of years rewriting the part of YaST that was more buggy and harder to modify &#8211; the storage stack. And surely you have already noticed that since we did it we are introducing new features at a very good pace (like bcache, more powerful Partitioner, Raspberry Pi support, etc.) and fixing the reported bugs in a matter of days or even hours.</p>
+<p>The next in our list of YaST areas to revamp is the networking support. And we are happy to announce that we are starting to have some visible results in that. There is still a very long road ahead and we will provide more information in upcoming reports. But at least we have already a preview of a fully rewritten management of network routes. It&#8217;s still not available in openSUSE Tumbleweed. But for those who can&#8217;t wait, here you can see the first screenshot. All based in new and clean code backed by automated tests.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/04/RoutingStandalone.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/04/RoutingStandalone-300x236.png" alt="New network routing dialog" width="300" height="236" class="aligncenter size-medium wp-image-13748" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/04/RoutingStandalone-300x236.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/04/RoutingStandalone.png 573w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3> Activating Online Repositories in openSUSE Leap 15.1</h3>
+<p>The openSUSE Tumbleweed installer asks at the beginning of the installation whether to activate and use the online repositories when a network connection is available.</p>
+<p>The reason is that the installation DVD does not contain all available packages because of the limited media size. Another advantage is that the installer might directly install newer packages than on the media, this avoids installing the older versions first and then upgrading them to the latest version.</p>
+<p>However, in some case you might not want to use the online repositories, for example if the network connection is slow or is paid.</p>
+<p>We got a bug report that this question was missing in the Leap 15.1. It turned out that the <code>control.xml</code> file which drives the installer did not contain this step. After adding few lines into the file you can now enjoy the online repositories also in Leap 15.1!</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/04/55151188-f23e1f80-514d-11e9-8dc3-8fe5ab2f93df.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/04/55151188-f23e1f80-514d-11e9-8dc3-8fe5ab2f93df-300x225.png" alt="Online repositories in Leap 15.1" width="300" height="225" class="aligncenter size-medium wp-image-13750" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/04/55151188-f23e1f80-514d-11e9-8dc3-8fe5ab2f93df-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/04/55151188-f23e1f80-514d-11e9-8dc3-8fe5ab2f93df-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/04/55151188-f23e1f80-514d-11e9-8dc3-8fe5ab2f93df.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Why are we writing about this? The reason for the missing step in the Leap 15.1 was a bit surprising. Normally all YaST packages are developed in the Git <code>master</code> branch for both Tumbleweed and Leap. However, in this case the Leap 15.1 has been already branched and was developed separately, the changes in the <code>master</code> went only to the Tumbleweed. And we overlooked that small difference when adding this step.</p>
+<p>To avoid this in the future we added a <a href="https://github.com/yast/skelcd-control-openSUSE/pull/180/files">pull request template with a reminder</a> which informs the developers about this difference in the Git setup when opening a pull request.</p>
+<p>If your project also has some unusual setup then the <a href="https://help.github.com/en/articles/creating-a-pull-request-template-for-your-repository">pull request template</a> might a good reminder for you as well.</p>
+<h3>Building the Docker Images in OBS</h3>
+<p>But the reminders about the correct branches and procedures is not the only news we have for YaST contributors and main developers. As you may remember, few years ago we switched to <a href="https://lizards.opensuse.org/2017/02/03/highlights-of-yast-development-sprint-30/">using Docker at Travis</a>. That works well but we found some disadvantages of that initial setup.</p>
+<ul>
+<li>You need extra account at the Docker Hub to manage the images.</li>
+<li>There is no link between OBS and the Docker Hub, we cannot easily trigger image rebuild when a package is updated in OBS.</li>
+<li>We only blindly triggered the rebuild every 2 hours (in some cases the rebuild is not necessary, in some cases it took too much time).</li>
+<li>The Docker Hub can use the new OBS packages only after they are published by OBS.</li>
+<li>The build at the Docker Hub is quite slow (~20 minutes in our case), if an image is currently being built the build is added into the queue and it will start after the previous builds are finished.</li>
+</ul>
+<p>The result is that a new package can be available in Travis several hours after merging the pull request. And even after triggering the build manually it still might take more than one hour.</p>
+<p>We needed a faster cycle and the solution, as usually happens, was in the openSUSE ecosystem. As you may know, the Open Build Service is able of much more than just building packages. So we decided to make use of the OBS capacity of building Docker images.</p>
+<p>Building both our packages and our Docker images in OBS comes with many advantages:</p>
+<ul>
+<li>The image build is started immediately when the new packages are built, it does not wait for publishing the packages and does not wait for full rebuild (only for the needed packages).</li>
+<li>No extra accounts/permissions (just use your OBS account).</li>
+<li>The build in OBS is faster (6-7 minutes).</li>
+<li>No need for extra Jenkins jobs periodically triggering the image rebuilds.</li>
+</ul>
+<p>This means the new packages should be available in the Docker image in about 10-15 minutes after merging a pull request (for leaf packages, changing a core package which triggers a complete YaST rebuild will of course take more time).</p>
+<p>If you want to learn more about this topic, take a look to the following links:</p>
+<ul>
+<li>The <a href="https://build.opensuse.org/image_templates">OBS Image templates</a> &#8211; examples of Docker images</li>
+<li>The <a href="https://registry.opensuse.org">OBS Docker registry</a> &#8211; the built Docker images are published here</li>
+<li>The <a href="https://github.com/yast/ci-ruby-container">sources for the YaST Ruby</a> container and the respective OBS <a href="https://build.opensuse.org/package/show/YaST:Head/ci-ruby-container">ci-ruby-container</a> package</li>
+<li>The <a href="https://github.com/yast/ci-cpp-container">sources for the YaST C++</a> container and the respective OBS <a href="https://build.opensuse.org/package/show/YaST:Head/ci-cpp-container">ci-cpp-container</a> package</li>
+</ul>
+<h3>And that was not all!</h3>
+<p>As usual, the content of this report is just a small subset of all the work the YaST Team does in two weeks. In this sprint, most of that work went to fixing all kind of bugs in preparation for the next releases. Big bugs, small ones, hidden bugs and embarrassingly obvious ones. Hopefully, you got a fix for your reported bug. If not, you can always stay tuned for more news after the next sprint. And don&#8217;t forget to have a lot of fun!</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2019/04/10/yast-sprint-75/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>Highlights of YaST Development Sprint 56</title>
+		<link>https://lizards.opensuse.org/2018/05/08/highlights-of-yast-development-sprint-56/</link>
+		<pubDate>Tue, 08 May 2018 09:40:33 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Localization]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=13188</guid>
+		<description><![CDATA[LEAP/SLE 15 is getting more stable and closer to be released, but to keep this process flowing, our team of bug killers is having a lot of work to do! This last sprint we had several fixes for really special scenarios. The kind of problems that you can find once most of things are working [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>LEAP/SLE 15 is getting more stable and closer to be released, but to keep this process flowing, our team of bug killers is having a lot of work to do!</p>
+<p>This last sprint we had several fixes for really special scenarios. The kind of problems that you can find once <del>most of</del> things are working fine! So let&#8217;s take a look at some of these cases and how we&#8217;re working to stabilize this upcoming release.</p>
+<h2>Keep predictable network devices settings on S390x</h2>
+<p>A not well-known feature in YaST is that many specific boot parameters for installation are also used on the target system. However, this approach has one exception: the S390 mainframe. In this case, many installation specific parameters should not go to the target system and, therefore, we ignore all installation parameter for this system.<br />
+In the last sprint, we worked on a bug, which reported that at least systemd predictable names for network devices should be also used for S390 systems, otherwise the configuration done during the installation won&#8217;t be valid in a running system as network names will differ. So, from SLE15 we start to keep the settings of predictable network names for S390 systems.</p>
+<h2>Fun with console configuration of GRUB2</h2>
+<p>Another report that helped us to learn about other not well-known features was the one reporting that bootloader module does not support multiple console outputs of GRUB2. After digging into some code, we found out that YaST bootloader takes only native terminal, gfxterm or serial console in consideration, but not a mix of them.<br />
+Once we looked at the manual of GRUB2, we learned that it supports some funny outputs such as morse code, PC beeper or simple data protocol using system speaker. Of course, YaST2 bootloader does not support all these options and when it gets one of them, it is treated as an unexpected value and bootloader fails.</p>
+<p>As we are really close to Leap/SLE 15 release, we want to avoid big changes in the system.  So we decided to handle this issue by showing a popup, which informs that the configuration contains an unexpected value and asks if the whole proposed configuration should be proposed again or if YaST should quit and let the user edit it manually.</p>
+<p>If you are curious about how it looks like:</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2018/05/unsuported_conf_grub.png"><img src="//lizards.opensuse.org/wp-content/uploads/2018/05/unsuported_conf_grub-300x192.png" alt="" width="300" height="192" class="aligncenter size-medium wp-image-13194" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/05/unsuported_conf_grub-300x192.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/05/unsuported_conf_grub-768x493.png 768w, https://lizards.opensuse.org/wp-content/uploads/2018/05/unsuported_conf_grub-1024x657.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2018/05/unsuported_conf_grub.png 1347w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>For Leap 15.1 / SLE 15 SP1 we plan to extend the values that we support to provide a nicer experience for the user.</p>
+<h2>Bootloader configuration during upgrade</h2>
+<p>Another reported issue in bootloader was also solved this last sprint. When upgrading from Leap 42/SLE 12 to Leap/SLE 15, if the user clicks on booting on the proposal, the system crashes. The reason is that usually on openSUSE 13.2/SLE 11 it needs to repropose bootloader during the upgrade. This is no longer required for the latest upgrade and, therefore, YaST does not expect that the user will click on it. We would like to remove this option completely, but YaST still support upgrade from SLE11 to SLE15,  so we still need it there. In the end, the solution is to show a popup informing the user that the modification of bootloader is not supported during upgrade.</p>
+<p>In short, take a look at the screenshot:</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2018/05/bootloader_conf_upgrade.png"><img src="//lizards.opensuse.org/wp-content/uploads/2018/05/bootloader_conf_upgrade-300x220.png" alt="" width="300" height="220" class="aligncenter size-medium wp-image-13195" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/05/bootloader_conf_upgrade-300x220.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/05/bootloader_conf_upgrade-768x564.png 768w, https://lizards.opensuse.org/wp-content/uploads/2018/05/bootloader_conf_upgrade-1024x753.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2018/05/bootloader_conf_upgrade.png 1030w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h2>Fixing kdump on Xen</h2>
+<p>We got a report about <a href="https://en.wikipedia.org/wiki/Kdump_(Linux)">kdump</a> breaking when it is used in Xen. To explain the problem, we need to go back to how we configure a parameter and the reasons we implemented it in this way: In current versions (before this fix) when a user wants to use kdump,  we configure the crashkernel kernel parameter for all targets, for the common kernel, Xen PV0 domain and also Xen guests. This approach worked very well in the past because traditional xenlinux ignores crashkernel for PV0 and just pass it to Xen VMs. However, the current pvops implementation of Xen no longer ignores this parameter and consequently, it results in breaking the Xen virtualization. The solution for this issue was pretty simple: YaST stopped to propose using crashkernel for Xen PV0 and everything works again. This is a perfect example to show how to understand the issue, sometimes, takes much more time than to fix it!</p>
+<h2>Improving the upgrade from SLE11/12 to SLE15</h2>
+<p>We are still improving the migration from SLE11 or SLE12 to SLE15 and this sprint we were focused on the automated registration upgrade using AutoYaST. If you are not familiar with the autoupgrade feature you can find more details in the <a href="https://www.suse.com/documentation/sles-12/singlehtml/book_autoyast/book_autoyast.html#CreateProfile.upgrade">documentation</a>.</p>
+<p>We already supported manual registration upgrade from the old products, but the automated way was still not adapted to the new SUSE Customer Center (SCC) API and it did not work correctly. This sprint we have adapted the registration upgrade code to correctly work in the interactive mode and also in the automatic upgrade.</p>
+<p>The code was adapted to skip the user interaction and do everything manually when running in the autoupgrade mode. The only problematic part was how to handle multiple migration targets, which in the interactive upgrade we ask the user to choose one. To have a simple solution we decided to take the first migration, later (SP1) we might allow configuring this as well. But as now there is only one migration possible anyway, this looks like a good enough solution.</p>
+<h2>Falling back to the guided proposal</h2>
+<p>During this sprint, we were informed that AutoYaST was unable to display a proper error message when no <code>partitioning</code> section was specified and there was not enough disk space. The bug was rather easy to solve, but we wanted to take the opportunity to highlight how AutoYaST works when the <code>partitioning</code> section is missing from the profile.</p>
+<p>In the past, AutoYaST implemented its own logic, different from the one used during a normal installation. Fortunately, as part of the adaptation to the new storage layer, AutoYaST relies now on the same code than the regular installation in order to propose a partitioning layout when the <code>partitioning</code> section is not specified. What is more, you can override some values which are defined in the product&#8217;s control file by setting them in the <code>general/storage</code> section from the AutoYaST profile.</p>
+<h2>Leap /SLE 15 is closed, but Tumbleweed is still rolling</h2>
+<p>We are really close to release Leap/SLE 15 and we are more focused on minimal changes that fix only critical stuff. On the other hand, Tumbleweed users are looking always for the latest and greatest features. In order to satisfy both groups, YaST separated Leap 15.1/SLE 15 and Tumbleweed in two different git branches. In this way, we can easily start adding new features, bug fixes and other improvements for Tumbleweed while we keep SLE15 stabilized. Besides that, there is another planned Service Pack for SLE12, and once we start to work at it, we&#8217;ll also create a new separated branch to include these changes. We also adapted all related infrastructure around the branches, such as CI, docker testing images, among others.</p>
+<p>This way, we are able to allow you to enjoy the stable Leap 15 or the latest and hottest Tumbleweed.</p>
+<h2>Conclusion</h2>
+<p>We&#8217;re now working on our last sprint before the openSUSE Conference 2018. In two weeks we&#8217;ll come back with the highlights of Sprint 57 and until there we hope that you have already everything planned to enjoy the conference that will occur in Prague this year (we hope that you enjoy the city too). We&#8217;re looking forward to seeing you there!</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Highlights of YaST Development Sprint 55</title>
+		<link>https://lizards.opensuse.org/2018/04/24/highlights-of-yast-development-sprint-55/</link>
+		<pubDate>Tue, 24 Apr 2018 14:01:09 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Localization]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=13138</guid>
+		<description><![CDATA[Time flies. We are almost in May and the openSUSE Conference &#8217;18 is around the corner. So after booking your flights (if you need to) and your acommodation, you might want to know what happened in the YaST world during the Development Sprint 55th. The YaST team is currently polishing the upcoming release, introducing some [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Time flies. We are almost in May and the openSUSE Conference &#8217;18 is around the corner. So after booking your flights (if you need to) and your acommodation, you might want to know what happened in the YaST world during the Development Sprint 55th.</p>
+<p>The YaST team is currently polishing the upcoming release, introducing some improvements and fixes. There are no breaking changes but still we have a lot of things to blog about.</p>
+<h2 id="updating-nfs-version-handling">Updating NFS Version Handling</h2>
+<p>Once upon a time, back in 2008 to be precise, the Large Hadron Collider (LHC) was finally ready, Raúl Castro replaced Fidel as President of Cuba, the TV show Phineas and Ferb was previewed&#8230; and <code>yast2-nfs-client</code> added support to configure NFSv4 mounts. Back then, the proper way of doing that was using &#8220;nfs4&#8221; as type for mounting the NFS share, i.e. writing &#8220;nfs4&#8221; in the <code>vfstype</code> column of the <code>/etc/fstab</code> file. Some time later, NFS4.1 (also known as pNFS) came out, and a new mount option &#8220;minorversion=1&#8221; was added. Very soon it was clear that such solution was not scaling and was not the way to go.</p>
+<p>So at some point &#8220;nfs4&#8221; was deprecated as acceptable value for <code>vfstype</code> and &#8220;minorversion&#8221; was ditched in favor of &#8220;nfsvers&#8221;. Since the old deprecated way of doing things was still working, <code>yast2-nfs-client</code> was never updated to reflect this. But starting with the upcoming Leap 15 and SLE 15, some things will change in NFSland (in fact, the change landed in openSUSE Tumbleweed some time ago already). The type &#8220;nfs4&#8221; will be considered identical to &#8220;nfs&#8221; and &#8220;minorversion&#8221; will be completely ignored, so your old NFS mounts may not work as you expect them to do it. Time to refresh <code>yast2-nfs-client</code>!</p>
+<p>During this sprint, <code>yast2-nfs-client</code> was not only fixed internally to produce valid entries in <code>/etc/fstab</code>, it also got a slightly revamped form to create and edit NFS mounts that should be less confusing than the old one and also more explanatory about how NFS versioning really works when defining a mount.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2018/04/yast2-nfs-client-nfsv4.png"><img src="//lizards.opensuse.org/wp-content/uploads/2018/04/yast2-nfs-client-nfsv4-300x154.png" alt="NFS version selection" width="300" height="154" class="aligncenter size-medium wp-image-13140" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/04/yast2-nfs-client-nfsv4-300x154.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/04/yast2-nfs-client-nfsv4.png 560w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>To ensure our users don&#8217;t get fooled by old entries that seems to be enforcing a particular NFS version (because they use &#8220;nfs4&#8221; as mount type, for example), but are in fact not doing it due to the new behavior in SLE 15 and openSUSE 15, <code>yast2-nfs-client</code> is now able to detect such circumstance, mark such entries in the list and offer a safe migration path to users.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2018/04/yast2-nfs-client-nfs4-warning.png"><img src="//lizards.opensuse.org/wp-content/uploads/2018/04/yast2-nfs-client-nfs4-warning-300x207.png" alt="nfs4 warning" width="300" height="207" class="aligncenter size-medium wp-image-13142" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/04/yast2-nfs-client-nfs4-warning-300x207.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/04/yast2-nfs-client-nfs4-warning-768x529.png 768w, https://lizards.opensuse.org/wp-content/uploads/2018/04/yast2-nfs-client-nfs4-warning.png 878w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>As you can infer from the screenshot above, all these improvements are available when <code>yast2-nfs-client</code> runs standalone, as well as when it runs embedded within the YaST Partitioner. Enjoy!</p>
+<h2 id="fixing-broken-translations">Fixing Broken Translations</h2>
+<p>Recently we got some bug reports about YaST crashing at some points when running in some specific locales. It turned out that the problem was caused by broken translations.</p>
+<p>A lot of translated texts contain placeholders like <code>%s</code>, <code>%{text}</code> or <code>%1</code>. These tags are replaced by the real values by YaST. But that requires that the translated text contains the same tags. If they are missing the value will not be included and, what is even worst, if they are invalid the Ruby interpreter throws an exception which means YaST aborts making our users unhappy. And that&#8217;s really bad, right?</p>
+<p>Unfortunately the Ruby gettext does not support format tags and the GNU gettext does not support Ruby at all. As a quick solution we wrote a script which checks whether all tags are included in the translated text and reports broken translations.</p>
+<p>The script found about 160 broken translations. The most common problems were usually just typos (<code>s%</code> instead of <code>%s</code>, <code>{%foo}</code> instead of <code>%{foo}</code>, or extra space in <code>%␣1</code>). But some cases were not that trivial. Translators by mistake also used the Unicode <code>٪</code> instead of the ASCII <code>%</code> or even translated the tags, which must stay untouched (<code>%{مساعدة}</code>).</p>
+<p>Some translations were obviously wrong or even contained the original English texts &#8211; we removed them. In some cases the tags were wrong but we were not sure whether the whole translation is valid. In that case instead of fixing the tags we removed the translated text completely. It is better to ask the translators for translating again than have a completely invalid translation.</p>
+<p>In the future we plan to improve these checks, so the tags are properly handled by Ruby and/or GNU gettext directly and we do not need a separate script for that.</p>
+<h2 id="installing-over-vnc-using-browser">Installing Over VNC Using the Browser</h2>
+<p>You are surely accustomed to remote administration using SSH. And, as you may know, the (open)SUSE installation can be done over SSH too. But, additionally, YaST also have support for installing over <a href="https://en.wikipedia.org/wiki/Virtual_Network_Computing" rel="nofollow">VNC</a>.</p>
+<p>When using VNC for installation, you can choose between using a native VNC viewer or a web browser based one. The cool thing about the second option, is that you can follow the installation just pointing your browser to <code>http://IP-ADDRESS:5801</code>.</p>
+<p>Until now, YaST was using a Java applet based implementation, which is no longer supported in browsers. But during this sprint, we have completed the switch to a JavaScript based solution.</p>
+<p>Unfortunately, that has resulted in losing an encryption layer: the HTTP connection on port 5801 is unencrypted, but the typical VNC port (5901) continues to be encrypted.</p>
+<h2 id="asking-once-about-equivalent-licenses">Asking Once About Equivalent Licenses</h2>
+<p>After splitting SUSE Linux Enterprise in several modules, it was pretty common that the user had to accept a couple of equivalent licenses during the installation process. Given that the content for those licenses was pretty much the same, it was quite confusing. Actually, we got a bug report about the installation process being stuck asking the user to accept the license over and over (it was just the same license being shown for different modules).</p>
+<p>In order to make our users happy, YaST is now able to decide whether two licenses are the same and, in that case, it will only ask once for acceptance. For the time being, YaST applies a hash function to license contents and compare the result, but most likely this mechanism will be refined in the future.</p>
+<h2 id="license-confirmation-caasp-3.0">License Confirmation in CaaSP 3.0</h2>
+<p>And talking about licenses, another small change about how they are handled was introduced in CaaSP 3.0. As you know, CaaSP features a One Dialog Installer and there was no room for the license to be shown. Now, before proceeding with the installation, YaST will show the license in the confirmation screen if needed.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2018/04/caasp-3-license-confirmation.png"><img src="//lizards.opensuse.org/wp-content/uploads/2018/04/caasp-3-license-confirmation-300x188.png" alt="CaaSP 3.0 License Confirmation Popup" width="300" height="188" class="aligncenter size-medium wp-image-13166" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/04/caasp-3-license-confirmation-300x188.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/04/caasp-3-license-confirmation-768x482.png 768w, https://lizards.opensuse.org/wp-content/uploads/2018/04/caasp-3-license-confirmation-1024x643.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2018/04/caasp-3-license-confirmation.png 1176w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h2 id="improving-code-boot-option-handling">Improving the <code>addon</code> Boot Option Handling</h2>
+<p>Back in February, we <a href="https://lizards.opensuse.org/2018/02/22/highlights-of-yast-development-sprint-51/#made-the-addon-linuxrc-option-work-well-with-the-packages-dvd" rel="nofollow">improved the <code>addon</code> boot option</a> to handle the SUSE Linux Packages DVD properly. However, during testing, we found out that if you are using a system which only has one DVD drive, the installation DVD will be automatically used as an <code>addon</code>.</p>
+<p>In order to fix this conflict, if the installation media and the Packages DVD are going to use the same drive, YaST will ask the user to change the DVD before using it as an addon.</p>
+<p>Additionally, we improved the <a href="https://en.opensuse.org/SDB:Linuxrc#p_addon" rel="nofollow">documentation of the addon boot option</a> adding new examples to clarify how the <code>dvd:///</code> URLs are handled.</p>
+<h2 id="echoes-winter-white-text-white-background">Echoes of Winter: White Text on a White Background</h2>
+<p>These days we fixed a bug that only allowed clairvoyant users to finish the installation of <a href="https://en.opensuse.org/Portal:Kubic" rel="nofollow">openSUSE Kubic</a>.</p>
+<p>The bug is pretty unremarkable but may we draw your attention to the related CSS styling engine? It powers the high-contrast color mode that you can select with F3 or with <a href="https://en.opensuse.org/SDB:YaST_tricks" rel="nofollow">Y2STYLE</a>:</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2018/04/linuxrc-color-mode-selection.png"><img src="//lizards.opensuse.org/wp-content/uploads/2018/04/linuxrc-color-mode-selection-150x150.png" alt="Linuxrc Color Mode Selection" width="150" height="150" class="aligncenter size-thumbnail wp-image-13144" /></a></p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2018/04/installer-high-contrast.png"><img src="//lizards.opensuse.org/wp-content/uploads/2018/04/installer-high-contrast-150x150.png" alt="Installer in High Contrast Mode" width="150" height="150" class="aligncenter size-thumbnail wp-image-13147" /></a></p>
+<p>and if you press Ctrl-Alt-Shift-S (for <strong>s</strong>tyle) you can change the styling on the fly, as in this example of changing the background color:</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2018/04/installer-stylesheet-editor.png"><img src="//lizards.opensuse.org/wp-content/uploads/2018/04/installer-stylesheet-editor-300x233.png" alt="Installer Stylesheet Editor" width="300" height="233" class="aligncenter size-medium wp-image-13165" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/04/installer-stylesheet-editor-300x233.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/04/installer-stylesheet-editor-768x598.png 768w, https://lizards.opensuse.org/wp-content/uploads/2018/04/installer-stylesheet-editor.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h2 id="conclusions">Conclusions</h2>
+<p>openSUSE Leap 15.0 release is approaching and, as usual, we need help from our dear users to give testing versions a try and report bugs. Thanks in advance!</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Highlights of YaST development sprint 35</title>
+		<link>https://lizards.opensuse.org/2017/05/25/yast-sprint-35/</link>
+		<pubDate>Thu, 25 May 2017 06:46:06 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Events]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Localization]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12509</guid>
+		<description><![CDATA[openSUSE Conference 2017 is coming! And as we flight there (literally, one third of the YaST team is in a plane right now typing this), we wanted to inform our beloved readers on what we did in the previous three weeks. So here is our report, brought to you by airmail! Bugfixes, bugfixes everywhere Leaving [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>openSUSE Conference 2017 is coming! And as we flight there (literally, one third of the YaST team is in a plane right now typing this), we wanted to inform our beloved readers on what we did in the previous three weeks.</p>
+<p>So here is our report, brought to you by airmail!</p>
+<h3>Bugfixes, bugfixes everywhere</h3>
+<p>Leaving openSUSE Tumbleweed aside, The YaST team is currently working to deliver SLE12-SP3, openSUSE Leap 42.3, SLE15, openSUSE Leap 15, SUSE CaaSP 1.0 and Kubic (more about Kubic later). Three of them are already in beta phase, which means they are being extensively tested by several parties and in many scenarios, hardware platforms and possible configurations. That amount of manual testing always result in several bug being discovered, no matter how much we try to have some automated tests for the most common cases.</p>
+<p>Many of the bugs our testers are finding are related to <a href="https://en.wikipedia.org/wiki/Internationalization_and_localization">internationalization and localization</a>, mainly texts in the UI that are always displayed in English, despite the system been configured (or being installed) in a different language.</p>
+<p>But, of course, other kind of bugs are also being found. For example, our hardware detection component (<code>hwinfo</code>) was not able to deal with some new machines, making the installation experience everything but pleasant.</p>
+<p>As a result, a significant amount of the YaST team manpower during this sprint was targeted to squash those annoying bugs. Which doesn&#8217;t mean we didn&#8217;t have time for some interesting new features and improvements.</p>
+<h3>Storage reimplementation: unlock encrypted devices</h3>
+<p>Once again, our new storage system comes with news. Now it&#8217;s able to detect and unlock preexisting encrypted devices during the hard disks probing step, raising you a new pop-pup dialog to ask for the corresponding device password. After unlocking the devices, all your installed systems will be accessible for upgrade and, moreover, the LVM volumes allocated over encrypted devices will be activated.</p>
+<p>The new storage stack is expected to debut in SLE15 (and, thus, openSUSE Leap 15), but the functionality can already be tested, for both the installation and upgrade processes, with the <a href="https://github.com/yast/yast-storage-ng#trying-the-installation-process">StorageNG test ISOs</a>.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2017/05/luks-activation.png"><img src="//lizards.opensuse.org/wp-content/uploads/2017/05/luks-activation-300x225.png" alt="Luks activation in StorageNG" width="300" height="225" class="aligncenter size-medium wp-image-12510" srcset="https://lizards.opensuse.org/wp-content/uploads/2017/05/luks-activation-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2017/05/luks-activation-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2017/05/luks-activation.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3>The storage reimplementation &amp; AutoYaST &#8211; a love story</h3>
+<p>But the happiest news coming from the new storage stack during this sprint is it&#8217;s marriage with AutoYaST. The new automatic partitioning proposal (that is, the &#8220;Guided Setup&#8221;) is now integrated with AutoYaST.</p>
+<p>Thanks to the new software architecture, AutoYaST users will be able to override every single partitioning setting from the control file.</p>
+<pre>
+&lt;profile xmlns="http://www.suse.com/1.0/yast2ns" xmlns:config="http://www.suse.com/1.0/configns"&gt;
+  &lt;general&gt;
+    &lt;storage&gt;
+      &lt;!-- Override settings from control file  --&gt;
+      &lt;try_separate_home config:type="boolean"&gt;false&lt;/try_separate_home&gt;
+      &lt;proposal_lvm config:type="boolean"&gt;true&lt;/proposal_lvm&gt;
+    &lt;/storage&gt;
+  &lt;/general&gt;
+&lt;/profile&gt;
+</pre>
+<p>So you can easily switch on/off LVM, use a separate partition for <code>/home</code>, enable/disable snapshots, enable/disable Windows resizing, etc. All that, still relying on the automated storage proposal to iron the details up. Something that is not possible with the current version of AutoYaST without being forced to define explicitly every partition and LVM volume.</p>
+<p>But the simplest way to use the new libstorage proposal is to not define any setting at all in the AutoYaST configuration file. In that case, the partitioning proposal code will do the complete job, installing a new system with the default options.</p>
+<p>Of course, before integrating the new storage stack into the upcoming SLE15, the AutoYaST support have to go one step further. Apart from using and configuring the proposal, it must be possible to define a completely custom setup including partitions, LVM volumes, software RAID devices and so on through the corresponding <code>&lt;partitioning&gt;</code> section of the AutoYaST profile. So we used this sprint to sketch a plan to make that possible in the following months, analyzing all the scenarios and configurations supported by AutoYaST and looking for the best way to support them using the existing <code>yast2-storage-ng</code> infrastructure. The outcome of that effort is <a href="https://github.com/yast/yast-storage-ng/blob/master/doc/autoyast.md">this detailed document</a> and a list of tasks (<a href="https://www.scrumalliance.org/community/articles/2007/march/glossary-of-scrum-terms#1130">PBIs</a> in Scrum jargon) for the upcoming sprints. So be prepared for more news in this regard.</p>
+<h3>Automatic Cleanup of Snapshots created by Rollback</h3>
+<p>So far the user had to ensure that snapshots created by rollbacks got deleted to avoid filling up the storage. This process has now been automated. During a rollback, Snapper now sets the cleanup algorithm to “number” for the snapshot corresponding to the previous default subvolume and for the backup snapshot of the previous default subvolume. This enhanced behavior will be available in SLE12-SP3 and openSUSE Leap 42.3. For more information take a look at <a href="http://snapper.io/2017/05/10/automatic-cleanup-after-rollback.html">the more detailed post</a> in the Snapper blog.</p>
+<h3>Helping to bring the CaaSP fun to openSUSE</h3>
+<p>For several sprints already we have been presenting features targeted to SUSE CaaSP, the Kubernets-powered solution for managing containers. Many of those features and custom configurations live in a package called <code>yast2-caasp</code>, originally targeted to this great upcoming product built on top of the SLE12-SP2 codebase.</p>
+<p>But now the package is also available for Tumbleweed-based systems by request of the <a href="https://github.com/kubic-project">Kubic project</a>. Kubic will be the openSUSE <i>alter ego</i> of SUSE CaaSP, that is, a Container as a Service Platform based on openSUSE and Kubernetes. As with any other YaST component, the exact same source code will shared by the SUSE product and its openSUSE brother.</p>
+<h3>Improved UX when an invalid registration URL is provided</h3>
+<p>Humans make mistakes, but when the mistakes are made entering some option in<br />
+the installation command line, it usually means that a reboot of the machine is be needed to fix them.</p>
+<p>That was the case for the registration URL (<code>regurl</code>) option. In the provided address was malformed the installation just stopped. During this sprint we have added an early check of that URL which allows the user to reenter it and continue with the installation. Something that obviously improves the user experience.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2017/05/wrong-regurl1.png"><img src="//lizards.opensuse.org/wp-content/uploads/2017/05/wrong-regurl1-300x225.png" alt="Invalid regurl handling in normal installation" width="300" height="225" class="aligncenter size-medium wp-image-12511" srcset="https://lizards.opensuse.org/wp-content/uploads/2017/05/wrong-regurl1-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2017/05/wrong-regurl1-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2017/05/wrong-regurl1.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>In case of an autoinstallation (AutoYaST), the error is reported and the steps to get installer updates and to register the system are skipped.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2017/05/wrong-regurl2.png"><img src="//lizards.opensuse.org/wp-content/uploads/2017/05/wrong-regurl2-300x225.png" alt="Invalid regurl handling in autoinstallation" width="300" height="225" class="aligncenter size-medium wp-image-12512" srcset="https://lizards.opensuse.org/wp-content/uploads/2017/05/wrong-regurl2-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2017/05/wrong-regurl2-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2017/05/wrong-regurl2.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>There is still room for more improvements, allowing the user to also modify the URL in other scenarios. For example, for an URL with a valid format but that points to an unreachable server. But in those cases is not so straightforward to identify the culprit of the problem. It would make no sense to annoy the user with a recurring pop-up to change the registration URL if the root of the issue is not the URL but a incorrect network configuration.</p>
+<h3>Translations and Interpolations</h3>
+<p>As mentioned at the begining of this post, we recently got quite some bug reports about missing translations. Although some of them were really caused by bugs in the YaST code, others were a consequence of a buggy Ruby <code>rxgettext</code> script which collects the translatable strings from the Ruby source code. The bug is known by the Ruby-GetText developers, but it&#8217;s unclear when (or whether) it will be fixed.</p>
+<p>The problem is that the tool cannot collect the translatable strings from interpolations. For example it cannot find the &#8220;foo&#8221; string from this string literal: <code>"#{_("foo")}"</code>. As a result, that string is missing in the resulting POT file and cannot be translated by the SUSE or openSUSE localization teams.</p>
+<p>As a workaround, we fixed the YaST code to not use the translations inside interpolations. We also <a href="https://yastgithubio.readthedocs.io/en/latest/localization/#interpolations">documented</a> the possible problems when mixing translations a interpolations and their solution.</p>
+<p>And talking about new developer oriented documentation&#8230;</p>
+<h3>Security Tips for YaST Developers</h3>
+<p>YaST runs with the administrator privileges (<code>root</code>) and therefore we have to be aware of the possible security issues in the code. During this sprint we published a document with a short summary of security tips for YaST developers.</p>
+<p>If you are programming an YaST module you should definitely read it, but it might be interesting also for other programmers as many mentioned issues are generic, not tight only to YaST.</p>
+<p>The document is available online <a href="http://yastgithubio.readthedocs.io/en/latest/security-tips/">here</a>.</p>
+<h3>See you at the conference</h3>
+<p>That&#8217;s all for this sprint report. We have many more things in the oven, be we didn&#8217;t manage to finish them during the sprint, so they will have to wait for the next report. Meanwhile we hope to see many of you at the <a href="https://events.opensuse.org/conference/oSC17">openSUSE Conference 2017</a>. There will be a whole workshop about modern YaST development, a summary with the more relevant news in the last year of YaST development, talks about the new superb yast2-configuration-management module, about our continuous delivery infrastructure and about how we use Docker to deliver YaST&#8230; And, of course, also many other interesting content like the awesome presentation from Thorsten Kukuk about the brand new openSUSE Kubic we mentioned earlier. And even more important, a lot of fun!</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2017/05/osc17final.png"><img src="//lizards.opensuse.org/wp-content/uploads/2017/05/osc17final-300x214.png" alt="openSUSE Conference 2017" width="300" height="214" class="aligncenter size-medium wp-image-12515" srcset="https://lizards.opensuse.org/wp-content/uploads/2017/05/osc17final-300x214.png 300w, https://lizards.opensuse.org/wp-content/uploads/2017/05/osc17final-768x548.png 768w, https://lizards.opensuse.org/wp-content/uploads/2017/05/osc17final.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>For those of you that cannot attend to the conference, see you again in this little corner of the internet in three weeks!</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Highlights of YaST development sprint 26</title>
+		<link>https://lizards.opensuse.org/2016/10/20/highlights-of-yast-development-sprint-26/</link>
+		<comments>https://lizards.opensuse.org/2016/10/20/highlights-of-yast-development-sprint-26/#comments</comments>
+		<pubDate>Thu, 20 Oct 2016 12:36:54 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Localization]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[Usability]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12055</guid>
+		<description><![CDATA[We did our best to keep you entertained during this development sprint with a couple of blog posts ([1] and [2]). But now the sprint is over and it&#8217;s time for a new report. Squashing low priority bugs One of the main reasons to adopt Scrum was to ensure we make a good use of [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>We did our best to keep you entertained during this development sprint with a couple of blog posts (<a href="https://lizards.opensuse.org/?p=12019">[1]</a> and <a href="https://lizards.opensuse.org/?p=12030">[2]</a>). But now the sprint is over and it&#8217;s time for a new report.</p>
+<h3>Squashing low priority bugs</h3>
+<p>One of the main reasons to adopt Scrum was to ensure we make a good use of our development resources (i.e. developers&#8217; time and brains) focusing on things that bring more value to our users. In the past we had the feeling that many important things were always postponed because the developers were flooded by other not so important stuff. Now that feeling is gone (to a great extent) and we have a more clear and shared view of the direction of our development efforts.</p>
+<p>But there is always a drawback. We have accumulated quite some unsolved low-priority bugs. That was an expected consequence, but still it was starting to feel wrong. On one hand, it makes us feel uncomfortable &#8211; replying &#8220;this will have to wait&#8221; so often is not nice, even if it&#8217;s for the shake a bigger goal. On the other hand, the amount of low-priority stuff was affecting the signal/noise ratio on Bugzilla, making harder to distinguish the important stuff.</p>
+<p>So far, dealing with those low-priority bug was something that each developer did on his own, as permitted by the time dedicated to Scrum. In sprint 26 we decided to make that effort an explicit part of the process and to devote a significant portion of the sprint to it. As a result we closed or reassigned a total of 135 bugs that were just sitting in our list.</p>
+<p>Yes, you did read it right. One hundred and thirty five bugs.</p>
+<h3>Storage reimplementation: our testing ISO can already destroy your data</h3>
+<p>On the previous sprint we already showed a screenshot of the installer using the new storage stack to calculate a partitioning proposal. Now the installer can go one step further. As you can see on this animation, the changes are now committed to the disk, meaning the system is actually partitioned, formatted and installed.</p>
+<p><img src="//lizards.opensuse.org/wp-content/uploads/2016/10/demo_commit_to_disk.gif" alt="Installation with the new storage stack"></p>
+<p>The process is interrupted after installing the software, when trying to configure and install the bootloader. That was expected because yast2-bootloader has still not been adapted to use the new stack. First of all, because we wanted to leave some fun for sprint 27. But also because we used this sprint (26) to document <a href="https://github.com/yast/yast-bootloader/blob/master/doc/boot_storage_needed_info.md">all the requirements of yast2-bootloader</a> in relation to the new storage stack. Now we have in place all the ingredients to cook an installable ISO.</p>
+<h3>Automatic update of translation files</h3>
+<p>Recently openSUSE has adopted <a href="https://weblate.org">Weblate</a> to perform and coordinate the translation of the software and the project&#8217;s web pages. The <a href="https://l10n.opensuse.org/">openSUSE&#8217;s Weblate instance</a> enables everybody (from dedicated translators to casual contributors) to take part in the process and makes possible to coordinate the translations of openSUSE with the ones for SUSE Enterprise Linux, boosting collaboration between the translators of both projects.</p>
+<p>As YaST developers, is of course our responsibility to ensure that openSUSE&#8217;s Weblate contains always the latest English strings to be translated. Making our developer&#8217;s life easier sometimes not only brings advantages for us but also for our users. Until now, after each code change we had to keep in mind to trigger the translation process for every added or changed English text. Sometimes we were not quick enough so that some English leftovers remained in our awesome YaST when being used in one of the 20 languages where the translation is normally 100% complete.</p>
+<p>Now we finally set up a <a href="https://ci.opensuse.org/">Jenkins</a> job to automate the process of triggering the translation update after code changes. This saves the developers some work and makes the update of translations even faster.</p>
+<p>Looking at <a href="https://l10n.opensuse.org/languages/">Weblate numbers</a>, you can see we have 20 languages that are about 100% translated, another 20 that are translated more than 75% and 37 languages which are translated less than 75%. So we still need some help to bring all languages to 100% coverage. If you are willing to contribute, why not join our team of translators? Check out <a href="https://en.opensuse.org/openSUSE:Localization_guide">the localization guide</a> to get in contact with the coordinators of your preferred language to learn about how to contribute with translations, reviews or by any other mean.</p>
+<h3>Ensure installation of packages needed for booting</h3>
+<p>We got some reports of systems not being able to work after the installation in scenarios in which the user had customized the list of packages to install. That happened because, although the bootloader component of YaST pre-selects for installation all the needed packages, the user can override that selection and manually disable the installation of those packages.</p>
+<p>To prevent this situation, or at least to increase awareness of it, the installer now alerts in the summary screen (the last step before proceeding to installation) if some of the required packages is missing, as you can see in the screenshot below. We still allow the users to shoot their own feet if they insist, but now we warn them very clearly.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2016/10/softw.png"><img src="//lizards.opensuse.org/wp-content/uploads/2016/10/softw-300x226.png" alt="Warning about de-selected Grub2 package" width="300" height="226" class="aligncenter size-medium wp-image-12057" srcset="https://lizards.opensuse.org/wp-content/uploads/2016/10/softw-300x226.png 300w, https://lizards.opensuse.org/wp-content/uploads/2016/10/softw-768x578.png 768w, https://lizards.opensuse.org/wp-content/uploads/2016/10/softw-1024x770.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2016/10/softw.png 1025w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3>Progress in the low-vision accessibility of the installer</h3>
+<p>During this sprint, we have been working to make the (open)SUSE installer accessible to people with low-vision impairment. We already <a href="https://lizards.opensuse.org/?p=12019">blogged about it</a> looking for feedback.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2016/10/highc.png"><img src="//lizards.opensuse.org/wp-content/uploads/2016/10/highc-300x225.png" alt="One of the new color modes available in the installer" width="300" height="225" class="aligncenter size-medium wp-image-12065" srcset="https://lizards.opensuse.org/wp-content/uploads/2016/10/highc-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2016/10/highc-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2016/10/highc.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>In a few days, some changes will land in Tumbleweed:</p>
+<ul>
+<li>Alternative style selection (color and font-sizes). Currently, we offer four options: default (no changes), high contrast (cyan/green/white/black), white on black and cyan on black. Those styles are just a proof of concept in order to test the code changes and, most important, to get feedback from you.</li>
+<li>A <a href="https://bugzilla.suse.com/show_bug.cgi?id=768112">long-standing issue</a>, which prevented to switch to high-contrast mode during installation (shift+F4), has been fixed.</li>
+</ul>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2016/10/linuxrc.png"><img src="//lizards.opensuse.org/wp-content/uploads/2016/10/linuxrc-300x225.png" alt="Style selection at the beginning of installation" width="300" height="225" class="aligncenter size-medium wp-image-12066" srcset="https://lizards.opensuse.org/wp-content/uploads/2016/10/linuxrc-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2016/10/linuxrc-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2016/10/linuxrc.png 800w" sizes="(max-width: 300px) 100vw, 300px" /></a><br />
+Although we have made some progress, it is still an ongoing effort and we hope to release more improvements during the upcoming weeks.</p>
+<h3>Recover from broken bootloader configuration</h3>
+<p>There are situations in which YaST Bootloader is not able to read the system configuration. For example, when the udev device originally used by Grub2 is no longer available. In the past that leaded to YaST crashes, requiring a manual fix of the bootloader configuration files. Now YaST correctly detects the situation and offers the option to propose a new configuration with correct devices.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2016/10/bootl.png"><img src="//lizards.opensuse.org/wp-content/uploads/2016/10/bootl-300x170.png" alt="YaST bootloader fixing a broken configuration" width="300" height="170" class="aligncenter size-medium wp-image-12058" srcset="https://lizards.opensuse.org/wp-content/uploads/2016/10/bootl-300x170.png 300w, https://lizards.opensuse.org/wp-content/uploads/2016/10/bootl-768x435.png 768w, https://lizards.opensuse.org/wp-content/uploads/2016/10/bootl-1024x580.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2016/10/bootl.png 1346w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3>Disable autorefresh by default in local media</h3>
+<p>We have changed the default autorefresh flag for the new repositories added by YaST. In the past the autorefresh was enabled for all repositories except CD/DVD media and ISO files.</p>
+<p>With the new defaults the autorefresh is enabled only for remote repositories (like http, ftp, nfs,&#8230;). The reason is that some local repositories might not be always available (e.g. external hard disk, USB flash drive,&#8230;) and the automatic refresh might cause ugly errors when starting the package manager.</p>
+<p>Of course, you can still manually change the autorefresh flag after adding a repository if you need a different value.</p>
+<p><i>Note: The default has been changed in Tumbleweed distribution only, Leap 42.2 or SLE-12-SP2 keep the old defaults. The zypper behavior is unchanged as well, it by default disables autorefresh for all repositories. Only repositories imported from a .repo file have autorefresh enabled. See <code>man zypper</code> for more details.</i></p>
+<h3>Tons of improvements in network bridge handling</h3>
+<p>YaST Network is Swiss Army knife for network configuration which comprehends the management of routing, bonding, bridging and many other things. But, to be honest, the management of bridges was not in the best possible shape. It had quite some usability problems and it was not 100% consistent with the way in which bridges are managed nowadays by <a href="https://en.opensuse.org/Portal:Wicked">Wicked</a> in (open)SUSE. Until now!</p>
+<p>This <a href="https://github.com/yast/yast-network/pull/448">pull request</a> with several screenshots and animations tries to summarize all the changes that have been done during this sprint. Like adapting old configuration files to the new conventions or unifying the UI to make it consistent with the one for managing bonding.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2016/10/bridge.png"><img src="//lizards.opensuse.org/wp-content/uploads/2016/10/bridge-300x225.png" alt="Revamped YaST interface for handling bridges" width="300" height="225" class="aligncenter size-medium wp-image-12077" srcset="https://lizards.opensuse.org/wp-content/uploads/2016/10/bridge-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2016/10/bridge-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2016/10/bridge.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>This revamp includes also quite some usability improvements:</p>
+<ul>
+<li>&#8220;NONE&#8221; is shown instead of 0.0.0.0 for old bridge configuration.</li>
+<li>The bridge master is shown in the enslaved interface.</li>
+<li>The interfaces overview is updated after a bridge is modified.</li>
+</ul>
+<h3>Optimizing read of hosts file</h3>
+<p>It was reported that yast2-network was slow in system with a lot of entries in the <code>/etc/hosts</code> file. We took that as an opportunity to test the new profiler support in YaST. The profiler revealed the problem was in some slow calls to <a href="http://yastgithubio.readthedocs.io/en/latest/architecture/#system-configuration-repository-scr">SCR</a>, the layer traditionally used by YaST to interact with the underlying system&#8230; which sounded like another opportunity. This time an opportunity to expand the use of <a href="https://github.com/config-files-api/config_files_api">CFA</a> (the component we are developing to steady replace SCR) and its <a href="http://augeas.net/">Augeas</a> parser. Since Augeas already supports parsing of <code>/etc/hosts</code> files, it was quite straightforward to implement that into YaST&#8230; and the result is quite impressive.</p>
+<p>The time needed to execute the next command in a system containing a huge <code>/etc/hosts</code> with around 10,000 entries (quite an extreme case, we know) was reduced from 75 seconds to just 20.</p>
+<pre>
+yast2 lan list
+</pre>
+<p>As you can see in <a href="https://github.com/config-files-api/config_files_api/pull/10">this pull request</a>, we also improved CFA itself, greatly reducing the time needed for reading configuration files with Augeas.</p>
+<h3>That&#8217;s all&#8230; until next report</h3>
+<p>Once again, we must conclude the report telling that this was just a small summary of all the work done during the sprint and that we will be back in three weeks with the next report. Or maybe before, now that we are starting to get used to blog more often.</p>
+<p>In any case, see you soon and don&#8217;t forget to have a lot of fun!</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2016/10/20/highlights-of-yast-development-sprint-26/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Fosscomm 2011 in Patras &#8211; Greece</title>
+		<link>https://lizards.opensuse.org/2011/04/25/fosscomm-2011-in-patras-greece/</link>
+		<pubDate>Mon, 25 Apr 2011 11:38:16 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Events]]></category>
+		<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Localization]]></category>
+		<category><![CDATA[Marketing]]></category>
+		<category><![CDATA[foscomm2011]]></category>
+		<category><![CDATA[Greece]]></category>
+		<category><![CDATA[openSUSE]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7225</guid>
+		<description><![CDATA[Fosscomm 2011 The event will take place in Patras this year. For those of you who don&#8217;t know, fosscomm is one of the major foss event in Greece. I&#8217;ll go there and will make a presentation : Amazing openSUSE : we, you, together a promizing future! I hope to see all of you there! Come [&#8230;]]]></description>
+				<content:encoded><![CDATA[<div style="float:left;margin-right:12px;margin-bottom:32px">
+<a href="http://patras.fosscomm.gr" target="_blank"><img src="http://patras.fosscomm.gr/img/banner-box.png"></a>
+</div>
+<h2>Fosscomm 2011</h2>
+<p>The event will take place in <a href="http://osm.org/go/xb4_MJl--">Patras</a> this year. For those of you who don&#8217;t know, fosscomm is one of the major foss event in Greece.</p>
+<p>I&#8217;ll go there and will make a presentation :<br />
+Amazing openSUSE : we, you, together a promizing future!
+</p>
+<p>I hope to see all of you there! Come and meet the growing openSUSE Greek community, and most of the Greek ambassadors.
+</p>
+<p>Follow them on Twitter. The official hashtag of FOSSCOMM 2011 is: #fosscomm2011<br />
+<br /><a href="http://www.e-patras.gr/portal/web/common/home" title="Website of Patras">Official Patras city website</a><br />
+<br />PS: The websites is also available in english <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" />
+</p>
+<h2>Talk</h2>
+<h3>Title :</h3>
+<p><b>Amazing openSUSE<br />
+We, you, together a promising future !<br />
+</b></p>
+<h3>Talk Audience </h3>
+<p>general public, which would like to contribute in FOSS<br />
+<br />
+No special IT knowledge is required.
+</p>
+<h3>Abstract</h3>
+<p>openSUSE project is open: there&#8217;s a place for everybody!<br />
+<br />
+Come and (re)discover one of the oldest Linux distribution and one of the most youngest community.<br />
+<br />
+This talk is about the community powering the whole actual openSUSE Project :<br />
+<br />
+We will overfly openSUSE&#8217;s history, and the actual projects like open-build-service, susestudio, tumbleweed, evergreen, connect, openqa, and the near future a word about the openSUSE Foundation.<br />
+<br />
+Follow us deeper inside with examples how collaboration works between contributors, users, across the borders with others distributions and upstream projects.<br />
+<br />
+Want to be part of? Let&#8217;s talk about the &#8220;right&#8221; place for you!
+</p>
+<p style="clear:both">&nbsp;</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Outcome of the Christmas dinner…</title>
+		<link>https://lizards.opensuse.org/2010/12/12/outcome-of-the-christmas-dinner/</link>
+		<pubDate>Sun, 12 Dec 2010 18:49:57 +0000</pubDate>
+		<dc:creator><![CDATA[Nelson Marques]]></dc:creator>
+				<category><![CDATA[Localization]]></category>
+		<category><![CDATA[Marketing]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=6149</guid>
+		<description><![CDATA[Yesterday we&#8217;ve finally met to discuss what we can do together to solidify the Portuguese Community locally. The dinner took place at the selected place a bit later than the established hour. What we&#8217;ve decided: * ENOS: the &#8216;Encontro Nacional openSUSE&#8217; (openSUSE Community National Encounter) event is going to remain in our workflow. We&#8217;ve decided [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Yesterday we&#8217;ve finally met to discuss what we can do together to solidify the Portuguese Community locally. The dinner took place at the selected place a bit later than the established hour.</p>
+<p>What we&#8217;ve decided:</p>
+<p>* ENOS: the &#8216;Encontro Nacional openSUSE&#8217; (openSUSE Community National Encounter) event is going to remain in our workflow. We&#8217;ve decided to fully support a proposal for this years ENOS edition, this time in Lisbon Metropolitan area.</p>
+<p>* openSUSE IBERIA: Unanimous convergence to move forward the &#8216;openSUSE IBERIA&#8217; initiative and make it a priority in our work flow. We also discussed a proposal for a bi-yearly event to be hold in the Iberian Peninsula (taking place in Portugal or Spain, but addressed to everyone). We have also established that this events are to be hold in Universities Campus.</p>
+<p>* Battlefield: For us, in Portugal there is only one battlefield, Universities Campus. This is where we are going to be place all efforts.</p>
+<p>* openSUSE Event: A generic event was also discussed to take place in Universidade Fernando Pessoa (Porto), to be organized by João Martins (which is applying for Portuguese Ambassador alongside with me within the next weeks). We hope to involve more Universities and local corporate tissue on this event to take place in 2011 on an unknown date (May/June).</p>
+<p>* Portuguese Forums (forums.opensuse.org): Two moderators appointed to join the Forums team with whom they will represent our community segment and develop efforts for a sustained growth of the Portuguese Community. We&#8217;ve also discussed possible interfaces with the Brazilian and Spanish Communities and how we can benefit from their expertise and aquired know-how on past experiences.</p>
+<p>* Ambassadors: Myself and João Martins are submitting a proposal for Ambassadors in Portugal soon. Before we do such, I&#8217;m expecting to contact Javier Llorente and the representatives of the Spanish openSUSE Community to discuss some joint action ventures and establish a more formal protocol of cooperation extending the traditional Ambassador workflow.</p>
+<p>* Communication: We&#8217;ve known the obvious for a long time&#8230; we have no communication channels in Portugal. We have no peer points with the national LUG&#8217;s, we have pretty much nothing besides a strong will and commitment to make things happen. Our biggest goal is to support directly the existing LUG&#8217;s and represent ourselves and create at least a community interface that allows us to deploy communication with other communities in Portugal and promote ourselves. Since there is nothing, we&#8217;ll need to take the lead and set the first stone.</p>
+<p>All of this and some more was discussed during our Christmas Dinner, while being served the best Calzone Pizza in Portugal, accompanied by the traditional Super Bock beer in a cozy and warm Christmas environment.</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Status Hungarian openSUSE Documentation</title>
+		<link>https://lizards.opensuse.org/2010/11/17/status-hu-opensuse-documentation/</link>
+		<pubDate>Wed, 17 Nov 2010 11:32:46 +0000</pubDate>
+		<dc:creator><![CDATA[Thomas Schraitle]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Localization]]></category>
+		<category><![CDATA[berlios]]></category>
+		<category><![CDATA[opensuse-doc]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=5883</guid>
+		<description><![CDATA[As I wrote last time, I&#8217;ve migrated our documentation to a public SVN server on BerliOS. There you can get the English sources of the official openSUSE documentation and some business products too. Apart from Russian, I&#8217;m very happy that the Hungarian translation of the openSUSE documentation is underway! Thanks to Kálmán Kéménczy, he will [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>As I wrote <a title="Merging SVN Repositories explained" href="http://lizards.opensuse.org/2010/10/30/merging-svn-repos-explained/" target="_blank">last time</a>, I&#8217;ve migrated our documentation to a public SVN server on BerliOS. There you can get the English sources of the official openSUSE documentation and some business products too.</p>
+<p>Apart from Russian, I&#8217;m very happy that the Hungarian translation of the openSUSE documentation is underway! Thanks to <a href="http://en.opensuse.org/User:Kkemenczy" target="_blank">Kálmán Kéménczy</a>, he will publish the Hungarian documentation soon. Currently, some translatation, proofreading, and polishing have to be done, so stay tuned (see <a href="https://svn.berlios.de/svnroot/repos/opensuse-doc/trunk/documents/distribution/hu">https://svn.berlios.de/svnroot/repos/opensuse-doc/trunk/documents/distribution/hu</a>.)<br />
+By the way, the Hungarian books from the 11.1 and 11.2 release can be downloaded in the <a title="Hungarian openSUSE Books" href="http://hu.opensuse.org/Portal:Dokument%C3%A1ci%C3%B3" target="_blank">Hungarian portal</a>.</p>
+<p>If someone from the Hungarian community wants to help, please support Kálmán and contact him for futher details.</p>
+<p>Thanks Kálmán, for your ongoing work! I&#8217;m sure, everybody appreciates your work, be it in the past, present, or future.</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Call for testing: unzip feature</title>
+		<link>https://lizards.opensuse.org/2010/04/07/call-for-testing-unzip-feature/</link>
+		<comments>https://lizards.opensuse.org/2010/04/07/call-for-testing-unzip-feature/#comments</comments>
+		<pubDate>Wed, 07 Apr 2010 00:28:26 +0000</pubDate>
+		<dc:creator><![CDATA[Dinar Valeev]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Localization]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=3676</guid>
+		<description><![CDATA[Hello Planet! Have you ever faced a bug like this bnc#540598 ? When you create  zip archive with non-English filenames and try to unpack it on openSUSE, filenames within archive become unreadable. It can irritate, isn&#8217;t it? It seems as if we found a solution for Russian language. We tested it and it works for [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hello Planet!</p>
+<p>Have you ever faced a bug like this <a title="bnc#540598" href="https://bugzilla.novell.com/show_bug.cgi?id=540598" target="_blank">bnc#540598</a> ?</p>
+<p>When you create  zip archive with non-English filenames and try to unpack it on openSUSE, filenames within archive become unreadable. It can irritate, isn&#8217;t it?</p>
+<p>It seems as if we found a solution for Russian language. We tested it and it works for us.</p>
+<p>It would be helpful if some of you could test your local language. And check whether core functionality still works <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>Here is a list of  languages that are potentially affected by this  bug: Ukrainian,Belorussian, Bulgarian, Croatian, Czech, Estonian,  French, German,Hungarian, Italian, Lithuanian, Latvian, Polish, Slovak,  Spanish,Slovenian, Swedish.</p>
+<p>So it is worth to test them in the  first place.</p>
+<p>The reproducer is pretty simple:</p>
+<ul>
+<li>create zip archive on windows with file named in you local language</li>
+<li>transfer archive to openSUSE system</li>
+<li>unpack it</li>
+<li>see if filenames are readable</li>
+</ul>
+<p>What needs to be tested:</p>
+<ul>
+<li>if this bug applicable to you language</li>
+<li>if core functionality of unzip still works</li>
+</ul>
+<p>Please share your experience by commenting on bug.</p>
+<p>Package to test located in Lazy_Kent <a href="http://download.opensuse.org/repositories/home:/Lazy_Kent/">home project</a></p>
+<p>Thanks in advance</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2010/04/07/call-for-testing-unzip-feature/feed/</wfw:commentRss>
+		<slash:comments>4</slash:comments>
+		</item>
+		<item>
+		<title>Russian openSUSE community</title>
+		<link>https://lizards.opensuse.org/2010/03/30/russian-opensuse-community/</link>
+		<comments>https://lizards.opensuse.org/2010/03/30/russian-opensuse-community/#comments</comments>
+		<pubDate>Tue, 30 Mar 2010 11:27:11 +0000</pubDate>
+		<dc:creator><![CDATA[Alexander Naumov]]></dc:creator>
+				<category><![CDATA[Contrib]]></category>
+		<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Forums]]></category>
+		<category><![CDATA[Localization]]></category>
+		<category><![CDATA[Wiki]]></category>
+		<category><![CDATA[Community]]></category>
+		<category><![CDATA[fun]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=3625</guid>
+		<description><![CDATA[Hello everybody, I want to share some ideas about the success of the Russian openSUSE community, and try to answer the question about its popularity. As you can see it is one of the top places: The reason for the high popularity of this distribution in Germany is of course the fact that the German [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hello everybody,</p>
+<p>I want to share some ideas about the success of the Russian openSUSE community, and try to answer the question about its <a href="http://en.opensuse.org/Statistics">popularity</a>. As you can see it is one of the top places:</p>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2010/03/russian_comminity.jpeg"><img class="aligncenter size-full wp-image-5369" src="http://lizards.opensuse.org/wp-content/uploads/2010/03/russian_comminity.jpeg" alt="" width="657" height="369" srcset="https://lizards.opensuse.org/wp-content/uploads/2010/03/russian_comminity.jpeg 657w, https://lizards.opensuse.org/wp-content/uploads/2010/03/russian_comminity-300x168.jpg 300w" sizes="(max-width: 657px) 100vw, 657px" /></a></p>
+<p>The reason for the high popularity of this distribution in Germany is of course the fact that the German SuSE distribution and the main branch of development is located in Nuremberg. Popularity in the U.S. is due Novell &#8211; an American company, and of course the language is English. But why are so many people in Russia choosing openSUSE?</p>
+<p>Good question. One of the main things that influence the choice of distribution &#8211; the quality and localization. The global community plays a top role for quality of distribution and local make it appropriate for Russian language users (of course a local community can be as part of a global community).</p>
+<p><img class="aligncenter" src="http://thefreecountry.files.wordpress.com/2010/03/opensuse_rtt.png" alt="" width="400" height="110" /></p>
+<p>Perhaps most important is the documentation. And of course, not everyone wants (or can) read the documentation in English. Everyone wants to read the documentation in their native language. The distribution may be in a good shape and stable, nice and convenient, but without documentation it will use very few. Translated documentation is very important to the community. The translation must have a high quality, understandable, and as it must be kept up to date.</p>
+<p>For the community its also profitable that 2 guys from the community working for Novell (in Nuremberg and in Prague). This provides better communication between &#8220;developers &#8211; community&#8221;. It helps to be closer to the project. This allows you to always be aware of all the major news of the project. And of course the translation is much better if they are engaged not just as a translator, but the employee who works on the distribution.</p>
+<p>Of course this also applys for software. Although it is not as important as documentation, it still makes an impression on the quality of distribution. Everyone wants to work with the software in their native language %)</p>
+<p>A successful community is a group of people who love openSUSE, who understands why the software should be free, who wants to make openSUSE better and better&#8230; every day.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2010/03/30/russian-opensuse-community/feed/</wfw:commentRss>
+		<slash:comments>5</slash:comments>
+		</item>
+	</channel>
+</rss>

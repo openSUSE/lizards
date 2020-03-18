@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>ntf-3g &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/ntf-3g/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Get Read/Write support to external NTFS Hard Drives</title>
+		<link>https://lizards.opensuse.org/2008/08/21/get-readwrite-support-to-external-ntfs-hard-drives/</link>
+		<comments>https://lizards.opensuse.org/2008/08/21/get-readwrite-support-to-external-ntfs-hard-drives/#comments</comments>
+		<pubDate>Thu, 21 Aug 2008 21:39:19 +0000</pubDate>
+		<dc:creator><![CDATA[Andrea Florio]]></dc:creator>
+				<category><![CDATA[Usability]]></category>
+		<category><![CDATA[ntf-3g]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=130</guid>
+		<description><![CDATA[Hi Lizards, that&#8217;s my first post here! 🙂 so&#8230; Thanks for reading! Well let&#8217;s start. I Red lots of times that users have problems with NTFS usb hard drives. Of course i&#8217;m talking about read/write support and ntfs-3g. Touch and works with /etc/fstab is not a nice idea, also because device name could change and [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi Lizards, that&#8217;s my first post here! <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> so&#8230; Thanks for reading!</p>
+<p>Well let&#8217;s start.</p>
+<p>I Red lots of times that users have problems with NTFS usb hard drives. Of course i&#8217;m talking about <em>read/write</em> support and <em>ntfs-3g</em>.</p>
+<p>Touch and works with <strong>/etc/fstab </strong>is not a nice idea, also because device name could change and a static mount point will be unusefull.</p>
+<p>The solution is to write an <strong>hal</strong> rule. In this case, all we need is the following:</p>
+<p>With you favourite editor create like <strong>root</strong> that file:</p>
+<p><strong>/usr/share/hal/fdi/policy/10osvendor/20-ntfs-config-write-policy.fdi</strong></p>
+<p>and past in it that lines:</p>
+<pre>
+ &lt;?xml version="1.0" encoding="UTF-8"?&gt; &lt;!-- -*- SGML -*- --&gt;
+&lt;!--
+   Allow read/write mounting of external NTFS devices with ntfs-3g.
+    /usr/share/hal/fdi/policy/10osvendor/
+--&gt;
+&lt;deviceinfo version="0.2"&gt;
+  &lt;device&gt;
+    &lt;match key="volume.fstype" string="ntfs"&gt;
+      &lt;match key="@block.storage_device:storage.hotpluggable" bool="true"&gt;
+          &lt;merge key="volume.fstype" type="string"&gt;ntfs-3g&lt;/merge&gt;
+          &lt;merge key="volume.policy.mount_filesystem" type="string"&gt;ntfs-3g&lt;/merge&gt;
+          &lt;append key="volume.mount.valid_options" type="strlist"&gt;locale=&lt;/append&gt;
+      &lt;/match&gt;
+    &lt;/match&gt;
+  &lt;/device&gt;
+&lt;/deviceinfo&gt;
+</pre>
+<p>than restart, as root, hal daemon with</p>
+<p><code><strong>hald restart</strong></code></p>
+<p>to make changes working.</p>
+<p>If you want you could use my ntfs-3g package on my home repository</p>
+<p><a href="http://download.opensuse.org/repositories/home:/anubisg1/openSUSE_10.2/" target="_blank">http://download.opensuse.org/repositories/home:/anubisg1/openSUSE_10.2/</a><br />
+<a href="http://download.opensuse.org/repositories/home:/anubisg1/openSUSE_10.3/" target="_blank">http://download.opensuse.org/repositories/home:/anubisg1/openSUSE_10.3/</a><br />
+<a href="http://download.opensuse.org/repositories/home:/anubisg1/openSUSE_11.0/" target="_blank">http://download.opensuse.org/repositories/home:/anubisg1/openSUSE_11.0/</a></p>
+<p>it is always the last stable ntfs-3g released (right now is 1.2812) and include also the hal rule wrote before.</p>
+<p>I hopes that to be usefull for lots.</p>
+<p>Andrea <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2008/08/21/get-readwrite-support-to-external-ntfs-hard-drives/feed/</wfw:commentRss>
+		<slash:comments>4</slash:comments>
+		</item>
+	</channel>
+</rss>

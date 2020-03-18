@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>routing &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/routing/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Setting up a simple router</title>
+		<link>https://lizards.opensuse.org/2008/12/10/setting-up-a-simple-router/</link>
+		<pubDate>Wed, 10 Dec 2008 18:39:58 +0000</pubDate>
+		<dc:creator><![CDATA[Johan Kotze]]></dc:creator>
+				<category><![CDATA[Network]]></category>
+		<category><![CDATA[routing]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=302</guid>
+		<description><![CDATA[Today I spent the best part of the morning to configure a SLES 10 SP2 server as a simple router. I googled quite a lot and could not find a nice and concise post on how to configure SLES 10 as a simple router, so I thought I&#8217;ll write up my experiences in the hopes [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p style="0mm;">Today I spent the best part of the morning to configure a SLES 10 SP2 server as a simple router. I googled quite a lot and could not find a nice and concise post on how to configure SLES 10 as a simple router, so I thought I&#8217;ll write up my experiences in the hopes that it will help someone. Although this was done on SLES 10 I am pretty sure it will apply to openSUSE as well.</p>
+<p style="0mm;">My setup is as follows: Local lan is 192.168.0.0/24 and I want a private lan on 192.168.1.0/24 so that I can run stuff like DHCP and PXE without upsetting everyone on the network. I have a SLES 10 server with 2 network cards: eth1 connected to  the local lan and eth0 connected to my private switch. The local lan is connected via ADSL to the Internet and I need my private network to also be able to connect to the Internet.</p>
+<p style="0mm;"><span id="more-302"></span></p>
+<p style="0mm;">The first thing did was to configure the ADSL router to send all traffic for my private network to the ip of the SLES 10 server on the local lan. In the case of our ADSL router it involved adding a custom route.</p>
+<p style="0mm;">Next I started YasT on the SLES 10 server and under “Network Devices”, Network Card”,  I selected “Edit” on one of the network cards and selected “Routing” and then enabled “IP forwarding”.</p>
+<p style="0mm;">Then I edited the firewall settings and assigned the network card connected to the local lan to the external zone and the network card connected to the private network to the internal zone.</p>
+<p style="0mm;">I did not enable masquerading as I wanted to be able to connect to machines on my private network from the local lan.</p>
+<p style="0mm;">I then configured DHCP and DNS on the SLES 10 server and connected a machine to my private network and it was able to lease an IP address and resolve DNS queries. It did not however allow me to connect to anything outside the private lan.</p>
+<p style="0mm;">After much googling and trying all sorts of iptables commands, I finally found a post that mentioned something about editing /etc/sysconfig/SuSEfirewall2. This can also be done via Yast, “System”, “etc/Sysconfig Editor”, which is the way I did it.</p>
+<p style="0mm;">I had to change the following settings in Network <span style="Times New Roman,serif;">→</span> Firewall <span style="Times New Roman,serif;">→</span> SuSEfirewall2 :</p>
+<p style="0mm;">FW_DEV_EXT:  ensure that it contains the device of the external interface (eth1 on the local lan in my case)</p>
+<p style="0mm;">FW_DEV_INT: ensure that it contains the device of the internal interface (eth0 on the private lan in my case)</p>
+<p style="0mm;">FW_ROUTE: yes</p>
+<p style="0mm;">FW_MASQUERADE: no</p>
+<p style="0mm;">FW_FORWARD: This was the magic line for me. This needs to contain a space separated list of what you will allow. In my case I just put 192.168.0.0/24,192.168.1.0/24 192.168.1.0/24,192.168.0.0/24  192.168.0.1/24,0/0. This allows all traffic between the local lan and the private lan and allows the private lan to connect to the Internet.</p>
+<p style="0mm;">The comments and help in YasT is comprehensive and made it quite easy to understand the meaning of each of the fields.</p>
+<p style="0mm;">I had to restart the firewall after I made the changes.</p>
+<p style="0mm;">
+<p style="0mm;">I hope someone finds this useful.</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

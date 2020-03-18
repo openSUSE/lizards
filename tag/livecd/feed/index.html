@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>LiveCD &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/livecd/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Making different openSUSE liveCDs</title>
+		<link>https://lizards.opensuse.org/2012/12/29/making-different-opensuse-livecds/</link>
+		<comments>https://lizards.opensuse.org/2012/12/29/making-different-opensuse-livecds/#comments</comments>
+		<pubDate>Sat, 29 Dec 2012 08:24:47 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[LiveCD]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9175</guid>
+		<description><![CDATA[In my last post I explored the various liveCD creation methods out there, and I really wanted to try one of the others for openSUSE. Thus I did so today in less than two hours. I used Debian&#8217;s liveCD as basis and replaced the userspace with an openSUSE-11.4-GNOME-liveCD one (later ones likely do not work [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>In <a href="https://lizards.opensuse.org/2012/12/27/livecds/">my last post</a> I explored the various liveCD creation methods out there, and I really wanted to try one of the others for openSUSE.<br />
+Thus I did so today in less than two hours.<br />
+I used Debian&#8217;s liveCD as basis and replaced the userspace with an openSUSE-11.4-GNOME-liveCD one (later ones likely do not work as systemd is not compatible with old 2.6.32 kernels).<br />
+And it worked like a charm. If you want to try it yourself, you need openSUSE and an empty directory with 5GB free space. Then you do as root:<br />
+<code><br />
+zypper -n in clicfs squashfs cdrkit-cdrtools-compat<br />
+wget -O Makefile <a href="http://lsmod.de/bootcd/Makefile.aufslive.11.4">http://lsmod.de/bootcd/Makefile.aufslive.11.4</a><br />
+make<br />
+</code></p>
+<p>This will take a while to download the two isos and then at least another 3 minutes for the processing.<br />
+If that seems too hard for you, you can just download <a href="http://lsmod.de/bootcd/openSUSE-11.4-GNOME-i686-aufslive.iso">the finished iso</a> and try it with <code>qemu-kvm -m 1000 -cdrom xxx.iso</code></p>
+<p>Do not let the debian logo in the bootloader confuse you. Just press enter there.<br />
+When running in KVM from RAM, this boots up in 18 seconds, while the original iso took 33 (measured from pressing enter in bootloader to the time the CPU load goes down). However, with physical media the difference will be less pronounced. Some of the difference comes from the faster gzip decompression. Unfortunately debian&#8217;s kernel does not support squashfs-xz, so I could not try that.</p>
+<p>I hope in the future, we will have aufs patches in our normal openSUSE kernels and add an aufs-live mode to kiwi. That would help with <a href="https://bugzilla.novell.com/show_bug.cgi?id=767394">the problems we hit with clicfs</a> when memory runs out (and it can not be freed by deleting files either).</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2012/12/29/making-different-opensuse-livecds/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>LiveCDs</title>
+		<link>https://lizards.opensuse.org/2012/12/27/livecds/</link>
+		<comments>https://lizards.opensuse.org/2012/12/27/livecds/#comments</comments>
+		<pubDate>Thu, 27 Dec 2012 15:59:51 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[comparison]]></category>
+		<category><![CDATA[LiveCD]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9128</guid>
+		<description><![CDATA[As few of you might know, I made my own SUSE-based LiveCDs a while ago, using (like Knoppix) cloop compression with iso9660 and my own kernel code for file-based overlay to make it writeable. You might be amazed at how fast it runs in KVM. However, the kernel part has bit-rotten and there are other [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>As few of you might know, I made my own <a href="http://lsmod.de/bootcd/">SUSE-based LiveCDs</a> a while ago, using (like Knoppix) cloop compression with iso9660 and <a href="http://translucency.sourceforge.net/">my own kernel code</a> for file-based overlay to make it writeable. You might be amazed at how fast it runs in KVM. However, the kernel part has bit-rotten and there are other techniques out there today, so I took a look around at how others do their LiveCDs.</p>
+<p>But first some broader overview. To make a LiveCD, the biggest problem is that CDs are not writeable (and even modern Flash devices do not want to be written too much). Embedded devices using flash had the same problem. Various approaches have been used in the past to solve this:</p>
+<ul>
+<li>adapt all software to write into ram-disks e.g. by having symlinks (hard to create and maintain)</li>
+<li>load all software into RAM (only for small distributions)</li>
+<li>use file-based overlaying such as unionfs or aufs to have software write into RAM (lsof, pwd, and hardlinks can be tricky)</li>
+<li>use block-based overlaying (problem: can not easily free disk space again)</li>
+</ul>
+<p>Also compression is used to fit more onto a CD. And interestingly, this usually also speeds up booting because it is faster to read 10MB off a CD and decompress it into the original 30MB than to read 30MB from such a slow medium.</p>
+<p>Now, to the distributions.</p>
+<ul>
+<li>openSUSE has the classic DVD installs that use special <a href="https://build.opensuse.org/package/show?package=installation-images&amp;project=openSUSE%3AFactory">installation-images</a> and run in RAM and then there are the real LiveCDs that are created by our kiwi tool, use block-based overlaying and LZMA compression of a ext3 by means of our FUSE-based clicfs.</li>
+<li>All of the other distributions use squashfs for compression. <a href="http://www.mageia.org/downloads/">Mageia</a> employs dracut for initrd and unionfs for file-based overlaying</li>
+<li><a href="http://cdimage.debian.org/debian-cd/current-live/i386/bt-hybrid/">Debian</a> uses <a href="http://aufs.sourceforge.net/">aufs</a> for file-based overlaying</li>
+<li>Ubuntu uses overlayfs for file-based overlaying</li>
+<li><a href="https://fedoraproject.org/get-fedora">Fedora</a> uses an ext4 filesystem image contained in a squashfs with dm-snapshot for block-based overlaying, thus being most similar to openSUSE</li>
+</ul>
+<p>I also spent some time benchmarking (on my AMD A10-5800K) the various technologies with <a href="https://gist.github.com/4389034">a simple script</a> using Debians uncompressed rootfs of 495132 KiB as data.<br />
+squashfs supports three different compression methods: lzo, gzip and xz (aka LZMA).</p>
+<ul>
+<li>squashfs-lzo:  size:220992 compression:11.1MB/s decompression:134.4MB/s</li>
+<li>squashfs-gzip: size:203328 compression:15.5MB/s decompression:88.9MB/s</li>
+<li>squashfs-xz:   size:176064 compression:6.5MB/s  decompression:22.5MB/s</li>
+<li>cloop(gzip):   size:213348 compression:16.2MB/s decompression:49.6MB/s</li>
+<li>clicfs(xz):    size:185300 compression:16.7MB/s decompression:18.2MB/s</li>
+</ul>
+<p>This has some surprises: even when using the same compression method, sizes can differ by 5% and speed can differ even more.</p>
+<p>If you want to compare numbers on your system, memory throughput is also interesting:<br />
+# dd if=/dev/zero of=/dev/null bs=1M count=100000<br />
+104857600000 bytes (105 GB) copied, 12.4499 s, 8.4 GB/s</p>
+<p>Overall, clicfs is performing OK, considering that it already takes care of the overlaying, but for my own LiveCD I would prefer Debian&#8217;s method and I am wondering how it would work.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2012/12/27/livecds/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>AstroGarrobo Beta</title>
+		<link>https://lizards.opensuse.org/2010/02/10/astrogarrobo-beta/</link>
+		<pubDate>Wed, 10 Feb 2010 23:32:54 +0000</pubDate>
+		<dc:creator><![CDATA[Julio Vannini]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Education]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[openSUSE 11.2]]></category>
+		<category><![CDATA[AstroGarrobo]]></category>
+		<category><![CDATA[astronomy]]></category>
+		<category><![CDATA[LiveCD]]></category>
+		<category><![CDATA[suse studio]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=3205</guid>
+		<description><![CDATA[Space, the Final Frontier! This is the tale of one Amateur Astronomer that have found in openSUSE a terrific tool for public outreach, self-learning and teaching platform. Ok, that was a bit exagerated. But the truth is that I am enjoying the new SUSE Studio suite. And that&#8217;s because it is facilitating my job as [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Space, the Final Frontier! This is the tale of one Amateur Astronomer that have found in openSUSE a terrific tool for public outreach, self-learning and teaching platform.</p>
+<p>Ok, that was a bit exagerated.</p>
+<p>But the truth is that I am enjoying the new SUSE Studio suite. And that&#8217;s because it is facilitating my job as an educator. I work with the Nicaraguan Amateur Astronomers Society (<a href="http://www.anasa.org.ni" target="_blank">ANASA</a>) in teaching basic astronomy to the public. Obviously, my workhorse is an openSUSE laptop, loaded with Stellarium, Celestia, KStars and Xephem (and many other tools for my personal job as an astronomer).</p>
+<p><span id="more-3205"></span>For a long time, I&#8217;ve been advocating the use of openSUSE as the reliable, user-friendly and safe Linux distribution that it is, but I face a big barrier: the big majority of people attending our astronomy lessons does not have the needed technical skill and knowledge to install a new operative system, specially one like Linux.</p>
+<p>So, I&#8217;ve decided to build a Live CD using SUSE Studio, focused entirely in provide the same basic tools for learning the sky and their basic steps in Amateur Astronomy.</p>
+<p>The name of the Project: AstroGarrobo</p>
+<p><img class="aligncenter size-full wp-image-3206" src="http://lizards.opensuse.org/wp-content/uploads/2010/02/AstroGarrobo_UngaMan.png" alt="AstroGarrobo_UngaMan" width="286" height="251" /></p>
+<p>Garrobo is the Nicaraguan name for a male Iguana. The Nicaraguan Linux community have nicknamed our openSUSE mascot as Garrobo instead of the familiar Chameleon, because a Chameleon is a rare species here in my Nation.</p>
+<p>So far, there is a Beta version available for <a href="http://astrogarrobo.sourceforge.net" target="_blank">download at SourceForge</a>. I have received many valuable reports from Beta Testers from different parts o the world.</p>
+<p>My goal here is to obtain a stable LiveCD, for free distribution, that may help others to obtain the tools needed to inspire, feed and motivate their love for Space.</p>
+<p>I&#8217;ve written a more detailed explanation of this project in my <a href="http://ungaman.wordpress.com/2010/01/15/astrogarrobo/" target="_blank">Blog</a> (in Spanish). I would appreciate any comments, insights and recommendations about AstroGarrobo.</p>
+<p>Clear skies!</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>LiveCD Performance (clicfs vs. SquashFS)</title>
+		<link>https://lizards.opensuse.org/2009/05/15/livecd-performance-clicfs-vs-squashfs/</link>
+		<comments>https://lizards.opensuse.org/2009/05/15/livecd-performance-clicfs-vs-squashfs/#comments</comments>
+		<pubDate>Fri, 15 May 2009 10:45:00 +0000</pubDate>
+		<dc:creator><![CDATA[Jan Blunck]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[clicfs]]></category>
+		<category><![CDATA[LiveCD]]></category>
+		<category><![CDATA[SquashFS]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1015</guid>
+		<description><![CDATA[When Coolo looked into how to get rid of (Another) UnionFS for Live CDs and came up with the DoenerFS (now clicfs) idea, I remembered that my friend Arnd has workded on fake write support for cramfs. So I took his code and ported it to SquashFS to see how that goes. My expectation was [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>When Coolo looked into how to get rid of (Another) UnionFS for Live CDs and came up with the <a href="http://lizards.opensuse.org/2009/04/28/whats-behind-lzma-compressed-livecds/">DoenerFS</a> (now clicfs) idea, I remembered that my friend Arnd has workded on <a href="http://marc.info/?l=linux-kernel&amp;m=121224861112274&amp;w=2">fake write support for cramfs</a>. So I took his code and ported it to SquashFS to see how that goes. My expectation was that it might be faster than Coolo&#8217;s clicfs using FUSE. Here are some results using openSUSE-KDE4-LiveCD-i586-i686-Build0098 booting into runlevel 3:</p>
+<ul>
+<li><strong>clicfs</strong>: 637MB ISO Image booting in 1:28 min (0:24 min from RAM)</li>
+<li><strong>squashfs-rw</strong>: 751M ISO Image booting in 1:50 min (0:28 min from RAM)</li>
+</ul>
+<p>The difference in the sizes of the ISO images are due to the fact that clicfs is using LZMA compression while SquashFS is still using the in-kernel GZIP implementation. Surprisingly the clicfs image isn&#8217;t only smaller but is also faster booting on real media <strong>and</strong> from RAM (using KVM). So even if we ignore the fact that clicfs is optimized for limiting the number of seeks on disk the SquashFS implementation is still slower. It would be interesting to see if it is just the LZMA compression that is making the difference or something completely different.</p>
+<p>The patches for the SquashFS fake write support are here: <a href="http://git.infradead.org/users/jblunck/linux-2.6.git?a=shortlog;h=refs/heads/squashfs-rw-v1">http://git.infradead.org/users/jblunck/linux-2.6.git?a=shortlog;h=refs/heads/squashfs-rw-v1</a>.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/05/15/livecd-performance-clicfs-vs-squashfs/feed/</wfw:commentRss>
+		<slash:comments>5</slash:comments>
+		</item>
+	</channel>
+</rss>

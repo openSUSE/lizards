@@ -1,0 +1,1399 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" itemscope itemtype="http://schema.org/Blog">
+<head>
+
+
+  <!-- include local CSS file -->
+  <link rel="stylesheet" href="https://lizards.opensuse.org/wp-content/themes/bento/style.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="//static.opensuse.org/themes/bento/css/print.css" type="text/css" media="print" />
+
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <!-- opengraph metadata -->
+  <meta property="og:site_name" content="openSUSE Lizards" />
+  <meta itemprop="name" content="openSUSE News Blog">
+  <meta itemprop="description" content="openSUSE News Blog">
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="new package postgresql-plr. Get the power of R inside your postgreSQL database" />
+  <meta property="og:url" content="https://lizards.opensuse.org/2012/03/30/new-package-postgresql-plr-get-the-power-of-r-inside-your-postgresql-database/" />
+  <meta property="og:description" content="" />
+
+  <!-- include JS from static.opensuse.org -->
+  <script src="//static.opensuse.org/themes/bento/js/jquery.js" type="text/javascript" charset="utf-8"></script>
+  <script src="//static.opensuse.org/themes/bento/js/script.js" type="text/javascript" charset="utf-8"></script>
+  <!-- This is for local development:
+  <script src="https://lizards.opensuse.org/wp-content/themes/bento/js/script.js" type="text/javascript" charset="utf-8"></script>
+  -->
+
+  <!-- translated global navigation -->
+  <script src="//static.opensuse.org/themes/bento/js/l10n/global-navigation-data-en_US.js" type="text/javascript" charset="utf-8"></script>
+  <script src="//static.opensuse.org/themes/bento/js/global-navigation.js" type="text/javascript" charset="utf-8"></script>
+
+  <!-- social service scripts -->
+  <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
+  <script type="text/javascript">
+ 	 (function() 
+		{
+  	  		var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    			po.src = 'https://apis.google.com/js/plusone.js';
+    			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  		})();
+  </script>
+
+  <link rel="alternate" type="application/rss+xml" href="https://lizards.opensuse.org/feed/" title="openSUSE Lizards latest posts" />
+  <link rel="alternate" type="application/rss+xml" href="https://lizards.opensuse.org/comments/feed/" title="openSUSE Lizards latest comments" />
+  <link rel="pingback" href="https://lizards.opensuse.org/xmlrpc.php" />
+  
+    <link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="openSUSE Lizards &raquo; Server Category Feed" href="https://lizards.opensuse.org/category/server/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/lizards.opensuse.org\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.7.5"}};
+			!function(a,b,c){function d(a){var b,c,d,e,f=String.fromCharCode;if(!k||!k.fillText)return!1;switch(k.clearRect(0,0,j.width,j.height),k.textBaseline="top",k.font="600 32px Arial",a){case"flag":return k.fillText(f(55356,56826,55356,56819),0,0),!(j.toDataURL().length<3e3)&&(k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57331,65039,8205,55356,57096),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57331,55356,57096),0,0),c=j.toDataURL(),b!==c);case"emoji4":return k.fillText(f(55357,56425,55356,57341,8205,55357,56507),0,0),d=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55357,56425,55356,57341,55357,56507),0,0),e=j.toDataURL(),d!==e}return!1}function e(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i,j=b.createElement("canvas"),k=j.getContext&&j.getContext("2d");for(i=Array("flag","emoji4"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='https://api.w.org/' href='https://lizards.opensuse.org/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://lizards.opensuse.org/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://lizards.opensuse.org/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.7.5" />
+<script type='text/javascript' src='https://lizards.opensuse.org/wp-content/plugins/anti-captcha/anti-captcha-0.3.js.php?ver=228e338fddcdf62a8065110d0b5f87fb'></script>
+<style type="text/css">
+.avatar {vertical-align:middle}
+.credit {font-size: 50%;}
+</style>
+		  
+  <link rel="icon" type="image/png" href="//static.opensuse.org/themes/bento/images/favicon.png" />
+  <title>openSUSE Lizards</title>
+  
+</head>
+
+<body>
+  
+  <!-- include header from static -->
+    
+  <!-- Start: Header -->
+  <div id="header">
+    
+    <div id="header-content" class="container_12">
+      
+      <a id="header-logo" href="http://www.opensuse.org">
+        <img src="//static.opensuse.org/themes/bento/images/header-logo.png" width="46" height="26" alt="Header Logo" />
+      </a>
+      
+            
+            <ul id="global-navigation">
+        <li id="item-downloads"><a href="http://opensuse.org/sitemap#downloads">Downloads</a></li>
+        <li id="item-support"><a href="http://opensuse.org/sitemap#support">Support</a></li>
+        <li id="item-community"><a href="http://opensuse.org/sitemap#community">Community</a></li>
+        <li id="item-development"><a href="http://opensuse.org/sitemap#development">Development</a></li>
+      </ul>
+      
+      
+<form role="search" method="get" id="searchform" action="https://lizards.opensuse.org" >
+  <div>
+    <!-- TODO: use Label as action indicator ==> JS needed -->
+    <label class="screen-reader-text layer-label" for="s">Search</label>
+    <input type="text" value="" name="s" id="s" />
+    <input type="submit" id="searchsubmit" class="hidden" value="Search" />
+  </div>
+</form>    
+    </div>
+  </div>
+  <!-- End: Header -->
+
+  <div id="subheader" class="container_12">
+    <div id="breadcrump" class="grid_8 alpha">
+      <a href="/"><img src="//static.opensuse.org/themes/bento/images/home_grey.png" width="16" height="16" alt="Home" /></a> <a class="navCrumb lnk" href="https://lizards.opensuse.org">Home</a> &gt; <a class="navCrumb lnk" href="https://lizards.opensuse.org/category/server/">Server</a>    </div>
+    
+          
+          <div class="grid_4" id="login-wrapper">
+        <a href="#signup-page">Sign up</a> | 
+        <!-- <a id="login-trigger" href="" title="Login">Login</a> -->
+        <!-- wp_login_form() ==> http://codex.wordpress.org/Function_Reference/wp_login_form -->
+        <a href="https://lizards.opensuse.org/wp-login.php" title="Login">Login</a>
+      </div>
+      </div>
+
+  <div id="flash-messages" class="container_16">
+    <div class="ui-widget grid_16" style="margin-left: 0;">
+      <div class="ui-state-highlight ui-corner-all ui-widget-shadow">
+        <p>
+          <span class="ui-icon ui-icon-info">
+            <strong>Deprecation notice:</strong>
+            openSUSE Lizards user blog platform is deprecated, and will remain read only for the time being.
+            <a href="https://progress.opensuse.org/issues/64550">Learn more...</a>
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+<!-- Start: Main Content Area -->
+<div id="content" class="container_16 ui-oo-content-wrapper">
+  <div class="box box-shadow grid_12 alpha main">
+
+     
+      
+                  <h2 class="pagetitle">Archive for the &#8216;Server&#8217; Category</h2>
+      
+      <div class="navigation page-navigation">
+        <div class="alignleft"><a href="https://lizards.opensuse.org/category/server/page/4/" >&laquo; Older Entries</a></div>
+        <div class="alignright"><a href="https://lizards.opensuse.org/category/server/page/2/" >Newer Entries &raquo;</a></div>
+        <div class="clearfix"></div>
+      </div>
+
+            <div class="post-8597 post type-post status-publish format-standard hentry category-packaging category-server category-uncategorized tag-postgresql tag-postgresql-plr tag-r">
+          <h3 id="post-8597"><a href="https://lizards.opensuse.org/2012/03/30/new-package-postgresql-plr-get-the-power-of-r-inside-your-postgresql-database/" rel="bookmark" title="Permanent Link to new package postgresql-plr. Get the power of R inside your postgreSQL database">new package postgresql-plr. Get the power of R inside your postgreSQL database</a></h3>
+          <small>March 30th, 2012 by <a href="https://lizards.opensuse.org/author/bruno_friedmann/" title="Posts by Bruno Friedmann" rel="author">Bruno Friedmann</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2012/03/30/new-package-postgresql-plr-get-the-power-of-r-inside-your-postgresql-database/"
+                data-text="openSUSE News: new package postgresql-plr. Get the power of R inside your postgreSQL database"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2012%2F03%2F30%2Fnew-package-postgresql-plr-get-the-power-of-r-inside-your-postgresql-database%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>I&#8217;m pleased to introduce you to a new available package for postgreSQL database.<br />
+The R procedural language extension developed by Joseph E Conway.</p>
+<h2>R Procedural Language for PostgreSQL</h2>
+<h3>Introduction</h3>
+<p>PL/R is a library which allow you to add the power of R statistical engine in your database.<br />
+This article will show you how to add it and basic usage on a 12.1 installation.<br />
+(The package is also available for 11.4)</p>
+<p>Become familiar with the project and how it can help you.<br />
+The homepage project  : <a href="http://www.joeconway.com/plr/">www.joeconway.com/plr/</a></p>
+<p>We admit here, that you are able to manage a posgreSQL server instance, and have already one running.<br />
+ <a href="https://lizards.opensuse.org/2012/03/30/new-package-postgresql-plr-get-the-power-of-r-inside-your-postgresql-database/#more-8597" class="more-link"><span aria-label="Continue reading new package postgresql-plr. Get the power of R inside your postgreSQL database">(more&hellip;)</span></a></p>
+          </div>
+
+          <p class="postmetadata">Tags: <a href="https://lizards.opensuse.org/tag/postgresql/" rel="tag">PostgreSQL</a>, <a href="https://lizards.opensuse.org/tag/postgresql-plr/" rel="tag">postgresql-plr</a>, <a href="https://lizards.opensuse.org/tag/r/" rel="tag">R</a><br /> Posted in <a href="https://lizards.opensuse.org/category/packaging/" rel="category tag">Packaging</a>, <a href="https://lizards.opensuse.org/category/server/" rel="category tag">Server</a>, <a href="https://lizards.opensuse.org/category/uncategorized/" rel="category tag">Uncategorized</a> |   <span>Comments Off<span class="screen-reader-text"> on new package postgresql-plr. Get the power of R inside your postgreSQL database</span></span></p>
+
+        </div>
+
+            <div class="post-8365 post type-post status-publish format-standard hentry category-apache category-derivative category-desktop category-distribution category-education category-gnome category-kde category-programming category-samba category-server category-virtualization tag-12-1 tag-education tag-li-f-e tag-ltsp tag-opensuse">
+          <h3 id="post-8365"><a href="https://lizards.opensuse.org/2011/12/22/edu-li-f-e-12-1-out/" rel="bookmark" title="Permanent Link to openSUSE Edu Li-f-e 12.1 out now!">openSUSE Edu Li-f-e 12.1 out now!</a></h3>
+          <small>December 22nd, 2011 by <a href="https://lizards.opensuse.org/author/cyberorg/" title="Posts by Jigish Gohil" rel="author">Jigish Gohil</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2011/12/22/edu-li-f-e-12-1-out/"
+                data-text="openSUSE News: openSUSE Edu Li-f-e 12.1 out now!"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2011%2F12%2F22%2Fedu-li-f-e-12-1-out%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>openSUSE Education team is proud to present another edition of <strong>openSUSE-Edu Li-f-e</strong> (Linux for Education) based on <a title="12.1" href="http://en.opensuse.org/12.1">openSUSE 12.1</a>. Li-f-e comes loaded with everything that students, parents, teachers and system admins of educational institutions may need.</p>
+<p><a href="http://en.opensuse.org/images/b/b9/Life-12.1-0.png"><img class="alignnone" src="http://en.opensuse.org/images/thumb/b/b9/Life-12.1-0.png/120px-Life-12.1-0.png" alt="" width="120" height="90" /></a> <a href="http://en.opensuse.org/images/b/b4/Life-12.11-0.png"><img class="alignnone" src="http://en.opensuse.org/images/thumb/b/b4/Life-12.11-0.png/120px-Life-12.11-0.png" alt="" width="120" height="90" /></a> <a href="http://en.opensuse.org/images/6/60/Life-12.1-2.png"><img class="alignnone" src="http://en.opensuse.org/images/thumb/6/60/Life-12.1-2.png/120px-Life-12.1-2.png" alt="" width="120" height="89" /></a> <a href="http://en.opensuse.org/images/8/86/Life-12.1-6.png"><img class="alignnone" src="http://en.opensuse.org/images/thumb/8/86/Life-12.1-6.png/120px-Life-12.1-6.png" alt="" width="120" height="90" /></a> <a href="http://en.opensuse.org/Screenshots#openSUSE_Edu_Li-f-e">more screenshots&#8230;</a></p>
+<p> <a href="https://lizards.opensuse.org/2011/12/22/edu-li-f-e-12-1-out/#more-8365" class="more-link"><span aria-label="Continue reading openSUSE Edu Li-f-e 12.1 out now!">(more&hellip;)</span></a></p>
+          </div>
+
+          <p class="postmetadata">Tags: <a href="https://lizards.opensuse.org/tag/12-1/" rel="tag">12.1</a>, <a href="https://lizards.opensuse.org/tag/education/" rel="tag">Education</a>, <a href="https://lizards.opensuse.org/tag/li-f-e/" rel="tag">li-f-e</a>, <a href="https://lizards.opensuse.org/tag/ltsp/" rel="tag">LTSP</a>, <a href="https://lizards.opensuse.org/tag/opensuse/" rel="tag">openSUSE</a><br /> Posted in <a href="https://lizards.opensuse.org/category/server/apache/" rel="category tag">Apache</a>, <a href="https://lizards.opensuse.org/category/distribution/derivative/" rel="category tag">Derivative</a>, <a href="https://lizards.opensuse.org/category/desktop/" rel="category tag">Desktop</a>, <a href="https://lizards.opensuse.org/category/distribution/" rel="category tag">Distribution</a>, <a href="https://lizards.opensuse.org/category/education/" rel="category tag">Education</a>, <a href="https://lizards.opensuse.org/category/desktop/gnome/" rel="category tag">GNOME</a>, <a href="https://lizards.opensuse.org/category/desktop/kde/" rel="category tag">KDE</a>, <a href="https://lizards.opensuse.org/category/programming/" rel="category tag">Programming</a>, <a href="https://lizards.opensuse.org/category/server/samba/" rel="category tag">Samba</a>, <a href="https://lizards.opensuse.org/category/server/" rel="category tag">Server</a>, <a href="https://lizards.opensuse.org/category/server/virtualization/" rel="category tag">Virtualization</a> |   <span>Comments Off<span class="screen-reader-text"> on openSUSE Edu Li-f-e 12.1 out now!</span></span></p>
+
+        </div>
+
+            <div class="post-7649 post type-post status-publish format-standard hentry category-network category-packaging category-server category-systems-management tag-monitoring tag-proxy tag-squid tag-squidview">
+          <h3 id="post-7649"><a href="https://lizards.opensuse.org/2011/07/17/new-package-squidview-available/" rel="bookmark" title="Permanent Link to new package squidview available">new package squidview available</a></h3>
+          <small>July 17th, 2011 by <a href="https://lizards.opensuse.org/author/bruno_friedmann/" title="Posts by Bruno Friedmann" rel="author">Bruno Friedmann</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2011/07/17/new-package-squidview-available/"
+                data-text="openSUSE News: new package squidview available"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2011%2F07%2F17%2Fnew-package-squidview-available%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <h2>squidview</h2>
+<p>squidview is one of the software, I&#8217;ve always build and installed on each squid proxy server I build for me or customers. It&#8217;s small, stable, and usefull. So it was a clear real nice candidate to be use to improve my <a href="http://openbuild-system.org">obs</a> and packager skiil.<br />
+I would like to thanks T1loc, yaloki, mrdocs, coolo, alin, and all others great packagers around, for helping and teaching me during the process.
+</p>
+<h3>Introduction</h3>
+<p>
+Squidview is an interactive console program which monitors and displays squid logs in a nice fashion, and may then go deeper with searching and reporting functions.</p>
+<p>(If you don&#8217;t know what squid is or does this program is probably not for you.)</p>
+<p>To use squidview you must at least have read access to squid&#8217;s access.log file. You may need to see your administrator for this. Squidview uses this text log file for all operations. It does not generate its own database for tasks.
+</p>
+<p>homepage <a href="http://www.rillion.net/squidview/">www.rillion.net/squidview</a></p>
+<h3>Features</h3>
+<p>
+Squidview has a number of functions. Navigate the log file with the cursor pad keys, jump to a certain day or switch to a different log file. Search for text or large http/ftp requests.</p>
+<p>Put squidview into monitor mode: see the latest activity updated every 3 seconds (this is light on cpu load).</p>
+<p>Reports can be generated listing the heavist Internet users and the most popular visited sites. See how many cache hits squid makes to save network traffic.</p>
+<p>Squidview is released under the GPL.
+</p>
+<h3>Examples / Usage</h3>
+<div id="a" style="width: 494px" class="wp-caption alignnone"><img alt="" src="http://www.rillion.net/squidview/pic1.png" width="484" height="316" /><p class="wp-caption-text">The selected line shows a request made for a .gif at the shown time. As luck would have it, the &#039;H&#039; indicates a cache hit 🙂 In this mode user traffic can scroll by. </p></div>
+<div id="b" style="width: 494px" class="wp-caption alignnone"><img alt="" src="http://www.rillion.net/squidview/pic2.png" width="484" height="316" /><p class="wp-caption-text">What the above would be if viewed with less. </p></div>
+<div id="c" style="width: 494px" class="wp-caption alignnone"><img alt="" src="http://www.rillion.net/squidview/pic3.png" width="484" height="316" /><p class="wp-caption-text">A tally of all users against the bandwidth they used. Kept current in near real time. </p></div>
+<div id="d" style="width: 494px" class="wp-caption alignnone"><img alt="" src="http://www.rillion.net/squidview/pic4.png" width="484" height="316" /><p class="wp-caption-text">A quick investigation into the recent history of one user. </p></div>
+<h2>Installation / Repositories</h2>
+<p>I&#8217;ve just made a submit request against openSUSE_Factory to get it included directly, but in the meantime, you could install it from the repository server:proxy as many other useful &amp; related packages</p>
+<p>For example adding the repository under openSUSE_Factory</p>
+<pre>
+zypper ar -c -f -n "server:proxy" http://download.opensuse.org/repositories/server:/proxy/openSUSE_Factory "server:proxy"
+zypper in squidview
+</pre>
+<h3>Builds available for :</h3>
+<p>The package is build successfully against : SLES10, SLES11, openSUSE 11.3 to Factory</p>
+<p>Have Fun!</p>
+          </div>
+
+          <p class="postmetadata">Tags: <a href="https://lizards.opensuse.org/tag/monitoring/" rel="tag">monitoring</a>, <a href="https://lizards.opensuse.org/tag/proxy/" rel="tag">proxy</a>, <a href="https://lizards.opensuse.org/tag/squid/" rel="tag">squid</a>, <a href="https://lizards.opensuse.org/tag/squidview/" rel="tag">squidview</a><br /> Posted in <a href="https://lizards.opensuse.org/category/base-system/network/" rel="category tag">Network</a>, <a href="https://lizards.opensuse.org/category/packaging/" rel="category tag">Packaging</a>, <a href="https://lizards.opensuse.org/category/server/" rel="category tag">Server</a>, <a href="https://lizards.opensuse.org/category/systems-management/" rel="category tag">Systems Management</a> |   <span>Comments Off<span class="screen-reader-text"> on new package squidview available</span></span></p>
+
+        </div>
+
+            <div class="post-7569 post type-post status-publish format-standard hentry category-build-service category-infrastructure-2 category-packaging category-programming category-virtualization">
+          <h3 id="post-7569"><a href="https://lizards.opensuse.org/2011/06/20/1-2-3-cloud/" rel="bookmark" title="Permanent Link to 1-2-3 Cloud">1-2-3 Cloud</a></h3>
+          <small>June 20th, 2011 by <a href="https://lizards.opensuse.org/author/rjschwei/" title="Posts by rjschwei" rel="author">rjschwei</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2011/06/20/1-2-3-cloud/"
+                data-text="openSUSE News: 1-2-3 Cloud"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2011%2F06%2F20%2F1-2-3-cloud%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>Towards the end of last year there was an article in openSUSE news &#8220;announcing&#8221; the cloud efforts in the openSUSE project and on OBS. Well, cloud is still all the rage (see Jos&#8217; contribution to openSUSE News issue 180) and people just cannot stop talking about cloud computing.</p>
+<p>Using openSUSE as a host for your cloud infrastructure is also making great progress. We have 3 cloud projects in OBS and hopefully these cover your favorite cloud infrastructure code, Virtualization:Cloud:Eucalyptus, Virtualization:Cloud:OpenNebula, and Virtualization:Cloud:OpenStack. The projects provide repositories for Eucalyptus, OpenNebula, and OpenStack, respectively.</p>
+<p>We attempt to make it relatively easy to get a cloud up and running. In this process OpenNebula and OpenStack have progressed the most. Eucalyptus is working, but due to an issue with Eucalyptus and openSSL 1.0 and later (the version in openSUSE) automation has to wait until these issues are resolved.</p>
+<p>For OpenNebula we now have a <a href="http://kiwi.berlios.de">KIWI</a> <a href="http://en.opensuse.org/SDB:KIWI_Cookbook_ONebula_Cloud">example</a> that shows how one can get a cloud setup from scratch in less than 2 hours, including the image build. The example contains a firstboot workflow for the head node, and self configuration of cloud nodes.</p>
+<p>For OpenStack <a href="http://susegallery.com/browse">SUSE Gallery</a> images are in the works and will be published in the near future.</p>
+<p>All repositories provide packages you can install on running openSUSE systems. If you are interested in using openSUSE as the underlying OS for your cloud or if you want to contribute to the cloud projects, subscribe to the cloud mailing list opensuse-cloud@opensuse.org</p>
+          </div>
+
+          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/build-service/" rel="category tag">Build Service</a>, <a href="https://lizards.opensuse.org/category/infrastructure-2/" rel="category tag">Infrastructure</a>, <a href="https://lizards.opensuse.org/category/packaging/" rel="category tag">Packaging</a>, <a href="https://lizards.opensuse.org/category/programming/" rel="category tag">Programming</a>, <a href="https://lizards.opensuse.org/category/server/virtualization/" rel="category tag">Virtualization</a> |   <span>Comments Off<span class="screen-reader-text"> on 1-2-3 Cloud</span></span></p>
+
+        </div>
+
+            <div class="post-6466 post type-post status-publish format-standard hentry category-apache category-artwork category-kde">
+          <h3 id="post-6466"><a href="https://lizards.opensuse.org/2011/01/24/oxygenise-your-apache/" rel="bookmark" title="Permanent Link to Oxygenise your Apache">Oxygenise your Apache</a></h3>
+          <small>January 24th, 2011 by <a href="https://lizards.opensuse.org/author/javierllorente/" title="Posts by Javier Llorente" rel="author">Javier Llorente</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2011/01/24/oxygenise-your-apache/"
+                data-text="openSUSE News: Oxygenise your Apache"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2011%2F01%2F24%2Foxygenise-your-apache%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>I have updated <a href="https://build.opensuse.org/package/show?package=apache2-icons-oxygen&amp;project=Apache">apache2-icons-oxygen</a> with icons from KDE 4.6 RC2. Thanks Nuno &amp; Co! Now Apache&#8217;s directory listings look a bit better 😉</p>
+<p><a href="http://www.javierllorente.com/tmp/"><img class="alignnone size-medium wp-image-6467" title="apache2-icons-oxygen" src="//lizards.opensuse.org/wp-content/uploads/2011/01/screenshot-300x205.png" alt="" width="300" height="205" srcset="https://lizards.opensuse.org/wp-content/uploads/2011/01/screenshot-300x205.png 300w, https://lizards.opensuse.org/wp-content/uploads/2011/01/screenshot-1024x701.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2011/01/screenshot.png 1090w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>See it in action <a href="http://www.javierllorente.com/tmp/">here</a>. If you want to download the tarball/rpm, go to the <a href="https://build.opensuse.org/package/show?package=apache2-icons-oxygen&amp;project=Apache">Build Service</a>.</p>
+          </div>
+
+          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/server/apache/" rel="category tag">Apache</a>, <a href="https://lizards.opensuse.org/category/artwork/" rel="category tag">Artwork</a>, <a href="https://lizards.opensuse.org/category/desktop/kde/" rel="category tag">KDE</a> |   <a href="https://lizards.opensuse.org/2011/01/24/oxygenise-your-apache/#comments">1 Comment &#187;</a></p>
+
+        </div>
+
+            <div class="post-5867 post type-post status-publish format-standard hentry category-base-system category-kernel category-virtualization tag-2-6-37 tag-factory tag-kernel-2-6-37 tag-vmware tag-workstation-7-1-3">
+          <h3 id="post-5867"><a href="https://lizards.opensuse.org/2010/11/15/make-vmware-workstation-7-1-3-running-with-11-4-kernel-2-6-37/" rel="bookmark" title="Permanent Link to Make vmware workstation 7.1.3 running with opensuse 11.4 (kernel 2.6.37)">Make vmware workstation 7.1.3 running with opensuse 11.4 (kernel 2.6.37)</a></h3>
+          <small>November 15th, 2010 by <a href="https://lizards.opensuse.org/author/bruno_friedmann/" title="Posts by Bruno Friedmann" rel="author">Bruno Friedmann</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2010/11/15/make-vmware-workstation-7-1-3-running-with-11-4-kernel-2-6-37/"
+                data-text="openSUSE News: Make vmware workstation 7.1.3 running with opensuse 11.4 (kernel 2.6.37)"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2010%2F11%2F15%2Fmake-vmware-workstation-7-1-3-running-with-11-4-kernel-2-6-37%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <h2>Note about the 2.6.37xx</h2>
+<p>There&#8217;s a solution to make the kernel modules building under openSUSE factory (11.4) and the kernel 2.6.37 </p>
+<h3>Preparation</h3>
+<p>download the lastest vmware workstation 7.1.3 (the patch is only for this version)<br />
+download the patch <a href="http://linux.ioda.net/openSUSE/vmware-7.1.3-2.6.37-rc5.patch">vmware-7.1.3-2.6.37-rc5.patch</a><br />
+download the script to patch <a href="http://linux.ioda.net/openSUSE/patch-modules_v62-opensuse.sh">patch-modules_v62-opensuse.sh</a></p>
+<h3>Install</h3>
+<p>Proceed to the normal installation of workstation, if you have older version, it will be replaced<br />
+by running under root account</p>
+<pre>
+sh VMware-Workstation-Full-7.1.3-324285.x86_64.bundle
+</pre>
+<h3>Patch</h3>
+<p>Now we have to apply the needed patch, just run as root </p>
+<pre>
+sh patch-modules_v62-opensuse.sh
+</pre>
+<p>Here the output result</p>
+<pre style="font-size:xx-small">
+sh patch-modules_v62-opensuse.sh 
+(Stripping trailing CRs from patch.)
+patching file vmci-only/include/compat_semaphore.h
+(Stripping trailing CRs from patch.)
+patching file vmmon-only/linux/driver.c
+(Stripping trailing CRs from patch.)
+patching file vmnet-only/compat_semaphore.h
+(Stripping trailing CRs from patch.)
+patching file vsock-only/shared/compat_semaphore.h
+Stopping VMware services:
+   VMware USB Arbitrator                                               done
+   VM communication interface socket family                            done
+   Virtual machine communication interface                             done
+   Virtual machine monitor                                             done
+   Blocking file system                                                done
+Using 2.6.x kernel build system.
+make: Entering directory `/tmp/vmware-root/modules/vmmon-only'
+make -C /lib/modules/2.6.37-rc5-12-desktop/build/include/.. SUBDIRS=$PWD SRCROOT=$PWD/. \
+  MODULEBUILDDIR= modules
+make[1]: Entering directory `/usr/src/linux-2.6.37-rc5-12-obj/x86_64/desktop'
+make -C ../../../linux-2.6.37-rc5-12 O=/usr/src/linux-2.6.37-rc5-12-obj/x86_64/desktop/. modules
+  CC [M]  /tmp/vmware-root/modules/vmmon-only/linux/driver.o
+  CC [M]  /tmp/vmware-root/modules/vmmon-only/linux/iommu.o
+/tmp/vmware-root/modules/vmmon-only/linux/iommu.c: In function ‘IOMMUUnregisterDeviceInt’:
+/tmp/vmware-root/modules/vmmon-only/linux/iommu.c:217:17: warning: ignoring return value of ‘device_attach’, declared with attribute warn_unused_result
+  CC [M]  /tmp/vmware-root/modules/vmmon-only/linux/hostif.o
+/tmp/vmware-root/modules/vmmon-only/linux/hostif.c: In function ‘HostIFReadUptimeWork’:
+/tmp/vmware-root/modules/vmmon-only/linux/hostif.c:2004:37: warning: ‘newUpBase’ may be used uninitialized in this function
+  CC [M]  /tmp/vmware-root/modules/vmmon-only/linux/driverLog.o
+  CC [M]  /tmp/vmware-root/modules/vmmon-only/common/memtrack.o
+  CC [M]  /tmp/vmware-root/modules/vmmon-only/common/vmx86.o
+  CC [M]  /tmp/vmware-root/modules/vmmon-only/common/cpuid.o
+  CC [M]  /tmp/vmware-root/modules/vmmon-only/common/task.o
+  CC [M]  /tmp/vmware-root/modules/vmmon-only/common/hashFunc.o
+  CC [M]  /tmp/vmware-root/modules/vmmon-only/common/comport.o
+  CC [M]  /tmp/vmware-root/modules/vmmon-only/common/phystrack.o
+  CC [M]  /tmp/vmware-root/modules/vmmon-only/vmcore/moduleloop.o
+  LD [M]  /tmp/vmware-root/modules/vmmon-only/vmmon.o
+  Building modules, stage 2.
+  MODPOST 1 modules
+  CC      /tmp/vmware-root/modules/vmmon-only/vmmon.mod.o
+  LD [M]  /tmp/vmware-root/modules/vmmon-only/vmmon.ko
+make[1]: Leaving directory `/usr/src/linux-2.6.37-rc5-12-obj/x86_64/desktop'
+make -C $PWD SRCROOT=$PWD/. \
+  MODULEBUILDDIR= postbuild
+make[1]: Entering directory `/tmp/vmware-root/modules/vmmon-only'
+make[1]: `postbuild' is up to date.
+make[1]: Leaving directory `/tmp/vmware-root/modules/vmmon-only'
+cp -f vmmon.ko ./../vmmon.o
+make: Leaving directory `/tmp/vmware-root/modules/vmmon-only'
+Built vmmon module
+Using 2.6.x kernel build system.
+make: Entering directory `/tmp/vmware-root/modules/vmnet-only'
+make -C /lib/modules/2.6.37-rc5-12-desktop/build/include/.. SUBDIRS=$PWD SRCROOT=$PWD/. \
+  MODULEBUILDDIR= modules
+make[1]: Entering directory `/usr/src/linux-2.6.37-rc5-12-obj/x86_64/desktop'
+make -C ../../../linux-2.6.37-rc5-12 O=/usr/src/linux-2.6.37-rc5-12-obj/x86_64/desktop/. modules
+  CC [M]  /tmp/vmware-root/modules/vmnet-only/driver.o
+  CC [M]  /tmp/vmware-root/modules/vmnet-only/hub.o
+  CC [M]  /tmp/vmware-root/modules/vmnet-only/userif.o
+  CC [M]  /tmp/vmware-root/modules/vmnet-only/netif.o
+  CC [M]  /tmp/vmware-root/modules/vmnet-only/bridge.o
+  CC [M]  /tmp/vmware-root/modules/vmnet-only/filter.o
+  CC [M]  /tmp/vmware-root/modules/vmnet-only/procfs.o
+  CC [M]  /tmp/vmware-root/modules/vmnet-only/smac_compat.o
+  CC [M]  /tmp/vmware-root/modules/vmnet-only/smac.o
+  CC [M]  /tmp/vmware-root/modules/vmnet-only/vnetEvent.o
+  CC [M]  /tmp/vmware-root/modules/vmnet-only/vnetUserListener.o
+  LD [M]  /tmp/vmware-root/modules/vmnet-only/vmnet.o
+  Building modules, stage 2.
+  MODPOST 1 modules
+  CC      /tmp/vmware-root/modules/vmnet-only/vmnet.mod.o
+  LD [M]  /tmp/vmware-root/modules/vmnet-only/vmnet.ko
+make[1]: Leaving directory `/usr/src/linux-2.6.37-rc5-12-obj/x86_64/desktop'
+make -C $PWD SRCROOT=$PWD/. \
+  MODULEBUILDDIR= postbuild
+make[1]: Entering directory `/tmp/vmware-root/modules/vmnet-only'
+make[1]: `postbuild' is up to date.
+make[1]: Leaving directory `/tmp/vmware-root/modules/vmnet-only'
+cp -f vmnet.ko ./../vmnet.o
+make: Leaving directory `/tmp/vmware-root/modules/vmnet-only'
+Built vmnet module
+Using 2.6.x kernel build system.
+make: Entering directory `/tmp/vmware-root/modules/vmblock-only'
+make -C /lib/modules/2.6.37-rc5-12-desktop/build/include/.. SUBDIRS=$PWD SRCROOT=$PWD/. \
+  MODULEBUILDDIR= modules
+make[1]: Entering directory `/usr/src/linux-2.6.37-rc5-12-obj/x86_64/desktop'
+make -C ../../../linux-2.6.37-rc5-12 O=/usr/src/linux-2.6.37-rc5-12-obj/x86_64/desktop/. modules
+  CC [M]  /tmp/vmware-root/modules/vmblock-only/linux/filesystem.o
+  CC [M]  /tmp/vmware-root/modules/vmblock-only/linux/dentry.o
+  CC [M]  /tmp/vmware-root/modules/vmblock-only/linux/stubs.o
+  CC [M]  /tmp/vmware-root/modules/vmblock-only/linux/dbllnklst.o
+  CC [M]  /tmp/vmware-root/modules/vmblock-only/linux/file.o
+  CC [M]  /tmp/vmware-root/modules/vmblock-only/linux/block.o
+  CC [M]  /tmp/vmware-root/modules/vmblock-only/linux/module.o
+  CC [M]  /tmp/vmware-root/modules/vmblock-only/linux/super.o
+  CC [M]  /tmp/vmware-root/modules/vmblock-only/linux/inode.o
+  CC [M]  /tmp/vmware-root/modules/vmblock-only/linux/control.o
+  LD [M]  /tmp/vmware-root/modules/vmblock-only/vmblock.o
+  Building modules, stage 2.
+  MODPOST 1 modules
+  CC      /tmp/vmware-root/modules/vmblock-only/vmblock.mod.o
+  LD [M]  /tmp/vmware-root/modules/vmblock-only/vmblock.ko
+make[1]: Leaving directory `/usr/src/linux-2.6.37-rc5-12-obj/x86_64/desktop'
+make -C $PWD SRCROOT=$PWD/. \
+  MODULEBUILDDIR= postbuild
+make[1]: Entering directory `/tmp/vmware-root/modules/vmblock-only'
+make[1]: `postbuild' is up to date.
+make[1]: Leaving directory `/tmp/vmware-root/modules/vmblock-only'
+cp -f vmblock.ko ./../vmblock.o
+make: Leaving directory `/tmp/vmware-root/modules/vmblock-only'
+Built vmblock module
+Using 2.6.x kernel build system.
+make: Entering directory `/tmp/vmware-root/modules/vmci-only'
+make -C /lib/modules/2.6.37-rc5-12-desktop/build/include/.. SUBDIRS=$PWD SRCROOT=$PWD/. \
+  MODULEBUILDDIR= modules
+make[1]: Entering directory `/usr/src/linux-2.6.37-rc5-12-obj/x86_64/desktop'
+make -C ../../../linux-2.6.37-rc5-12 O=/usr/src/linux-2.6.37-rc5-12-obj/x86_64/desktop/. modules
+  CC [M]  /tmp/vmware-root/modules/vmci-only/linux/driver.o
+  CC [M]  /tmp/vmware-root/modules/vmci-only/linux/driverLog.o
+  CC [M]  /tmp/vmware-root/modules/vmci-only/linux/vmciKernelIf.o
+  CC [M]  /tmp/vmware-root/modules/vmci-only/common/vmciDatagram.o
+  CC [M]  /tmp/vmware-root/modules/vmci-only/common/vmciDriver.o
+  CC [M]  /tmp/vmware-root/modules/vmci-only/common/vmciDs.o
+  CC [M]  /tmp/vmware-root/modules/vmci-only/common/vmciContext.o
+  CC [M]  /tmp/vmware-root/modules/vmci-only/common/vmciHashtable.o
+  CC [M]  /tmp/vmware-root/modules/vmci-only/common/vmciEvent.o
+  CC [M]  /tmp/vmware-root/modules/vmci-only/common/vmciQueuePair.o
+  CC [M]  /tmp/vmware-root/modules/vmci-only/common/vmciGroup.o
+  CC [M]  /tmp/vmware-root/modules/vmci-only/common/vmciResource.o
+  CC [M]  /tmp/vmware-root/modules/vmci-only/common/vmciProcess.o
+  LD [M]  /tmp/vmware-root/modules/vmci-only/vmci.o
+  Building modules, stage 2.
+  MODPOST 1 modules
+  CC      /tmp/vmware-root/modules/vmci-only/vmci.mod.o
+  LD [M]  /tmp/vmware-root/modules/vmci-only/vmci.ko
+make[1]: Leaving directory `/usr/src/linux-2.6.37-rc5-12-obj/x86_64/desktop'
+make -C $PWD SRCROOT=$PWD/. \
+  MODULEBUILDDIR= postbuild
+make[1]: Entering directory `/tmp/vmware-root/modules/vmci-only'
+make[1]: `postbuild' is up to date.
+make[1]: Leaving directory `/tmp/vmware-root/modules/vmci-only'
+cp -f vmci.ko ./../vmci.o
+make: Leaving directory `/tmp/vmware-root/modules/vmci-only'
+Built vmci module
+Using 2.6.x kernel build system.
+make: Entering directory `/tmp/vmware-root/modules/vsock-only'
+make -C /lib/modules/2.6.37-rc5-12-desktop/build/include/.. SUBDIRS=$PWD SRCROOT=$PWD/. \
+  MODULEBUILDDIR= modules
+make[1]: Entering directory `/usr/src/linux-2.6.37-rc5-12-obj/x86_64/desktop'
+make -C ../../../linux-2.6.37-rc5-12 O=/usr/src/linux-2.6.37-rc5-12-obj/x86_64/desktop/. modules
+  CC [M]  /tmp/vmware-root/modules/vsock-only/linux/af_vsock.o
+/tmp/vmware-root/modules/vsock-only/linux/af_vsock.c: In function ‘VSockVmciStreamConnect’:
+/tmp/vmware-root/modules/vsock-only/linux/af_vsock.c:3172:4: warning: case value ‘255’ not in enumerated type ‘socket_state’
+  CC [M]  /tmp/vmware-root/modules/vsock-only/linux/vsockAddr.o
+  CC [M]  /tmp/vmware-root/modules/vsock-only/linux/util.o
+  CC [M]  /tmp/vmware-root/modules/vsock-only/linux/stats.o
+  CC [M]  /tmp/vmware-root/modules/vsock-only/linux/notify.o
+  CC [M]  /tmp/vmware-root/modules/vsock-only/driverLog.o
+  LD [M]  /tmp/vmware-root/modules/vsock-only/vsock.o
+  Building modules, stage 2.
+  MODPOST 1 modules
+  CC      /tmp/vmware-root/modules/vsock-only/vsock.mod.o
+  LD [M]  /tmp/vmware-root/modules/vsock-only/vsock.ko
+make[1]: Leaving directory `/usr/src/linux-2.6.37-rc5-12-obj/x86_64/desktop'
+make -C $PWD SRCROOT=$PWD/. \
+  MODULEBUILDDIR= postbuild
+make[1]: Entering directory `/tmp/vmware-root/modules/vsock-only'
+make[1]: `postbuild' is up to date.
+make[1]: Leaving directory `/tmp/vmware-root/modules/vsock-only'
+cp -f vsock.ko ./../vsock.o
+make: Leaving directory `/tmp/vmware-root/modules/vsock-only'
+Built vsock module
+Starting VMware services:
+   VMware USB Arbitrator                                               done
+   Virtual machine monitor                                             done
+   Virtual machine communication interface                             done
+   VM communication interface socket family                            done
+   Blocking file system                                                done
+   Virtual ethernet                                                    done
+   Shared Memory Available                                             done
+
+
+All done, you can now run VMWare WorkStation.
+Modules sources backup can be found in the '/usr/lib/vmware/modules/source-workstation7.1.3-2010-12-13-19:07:07-backup' directory
+
+</pre>
+<h3>References</h3>
+<p><a href="http://blog.joachim-selke.de/2010/11/vmware-workstation-7-1-2-and-fedora-14">vmware community post</a><br />
+<a href="http://communities.vmware.com/thread/293321?tstart=0">vmware community thread</a></p>
+<p>Mark D Bernstein aka InitiaZero for providing the script and patch by email and having ping me about it</p>
+<p>Enjoy, and thanks to people having done the crappy job before.</p>
+          </div>
+
+          <p class="postmetadata">Tags: <a href="https://lizards.opensuse.org/tag/2-6-37/" rel="tag">2.6.37</a>, <a href="https://lizards.opensuse.org/tag/factory/" rel="tag">Factory</a>, <a href="https://lizards.opensuse.org/tag/kernel-2-6-37/" rel="tag">kernel 2.6.37</a>, <a href="https://lizards.opensuse.org/tag/vmware/" rel="tag">vmware</a>, <a href="https://lizards.opensuse.org/tag/workstation-7-1-3/" rel="tag">workstation 7.1.3</a><br /> Posted in <a href="https://lizards.opensuse.org/category/base-system/" rel="category tag">Base System</a>, <a href="https://lizards.opensuse.org/category/base-system/kernel/" rel="category tag">Kernel</a>, <a href="https://lizards.opensuse.org/category/server/virtualization/" rel="category tag">Virtualization</a> |   <a href="https://lizards.opensuse.org/2010/11/15/make-vmware-workstation-7-1-3-running-with-11-4-kernel-2-6-37/#comments">4 Comments &#187;</a></p>
+
+        </div>
+
+            <div class="post-5855 post type-post status-publish format-standard hentry category-server">
+          <h3 id="post-5855"><a href="https://lizards.opensuse.org/2010/11/12/opensuse-11-3sles-11-integrating-freeradius-to-ldap-server/" rel="bookmark" title="Permanent Link to OPENSUSE 11.3/SLES 11 ** INTEGRATING FREERADIUS TO LDAP SERVER">OPENSUSE 11.3/SLES 11 ** INTEGRATING FREERADIUS TO LDAP SERVER</a></h3>
+          <small>November 12th, 2010 by <a href="https://lizards.opensuse.org/author/kurniawan-007/" title="Posts by Bonnie Kurniawan" rel="author">Bonnie Kurniawan</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2010/11/12/opensuse-11-3sles-11-integrating-freeradius-to-ldap-server/"
+                data-text="openSUSE News: OPENSUSE 11.3/SLES 11 ** INTEGRATING FREERADIUS TO LDAP SERVER"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2010%2F11%2F12%2Fopensuse-11-3sles-11-integrating-freeradius-to-ldap-server%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p><strong><em>FreeRADIUS</em></strong><em> is a </em><em>modular</em><em>, high performance free </em><em>RADIUS</em><em> suite developed and distributed under the </em><em>GNU General Public License, version 2</em><em>, and is free for download and use. The FreeRADIUS Suite includes a </em><em>RADIUS</em><em> server, a </em><em>BSD-licensed</em><em> RADIUS client library, a </em><em>PAM</em><em> library, an</em><em>Apache</em><em> </em><em>module</em><em>, and numerous additional RADIUS related utilities and development libraries </em>(<a href="http://en.wikipedia.org/wiki/FreeRADIUS" target="_self">wikipedia</a>)</p>
+<p><strong><em>Remote Authentication Dial In User Service</em></strong><em> (</em><strong><em>RADIUS</em></strong><em>) is a networking </em><em>protocol</em><em> that provides centralized Authentication, Authorization, and Accounting (</em><em>AAA</em><em>) management for computers to connect and use a network service. RADIUS was developed by Livingston Enterprises, Inc., in 1991 as an access server authentication and accounting protocol and later brought into the </em><em>Internet Engineering Task Force</em><em> (IETF) standards</em>(<a href="http://en.wikipedia.org/wiki/RADIUS" target="_self">wikipedia</a>)</p>
+<p><em>Well, then again a bit of introduction about &#8220;what is RADIUS ?&#8221; and the FreeRADIUS, the most popular OpenSource RADIUS Server :D.</em></p>
+<p>This tutorial based on an existing LDAP Server Configuration ( you can read this <a href="http://malayin.net/?p=152" target="_blank">post</a>) and it already has 1-2 users on it ( you can read this <a href="http://malayin.net/?p=373" target="_blank">post </a>again 🙂 ),  and this post is explain how-to integrate FreeRADIUS to read and use existing user on LDAP Server.</p>
+<p>you can install the FreeRadius server on the<strong> same server</strong> or on a<strong> seperate server</strong> ( it&#8217;s your choice :p )</p>
+<ul>
+<li>Add the FreeRADIUS repository from software.opensuse.org</li>
+</ul>
+<address><strong># zypper ar </strong><a href="http://download.opensuse.org/repositories/network:/aaa/SLE_11/"><strong>http://download.opensuse.org/repositories/network:/aaa/SLE_11/</strong></a><strong> FreeRadius</strong></address>
+<address><strong># zypper ref </strong></address>
+<ul>
+<li>Install the FreeRADIUS Server Package</li>
+</ul>
+<address><strong><em># zypper in freeradius-server freeradius-client freeradius-server-utils</em></strong></address>
+<address> </address>
+<address><strong><em><a href="http://malayin.net/wp-content/uploads/2010/11/radius1.png"><img src="http://malayin.net/wp-content/uploads/2010/11/radius1.png" alt="" width="657" height="459" /></a></em></strong></address>
+<address> </address>
+<address> </address>
+<ul>
+<li>After Installing the FreeRADIUS Packages, edit <strong>/etc/raddb/modules/ldap </strong>file, and then find and edit following lines (in my case : dc=malayin,dc=net) :</li>
+</ul>
+<div><em>ldap {</em></div>
+<div><em><br />
+</em></div>
+<div><em><strong>server = &#8220;192.168.0.30&#8221; </strong>&#8212; </em><strong>the LDAP Server</strong></div>
+<div><em>#identity = &#8220;cn=Adminstrator,dc=malayin,dc=net&#8221;</em></div>
+<div><em>#password = admin</em></div>
+<div><em><strong>basedn = &#8220;dc=malayin,dc=net&#8221; &#8212; The Base DN LDAP Server</strong></em></div>
+<div><em>#filter = &#8220;(uid=%{Stripped-User-Name:-%{User-Name}})&#8221;</em></div>
+<div><em><strong>filter = &#8220;(uid=%u)&#8221;</strong></em></div>
+<div><em>#base_filter = &#8220;(objectclass=radiusprofile)&#8221;</em></div>
+<div><em>ldap_connections_number = 5</em></div>
+<div><em>timeout = 4</em></div>
+<div><em>timelimit = 3</em></div>
+<div><em>net_timeout = 1</em></div>
+<div><em><br />
+</em></div>
+<div><em>tls {</em></div>
+<div><em>start_tls = no</em></div>
+<div><em>}</em></div>
+<div><em><em>access_attr = &#8220;uid&#8221;</em></em></div>
+<div><em><strong>edir_account_policy_check = yes</strong></em></div>
+<div><em>}</em></div>
+<div>
+<ul>
+<li>After editing the ldap file, save it and then edit /etc/raddb/sites-available/default. FIND THE LINES that contain LDAP word and uncomment the lines :</li>
+</ul>
+</div>
+<p><em> </em></p>
+<div>
+<div><em>authorize {</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  The preprocess module takes care of sanitizing some bizarre</em></div>
+<div><em> </em><em>#  attributes in the request, and turning them into attributes</em></div>
+<div><em> </em><em>#  which are more standard.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  It takes care of processing the &#8216;raddb/hints&#8217; and the</em></div>
+<div><em> </em><em>#  &#8216;raddb/huntgroups&#8217; files.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  It also adds the %{Client-IP-Address} attribute to the request.</em></div>
+<div><em> </em><em>#preprocess</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  If you want to have a log of authentication requests,</em></div>
+<div><em> </em><em>#  un-comment the following line, and the &#8216;detail auth_log&#8217;</em></div>
+<div><em> </em><em>#  section, above.</em></div>
+<div><em># auth_log</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  The chap module will set &#8216;Auth-Type := CHAP&#8217; if we are</em></div>
+<div><em> </em><em>#  handling a CHAP request and Auth-Type has not already been set</em></div>
+<div><em> </em><em>#chap</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  If the users are logging in with an MS-CHAP-Challenge</em></div>
+<div><em> </em><em>#  attribute for authentication, the mschap module will find</em></div>
+<div><em> </em><em>#  the MS-CHAP-Challenge attribute, and add &#8216;Auth-Type := MS-CHAP&#8217;</em></div>
+<div><em> </em><em>#  to the request, which will cause the server to then use</em></div>
+<div><em> </em><em>#  the mschap module for authentication.</em></div>
+<div><em> </em><em>#mschap</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  If you have a Cisco SIP server authenticating against</em></div>
+<div><em> </em><em>#  FreeRADIUS, uncomment the following line, and the &#8216;digest&#8217;</em></div>
+<div><em> </em><em>#  line in the &#8216;authenticate&#8217; section.</em></div>
+<div><em># digest</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Look for IPASS style &#8216;realm/&#8217;, and if not found, look for</em></div>
+<div><em> </em><em>#  &#8216;@realm&#8217;, and decide whether or not to proxy, based on</em></div>
+<div><em> </em><em>#  that.</em></div>
+<div><em># IPASS</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  If you are using multiple kinds of realms, you probably</em></div>
+<div><em> </em><em>#  want to set &#8220;ignore_null = yes&#8221; for all of them.</em></div>
+<div><em> </em><em>#  Otherwise, when the first style of realm doesn&#8217;t match,</em></div>
+<div><em> </em><em>#  the other styles won&#8217;t be checked.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#suffix</em></div>
+<div><em># ntdomain</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  This module takes care of EAP-MD5, EAP-TLS, and EAP-LEAP</em></div>
+<div><em> </em><em>#  authentication.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  It also sets the EAP-Type attribute in the request</em></div>
+<div><em> </em><em>#  attribute list to the EAP type from the packet.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  As of 2.0, the EAP module returns &#8220;ok&#8221; in the authorize stage</em></div>
+<div><em> </em><em>#  for TTLS and PEAP.  In 1.x, it never returned &#8220;ok&#8221; here, so</em></div>
+<div><em> </em><em>#  this change is compatible with older configurations.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  The example below uses module failover to avoid querying all</em></div>
+<div><em> </em><em>#  of the following modules if the EAP module returns &#8220;ok&#8221;.</em></div>
+<div><em> </em><em>#  Therefore, your LDAP and/or SQL servers will not be queried</em></div>
+<div><em> </em><em>#  for the many packets that go back and forth to set up TTLS</em></div>
+<div><em> </em><em>#  or PEAP.  The load on those servers will therefore be reduced.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#eap {</em></div>
+<div><em> </em><em># ok = return</em></div>
+<div><em> </em><em>#}</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Pull crypt&#8217;d passwords from /etc/passwd or /etc/shadow,</em></div>
+<div><em> </em><em>#  using the system API&#8217;s to get the password.  If you want</em></div>
+<div><em> </em><em>#  to read /etc/passwd or /etc/shadow directly, see the</em></div>
+<div><em> </em><em>#  passwd module in radiusd.conf.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#unix</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Read the &#8216;users&#8217; file</em></div>
+<div><em> </em><em>#files</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Look in an SQL database.  The schema of the database</em></div>
+<div><em> </em><em>#  is meant to mirror the &#8220;users&#8221; file.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  See &#8220;Authorization Queries&#8221; in sql.conf</em></div>
+<div><em># sql</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  If you are using /etc/smbpasswd, and are also doing</em></div>
+<div><em> </em><em>#  mschap authentication, the un-comment this line, and</em></div>
+<div><em> </em><em>#  configure the &#8216;etc_smbpasswd&#8217; module, above.</em></div>
+<div><em># etc_smbpasswd</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  The ldap module will set Auth-Type to LDAP if it has not</em></div>
+<div><em> </em><em>#  already been set</em></div>
+<div><em><strong> </strong></em><em><strong>ldap</strong></em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Enforce daily limits on time spent logged in.</em></div>
+<div><em># daily</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em># Use the checkval module</em></div>
+<div><em># checkval</em></div>
+<div><em> </em><em>expiration</em></div>
+<div><em> </em><em>logintime</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  If no other module has claimed responsibility for</em></div>
+<div><em> </em><em>#  authentication, then try to use PAP.  This allows the</em></div>
+<div><em> </em><em>#  other modules listed above to add a &#8220;known good&#8221; password</em></div>
+<div><em> </em><em>#  to the request, and to do nothing else.  The PAP module</em></div>
+<div><em> </em><em>#  will then see that password, and use it to do PAP</em></div>
+<div><em> </em><em>#  authentication.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  This module should be listed last, so that the other modules</em></div>
+<div><em> </em><em>#  get a chance to set Auth-Type for themselves.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#pap</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  If &#8220;status_server = yes&#8221;, then Status-Server messages are passed</em></div>
+<div><em> </em><em>#  through the following section, and ONLY the following section.</em></div>
+<div><em> </em><em>#  This permits you to do DB queries, for example.  If the modules</em></div>
+<div><em> </em><em>#  listed here return &#8220;fail&#8221;, then NO response is sent.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em># Autz-Type Status-Server {</em></div>
+<div><em>#</em></div>
+<div><em># }</em></div>
+<div><em>}</em></div>
+<div><em>#  Authentication.</em></div>
+<div><em>#</em></div>
+<div><em>#</em></div>
+<div><em>#  This section lists which modules are available for authentication.</em></div>
+<div><em>#  Note that it does NOT mean &#8216;try each module in order&#8217;.  It means</em></div>
+<div><em>#  that a module from the &#8216;authorize&#8217; section adds a configuration</em></div>
+<div><em>#  attribute &#8216;Auth-Type := FOO&#8217;.  That authentication type is then</em></div>
+<div><em>#  used to pick the apropriate module from the list below.</em></div>
+<div><em>#</em></div>
+<div><em>#  In general, you SHOULD NOT set the Auth-Type attribute.  The server</em></div>
+<div><em>#  will figure it out on its own, and will do the right thing.  The</em></div>
+<div><em>#  most common side effect of erroneously setting the Auth-Type</em></div>
+<div><em>#  attribute is that one authentication method will work, but the</em></div>
+<div><em>#  others will not.</em></div>
+<div><em>#</em></div>
+<div><em>#  The common reasons to set the Auth-Type attribute by hand</em></div>
+<div><em>#  is to either forcibly reject the user (Auth-Type := Reject),</em></div>
+<div><em>#  or to or forcibly accept the user (Auth-Type := Accept).</em></div>
+<div><em>#</em></div>
+<div><em>#  Note that Auth-Type := Accept will NOT work with EAP.</em></div>
+<div><em>#</em></div>
+<div><em>#  Please do not put &#8220;unlang&#8221; configurations into the &#8220;authenticate&#8221;</em></div>
+<div><em>#  section.  Put them in the &#8220;post-auth&#8221; section instead.  That&#8217;s what</em></div>
+<div><em>#  the post-auth section is for.</em></div>
+<div><em>#</em></div>
+<div><em>authenticate {</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  PAP authentication, when a back-end database listed</em></div>
+<div><em> </em><em>#  in the &#8216;authorize&#8217; section supplies a password.  The</em></div>
+<div><em> </em><em>#  password can be clear-text, or encrypted.</em></div>
+<div><em> </em><em>#Auth-Type PAP {</em></div>
+<div><em># pap</em></div>
+<div><em> </em><em>#}</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Most people want CHAP authentication</em></div>
+<div><em> </em><em>#  A back-end database listed in the &#8216;authorize&#8217; section</em></div>
+<div><em> </em><em>#  MUST supply a CLEAR TEXT password.  Encrypted passwords</em></div>
+<div><em> </em><em>#  won&#8217;t work.</em></div>
+<div><em> </em><em>#Auth-Type CHAP {</em></div>
+<div><em># chap</em></div>
+<div><em># }</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  MSCHAP authentication.</em></div>
+<div><em> </em><em>#Auth-Type MS-CHAP {</em></div>
+<div><em> </em><em># mschap</em></div>
+<div><em> </em><em>#}</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  If you have a Cisco SIP server authenticating against</em></div>
+<div><em> </em><em>#  FreeRADIUS, uncomment the following line, and the &#8216;digest&#8217;</em></div>
+<div><em> </em><em>#  line in the &#8216;authorize&#8217; section.</em></div>
+<div><em># digest</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Pluggable Authentication Modules.</em></div>
+<div><em># pam</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  See &#8216;man getpwent&#8217; for information on how the &#8216;unix&#8217;</em></div>
+<div><em> </em><em>#  module checks the users password.  Note that packets</em></div>
+<div><em> </em><em>#  containing CHAP-Password attributes CANNOT be authenticated</em></div>
+<div><em> </em><em>#  against /etc/passwd!  See the FAQ for details.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#unix</em></div>
+<div><em> </em><em># Uncomment it if you want to use ldap for authentication</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em># Note that this means &#8220;check plain-text password against</em></div>
+<div><em> </em><em># the ldap database&#8221;, which means that EAP won&#8217;t work,</em></div>
+<div><em> </em><em># as it does not supply a plain-text password.</em></div>
+<div><em> </em><em><strong>Auth-Type LDAP {</strong></em></div>
+<div><em><strong> </strong></em><em><strong>ldap</strong></em></div>
+<div><em><strong> </strong></em><em><strong>}</strong></em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Allow EAP authentication.</em></div>
+<div><em># eap</em></div>
+<div><em>}</em></div>
+<div><em>#</em></div>
+<div><em>#  Pre-accounting.  Decide which accounting type to use.</em></div>
+<div><em>#</em></div>
+<div><em>preacct {</em></div>
+<div><em> </em><em>preprocess</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Ensure that we have a semi-unique identifier for every</em></div>
+<div><em> </em><em>#  request, and many NAS boxes are broken.</em></div>
+<div><em> </em><em>acct_unique</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Look for IPASS-style &#8216;realm/&#8217;, and if not found, look for</em></div>
+<div><em> </em><em>#  &#8216;@realm&#8217;, and decide whether or not to proxy, based on</em></div>
+<div><em> </em><em>#  that.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Accounting requests are generally proxied to the same</em></div>
+<div><em> </em><em>#  home server as authentication requests.</em></div>
+<div><em># IPASS</em></div>
+<div><em> </em><em>suffix</em></div>
+<div><em># ntdomain</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Read the &#8216;acct_users&#8217; file</em></div>
+<div><em> </em><em>files</em></div>
+<div><em>}</em></div>
+<div><em>#</em></div>
+<div><em>#  Accounting.  Log the accounting data.</em></div>
+<div><em>#</em></div>
+<div><em>accounting {</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Create a &#8216;detail&#8217;ed log of the packets.</em></div>
+<div><em> </em><em>#  Note that accounting requests which are proxied</em></div>
+<div><em> </em><em>#  are also logged in the detail file.</em></div>
+<div><em> </em><em>detail</em></div>
+<div><em># daily</em></div>
+<div><em> </em><em>#  Update the wtmp file</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  If you don&#8217;t use &#8220;radlast&#8221;, you can delete this line.</em></div>
+<div><em> </em><em>unix</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  For Simultaneous-Use tracking.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Due to packet losses in the network, the data here</em></div>
+<div><em> </em><em>#  may be incorrect.  There is little we can do about it.</em></div>
+<div><em> </em><em>radutmp</em></div>
+<div><em># sradutmp</em></div>
+<div><em> </em><em>#  Return an address to the IP Pool when we see a stop record.</em></div>
+<div><em># main_pool</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Log traffic to an SQL database.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  See &#8220;Accounting queries&#8221; in sql.conf</em></div>
+<div><em># sql</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Instead of sending the query to the SQL server,</em></div>
+<div><em> </em><em>#  write it into a log file.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em># sql_log</em></div>
+<div><em> </em><em>#  Cisco VoIP specific bulk accounting</em></div>
+<div><em># pgsql-voip</em></div>
+<div><em> </em><em>#  Filter attributes from the accounting response.</em></div>
+<div><em> </em><em>attr_filter.accounting_response</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  See &#8220;Autz-Type Status-Server&#8221; for how this works.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em># Acct-Type Status-Server {</em></div>
+<div><em>#</em></div>
+<div><em># }</em></div>
+<div><em>}</em></div>
+<div><em>#  Session database, used for checking Simultaneous-Use. Either the radutmp</em></div>
+<div><em>#  or rlm_sql module can handle this.</em></div>
+<div><em>#  The rlm_sql module is *much* faster</em></div>
+<div><em>session {</em></div>
+<div><em> </em><em>radutmp</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  See &#8220;Simultaneous Use Checking Queries&#8221; in sql.conf</em></div>
+<div><em># sql</em></div>
+<div><em>}</em></div>
+<div><em>#  Post-Authentication</em></div>
+<div><em>#  Once we KNOW that the user has been authenticated, there are</em></div>
+<div><em>#  additional steps we can take.</em></div>
+<div><em>post-auth {</em></div>
+<div><em> </em><em>#  Get an address from the IP Pool.</em></div>
+<div><em># main_pool</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  If you want to have a log of authentication replies,</em></div>
+<div><em> </em><em>#  un-comment the following line, and the &#8216;detail reply_log&#8217;</em></div>
+<div><em> </em><em>#  section, above.</em></div>
+<div><em># reply_log</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  After authenticating the user, do another SQL query.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  See &#8220;Authentication Logging Queries&#8221; in sql.conf</em></div>
+<div><em># sql</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Instead of sending the query to the SQL server,</em></div>
+<div><em> </em><em>#  write it into a log file.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em># sql_log</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Un-comment the following if you have set</em></div>
+<div><em> </em><em>#  &#8216;edir_account_policy_check = yes&#8217; in the ldap module sub-section of</em></div>
+<div><em> </em><em>#  the &#8216;modules&#8217; section.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em><strong> </strong></em><em><strong>ldap</strong></em></div>
+<div><em> </em><em>#exec</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Access-Reject packets are sent through the REJECT sub-section of the</em></div>
+<div><em> </em><em>#  post-auth section.</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>#  Add the ldap module name (or instance) if you have set</em></div>
+<div><em> </em><em>#  &#8216;edir_account_policy_check = yes&#8217; in the ldap module configuration</em></div>
+<div><em> </em><em>#</em></div>
+<div><em> </em><em>Post-Auth-Type REJECT {</em></div>
+<div><em> </em><em>attr_filter.access_reject</em></div>
+<div><em> </em><em>}</em></div>
+<div><em>}</em></div>
+</div>
+<div>
+<ul>
+<li><em>save the file, then add these line to /etc/raddb/clients.conf filem to decide which network is <strong>ALLOWED </strong>to use and access FreeRADIUS service (in my case : 192.168.0.0/24)  :</em></li>
+</ul>
+</div>
+<p><em><strong>client 192.168.0.0/24 {</strong></em></p>
+<p><em><strong> </strong></em><em><strong>secret</strong><strong> </strong><strong>= testing123-1</strong></em></p>
+<p><em><strong> </strong></em><em><strong>shortname</strong><strong> </strong><strong>= testing123-1</strong></em></p>
+<p><em><strong>}</strong></em></p>
+<ul>
+<li><em>After finish editing clients.conf file, save it and then test the connectivity by using <strong>radtest</strong> command</em></li>
+</ul>
+<p>You can see detail http://www.malayin.net</p>
+          </div>
+
+          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/server/" rel="category tag">Server</a> |   <span>Comments Off<span class="screen-reader-text"> on OPENSUSE 11.3/SLES 11 ** INTEGRATING FREERADIUS TO LDAP SERVER</span></span></p>
+
+        </div>
+
+            <div class="post-5669 post type-post status-publish format-standard hentry category-documentation category-server category-systems-management tag-administration tag-documentation tag-howto tag-svn">
+          <h3 id="post-5669"><a href="https://lizards.opensuse.org/2010/10/30/merging-svn-repos-explained/" rel="bookmark" title="Permanent Link to Merging SVN Repositories Explained">Merging SVN Repositories Explained</a></h3>
+          <small>October 30th, 2010 by <a href="https://lizards.opensuse.org/author/thomas-schraitle/" title="Posts by Thomas Schraitle" rel="author">Thomas Schraitle</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2010/10/30/merging-svn-repos-explained/"
+                data-text="openSUSE News: Merging SVN Repositories Explained"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2010%2F10%2F30%2Fmerging-svn-repos-explained%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>Adding files to a <a title="Subversion" href="http://en.wikipedia.org/wiki/Apache_Subversion" target="_blank">SVN</a> server is usually a task done in seconds. However, having several independent SVN repositories and wanting to “combine” them,  this is not trivial—especially if you want to preserve the history.</p>
+<p>The doc team had had three different, independent repositories on BerliOS (opensuse-ha-doc,  opensuse-docmaker, and opensuse-lfl) all holding separate information. This was a bit silly, so my task was to consolidate them into <a title="Our SVN repo with all doc related stuff" href="https://developer.berlios.de/projects/opensuse-doc/" target="_blank">opensuse-doc</a> by <em>keeping</em> all history.</p>
+<h2> <a href="https://lizards.opensuse.org/2010/10/30/merging-svn-repos-explained/#more-5669" class="more-link"><span aria-label="Continue reading Merging SVN Repositories Explained">(more&hellip;)</span></a></h2>
+          </div>
+
+          <p class="postmetadata">Tags: <a href="https://lizards.opensuse.org/tag/administration/" rel="tag">administration</a>, <a href="https://lizards.opensuse.org/tag/documentation/" rel="tag">Documentation</a>, <a href="https://lizards.opensuse.org/tag/howto/" rel="tag">howto</a>, <a href="https://lizards.opensuse.org/tag/svn/" rel="tag">svn</a><br /> Posted in <a href="https://lizards.opensuse.org/category/documentation/" rel="category tag">Documentation</a>, <a href="https://lizards.opensuse.org/category/server/" rel="category tag">Server</a>, <a href="https://lizards.opensuse.org/category/systems-management/" rel="category tag">Systems Management</a> |   <span>Comments Off<span class="screen-reader-text"> on Merging SVN Repositories Explained</span></span></p>
+
+        </div>
+
+            <div class="post-5576 post type-post status-publish format-standard hentry category-build-service category-distribution category-packaging category-toolchain category-virtualization">
+          <h3 id="post-5576"><a href="https://lizards.opensuse.org/2010/10/24/obs-2-1-status-of-superh-sh4-support-with-qemu/" rel="bookmark" title="Permanent Link to OBS 2.1: Status of SuperH (sh4) support with QEMU">OBS 2.1: Status of SuperH (sh4) support with QEMU</a></h3>
+          <small>October 24th, 2010 by <a href="https://lizards.opensuse.org/author/martinmohring/" title="Posts by Martin Mohring" rel="author">Martin Mohring</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2010/10/24/obs-2-1-status-of-superh-sh4-support-with-qemu/"
+                data-text="openSUSE News: OBS 2.1: Status of SuperH (sh4) support with QEMU"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2010%2F10%2F24%2Fobs-2-1-status-of-superh-sh4-support-with-qemu%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>With established <a href="//lizards.opensuse.org/2008/11/18/arm-support-for-opensuse-buildservice-and-opensuse/">ARM</a>  support in OBS the as well as emulated <a href="//lizards.opensuse.org/2010/08/22/obs-2-1-status-of-powerpc-and-mips-support-with-qemu/">MIPS and PowerPC </a> is getting more mature, the last big embedded architecture not working in OBS with QEMU user mode was SH4. QEMU developers community had done a lot of work in improving QEMU user mode during the last months, so I can proudly present with currently only a few patches to QEMU git master OBS builds working with the SH4 port of Debian Sid. The new <a href="http://wiki.qemu.org/Main_Page">QEMU 0.13</a> released recently is a big milestone for this.</p>
+<p>Another news is that I had fixed the bugs in Virtual Machine builds (build script) when using them with some architectures like PowerPC 32bit and SH4. So now also the combination of using for example KVM (XEN should also work) in a worker together with ARM, MIPS, PowerPC and SH4 is working. The appropriate fixes are in one of the next build script releases (if not even released already now with OBS 2.1, I have to check that). You can select architecture &#8220;sh4&#8221; with OBS 2.1 and also start a scheduler with &#8220;sh4&#8221;. </p>
+<p>With the use of the QEMU User Mode, you can build also accelerated native cross toolchains for your host architecture so time critical parts like the compiler can run without the emulator. This works with .deb as well as with .rpm based backages. The <a href="https://www.meego.com">MeeGo Project</a> as well as the openSUSE Port to ARM uses this technique to provide an optimum between compatibility and performance. It means you can mix natively build packages and use cross toolchains on it. The &#8220;CBinstall:&#8221; feature helps you to use native or cross builds automatically depending on if your build host is a native machine or a x86 machine with cross build. In summary, <strong>we have the current classics of linux embedded archs</strong> together now in OBS: <strong>ARM, x86, MIPS 32, PowerPC 32 and SH4</strong>.</p>
+<p>I have uploaded the fixed QEMU package to the OBS project <a href="https://build.opensuse.org/project/show?project=openSUSE%3ATools%3AUnstable">openSUSE:Tools:Unstable</a> inside the package &#8220;qemu-devel&#8221; after some more testing. I have of course also a OBS meta prjconf file working with Debian Sid. The SH4 port of Debian Sid you can find at <a href="http://ftp.debian-ports.org/debian"> Debian Ports Site</a>.</p>
+<p>And last but not least I would like to thank Riku Voipio of the Debian Project, QEMU project and MeeGo project and other major contributors during the QEMU 0.13 development cycle for the restless work on QEMU user mode improvements. In case of KVM, QEMU is used even twice, with QEMU-KVM as well as QEMU User Mode. I am sure I had forgotten other important people, so thanks to them also.</p>
+          </div>
+
+          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/build-service/" rel="category tag">Build Service</a>, <a href="https://lizards.opensuse.org/category/distribution/" rel="category tag">Distribution</a>, <a href="https://lizards.opensuse.org/category/packaging/" rel="category tag">Packaging</a>, <a href="https://lizards.opensuse.org/category/base-system/toolchain/" rel="category tag">Toolchain</a>, <a href="https://lizards.opensuse.org/category/server/virtualization/" rel="category tag">Virtualization</a> |   <a href="https://lizards.opensuse.org/2010/10/24/obs-2-1-status-of-superh-sh4-support-with-qemu/#comments">3 Comments &#187;</a></p>
+
+        </div>
+
+            <div class="post-5482 post type-post status-publish format-standard hentry category-virtualization tag-containers tag-lxc tag-susestudio tag-virtualization-2">
+          <h3 id="post-5482"><a href="https://lizards.opensuse.org/2010/10/20/matryoshka/" rel="bookmark" title="Permanent Link to Matryoshka">Matryoshka</a></h3>
+          <small>October 20th, 2010 by <a href="https://lizards.opensuse.org/author/toganm/" title="Posts by Togan Muftuoglu" rel="author">Togan Muftuoglu</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2010/10/20/matryoshka/"
+                data-text="openSUSE News: Matryoshka"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2010%2F10%2F20%2Fmatryoshka%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>A <strong>matryoshka doll</strong>, also known as a <strong>Russian nesting doll</strong> or a <strong>babushka doll</strong>, is a set of dolls of decreasing sizes placed one inside the other. A set of matryoshkas consists of a wooden figure which separates, top  from bottom, to reveal a smaller figure of the same sort inside, which  has, in turn, another figure inside of it, and so on. <a href="http://en.wikipedia.org/wiki/Matryoshka_doll"><img class="alignright" src="http://upload.wikimedia.org/wikipedia/commons/3/3d/First_matryoshka_museum_doll_open.jpg" alt="Matryoshka Doll" width="500" height="352" /></a></p>
+<p>Virtualization is a concept similar to the Matryoshka analogy. There is another system running inside the host machine. So it is box in a box. There are many virtualization techniques available at the disposal of the user; <a href="http://www.vmware.com/" target="_blank">vmware</a>,<a href="http://www.virtualbox.org/" target="_blank"> virtualbox</a>, <a href="http://www.xen.org/" target="_blank">xen</a> to name a few which requires lots of resources. Another alternative which is <a href="http://wiki.openvz.org/Main_Page" target="_blank">OpenVZ</a> , container-based virtualization for Linux. Each container performs and executes exactly like a stand-alone server;  a container can be rebooted independently and have root access, users,  IP addresses, memory, processes, files, applications, system libraries  and configuration files.</p>
+<p>Here is a quote from <a title="Introducing Linux Virtual Containers" href="http://blogs.techrepublic.com.com/opensource/?p=1289&amp;tag=leftCol;post-1299" target="_blank">TechRepublic Blog :</a></p>
+<blockquote><p>In the past we have looked at using <a href="http://blogs.techrepublic.com.com/opensource/?p=615" target="_blank">OpenVZ for container virtualization</a> on Linux. OpenVZ is great as it allows you to run compartmentalized  “servers” within an operating system so you can separate systems, much  like running virtual machines on a host system. With OpenVZ, you can get  the benefits of virtualization without the overhead.</p>
+<p>The downside of OpenVZ is that it isn’t in the mainline kernel. This  means you need to run a kernel provided by the OpenVZ project. By itself  this isn’t necessarily a problem, unless you are running an unsupported  Linux distribution, and also if you don’t mind a bit of lag from  upstream security fixes</p></blockquote>
+<p>So what is an alternative; well maybe lxc is the answer.According to <a title="Linux Containers" href="http://lxc.sourceforge.net/" target="_blank">http://lxc.sourceforge.net/</a></p>
+<blockquote><p>The  container  technology  is actively being pushed into the mainstream  linux kernel. It provides the resource management through the control  groups aka process containers and resource isolation through the  namespaces.</p></blockquote>
+<p>There is very little information regarding LXC in the opensuse wiki and the <a href="http://en.opensuse.org/LXC" target="_blank">only one available</a> is still draft, yet provides enough information to start rolling up your containers.  Here is the preamble of the above mentioned page:</p>
+<blockquote><p>LXC is a form of paravirtualization. Being a sort of super duper  chroot jail, it is limited to running linux binaries, but offers  essentially native perfomance as if those binaries were running as  normal processes right in the host kernel. Which in fact, they are.</p>
+<p>LXC is interesting primarily in that:</p>
+<ul>
+<li> It can be used to run a mere application, service, or a full operating system.</li>
+<li> It offers essentially native performance. A binary running as  an LXC guest is actually running as a normal process directly in the  host os kernel just like any other process. In particular this means  that cpu and i/o scheduling are a lot more fair and tunable, and you get  native disk i/o performance which you can not have with real  virtualization (even Xen, even in paravirt mode) This means you can  containerize disk i/o heavy database apps. It also means that you can  only run binaries that the host kernel can execute. (ie: you can run  Linux binaries, not another OS like Solaris or Windows)</li>
+</ul>
+</blockquote>
+<p>The same page also states there is not another HOWTO or documentation explaining how to use lxc with opensuse even though the lxc package has been part of the main oss repo since 11.2 version. Furthermore there are no scripts like lxc-fedora or lxc-debian  that will automate the creation or installation of opensuse. Now while it may be true that there are no opensuse specific scripts are available (at least I could not find through a Google search), though there is an interesting video on<a href="http://www.youtube.com/watch?v=4S2_SaK9Bg0" target="_blank"> youtube showing the lxc with opensuse 11.2. </a></p>
+<p>Based on the the information on the<a href="http://en.opensuse.org/LXC" target="_blank"> LXC</a> wiki page, using the  <a href="http://susestudio.com/" target="_blank">SUSEStudio</a> , I built an appliance which  is almost ready to use lxc. In order to create a container image, a very primitive lxc_opensuse script that will do a fairly basic job is also included. Once the script is issued,it will download opensuse 11.3 base system and the user can start playing with the wonders of lxc. For the impatient, who wants do discover Matryoshka, <a href="http://susegallery.com/a/4dMNWp/matryoshka" target="_blank">here is the link for  the appliance</a> .</p>
+<p>Have fun with <strong><em>Matryoshka</em></strong> !</p>
+          </div>
+
+          <p class="postmetadata">Tags: <a href="https://lizards.opensuse.org/tag/containers/" rel="tag">containers</a>, <a href="https://lizards.opensuse.org/tag/lxc/" rel="tag">lxc</a>, <a href="https://lizards.opensuse.org/tag/susestudio/" rel="tag">susestudio</a>, <a href="https://lizards.opensuse.org/tag/virtualization-2/" rel="tag">virtualization</a><br /> Posted in <a href="https://lizards.opensuse.org/category/server/virtualization/" rel="category tag">Virtualization</a> |   <a href="https://lizards.opensuse.org/2010/10/20/matryoshka/#comments">1 Comment &#187;</a></p>
+
+        </div>
+
+      
+      <div class="navigation page-navigation">
+        <div class="alignleft"><a href="https://lizards.opensuse.org/category/server/page/4/" >&laquo; Older Entries</a></div>
+        <div class="alignright"><a href="https://lizards.opensuse.org/category/server/page/2/" >Newer Entries &raquo;</a></div>
+      </div>
+      </div>
+
+    
+<div class="grid_4 omega aside">
+  <!-- <div class="box box-shadow"> -->
+    <ul>
+      <li id="text-3" class="widget box box-shadow widget_text"><h3 class="box-subheader">Advertisement</h3>			<div class="textwidget"><center><a href="http://counter.opensuse.org/link/" alt="counter" title="Get it!"><img src="//counter.opensuse.org/small"></a></center></div>
+		</li><li id="tag_cloud-3" class="widget box box-shadow widget_tag_cloud"><h3 class="box-subheader">Tags</h3><div class="tagcloud"><a href='https://lizards.opensuse.org/tag/11-3/' class='tag-link-380 tag-link-position-1' title='15 topics' style='font-size: 12.579439252336pt;'>11.3</a>
+<a href='https://lizards.opensuse.org/tag/11-4/' class='tag-link-414 tag-link-position-2' title='48 topics' style='font-size: 18.990654205607pt;'>11.4</a>
+<a href='https://lizards.opensuse.org/tag/12-1/' class='tag-link-482 tag-link-position-3' title='35 topics' style='font-size: 17.289719626168pt;'>12.1</a>
+<a href='https://lizards.opensuse.org/tag/12-2/' class='tag-link-549 tag-link-position-4' title='26 topics' style='font-size: 15.588785046729pt;'>12.2</a>
+<a href='https://lizards.opensuse.org/tag/12-3/' class='tag-link-559 tag-link-position-5' title='23 topics' style='font-size: 14.934579439252pt;'>12.3</a>
+<a href='https://lizards.opensuse.org/tag/13-1/' class='tag-link-570 tag-link-position-6' title='21 topics' style='font-size: 14.411214953271pt;'>13.1</a>
+<a href='https://lizards.opensuse.org/tag/13-2/' class='tag-link-632 tag-link-position-7' title='11 topics' style='font-size: 11.009345794393pt;'>13.2</a>
+<a href='https://lizards.opensuse.org/tag/amd/' class='tag-link-434 tag-link-position-8' title='48 topics' style='font-size: 18.990654205607pt;'>amd</a>
+<a href='https://lizards.opensuse.org/tag/arm/' class='tag-link-279 tag-link-position-9' title='17 topics' style='font-size: 13.364485981308pt;'>ARM</a>
+<a href='https://lizards.opensuse.org/tag/ati/' class='tag-link-384 tag-link-position-10' title='45 topics' style='font-size: 18.598130841121pt;'>ATI</a>
+<a href='https://lizards.opensuse.org/tag/beta/' class='tag-link-343 tag-link-position-11' title='8 topics' style='font-size: 9.3084112149533pt;'>Beta</a>
+<a href='https://lizards.opensuse.org/tag/buildservice/' class='tag-link-45 tag-link-position-12' title='6 topics' style='font-size: 8pt;'>buildservice</a>
+<a href='https://lizards.opensuse.org/tag/build-service/' class='tag-link-728 tag-link-position-13' title='13 topics' style='font-size: 11.92523364486pt;'>Build Service</a>
+<a href='https://lizards.opensuse.org/tag/c-language/' class='tag-link-575 tag-link-position-14' title='8 topics' style='font-size: 9.3084112149533pt;'>C-Language</a>
+<a href='https://lizards.opensuse.org/tag/cloud/' class='tag-link-584 tag-link-position-15' title='10 topics' style='font-size: 10.485981308411pt;'>cloud</a>
+<a href='https://lizards.opensuse.org/tag/collaboration/' class='tag-link-59 tag-link-position-16' title='7 topics' style='font-size: 8.6542056074766pt;'>Collaboration</a>
+<a href='https://lizards.opensuse.org/tag/community/' class='tag-link-173 tag-link-position-17' title='31 topics' style='font-size: 16.635514018692pt;'>Community</a>
+<a href='https://lizards.opensuse.org/tag/conference/' class='tag-link-355 tag-link-position-18' title='10 topics' style='font-size: 10.485981308411pt;'>conference</a>
+<a href='https://lizards.opensuse.org/tag/education/' class='tag-link-744 tag-link-position-19' title='18 topics' style='font-size: 13.626168224299pt;'>Education</a>
+<a href='https://lizards.opensuse.org/tag/event/' class='tag-link-37 tag-link-position-20' title='7 topics' style='font-size: 8.6542056074766pt;'>event</a>
+<a href='https://lizards.opensuse.org/tag/events/' class='tag-link-731 tag-link-position-21' title='9 topics' style='font-size: 9.9626168224299pt;'>Events</a>
+<a href='https://lizards.opensuse.org/tag/factory/' class='tag-link-745 tag-link-position-22' title='14 topics' style='font-size: 12.317757009346pt;'>Factory</a>
+<a href='https://lizards.opensuse.org/tag/fglrx/' class='tag-link-385 tag-link-position-23' title='42 topics' style='font-size: 18.205607476636pt;'>fglrx</a>
+<a href='https://lizards.opensuse.org/tag/fun/' class='tag-link-200 tag-link-position-24' title='14 topics' style='font-size: 12.317757009346pt;'>fun</a>
+<a href='https://lizards.opensuse.org/tag/gnome/' class='tag-link-723 tag-link-position-25' title='13 topics' style='font-size: 11.92523364486pt;'>GNOME</a>
+<a href='https://lizards.opensuse.org/tag/gsoc/' class='tag-link-261 tag-link-position-26' title='11 topics' style='font-size: 11.009345794393pt;'>gsoc</a>
+<a href='https://lizards.opensuse.org/tag/hackweek/' class='tag-link-741 tag-link-position-27' title='9 topics' style='font-size: 9.9626168224299pt;'>Hackweek</a>
+<a href='https://lizards.opensuse.org/tag/kde/' class='tag-link-722 tag-link-position-28' title='24 topics' style='font-size: 15.196261682243pt;'>KDE</a>
+<a href='https://lizards.opensuse.org/tag/kernel/' class='tag-link-727 tag-link-position-29' title='49 topics' style='font-size: 19.121495327103pt;'>Kernel</a>
+<a href='https://lizards.opensuse.org/tag/kraft/' class='tag-link-247 tag-link-position-30' title='8 topics' style='font-size: 9.3084112149533pt;'>Kraft</a>
+<a href='https://lizards.opensuse.org/tag/linux/' class='tag-link-362 tag-link-position-31' title='16 topics' style='font-size: 12.971962616822pt;'>Linux</a>
+<a href='https://lizards.opensuse.org/tag/lxde/' class='tag-link-287 tag-link-position-32' title='12 topics' style='font-size: 11.401869158879pt;'>LXDE</a>
+<a href='https://lizards.opensuse.org/tag/obs/' class='tag-link-218 tag-link-position-33' title='10 topics' style='font-size: 10.485981308411pt;'>obs</a>
+<a href='https://lizards.opensuse.org/tag/opensuse/' class='tag-link-38 tag-link-position-34' title='83 topics' style='font-size: 22pt;'>openSUSE</a>
+<a href='https://lizards.opensuse.org/tag/package/' class='tag-link-58 tag-link-position-35' title='7 topics' style='font-size: 8.6542056074766pt;'>Package</a>
+<a href='https://lizards.opensuse.org/tag/postgresql/' class='tag-link-367 tag-link-position-36' title='7 topics' style='font-size: 8.6542056074766pt;'>PostgreSQL</a>
+<a href='https://lizards.opensuse.org/tag/radeon/' class='tag-link-464 tag-link-position-37' title='10 topics' style='font-size: 10.485981308411pt;'>radeon</a>
+<a href='https://lizards.opensuse.org/tag/raspberry/' class='tag-link-565 tag-link-position-38' title='11 topics' style='font-size: 11.009345794393pt;'>raspberry</a>
+<a href='https://lizards.opensuse.org/tag/raspberry-pi/' class='tag-link-679 tag-link-position-39' title='9 topics' style='font-size: 9.9626168224299pt;'>Raspberry Pi</a>
+<a href='https://lizards.opensuse.org/tag/rpm/' class='tag-link-269 tag-link-position-40' title='13 topics' style='font-size: 11.92523364486pt;'>rpm</a>
+<a href='https://lizards.opensuse.org/tag/ruby/' class='tag-link-381 tag-link-position-41' title='7 topics' style='font-size: 8.6542056074766pt;'>Ruby</a>
+<a href='https://lizards.opensuse.org/tag/tumbleweed/' class='tag-link-616 tag-link-position-42' title='14 topics' style='font-size: 12.317757009346pt;'>Tumbleweed</a>
+<a href='https://lizards.opensuse.org/tag/xml/' class='tag-link-69 tag-link-position-43' title='8 topics' style='font-size: 9.3084112149533pt;'>XML</a>
+<a href='https://lizards.opensuse.org/tag/xorg-2/' class='tag-link-444 tag-link-position-44' title='31 topics' style='font-size: 16.635514018692pt;'>xorg</a>
+<a href='https://lizards.opensuse.org/tag/yast/' class='tag-link-725 tag-link-position-45' title='14 topics' style='font-size: 12.317757009346pt;'>YaST</a></div>
+</li>		<li id="authors-2" class="widget box box-shadow widget_authors">			<h3 class="box-subheader">Lizards</h3>			<ul><li><img alt='' src='https://secure.gravatar.com/avatar/665cc4ce5b7e7735c418a6bf857227d0?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/665cc4ce5b7e7735c418a6bf857227d0?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/adriansuse/" title="Posts by Adrian Schröter">Adrian Schröter</a> (12)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/6b405d89e8a498ae6a52f60246bb1cb3?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/6b405d89e8a498ae6a52f60246bb1cb3?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/dj_ubun_1/" title="Posts by Agustin Chavarria">Agustin Chavarria</a> (6)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/de70b01367308284c7fffa046b2faf16?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/de70b01367308284c7fffa046b2faf16?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/cabelo/" title="Posts by Alessandro de Oliveira Faria">Alessandro de Oliveira Faria</a> (13)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/9c20c306e84e644f7437fbea954c56c0?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/9c20c306e84e644f7437fbea954c56c0?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/alexbariv/" title="Posts by Alex Barrios">Alex Barrios</a> (12)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/cbae0a6b288a060e2f4f83897dbc62f5?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/cbae0a6b288a060e2f4f83897dbc62f5?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/alexander_naumov/" title="Posts by Alexander Naumov">Alexander Naumov</a> (10)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/c04c73736241252ce1748dcb0b4af496?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/c04c73736241252ce1748dcb0b4af496?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/aorlovskyy/" title="Posts by Alexander Orlovskyy">Alexander Orlovskyy</a> (3)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/1091099af3cd8b684eaba8124c063c45?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/1091099af3cd8b684eaba8124c063c45?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/ealin/" title="Posts by Alin M Elena">Alin M Elena</a> (5)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/12b8b4d0de48863920df21b576b12e89?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/12b8b4d0de48863920df21b576b12e89?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/anubisg1/" title="Posts by Andrea Florio">Andrea Florio</a> (27)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/f15a600d57849d9dc3e0d23539212583?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/f15a600d57849d9dc3e0d23539212583?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/a_jaeger/" title="Posts by Andreas Jaeger">Andreas Jaeger</a> (70)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/60bbc6f441037a434cad33eca68f2bd8?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/60bbc6f441037a434cad33eca68f2bd8?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/andreasstieger/" title="Posts by AndreasStieger">Andreas Stieger</a> (12)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/0c18cf5651bb5ad3c8c6cd10467be536?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/0c18cf5651bb5ad3c8c6cd10467be536?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/funkypenguin/" title="Posts by Andrew Wafaa">Andrew Wafaa</a> (31)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/17c5d6b91957787db64c3d65c9a9b234?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/17c5d6b91957787db64c3d65c9a9b234?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/aschnell/" title="Posts by Arvin Schnell">Arvin Schnell</a> (9)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/33b7ed7d1a68409cffbb4fce216c410c?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/33b7ed7d1a68409cffbb4fce216c410c?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/badshah400/" title="Posts by badshah400">Atri Bhattacharya</a> (3)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/c57258b3faac137a43ddcc63deb22517?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/c57258b3faac137a43ddcc63deb22517?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/bmwiedemann/" title="Posts by bmwiedemann">Bernhard Wiedemann</a> (31)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/3081cb247a705dcb3c912cce12ccb986?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/3081cb247a705dcb3c912cce12ccb986?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/kurniawan-007/" title="Posts by Bonnie Kurniawan">Bonnie Kurniawan</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/482b6c0369f4709de8faa6843cd6b347?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/482b6c0369f4709de8faa6843cd6b347?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/bruno_friedmann/" title="Posts by Bruno Friedmann">Bruno Friedmann</a> (98)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/83f40d98130b1fd3a741b9f01b2f76b1?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/83f40d98130b1fd3a741b9f01b2f76b1?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/calumma/" title="Posts by calumma">Calumma Brevicorne</a> (29)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/5fb81daf243732ab579b45f3bb261041?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/5fb81daf243732ab579b45f3bb261041?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/caf4926/" title="Posts by Carl Fletcher">Carl Fletcher</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/5f12ccab9a5217492279b93dc338f8a3?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/5f12ccab9a5217492279b93dc338f8a3?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/hobbsc/" title="Posts by Christopher Hobbs">Christopher Hobbs</a> (17)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/7a36aa34f42120643cfd761f32ddceca?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/7a36aa34f42120643cfd761f32ddceca?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/babelworx/" title="Posts by Ciaran Farrell">Ciaran Farrell</a> (3)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/e4e8389140088920840a562d3ea05469?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/e4e8389140088920840a562d3ea05469?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/coolo/" title="Posts by coolo">Stephan Kulow</a> (17)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/9195974d6d0f1b8fd7b702dd81618406?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/9195974d6d0f1b8fd7b702dd81618406?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/ganglia/" title="Posts by Craig Gardner">craig gardner</a> (2)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/50a30bb897b32f99e982ea3b2088fa6a?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/50a30bb897b32f99e982ea3b2088fa6a?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/cyberiad/" title="Posts by cyberiad">Stephan Barth</a> (2)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/ced20b885a7272cd73a486554652cefc?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/ced20b885a7272cd73a486554652cefc?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/digitaltomm/" title="Posts by digitaltomm">Thomas Schmidt</a> (2)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/33bbe84eb985eabfa2c8ca16b411ac4d?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/33bbe84eb985eabfa2c8ca16b411ac4d?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/k0da/" title="Posts by Dinar Valeev">Dinar Valeev</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/c13f6726c52ab070fa80fa59a08f5c7c?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/c13f6726c52ab070fa80fa59a08f5c7c?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/dirkmueller/" title="Posts by Dirk Müller">Dirk Mueller</a> (2)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/cf1abc404bab4754fa7a15627fe1a3e0?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/cf1abc404bab4754fa7a15627fe1a3e0?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/dmitry_serpokryl/" title="Posts by Dmitry Serpokryl">Dmitry Serpokryl</a> (7)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/a8e5a97bc15dee2a2c3c8fa74fc2d27d?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/a8e5a97bc15dee2a2c3c8fa74fc2d27d?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/diamond_gr/" title="Posts by Efstathios Iosifidis">Efstathios Iosifidis</a> (21)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/ba9a8bde051ca69ad1d24b565d907482?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/ba9a8bde051ca69ad1d24b565d907482?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/fabiomux/" title="Posts by FabioMux">Fabio Mucciante</a> (5)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/3feb252147c4c69e4de152006c0b3fce?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/3feb252147c4c69e4de152006c0b3fce?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/flucifredi/" title="Posts by Federico Lucifredi">Federico Lucifredi</a> (9)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/25bbc96d9c53647354cb724e744b2222?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/25bbc96d9c53647354cb724e744b2222?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/gregfreemyer/" title="Posts by Greg Freemyer">Greg Freemyer</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/31e251b53e7c41d1fd130ae3809c0092?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/31e251b53e7c41d1fd130ae3809c0092?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/holgisms/" title="Posts by Holgi">Holger Sickenberg</a> (2)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/26505b78e4a5b312c389b578093f6fa6?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/26505b78e4a5b312c389b578093f6fa6?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/wiederda/" title="Posts by Hubert Mantel">Hubert Mantel</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/a04dfb1adae5db8df437ae769c263ca7?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/a04dfb1adae5db8df437ae769c263ca7?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/ansus/" title="Posts by Ilya Chernykh">Ilya Chernykh</a> (5)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/ae3a82716dc7b3f4b8ef9b7508d80c5e?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/ae3a82716dc7b3f4b8ef9b7508d80c5e?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/namtrac/" title="Posts by Ismail Donmez">Ismail Donmez</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/cafe9fb55db0cc3f1f68a327ba1d9eee?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/cafe9fb55db0cc3f1f68a327ba1d9eee?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/jdsn/" title="Posts by J. Daniel Schmidt">J. Daniel Schmidt</a> (2)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/d79616993dab466bee3456e8ac46bfee?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/d79616993dab466bee3456e8ac46bfee?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/jasujt/" title="Posts by James Tremblay">James Tremblay</a> (7)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/c6ce61b8d0a3569ef85184dda1570590?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/c6ce61b8d0a3569ef85184dda1570590?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/janblunck/" title="Posts by Jan Blunck">Jan Blunck</a> (4)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/175c7154a5704e340a373531fa9d342f?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/175c7154a5704e340a373531fa9d342f?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/jloeser/" title="Posts by Jan Loeser">Jan Loeser</a> (3)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/9eb4acd92a9546fbb0b0a269e08cf810?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/9eb4acd92a9546fbb0b0a269e08cf810?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/jan-portugal/" title="Posts by Jan Madsen">Jan Madsen</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/9dbacbc8f5a66d9a6f99c828312bf910?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/9dbacbc8f5a66d9a6f99c828312bf910?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/helcaraxe/" title="Posts by Jan-Christoph Bornschlegel">Jan-Christoph Bornschlegel</a> (3)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/a73d94bc71ab9211ed8a31e3ede4fbfe?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/a73d94bc71ab9211ed8a31e3ede4fbfe?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/dl9pf/" title="Posts by Jan-Simon Möller">Jan-Simon Möller</a> (20)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/8b42838e6dccf7eb90a8ba362e7de858?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/8b42838e6dccf7eb90a8ba362e7de858?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/javierllorente/" title="Posts by Javier Llorente">Javier Llorente</a> (12)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/8b6e7e1e33323b1499e01776ea5ce307?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/8b6e7e1e33323b1499e01776ea5ce307?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/cyberorg/" title="Posts by Jigish Gohil">Jigish Gohil</a> (85)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/c94eecfd9b7519aa4e106164c71938db?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/c94eecfd9b7519aa4e106164c71938db?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/jsrain/" title="Posts by Jiri Srain">Jiri Srain</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/248d14d0cc663817e9ea2e5d3915d81d?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/248d14d0cc663817e9ea2e5d3915d81d?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/jsuchome/" title="Posts by Jiří Suchomel">Jiří Suchomel</a> (3)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/abd6ad5514475b1ebfa926808c403ad1?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/abd6ad5514475b1ebfa926808c403ad1?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/gogga/" title="Posts by Johan Kotze">Johan Kotze</a> (5)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/20896f1aedb65d7bec41c256479a8c51?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/20896f1aedb65d7bec41c256479a8c51?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/jaom7/" title="Posts by José Oramas M.">José Oramas M.</a> (6)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/5d601001fada5a97a0c12f3914a23056?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/5d601001fada5a97a0c12f3914a23056?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/jreidinger/" title="Posts by Josef Reidinger">Josef Reidinger</a> (16)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/c0b2bd9e77ad555fd152d1f1e6ba941c?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/c0b2bd9e77ad555fd152d1f1e6ba941c?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/jnweiger/" title="Posts by Juergen Weigert">Juergen Weigert</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/6741359d1ed61956c5a97b0abcb38ac2?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/6741359d1ed61956c5a97b0abcb38ac2?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/ungaman/" title="Posts by Julio Vannini">Julio Vannini</a> (9)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/e99d62a139171d890638196c4f4a1454?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/e99d62a139171d890638196c4f4a1454?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/eri_zaq/" title="Posts by k0da">Dinar Valeev</a> (5)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/35442b494f156dc790d0991e4f6b3a60?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/35442b494f156dc790d0991e4f6b3a60?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/kdupuy9/" title="Posts by Kevin Yeaux">Kevin "Yeaux" Dupuy</a> (11)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/f1370548d8ba45fc5601d5398f443e2a?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/f1370548d8ba45fc5601d5398f443e2a?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/kfreitag/" title="Posts by Klaas Freitag">Klaas Freitag</a> (55)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/c1a90587ddfde63b222f10157a11b950?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/c1a90587ddfde63b222f10157a11b950?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/lrupp/" title="Posts by kl_eisbaer">Lars Vogdt</a> (11)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/8b6214136e12dcaf922fc54797c42758?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/8b6214136e12dcaf922fc54797c42758?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/lnussel/" title="Posts by lnussel">Ludwig Nussel</a> (13)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/9b1772f92b6518e084164c28075868dc?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/9b1772f92b6518e084164c28075868dc?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/medwin/" title="Posts by M. Edwin Zakaria">M. Edwin Zakaria</a> (4)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/8f947802c8278f7de589d948d49d1c97?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/8f947802c8278f7de589d948d49d1c97?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/marcus_h/" title="Posts by Marcus Hüwe">Marcus Hüwe</a> (39)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/c48e3c23b2f532518ecc31a60bea2ab8?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/c48e3c23b2f532518ecc31a60bea2ab8?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/msmeissn/" title="Posts by Marcus Meissner">Marcus Meissner</a> (2)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/0165e588414858c88d99b90227280b1f?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/0165e588414858c88d99b90227280b1f?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/marcusmoeller/" title="Posts by Marcus Moeller">Marcus Moeller</a> (3)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/5f320b472b5d1c5ca6e446953cb3d371?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/5f320b472b5d1c5ca6e446953cb3d371?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/sax2/" title="Posts by Marcus Schaefer">Marcus Schaefer</a> (4)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/ecd8f651819469eaf51b8b530255f341?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/ecd8f651819469eaf51b8b530255f341?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/mlasars/" title="Posts by Martin Lasarsch">Martin Lasarsch</a> (8)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/ab07ba0fd8f0c45b93e0bdbacc3ef144?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/ab07ba0fd8f0c45b93e0bdbacc3ef144?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/martinmohring/" title="Posts by Martin Mohring">Martin Mohring</a> (11)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/9619e4fc93c7d6573592b1cd384fa56a?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/9619e4fc93c7d6573592b1cd384fa56a?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/vavai/" title="Posts by Masim &quot;Vavai&quot; Sugianto">Masim "Vavai" Sugianto</a> (20)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/2b5e9d0fd12ae21bdb7938b6f1203bbe?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/2b5e9d0fd12ae21bdb7938b6f1203bbe?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/mlandres/" title="Posts by Michael Andres">Michael Andres</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/7db9f4f49d947c634b116b5b22d0d11d?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/7db9f4f49d947c634b116b5b22d0d11d?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/michl19/" title="Posts by Michael Löffler">Michael Löffler</a> (7)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/c6829cd04b1947a249504274a3b8954f?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/c6829cd04b1947a249504274a3b8954f?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/michal-m/" title="Posts by Michal Marek">Michal Marek</a> (7)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/43f1417e56acda517176e140478ce3d6?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/43f1417e56acda517176e140478ce3d6?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/mvyskocil/" title="Posts by Michal Vyskocil">Michal Vyskocil</a> (12)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/4f67ab763c02707130c404ff6bc35bc0?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/4f67ab763c02707130c404ff6bc35bc0?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/migbarajas/" title="Posts by Miguel Angel Barajas Hernandez">Miguel Angel Barajas Hernandez</a> (2)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/615628ff1f2a270d7b809f9be6d739bd?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/615628ff1f2a270d7b809f9be6d739bd?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/mrdocs/" title="Posts by mrdocs">P Linnell</a> (2)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/d83ba9917b5c73d8ea6dc40e13828a2a?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/d83ba9917b5c73d8ea6dc40e13828a2a?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/ketheriel/" title="Posts by Nelson Marques">Nelson Marques</a> (55)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/a32b7ad8f73e716dd50c6bc60739b9e9?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/a32b7ad8f73e716dd50c6bc60739b9e9?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/holden87/" title="Posts by Nenad Latinović">Nenad Latinović</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/24d359e8a9d8c616e55d7f4f348c6f1c?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/24d359e8a9d8c616e55d7f4f348c6f1c?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/nikanth/" title="Posts by Nikanth Karthikesan">Nikanth Karthikesan</a> (2)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/e40965a7525443a26b593b324a1648a5?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/e40965a7525443a26b593b324a1648a5?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/pbojczuk/" title="Posts by pbojczuk">Przemyslaw Bojczuk</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/0f4da55be111d6640f56f3b5166b64b0?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/0f4da55be111d6640f56f3b5166b64b0?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/poeml/" title="Posts by Peter Pöml">Peter Pöml</a> (4)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/b8cea958d8c775ca07fcda50d027bcbe?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/b8cea958d8c775ca07fcda50d027bcbe?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/pgajdos/" title="Posts by Petr Gajdos">Petr Gajdos</a> (2)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/bd71ffa5ce4ce3c4a1802c6aa0d9ca37?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/bd71ffa5ce4ce3c4a1802c6aa0d9ca37?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/pmladek/" title="Posts by Petr Mladek">Petr Mladek</a> (60)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/b38a833149d2d81ac3ce73dc868f20f6?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/b38a833149d2d81ac3ce73dc868f20f6?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/puzel/" title="Posts by Petr Uzel">Petr Uzel</a> (5)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/9c79fcaede7330f7e30d200100df9194?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/9c79fcaede7330f7e30d200100df9194?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/rawang/" title="Posts by Ray Wang">Ray Wang</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/0f2a44ee48448ded558b90d55ed52b28?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/0f2a44ee48448ded558b90d55ed52b28?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/rwooninck/" title="Posts by Raymond Wooninck">Raymond Wooninck</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/1df0fbf4b7fb2b10e93b8d84795a6b4a?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/1df0fbf4b7fb2b10e93b8d84795a6b4a?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/amonthoth/" title="Posts by Ricardo Chung">Ricardo Chung</a> (7)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/fdd7251cf3e8f4d193e4f7f59238303a?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/fdd7251cf3e8f4d193e4f7f59238303a?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/ricardovarassantana/" title="Posts by Ricardo Varas Santana">Ricardo Varas Santana</a> (7)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/c0cff57a7e00b3ad4107e5627460b153?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/c0cff57a7e00b3ad4107e5627460b153?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/rbos/" title="Posts by Richard Bos">Richard Bos</a> (11)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/ed5b1491aa79201a8eaf93bf57193584?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/ed5b1491aa79201a8eaf93bf57193584?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/rjschwei/" title="Posts by rjschwei">Robert Schweikert</a> (16)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/6c9af0fa89f64b30eb228ee80c30595b?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/6c9af0fa89f64b30eb228ee80c30595b?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/g0nz0/" title="Posts by Rossana Motta">Rossana Motta</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/abcd749a57b47babab9ac7c8e35ae13a?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/abcd749a57b47babab9ac7c8e35ae13a?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/rhorstkoetter/" title="Posts by Rupert Horstkötter">Rupert Horstkötter</a> (10)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/9d46eeed4de01dd50e3fd70bd660969b?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/9d46eeed4de01dd50e3fd70bd660969b?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/saigkill/" title="Posts by Sascha Manns">Sascha Manns</a> (66)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/4da4097a3ca6d06d5c5c2423c257e7c5?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/4da4097a3ca6d06d5c5c2423c257e7c5?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/idulk/" title="Posts by Saydul Akram">saydul akram</a> (3)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/25f795db5466abdabad1ff5ead7c152d?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/25f795db5466abdabad1ff5ead7c152d?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/freespacer/" title="Posts by Sebastian Siebert">Sebastian Siebert</a> (6)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/102a74f8297a2c355f7d00e833a0d942?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/102a74f8297a2c355f7d00e833a0d942?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/sfalken/" title="Posts by sfalken">Shawn Dunn</a> (2)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/b75fc92bf436b8b99b404093eb5959e6?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/b75fc92bf436b8b99b404093eb5959e6?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/visnov/" title="Posts by Stanislav Visnovsky">Stanislav Visnovsky</a> (7)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/da5a74c3532da395c68bca5982852e81?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/da5a74c3532da395c68bca5982852e81?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/haass/" title="Posts by Stefan Haas">Stefan Haas</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/be695f4500ece3e8a9acc31270099de1?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/be695f4500ece3e8a9acc31270099de1?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/sh-sh-sh/" title="Posts by Stefan Hundhammer">Stefan Hundhammer</a> (5)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/922d00b5cf8398f512c781a792598d23?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/922d00b5cf8398f512c781a792598d23?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/schubi2/" title="Posts by Stefan Schubert">Stefan Schubert</a> (7)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/8b5badfd72c932cf36698242b1610836?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/8b5badfd72c932cf36698242b1610836?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/snwint/" title="Posts by Steffen Winterfeldt">Steffen Winterfeldt</a> (8)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/ff345c5a6b06ad0889db1f1ff52a6489?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/ff345c5a6b06ad0889db1f1ff52a6489?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/sjayaraman/" title="Posts by Suresh Jayaraman">Suresh Jayaraman</a> (3)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/713186a58c872c6bdfd2888469037921?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/713186a58c872c6bdfd2888469037921?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/froh/" title="Posts by Susanne Oberhauser">Susanne Oberhauser</a> (3)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/ab332ba11182affd7a59e701ac43e622?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/ab332ba11182affd7a59e701ac43e622?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/tgoettlicher/" title="Posts by Thomas Göttlicher">Thomas Göttlicher</a> (6)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/a2ab55809fc9fc1cde1c4a519e283ef8?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/a2ab55809fc9fc1cde1c4a519e283ef8?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/thomas-schraitle/" title="Posts by Thomas Schraitle">Thomas Schraitle</a> (26)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/926aae47e9d1677af3799a66f39f330d?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/926aae47e9d1677af3799a66f39f330d?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/toganm/" title="Posts by Togan Muftuoglu">Togan Muftuoglu</a> (3)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/8389419eead797f59285b4da04d33e3d?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/8389419eead797f59285b4da04d33e3d?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/illuusio/" title="Posts by Tuukka Pasanen">Tuukka Pasanen</a> (36)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/ae5863e449a99ef82a76b2778262c9d7?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/ae5863e449a99ef82a76b2778262c9d7?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/wstephenson/" title="Posts by Will Stephenson">Will Stephenson</a> (22)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/9353200822a6476865b2f294680f17ce?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/9353200822a6476865b2f294680f17ce?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/yast-team/" title="Posts by Yast Team">YaST Team</a> (90)</li>
+</ul>					</li>	<li id="archives-4" class="widget box box-shadow widget_archive"><h3 class="box-subheader">Archives</h3>		<ul>
+			<li><a href='https://lizards.opensuse.org/2020/03/'>March 2020</a>&nbsp;(1)</li>
+	<li><a href='https://lizards.opensuse.org/2020/02/'>February 2020</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2020/01/'>January 2020</a>&nbsp;(1)</li>
+	<li><a href='https://lizards.opensuse.org/2019/12/'>December 2019</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2019/11/'>November 2019</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2019/10/'>October 2019</a>&nbsp;(4)</li>
+	<li><a href='https://lizards.opensuse.org/2019/09/'>September 2019</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2019/08/'>August 2019</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2019/07/'>July 2019</a>&nbsp;(4)</li>
+	<li><a href='https://lizards.opensuse.org/2019/06/'>June 2019</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2019/04/'>April 2019</a>&nbsp;(4)</li>
+	<li><a href='https://lizards.opensuse.org/2019/03/'>March 2019</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2019/02/'>February 2019</a>&nbsp;(5)</li>
+	<li><a href='https://lizards.opensuse.org/2019/01/'>January 2019</a>&nbsp;(1)</li>
+	<li><a href='https://lizards.opensuse.org/2018/12/'>December 2018</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2018/11/'>November 2018</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2018/10/'>October 2018</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2018/09/'>September 2018</a>&nbsp;(1)</li>
+	<li><a href='https://lizards.opensuse.org/2018/08/'>August 2018</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2018/07/'>July 2018</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2018/05/'>May 2018</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2018/04/'>April 2018</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2018/03/'>March 2018</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2018/02/'>February 2018</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2018/01/'>January 2018</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2017/12/'>December 2017</a>&nbsp;(1)</li>
+	<li><a href='https://lizards.opensuse.org/2017/11/'>November 2017</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2017/10/'>October 2017</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2017/09/'>September 2017</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2017/08/'>August 2017</a>&nbsp;(4)</li>
+	<li><a href='https://lizards.opensuse.org/2017/07/'>July 2017</a>&nbsp;(4)</li>
+	<li><a href='https://lizards.opensuse.org/2017/06/'>June 2017</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2017/05/'>May 2017</a>&nbsp;(4)</li>
+	<li><a href='https://lizards.opensuse.org/2017/04/'>April 2017</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2017/03/'>March 2017</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2017/02/'>February 2017</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2017/01/'>January 2017</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2016/12/'>December 2016</a>&nbsp;(5)</li>
+	<li><a href='https://lizards.opensuse.org/2016/11/'>November 2016</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2016/10/'>October 2016</a>&nbsp;(6)</li>
+	<li><a href='https://lizards.opensuse.org/2016/09/'>September 2016</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2016/08/'>August 2016</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2016/07/'>July 2016</a>&nbsp;(4)</li>
+	<li><a href='https://lizards.opensuse.org/2016/06/'>June 2016</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2016/05/'>May 2016</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2016/04/'>April 2016</a>&nbsp;(1)</li>
+	<li><a href='https://lizards.opensuse.org/2016/03/'>March 2016</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2016/02/'>February 2016</a>&nbsp;(4)</li>
+	<li><a href='https://lizards.opensuse.org/2016/01/'>January 2016</a>&nbsp;(4)</li>
+	<li><a href='https://lizards.opensuse.org/2015/12/'>December 2015</a>&nbsp;(6)</li>
+	<li><a href='https://lizards.opensuse.org/2015/11/'>November 2015</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2015/10/'>October 2015</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2015/09/'>September 2015</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2015/08/'>August 2015</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2015/07/'>July 2015</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2015/06/'>June 2015</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2015/05/'>May 2015</a>&nbsp;(12)</li>
+	<li><a href='https://lizards.opensuse.org/2015/04/'>April 2015</a>&nbsp;(7)</li>
+	<li><a href='https://lizards.opensuse.org/2015/03/'>March 2015</a>&nbsp;(6)</li>
+	<li><a href='https://lizards.opensuse.org/2015/02/'>February 2015</a>&nbsp;(6)</li>
+	<li><a href='https://lizards.opensuse.org/2015/01/'>January 2015</a>&nbsp;(7)</li>
+	<li><a href='https://lizards.opensuse.org/2014/12/'>December 2014</a>&nbsp;(5)</li>
+	<li><a href='https://lizards.opensuse.org/2014/11/'>November 2014</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2014/10/'>October 2014</a>&nbsp;(5)</li>
+	<li><a href='https://lizards.opensuse.org/2014/09/'>September 2014</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2014/08/'>August 2014</a>&nbsp;(5)</li>
+	<li><a href='https://lizards.opensuse.org/2014/07/'>July 2014</a>&nbsp;(5)</li>
+	<li><a href='https://lizards.opensuse.org/2014/06/'>June 2014</a>&nbsp;(7)</li>
+	<li><a href='https://lizards.opensuse.org/2014/05/'>May 2014</a>&nbsp;(9)</li>
+	<li><a href='https://lizards.opensuse.org/2014/04/'>April 2014</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2014/03/'>March 2014</a>&nbsp;(9)</li>
+	<li><a href='https://lizards.opensuse.org/2014/02/'>February 2014</a>&nbsp;(9)</li>
+	<li><a href='https://lizards.opensuse.org/2014/01/'>January 2014</a>&nbsp;(10)</li>
+	<li><a href='https://lizards.opensuse.org/2013/12/'>December 2013</a>&nbsp;(9)</li>
+	<li><a href='https://lizards.opensuse.org/2013/11/'>November 2013</a>&nbsp;(10)</li>
+	<li><a href='https://lizards.opensuse.org/2013/10/'>October 2013</a>&nbsp;(10)</li>
+	<li><a href='https://lizards.opensuse.org/2013/09/'>September 2013</a>&nbsp;(6)</li>
+	<li><a href='https://lizards.opensuse.org/2013/08/'>August 2013</a>&nbsp;(7)</li>
+	<li><a href='https://lizards.opensuse.org/2013/07/'>July 2013</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2013/06/'>June 2013</a>&nbsp;(7)</li>
+	<li><a href='https://lizards.opensuse.org/2013/05/'>May 2013</a>&nbsp;(4)</li>
+	<li><a href='https://lizards.opensuse.org/2013/04/'>April 2013</a>&nbsp;(4)</li>
+	<li><a href='https://lizards.opensuse.org/2013/03/'>March 2013</a>&nbsp;(7)</li>
+	<li><a href='https://lizards.opensuse.org/2013/02/'>February 2013</a>&nbsp;(6)</li>
+	<li><a href='https://lizards.opensuse.org/2013/01/'>January 2013</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2012/12/'>December 2012</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2012/10/'>October 2012</a>&nbsp;(6)</li>
+	<li><a href='https://lizards.opensuse.org/2012/09/'>September 2012</a>&nbsp;(6)</li>
+	<li><a href='https://lizards.opensuse.org/2012/08/'>August 2012</a>&nbsp;(5)</li>
+	<li><a href='https://lizards.opensuse.org/2012/07/'>July 2012</a>&nbsp;(12)</li>
+	<li><a href='https://lizards.opensuse.org/2012/06/'>June 2012</a>&nbsp;(6)</li>
+	<li><a href='https://lizards.opensuse.org/2012/05/'>May 2012</a>&nbsp;(4)</li>
+	<li><a href='https://lizards.opensuse.org/2012/04/'>April 2012</a>&nbsp;(4)</li>
+	<li><a href='https://lizards.opensuse.org/2012/03/'>March 2012</a>&nbsp;(5)</li>
+	<li><a href='https://lizards.opensuse.org/2012/02/'>February 2012</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2012/01/'>January 2012</a>&nbsp;(5)</li>
+	<li><a href='https://lizards.opensuse.org/2011/12/'>December 2011</a>&nbsp;(10)</li>
+	<li><a href='https://lizards.opensuse.org/2011/11/'>November 2011</a>&nbsp;(6)</li>
+	<li><a href='https://lizards.opensuse.org/2011/10/'>October 2011</a>&nbsp;(5)</li>
+	<li><a href='https://lizards.opensuse.org/2011/09/'>September 2011</a>&nbsp;(9)</li>
+	<li><a href='https://lizards.opensuse.org/2011/08/'>August 2011</a>&nbsp;(12)</li>
+	<li><a href='https://lizards.opensuse.org/2011/07/'>July 2011</a>&nbsp;(14)</li>
+	<li><a href='https://lizards.opensuse.org/2011/06/'>June 2011</a>&nbsp;(11)</li>
+	<li><a href='https://lizards.opensuse.org/2011/05/'>May 2011</a>&nbsp;(18)</li>
+	<li><a href='https://lizards.opensuse.org/2011/04/'>April 2011</a>&nbsp;(15)</li>
+	<li><a href='https://lizards.opensuse.org/2011/03/'>March 2011</a>&nbsp;(26)</li>
+	<li><a href='https://lizards.opensuse.org/2011/02/'>February 2011</a>&nbsp;(16)</li>
+	<li><a href='https://lizards.opensuse.org/2011/01/'>January 2011</a>&nbsp;(23)</li>
+	<li><a href='https://lizards.opensuse.org/2010/12/'>December 2010</a>&nbsp;(27)</li>
+	<li><a href='https://lizards.opensuse.org/2010/11/'>November 2010</a>&nbsp;(18)</li>
+	<li><a href='https://lizards.opensuse.org/2010/10/'>October 2010</a>&nbsp;(21)</li>
+	<li><a href='https://lizards.opensuse.org/2010/09/'>September 2010</a>&nbsp;(16)</li>
+	<li><a href='https://lizards.opensuse.org/2010/08/'>August 2010</a>&nbsp;(21)</li>
+	<li><a href='https://lizards.opensuse.org/2010/07/'>July 2010</a>&nbsp;(20)</li>
+	<li><a href='https://lizards.opensuse.org/2010/06/'>June 2010</a>&nbsp;(33)</li>
+	<li><a href='https://lizards.opensuse.org/2010/05/'>May 2010</a>&nbsp;(29)</li>
+	<li><a href='https://lizards.opensuse.org/2010/04/'>April 2010</a>&nbsp;(24)</li>
+	<li><a href='https://lizards.opensuse.org/2010/03/'>March 2010</a>&nbsp;(29)</li>
+	<li><a href='https://lizards.opensuse.org/2010/02/'>February 2010</a>&nbsp;(22)</li>
+	<li><a href='https://lizards.opensuse.org/2010/01/'>January 2010</a>&nbsp;(20)</li>
+	<li><a href='https://lizards.opensuse.org/2009/12/'>December 2009</a>&nbsp;(15)</li>
+	<li><a href='https://lizards.opensuse.org/2009/11/'>November 2009</a>&nbsp;(21)</li>
+	<li><a href='https://lizards.opensuse.org/2009/10/'>October 2009</a>&nbsp;(17)</li>
+	<li><a href='https://lizards.opensuse.org/2009/09/'>September 2009</a>&nbsp;(22)</li>
+	<li><a href='https://lizards.opensuse.org/2009/08/'>August 2009</a>&nbsp;(28)</li>
+	<li><a href='https://lizards.opensuse.org/2009/07/'>July 2009</a>&nbsp;(36)</li>
+	<li><a href='https://lizards.opensuse.org/2009/06/'>June 2009</a>&nbsp;(38)</li>
+	<li><a href='https://lizards.opensuse.org/2009/05/'>May 2009</a>&nbsp;(40)</li>
+	<li><a href='https://lizards.opensuse.org/2009/04/'>April 2009</a>&nbsp;(30)</li>
+	<li><a href='https://lizards.opensuse.org/2009/03/'>March 2009</a>&nbsp;(20)</li>
+	<li><a href='https://lizards.opensuse.org/2009/02/'>February 2009</a>&nbsp;(21)</li>
+	<li><a href='https://lizards.opensuse.org/2009/01/'>January 2009</a>&nbsp;(27)</li>
+	<li><a href='https://lizards.opensuse.org/2008/12/'>December 2008</a>&nbsp;(23)</li>
+	<li><a href='https://lizards.opensuse.org/2008/11/'>November 2008</a>&nbsp;(12)</li>
+	<li><a href='https://lizards.opensuse.org/2008/10/'>October 2008</a>&nbsp;(23)</li>
+	<li><a href='https://lizards.opensuse.org/2008/09/'>September 2008</a>&nbsp;(40)</li>
+	<li><a href='https://lizards.opensuse.org/2008/08/'>August 2008</a>&nbsp;(24)</li>
+	<li><a href='https://lizards.opensuse.org/2008/07/'>July 2008</a>&nbsp;(12)</li>
+	<li><a href='https://lizards.opensuse.org/2008/06/'>June 2008</a>&nbsp;(28)</li>
+	<li><a href='https://lizards.opensuse.org/2008/05/'>May 2008</a>&nbsp;(26)</li>
+	<li><a href='https://lizards.opensuse.org/2008/04/'>April 2008</a>&nbsp;(1)</li>
+		</ul>
+		</li>      
+    <!-- </div> -->
+
+</div>
+</div>
+<!-- End: Main Content Area -->
+
+  
+    
+  <script type='text/javascript' src='https://lizards.opensuse.org/wp-includes/js/wp-embed.min.js?ver=4.7.5'></script>
+
+</body>
+</html>

@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>vmware &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/vmware/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Make vmware workstation 7.1.3 running with opensuse 11.4 (kernel 2.6.37)</title>
+		<link>https://lizards.opensuse.org/2010/11/15/make-vmware-workstation-7-1-3-running-with-11-4-kernel-2-6-37/</link>
+		<comments>https://lizards.opensuse.org/2010/11/15/make-vmware-workstation-7-1-3-running-with-11-4-kernel-2-6-37/#comments</comments>
+		<pubDate>Mon, 15 Nov 2010 16:17:15 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Virtualization]]></category>
+		<category><![CDATA[2.6.37]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[kernel 2.6.37]]></category>
+		<category><![CDATA[vmware]]></category>
+		<category><![CDATA[workstation 7.1.3]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=5867</guid>
+		<description><![CDATA[Note about the 2.6.37xx There&#8217;s a solution to make the kernel modules building under openSUSE factory (11.4) and the kernel 2.6.37 Preparation download the lastest vmware workstation 7.1.3 (the patch is only for this version) download the patch vmware-7.1.3-2.6.37-rc5.patch download the script to patch patch-modules_v62-opensuse.sh Install Proceed to the normal installation of workstation, if you [&#8230;]]]></description>
+				<content:encoded><![CDATA[<h2>Note about the 2.6.37xx</h2>
+<p>There&#8217;s a solution to make the kernel modules building under openSUSE factory (11.4) and the kernel 2.6.37 </p>
+<h3>Preparation</h3>
+<p>download the lastest vmware workstation 7.1.3 (the patch is only for this version)<br />
+download the patch <a href="http://linux.ioda.net/openSUSE/vmware-7.1.3-2.6.37-rc5.patch">vmware-7.1.3-2.6.37-rc5.patch</a><br />
+download the script to patch <a href="http://linux.ioda.net/openSUSE/patch-modules_v62-opensuse.sh">patch-modules_v62-opensuse.sh</a></p>
+<h3>Install</h3>
+<p>Proceed to the normal installation of workstation, if you have older version, it will be replaced<br />
+by running under root account</p>
+<pre>
+sh VMware-Workstation-Full-7.1.3-324285.x86_64.bundle
+</pre>
+<h3>Patch</h3>
+<p>Now we have to apply the needed patch, just run as root </p>
+<pre>
+sh patch-modules_v62-opensuse.sh
+</pre>
+<p>Here the output result</p>
+<pre style="font-size:xx-small">
+sh patch-modules_v62-opensuse.sh 
+(Stripping trailing CRs from patch.)
+patching file vmci-only/include/compat_semaphore.h
+(Stripping trailing CRs from patch.)
+patching file vmmon-only/linux/driver.c
+(Stripping trailing CRs from patch.)
+patching file vmnet-only/compat_semaphore.h
+(Stripping trailing CRs from patch.)
+patching file vsock-only/shared/compat_semaphore.h
+Stopping VMware services:
+   VMware USB Arbitrator                                               done
+   VM communication interface socket family                            done
+   Virtual machine communication interface                             done
+   Virtual machine monitor                                             done
+   Blocking file system                                                done
+Using 2.6.x kernel build system.
+make: Entering directory `/tmp/vmware-root/modules/vmmon-only'
+make -C /lib/modules/2.6.37-rc5-12-desktop/build/include/.. SUBDIRS=$PWD SRCROOT=$PWD/. \
+  MODULEBUILDDIR= modules
+make[1]: Entering directory `/usr/src/linux-2.6.37-rc5-12-obj/x86_64/desktop'
+make -C ../../../linux-2.6.37-rc5-12 O=/usr/src/linux-2.6.37-rc5-12-obj/x86_64/desktop/. modules
+  CC [M]  /tmp/vmware-root/modules/vmmon-only/linux/driver.o
+  CC [M]  /tmp/vmware-root/modules/vmmon-only/linux/iommu.o
+/tmp/vmware-root/modules/vmmon-only/linux/iommu.c: In function ‘IOMMUUnregisterDeviceInt’:
+/tmp/vmware-root/modules/vmmon-only/linux/iommu.c:217:17: warning: ignoring return value of ‘device_attach’, declared with attribute warn_unused_result
+  CC [M]  /tmp/vmware-root/modules/vmmon-only/linux/hostif.o
+/tmp/vmware-root/modules/vmmon-only/linux/hostif.c: In function ‘HostIFReadUptimeWork’:
+/tmp/vmware-root/modules/vmmon-only/linux/hostif.c:2004:37: warning: ‘newUpBase’ may be used uninitialized in this function
+  CC [M]  /tmp/vmware-root/modules/vmmon-only/linux/driverLog.o
+  CC [M]  /tmp/vmware-root/modules/vmmon-only/common/memtrack.o
+  CC [M]  /tmp/vmware-root/modules/vmmon-only/common/vmx86.o
+  CC [M]  /tmp/vmware-root/modules/vmmon-only/common/cpuid.o
+  CC [M]  /tmp/vmware-root/modules/vmmon-only/common/task.o
+  CC [M]  /tmp/vmware-root/modules/vmmon-only/common/hashFunc.o
+  CC [M]  /tmp/vmware-root/modules/vmmon-only/common/comport.o
+  CC [M]  /tmp/vmware-root/modules/vmmon-only/common/phystrack.o
+  CC [M]  /tmp/vmware-root/modules/vmmon-only/vmcore/moduleloop.o
+  LD [M]  /tmp/vmware-root/modules/vmmon-only/vmmon.o
+  Building modules, stage 2.
+  MODPOST 1 modules
+  CC      /tmp/vmware-root/modules/vmmon-only/vmmon.mod.o
+  LD [M]  /tmp/vmware-root/modules/vmmon-only/vmmon.ko
+make[1]: Leaving directory `/usr/src/linux-2.6.37-rc5-12-obj/x86_64/desktop'
+make -C $PWD SRCROOT=$PWD/. \
+  MODULEBUILDDIR= postbuild
+make[1]: Entering directory `/tmp/vmware-root/modules/vmmon-only'
+make[1]: `postbuild' is up to date.
+make[1]: Leaving directory `/tmp/vmware-root/modules/vmmon-only'
+cp -f vmmon.ko ./../vmmon.o
+make: Leaving directory `/tmp/vmware-root/modules/vmmon-only'
+Built vmmon module
+Using 2.6.x kernel build system.
+make: Entering directory `/tmp/vmware-root/modules/vmnet-only'
+make -C /lib/modules/2.6.37-rc5-12-desktop/build/include/.. SUBDIRS=$PWD SRCROOT=$PWD/. \
+  MODULEBUILDDIR= modules
+make[1]: Entering directory `/usr/src/linux-2.6.37-rc5-12-obj/x86_64/desktop'
+make -C ../../../linux-2.6.37-rc5-12 O=/usr/src/linux-2.6.37-rc5-12-obj/x86_64/desktop/. modules
+  CC [M]  /tmp/vmware-root/modules/vmnet-only/driver.o
+  CC [M]  /tmp/vmware-root/modules/vmnet-only/hub.o
+  CC [M]  /tmp/vmware-root/modules/vmnet-only/userif.o
+  CC [M]  /tmp/vmware-root/modules/vmnet-only/netif.o
+  CC [M]  /tmp/vmware-root/modules/vmnet-only/bridge.o
+  CC [M]  /tmp/vmware-root/modules/vmnet-only/filter.o
+  CC [M]  /tmp/vmware-root/modules/vmnet-only/procfs.o
+  CC [M]  /tmp/vmware-root/modules/vmnet-only/smac_compat.o
+  CC [M]  /tmp/vmware-root/modules/vmnet-only/smac.o
+  CC [M]  /tmp/vmware-root/modules/vmnet-only/vnetEvent.o
+  CC [M]  /tmp/vmware-root/modules/vmnet-only/vnetUserListener.o
+  LD [M]  /tmp/vmware-root/modules/vmnet-only/vmnet.o
+  Building modules, stage 2.
+  MODPOST 1 modules
+  CC      /tmp/vmware-root/modules/vmnet-only/vmnet.mod.o
+  LD [M]  /tmp/vmware-root/modules/vmnet-only/vmnet.ko
+make[1]: Leaving directory `/usr/src/linux-2.6.37-rc5-12-obj/x86_64/desktop'
+make -C $PWD SRCROOT=$PWD/. \
+  MODULEBUILDDIR= postbuild
+make[1]: Entering directory `/tmp/vmware-root/modules/vmnet-only'
+make[1]: `postbuild' is up to date.
+make[1]: Leaving directory `/tmp/vmware-root/modules/vmnet-only'
+cp -f vmnet.ko ./../vmnet.o
+make: Leaving directory `/tmp/vmware-root/modules/vmnet-only'
+Built vmnet module
+Using 2.6.x kernel build system.
+make: Entering directory `/tmp/vmware-root/modules/vmblock-only'
+make -C /lib/modules/2.6.37-rc5-12-desktop/build/include/.. SUBDIRS=$PWD SRCROOT=$PWD/. \
+  MODULEBUILDDIR= modules
+make[1]: Entering directory `/usr/src/linux-2.6.37-rc5-12-obj/x86_64/desktop'
+make -C ../../../linux-2.6.37-rc5-12 O=/usr/src/linux-2.6.37-rc5-12-obj/x86_64/desktop/. modules
+  CC [M]  /tmp/vmware-root/modules/vmblock-only/linux/filesystem.o
+  CC [M]  /tmp/vmware-root/modules/vmblock-only/linux/dentry.o
+  CC [M]  /tmp/vmware-root/modules/vmblock-only/linux/stubs.o
+  CC [M]  /tmp/vmware-root/modules/vmblock-only/linux/dbllnklst.o
+  CC [M]  /tmp/vmware-root/modules/vmblock-only/linux/file.o
+  CC [M]  /tmp/vmware-root/modules/vmblock-only/linux/block.o
+  CC [M]  /tmp/vmware-root/modules/vmblock-only/linux/module.o
+  CC [M]  /tmp/vmware-root/modules/vmblock-only/linux/super.o
+  CC [M]  /tmp/vmware-root/modules/vmblock-only/linux/inode.o
+  CC [M]  /tmp/vmware-root/modules/vmblock-only/linux/control.o
+  LD [M]  /tmp/vmware-root/modules/vmblock-only/vmblock.o
+  Building modules, stage 2.
+  MODPOST 1 modules
+  CC      /tmp/vmware-root/modules/vmblock-only/vmblock.mod.o
+  LD [M]  /tmp/vmware-root/modules/vmblock-only/vmblock.ko
+make[1]: Leaving directory `/usr/src/linux-2.6.37-rc5-12-obj/x86_64/desktop'
+make -C $PWD SRCROOT=$PWD/. \
+  MODULEBUILDDIR= postbuild
+make[1]: Entering directory `/tmp/vmware-root/modules/vmblock-only'
+make[1]: `postbuild' is up to date.
+make[1]: Leaving directory `/tmp/vmware-root/modules/vmblock-only'
+cp -f vmblock.ko ./../vmblock.o
+make: Leaving directory `/tmp/vmware-root/modules/vmblock-only'
+Built vmblock module
+Using 2.6.x kernel build system.
+make: Entering directory `/tmp/vmware-root/modules/vmci-only'
+make -C /lib/modules/2.6.37-rc5-12-desktop/build/include/.. SUBDIRS=$PWD SRCROOT=$PWD/. \
+  MODULEBUILDDIR= modules
+make[1]: Entering directory `/usr/src/linux-2.6.37-rc5-12-obj/x86_64/desktop'
+make -C ../../../linux-2.6.37-rc5-12 O=/usr/src/linux-2.6.37-rc5-12-obj/x86_64/desktop/. modules
+  CC [M]  /tmp/vmware-root/modules/vmci-only/linux/driver.o
+  CC [M]  /tmp/vmware-root/modules/vmci-only/linux/driverLog.o
+  CC [M]  /tmp/vmware-root/modules/vmci-only/linux/vmciKernelIf.o
+  CC [M]  /tmp/vmware-root/modules/vmci-only/common/vmciDatagram.o
+  CC [M]  /tmp/vmware-root/modules/vmci-only/common/vmciDriver.o
+  CC [M]  /tmp/vmware-root/modules/vmci-only/common/vmciDs.o
+  CC [M]  /tmp/vmware-root/modules/vmci-only/common/vmciContext.o
+  CC [M]  /tmp/vmware-root/modules/vmci-only/common/vmciHashtable.o
+  CC [M]  /tmp/vmware-root/modules/vmci-only/common/vmciEvent.o
+  CC [M]  /tmp/vmware-root/modules/vmci-only/common/vmciQueuePair.o
+  CC [M]  /tmp/vmware-root/modules/vmci-only/common/vmciGroup.o
+  CC [M]  /tmp/vmware-root/modules/vmci-only/common/vmciResource.o
+  CC [M]  /tmp/vmware-root/modules/vmci-only/common/vmciProcess.o
+  LD [M]  /tmp/vmware-root/modules/vmci-only/vmci.o
+  Building modules, stage 2.
+  MODPOST 1 modules
+  CC      /tmp/vmware-root/modules/vmci-only/vmci.mod.o
+  LD [M]  /tmp/vmware-root/modules/vmci-only/vmci.ko
+make[1]: Leaving directory `/usr/src/linux-2.6.37-rc5-12-obj/x86_64/desktop'
+make -C $PWD SRCROOT=$PWD/. \
+  MODULEBUILDDIR= postbuild
+make[1]: Entering directory `/tmp/vmware-root/modules/vmci-only'
+make[1]: `postbuild' is up to date.
+make[1]: Leaving directory `/tmp/vmware-root/modules/vmci-only'
+cp -f vmci.ko ./../vmci.o
+make: Leaving directory `/tmp/vmware-root/modules/vmci-only'
+Built vmci module
+Using 2.6.x kernel build system.
+make: Entering directory `/tmp/vmware-root/modules/vsock-only'
+make -C /lib/modules/2.6.37-rc5-12-desktop/build/include/.. SUBDIRS=$PWD SRCROOT=$PWD/. \
+  MODULEBUILDDIR= modules
+make[1]: Entering directory `/usr/src/linux-2.6.37-rc5-12-obj/x86_64/desktop'
+make -C ../../../linux-2.6.37-rc5-12 O=/usr/src/linux-2.6.37-rc5-12-obj/x86_64/desktop/. modules
+  CC [M]  /tmp/vmware-root/modules/vsock-only/linux/af_vsock.o
+/tmp/vmware-root/modules/vsock-only/linux/af_vsock.c: In function ‘VSockVmciStreamConnect’:
+/tmp/vmware-root/modules/vsock-only/linux/af_vsock.c:3172:4: warning: case value ‘255’ not in enumerated type ‘socket_state’
+  CC [M]  /tmp/vmware-root/modules/vsock-only/linux/vsockAddr.o
+  CC [M]  /tmp/vmware-root/modules/vsock-only/linux/util.o
+  CC [M]  /tmp/vmware-root/modules/vsock-only/linux/stats.o
+  CC [M]  /tmp/vmware-root/modules/vsock-only/linux/notify.o
+  CC [M]  /tmp/vmware-root/modules/vsock-only/driverLog.o
+  LD [M]  /tmp/vmware-root/modules/vsock-only/vsock.o
+  Building modules, stage 2.
+  MODPOST 1 modules
+  CC      /tmp/vmware-root/modules/vsock-only/vsock.mod.o
+  LD [M]  /tmp/vmware-root/modules/vsock-only/vsock.ko
+make[1]: Leaving directory `/usr/src/linux-2.6.37-rc5-12-obj/x86_64/desktop'
+make -C $PWD SRCROOT=$PWD/. \
+  MODULEBUILDDIR= postbuild
+make[1]: Entering directory `/tmp/vmware-root/modules/vsock-only'
+make[1]: `postbuild' is up to date.
+make[1]: Leaving directory `/tmp/vmware-root/modules/vsock-only'
+cp -f vsock.ko ./../vsock.o
+make: Leaving directory `/tmp/vmware-root/modules/vsock-only'
+Built vsock module
+Starting VMware services:
+   VMware USB Arbitrator                                               done
+   Virtual machine monitor                                             done
+   Virtual machine communication interface                             done
+   VM communication interface socket family                            done
+   Blocking file system                                                done
+   Virtual ethernet                                                    done
+   Shared Memory Available                                             done
+
+
+All done, you can now run VMWare WorkStation.
+Modules sources backup can be found in the '/usr/lib/vmware/modules/source-workstation7.1.3-2010-12-13-19:07:07-backup' directory
+
+</pre>
+<h3>References</h3>
+<p><a href="http://blog.joachim-selke.de/2010/11/vmware-workstation-7-1-2-and-fedora-14">vmware community post</a><br />
+<a href="http://communities.vmware.com/thread/293321?tstart=0">vmware community thread</a></p>
+<p>Mark D Bernstein aka InitiaZero for providing the script and patch by email and having ping me about it</p>
+<p>Enjoy, and thanks to people having done the crappy job before.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2010/11/15/make-vmware-workstation-7-1-3-running-with-11-4-kernel-2-6-37/feed/</wfw:commentRss>
+		<slash:comments>4</slash:comments>
+		</item>
+		<item>
+		<title>Having trouble with vmware-console &#038; your keyboard mouse</title>
+		<link>https://lizards.opensuse.org/2010/01/22/having-trouble-with-vmware-console-your-keyboard-mouse/</link>
+		<comments>https://lizards.opensuse.org/2010/01/22/having-trouble-with-vmware-console-your-keyboard-mouse/#comments</comments>
+		<pubDate>Fri, 22 Jan 2010 06:27:45 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[console]]></category>
+		<category><![CDATA[keyboard]]></category>
+		<category><![CDATA[mouse]]></category>
+		<category><![CDATA[vmware]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/2010/01/22/having-trouble-with-vmware-console-your-keyboard-mouse/</guid>
+		<description><![CDATA[If you are like me, looking around for a fix to get your keyboard &#38; mouse working like before the 11.2 release with your vmware console. Try this fix : Uncomment the line in /etc/X11/xorg.conf option &#8220;AutoAddDevices&#8221; &#8220;off&#8221; I&#8217;ve tried this in xfce &#38; kde4 desktop, and now don&#8217;t have any strange grabbing off keyboard [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>If you are like me, looking around for a fix to get your keyboard &amp; mouse working like before the 11.2 release with your vmware console. Try this fix :</p>
+<p>Uncomment the line in /etc/X11/xorg.conf<br />
+option       &#8220;AutoAddDevices&#8221; &#8220;off&#8221;</p>
+<p>I&#8217;ve tried this in xfce &amp; kde4 desktop, and now don&#8217;t have any strange grabbing off keyboard &amp; mouse.<br />
+I can now easily send the ctrl+alt+del evil sequence to some windows vms.</p>
+<p>If it works for you, please send a reply to these bugs :<br />
+https://bugzilla.novell.com/show_bug.cgi?id=558780<br />
+and<br />
+https://bugzilla.novell.com/show_bug.cgi?id=551929#c17</p>
+<p>Many ubuntu 9.10 guys are also hit by this problem !</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2010/01/22/having-trouble-with-vmware-console-your-keyboard-mouse/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+	</channel>
+</rss>

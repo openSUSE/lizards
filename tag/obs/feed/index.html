@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0"
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -9,16 +8,126 @@
 	>
 
 <channel>
-	<title>openSUSE Lizards &#187; obs</title>
+	<title>obs &#8211; openSUSE Lizards</title>
 	<atom:link href="https://lizards.opensuse.org/tag/obs/feed/" rel="self" type="application/rss+xml" />
 	<link>https://lizards.opensuse.org</link>
 	<description>Blogs and Ramblings of the openSUSE Members</description>
-	<lastBuildDate>Mon, 24 Mar 2014 12:46:00 +0000</lastBuildDate>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
 	<language>en-US</language>
-		<sy:updatePeriod>hourly</sy:updatePeriod>
-		<sy:updateFrequency>1</sy:updateFrequency>
-	<generator>http://wordpress.org/?v=3.8.1</generator>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
 	<item>
+		<title>openSUSE OBS git mirror</title>
+		<link>https://lizards.opensuse.org/2019/09/13/opensuse-obs-git-mirror/</link>
+		<comments>https://lizards.opensuse.org/2019/09/13/opensuse-obs-git-mirror/#comments</comments>
+		<pubDate>Fri, 13 Sep 2019 19:42:12 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Security]]></category>
+		<category><![CDATA[git]]></category>
+		<category><![CDATA[IPFS]]></category>
+		<category><![CDATA[mirror]]></category>
+		<category><![CDATA[obs]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=14032</guid>
+		<description><![CDATA[There was some discussion about our OBS and how in contrast Gentoo, VoidLinux or Fedora used git to track packages. So I made an experimental openSUSE:Factory git mirror to see how well it goes and how using it feels. The repo currently needs around 1GB but will slowly grow over time. I did not want [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>There was some discussion about our OBS and how in contrast <a href="https://github.com/gentoo/gentoo">Gentoo</a>, <a href="https://github.com/void-linux/void-packages/tree/master/srcpkgs/aubio/">VoidLinux</a> or <a href="https://src.fedoraproject.org/rpms/aubio/tree/master">Fedora</a> used git to track packages.</p>
+<p>So I made an experimental <a href="https://github.com/bmwiedemann/openSUSE/">openSUSE:Factory git mirror</a> to see how well it goes and how using it feels.<br />
+The repo currently needs around 1GB but will slowly grow over time. I did not want to spend effort to import all history.</p>
+<p>Binary files are replaced by cryptographically secure symlinks into IPFS<br />
+and I am currently providing files up to 9MB there.</p>
+<p>If you can not run ipfs, you can still get these files through any of the public gateways like this:<br />
+<code>curl https://ipfs.io$(readlink packages/a/aubio/aubio-0.4.9.tar.bz2) &gt; OUTPUT</code></p>
+<p>So some benefits are already obvious.<br />
+It is now much easier to find and download our patches.<br />
+Downloading and seaching all of openSUSE is now much faster.<br />
+And it works even on Thursdays (when our maintenance window often causes OBS downtimes).</p>
+<p>It is meant to be a read-only mirror, so there is no point in opening pull-requests on github.</p>
+<p>I hope, you enjoy it and have a lot of fun&#8230;</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2019/09/13/opensuse-obs-git-mirror/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>targitter project &#8211; about OBS, tars and git</title>
+		<link>https://lizards.opensuse.org/2015/10/05/targitter-project-about-obs-tars-and-git/</link>
+		<pubDate>Mon, 05 Oct 2015 19:24:57 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[git]]></category>
+		<category><![CDATA[obs]]></category>
+		<category><![CDATA[tar]]></category>
+		<category><![CDATA[targitter]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11543</guid>
+		<description><![CDATA[In OBS we use source tarballs everywhere to build rpms (and debs) from. This has at least two major downsides: Storing all old tar files takes up a lot of disk space OBS workflows with .tar files and patches are rather different and somewhat disconnected from the git workflows we usually use everywhere else these [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>In OBS we use source tarballs everywhere to build rpms (and debs) from.</p>
+<p>This has at least two major downsides:</p>
+<ol>
+<li>
+Storing all old tar files takes up a lot of disk space
+</li>
+<li>
+OBS workflows with .tar files and patches are rather different and somewhat disconnected from the git workflows we usually use everywhere else these days. E.g. for the SUSE OpenStack Cloud team we have a &#8220;trackupstream&#8221; jenkins job, that pulls the latest git version into a tarball once every day.
+</li>
+</ol>
+<p>Fedora already keeps <a href="http://pkgs.fedoraproject.org/cgit/perl-OpenGL.git/plain/">their metadata</a> in git, but only a hash of the tarball.</p>
+<p>So as one first step, I used two rather different projects to see how different the space usage would be. On the slow side I used 20 gtk2 tarballs from the last 5 years and on the fast side, I used 31 openstack-nova tarballs from Cloud:OpenStack:Master project from the last 5 months.<br />
+I used <a href="https://www.zq1.de/~bernhard/targitter/eval/">scripts</a> that uncompressed each tarball, added it to a git repo and used git gc to trigger git&#8217;s compression. </p>
+<p>Here are the resulting cumulative size graphs:</p>
+<p><img src="https://www.zq1.de/~bernhard/targitter/eval/size-gtk2.svg" alt="gtk2 size graph" /><br />
+<img src="https://www.zq1.de/~bernhard/targitter/eval/size-nova.svg" alt="nova size graph" /></p>
+<p>The raw numbers after 20 tarballs: for nova the ratio is 89772:7344 = 12.2 and for gtk2 the ratio is 296836:53076 = 5.6</p>
+<p>What do you think: would it be worth the effort to use more git in our OBS workflows?</p>
+<p>Do we care about being able to reproduce the original tarballs? While this is possible, it has some challenges in differing file-ordering, timestamps, file-ownerships and <a href="https://github.com/jmacd/xdelta/pull/207">compression levels</a>.<br />
+Or would it be enough if OBS converted a tarball into a signed commit (so it cannot be forged without people being able to notice)?</p>
+<p>Do you know of a tool that can uncompress tarballs in a way that allows to track the content as single files, and allows to later re-create the original verbatim tarball, such that upstream signatures would still match?</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Install VAMOX Icons and change your Desktop Environment</title>
+		<link>https://lizards.opensuse.org/2015/03/26/vamox-icons/</link>
+		<comments>https://lizards.opensuse.org/2015/03/26/vamox-icons/#comments</comments>
+		<pubDate>Thu, 26 Mar 2015 11:01:35 +0000</pubDate>
+		<dc:creator><![CDATA[Efstathios Iosifidis]]></dc:creator>
+				<category><![CDATA[Artwork]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[icons]]></category>
+		<category><![CDATA[obs]]></category>
+		<category><![CDATA[vamox]]></category>
+		<category><![CDATA[vamox ceibo]]></category>
+		<category><![CDATA[vamox celeste]]></category>
+		<category><![CDATA[vamox mate]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11306</guid>
+		<description><![CDATA[I was searching to add some awesome icons to GNOME. After a long search, I found out that VAMOX icons rock!!! I liked the 3D nature of them. They come to 3 different versions. Take a look: 1. Vamox MATE 2. Vamox Ceibo 3. Vamox Celeste I thought why not try to put them to [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I was searching to add some awesome icons to GNOME. After a long search, I found out that <a href="http://vamox.blogspot.gr/" target="1">VAMOX</a> icons rock!!! I liked the 3D nature of them. They come to 3 different versions. Take a look:</p>
+<p>1. <a href="http://gnome-look.org/content/show.php/Vamox+MATE+%28green%29?content=166332" target="1">Vamox MATE</a><br />
+2. <a href="http://gnome-look.org/content/show.php/vamox+ceibo+%28red%29?content=166486" target="1">Vamox Ceibo</a><br />
+3. <a href="http://gnome-look.org/content/show.php/Vamox+Celeste+%28light-blue%29?content=95244" target="1">Vamox Celeste</a></p>
+<p>I thought why not try to put them to <a href="https://build.opensuse.org" target="_blank">obs</a>? Is it the right tool? I made a research and found some other cool icons there. So I started reading and testing. A lot of errors. Since I&#8217;m end user, I thought I&#8217;m not going to make it. I better quit. So I deleted everything. The next day, I tried 2-3 times and it worked (the actual error was the name of the unzipped file). I tried it on my computer and it worked fine. Then I added Fedora as another repository and with the help of my friend <a href="https://build.opensuse.org/user/show/thanos" target="_blank">Tom Tryfonidis</a>, I added Arch Linux. Let&#8217;s see the result.</p>
+<p><b>VAMOX MATE</b></p>
+<p><a href="http://paste.opensuse.org/images/20423431.jpg"><img src="http://paste.opensuse.org/images/20423431.jpg" alt="" width="80%" height="80%&quot;" /></a></p>
+<p>If you like this result, go to <a href="http://software.opensuse.org/download.html?project=home%3Adiamond_gr&amp;package=vamox-mate" target="1">vamox mate repository</a> and choose your distro.</p>
+<p><b>VAMOX Ceibo</b></p>
+<p><a href="http://paste.opensuse.org/images/81245200.jpg"><img src="http://paste.opensuse.org/images/81245200.jpg" alt="" width="80%" height="80%&quot;" /></a></p>
+<p>If you like this result, go to <a href="http://software.opensuse.org/download.html?project=home%3Adiamond_gr&amp;package=vamox-ceibo" target="1">vamox ceibo repository</a> and choose your distro.</p>
+<p><b>VAMOX Celeste</b></p>
+<p><a href="http://paste.opensuse.org/images/39169921.jpg"><img src="http://paste.opensuse.org/images/39169921.jpg" alt="" width="80%" height="80%&quot;" /></a></p>
+<p>If you like this result, go to <a href="http://software.opensuse.org/download.html?project=home%3Adiamond_gr&amp;package=vamox-celeste" target="1">vamox celeste repository</a> and choose your distro.</p>
+<p>NOTE: It&#8217;s tested on openSUSE (GNOME, XFCE and MATE) and on Arch (GNOME)</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2015/03/26/vamox-icons/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
 		<title>Code quality and Code guidelines</title>
 		<link>https://lizards.opensuse.org/2014/02/19/code-quality-and-code-guidelines/</link>
 		<comments>https://lizards.opensuse.org/2014/02/19/code-quality-and-code-guidelines/#comments</comments>
@@ -63,7 +172,6 @@ Now it&#8217;s time make code guidelines to you project and use some tool to mak
 		<item>
 		<title>openSUSE and GCC part 10: Distributing to other distributions than openSUSE with OBS</title>
 		<link>https://lizards.opensuse.org/2014/01/07/opensuse-and-gcc-part-10/</link>
-		<comments>https://lizards.opensuse.org/2014/01/07/opensuse-and-gcc-part-10/#comments</comments>
 		<pubDate>Tue, 07 Jan 2014 08:15:54 +0000</pubDate>
 		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
 				<category><![CDATA[lizards.openSUSE.org]]></category>
@@ -83,13 +191,10 @@ Now it&#8217;s time make code guidelines to you project and use some tool to mak
 <p>Arch is most unknown distribution for me but it has vibrant community and active development so providing packages to them is good thing. They seems to like live bleeding edge. So Just add Arch distribution in your project in OBS and then fill PKGBUILD-file with necessary lines and like magic you have Arch supported (<a href="https://build.opensuse.org/package/show/home:illuusio:example/sdl_displaybitmap" title="PKGBUILD">Look at example PKGBUILD-file if you don&#8217;t understand a thing</a>).</p>
 <p>This was it! No more articles about GCC or around it. Next I&#8217;ve going to dive low level Linux Multimedia especially in audio and FFmpeg (and how you do them in openSUSE). <a href="//lizards.opensuse.org/author/illuusio/" title="Blog">if you haven&#8217;t read rest of articles and you feel you missed something</a>. Go on a read them and if you missed good <a href="http://smithfarm-thebrain.blogspot.fi/2013/08/opensuse-packaging-workflow.html" title="OBS client OSC">OSC-blog you can read it too</a>.</p>
 ]]></content:encoded>
-			<wfw:commentRss>https://lizards.opensuse.org/2014/01/07/opensuse-and-gcc-part-10/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
+			</item>
 		<item>
 		<title>openSUSE and GCC part 9: Open Build Service why should I use it?</title>
 		<link>https://lizards.opensuse.org/2013/12/11/opensuse-and-gcc-part-9/</link>
-		<comments>https://lizards.opensuse.org/2013/12/11/opensuse-and-gcc-part-9/#comments</comments>
 		<pubDate>Wed, 11 Dec 2013 13:52:40 +0000</pubDate>
 		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
 				<category><![CDATA[lizards.openSUSE.org]]></category>
@@ -103,16 +208,14 @@ Now it&#8217;s time make code guidelines to you project and use some tool to mak
 <p>Open Build Service started as named &#8216;openSUSE build Service&#8217; but name changed long time a go. Basic idea is that you can compile source package to binary package and do it on many different distributions and architectures same time. It sounds good and mostly it&#8217;s better than that.<br />
 So last time I showed how to <a href="//lizards.opensuse.org/2013/12/03/opensuse-and-gcc-part-8-rpms-and-how-to-write-them/" title="openSUSE and GCC part 8: RPMs and how to write them">make RPM package</a> and now I&#8217;ll transfer it to OBS and build it. For not wasting time <a href="https://build.opensuse.org/project/show/home:illuusio:example" title="home:illuusio:example">I have already made project for it</a> under my home project. In project page there is plenty of stuff most of them we talk in last episode. As you can notice OBS has very good and clean web gui. All thought I&#8217;m hardcore fan of shell <strong>I really enjoy OBS webgui</strong>.</p>
 <h2>Show me code</h2>
-<p>If you sign up for OBS you get your own home directory and you can create sub-projects there like I did  <a href="https://build.opensuse.org/package/show/home:illuusio:example/sdl_displaybitmap" title="home:illuusio:example/sdl_displaybitmap">home:illuusio:example/sdl_displaybitmap</a> . Under package there is plenty of distributions currently build: Debian, Fedora, Arch and openSUSE of course. &#8216;sdl_displaybitmap.spec&#8217; is the same SPEC file as used last time with out any tuning and same goes with tar-ball file &#8216;sdl_displaybitmap-1.0.tar.bz2&#8242;. Other files you can ignore in this point.<br />
+<p>If you sign up for OBS you get your own home directory and you can create sub-projects there like I did  <a href="https://build.opensuse.org/package/show/home:illuusio:example/sdl_displaybitmap" title="home:illuusio:example/sdl_displaybitmap">home:illuusio:example/sdl_displaybitmap</a> . Under package there is plenty of distributions currently build: Debian, Fedora, Arch and openSUSE of course. &#8216;sdl_displaybitmap.spec&#8217; is the same SPEC file as used last time with out any tuning and same goes with tar-ball file &#8216;sdl_displaybitmap-1.0.tar.bz2&#8217;. Other files you can ignore in this point.<br />
 OBS thing is you can just push (with some excuses and oopses) your rpm spec file and get it compile. Now you should really read <a href="http://en.opensuse.org/openSUSE:Packaging_guidelines" title="openSUSE:Packaging guidelines">openSUSE packaging documentation</a> because if you just gun ho forward like me did at the begin you gonna suffer and then suffer little more and then you probably die in misery and your children will be send in salt mines.</p>
 <h2>This was it? now what?</h2>
 <p>Look around and think if it&#8217;s for you. I like OBS enough to drop you a tip about it but it&#8217;s just my opinion. Take some time and learn how to use OBS and probably command line util &#8216;<a href="http://en.opensuse.org/openSUSE:OSC" title="OSC">osc</a>&#8216;. Then you start to make extraneous RPM packages with OBS and start distributing your best-on-earth open source project binary packages for multiple Linux distributions with ease and speed you never have seen before or you just keep on doing what you are doing.</p>
 <h2>But but I got closed source application and want to use this system</h2>
 <p><strong>Okay this is shameless commercial part! Don&#8217;t read any futher if you don&#8217;t want to.</strong> Then you can <a href="http://ilmi.fi" title="Ilmi Solutions Oy">contact me</a> and i&#8217;ll consult you out or read one more <a href="//lizards.opensuse.org/2013/12/11/discussing-about-the-future-of-opensuse/" title="Open Build Servive">what reads here</a>. Like you probably find out they have version of OBS that is open source and if you set it up all by yourself it doesn&#8217;t cost you a dime or <a href="http://www.b1-systems.de/index.php?option=com_content&amp;view=article&amp;id=34&amp;Itemid=1&amp;lang=en" title="Open Build Service Consulting">save some time and buy support from B1</a> . it&#8217;s up to you again ;).</p>
 ]]></content:encoded>
-			<wfw:commentRss>https://lizards.opensuse.org/2013/12/11/opensuse-and-gcc-part-9/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
+			</item>
 		<item>
 		<title>bareos an interesting replacement to bacula</title>
 		<link>https://lizards.opensuse.org/2013/06/02/bareos-an-interesting-replacement-to-bacula/</link>
@@ -137,12 +240,12 @@ A Free Software is free once it has been paid once. And more the time pass, more
 <p>Okay I was disappointed about the fact it was a fork, but their website explains the why for those who wish to know.</p>
 <p>I&#8217;ve then started to use it (easy to try with the number of supported platforms) and ready to use package. (Thanks to open build service [2]) Some installations were kept in a compatible way, other in native bareos way. The transition was really easy for anybody knowing how bacula works. After 3 months of production, including full restore, virtual machine backup, etc, I qualified it to be really production ready. Hey the base code and the way patches have been handled certainly explain those results. I also appreciate the effort to make bareos almost ready to use after installation. Trying to reduce the entry level ticket.</p>
 <p>The remaining concerns I&#8217;ve found:<br />
-- The community behind will have to grow and success in a truly transparent way.<br />
-- Get new contributors (challenge is the same for bacula, but forking and propose request merge on github is really more cool than email patches)<br />
-- The full remake of the documentation (work in progress)<br />
-- Get a perfect web bconsole<br />
+&#8211; The community behind will have to grow and success in a truly transparent way.<br />
+&#8211; Get new contributors (challenge is the same for bacula, but forking and propose request merge on github is really more cool than email patches)<br />
+&#8211; The full remake of the documentation (work in progress)<br />
+&#8211; Get a perfect web bconsole<br />
 My best hope:<br />
-- Make sustainable, the business plan associated with bareos.com and thus continue to produce quality community software</p>
+&#8211; Make sustainable, the business plan associated with bareos.com and thus continue to produce quality community software</p>
 <p>So did some of you already test it?<br />
 What&#8217;s your own feedback, your thoughts about it?</p>
 <p>Regards.<br />
@@ -155,7 +258,6 @@ What&#8217;s your own feedback, your thoughts about it?</p>
 		<item>
 		<title>openSUSE 11.2 and OBS at Universidad Latina</title>
 		<link>https://lizards.opensuse.org/2010/07/05/opensuse-11-2-and-obs-at-universidad-latina/</link>
-		<comments>https://lizards.opensuse.org/2010/07/05/opensuse-11-2-and-obs-at-universidad-latina/#comments</comments>
 		<pubDate>Mon, 05 Jul 2010 19:09:31 +0000</pubDate>
 		<dc:creator><![CDATA[Ricardo Chung]]></dc:creator>
 				<category><![CDATA[Desktop]]></category>
@@ -178,9 +280,7 @@ What&#8217;s your own feedback, your thoughts about it?</p>
 				<content:encoded><![CDATA[<p><!-- 		@page { margin: 2cm } 		P { margin-bottom: 0.21cm } 		A:link { so-language: zxx } -->Universidad Latina, Facultad de Ingeniería. “<em><strong>LibreSoft</strong></em>”.  <span style="text-decoration: underline">July 1<sup>st</sup>., 2010</span> from 6:00 p.m. To 10:30 p.m. (- 5 EST) several FOSS individual representatives held a meeting  on  3<sup>rd</sup> floor of the main building, gave some talks about FOSS, software developments, open source, licensing, sharing code, community contributions, and applications to the general public, Telecommunications and Industrial  Engineering students, professors, dean and lawyers. <strong>OpenSUSE Ambassador, Ricardo Chung</strong>, shared the space with Diego Tejera (Ubuntu LoCo Team), Alejandro Perez ( Fedora Ambassador ), Abdel Martinez ( Fedora Campus Ambassador), Adrien Scott ( <a href="http://www.fosdev.com/">www.fosdev.com</a>) and others.  Ricardo gave a talk about openSUSE 11.2 features and some sneak preview features on openSUSE 11.3 ( <a href="http://en.opensuse.org/Product_highlights_11.3">http://en.opensuse.org/Product_highlights_11.3</a>), the openSUSE Build Service 2.0 ( <a href="http://en.opensuse.org/Build_Service">http://en.opensuse.org/Build_Service</a>) as software development and colaboration platform useful for any Linux distribution, SUSE Studio to customize our distribution on different enviroments, and KIWI to make an operating system image available on physical media ( <a href="http://en.opensuse.org/Kiwi">http://en.opensuse.org/Kiwi</a> ). Ricardo also, answer some questions about openSUSE community and local users group, installation, as well as some questions about  Novell and Microsoft alliances were clarified. After the talk an openSUSE and Novell trivia was given and the winners got some openSUSE 11.2 CDs with Gnome Desktop by default.</p>
 <p>Make a click on <a href="http://picasaweb.google.com/RICARDO.A.CHUNG/OpenSUSEAtLibreSoft">http://picasaweb.google.com/RICARDO.A.CHUNG/OpenSUSEAtLibreSoft</a>#  to watch some photos</p>
 ]]></content:encoded>
-			<wfw:commentRss>https://lizards.opensuse.org/2010/07/05/opensuse-11-2-and-obs-at-universidad-latina/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
+			</item>
 		<item>
 		<title>New/updated Apps @ home:saigkill</title>
 		<link>https://lizards.opensuse.org/2009/04/04/newupdated-apps-homesaigkill/</link>
@@ -206,7 +306,6 @@ kqlives 20080202 (Zelda like RPG)                       �
 		<item>
 		<title>New/Updated Software</title>
 		<link>https://lizards.opensuse.org/2009/02/10/newupdated-software/</link>
-		<comments>https://lizards.opensuse.org/2009/02/10/newupdated-software/#comments</comments>
 		<pubDate>Tue, 10 Feb 2009 12:19:40 +0000</pubDate>
 		<dc:creator><![CDATA[Sascha Manns]]></dc:creator>
 				<category><![CDATA[Build Service]]></category>
@@ -230,8 +329,6 @@ kde4-skrooge</p>
 boinctray<br />
 tktray</p>
 ]]></content:encoded>
-			<wfw:commentRss>https://lizards.opensuse.org/2009/02/10/newupdated-software/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
+			</item>
 	</channel>
 </rss>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	
+	>
+<channel>
+	<title>Comments on: openSUSE@ARM/GSoC: Cross-compilation &#038; speedup</title>
+	<atom:link href="https://lizards.opensuse.org/2009/06/16/opensusearmgsoc-cross-compilation-speedup/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org/2009/06/16/opensusearmgsoc-cross-compilation-speedup/</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 17:50:09 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>By: Matt Sealey, Genesi USA</title>
+		<link>https://lizards.opensuse.org/2009/06/16/opensusearmgsoc-cross-compilation-speedup/#comment-1197</link>
+		<dc:creator><![CDATA[Matt Sealey, Genesi USA]]></dc:creator>
+		<pubDate>Sun, 23 Aug 2009 19:52:11 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1282#comment-1197</guid>
+		<description><![CDATA[The simple reason for the speedup is that for your average 8-core or 16-core x86 build box, building an x86 package - even a very large one - can take only a few minutes. I can build a kernel for ARM using cross-compilation in less than 2 minutes, using -j10 parallel makes (it goes faster if I just use -j but I really do not like the way it impacts everyone else&#039;s sessions :)
+
+When you run a package build through QEMU you get a single emulated ARM processor running on a SINGLE PHYSICAL CPU core. The other 7-15 processors are sitting idle while this emulated box struggles to translate to x86 instructions and compile ARM code.
+
+This is where the speedup comes from. Most of the problems with cross-compile builds are actually CAUSED by tools which are meant to take the problem away - GNU autoconf is a horrible mistake in design which allows developers to make cross-compilable packages but nobody is talented enough to script it correctly to make it work.]]></description>
+		<content:encoded><![CDATA[<p>The simple reason for the speedup is that for your average 8-core or 16-core x86 build box, building an x86 package &#8211; even a very large one &#8211; can take only a few minutes. I can build a kernel for ARM using cross-compilation in less than 2 minutes, using -j10 parallel makes (it goes faster if I just use -j but I really do not like the way it impacts everyone else&#8217;s sessions 🙂</p>
+<p>When you run a package build through QEMU you get a single emulated ARM processor running on a SINGLE PHYSICAL CPU core. The other 7-15 processors are sitting idle while this emulated box struggles to translate to x86 instructions and compile ARM code.</p>
+<p>This is where the speedup comes from. Most of the problems with cross-compile builds are actually CAUSED by tools which are meant to take the problem away &#8211; GNU autoconf is a horrible mistake in design which allows developers to make cross-compilable packages but nobody is talented enough to script it correctly to make it work.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: martin.mohring@opensuse.org</title>
+		<link>https://lizards.opensuse.org/2009/06/16/opensusearmgsoc-cross-compilation-speedup/#comment-1034</link>
+		<dc:creator><![CDATA[martin.mohring@opensuse.org]]></dc:creator>
+		<pubDate>Tue, 16 Jun 2009 16:55:17 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1282#comment-1034</guid>
+		<description><![CDATA[The felt performance of qemu was quite slow - but it did not feel *that slow* acutally. Factor x15 for a package that takes already quite a while to build is much too slow.]]></description>
+		<content:encoded><![CDATA[<p>The felt performance of qemu was quite slow &#8211; but it did not feel *that slow* acutally. Factor x15 for a package that takes already quite a while to build is much too slow.</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

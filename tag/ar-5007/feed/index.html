@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>AR-5007 &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/ar-5007/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Atheros AR 5007 EG on openSUSE 11.0</title>
+		<link>https://lizards.opensuse.org/2008/07/14/atheros-ar-5007-eg-on-opensuse-110/</link>
+		<comments>https://lizards.opensuse.org/2008/07/14/atheros-ar-5007-eg-on-opensuse-110/#comments</comments>
+		<pubDate>Mon, 14 Jul 2008 03:21:28 +0000</pubDate>
+		<dc:creator><![CDATA[Masim "Vavai" Sugianto]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[AR-5007]]></category>
+		<category><![CDATA[Atheros]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=95</guid>
+		<description><![CDATA[openSUSE 11.0 failed detect this hardware and wrong identifying the device as AR242x 802.11abg Wireless PCI Express Adapter. I usually uses madwifi driver for Atheros chipset instead of ath5k but the standard madwifi driver could not be applied for the device. After Googling for a while, I could make it works with the special AR [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>openSUSE 11.0 failed detect this hardware and wrong identifying the device as AR242x 802.11abg Wireless PCI Express Adapter. I usually uses <a href="http://madwifi.org">madwifi</a> driver for Atheros chipset instead of ath5k but the standard madwifi driver could not be applied for the device. After Googling for a while, I could make it works with the special AR 5007 EG madwifi driver, <a href="http://snapshots.madwifi.org/special/madwifi-ng-r2756+ar5007.tar.gz">http://snapshots.madwifi.org/special/madwifi-ng-r2756+ar5007.tar.gz</a>.</p>
+<p>How to make it works ?</p>
+<ol>
+<li>Disable or blacklist ath5k driver by add the <strong>blacklist ath5k</strong> to /etc/modprobe.d/<strong>blacklist</strong></li>
+<li>Open konsole or terminal</li>
+<li>Install the driver</li>
+<p><code>su<br />
+zypper in kernel-source make gcc gcc-c++<br />
+wget -c <a href="http://snapshots.madwifi.org/special/madwifi-ng-r2756+ar5007.tar.gz">http://snapshots.madwifi.org/special/madwifi-ng-r2756+ar5007.tar.gz</a><br />
+tar -zxvf madwifi-ng-r2756+ar5007.tar.gz<br />
+cd madwifi-ng-r2756+ar5007<br />
+make<br />
+make install<br />
+modprobe ath_pci<br />
+reboot<br />
+</code></ol>
+<p>After reboot, you should be configure the wifi from YAST | Network Devices | Network Settings</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2008/07/14/atheros-ar-5007-eg-on-opensuse-110/feed/</wfw:commentRss>
+		<slash:comments>16</slash:comments>
+		</item>
+	</channel>
+</rss>

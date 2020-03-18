@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>git &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/git/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>openSUSE OBS git mirror</title>
+		<link>https://lizards.opensuse.org/2019/09/13/opensuse-obs-git-mirror/</link>
+		<comments>https://lizards.opensuse.org/2019/09/13/opensuse-obs-git-mirror/#comments</comments>
+		<pubDate>Fri, 13 Sep 2019 19:42:12 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Security]]></category>
+		<category><![CDATA[git]]></category>
+		<category><![CDATA[IPFS]]></category>
+		<category><![CDATA[mirror]]></category>
+		<category><![CDATA[obs]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=14032</guid>
+		<description><![CDATA[There was some discussion about our OBS and how in contrast Gentoo, VoidLinux or Fedora used git to track packages. So I made an experimental openSUSE:Factory git mirror to see how well it goes and how using it feels. The repo currently needs around 1GB but will slowly grow over time. I did not want [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>There was some discussion about our OBS and how in contrast <a href="https://github.com/gentoo/gentoo">Gentoo</a>, <a href="https://github.com/void-linux/void-packages/tree/master/srcpkgs/aubio/">VoidLinux</a> or <a href="https://src.fedoraproject.org/rpms/aubio/tree/master">Fedora</a> used git to track packages.</p>
+<p>So I made an experimental <a href="https://github.com/bmwiedemann/openSUSE/">openSUSE:Factory git mirror</a> to see how well it goes and how using it feels.<br />
+The repo currently needs around 1GB but will slowly grow over time. I did not want to spend effort to import all history.</p>
+<p>Binary files are replaced by cryptographically secure symlinks into IPFS<br />
+and I am currently providing files up to 9MB there.</p>
+<p>If you can not run ipfs, you can still get these files through any of the public gateways like this:<br />
+<code>curl https://ipfs.io$(readlink packages/a/aubio/aubio-0.4.9.tar.bz2) &gt; OUTPUT</code></p>
+<p>So some benefits are already obvious.<br />
+It is now much easier to find and download our patches.<br />
+Downloading and seaching all of openSUSE is now much faster.<br />
+And it works even on Thursdays (when our maintenance window often causes OBS downtimes).</p>
+<p>It is meant to be a read-only mirror, so there is no point in opening pull-requests on github.</p>
+<p>I hope, you enjoy it and have a lot of fun&#8230;</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2019/09/13/opensuse-obs-git-mirror/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>targitter project &#8211; about OBS, tars and git</title>
+		<link>https://lizards.opensuse.org/2015/10/05/targitter-project-about-obs-tars-and-git/</link>
+		<pubDate>Mon, 05 Oct 2015 19:24:57 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[git]]></category>
+		<category><![CDATA[obs]]></category>
+		<category><![CDATA[tar]]></category>
+		<category><![CDATA[targitter]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11543</guid>
+		<description><![CDATA[In OBS we use source tarballs everywhere to build rpms (and debs) from. This has at least two major downsides: Storing all old tar files takes up a lot of disk space OBS workflows with .tar files and patches are rather different and somewhat disconnected from the git workflows we usually use everywhere else these [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>In OBS we use source tarballs everywhere to build rpms (and debs) from.</p>
+<p>This has at least two major downsides:</p>
+<ol>
+<li>
+Storing all old tar files takes up a lot of disk space
+</li>
+<li>
+OBS workflows with .tar files and patches are rather different and somewhat disconnected from the git workflows we usually use everywhere else these days. E.g. for the SUSE OpenStack Cloud team we have a &#8220;trackupstream&#8221; jenkins job, that pulls the latest git version into a tarball once every day.
+</li>
+</ol>
+<p>Fedora already keeps <a href="http://pkgs.fedoraproject.org/cgit/perl-OpenGL.git/plain/">their metadata</a> in git, but only a hash of the tarball.</p>
+<p>So as one first step, I used two rather different projects to see how different the space usage would be. On the slow side I used 20 gtk2 tarballs from the last 5 years and on the fast side, I used 31 openstack-nova tarballs from Cloud:OpenStack:Master project from the last 5 months.<br />
+I used <a href="https://www.zq1.de/~bernhard/targitter/eval/">scripts</a> that uncompressed each tarball, added it to a git repo and used git gc to trigger git&#8217;s compression. </p>
+<p>Here are the resulting cumulative size graphs:</p>
+<p><img src="https://www.zq1.de/~bernhard/targitter/eval/size-gtk2.svg" alt="gtk2 size graph" /><br />
+<img src="https://www.zq1.de/~bernhard/targitter/eval/size-nova.svg" alt="nova size graph" /></p>
+<p>The raw numbers after 20 tarballs: for nova the ratio is 89772:7344 = 12.2 and for gtk2 the ratio is 296836:53076 = 5.6</p>
+<p>What do you think: would it be worth the effort to use more git in our OBS workflows?</p>
+<p>Do we care about being able to reproduce the original tarballs? While this is possible, it has some challenges in differing file-ordering, timestamps, file-ownerships and <a href="https://github.com/jmacd/xdelta/pull/207">compression levels</a>.<br />
+Or would it be enough if OBS converted a tarball into a signed commit (so it cannot be forged without people being able to notice)?</p>
+<p>Do you know of a tool that can uncompress tarballs in a way that allows to track the content as single files, and allows to later re-create the original verbatim tarball, such that upstream signatures would still match?</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Combine osc with git</title>
+		<link>https://lizards.opensuse.org/2009/04/15/combine-osc-with-git/</link>
+		<comments>https://lizards.opensuse.org/2009/04/15/combine-osc-with-git/#comments</comments>
+		<pubDate>Wed, 15 Apr 2009 12:08:26 +0000</pubDate>
+		<dc:creator><![CDATA[Sascha Manns]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[git]]></category>
+		<category><![CDATA[osc]]></category>
+		<category><![CDATA[version]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=707</guid>
+		<description><![CDATA[Yesterday Jan-Simon (dl9pf) tells me about an great Program calls &#8220;git&#8221;. Git is an Version-Administration Program. Anything knows the Problem. We working on an Project into our osc, and 2 Weeks later, we don&#8217;t know, what the last changes was. On this place can git help.Now following a short Introducting: First of all we need [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Yesterday Jan-Simon (dl9pf) tells me about an great Program calls &#8220;git&#8221;. Git is an Version-Administration Program. Anything knows the Problem. We working on an Project into our osc, and 2 Weeks later, we don&#8217;t know, what the last changes was. On this place can git help.Now following a short Introducting:</p>
+<p>First of all we need an .git Folder. In my case i have all Projects in ~/osc/- As example i&#8217;m going to my foo.</p>
+<p>$ ~/osc&gt; cd foo<br />
+$ ~/osc/foo&gt; git init<br />
+Then git says:<br />
+Initialized empty Git repository in /home/sascha/osc/foo/.git/</p>
+<p>$~/osc/foo&gt; echo 123 &gt; datei1</p>
+<p>$~/osc/foo&gt; git add datei1<br />
+This adds datei1 to your .git folder. If you use git add * you can add more than one File.</p>
+<p>$~/osc/foo&gt; git commit -m&#8221;Initial Version&#8221; (Or what you want)<br />
+git says:<br />
+Created initial commit a7458cf: Test<br />
+1 files changed, 1 insertions(+), 0 deletions(-)<br />
+create mode 100644 datei1</p>
+<p>$~/osc/foo&gt; echo 456 &gt; datei2<br />
+$~/osc/foo&gt; git commit -m&#8221;Change 1&#8243;<br />
+git says:<br />
+Created commit d1ef978: Change 1<br />
+1 files changed, 1 insertions(+), 0 deletions(-)<br />
+create mode 100644 datei2<br />
+$~/osc/foo&gt; gitk (this is an GUI)</p>
+<p>That looks:</p>
+<p><img class="aligncenter size-medium wp-image-708" src="http://lizards.opensuse.org/wp-content/uploads/2009/04/gitk-300x240.png" alt="gitk" width="300" height="240" srcset="https://lizards.opensuse.org/wp-content/uploads/2009/04/gitk-300x240.png 300w, https://lizards.opensuse.org/wp-content/uploads/2009/04/gitk-1024x819.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2009/04/gitk.png 1280w" sizes="(max-width: 300px) 100vw, 300px" /></p>
+<p>There you can find all Changes since &#8220;Intial Version&#8221;.  Git can also manage branches and can merge it perfectly. So i think that git is very good Tool. And an good completion. With an wrapper file it is also possible to add or remove files in osc and git. Very nice -)</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/04/15/combine-osc-with-git/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+	</channel>
+</rss>

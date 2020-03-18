@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Quality Assurance &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/category/quality-assurance/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Debugging jenkins</title>
+		<link>https://lizards.opensuse.org/2019/07/31/debugging-jenkins/</link>
+		<comments>https://lizards.opensuse.org/2019/07/31/debugging-jenkins/#comments</comments>
+		<pubDate>Wed, 31 Jul 2019 08:04:23 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Infrastructure]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[CI]]></category>
+		<category><![CDATA[jenkins]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=13945</guid>
+		<description><![CDATA[We had strange near-daily outages of our internal busy jenkins for some weeks. To get to the root cause of the issue, we enabled remote debugging with -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=9010 -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=ci.suse.de -Dcom.sun.management.jmxremote.password.file=/var/lib/jenkins/jmxremote.password and attached visualvm to see what it was doing. This showed the number of threads and memory usage in a sawtooth pattern. Every [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>We had strange near-daily outages of our internal busy jenkins for some weeks.</p>
+<p>To get to the root cause of the issue, we enabled remote debugging with</p>
+<blockquote><p>
+-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=9010 -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=ci.suse.de -Dcom.sun.management.jmxremote.password.file=/var/lib/jenkins/jmxremote.password</p></blockquote>
+<p>and attached visualvm to see what it was doing.<br />
+This showed the number of threads and memory usage in a sawtooth pattern. Every time the garbage collector ran, it dropped 500-1000 threads.</p>
+<p>Today we noticed that every time it threw these <code>java.lang.OutOfMemoryError: unable to create new native thread</code> errors, the maximum number of threads was 2018&#8230; suspiciously close to 2048. Looking for the same time in journalctl showed<br />
+<code>kernel: cgroup: fork rejected by pids controller in /system.slice/jenkins.service</code></p>
+<p>So it was systemd refusing java&#8217;s request for a new thread and jenkins not handling that gracefully in all cases.<br />
+That was easily avoided with a<br />
+<code>TasksMax=8192</code></p>
+<p>Now the new peak was at 4890 live threads and jenkins served all Geekos happily ever after.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2019/07/31/debugging-jenkins/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Highlights of YaST development sprint 29</title>
+		<link>https://lizards.opensuse.org/2016/12/22/highlights-of-yast-development-sprint-29/</link>
+		<comments>https://lizards.opensuse.org/2016/12/22/highlights-of-yast-development-sprint-29/#comments</comments>
+		<pubDate>Thu, 22 Dec 2016 17:06:17 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[Software Management]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[Usability]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12180</guid>
+		<description><![CDATA[It&#8217;s Christmas time and since (open)SUSE users have been nice, the YaST team brings some gifts for them. This is the result of the last development sprint of 2016. As you may have noticed, in the latest sprints we have been focusing more and more in making SUSE CASP possible. That&#8217;s even more obvious in [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>It&#8217;s Christmas time and since (open)SUSE users have been nice, the YaST team brings some gifts for them. This is the result of the last development sprint of 2016.</p>
+<p>As you may have noticed, in the latest sprints we have been focusing more and more in making SUSE CASP possible. That&#8217;s even more obvious in this last sprint of the year. For those that have not been following this blog recently, it&#8217;s probably worth to remember that SUSE CASP will be a <a href="http://kubernetes.io/">Kubernetes</a> based Container As a Service Platform.</p>
+<p>But our daily work goes beyond CASP, so let&#8217;s take a look to all the highlights.</p>
+<h3>More improvements in the management of DHCLIENT_SET_HOSTNAME</h3>
+<p>In the <a href="https://lizards.opensuse.org/2016/12/02/highlights-of-yast-development-sprint-28/">previous report</a> we presented the changes introduced in yast2-network to make the configuration parameter <code>DHCLIENT_SET_HOSTNAME</code> configurable in a per-interface basis.</p>
+<p>One of the great things about working in an agile an iterative way, presenting and evaluating the result every three weeks, is that it allows us to detect room for improvements in our work. In this case we noticed some discrepancy in the expectations of Linuxrc and yast2-network and also some room for improvement in the code documentation and in the help texts.</p>
+<p>Thus, we used this sprint to refine the work done in the previous one and tackle those problems down.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2016/12/shot_error_start.png"><img src="//lizards.opensuse.org/wp-content/uploads/2016/12/shot_error_start-300x225.png" alt="Improved error message" width="300" height="225" class="aligncenter size-medium wp-image-12184" srcset="https://lizards.opensuse.org/wp-content/uploads/2016/12/shot_error_start-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2016/12/shot_error_start.png 640w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3>Ensure installation of needed packages</h3>
+<p>Another example of iterative development. We already presented in the <a href="https://lizards.opensuse.org/2016/10/20/highlights-of-yast-development-sprint-26/">report of the 26th development sprint</a> a new mechanism to detect when the user had deselected during installation some package that was previously pre-selected by YaST in order to install the bootloader. Since the new functionality proved to work nicely, we decided to extend it to cover other parts of the system beyond the bootloader.</p>
+<p>The software proposal now contains an error message including a list of missing packages or patterns, in case the user deselects some needed items.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2016/12/missing_software_warning.png"><img src="//lizards.opensuse.org/wp-content/uploads/2016/12/missing_software_warning-300x225.png" alt="Warning about missing packages" width="300" height="225" class="aligncenter size-medium wp-image-12220" srcset="https://lizards.opensuse.org/wp-content/uploads/2016/12/missing_software_warning-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2016/12/missing_software_warning-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2016/12/missing_software_warning.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>After clicking the <code>Install</code> button the installation is blocked, the user must resolve the problem either by selecting the packages back or by adjusting the respective YaST configuration (e.g. do not install any bootloader and disable the firewall).</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2016/12/missing_software_popup.png"><img src="//lizards.opensuse.org/wp-content/uploads/2016/12/missing_software_popup-300x225.png" alt="Blocking an incomplete installation" width="300" height="225" class="aligncenter size-medium wp-image-12221" srcset="https://lizards.opensuse.org/wp-content/uploads/2016/12/missing_software_popup-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2016/12/missing_software_popup-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2016/12/missing_software_popup.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3>Rethinking the expert partitioner</h3>
+<p>May we insist one more time on the topic of using Scrum to organize our work in an iterative way? <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> As our usual readers should already know, we structure the work into minimal units that produce a valuable outcome called <a href="https://www.scrumalliance.org/community/articles/2007/march/glossary-of-scrum-terms#1130">PBIs</a> in Scrum jargon. That valuable outcome doesn&#8217;t always have to be a piece of software, an implemented feature or a fixed bug. Sometimes a document adds value to YaST, specially if it can be used as base to collaborate with people outside the team.</p>
+<p>Our readers also know that we are putting a lot of effort in rewriting the whole storage layer of YaST. That also implies rewriting the most powerful tool known by humanity to define partitions, volumes, RAIDs and similar stuff &#8211; the YaST expert partitioner.</p>
+<p>It would be great if we could use the opportunity to make it both more powerful and more usable. You can take the first part for granted, but we are not so sure about our UI design skills. That&#8217;s why we wanted to have a base to discuss possible changes and alternative approaches with UX (user experience) experts. And we decided that it was worth to invest some time to create a document collecting the state of the art and some ideas for the future and to send that to SUSE experts in UX and to anybody with some interest in the topic.</p>
+<p>Here you can find <a href="https://github.com/shundhammer/huha-misc-docs/blob/master/brainstorming-expert-partitioner.md">that fine piece of documentation</a>. Take a look to that document if you want to peek into YaST developers&#8217; mind. That&#8217;s the kind of stuff we discuss when we are about to start rewriting something&#8230; specially something that need to serve hundreds of different use cases.</p>
+<p>And of course we would like to know your ideas or thoughts. We usually discuss this stuff at the public <a href="irc://irc.opensuse.org/yast">#yast IRC channel</a> and at the <a href="https://lists.opensuse.org/yast-devel/">yast-devel</a> mailing list. But if you prefer so, you can simply <a href="https://github.com/shundhammer/huha-misc-docs/issues">open an issue</a> at the repository hosting the document. Whatever works for you.</p>
+<h3>Rethinking yast2-network</h3>
+<p>But that was not the only documentation PBI finished during this sprint. Inspired by the first fruits of the storage layer reimplementation, we decided yast2-network also deserves a reincarnation.</p>
+<p>As we did in the past with yast2-storage and libstorage, the first step is to collect as much information as possible about what can be currently done with the module and how it behaves in several situations, specially in tricky or complex scenarios. The outcome was three documents, one about the behavior during installation (<a href="https://github.com/yast/yast-network/blob/master/doc/installation.md">installation.md</a>), a second one about AutoYaST (<a href="https://github.com/yast/yast-network/blob/master/doc/autoinstallation.md">autoinstallation.md</a>) and another collecting general features (<a href="https://github.com/yast/yast-network/blob/master/doc/features.md">features.md</a>).</p>
+<h3>CASP: merged dialogs for root password and keyboard layout</h3>
+<p>CASP is a product targeted to a quite specific use case with simplicity as a main priority. The installation process has been streamlined to a minimal set of dialogs to configure just the very basic stuff. Among other removed things, there is no step to configure the system language. That can be a problem when entering the root password (the only user that will be created during installation), since the language settings screen is normally also used to select the keyboard layout.</p>
+<p>The implemented solution is shown in the screenshot below. As you can see, the keyboard layout and root passwords selections are merged into a single step. As a bonus, we made both widgets more reusable, opening the possibility to place the root password widget or the keyboard layout selection anywhere.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2016/12/keyboard_and_root.png"><img src="//lizards.opensuse.org/wp-content/uploads/2016/12/keyboard_and_root-300x223.png" alt="Keyboard layout and root password screen" width="300" height="223" class="aligncenter size-medium wp-image-12204" srcset="https://lizards.opensuse.org/wp-content/uploads/2016/12/keyboard_and_root-300x223.png 300w, https://lizards.opensuse.org/wp-content/uploads/2016/12/keyboard_and_root-768x572.png 768w, https://lizards.opensuse.org/wp-content/uploads/2016/12/keyboard_and_root-1024x762.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2016/12/keyboard_and_root.png 1028w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3>Storage reimplementation: handling GPT disks in the installation proposal</h3>
+<p>After several sprints reporting small steps forward, in the 27th sprint we were <a href="https://lizards.opensuse.org/2016/12/02/highlights-of-yast-development-sprint-28/">happy to announce</a> that our testing ISO for the new storage stack was fully installable under certain circumstances. As we reported, it worked in UEFI or legacy systems with the only requirement of having a pre-existing MBR partition table in the disk.</p>
+<p>Now we can say it also works with GPT partition tables and even with systems with a mixture of both technologies.</p>
+<p>Making the GPT scenario work was much harder that it sounds due to several factors, like the strange way in which <code>parted</code> handles partition types in GPT or some peculiarities in the way the space is distributed in such partition tables.</p>
+<p>But now our test ISO can install a fully functional system in the four combinations of MBR/GPT partition table and UEFI/Legacy boot, as it can be seen in the next image.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2016/12/proposal.png"><img src="//lizards.opensuse.org/wp-content/uploads/2016/12/proposal-133x300.png" alt="Storage proposal in several scenarios" width="133" height="300" class="aligncenter size-medium wp-image-12193" srcset="https://lizards.opensuse.org/wp-content/uploads/2016/12/proposal-133x300.png 133w, https://lizards.opensuse.org/wp-content/uploads/2016/12/proposal-455x1024.png 455w, https://lizards.opensuse.org/wp-content/uploads/2016/12/proposal.png 676w" sizes="(max-width: 133px) 100vw, 133px" /></a></p>
+<h3>The storage reimplementation gets its own openQA instance</h3>
+<p>But there are better ways than screenshots to prove that something is working, even to prove it keeps working after future modifications. And in (open)SUSE we have one of the best tools for that &#8211; openQA.</p>
+<p>We have always considered having the new stack tested in openQA as the first big milestone in its development (and we are finally there!) but we are aware that <a href="http://openqa.opensuse.org/">openQA.opensuse.org</a> is already quite busy testing a huge combination of products, architectures and scenarios&#8230; even testing releases of openQA itself. Fortunately openQA is free software and can be installed anywhere so we created our own instance of openQA to test YaST stuff, specially the new storage layer.</p>
+<p>So far, that instance is hosted in the internal SUSE network, which is enough for us to get continuous feedback about the changes we introduce. In addition to installing the new instance and configuring it to continuously grab and check the <a href="http://download.opensuse.org/repositories/YaST:/storage-ng/images/iso/">latest testing ISO</a>, we had to introduce several changes in the ISO itself with the goal of keeping our tests as aligned as possible with the tests performed in the current Tumbleweed version by openQA.opensuse.org.</p>
+<p>For example, we made sure the ISO was properly signed to avoid the need to always pass the <code>insecure=1</code> boot argument. We also included several packages that were missing in order to make sure the ISO included all the software checked during the so-called MinimalX test and to make sure it shared the look and feel with a regular Tumbleweed, since many openQA checks are screenshot-based.</p>
+<p>From now on, we can back every new feature with the corresponding integration tests, something crucial to ensure the quality of a piece of software meant to handle storage hardware.</p>
+<h3>Making Snapper work without DBus</h3>
+<p>As you may know, some YaST team members are also the main developers and maintainers of <a href="http://snapper.io/">Snapper</a>, the ultimate file-system snapshot tool for GNU/Linux systems.</p>
+<p>Normally the <code>snapper</code> command line tool uses <a href="https://www.freedesktop.org/wiki/Software/dbus/">DBus</a> to connect to <code>snapperd</code> which does most of the actual work. This allows non-root users to work with snapper.</p>
+<p>There are however situations when using DBus is not possible and not being able to work in those situations was limiting Snapper&#8217;s usefulness. Now with the latest version all snapper commands support the <code>–no-dbus</code> option. This evolution is worth a blog post by itself&#8230; and, of course, we have it. To know all the details <a href="http://snapper.io/2016/12/19/no-dbus-for-all.html">check this post</a> at Snapper&#8217;s blog.</p>
+<h3>CASP (and beyond): improved roles</h3>
+<p>Do you remember the system roles feature introduced during <a href="https://lizards.opensuse.org/2016/03/15/highlights-of-development-sprint-16/">development sprint 16</a> and improved in subsequent sprints? In case you don&#8217;t, let us remind you that system roles allow to define many settings of the installation just by choosing one of the offered roles. That&#8217;s only possible, of course, in products making use of that feature, like SLES.</p>
+<p>For CASP we will have 3 different roles, as shown in the following screenshot.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2016/12/casp_roles.png"><img src="//lizards.opensuse.org/wp-content/uploads/2016/12/casp_roles-300x225.png" alt="CASP system roles" width="300" height="225" class="aligncenter size-medium wp-image-12208" srcset="https://lizards.opensuse.org/wp-content/uploads/2016/12/casp_roles-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2016/12/casp_roles-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2016/12/casp_roles.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>The main difference between these three roles is the selection of patterns to be installed. But apart from that, the Worker role will offer an extra step during installation allowing the user to specify the address of the so-called Administration Dashboard.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2016/12/worker_configuration.png"><img src="//lizards.opensuse.org/wp-content/uploads/2016/12/worker_configuration-300x225.png" alt="Configuration screen for the Worker role" width="300" height="225" class="aligncenter size-medium wp-image-12209" srcset="https://lizards.opensuse.org/wp-content/uploads/2016/12/worker_configuration-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2016/12/worker_configuration-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2016/12/worker_configuration.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>That relatively small detail implied the development of a full new feature in the installer &#8211; the ability of a given role to define it&#8217;s own specific configuration, including the dialog to interact with the user. As expected from any other installation dialog, you can go back and forward without loosing the entered information. If the user goes back and selects a different role, then this additional dialog is not run again.</p>
+<p>That new feature is, of course, not specific to CASP and could eventually be used in other products and roles. Just as a crazy example, openSUSE could decide to introduce a role called &#8220;NTP server&#8221;, running the YaST NTP server configuration right after the user selecting the role.</p>
+<h3>Other CASP related features</h3>
+<p>As already said, we have been focusing quite a lot on introducing features that are needed for CASP. It&#8217;s worth mentioning, in case it&#8217;s still unclear, that CASP will NOT ship its own adapted version of YaST. All the features introduced in the installer are in fact configurable and available for all other products as well. There is only one YaST codebase to rule them all.</p>
+<p>Let&#8217;s briefly describe some of the introduced CASP-specific (at least for the time being) features.</p>
+<p>CASP always uses Btrfs as filesystem for the root partition. At the end of the installation, the root btrfs subvolume will become read-only. All the other subvolumes will stay as read-write, as shown in this screenshot taken right after rebooting at the end of the installation process.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2016/12/casp-root-read-only-02.png"><img src="//lizards.opensuse.org/wp-content/uploads/2016/12/casp-root-read-only-02-300x237.png" alt="CASP subvolumes" width="300" height="237" class="aligncenter size-medium wp-image-12213" srcset="https://lizards.opensuse.org/wp-content/uploads/2016/12/casp-root-read-only-02-300x237.png 300w, https://lizards.opensuse.org/wp-content/uploads/2016/12/casp-root-read-only-02-768x606.png 768w, https://lizards.opensuse.org/wp-content/uploads/2016/12/casp-root-read-only-02-1024x808.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2016/12/casp-root-read-only-02.png 1034w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>It makes no sense to update from any existing product to CASP. Thus, CASP media should not show an &#8220;update&#8221; option when booting, even if it&#8217;s still possible for advanced users to pass the <code>UPDATE</code> boot parameter. Since we needed to modify the <code>installation-images</code> package, we took the opportunity to make the &#8220;update&#8221; option and other settings configurable in a per product basis and we unified SLES and openSUSE packages, so now they share a single branch in the source code repository.</p>
+<p>CASP is targeted to big deployments extended all over the world. To make possible the synchronization of geographically distributed nodes, the UTC timezone is enforced in every CASP installation. Thus, we implemented support for products to enforce a given timezone in the installer. Take into account this is different from a default timezone.</p>
+<p>Last but not least, it has already been mentioned that the CASP installation workflow will have very few steps. That also affects the screen displaying the installations settings summary. In comparison to a regular SLES, some options must disappear because they are not configurable and some other sections must be added because they are not longer presented as a separate previous step. So far, this is the appearance of the installation settings screen in the current CASP prototype.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2016/12/summary.png"><img src="//lizards.opensuse.org/wp-content/uploads/2016/12/summary-290x300.png" alt="Installation settings in CASP prototype" width="290" height="300" class="aligncenter size-medium wp-image-12214" srcset="https://lizards.opensuse.org/wp-content/uploads/2016/12/summary-290x300.png 290w, https://lizards.opensuse.org/wp-content/uploads/2016/12/summary-768x796.png 768w, https://lizards.opensuse.org/wp-content/uploads/2016/12/summary.png 949w" sizes="(max-width: 290px) 100vw, 290px" /></a></p>
+<h3>&#8230;and a surprise about the blog</h3>
+<p>We also prepared a Christmas gift related to the blog. The technical aspects are solved, but we are ironing out the administrative details. So you will have to wait until the next sprint report to see it in full glory. But, as the Spanish proverb says, &#8220;good things are worth waiting for&#8221;.</p>
+<h3>See you next year</h3>
+<p>That&#8217;s enough to report from our December sprint, we don&#8217;t want to bore you with every small bug fix. And talking about things that are worth waiting for, our next report will very likely be published at the beginning of February 2017.</p>
+<p>That&#8217;s because we will put our Scrum process on hold during the Christmas session. We will restart it on the second week of the year, after the visit of the Three Wise Men. In several countries, it&#8217;s a tradition that the Three Kings bring gifts to the kids that have been nice, so let&#8217;s expect they bring us some new members for the team!</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2016/12/22/highlights-of-yast-development-sprint-29/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>This my code take it! Contributing to Open Source project</title>
+		<link>https://lizards.opensuse.org/2015/08/28/this-my-code-take-it-contributing-to-open-source-project/</link>
+		<pubDate>Fri, 28 Aug 2015 05:59:38 +0000</pubDate>
+		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
+				<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[Misc]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11517</guid>
+		<description><![CDATA[You want to be an Open Source developer? Want to hack up some nasty code. Make everyone obey your order and take over the world. I was young back when I entered these shallow waters and how green I was back then.. oh boy! My first app I been coding long time maybe too long. [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>You want to be an Open Source developer? Want to hack up some nasty code. Make everyone obey your order and take over the world. I was young back when I entered these shallow waters and how green I was back then.. oh boy!<span id="more-11517"></span></p>
+<h2>My first app</h2>
+<p>I been coding long time maybe too long. First I was using Pascal but it was too high level for me and not cool at all. When I started using Linux KDE 1 was Koolest desktop environment on earth and CDE was de-facto environment on for the big boys. Soon after KDE 2 was released I started using KDE PIM suite because <a href="https://www.kde.org/applications/internet/kmail/">KMail</a> is still neat application and <a href="https://userbase.kde.org/KOrganizer">Korganizer</a> was way better than Evolution. I realized I like to format my happenings in list which wasn&#8217;t supported the way I liked. I thought, &#8216;Hey what If I write console application for that. I know how to code C and Java so C++ can&#8217;t that hard?&#8217;.</p>
+<p>It was possible. QT2 was really great GUI library for writing applications. That time QT licensing was insane but today it&#8217;s much easier to understand. Writing applications with KDE libraries wasn&#8217;t all that hard. Application was all main-function and soon as I got it working I mailed to KDE mailing list. I don&#8217;t have that mail any more and can&#8217;t find it from the net but it was something like: &#8216;Hello, I&#8217;m the best QT-coder ever and I have this app called <a href="https://userbase.kde.org/KonsoleKalendar">KonsoleKalendar</a>&#8216;. I got very friendly feedback and it got included into CVS. I though now I&#8217;m greatest coder ever lived!</p>
+<p>Actually I maintained <a href="https://quickgit.kde.org/?p=kdepim.git&amp;a=tree&amp;h=4693acc01c0ea8ebe87c40c1f1a40a8dccd30558&amp;hb=09a12dcaece42b05557efcf9fbf1ee3af2aaf352&amp;f=console%2Fkonsolekalendar">KonsoleKalendar</a> only short time and as I said I wasn&#8217;t happy about licensing of QT2 (It didn&#8217;t help that it was badly written application like ever). Most wonderful and bizarre thing is that KonsoleKalendar this exists in KDE5 and it&#8217;s in much better shape than when I left it. Afterwards this was the main learning point about collaboration in Open Source project for me. In start of 2000 there weren&#8217;t Git nor there where any fancy GUIs for sending patches. People mailed each other and tried to cope with CVS/Subversion and KDE still is very friendly community if you compare it to many others.</p>
+<h2>Getting along the communities</h2>
+<p>If you ever are going to cope the Open Source world try to get along with community. There is as many communities as there is project and they can be friendly, neutral, unknown or hostile. There are several nearly or really hostile projects where bug reports and patches are rejected with making fun of you body organs or mom. Hostile projects seems to have same pattern. There one master of universe mega alpha coder that dictators everything and then people who needs that project or are somehow contributed something that coder number one things that they can exists. If you cross this kind of project you should have very nice shielding or some precious code gems to take as bounty. Remember many very successful project also have that mega dictator which have some urge to make things happen. problem is that most of these dictators only understand code and can&#8217;t speak anything else.</p>
+<p>Unknown projects are strangest ones. Common thing is that plenty of people use them and commit actively bug reports. Only few people commit changes to version control but they don&#8217;t pay any attention to bug reports or mailing-lists.<a href="http://libsdl.org/"> libSDL</a> is this kind of project. People share their patches on bug database but it&#8217;s nearly impossible to get them to code base or I just don&#8217;t understand how SDL development goes.</p>
+<p>Neutral communities are nice. They have good management and clean orders how to contribute. You can get you patch or bug report in if it&#8217;s good enough. Neutral communities are somehow uneasy to enter but if you prove to make good contribution they let you make your thing. So what is difference with neutral and friendly. In friendly community you can ask stupid questions and someone answers you nicely not just blank silence or some kind RTFM answers.</p>
+<h2>How to contribute?</h2>
+<p>I tried to open situation little bit above but I give you example from Mixxx community which I&#8217;m most active these days. Most of people pop in mailing list and they have the best idea ever but they haven&#8217;t looked Mixxx code so they don&#8217;t know if it&#8217;s possible or not. If their ideas are reasonable and that human being is ready to do work it&#8217;s mostly greeted with some advises and notes how it should be made. After hiatus that developer commits Pull Request or not.</p>
+<p>If Pull request been made then rough ride starts. Reviewing code is not a bad thing and people who are making these code reviews in Mixxx knows application well and only wants best code in.  For green contributor it can be very frustrating. Basicly you have to have good code quality to get into Mixxx code base and you have to sign contributor paper.</p>
+<p>How fast this happens? It really depends size of you contribution and how badly it&#8217;s done. People are doing code review in their spare time so it can be slow. If you just get out of blue with Pull request in Github you most probably won&#8217;t get nothing in. In Mixxx everything gets in with Pull Request (if it&#8217;s trivial then it&#8217;s just LGTM and merge style stuff).</p>
+<h2>If you didn&#8217;t read anything else this is what I wanted to say</h2>
+<p>What I have learned are in these three things: Know community you are going to work with (it takes time and motivation), Know how to contribute (what are rules) and try to cope with some level of frustration (They can be very hard on you if you ask stupid questions because most of them are stupid in Open Source world). If you just stop development because project things your code is pile of sh*t and you have to work on it more. Understand it&#8217;s pile of sh*t until they are happy and you have to make it to their standard.  Every community it is always Dystopia of commiters. They decide what goes in and what doesn&#8217;t. If it&#8217;s your project you can choose but if you are not in enough you just have to cope with it. You can Fork code and start new project but believe most time it&#8217;s more progressive to stay in same project and try to change that. If it&#8217;s not possible then just Fork it but you can end up like FFmpeg and AVConv situation.</p>
+<p>Working in Open Source project is about communication. So talk in mailing list, work on bug reports, write documentation and review code. If you are silent then you don&#8217;t exist and remember if you can&#8217;t code but you like to something there is always plenty to do. If you like to contribute learn: Git (Gitbub), Mercurial (Bitbucket), Subversion, Bug reporting (Mantis, Bugzilla), code structure of project and debugging/reading others code or if you are sysadmin, web designer or something else there always something to do. Remember if you think you are correct and everyone else if incorrect you are the one who have to prove them incorrect. Flaming and trolling is nice and fun but not going to get project forward.</p>
+<p>I end here and remember these are my own notes.</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Testing Android in openQA</title>
+		<link>https://lizards.opensuse.org/2015/01/06/testing-android-in-openqa/</link>
+		<pubDate>Tue, 06 Jan 2015 15:37:27 +0000</pubDate>
+		<dc:creator><![CDATA[lnussel]]></dc:creator>
+				<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[Uncategorized]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11153</guid>
+		<description><![CDATA[The other day Richard described in his blog how how he used openQA to test drive Fedora. Around the same time I read about Android x86 and saw that they offer iso images for download. So I wondered how hard it would be to get that one tested in openQA. To find out I installed [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The other day Richard described in his <a title="Richard's blog" href="https://sysrich.co.uk/?p=303">blog</a> how how he used openQA to test drive Fedora. Around the same time I read about <a href="http://www.android-x86.org/">Android x86</a> and saw that they offer iso images for download. So I wondered how hard it would be to get that one tested in openQA.<br />
+<span id="more-11153"></span><br />
+To find out I <a href="http://www.suse.de/~lnussel/setupgrubfornfsinstall.html">installed</a> a current <a href="https://en.opensuse.org/Portal:Tumbleweed">Tumbleweed</a> snapshot in qemu. Installing openQA in the VM is straight forward with the provided packages, following the instrucutions at <a href="https://github.com/os-autoinst/openQA">GitHub</a>.</p>
+<p>Keep in mind that nested virtualization needs to be turned on to be able to run the openQA worker inside qemu (pass nested=1 to kvm_intel resp kvm_amd). To conveniently access the web interface, vnc and ssh I added &#8220;-net&#8221; &#8220;user,hostfwd=tcp::8888-:80,hostfwd=tcp::5091-:5091,hostfwd=tcp::2222-:22&#8221; to the qemu command line.</p>
+<p>As soon as openQA is up and running the remaining steps are easy:</p>
+<ul>
+<li>add the sample Android test cases I created:
+<pre>
+# cd /var/lib/openqa/tests
+# git clone -b android-4.4 git://github.com/lnussel/os-autoinst-distri-android.git android-4.4
+# chown geekotest android-4.4/needles
+</pre>
+</li>
+<li>import the job templates so openQA learns what to do with Android iso images
+<pre>
+# android-4.4/templates
+</pre>
+</li>
+<li><a href="http://www.android-x86.org/download">Download android-x86-4.4-r2.iso</a> and store it in /var/lib/openQA/factory/iso</li>
+<li>register the iso image with openQA:
+<pre>
+# /usr/share/openqa/script/client isos post \
+    ISO=android-x86-4.4-r2.iso \
+    DISTRI=android VERSION=4.4 ARCH=i586 \
+    FLAVOR=live BUILD=0002
+</pre>
+</li>
+</ul>
+<p>Voilà! If everything went right openQA should now have created a job and the worker should start processing it.</p>
+<p>Here are some screenshots and a video of my test run:<br />
+<a href="//lizards.opensuse.org/wp-content/uploads/2015/01/openqa-android-02.png"><img src="//lizards.opensuse.org/wp-content/uploads/2015/01/openqa-android-02-300x169.png" alt="openqa-android-02" width="300" height="169" class="alignnone size-medium wp-image-11155" srcset="https://lizards.opensuse.org/wp-content/uploads/2015/01/openqa-android-02-300x169.png 300w, https://lizards.opensuse.org/wp-content/uploads/2015/01/openqa-android-02-1024x578.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2015/01/openqa-android-02.png 1180w" sizes="(max-width: 300px) 100vw, 300px" /></a> <a href="//lizards.opensuse.org/wp-content/uploads/2015/01/openqa-android-01.png"><img src="//lizards.opensuse.org/wp-content/uploads/2015/01/openqa-android-01-300x183.png" alt="openqa-android-01" width="300" height="183" class="alignnone size-medium wp-image-11154" srcset="https://lizards.opensuse.org/wp-content/uploads/2015/01/openqa-android-01-300x183.png 300w, https://lizards.opensuse.org/wp-content/uploads/2015/01/openqa-android-01-1024x625.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2015/01/openqa-android-01.png 1126w" sizes="(max-width: 300px) 100vw, 300px" /></a><br />
+<div style="width: 640px;" class="wp-video"><!--[if lt IE 9]><script>document.createElement('video');</script><![endif]-->
+<video class="wp-video-shortcode" id="video-11153-1" width="640" height="360" preload="metadata" controls="controls"><source type="video/ogg" src="//lizards.opensuse.org/wp-content/uploads/2015/01/openqa-android.ogv?_=1" /><a href="//lizards.opensuse.org/wp-content/uploads/2015/01/openqa-android.ogv">//lizards.opensuse.org/wp-content/uploads/2015/01/openqa-android.ogv</a></video></div></p>
+<p>Looks like the emulator in the Android SDK is also qemu based. So theoretically it shouldn&#8217;t be hard to integrate that one into openQA in order to actually test on emulated phones as well.</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>OpenStack Infra/QA Meetup</title>
+		<link>https://lizards.opensuse.org/2014/07/23/openstack-infraqa-meetup/</link>
+		<pubDate>Wed, 23 Jul 2014 13:54:38 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Infrastructure]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[cloud]]></category>
+		<category><![CDATA[meeting]]></category>
+		<category><![CDATA[openstack]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10928</guid>
+		<description><![CDATA[Last week, around 30 people from around the world met in Darmstadt, Germany to discuss various things about OpenStack and its automatic testing mechanisms (CI). The meeting was well-organized by Marc Koderer from Deutsche Telekom. We were shown plans of what the Telekom intends to do with virtualization in general and OpenStack in particular and [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Last week, around 30 people from around the world met in Darmstadt, Germany to discuss various things about OpenStack and its automatic testing mechanisms (CI).<br />
+The meeting was well-organized by Marc Koderer from Deutsche Telekom.<br />
+We were shown plans of what the Telekom intends to do with virtualization in general and OpenStack in particular and the most interesting one to me was to run clouds in dozens of datacenters across Germany, but have a single API for users to access.<br />
+There were some introductory sessions about the use of git review and gerrit, that mostly had things I (and I guess the majority of the others) already learned over the years. It included some new parts such as tracking &#8220;specs&#8221; &#8211; specifications (.rst files) in gerrit with proper review by the core reviewers, so that proper processes could already be applied in the design phase to ensure the project is moving in the right direction.</p>
+<p>On the second day we learned that the infra team manages servers with puppet, about jenkins-job-builder (jjb) that creates around 4000 jobs from yaml templates. We learned about nodepool that keeps some VMs ready so that jobs in need will not have to wait for them to boot. 180-800 instances is quite an impressive number.<br />
+And then we spent three days on discussing and hacking things, the topics and outcomes of which you can find in the etherpad linked from <a href="https://wiki.openstack.org/wiki/Qa_Infra_Meetup_2014">the wiki page</a>.<br />
+I got my first infra patch merged, and a SUSE Cloud CI account setup, so that in the future we can test devstack+tempest on openSUSE and have it comment in Gerrit. And maybe some day we can even have a test to deploy crowbar+openstack from git (including the patch from an open review) to provide useful feedback, but for that we might first want to move crowbar (which is consisting of dozens of repos &#8211; one for each module) to <a href="http://ci.openstack.org/stackforge.html">stackforge</a> &#8211; which is the openstack-provided Gerrit hosting.</p>
+<p>see also: <a href="http://princessleia.com/journal/?p=9574">pleia2&#8217;s post</a></p>
+<p>Overall for me it was a nice experience to work together with all these smart people and we certainly had a lot of fun</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Code quality and Code guidelines</title>
+		<link>https://lizards.opensuse.org/2014/02/19/code-quality-and-code-guidelines/</link>
+		<comments>https://lizards.opensuse.org/2014/02/19/code-quality-and-code-guidelines/#comments</comments>
+		<pubDate>Wed, 19 Feb 2014 08:07:11 +0000</pubDate>
+		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
+				<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[obs]]></category>
+		<category><![CDATA[Programming]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10582</guid>
+		<description><![CDATA[Today I like to take you precious time to talk about thing that get so less attention in open source world. I like to talk little bit about QA and Coding guidelines. Many reader who are in companies that take care of themselves or are involved some major open source or free software project like [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Today I like to take you precious time to talk about thing that get so less attention in open source world. I like to talk little bit about QA and Coding guidelines.<br />
+Many reader who are in companies that take care of themselves or are involved some major open source or free software project like KDE, GNOME or Linux kernel knows that they/we have Coding guidelines. KDE have it <a href="http://techbase.kde.org/Policies/Kdelibs_Coding_Style" title="KDE code guidelines">here</a> and Kernel have it <a href="https://www.kernel.org/doc/Documentation/CodingStyle" title="Kernel code guidelines">here</a>. So they have them and whats the big deal?<span id="more-10582"></span></p>
+<h2>Why have code guideline and hang on it?</h2>
+<p>I&#8217;ve been coding since I was kid. I didn&#8217;t know better way to waste my time that sitting front of Commodore 64 and hack together some BASIC code and my code was horrible.<br />
+I didn&#8217;t have any clue how to organize it or how to make it more readable (BASIC ain&#8217;t that BASIC when you try to read it afterwards). Years after some major Assembly experiences on 286 and 386 I found Pascal. Then I understood one thing. If you don&#8217;t understand your stuff you write you don&#8217;t understand it after a while! So I tried to be more constructed what I did (Pascal/Delphi still have soft spot in my heart.. always!) and forget it sort after that for almost 10 years.</p>
+<h2>Doing it professionally</h2>
+<p>If you code for living you have to be very sure you can read your code and others can also. You can stop developing your code after that someone else can come to maintaining that particular code and this is situation in open source most of the time.<br />
+You never know how long you code will be used, forked or maintained by someone else brave after you have moved on to something more interesting.<br />
+Following code guidelines is not very difficult. You just forget about your excuses about beauty of your code and ignorance about making code look solid with rest of application. Most horrible<br />
+is read some code that where you have to learn how different people write code and their definition about good code guidelines.<br />
+If you lazy like me you can use tools like:</p>
+<ul>
+<li><a href="http://astyle.sourceforge.net/" title="Artistic Style">http://astyle.sourceforge.net/</a></li>
+<li><a href="http://jsbeautifier.org/" title="Javascript beautifier">http://jsbeautifier.org/</a></li>
+<li><a href="http://pear.php.net/package/PHP_Beautifier" title="PHP Beautifier">http://pear.php.net/package/PHP_Beautifier</a>/</li>
+</ul>
+<h2>I do want my code to look like I did it</h2>
+<p>No you don&#8217;t if you contribute to someone else project you make you code look like his or her code. Structured code is always looking good.<br />
+We have policy that version control system make decision how code should look like. So there is some tool and version control hook script that structures code to what is our stated our code guidelines and believe me it have worked better than I expect. People still have to make changes but you have reply what is wrong. No more rants about what is correct looking code and people giving me excuses why code is not following code guidelines. There is only one that have dictatorship here and it&#8217;s version control system and 99.9% it does good job.</p>
+<h2>Code guidelines are not equal Code quality</h2>
+<p>No they are not. They have nothing to do with Code quality control or do they? openSUSE Build service have very good for everyone to take good example. To make your RPM package SPEC-file compile to binary or source RPM you have to follow machine checked rules. If you correct at least those it will be all okay. Scripts check that you don&#8217;t have million bytes long jargon in Summary-line or you have Summary-line at all. They run rpmlint and check C-code for some we&#8217;ll known problems. If they are qualified enough to go through this you won&#8217;t get your RPM/DEB/Arch-package.<br />
+Now we can argue long time do static code checking have any value but long time user of static code checking tools like <a href="http://cppcheck.sourceforge.net/" title="Cppcheck">cppcheck</a> I can tell static analyzing find many that people just ignore to find because they don&#8217;t have time to thing whole logic or understand that memory handling issue.<br />
+Best way to use them I again run them on version control system hook before code gets in. It won&#8217;t make code perfect but you make developer fear for commiting and when developer fear they make better code.<br />
+After you have structured code and machine checks it statically it&#8217;s much easier to get in to point and find problems. So you can talk about what is really wrong or right with code. It&#8217;s easier to read some text if that have passed thesaurus in Libreoffice and again openSUSE obs policy is very very efficient. It spots stuff that you don&#8217;t care about and yes I miss SPEC code structure-script in OBS but you can&#8217;t have all.<br />
+Now it&#8217;s time make code guidelines to you project and use some tool to make all project look like it (My opinion is that have always some for example Artistic Style tool example how to structure code for your with code guidelines) and that FFmpeg stuff is coming when I feel it&#8217;s ready to rock!</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2014/02/19/code-quality-and-code-guidelines/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>another way to access a cloud VM&#8217;s VNC console</title>
+		<link>https://lizards.opensuse.org/2014/02/08/another-way-to-access-a-cloud-vms-vnc-console/</link>
+		<pubDate>Sat, 08 Feb 2014 08:14:58 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[cloud]]></category>
+		<category><![CDATA[openqa]]></category>
+		<category><![CDATA[openstack]]></category>
+		<category><![CDATA[websocket]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10538</guid>
+		<description><![CDATA[If you have used a cloud, that was based on OpenStack, you will have seen the dashboard including a web-based VNC access using noVNC + WebSockets. However, it was not possible to access this VNC directly (e.g. with my favourite gvncviewer from the gtk-vnc-tools package), because the actual compute nodes are hidden and accessing them [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>If you have used a cloud, that was based on OpenStack, you will have seen the dashboard including a web-based VNC access using noVNC + WebSockets.<br />
+However, it was not possible to access this VNC directly (e.g. with my favourite gvncviewer from the gtk-vnc-tools package), because the actual compute nodes are hidden and accessing them would circumvent authentication, too.</p>
+<p>I want this for the option to add an OpenStack-backend to openQA, my OS-autotesting framework, which emulates a user by using a few primitives: grabbing screenshots and typing keys (can be done through VNC), powering up a machine(=nova boot), inserting/ejecting an installation medium (=nova volume-attach / volume-detach).</p>
+<p>To allow for this, I wrote a small perl script, that translates a TCP-connection into a WebSocket-connection.<br />
+It is installed like this<br />
+<code>git clone https://github.com/bmwiedemann/connectionproxy.git<br />
+sudo /sbin/OneClickInstallUI http://multiymp.zq1.de/perl-Protocol-WebSocket?base=http://download.opensuse.org/repositories/devel:languages:perl</code></p>
+<p>and is used like this<br />
+<code>nova get-vnc-console $YOURINSTANCE novnc<br />
+perl wsconnectionproxy.pl --port 5942 --to http://cloud.example.com:6080/vnc_auto.html?token=73a3e035-cc28-49b4-9013-a9692671788e<br />
+gvncviewer localhost:42</code></p>
+<p>I hope this neat code will be useful for other people and tasks as well and wish you a lot of fun with it.</p>
+<p>Some technical details:</p>
+<ul>
+<li>The code is able to handle multiple connections in a single thread using select.</li>
+<li>HTTPS is not supported in the code, but likely could be done with stunnel.</li>
+<li>WebSocket-code was written in 3h.</li>
+<li>noVNC tokens expire after a few minutes.</li>
+</ul>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>spec-cleaner: hide all your precious cruft!</title>
+		<link>https://lizards.opensuse.org/2014/01/31/spec-cleaner-hide-all-your-precious-cruft/</link>
+		<pubDate>Fri, 31 Jan 2014 08:33:31 +0000</pubDate>
+		<dc:creator><![CDATA[calumma]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10484</guid>
+		<description><![CDATA[As we stated in our communication over the time, our team&#8217;s main focus for foreseeable future is Factory and how to manage all those contributions. Goal is not to increase the number of SRs that is coming to Factory, but to make sure we can process more and to make sure we see even well [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>As we stated in our communication over the time, our team&#8217;s main focus for foreseeable future is Factory and how to manage all those contributions. Goal is <strong>not</strong> to increase the number of SRs that is coming to Factory, but to make sure we can process more and to make sure we see even well hidden consequences to make sure that Factory is &#8220;stable&#8221; and &#8220;usable&#8221;.</p>
+<p><img src="//lizards.opensuse.org/wp-content/uploads/2014/01/sprayg-263x300.jpg" alt="sprayg" width="263" height="300" class="alignright size-medium wp-image-10485" srcset="https://lizards.opensuse.org/wp-content/uploads/2014/01/sprayg-263x300.jpg 263w, https://lizards.opensuse.org/wp-content/uploads/2014/01/sprayg.jpg 266w" sizes="(max-width: 263px) 100vw, 263px" /></p>
+<p>Not really part of our current sprints, but something that will hopefully help us is <i>spec-cleaner</i> that Tomáš Chvátal and Tomáš Čech were working on lately during their free time/hackweek. What is it trying to address? Currently, there are some packaging guidelines, but when you write a spec file for your software, you still have plenty of choices. How do you order all the information in the header? Do you use curly brackets around macros? Do you use macros? Which ones do you use and which not? Do you use binaries in dependencies? Package config? Perl symbols? Package names? There is <i>format_spec_file</i> obs service that tries to unify a little bit the coding style but leaves quite some of the stuff up to you. Not necessarily a bad thing, but if you have to compare changes and review packages that are using completely different coding styles the process becomes harder and slower.</p>
+<p><i>spec-cleaner</i> is <i>format_spec_file</i> taken to another level. It tries to unify coding style as much as it can. It uses consistent conventions, makes most of the decisions mentioned previously for you and if you already decided for one way in the past, it will try to convert your spec file to follow the conventions that it specifies. It&#8217;s not enforcing anything, it&#8217;s standalone script and therefore you don&#8217;t have to be worried that you spec file will be out of your control. You can run it, verify the result (actually, you should verify the results as there might still be some bugs) and commit it to OBS. If we all do it, our packages will all look more alike and it will be easier to read and review them.</p>
+<p>How to try it? How to help? Well, code is on <a href="https://github.com/openSUSE/spec-cleaner">GitHub</a> and packages are in <a href="https://build.opensuse.org/package/show/openSUSE:Tools/spec-cleaner">OBS</a>. You may have a version of it in your distribution, but that one is heavily outdated (even the 13.1 version), so add openSUSE:Tools repo and try the version from there.</p>
+<pre>zypper ar -f obs://openSUSE:Tools/openSUSE_13.1 openSUSE-Tools
+zypper in spec-cleaner</pre>
+<p>You can then go to some local checkout and try what changes does it propose for your spec file. Easiest way is to just let it do stuff by calling it and taking a look at changes afterwards.</p>
+<pre>spec-cleaner -p -i *.spec
+osc diff</pre>
+<p>If it works, great, we will have more unified spec files. If it doesn&#8217;t, file a  <a href="https://github.com/openSUSE/spec-cleaner/issues">bug</a> <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Keeping Factory in shape</title>
+		<link>https://lizards.opensuse.org/2013/06/13/keeping-factory-in-shape/</link>
+		<pubDate>Thu, 13 Jun 2013 12:00:41 +0000</pubDate>
+		<dc:creator><![CDATA[calumma]]></dc:creator>
+				<category><![CDATA[Boosters]]></category>
+		<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9497</guid>
+		<description><![CDATA[Michal Hrušecký has been helping out on maintaining Factory in shape and shares his experiences. Factory is development version of openSUSE and it is where the next openSUSE is taking form. Hundreds of packagers send packages into Factory to be integrated as a part of the new release and many more use Factory for testing [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><em>Michal Hrušecký</em> has been helping out on maintaining Factory in shape and shares his experiences.</p>
+<p>Factory is development version of openSUSE and it is where the next openSUSE is taking form. Hundreds of packagers send packages into Factory to be integrated as a part of the new release and many more use Factory for testing or for their daily work. Thus it is really important to keep Factory rolling and usable. Everybody knows that <a href="http://news.opensuse.org/2007/08/09/people-of-opensuse-stephan-kulow/">Coolo</a> is the Factory master and he does everything to make next openSUSE be the best ever. But keeping factory in shape is really complicated and stressing task. There are dozens of request everyday and each one of them can potentially break something. So Factory can always use a pair of extra hands and for some time I have been one of them. I&#8217;d like to give you some insight in what we do, working on keeping Factory building and working.<span id="more-9497"></span></p>
+<p><a href="http://openbuildservice.org"><img class="alignright size-full wp-image-9543" alt="obs-logo" src="//lizards.opensuse.org/wp-content/uploads/2013/06/obs-logo.png" width="243" height="101" /></a></p>
+<h2>Keep it building</h2>
+<p>With a constant influx of newer and cooler versions of libraries and tools it is easy to break existing applications with shiny new software. So we always have some build failures in Factory. Part of our job is to resolve them because if it doesn&#8217;t build, you can&#8217;t test nor ship it. As developer, you may have seen submit request in various projects in OBS fixing builds for Factory. Everyday I take a look at a number of build failures, investigate why they are not building in Factory and try to do something about it.</p>
+<p>For example new version of the GNU C Compiler (GCC) is quite often more strict on includes, requiring developers to be more verbose about the exact internal and external libraries there applications require to be build. What used to build now doesn&#8217;t, because you are missing include files. The older GCC let you slip by, but now you have to fix it, build failure by build failure. Another example is GTK which keeps deprecating old API functions and you have to keep up and replace them with correct counterparts from the new API. Sometimes even the kernel changes API and third party modules stops building. All these errors will get eventually resolved upstream (if upstream is alive), but as we follow upstream quite closely before feature freeze, it may happen that we are first facing these issues because sometime we are the first ones who tried to compile this software using new GTK or the new GCC. Of course, we attempt to get these fixes back upstream and share them with other distributions where appropriate!</p>
+<div id="attachment_9541" style="width: 310px" class="wp-caption alignright"><a href="//lizards.opensuse.org/wp-content/uploads/2013/06/600px-Factory_workflow.png"><img class="size-medium wp-image-9541" alt="Factory_workflow" src="//lizards.opensuse.org/wp-content/uploads/2013/06/600px-Factory_workflow-300x176.png" width="300" height="176" srcset="https://lizards.opensuse.org/wp-content/uploads/2013/06/600px-Factory_workflow-300x176.png 300w, https://lizards.opensuse.org/wp-content/uploads/2013/06/600px-Factory_workflow.png 600w" sizes="(max-width: 300px) 100vw, 300px" /></a><p class="wp-caption-text">Image depicting the Factory Workflow</p></div>
+<h2>Test it</h2>
+<p>Another important part of working on a better Factory is testing. If everything builds, we&#8217;re happy. You might have heard the saying:</p>
+<blockquote><p><em> if it builds, ship it!</em></p></blockquote>
+<p>(un)fortunately, this isn&#8217;t Coolo&#8217;s idea of how the world works. In Factory, things not only have to build, but also work. Oh, AND conform to some stringent requirements. Here comes into play what most of our team was working on in the past months and what was <a href="For example new version of gcc is quite often more strict on includes.  What used to build now doesn't, because you are missing include files. Older gcc let you slip by, but now you have to fix it. Or GTK keeps deprecating old API functions and you have to keep up and replace them with correct counterparts from new API. Sometimes even kernel changes API and third party modules stops building. All these errors will get eventually resolved upstream (if upstream is alive), but as we follow upstream quite closely before feature freeze, it may happen that we are first facing these issues because sometime we are the first ones who tried to compile this software using new GTK and gcc.">described last week &#8211; openQA</a>. openQA tests the latest builds of openSUSE Factory, tries to install them and run tests on some applications as well. But still, not all failures from automatic testing are real failures. Sometimes application just changed too much to be covered by test. So from time to time we go through failing openQA tests, try to reproduce them, figure out what went wrong and either fix it or report it via bugzilla to the corresponding maintainer.</p>
+<h2>Concluding</h2>
+<p>Each of these tasks is relatively small (check why this test failed, fix this package to build with new gcc) but what makes it hard is the number of packages we&#8217;ve got and the constant inflow of changes. Also, because the issue can be all over the place, each and every one requires you to dive into an entirely new package, with new and interesting quirks, build systems, languages and more. It is a great way of getting to know a wide variety of packages and applications, finding a gem every now and then. But also implies a lot of work.</p>
+<p>Things will get slower and more stable after feature freeze when we will spend more time in the testing part, while today we mostly work on the build part. Still, Factory has to keep building, without that it becomes impossible to keep developing openSUSE. What we do, fixing these build errors, it might not be super visible, but it matters a lot.</p>
+<h2>Statistics</h2>
+<p>On a related note, we&#8217;d like to (re) introduce weekly Factory statistics! It has been a while since we had those, once upon a time courtesy of AJ and Guido. Now, Alberto provides them. Here you go, the top-fifteen contributors to openSUSE Factory last week (from Sunday June 2nd to to Sunday June 9th):<br />
+<a href="//lizards.opensuse.org/wp-content/uploads/2013/06/statistics-inside.png"><img src="//lizards.opensuse.org/wp-content/uploads/2013/06/statistics-inside-212x300.png" alt="statistics with Geeko inside" width="212" height="300" class="alignright size-medium wp-image-9572" srcset="https://lizards.opensuse.org/wp-content/uploads/2013/06/statistics-inside-212x300.png 212w, https://lizards.opensuse.org/wp-content/uploads/2013/06/statistics-inside.png 620w" sizes="(max-width: 212px) 100vw, 212px" /></a></p>
+<ol>
+<li>Dominique Leuenberger</li>
+<li>Tobias Klausmann</li>
+<li>Stefan Dirsch</li>
+<li>Peter Varkoly</li>
+<li>Stephan Kulow</li>
+<li>Marcus Meissner</li>
+<li>Michal Hrusecky</li>
+<li>Cristian Rodríguez</li>
+<li>Dirk Mueller</li>
+<li>Sascha Peilicke</li>
+<li>Kyrill Detinov</li>
+<li>Dr. Werner Fink</li>
+<li>Bjørn Lie</li>
+<li>Tomáš Chvátal</li>
+<li>Niels Abspoel</li>
+</ol>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>openQA in openSUSE</title>
+		<link>https://lizards.opensuse.org/2013/06/06/openqa-in-opensuse/</link>
+		<comments>https://lizards.opensuse.org/2013/06/06/openqa-in-opensuse/#comments</comments>
+		<pubDate>Thu, 06 Jun 2013 12:00:26 +0000</pubDate>
+		<dc:creator><![CDATA[calumma]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Infrastructure]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[Uncategorized]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9440</guid>
+		<description><![CDATA[Today, we&#8217;ve got for you an introduction of the teams&#8217; work on openQA by Alberto Planas Domínguez. The last 12.3 release was important for the openSUSE team for a number of reasons. One reason is that we wanted to integrate QA (Quality Assurance) into the release process in an early stage. You might remember that [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><a href="//lizards.opensuse.org/wp-content/uploads/2013/05/factory-tested.png"><img class="size-full wp-image-9447 alignright" alt="factory-tested" src="//lizards.opensuse.org/wp-content/uploads/2013/05/factory-tested.png" width="217" height="232" /></a>Today, we&#8217;ve got for you an introduction of the teams&#8217; work on openQA by <em>Alberto Planas Domínguez</em>.</p>
+<p>The last 12.3 release was important for the openSUSE team for a number of reasons. One reason is that we wanted to integrate QA (Quality Assurance) into the release process in an early stage. You might remember that this release had UEFI and Secure Boot support coming and everybody had read the scary reports about badly broken machines that can only be fixed replacing the firmware. Obviously openSUSE can&#8217;t allow such things to happen to our user base, so we wanted to do more testing.<span id="more-9440"></span></p>
+<h2>Testing is hard</h2>
+<p>Testing a distribution seems easy at first sight:</p>
+<ol>
+<li>Take the ISO of the last build and put it on the USB stick</li>
+<li>Boot from the USB</li>
+<li>Install and test</li>
+<li>&#8230;</li>
+<li>Profit!</li>
+</ol>
+<div id="attachment_9476" style="width: 310px" class="wp-caption alignright"><a href="//lizards.opensuse.org/wp-content/uploads/2013/06/factory.png"><img class="size-medium wp-image-9476 " title="testing in progress!" alt="testing in progress!" src="//lizards.opensuse.org/wp-content/uploads/2013/06/factory_crop-300x169.png" width="300" height="169" srcset="https://lizards.opensuse.org/wp-content/uploads/2013/06/factory_crop-300x169.png 300w, https://lizards.opensuse.org/wp-content/uploads/2013/06/factory_crop.png 418w" sizes="(max-width: 300px) 100vw, 300px" /></a><p class="wp-caption-text">testing in progress!</p></div>
+<p>But look a bit further and you will see that, actually, only the installation process itself is already a <a title="free dictionary on combinatorial" href="http://www.thefreedictionary.com/combinatorial" target="_blank">combinatorial</a> problem. In openSUSE we have different mediums (DVD, KDE and Gnome Live images, NET installation image and the new Rescue image), three official architectures (32 and 64 bits and ARMv7), a bunch of different file systems (Ext3 / Ext4, Btrfs, LVM with or without encryption, etc.), different boot loaders (GRUB 2, LILO, SHIM). <em>Yeah</em>&#8230; Even without doing the math you see that for only this small subset of variables we have hundreds of possible combinations. And this is just the installation process, we are not talking about the various desktops and applications or hardware like network interfaces or graphics cards here.</p>
+<h3>And we want continuous testing</h3>
+<p>And that is only the final testing round! If we want to be serious about QA and testing, we need to run the full test battery for every build that OBS generate for us, with extra attention to the Milestones, Betas and RC which are scheduled in the release road-map.</p>
+<p>We can of course attempt to optimize our testing approach. For example, if I am the maintainer of a package and I sure that my last version is working perfectly in Factory (because I tested it in my system, of course), do I really need to test this application again and again when a new ISO build is released? Unfortunately, we can <em>not</em> take a shortcut here. As Distribution, our job is integration and so we need to test the entire product again for every build. A single change in an external library or in any other package which I depend on can break my package. The interdependencies for a integration project of the size of openSUSE are so intricate that is faster to run the full test again. With this approach we are avoiding regressions in our distribution, important during development. But also a lot of work &#8211; who has time for all this testing?</p>
+<h2>OpenQA as a solution</h2>
+<p>For us, there&#8217;s no doubt about it: <a href="http://openqa.opensuse.org/">openQA</a> is the correct tool for this. openQA is already used to test certain parts of openSUSE, and has shown itself as a competent tool to test other distributions like Fedora or Debian.</p>
+<p>To experiment with openQA, the openSUSE team decided to launch a local implementation of the tool and start feeding it with 12.3 builds. But we soon ran into some limitation in the way we can express desired test outcomes in openQA and we got ideas on how to improve the detection of failed and succeeded tests. We also discovered that some tests in openQA had the bad habit of starting to work in <em>“monkey mode”</em> by simply sending commands and events to the virtual machine without checking if those interaction have expected behavior or not, losing track of the test progress.</p>
+<p>openQA has the great benefit of being open source so we can improve its usefulness for testing Factory. Moreover, the original author of openQA, Bernhard M. Wiedemann, is a very talented developer and works for SUSE so upstream is very close to us. So we decided to start hacking!<br />
+<a href="//lizards.opensuse.org/wp-content/uploads/2013/05/stopwatch.png"><img class="size-medium wp-image-9448 alignright" alt="stopwatch" src="//lizards.opensuse.org/wp-content/uploads/2013/05/stopwatch-227x300.png" width="113" height="150" srcset="https://lizards.opensuse.org/wp-content/uploads/2013/05/stopwatch-227x300.png 227w, https://lizards.opensuse.org/wp-content/uploads/2013/05/stopwatch.png 300w" sizes="(max-width: 113px) 100vw, 113px" /></a></p>
+<h2>openQA work</h2>
+<p>After the 12.3 release we decided to spend some quality time improving openQA as a team project. This was managed using the public Chili (a Redmine fork) project management web application. We published all the milestones, tasks, goals and documentation in the <a href="http://board.opensuse.org/projects/openqa-improvement/">&#8220;openQA improvement project&#8221;</a>. The management side of this project perhaps needs a different post, but for now we can say that we tried to develop it as open as possible. Of course you can get the full code from <a href="https://github.com/openSUSE-Team/">the openSUSE github account</a>.</p>
+<h2>Major changes</h2>
+<p>The main architectural changes implemented during our 10 weeks of coding on openQA can be summarized as follows:</p>
+<ul>
+<li>Integration with openCV</li>
+<li>Replacement of PPM graphic file format with PNG</li>
+<li>Introduced needles; test with better control of the state</li>
+<li>A proper job dispatcher for new test configurations</li>
+<li>Better internal scheduler, with snapshots and a way to skip tests</li>
+<li>Improvement in the communication between webUI and the virtual machine</li>
+</ul>
+<div id="attachment_9481" style="width: 310px" class="wp-caption alignright"><a href="//lizards.opensuse.org/wp-content/uploads/2013/06/needleeditor.png"><img class="size-medium wp-image-9481" title="The Needle editor in action" alt="The Needle editor in action" src="//lizards.opensuse.org/wp-content/uploads/2013/06/needleeditor_crop-300x204.png" width="300" height="204" srcset="https://lizards.opensuse.org/wp-content/uploads/2013/06/needleeditor_crop-300x204.png 300w, https://lizards.opensuse.org/wp-content/uploads/2013/06/needleeditor_crop.png 742w" sizes="(max-width: 300px) 100vw, 300px" /></a><p class="wp-caption-text">The Needle editor in action</p></div>
+<h3>openCV brings robust testing</h3>
+<p>The tests in openQA need to check what is happening in the virtual (or real) machine to verify results, and the main source of information is the output of the screen. This information is usually a graphical information: we can instruct QEMU (or Vbox) to retry screenshots in a periodic basis. To properly evaluate a test outcome we need to find some kind of information in those pictures, and for that we use the computer vision library openCV.</p>
+<p>With this library we can implement different methods to find relevant sections of the image, like buttons, error messages or text. These are then used for the test to get information about the actual environment of the installation process and to find out if the test passed or not. Previously, checksums on the images were used to determine outcomes. This led to many false positives (tests failing too often) due to simple theming and layout changes &#8211; a single pixel changing broke the test. openCV support was introduced earlier by Dominik Heidler to enable testing with noisy analogue VGA capture and we extended the usage of openCV matching to be more versatile, powerful and easier to use (both for test-module-writers and for maintainers).<br />
+<a href="http://www.flickr.com/photos/63567936@N00/4210167891/" title="Headless Horse by Perry McKenna, on Flickr"><img src="http://farm3.staticflickr.com/2632/4210167891_dbfe5d540f_n.jpg" width="320" height="192" class="alignright" alt="Finding the needle"></a></p>
+<h3>Introducing needles</h3>
+<p>openQA has been modified to use PNG instead of PPM files to store images to test against, improving performance but also enabling openQA to store certain meta-data within the images. This brings us to the most important improvement in openQA: the introduction of the needle. A needle is an PNG image with some meta-data associated (a JSON document). This meta-data describes one or multiple &#8216;regions of interest&#8217; (RoI) in the original image which can be used by the test to match the current screenshot. For example, if the installation is in the partition manager and we send the expected keystrokes to set Btrfs as our default file system, we can assert that this option is currently set using a needle where the RoI has the correct check box marked. In other words: we create a needle with an area covering the check box. The system will search this area in the current screen to assert that there is, somewhere, a check box with this label correctly marked. And will use openCV to make sure that slight changes in theming or layout will not result in a failed test.</p>
+<p>The needle concept is really powerful. When a test uses needles with multiple RoI&#8217;s, the system will try to match every area in the current screenshot, in whatever position. There are areas that can be excluded, and areas that can be processed using an OCR (Tesseract) to extract and match text from them.</p>
+<p>Thanks to needles we can now create tests that are always in a known state and they can inform complex decisions about the next step to take. For example, we can have tests that can detect and respond correctly when a sudo prompt appears suddenly, or where an error dialog appears when is not expected. More important, we can detect errors more quickly, aborting the installation process and pointing the developer to the exact error.</p>
+<h3>Faster testing with snapshots</h3>
+<div id="attachment_9477" style="width: 310px" class="wp-caption alignright"><a href="//lizards.opensuse.org/wp-content/uploads/2013/06/results.png"><img class="size-medium wp-image-9477" title="Test result overview" alt="Test result overview" src="//lizards.opensuse.org/wp-content/uploads/2013/06/results_crop-300x172.png" width="300" height="172" srcset="https://lizards.opensuse.org/wp-content/uploads/2013/06/results_crop-300x172.png 300w, https://lizards.opensuse.org/wp-content/uploads/2013/06/results_crop.png 453w" sizes="(max-width: 300px) 100vw, 300px" /></a><p class="wp-caption-text">Test result overview</p></div>
+<p>We also implemented a way to create snapshots of the virtual machine status. This is useful if we want to retry some tests, or start the test-set from a specific test. For example, if we are testing the Firefox web browser, we want to avoid all the installation tests, and maybe some of the tests related with other applications. With this snapshot feature, we can load the virtual machine in the state where Firefox can be tested immediately.</p>
+<h3>Improved web UI</h3>
+<p>The final major area of focus has been on the web interface. We designed a set of dialogs to create and edit needles. Using this editor we can also see why the current tests are failing, comparing the current screenshot with the different expected needles from the tests.</p>
+<p>Also, from the web interface we can control the execution of the virtual machine: signaling to stop or continue the execution. This is a feature that is useful when we want to create needles in an interactive way.</p>
+<h2>Upstream</h2>
+<p>We&#8217;re very happy that Bernhard has helped us, both with work and advice, to get these changes implemented. Several improvements were integrated in the <a href="https://github.com/bmwiedemann/os-autoinst/">current production version of openQA</a> and most of the more invasive ones are part of the V2 branch of openQA. We plan to sit together with Bernhard to see about deploying V2 to <a title="openQA in action" href="http://openqa.opensuse.org/results/" target="_blank">openqa.opensuse.org</a> for testing factory as soon as possible.</p>
+<p>There is still work to be done. For example, for full integration testing we need to expand on the current ability which allows to run the tests on real hardware. This will for example allow testing graphics and network cards. Also, writing proper documentation is on the todo list. For those interested in helping out putting openQA to work and keeping the quality of our distribution high, the <a title="openSUSE Conference site" href="http://conference.opensuse.org" target="_blank">openSUSE Conference</a> will feature a workshop on creating tests for Factory.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/06/06/openqa-in-opensuse/feed/</wfw:commentRss>
+		<slash:comments>4</slash:comments>
+		</item>
+	</channel>
+</rss>

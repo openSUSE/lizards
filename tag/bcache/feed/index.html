@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>bcache &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/bcache/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Highlights of YaST Development Sprint 65</title>
+		<link>https://lizards.opensuse.org/2018/10/23/highlights-of-yast-development-sprint-65/</link>
+		<comments>https://lizards.opensuse.org/2018/10/23/highlights-of-yast-development-sprint-65/#comments</comments>
+		<pubDate>Tue, 23 Oct 2018 15:33:59 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+		<category><![CDATA[autoyast]]></category>
+		<category><![CDATA[bcache]]></category>
+		<category><![CDATA[profiler]]></category>
+		<category><![CDATA[snapper]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=13451</guid>
+		<description><![CDATA[Snapper: list indicates special snapshots; what is snapper anyway? Bcache: configuring attributes AutoYaST: whole disks; partitioned RAIDs; Xen virtual partitions; better merging Booting: &#34;warning, everything is fine!&#34; CaaSP/Kubic: proposing NTP servers according to DHCP response Partitioner UI is a bit faster now Snapper: Show Currently Mounted and Next to be Mounted Snapshot Btrfs has some [&#8230;]]]></description>
+				<content:encoded><![CDATA[<ul>
+<li>Snapper: <code>list</code> indicates special snapshots; what is snapper anyway?</li>
+<li>Bcache: configuring attributes</li>
+<li>AutoYaST: whole disks; partitioned RAIDs; Xen virtual partitions; better merging</li>
+<li>Booting: &quot;warning, everything is fine!&quot;</li>
+<li>CaaSP/Kubic: proposing NTP servers according to DHCP response</li>
+<li>Partitioner UI is a bit faster now</li>
+</ul>
+<h3 id="snapper-show-currently-mounted-and-next-to-be-mounted-snapshot">Snapper: Show Currently Mounted and Next to be Mounted Snapshot</h3>
+<p>Btrfs has some special snapshots: The snapshot currently mounted, and the snapshot that will be mounted next time (unless a snapshot is selected in grub). Now snapper informs the user about these two special snapshot when listing snapshots by a special sign after the number:</p>
+<pre><code># snapper --iso list --disable-used-space
+ # | Type   | Pre # | Date                | User | Cleanup | Description           | Userdata     
+---+--------+-------+---------------------+------+---------+-----------------------+--------------
+0  | single |       |                     | root |         | current               |              
+1+ | single |       | 2018-10-18 10:33:50 | root |         | first root filesystem |              
+2  | single |       | 2018-10-18 10:43:45 | root | number  | after installation    | important=yes
+3- | pre    |       | 2018-10-18 11:03:11 | root |         | ruin system           |              
+4  | post   |     3 | 2018-10-18 11:03:11 | root |         | ruin system           |              </code></pre>
+<p>For more details visit <a href="http://snapper.io/2018/10/18/show-special-snapshots.html" class="uri">http://snapper.io/2018/10/18/show-special-snapshots.html</a>.</p>
+<h3 id="more-descriptive-name-for-snapper-module-in-yast-control-center">More Descriptive Name for Snapper Module in YaST Control Center</h3>
+<p>Previously, the module was called just &quot;Snapper&quot;, but users who don&#8217;t know that Snapper is could not make any sense of that. We changed it to &quot;Filesystem Snapshots&quot;.</p>
+<div class="figure">
+<a href="//lizards.opensuse.org/wp-content/uploads/2018/10/47288313-e6c25780-d5f5-11e8-99ab-071d7a683b0c.png"><img src="//lizards.opensuse.org/wp-content/uploads/2018/10/47288313-e6c25780-d5f5-11e8-99ab-071d7a683b0c-300x132.png" alt="" width="300" height="132" class="aligncenter size-medium wp-image-13449" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/10/47288313-e6c25780-d5f5-11e8-99ab-071d7a683b0c-300x132.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/10/47288313-e6c25780-d5f5-11e8-99ab-071d7a683b0c-768x337.png 768w, https://lizards.opensuse.org/wp-content/uploads/2018/10/47288313-e6c25780-d5f5-11e8-99ab-071d7a683b0c.png 923w" sizes="(max-width: 300px) 100vw, 300px" /></a>
+</div>
+<p>Funny anecdote: One team member asked if Snapper really supports LVM when he read the subtitle &quot;Manage Btrfs / LVM filesystem snapshots&quot;. Yes, it does! (It has been doing that for a long time). You don&#8217;t need Btrfs for snapshots; LVM can also do that, albeit a little differently than Btrfs.</p>
+<h3 id="more-bcache-improvements">More Bcache Improvements</h3>
+<p>As you can see in the <a href="https://lizards.opensuse.org/2018/10/09/yast-sprint-64/">previous blog post</a>, we are currently working on adding support for Bcache into the YaST partitioner. This time we allow to configure the cache mode for a new bcache device. If you are not sure what a particular cache mode means, we provide also a quite extensive help text. Beside this configuration we also limit operations to prevent data loss or operations that can result in unreliable results. Here with a couple of screenshots:</p>
+<div class="figure">
+<a href="//lizards.opensuse.org/wp-content/uploads/2018/10/47169930-11b26000-d305-11e8-95b4-dd76358b2873.png"><img src="//lizards.opensuse.org/wp-content/uploads/2018/10/47169930-11b26000-d305-11e8-95b4-dd76358b2873-300x237.png" alt="" width="300" height="237" class="aligncenter size-medium wp-image-13448" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/10/47169930-11b26000-d305-11e8-95b4-dd76358b2873-300x237.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/10/47169930-11b26000-d305-11e8-95b4-dd76358b2873-768x607.png 768w, https://lizards.opensuse.org/wp-content/uploads/2018/10/47169930-11b26000-d305-11e8-95b4-dd76358b2873.png 804w" sizes="(max-width: 300px) 100vw, 300px" /></a>
+</div>
+<div class="figure">
+<a href="//lizards.opensuse.org/wp-content/uploads/2018/10/47217728-935bc980-d3a9-11e8-8701-a67645e94ec8.png"><img src="//lizards.opensuse.org/wp-content/uploads/2018/10/47217728-935bc980-d3a9-11e8-8701-a67645e94ec8-300x237.png" alt="" width="300" height="237" class="aligncenter size-medium wp-image-13447" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/10/47217728-935bc980-d3a9-11e8-8701-a67645e94ec8-300x237.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/10/47217728-935bc980-d3a9-11e8-8701-a67645e94ec8-768x608.png 768w, https://lizards.opensuse.org/wp-content/uploads/2018/10/47217728-935bc980-d3a9-11e8-8701-a67645e94ec8.png 806w" sizes="(max-width: 300px) 100vw, 300px" /></a>
+</div>
+<h3 id="using-whole-disks-in-autoyast">Using whole disks in AutoYaST</h3>
+<p>On one hand, now it is possible to format and mount a whole disk without creating any partition. In order to do so, you only need to set the <code>&lt;disklabel&gt;</code> element to <code>none</code> and AutoYaST will understand that you do not want to partition the drive but to use the whole disk as a filesystem.</p>
+<div class="sourceCode">
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;drive&gt;</span>
+  <span class="kw">&lt;device&gt;</span>/dev/sdb<span class="kw">&lt;/device&gt;</span>
+  <span class="kw">&lt;disklabel&gt;</span>none<span class="kw">&lt;/disklabel&gt;</span>
+  <span class="kw">&lt;partitions</span><span class="ot"> config:type=</span><span class="st">&quot;list&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;partition&gt;</span>
+      <span class="kw">&lt;mount&gt;</span>/home<span class="kw">&lt;/mount&gt;</span>
+      <span class="kw">&lt;filesystem</span><span class="ot"> config:type=</span><span class="st">&quot;symbol&quot;</span><span class="kw">&gt;</span>xfs<span class="kw">&lt;/filesystem&gt;</span>
+    <span class="kw">&lt;/partition&gt;</span>
+  <span class="kw">&lt;/partitions&gt;</span>
+<span class="kw">&lt;/drive&gt;</span></code></pre>
+</div>
+<p>Given the definition above, AutoYaST will format the whole <code>/dev/sdb</code> disk mounting it at <code>/home</code>. But that is not all: it is even possible to use a whole disk as an LVM physical volume or as a software RAID member. The support for the first case was already present in previous AutoYaST versions, but it was not working correctly in SUSE Linux Enterprise 15 and openSUSE Leap 15.</p>
+<div class="sourceCode">
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;drive&gt;</span>
+  <span class="kw">&lt;device&gt;</span>/dev/sdb<span class="kw">&lt;/device&gt;</span>
+  <span class="kw">&lt;disklabel&gt;</span>none<span class="kw">&lt;/disklabel&gt;</span>
+  <span class="kw">&lt;partitions</span><span class="ot"> config:type=</span><span class="st">&quot;list&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;partition&gt;</span>
+      <span class="kw">&lt;lvm_group&gt;</span>system<span class="kw">&lt;/lvm_group&gt;</span>
+    <span class="kw">&lt;/partition&gt;</span>
+  <span class="kw">&lt;/partitions&gt;</span>
+<span class="kw">&lt;/drive&gt;</span></code></pre>
+</div>
+<h3 id="autoyast-and-partitioned-software-raids">AutoYaST and partitioned software RAIDs</h3>
+<p>AutoYaST is now able to create partitioned software RAIDs, something that was not possible in pre-storage-ng times. However, in order to support such a scenario, we needed to change the way in which software RAIDs are described in AutoYaST profiles, although the old format is still supported. So let&#8217;s have a look at how a RAID looks like now.</p>
+<p>Instead of grouping all RAIDs in a single and special <code>&lt;drive&gt;</code> section, now each RAID is defined in its own section:</p>
+<div class="sourceCode">
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;drive&gt;</span>
+  <span class="kw">&lt;device&gt;</span>/dev/md0<span class="kw">&lt;/device&gt;</span>
+  <span class="kw">&lt;raid_options&gt;</span>
+    <span class="kw">&lt;raid_type&gt;</span>raid0<span class="kw">&lt;/raid_type&gt;</span>
+  <span class="kw">&lt;/raid_options&gt;</span>
+  <span class="kw">&lt;partitions</span><span class="ot"> config:type=</span><span class="st">&quot;list&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;partition&gt;</span>
+      <span class="kw">&lt;mount&gt;</span>/<span class="kw">&lt;/mount&gt;</span>
+      <span class="kw">&lt;filesystem</span><span class="ot"> config:type=</span><span class="st">&quot;symbol&quot;</span><span class="kw">&gt;</span>btrfs<span class="kw">&lt;/filesystem&gt;</span>
+    <span class="kw">&lt;/partition&gt;</span>
+    <span class="kw">&lt;partition&gt;</span>
+      <span class="kw">&lt;mount&gt;</span>/home<span class="kw">&lt;/mount&gt;</span>
+      <span class="kw">&lt;filesystem</span><span class="ot"> config:type=</span><span class="st">&quot;symbol&quot;</span><span class="kw">&gt;</span>xfs<span class="kw">&lt;/filesystem&gt;</span>
+    <span class="kw">&lt;/partition&gt;</span>
+  <span class="kw">&lt;/partitions&gt;</span>
+<span class="kw">&lt;/drive&gt;</span></code></pre>
+</div>
+<p>Of course, if you do not want the RAID to be partitioned, just set the <code>&lt;disklabel&gt;</code> element to <code>none</code>, as for any other device.</p>
+<h3 id="better-xen-virtual-partitions-support">Better Xen Virtual Partitions support</h3>
+<p>Analogous to how software RAIDs were defined in AutoYaST until now, Xen virtual partitions with a similar name were grouped in the same <code>&lt;drive&gt;</code> section. It means the <code>/dev/xvda1</code>, <code>/dev/xvda2</code>, etc. were defined within the <code>&lt;drive&gt;</code> section for <code>xvda</code>, which does not exist at all.</p>
+<p>To make things clearer, we have decided to use a separate drive section for partition:</p>
+<div class="sourceCode">
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;drive&gt;</span>
+  <span class="kw">&lt;type</span><span class="ot"> config:type=</span><span class="st">&quot;symbol&quot;</span><span class="kw">&gt;</span>CT_DISK<span class="kw">&lt;/type&gt;</span>
+  <span class="kw">&lt;device&gt;</span>/dev/xvdd1<span class="kw">&lt;/device&gt;</span>
+  <span class="kw">&lt;disklabel&gt;</span>none<span class="kw">&lt;/disklabel&gt;</span> <span class="co">&lt;!-- not really needed --&gt;</span>
+  <span class="kw">&lt;use&gt;</span>all<span class="kw">&lt;/use&gt;</span>
+  <span class="kw">&lt;partitions</span><span class="ot"> config:type=</span><span class="st">&quot;list&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;partition&gt;</span>
+      <span class="kw">&lt;format</span><span class="ot"> config:type=</span><span class="st">&quot;boolean&quot;</span><span class="kw">&gt;</span>true<span class="kw">&lt;/format&gt;</span>
+      <span class="kw">&lt;mount&gt;</span>/home<span class="kw">&lt;/mount&gt;</span>
+      <span class="kw">&lt;size&gt;</span>max<span class="kw">&lt;/size&gt;</span>
+    <span class="kw">&lt;/partition&gt;</span>
+  <span class="kw">&lt;/partitions&gt;</span>
+<span class="kw">&lt;/drive&gt;</span></code></pre>
+</div>
+<h3 id="autoyast-rules-cleaning-the-profiles-before-being-merged">AutoYaST Rules: Cleaning the profiles before being merged</h3>
+<p>AutoYaST rules offer the possibility to configure a system depending on system attributes by merging multiple control files during installation. Check the <a href="https://www.suse.com/documentation/sles-15/singlehtml/book_autoyast/book_autoyast.html#rulesandclass"><code>Rules and Classes</code></a> section for further documentation.</p>
+<p>The <a href="https://www.suse.com/documentation/sles-15/singlehtml/book_autoyast/book_autoyast.html#merging">merging process</a> is often confusing for people, and the sections in the merged XML files must be in alphabetical order for the merge to succeed.</p>
+<p>AutoYaST was cleaning the profiles after a merge, but if the resultant profile was merged with another profiles that profiles were not cleaned before the merge. That was confusing and error prone, so we have fixed it cleaning also them before the merge.</p>
+<h3 id="better-explanation-of-the-requirements-to-boot-with-gpt">Better explanation of the requirements to boot with GPT</h3>
+<p>As our readers know, one of the main goals of yast-storage-ng was to offer a more reliable and precise diagnosis on what partitions need to be created in order to ensure that a new system being installed will be able to boot. If something doesn&#8217;t fit with such diagnosis, the installer shows a warning message.</p>
+<p>In the case of booting a system installed in a GPT device, using the legacy BIOS system (as opposed to EFI), that means SLE-15 and openSUSE Leap 15.0 will warn the user if there is no partition of type BIOS Boot. But there are two problems with that.</p>
+<ul>
+<li>The warning messages from the Partitioner and, specially, from AutoYaST don&#8217;t do a great job in explaining what is wrong.</li>
+<li>Some users have reported they have GPT systems booting fine in legacy mode without a BIOS Boot partition and, thus, our diagnosis in such cases may be wrong.</li>
+</ul>
+<p>We even had a comment in our source code reinforcing the second point!</p>
+<p>So we tried to fix our wrong diagnosis&#8230; just to end up realizing it was in fact right. After carefully evaluating all the possible setups, checking the different specifications, the Grub2 documentation and even checking the Grub2 source code, we found that layouts without a BIOS Boot partition could get broken (resulting in a non-bootable system) by some file-system level operations. So only the configurations including a BIOS Boot partition can be considered to be 100% safe, both in the short term and against future changes in the system.</p>
+<p>We simply cannot allow our users to fall into traps without, at least, a warning message. So we kept the behavior as it was and we focused on improving the messages. After all, advanced users knowing the risks can ignore such warnings. This is how the new warning look in the Partitioner of the upcoming SLE-15-SP1 (and, thus, in openSUSE Leap 15.1).</p>
+<div class="figure">
+<a href="//lizards.opensuse.org/wp-content/uploads/2018/10/46812213-8705ba00-cd74-11e8-9a97-4d19778a6388.png"><img src="//lizards.opensuse.org/wp-content/uploads/2018/10/46812213-8705ba00-cd74-11e8-9a97-4d19778a6388-300x221.png" alt="" width="300" height="221" class="aligncenter size-medium wp-image-13446" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/10/46812213-8705ba00-cd74-11e8-9a97-4d19778a6388-300x221.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/10/46812213-8705ba00-cd74-11e8-9a97-4d19778a6388-768x565.png 768w, https://lizards.opensuse.org/wp-content/uploads/2018/10/46812213-8705ba00-cd74-11e8-9a97-4d19778a6388.png 1012w" sizes="(max-width: 300px) 100vw, 300px" /></a>
+</div>
+<p>And this is what AutoYaST will report if the profile doesn&#8217;t specify a BIOS Boot partition and it&#8217;s not possible to add one to the layout described by such profile.</p>
+<div class="figure">
+<a href="//lizards.opensuse.org/wp-content/uploads/2018/10/46813659-6b4fe300-cd77-11e8-9d10-03d79d9dfbe0.png"><img src="//lizards.opensuse.org/wp-content/uploads/2018/10/46813659-6b4fe300-cd77-11e8-9d10-03d79d9dfbe0-300x222.png" alt="" width="300" height="222" class="aligncenter size-medium wp-image-13445" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/10/46813659-6b4fe300-cd77-11e8-9d10-03d79d9dfbe0-300x222.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/10/46813659-6b4fe300-cd77-11e8-9d10-03d79d9dfbe0-768x569.png 768w, https://lizards.opensuse.org/wp-content/uploads/2018/10/46813659-6b4fe300-cd77-11e8-9d10-03d79d9dfbe0.png 1013w" sizes="(max-width: 300px) 100vw, 300px" /></a>
+</div>
+<h3 id="caasp-kubic-propose-ntp-servers-according-to-dhcp-response">CaaSP / Kubic: Propose NTP servers according to DHCP response</h3>
+<p>All-in-one dialog of CaaSP installer asks for NTP Servers. Up to now it searched for NTP servers using SLP only. Otherwise only manual configuration was possible.</p>
+<p>Since now CaaSP installer parses DHCP response and fetches NTP servers if any was provided. NTP Servers obtained from DHCP are preferred over those discovered via SLP.</p>
+<h3 id="partitioner-ui-is-a-bit-faster-now">Partitioner UI is a bit faster now</h3>
+<p>We noticed that clicking around the partitioner UI feels slow. So we used the built-in (<code>Y2PROFILER=1</code>) as well as an external (<a href="https://rbspy.github.io/">rbspy</a>) profiler to pinpoint the places that need optimization (mostly caching). Can you see a difference in the following screencast?</p>
+<div class="figure">
+<img src="//lizards.opensuse.org/wp-content/uploads/2018/10/compare3.gif" alt="" width="600" height="380" class="aligncenter size-medium wp-image-13450" />
+</div>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2018/10/23/highlights-of-yast-development-sprint-65/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+	</channel>
+</rss>

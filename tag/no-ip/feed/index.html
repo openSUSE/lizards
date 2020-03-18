@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>no-ip &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/no-ip/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>no-ip and openSUSE Raspberry Pi</title>
+		<link>https://lizards.opensuse.org/2015/05/19/no-ip-and-opensuse-raspberry-pi/</link>
+		<pubDate>Tue, 19 May 2015 13:03:36 +0000</pubDate>
+		<dc:creator><![CDATA[Efstathios Iosifidis]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[no-ip]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[raspberry]]></category>
+		<category><![CDATA[Raspberry Pi]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11411</guid>
+		<description><![CDATA[We&#8217;ve seen how to install openSUSE image on the SD card. Next step is to be sure that we can have access from outside our house (since most of the times, Raspberry Pi is located at home). To do that we use Dynamic DNS services. A free service (so far) is No-IP. Most of the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>We&#8217;ve seen how to <a href="https://lizards.opensuse.org/2015/05/18/create-an-sd-card-for-your-raspberry-pi-b-and-b/" target="_blank">install openSUSE image on the SD card</a>.<br />
+Next step is to be sure that we can have access from outside our house (since most of the times, Raspberry Pi is located at home).</p>
+<p>To do that we use Dynamic DNS services. A free service (so far) is <a href="http://www.noip.com/" target="1">No-IP</a>. Most of the routers support it. You can use your router&#8217;s service. But what if you want 2 different host names on the same IP? Let&#8217;s say you have different ARM boards on the same router or you have a server etc.</p>
+<p>1. First of all, install the needed programs to build the service (<a href="https://lizards.opensuse.org/2015/03/26/compile-znc-irc-bouncer-on-raspberry-pi/" target="1">same as I did with ZNC</a>)</p>
+<blockquote><p>zypper in gcc-c++ gcc git libopenssl-devel make nano</p></blockquote>
+<p>2. Then</p>
+<blockquote><p>mkdir noip</p>
+<p>cd noip</p></blockquote>
+<p>3. Download the program</p>
+<blockquote><p>wget <a href="http://www.no-ip.com/client/linux/noip-duc-linux.tar.gz" target="1">http://www.no-ip.com/client/linux/noip-duc-linux.tar.gz</a></p></blockquote>
+<p>and decompress it</p>
+<blockquote><p>tar vzxf noip-duc-linux.tar.gz</p></blockquote>
+<p>4. Go to the directory</p>
+<blockquote><p>cd noip-2.1.9-1</p></blockquote>
+<p>5. Compile and install</p>
+<blockquote><p>make</p>
+<p>make install</p></blockquote>
+<p>While it install’s the software you will prompted to enter the username &amp; password. Once that is done it will ask you teh refresh interval … leave it.. to have the default value. You are required to answer some more questions … just ans NO an d you should be good to go.</p>
+<p>6. Start the client</p>
+<blockquote><p>/usr/local/bin/noip2</p></blockquote>
+<p>To check if the service is running, use the command:</p>
+<blockquote><p>/usr/local/bin/noip2 -S</p></blockquote>
+<p>and the results should be like</p>
+<p><code>1 noip2 process active.</p>
+<p>Process 1516, started as noip2, (version 2.1.9)<br />
+Using configuration from /usr/local/etc/no-ip2.conf<br />
+Last IP Address set EXTERNAL IP<br />
+Account USERNAME<br />
+configured for:<br />
+host  HOSTNAME<br />
+Updating every 30 minutes via /dev/eth0 with NAT enabled.</code></p>
+<p><b>Auto start the client on reboot</b></p>
+<p>But what if you reboot? You want to start the client everytime you reboot. This can be done with systemd.</p>
+<p>1. Create the service file. </p>
+<blockquote><p>nano /usr/lib/systemd/system/noip.service</p></blockquote>
+<p>2. Add the following content.</p>
+<blockquote><p>[Unit]<br />
+Description=No-IP Dynamic DNS Update Client<br />
+After=network.target</p>
+<p>[Service]<br />
+Type=forking<br />
+ExecStart=/usr/local/bin/noip2</p>
+<p>[Install]<br />
+WantedBy=multi-user.target</p></blockquote>
+<p>3. Start the service</p>
+<blockquote><p>systemctl start noip.service</p></blockquote>
+<p>and enable the service</p>
+<blockquote><p>systemctl enable noip.service</p></blockquote>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

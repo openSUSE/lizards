@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Emacs &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/emacs/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Editing KIWI configurations with Emacs</title>
+		<link>https://lizards.opensuse.org/2012/08/31/editing-kiwi-configurations-with-emacs/</link>
+		<pubDate>Fri, 31 Aug 2012 16:17:00 +0000</pubDate>
+		<dc:creator><![CDATA[Togan Muftuoglu]]></dc:creator>
+				<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Emacs]]></category>
+		<category><![CDATA[KIWI]]></category>
+		<category><![CDATA[XML]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8961</guid>
+		<description><![CDATA[I recently decided to do all my work in emacs and even though the learning speed is a bit slow, I thought I would share what I discoverd regarding editing the KIWI config files. Kiwi has the schema file for the elements and their attributes but unfortunately by default Emacs is unaware of it&#8217;s schema [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I recently decided to do all my work in emacs and even though the learning speed is a bit slow, I thought I would share what I discoverd regarding editing the KIWI config files. Kiwi has the schema file for the elements and their attributes but unfortunately by default Emacs is unaware of it&#8217;s schema location. So first create a schema location file as below and save it.<br />
+<code><br />
+&lt;locatingRules xmlns="http://thaiopensource.com/ns/locating-rules/1.0"&gt;<br />
+&lt;transformURI fromPattern="*.xml" toPattern="*.rnc"/&gt;</code></p>
+<p>&lt;uri pattern=&#8221;*.kiwi&#8221; typeId=&#8221;KIWI&#8221;/&gt;<br />
+&lt;typeId id=&#8221;KIWI&#8221; uri=&#8221;/usr/share/kiwi/modules/KIWISchema.rnc&#8221;/&gt;<br />
+&lt;/locatingRules&gt;</p>
+<p>I saved it as $HOME/.emacs.d/data/myschemas.xml. Now add this to your Emac&#8217;s init file for autoloading the nxml mode for kiwi files in addition to the xml files<br />
+<code><br />
+(setq auto-mode-alist<br />
+(cons '("\\.\\(xml\\|kiwi\\|xsl\\|rng\\|xhtml\\)\\'" . nxml-mode)<br />
+auto-mode-alist))<br />
+</code><br />
+and add this code for nxml mode to locate the kiwi schema file when you edit a kiwi config file<br />
+<code><br />
+(eval-after-load 'rng-loc<br />
+'(add-to-list 'rng-schema-locating-files (concat user-emacs-directory "data/myschemas.xml")))<br />
+</code><br />
+Now have fun with Emacs, Kiwi and your openSUSE</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>osc completion hackweek &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/osc-completion-hackweek/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Hackweek V: osc bash completion</title>
+		<link>https://lizards.opensuse.org/2010/06/15/hackweek-v-osc-bash-completion/</link>
+		<comments>https://lizards.opensuse.org/2010/06/15/hackweek-v-osc-bash-completion/#comments</comments>
+		<pubDate>Tue, 15 Jun 2010 11:05:03 +0000</pubDate>
+		<dc:creator><![CDATA[Petr Uzel]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[osc completion hackweek]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=4406</guid>
+		<description><![CDATA[During last week , I was working on my Hackweek V project: bash completion for osc. It&#8217;s still far from being complete, but IMHO it is usable already, so here we go. Download The project is hosted on gitorious.org. To get the sources, use git: git clone git://gitorious.org/opensuse/osc-bash-completion.git Installation You need working and configured osc. [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>During last week , I was working on my Hackweek V project: <a title="bash completion for osc" href="https://fate.novell.com/309588">bash completion for osc</a>. It&#8217;s still far from being complete, but IMHO it is usable already, so here we go.</p>
+<h2>Download</h2>
+<p>The project is hosted on <a title="gitorious.org" href="http://gitorious.org/opensuse/osc-bash-completion">gitorious.org</a>. To get the sources, use git:</p>
+<p><code>git clone git://gitorious.org/opensuse/osc-bash-completion.git </code></p>
+<h2>Installation</h2>
+<p>You need working and configured osc. I have tested the completion with osc-0.126git, but it should more or less work with older/newer versions too. Naturally, your shell has to be bash (I used bash-4.x). The easiest way how to try the completion is simply to do<br />
+<code>~&gt; source osc.sh</code>This will enable the completion for the given shell only &#8211; see <a title="README" href="http://gitorious.org/opensuse/osc-bash-completion/blobs/master/README">README</a> for more &#8220;persistent&#8221; ways how to enable the osc completion.</p>
+<h2>Features</h2>
+<p>The script provides support for completing:</p>
+<ul>
+<li>osc subcommand names (checkout, commit, &#8230;)</li>
+<li>global long osc options (e.g. &#8211;quiet, &#8211;debug, &#8230;)</li>
+<li>long subcommand options</li>
+<li>project names</li>
+<li>package names (in given project)</li>
+<li>file names (in given project/package)</li>
+<li>repository names (openSUSE_Factory, &#8230;)</li>
+<li>architectures (i586, x86_64, &#8230;)</li>
+<li>&#8230;</li>
+</ul>
+<p>Some examples:<br />
+<code>osc com&lt;tab&gt;&lt;tab&gt; =&gt; osc commit</code><br />
+<code>osc --ht&lt;tab&gt;&lt;tab&gt; =&gt; osc --http-debug</code><br />
+<code>osc build --a&lt;tab&gt;&lt;tab&gt; =&gt; osc build --alternative-project</code><br />
+<code>osc ls Ar&lt;tab&gt;&lt;tab&gt; =&gt; osc ls Archiving</code><br />
+<code>osc ls Base:System pa&lt;tab&gt;&lt;tab&gt; =&gt; osc ls Base:System parted</code><br />
+<code>osc cat Base:System parted ba&lt;tab&gt;&lt;tab&gt; =&gt; osc cat Base:System parted baselibs.conf</code><br />
+<code>osc buildlog openSUSE_&lt;tab&gt;&lt;tab&gt; =&gt; osc buildlog openSUSE_<br />
+openSUSE_Factory  openSUSE_11.0     openSUSE_11.1     openSUSE_11.2</code><br />
+<code>osc buildlog openSUSE_Factory x&lt;tab&gt;&lt;tab&gt; =&gt; osc buildlog openSUSE_Factory x86_64</code><br />
+<code>osc createrequest -a&lt;tab&gt;&lt;tab&gt; =&gt; osc createrequest -a<br />
+add_role delete change_devel set_bugowner submit</code><br />
+<code>osc ? d&lt;tab&gt;&lt;tab&gt; =&gt; osc ?<br />
+delete deleterequest dependson dif</code><br />
+<code>osc meta a&lt;tab&gt;&lt;tab&gt; =&gt; osc meta attribute</code><br />
+<code>osc my &lt;tab&gt;&lt;tab&gt; =&gt; osc my<br />
+pkg prj rq sr</code><br />
+<code>osc request &lt;tab&gt;&lt;tab&gt; =&gt; osc request<br />
+accept approvenew co       decline  checkout<br />
+list       log             revoke show    wipe</code><br />
+<code>osc getpac for&lt;tab&gt;&lt;tab&gt; =&gt; osc gepac fortune</code></p>
+<p>At the moment, the script DOES NOT provide support for completing</p>
+<ul>
+<li>short options</li>
+<li>arguments for most of the options</li>
+<li>some complex combinations of arguments</li>
+</ul>
+<h2>Caching</h2>
+<p>To avoid long delays and spamming OBS server too much, the script caches several information:</p>
+<ul>
+<li>list of projects in OBS</li>
+<li>list of packages in individual projects (only in those that have been accessed by osc)</li>
+<li>output of &#8220;osc repos prj&#8221; (dtto)</li>
+</ul>
+<p>Please <strong>see the <a title="README" href="http://gitorious.org/opensuse/osc-bash-completion/blobs/master/README">README</a></strong> file for more information about how the caching works and how to customize it (to <strong>make the completion significantly faster</strong>).</p>
+<h2>Known issues, TODO</h2>
+<ul>
+<li>The script does not work correctly if there is a long option with argument and there is &#8216;=&#8217; between the option and argument (&#8211;long-option=arg). Please use the &#8216;&#8211;long-option arg&#8217; form instead.</li>
+<li>For the time being, the script does not recognize alternative apiurl (-A|&#8211;apiurl) and thus it works only with default (https://api.opensuse.org) api.</li>
+<li>Sourcing the script removes the colon from COMP_WORDBREAKS variable to make completion of Build Service projects easier. This was known to break e.g. git completion in the past (however, I didn&#8217;t notice any issues). In the future, the script should be fixed so that modifying of COMP_WORDBREAKS is not necessary.</li>
+<li>The script should dynamically create list of osc subcommands and lists of their options by parsing osc help output (or something similar). Now the lists and logic are hardcoded in the script, which will make it maintenance nightmare when osc changes.</li>
+<li>Completing of &#8220;osc {chroot,build}&#8221; is not yet implemented.</li>
+<li>See TODO file</li>
+</ul>
+<h2>Testing and feedback</h2>
+<p>The completion script is very new, tested only by me and mvyskocil for a while, so it definitely has a lot of bugs. Before releasing it as a separate package, I&#8217;d like to collect some feedback first (and fix the already known problems and TODOs), so, if you are interested, please give it a try and report any bugs, suggestions or <strong>patches</strong> directly to me (petr.uzel@suse.cz). Also, feel free to ping me on IRC: ptr_uzl @ freenode.net.</p>
+<p>I hope at least somebody (except me <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> ) will find the completion useful. Thanks and happy completing.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2010/06/15/hackweek-v-osc-bash-completion/feed/</wfw:commentRss>
+		<slash:comments>4</slash:comments>
+		</item>
+	</channel>
+</rss>

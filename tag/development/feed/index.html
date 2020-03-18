@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>development &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/development/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>openSUSE and GCC part 3: RPM devel packages</title>
+		<link>https://lizards.opensuse.org/2013/10/22/opensuse-and-gcc-part-3/</link>
+		<comments>https://lizards.opensuse.org/2013/10/22/opensuse-and-gcc-part-3/#comments</comments>
+		<pubDate>Tue, 22 Oct 2013 06:11:31 +0000</pubDate>
+		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
+				<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[C-Language]]></category>
+		<category><![CDATA[development]]></category>
+		<category><![CDATA[Gcc]]></category>
+		<category><![CDATA[rpm]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10057</guid>
+		<description><![CDATA[In last blog I explained how to compile application with Gnu C Compiler as knows as &#8216;gcc&#8216;. In blog I try to explain what are RPM devel packages and how to use them in C-application with &#8216;gcc&#8216;. RPM Package Manager RPM started as Redhat Package Manager but now it seems to get along with nesting [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><a href="//lizards.opensuse.org/2013/10/15/opensuse-and-gcc-part-2/" title="openSUSE and GCC part 2: compiling 'Hello World'">In last blog</a> I explained how to compile application with Gnu C Compiler as knows as &#8216;<em>gcc</em>&#8216;. In blog I try to explain what are RPM devel packages and how to use them in C-application with &#8216;<em>gcc</em>&#8216;.<span id="more-10057"></span></p>
+<h2>RPM Package Manager</h2>
+<p>RPM started as Redhat Package Manager but now it seems to get along with nesting acronym RPM Package Manager (Like GNU is acronym from GNU&#8217;s Not Unix) so it doesn&#8217;t mean anything special. There is neat how to install RPM in <a href="http://opensuse-guide.org/installpackage.php" title="openSUSE how to install RPM package">openSUSE-guide</a> and complete Wikipedia article <a href="http://en.wikipedia.org/wiki/RPM_Package_Manager" title="http://en.wikipedia.org/wiki/RPM_Package_Manager">about RPM</a>.</p>
+<h3>RPM Packages what are they</h3>
+<p>One can think RPM packages are just like <a href="https://en.wikipedia.org/wiki/ZIP_%28file_format%29" title="Zip (file format)">Zip archives</a> or <a href="https://en.wikipedia.org/wiki/Tar_%28computing%29" title="Tar ball">tar-balls</a> with binaries inside them so if you install rpm package it just knows where to copy application information to get this particular application running. Source RPM packages contains ways to build particular application to binary form so end user can make use of it. So simple is that. If it&#8217;s not you can read more from <a href="http://en.opensuse.org/Package_management" title="Package management">openSUSE wiki</a>.<br />
+RPM packages are named after format &#8216;<em>project_name-version-build-arch</em>&#8216; they can be more difficult when we are dealing with C-libraries example <a href="http://www.gtk.org/" title="GTK+ Project">GUI library GTK3</a> is named after scheme &#8216;<em>liblibname-libversion-apiversion-version-build</em>&#8216;. Most of the libraries tends to follow that naming scheme.</p>
+<h3>It just get fuzzier</h3>
+<p>There is possibility to RPM have subpackages like &#8216;<em>project_name-subname-version-build-arch</em>&#8216;. There is three should know subpackages that are commonly available (most cases not)</p>
+<ul>
+<li>docs &#8211; contains doumentation</li>
+<li>lang &#8211; contains localization</li>
+<li>devel &#8211; hmm.. this one is little bit trickier</li>
+</ul>
+<h2>RPM devel packages</h2>
+<p>Devel package contains files needed develop your/new application with library. If we use</p>
+<pre>
+rpm -ql libSDL_image-devel
+</pre>
+<p>we see as output what pacakge &#8216;libSDL_image-devel&#8217; really contains</p>
+<pre>
+/usr/include/SDL
+/usr/include/SDL/SDL_image.h
+/usr/lib64/libSDL_image.so
+/usr/lib64/pkgconfig/SDL_image.pc</pre>
+<p>what are all these files? There is one C-header file at least &#8216;<em>/usr/include/SDL/SDL_image.h</em>&#8216;. Then there seems to be &#8216;<em>/usr/lib64/libSDL_image.so</em>&#8216; symlink to C-library and &#8216;<em>/usr/lib64/pkgconfig/SDL_image.pc</em>&#8216; which I&#8217;ll get back in future blogs (since it make ones life easier). but what is &#8216;/usr/lib64/libSDL_image.so&#8217; file? Like said it&#8217;s <a href="https://en.wikipedia.org/wiki/Symbolic_link" title="Symbolic link">symbolic link</a> to C-library. you can check where it locates with (I assume you are using AMD64/x86_64 openSUSE if you are using something else like i586 use &#8216;<em>/usr/lib</em>&#8216; instead of &#8216;<em>/usr/lib64</em>&#8216;</p>
+<pre>
+readlink /usr/lib64/libSDL_image.so</pre>
+<p>in my case it prints &#8216;<em>libSDL_image-1.2.so.0.8.4</em>&#8216;.</p>
+<h3>Shared objects</h3>
+<p>Microsoft Windows operating system have <a href="http://en.wikipedia.org/wiki/Dynamic-link_library" title="Dynamic-link library"><strong>DLL</strong></a> and Apple Mac OS X have <a href="http://www.osxbook.com/book/bonus/ancient/whatismacosx/programming.html" title="dyld"><strong>dylib</strong></a>. In linux world they are <a href="http://en.wikipedia.org/wiki/Dynamic_linker" title="Dynamic linker">Shared Objects</a> (<strong>.so</strong> files). Shared Objects contains all the library functions in binary format. So you can link your applications with it (If you have headers).<br />
+GCC Linker (ld) seeks only for &#8216;<strong>.so</strong>&#8216; ending file but in these days most of the Shared Objects follow <a href="http://unix.stackexchange.com/questions/475/how-do-so-shared-object-numbers-work" title="How do SO (shared object) numbers work?">scheme with number file-ending</a> which is &#8216;so.API.MINOR.PATCH&#8217;. Every API numbering (greater that 0) should be compatible with each other. If new functions are in place older stays <a href="http://en.wikipedia.org/wiki/API" title="Application programming interface">API</a>/<a href="http://en.wikipedia.org/wiki/Application_binary_interface" title="Application binary interface">ABI</a> compatible. It should be like that so &#8216;<em>so.1.0.0</em>&#8216; is normally first stable. version &#8216;<em>so.1.0.1</em>&#8216; there is bug fixed and &#8216;<em>so.1.1.0</em>&#8216; there is new functions declared. It can be like that or project has adapted it&#8217;s own system.</p>
+<h2>How to use these files</h2>
+<p>I wondered what would be easy enough example with this? I Thought <a href="https://en.wikipedia.org/wiki/Ncurses" title="NCurses">NCurses</a> would do just fine. So copy text from <a href="http://www.paulgriffiths.net/program/c/srcs/curhell2src.html" title="NCurses Hello World in color">Paul Griffiths Ncurses Hello World example</a> or below to file &#8216;<em>ncurseshelloworld.c</em>&#8216;:</p>
+<pre>
+/*
+
+  CURHELL2.C
+  ==========
+  (c) Copyright Paul Griffiths 1999
+  Email: mail@paulgriffiths.net
+
+  "Hello, world!", ncurses style (now in colour!)
+
+*/
+
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;                  /*  for sleep()  */
+#include &lt;curses.h&gt;
+
+int main(void) {
+
+    WINDOW * mainwin;
+
+    /*  Initialize ncurses  */
+
+    if ( (mainwin = initscr()) == NULL ) {
+	fprintf(stderr, "Error initialising ncurses.\n");
+	exit(EXIT_FAILURE);
+    }
+
+    start_color();                    /*  Initialize colours  */
+
+    /*  Print message  */
+
+    mvaddstr(6, 32, " Hello, world! ");
+
+    /*  Make sure we are able to do what we want. If
+	has_colors() returns FALSE, we cannot use colours.
+	COLOR_PAIRS is the maximum number of colour pairs
+	we can use. We use 13 in this program, so we check
+	to make sure we have enough available.               */
+
+    if ( has_colors() &amp;&amp; COLOR_PAIRS &gt;= 13 ) {
+
+	int n = 1;
+
+	/*  Initialize a bunch of colour pairs, where:
+
+	        init_pair(pair number, foreground, background);
+
+	    specifies the pair.                                  */
+
+	init_pair(1,  COLOR_RED,     COLOR_BLACK);
+	init_pair(2,  COLOR_GREEN,   COLOR_BLACK);
+	init_pair(3,  COLOR_YELLOW,  COLOR_BLACK);
+	init_pair(4,  COLOR_BLUE,    COLOR_BLACK);
+	init_pair(5,  COLOR_MAGENTA, COLOR_BLACK);
+	init_pair(6,  COLOR_CYAN,    COLOR_BLACK);
+	init_pair(7,  COLOR_BLUE,    COLOR_WHITE);
+	init_pair(8,  COLOR_WHITE,   COLOR_RED);
+	init_pair(9,  COLOR_BLACK,   COLOR_GREEN);
+	init_pair(10, COLOR_BLUE,    COLOR_YELLOW);
+	init_pair(11, COLOR_WHITE,   COLOR_BLUE);
+	init_pair(12, COLOR_WHITE,   COLOR_MAGENTA);
+	init_pair(13, COLOR_BLACK,   COLOR_CYAN);
+
+	/*  Use them to print of bunch of "Hello, world!"s  */
+
+	while ( n &lt;= 13 ) {
+	    color_set(n, NULL);
+	    mvaddstr(6 + n, 32, &quot; Hello, world! &quot;);
+	    n++;
+	}
+    }
+
+    /*  Refresh the screen and sleep for a
+	while to get the full screen effect  */
+
+    refresh();
+    sleep(3);
+
+    /*  Clean up after ourselves  */
+
+    delwin(mainwin);
+    endwin();
+    refresh();
+
+    return EXIT_SUCCESS;
+}</pre>
+<p>if you just try to compile it with</p>
+<pre>
+gcc -o ncurseshelloworld ncurseshelloworld.c
+/tmp/cc7CD9vN.o: In function `main':
+ncurseshelloworld.c:(.text+0x9): undefined reference to `initscr'
+ncurseshelloworld.c:(.text+0x41): undefined reference to `start_color'
+ncurseshelloworld.c:(.text+0x48): undefined reference to `stdscr'
+ncurseshelloworld.c:(.text+0x5a): undefined reference to `wmove'
+ncurseshelloworld.c:(.text+0x66): undefined reference to `stdscr'
+ncurseshelloworld.c:(.text+0x78): undefined reference to `waddnstr'
+ncurseshelloworld.c:(.text+0x7d): undefined reference to `has_colors'
+ncurseshelloworld.c:(.text+0x8b): undefined reference to `COLOR_PAIRS'
+ncurseshelloworld.c:(.text+0xaf): undefined reference to `init_pair'
+ncurseshelloworld.c:(.text+0xc3): undefined reference to `init_pair'
+ncurseshelloworld.c:(.text+0xd7): undefined reference to `init_pair'
+ncurseshelloworld.c:(.text+0xeb): undefined reference to `init_pair'
+ncurseshelloworld.c:(.text+0xff): undefined reference to `init_pair'
+/tmp/cc7CD9vN.o:ncurseshelloworld.c:(.text+0x113): more undefined references to `init_pair' follow
+/tmp/cc7CD9vN.o: In function `main':
+ncurseshelloworld.c:(.text+0x1ae): undefined reference to `stdscr'
+ncurseshelloworld.c:(.text+0x1bd): undefined reference to `wcolor_set'
+ncurseshelloworld.c:(.text+0x1ca): undefined reference to `stdscr'
+ncurseshelloworld.c:(.text+0x1d9): undefined reference to `wmove'
+ncurseshelloworld.c:(.text+0x1e5): undefined reference to `stdscr'
+ncurseshelloworld.c:(.text+0x1f7): undefined reference to `waddnstr'
+ncurseshelloworld.c:(.text+0x208): undefined reference to `stdscr'
+ncurseshelloworld.c:(.text+0x210): undefined reference to `wrefresh'
+ncurseshelloworld.c:(.text+0x226): undefined reference to `delwin'
+ncurseshelloworld.c:(.text+0x22b): undefined reference to `endwin'
+ncurseshelloworld.c:(.text+0x232): undefined reference to `stdscr'
+ncurseshelloworld.c:(.text+0x23a): undefined reference to `wrefresh'
+collect2: error: ld returned 1 exit status</pre>
+<p>so what to do? Probably you already have ncurses Development package installed like me but if not first install ncurses devel rpm to you system</p>
+<pre>
+zypper install ncurses-devel</pre>
+<p>then we little bit make our gcc line different:</p>
+<pre>
+gcc -o ncurseshelloworld ncurseshelloworld.c -lncurses
+./ncurseshelloworld</pre>
+<p>which &#8216;-l&#8217; tells you how to use ncurses library when seeking dependencies, After that you see many colors. So that was that and next time we go little bit into SDL_image 1.2 world and learn how to use pkg-config so we know what libraries are needed.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/10/22/opensuse-and-gcc-part-3/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+	</channel>
+</rss>

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openstack &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/openstack/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>How we run our OpenStack cloud</title>
+		<link>https://lizards.opensuse.org/2017/01/23/how-we-run-our-openstack-cloud/</link>
+		<pubDate>Mon, 23 Jan 2017 13:12:10 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[cloud]]></category>
+		<category><![CDATA[openstack]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12244</guid>
+		<description><![CDATA[This post it to document how we setup cloud.suse.de which is one of our many internal SUSE OpenStack Cloud deployments for use by R&#38;D. In 2016-06 we started the deployment with SOC6 on 4 nodes. 1 controller and 3 compute nodes that also served for ceph (distributed storage) with their 2nd HDD. Since the nodes [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>This post it to document how we setup cloud.suse.de which is one of our many internal SUSE OpenStack Cloud deployments for use by R&amp;D.</p>
+<p>In 2016-06 we started the deployment with SOC6 on 4 nodes. 1 controller and 3 compute nodes that also served for ceph (distributed storage) with their 2nd HDD. Since the nodes are from 2012 they only have 1gbit network and spinning disks. Thus ceph only delivers ~50 MB/s which is sufficient for many use cases.</p>
+<p>We did not deploy that cloud with HA, even though our product supports it. The two main reasons for that are</p>
+<ul>
+<li>that it will use up two or three nodes instead of one for controller services, which is significant if you start out with only 4 (and grow to 6)</li>
+<li>that it increases the complexity of setup, operations and debugging and thus might lead to decreased availability of the cloud service</li>
+</ul>
+<p>Then we have a limited supply of vlans even though technically they are just numbers between 1 and 4095, in SUSE we do allocations to be able to switch together networks from further away. So we could not use vlan mode in neutron if we want to allow software defined network (=SDN) (we did not in old.cloud.suse.de and I did not hear complaints, but now I see a lot of people using SDN)<br />
+So we went with ovs+vxlan +dvr (open vSwitch + Virtual eXtensible LAN + Distributed Virtual Router) because that allows VMs to remain reachable even when the controller node reboots.<br />
+But then I found that they cannot use DNS during that time, because distributed virtual DNS was not yet implemented. And ovs has some <a href="https://bugzilla.suse.com/show_bug.cgi?id=998363">annoying bugs</a> are hard to debug and fix. So I built ugly workarounds that mostly hide^Wsolve the problems from our users&#8217; point of view.<br />
+For the next cloud deployment, I will try to use linuxbridge+vlan or linuxbridge+vxlan mode.<br />
+And the uptime is pretty good. But it could be better with proper monitoring.</p>
+<p>Because we needed to redeploy multiple times before we got all the details right and to document the setup, we scripted most of the deployment with qa_crowbarsetup (which is part of our CI) and extra files in <a href="https://github.com/SUSE-Cloud/automation/tree/production/scripts/productioncloud">https://github.com/SUSE-Cloud/automation/tree/production/scripts/productioncloud</a>. The only part not in there are the passwords.</p>
+<p>We use proper SSL certs from our internal SUSE CA.<br />
+For that we needed to install that root CA on all involved nodes.</p>
+<p>We use kvm, because it is the most advanced and stable of the supported hypervisors. Xen might be a possible 2nd choice. We use two custom kvm patches to fix nested virt on our G3 Opteron CPUs.</p>
+<p>Overall we use 3 vlans. One each for admin, public/floating, sdn/storage networks.<br />
+We increased the default /24 IP ranges because we needed more IPs in the fixed and public/floating networks</p>
+<p>For authentication, we use our internal R&amp;D LDAP server, but since it does not have information about user&#8217;s groups, I wrote a perl script to pull that information from the Novell/innerweb LDAP server and export it as json for use by the <a href="https://github.com/SUSE-Cloud/keystone-hybrid-backend/blob/liberty/hybrid_json_assignment.py">hybrid_json</a> assignment backend I wrote.</p>
+<p>In addition I wrote a <a href="https://github.com/SUSE-Cloud/automation/blob/master/scripts/cloud-stats.sh">cloud-stats.sh</a> to email weekly reports about utilization of the cloud and another script to tell users about which instances they still have, but might have forgotten.</p>
+<p>On the cloud user side, we and other people use one or more of</p>
+<ul>
+<li>Salt-cloud</li>
+<li>Nova boot</li>
+<li>salt-ssh</li>
+<li>terraform</li>
+<li>heat</li>
+</ul>
+<p>to script instance setup and administration.</p>
+<p>Overall we are now hosting 70 instance VMs on 5 compute nodes that together have cost us below 20000€</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>OpenStack Infra/QA Meetup</title>
+		<link>https://lizards.opensuse.org/2014/07/23/openstack-infraqa-meetup/</link>
+		<pubDate>Wed, 23 Jul 2014 13:54:38 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Infrastructure]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[cloud]]></category>
+		<category><![CDATA[meeting]]></category>
+		<category><![CDATA[openstack]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10928</guid>
+		<description><![CDATA[Last week, around 30 people from around the world met in Darmstadt, Germany to discuss various things about OpenStack and its automatic testing mechanisms (CI). The meeting was well-organized by Marc Koderer from Deutsche Telekom. We were shown plans of what the Telekom intends to do with virtualization in general and OpenStack in particular and [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Last week, around 30 people from around the world met in Darmstadt, Germany to discuss various things about OpenStack and its automatic testing mechanisms (CI).<br />
+The meeting was well-organized by Marc Koderer from Deutsche Telekom.<br />
+We were shown plans of what the Telekom intends to do with virtualization in general and OpenStack in particular and the most interesting one to me was to run clouds in dozens of datacenters across Germany, but have a single API for users to access.<br />
+There were some introductory sessions about the use of git review and gerrit, that mostly had things I (and I guess the majority of the others) already learned over the years. It included some new parts such as tracking &#8220;specs&#8221; &#8211; specifications (.rst files) in gerrit with proper review by the core reviewers, so that proper processes could already be applied in the design phase to ensure the project is moving in the right direction.</p>
+<p>On the second day we learned that the infra team manages servers with puppet, about jenkins-job-builder (jjb) that creates around 4000 jobs from yaml templates. We learned about nodepool that keeps some VMs ready so that jobs in need will not have to wait for them to boot. 180-800 instances is quite an impressive number.<br />
+And then we spent three days on discussing and hacking things, the topics and outcomes of which you can find in the etherpad linked from <a href="https://wiki.openstack.org/wiki/Qa_Infra_Meetup_2014">the wiki page</a>.<br />
+I got my first infra patch merged, and a SUSE Cloud CI account setup, so that in the future we can test devstack+tempest on openSUSE and have it comment in Gerrit. And maybe some day we can even have a test to deploy crowbar+openstack from git (including the patch from an open review) to provide useful feedback, but for that we might first want to move crowbar (which is consisting of dozens of repos &#8211; one for each module) to <a href="http://ci.openstack.org/stackforge.html">stackforge</a> &#8211; which is the openstack-provided Gerrit hosting.</p>
+<p>see also: <a href="http://princessleia.com/journal/?p=9574">pleia2&#8217;s post</a></p>
+<p>Overall for me it was a nice experience to work together with all these smart people and we certainly had a lot of fun</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>another way to access a cloud VM&#8217;s VNC console</title>
+		<link>https://lizards.opensuse.org/2014/02/08/another-way-to-access-a-cloud-vms-vnc-console/</link>
+		<pubDate>Sat, 08 Feb 2014 08:14:58 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[cloud]]></category>
+		<category><![CDATA[openqa]]></category>
+		<category><![CDATA[openstack]]></category>
+		<category><![CDATA[websocket]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10538</guid>
+		<description><![CDATA[If you have used a cloud, that was based on OpenStack, you will have seen the dashboard including a web-based VNC access using noVNC + WebSockets. However, it was not possible to access this VNC directly (e.g. with my favourite gvncviewer from the gtk-vnc-tools package), because the actual compute nodes are hidden and accessing them [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>If you have used a cloud, that was based on OpenStack, you will have seen the dashboard including a web-based VNC access using noVNC + WebSockets.<br />
+However, it was not possible to access this VNC directly (e.g. with my favourite gvncviewer from the gtk-vnc-tools package), because the actual compute nodes are hidden and accessing them would circumvent authentication, too.</p>
+<p>I want this for the option to add an OpenStack-backend to openQA, my OS-autotesting framework, which emulates a user by using a few primitives: grabbing screenshots and typing keys (can be done through VNC), powering up a machine(=nova boot), inserting/ejecting an installation medium (=nova volume-attach / volume-detach).</p>
+<p>To allow for this, I wrote a small perl script, that translates a TCP-connection into a WebSocket-connection.<br />
+It is installed like this<br />
+<code>git clone https://github.com/bmwiedemann/connectionproxy.git<br />
+sudo /sbin/OneClickInstallUI http://multiymp.zq1.de/perl-Protocol-WebSocket?base=http://download.opensuse.org/repositories/devel:languages:perl</code></p>
+<p>and is used like this<br />
+<code>nova get-vnc-console $YOURINSTANCE novnc<br />
+perl wsconnectionproxy.pl --port 5942 --to http://cloud.example.com:6080/vnc_auto.html?token=73a3e035-cc28-49b4-9013-a9692671788e<br />
+gvncviewer localhost:42</code></p>
+<p>I hope this neat code will be useful for other people and tasks as well and wish you a lot of fun with it.</p>
+<p>Some technical details:</p>
+<ul>
+<li>The code is able to handle multiple connections in a single thread using select.</li>
+<li>HTTPS is not supported in the code, but likely could be done with stunnel.</li>
+<li>WebSocket-code was written in 3h.</li>
+<li>noVNC tokens expire after a few minutes.</li>
+</ul>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Hongkong OpenStack Design Summit</title>
+		<link>https://lizards.opensuse.org/2013/11/13/hongkong-openstack-design-summit/</link>
+		<pubDate>Wed, 13 Nov 2013 13:50:23 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Events]]></category>
+		<category><![CDATA[Virtualization]]></category>
+		<category><![CDATA[cloud]]></category>
+		<category><![CDATA[hongkong]]></category>
+		<category><![CDATA[openstack]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10133</guid>
+		<description><![CDATA[So last week many OpenStack (cloud software) developers met in Hongkong&#8217;s world expo halls to discuss the future development and show off what is done already. Overall, I heard there were 3000 attendees, with 800 being developers or so. That sounds like a large number of people, but luckily everything felt well-organized and the rooms [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>So last week many OpenStack (cloud software) developers met in Hongkong&#8217;s world expo halls to discuss the future development and show off what is done already.</p>
+<p>Overall, I heard there were 3000 attendees, with 800 being developers or so. That sounds like a large number of people, but luckily everything felt well-organized and the rooms were always big enough to have seats for all interested.</p>
+<p>The design sessions were usually pretty low-level and focused into one component, so it was not easy for me to make useful contributions in there. The session about <a href="http://icehousedesignsummit.sched.org/event/b683cd5cfcb3d812d8d1c899a87733b0">read-only API access</a> (e.g. for helpdesk workers and monitoring) and about HA were most useful to me.</p>
+<p>In the breakout rooms were interesting sessions by many large OpenStack users (<a href="http://www.youtube.com/watch?v=ClGsZsMFUkQ">CERN</a>, <a href="https://www.youtube.com/watch?v=Enmil7boIyI">Ebay</a>, <a href="http://www.youtube.com/watch?v=5HBaPEz68x0">Paypal</a>, <a href="http://www.youtube.com/watch?v=9QULq3-Ff4c">Dreamhost</a>, <a href="http://www.youtube.com/watch?v=GFGpWjSwr_0">Rackspace</a>) giving valuable insights into what people expect from and do with a cloud. Many of them are using custom-built parts, because the plain OpenStack <a href="https://plus.google.com/108928462394474625418/posts/NsqXDVErLtj">is still not complete</a> to run a cloud. SUSE Cloud ships with some such missing parts (e.g. deployment and configuration management), but most organisations seem to run their own at the moment.</p>
+<p>Cloudbase was there telling about their Hyper-V support that we integrated in SUSE Cloud.<br />
+Apart from the 6 SUSE Cloud developers there were several local (and one Australian) SUSE guys manning the booth.</p>
+<p>Overall it was quite some experience to be there (in such an exotic and yet nice place) and listen and talk to so many different people from very different backgrounds.</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>CLI to upload image to openstack cloud</title>
+		<link>https://lizards.opensuse.org/2012/04/18/cli-to-upload-image-to-openstack-cloud/</link>
+		<pubDate>Wed, 18 Apr 2012 11:18:39 +0000</pubDate>
+		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
+				<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[Uncategorized]]></category>
+		<category><![CDATA[Virtualization]]></category>
+		<category><![CDATA[Diablo]]></category>
+		<category><![CDATA[glance]]></category>
+		<category><![CDATA[openstack]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8635</guid>
+		<description><![CDATA[I work on automatic testing of one of our products that creates other projects. And because there is a lot of clouds everywhere I want to use them too. We have internally an OpenStack cloud (still Diablo release). So I need to solve automatic uploading of images built in the Build Service. Below I describe [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I work on automatic testing of one of our products that creates other projects.<br />
+And because there is a lot of clouds everywhere I want to use them too. We<br />
+have internally an OpenStack cloud (still Diablo release). So I need to solve<br />
+  automatic uploading of images built in the Build Service. Below I describe my working version.</p>
+<p><span id="more-8635"></span></p>
+<p>At first, for other cloud related tasks we are using the <tt>nova</tt> command (which<br />
+e.g. has also <tt>image-delete</tt>, but not <tt>add</tt>).  For uploading we use<br />
+<tt>glance</tt>. I found a few obstacles which I separately describe and also provide<br />
+a solution.</p>
+<h4>Authentication</h4>
+<p>The first chalenge is authentication, as glance doesn`t use <TT>NOVA_*</TT><br />
+environment variables. But it allows to use an authentication token. So we<br />
+just need to get such a token. With help of Martin Vidner we have this script,<br />
+  that returns a valid token.</p>
+<blockquote>
+<pre># cloud_auth_token.sh
+OS_AUTH_URL="http://cloud.example.com:5000/v2.0"
+OS_TENANT_NAME=$NOVA_USERNAME
+OS_USERNAME=$NOVA_USERNAME
+OS_PASSWORD=$NOVA_API_KEY
+AUTH_JSON="{\"auth\":{\"passwordCredentials\":{\"username\": \"$OS_USERNAME\", \"password\":\"$OS_PASSWORD\"}, \"tenantName\":\"$OS_TENANT_NAME\"}}"
+curl -s \
+    -d "$AUTH_JSON" -H "Content-type: application/json" \
+    $OS_AUTH_URL/tokens \
+    | python -c "import sys; import json; tok = json.loads(sys.stdin.read()); print tok['access']['token']['id'];"</pre>
+</blockquote>
+<p>What does it do? It calls OpenStack Identity API, passes credentials encoded<br />
+as JSON. The response is also JSON, so we use python that is already on the<br />
+system to parse the response and get the token.</p>
+<h4>Compressing the Image</h4>
+<p>The next challenge is compression of the image. We get a raw disk from the<br />
+  build service and we extend it to have more than 15GB (we mirror there rpms<br />
+  so we need this space). For resizing we use <tt>qemu-img</tt> from<br />
+  virt-utils. If we simply upload this image it means that we send the whole<br />
+  15GB over the network. Which is fine for one-time tasks, but for regular<br />
+  testing it is a problem. Thanks to Christoph Thiel we solved it with the<br />
+  conversion to qcow2. Qcow2 is also supported in OpenStack and qcow2 allows<br />
+  compression. The final script for conversion:</p>
+<blockquote>
+<pre>qemu-img convert -c -f raw -O qcow2 img.raw img.qcow2
+qemu-img resize img.qcow2 +10G</pre>
+</blockquote>
+<h4>Using it Together</h4>
+<p>Now we have prepared an image and a helper script to get a cloud auth<br />
+  token. So let&#8217;s upload the image.</p>
+<blockquote>
+<pre>cat img.qcow2 | glance -H cloud.example.com -A `sh cloud_auth_token.sh` add name='testing_img' is_public=False disk_format=qcow2 container_format=bare</pre>
+</blockquote>
+<h4>Cleaning Up After Testing</h4>
+<p>We use it for testing and release new versions of the testing appliance often,<br />
+  therefore we need cleaning up. It is quite simple with unix text utils:</p>
+<blockquote>
+<pre>for i in `nova image-list | grep "image_name" | sed "s/^|[[:space:]]\+\([[:xdigit:]-]\+\).*$/\1/"`; do nova image-delete $i; done</pre>
+</blockquote>
+<p>I hope that it helps you with automatic uploading of images to<br />
+  OpenStack. It works for me with the Diablo release and there is no guarantee that it is the best way <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

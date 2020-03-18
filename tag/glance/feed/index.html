@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>glance &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/glance/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>CLI to upload image to openstack cloud</title>
+		<link>https://lizards.opensuse.org/2012/04/18/cli-to-upload-image-to-openstack-cloud/</link>
+		<pubDate>Wed, 18 Apr 2012 11:18:39 +0000</pubDate>
+		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
+				<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[Uncategorized]]></category>
+		<category><![CDATA[Virtualization]]></category>
+		<category><![CDATA[Diablo]]></category>
+		<category><![CDATA[glance]]></category>
+		<category><![CDATA[openstack]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8635</guid>
+		<description><![CDATA[I work on automatic testing of one of our products that creates other projects. And because there is a lot of clouds everywhere I want to use them too. We have internally an OpenStack cloud (still Diablo release). So I need to solve automatic uploading of images built in the Build Service. Below I describe [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I work on automatic testing of one of our products that creates other projects.<br />
+And because there is a lot of clouds everywhere I want to use them too. We<br />
+have internally an OpenStack cloud (still Diablo release). So I need to solve<br />
+  automatic uploading of images built in the Build Service. Below I describe my working version.</p>
+<p><span id="more-8635"></span></p>
+<p>At first, for other cloud related tasks we are using the <tt>nova</tt> command (which<br />
+e.g. has also <tt>image-delete</tt>, but not <tt>add</tt>).  For uploading we use<br />
+<tt>glance</tt>. I found a few obstacles which I separately describe and also provide<br />
+a solution.</p>
+<h4>Authentication</h4>
+<p>The first chalenge is authentication, as glance doesn`t use <TT>NOVA_*</TT><br />
+environment variables. But it allows to use an authentication token. So we<br />
+just need to get such a token. With help of Martin Vidner we have this script,<br />
+  that returns a valid token.</p>
+<blockquote>
+<pre># cloud_auth_token.sh
+OS_AUTH_URL="http://cloud.example.com:5000/v2.0"
+OS_TENANT_NAME=$NOVA_USERNAME
+OS_USERNAME=$NOVA_USERNAME
+OS_PASSWORD=$NOVA_API_KEY
+AUTH_JSON="{\"auth\":{\"passwordCredentials\":{\"username\": \"$OS_USERNAME\", \"password\":\"$OS_PASSWORD\"}, \"tenantName\":\"$OS_TENANT_NAME\"}}"
+curl -s \
+    -d "$AUTH_JSON" -H "Content-type: application/json" \
+    $OS_AUTH_URL/tokens \
+    | python -c "import sys; import json; tok = json.loads(sys.stdin.read()); print tok['access']['token']['id'];"</pre>
+</blockquote>
+<p>What does it do? It calls OpenStack Identity API, passes credentials encoded<br />
+as JSON. The response is also JSON, so we use python that is already on the<br />
+system to parse the response and get the token.</p>
+<h4>Compressing the Image</h4>
+<p>The next challenge is compression of the image. We get a raw disk from the<br />
+  build service and we extend it to have more than 15GB (we mirror there rpms<br />
+  so we need this space). For resizing we use <tt>qemu-img</tt> from<br />
+  virt-utils. If we simply upload this image it means that we send the whole<br />
+  15GB over the network. Which is fine for one-time tasks, but for regular<br />
+  testing it is a problem. Thanks to Christoph Thiel we solved it with the<br />
+  conversion to qcow2. Qcow2 is also supported in OpenStack and qcow2 allows<br />
+  compression. The final script for conversion:</p>
+<blockquote>
+<pre>qemu-img convert -c -f raw -O qcow2 img.raw img.qcow2
+qemu-img resize img.qcow2 +10G</pre>
+</blockquote>
+<h4>Using it Together</h4>
+<p>Now we have prepared an image and a helper script to get a cloud auth<br />
+  token. So let&#8217;s upload the image.</p>
+<blockquote>
+<pre>cat img.qcow2 | glance -H cloud.example.com -A `sh cloud_auth_token.sh` add name='testing_img' is_public=False disk_format=qcow2 container_format=bare</pre>
+</blockquote>
+<h4>Cleaning Up After Testing</h4>
+<p>We use it for testing and release new versions of the testing appliance often,<br />
+  therefore we need cleaning up. It is quite simple with unix text utils:</p>
+<blockquote>
+<pre>for i in `nova image-list | grep "image_name" | sed "s/^|[[:space:]]\+\([[:xdigit:]-]\+\).*$/\1/"`; do nova image-delete $i; done</pre>
+</blockquote>
+<p>I hope that it helps you with automatic uploading of images to<br />
+  OpenStack. It works for me with the Diablo release and there is no guarantee that it is the best way <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

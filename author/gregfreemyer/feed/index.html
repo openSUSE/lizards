@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Greg Freemyer &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/author/gregfreemyer/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Using openSUSE as a reverse tunnel site for Windows 7 or 8.1 remote desktop</title>
+		<link>https://lizards.opensuse.org/2015/04/20/using-opensuse-as-a-reverse-tunnel-site-for-windows-7-remote-desktop/</link>
+		<pubDate>Mon, 20 Apr 2015 02:43:56 +0000</pubDate>
+		<dc:creator><![CDATA[Greg Freemyer]]></dc:creator>
+				<category><![CDATA[Infrastructure]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11334</guid>
+		<description><![CDATA[If you can&#8217;t open a hole in your office / home firewall then a reverse tunnel can let you workaround the issue.  This blog post uses cygwin, ssh and autossh to create and maintain a reverse tunnel through your firewall. You should be aware that if you follow the below steps you will punch a hole [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>If you can&#8217;t open a hole in your office / home firewall then a reverse tunnel can let you workaround the issue.  This blog post uses cygwin, ssh and autossh to create and maintain a reverse tunnel through your firewall.</p>
+<p style="padding-left: 30px"><span style="text-decoration: underline">You should be aware that if you follow the below steps you will punch a hole through your firewall, so be sure and consider the security issues associated with that hole.  Many organizations require security beyond a simple login and password when connectivity is allowed from outside the firewall.  In some organizations following the below instructions without authorization from your IT security team could be a firing offense.</span></p>
+<p>In theory this functionality is relatively basic, but there are lots of resources on the web that only serve to complicate the matter.  The below instructions were followed in 2015 with current SSH to create an actual working reverse tunnel.</p>
+<p><strong>The assumed situation is you have:</strong></p>
+<p>&#8211; Windows 7 or 8.1 PC behind a firewall you want to remote desktop to (the target PC)<br />
+&#8211; A openSUSE server in the cloud that you are able to ssh into and open appropriate ports and firewall holes<br />
+&#8211; A client PC from which you want to originate Remote Desktop sessions</p>
+<p>The instructions here borrow heavily from the below blog post, but I was unable to get the tunnels to work by following the steps described at that site:</p>
+<blockquote data-secret="T7h3VyxJS9" class="wp-embedded-content"><p><a href="http://blog.yucas.mx/2012/11/22/creating-persistent-ssh-tunnels-in-windows-using-autossh/">Creating persistent SSH tunnels in Windows using autossh</a></p></blockquote>
+<p><iframe class="wp-embedded-content" sandbox="allow-scripts" security="restricted" style="display:none;" src="http://blog.yucas.mx/2012/11/22/creating-persistent-ssh-tunnels-in-windows-using-autossh/embed/#?secret=T7h3VyxJS9" data-secret="T7h3VyxJS9" width="500" height="282" title="Entrada de WordPress incrustada" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe></p>
+<p>What has worked for me so far is:</p>
+<ol>
+<li>On the openSUSE server
+<ol>
+<li>Ensure you have a user account &#8220;autossh&#8221; (or whatever you want to call it).  This will be used exclusively for reverse tunnels.</li>
+<li>Ensure you have a normal user account you can use with scp with to copy files from the target PC to the openSUSE server.</li>
+</ol>
+</li>
+<li>On the target (destination) PC:
+<ol>
+<li>Ensure you have remote desktop setup.  Machines on the local LAN should be able to remote desktop into the PC prior to starting this procedure.</li>
+<li>Download Cygwin (http://www.cygwin.com/)</li>
+<li>Install Cygwin, selecting the autossh and openssh packages.</li>
+<li>Start the Cygwin shell (Start -&gt; Programs -&gt; Cygwin).</li>
+<li>Generate a public/private key pair.
+<ol>
+<li>At the command line, run: ssh-keygen</li>
+<li>Accept the default file locations</li>
+<li>Use an empty passphrase</li>
+</ol>
+</li>
+<li>Copy your newly-created public key to the SSH server.
+<ol>
+<li>scp .ssh/id_rsa.pub user_account@ssh.host.name:id_rsa.pub</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>Add your public key to your list of authorized keys on the server.
+<ol>
+<li>Login to your SSH server as your normal user_account</li>
+<li> mv id_rsa.pub  /tmp</li>
+<li>su &#8211;  # become root</li>
+<li>Ensure /home/autossh/.ssh exists
+<ol>
+<li># ls -ld /home/autossh/.ssh<br />
+drwxr-xr-x 2 autossh users 4096 Apr 24 2015 /home/autossh/.ssh</li>
+<li>If not: mkdir /home/autossh/.ssh; chown autossh.users /home/autossh/.ssh; chmod 755 /home/autossh/.ssh</li>
+</ol>
+</li>
+<li>cat /tmp/id_rsa.pub &gt;&gt;  /home/autossh/.ssh/authorized_keys</li>
+</ol>
+</li>
+<li>Tweak the sshd_config on the server
+<ol>
+<li>By default openSUSE enables &#8220;AllowTcpForwarding&#8221; and &#8220;TCPKeepAlive&#8221;. Verify they are either commented out or set to &#8220;yes&#8221; in /etc/ssh/sshd_config</li>
+<li>Set &#8220;GatewayPorts yes&#8221; and &#8220;ClientAliveInterval 300&#8221; in /etc/ssh/sshd_config.  Also make sure they are not commented out.</li>
+<li>restart sshd to get the config values to be re-read:    sudo systemctl restart sshd.service</li>
+</ol>
+</li>
+<li>Test your SSH key.
+<ol>
+<li>Logout of your SSH sever.</li>
+<li>Login to your SSH server again, but as autossh this time. This time, your key will be used for authentication and you won’t be challenged for your login credentials. If you are not logged in automatically, review the previous steps. Or contact your server administrator.
+<ol>
+<li>ssh autossh@@ssh.host.name</li>
+</ol>
+</li>
+<li>Logout of your SSH server.</li>
+<li>Exit of the Cygwin shell.</li>
+</ol>
+</li>
+<li>Test your SSH Tunnel capability
+<ol>
+<li>Open a cmd prompt on your target PC as administrator
+<ol>
+<li>start -&gt; run -&gt; cmd -&gt; right click on &#8220;cmd&#8221; -&gt; left click &#8220;run as administrator&#8221;</li>
+</ol>
+</li>
+<li>C:\cygwin\bin\ssh -N -R 4489:localhost:3389 autossh@ssh.host.name
+<ol>
+<li>Note that this should open an alternate port (4489) or your openSUSE server in the cloud.  openSUSE uses 3389 by default, so you need to use an alternate port on the openSUSE server end.</li>
+<li>Any connections to the alternate port should be funneled through the SSH tunnel back to the windows 7 PC on port 3389</li>
+</ol>
+</li>
+<li>From a 3rd computer open a remote desktop connection to ssh.host.name:4489
+<ol>
+<li>Note that remote desktop uses :4489 after the server name to designate an alternate port.</li>
+<li>If it acts like you&#8217;re not connecting at all, in all likelihood you&#8217;re not.  You probably have a firewall in place on the openSUSE server.
+<ol>
+<li>Open port 4489 in your opensuse server firewall
+<ol>
+<li>https://doc.opensuse.org/documentation/html/openSUSE_122/opensuse-security/cha.security.firewall.html#sec.security.firewall.SuSE.yast</li>
+<li>Or   &#8220;sudo /sbin/yast -&gt; security and Users -&gt; Firewall -&gt; Allowed Services -&gt; Advanced -&gt; add 4489 to list of TCP Ports -&gt; OK -&gt; next -&gt; finish -&gt; quit</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>retry remote desktop connection</li>
+</ol>
+</li>
+<li>Once it works, from the Windows 7 command prompt kill the the ssh connection to your openSUSE server (contrl-C)</li>
+</ol>
+</li>
+<li>Test your AutoSSH Tunnel capability
+<ol>
+<li>From the CMD prompt running as administrator
+<ol>
+<li>C:\cygwin\bin\autossh -M 20000 -N -R 4489:localhost:3389 autossh@ssh.host.name
+<ol>
+<li>Note that-M opens a monitoring port (I&#8217;m not sure how to leverage that)  The monitoring port is opened on the server (ssh.host.name) so if you have multiple autossh commands pointed at the same server, each should use a unique monitoring port as well as a unique tunnel port (4489 in the above.)</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>From a 3rd computer open a remote desktop connection to ssh.host.name:4489
+<ol>
+<li>Make sure you terminate your remote desktop session from the 3rd computer when done testing</li>
+</ol>
+</li>
+<li>If it worked, from the Windows 7 command prompt kill the autossh command (contrl-C)</li>
+<li>exit out of your cmd window</li>
+</ol>
+</li>
+</ol>
+<ul>
+<li style="line-height: 1.5">At this point you can manually invoke autossh to setup a semi-persistent tunnel</li>
+</ul>
+<p>Setup the autossh feature as a Windows service</p>
+<p style="padding-left: 30px">Note:</p>
+<ul>
+<li style="padding-left: 60px">the below uses cygrunsrv to install the Windows service.  If you experience problems cygrunsrv -L, cyrunsrv -LV, and cygrunsrv -R &lt;service&gt;    may all be useful for diagnosing the problem.  The first 2 commands list the installed services, and -R removes installed services.</li>
+<li style="padding-left: 60px">Logs for cygrunsrv default to C:\cygwin\var\log\AutoSSH.log</li>
+</ul>
+<ol>
+<li>Install autossh as a Windows service
+<ol>
+<li>Open a cmd prompt on your target PC as administrator
+<ol>
+<li>start -&gt; run -&gt; cmd -&gt; right click on &#8220;cmd&#8221; -&gt; left click &#8220;run as administrator&#8221;</li>
+</ol>
+</li>
+<li>cd C:\cygwin\bin</li>
+<li>cygrunsrv -I AutoSSH -p /bin/autossh -a &#8220;-M 20000 -N -R 4489:localhost:3389 autossh@ssh.host.name&#8221; -e AUTOSSH_NTSERVICE=yes
+<ol>
+<li>If you get an error with this command, manually type the &#8221; marks.  They may not be handled properly with cut&amp;paste.</li>
+<li>Be very careful with the above.  A misbehaving service can be hard to remove in Windows.  It may require safe mode if the service won&#8217;t accept stop commands.</li>
+</ol>
+</li>
+<li>Tweak Windows service settings.
+<ol>
+<li>Open the Services management console (Administrative Tools -&gt; Services).</li>
+<li>Edit the properties of the AutoSSH service.</li>
+<li>In the “Log On” tab, select the “This account” radio button and set the service to run as your current user.  This is very important to do before starting the service in order for the ssh certificate to be used.</li>
+<li>Change the startup mode to &#8220;Automatic (Delayed Start)&#8221;</li>
+<li>Start the service.</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>Test your tunnel as described in 6.2 above
+<ol>
+<li>Be sure to test after rebooting your target Windows 7 or 8.1 PC.</li>
+<li>I have had it working for 6months and used it a lot.  I&#8217;ve seen network drops.  Target PC reboots.   openSUSE server reboots.  The tunnel just keeps working.</li>
+</ol>
+</li>
+</ol>
+<p>If all went well, congratulations you now have a persistent tunnel</p>
+<p style="padding-left: 30px"><span style="text-decoration: underline">You should be aware you have just punched a hole through your firewall, so be sure and consider the security issues associated with that hole.  Many organizations require security beyond a simple login and password when connectivity is provided from outside the firewall.</span></p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

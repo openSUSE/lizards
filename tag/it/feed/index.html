@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>it &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/it/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>What&#8217;s behind &#8220;lzma compressed livecds&#8221;</title>
+		<link>https://lizards.opensuse.org/2009/04/28/whats-behind-lzma-compressed-livecds/</link>
+		<pubDate>Tue, 28 Apr 2009 12:26:45 +0000</pubDate>
+		<dc:creator><![CDATA[coolo]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[openSUSE 11.2]]></category>
+		<category><![CDATA[it]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=867</guid>
+		<description><![CDATA[There are various ways to build a live cd and since 11.2 Milestone 1 there is a new one: clicfs. I&#8217;ll try to explain: The challenge with a live cd is the size of the CD and what you put on it, 700MB is not enough for a typical desktop experience. So most (if not [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>There are various ways to build a live cd and since 11.2 Milestone 1 there is a new one: clicfs. I&#8217;ll try to explain:</p>
+<p>The challenge with a live cd is the size of the CD and what you put on it, 700MB is not enough for a typical desktop experience. So most (if not all) distributions use compression to squeeze about 2GB on a CD. There are various compression file systems, most famous is squashfs &#8211; which is since 4.0 even in the kernel mainline (&gt;= 2.6.29) and uses gzip compression, even though there exist patches to make it use lzma. These lzma patches are not very often refreshed and not officially supported by the squashfs authors. This might actually change soon as kernel 2.6.30 has lzma decompression built in &#8211; <a href="http://www.nabble.com/squashfs-4.0-lzma-support-td22269948.html">but it&#8217;s not there yet.</a>. There is also cloop, which I think is exclusive to Knoppix. It&#8217;s also gzip compressed and has a different semantic than squashfs. More to that later.</p>
+<p>But however you compress, it comes with a catch: your compression will create a read only file system. But you need to write to it, not to all places, but in various (/var/run, /var/tmp, /tmp/, often in /etc, surely in /home). For a long time, the live cds existent created one large tmpfs and symlinked all the places and files that needed writing. But this is pretty unflexible and also takes more memory than really necessary. The new solution was first unionfs, which has a long history with many ups and downs and then later aufs. Aufs is <strong>Another</strong> unionfs and is the reason for one of the downs of unionfs. With a union you can generate a file system that is actually a map of two: the read only part and a read write part. But neither of them has good short term prospect of getting in the kernel mainline (aufs is trying hard at the moment, but still my personal guess is: 11.2 will pass without it being in mainline).</p>
+<p>Some distributions have no problem with using large kernel patches, but for openSUSE it became more and more of a problem. Every kernel update broke it and the way aufs works is not easy to adopt to kernel changes &#8211; which is the reason the aufs author is pushing into mainline. Let&#8217;s wish him luck.</p>
+<p>So I looked around and tried <a href="http://podgorny.cz/moin/UnionFsFuse">unionfs-fuse</a> and <a href="http://lwn.net/Articles/321391/">deltafs</a>. Both are <a href="http://fuse.sourceforge.net/">fuse</a> file systems avoiding the need of large kernel patches to create a compressed read write file system. Both had their issues, deltafs is just a prototype at the moment and unionfs-fuse is still pretty young too (unionfs-fuse fixed most of my issues meanwhile, so possibly it will come back to me <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>Then I looked closer at what Fedora(10) does: they do it completely different than most distributions I checked so far. They use a huge ext3 file system with their read only content, compress it in squashfs and then use a device-mapper snapshot on top of it to make it read write into a device-mapper copy-on-write file. Very interesting, in theory very slow &#8211; not slower than 11.1 in practise. So <a href="http://kiwi.berlios.de/">kiwi</a> supports that mode since v3.29 (called &#8220;dmsquash&#8221;). But as the 11.2 kernel OOPSed with such loopback mounted file systems (fixed meanwhile) I kept on looking for alternatives. And as unionfs-fuse was so close and has also support for cow, I thought if I can&#8217;t do my own fuse filesystem that combines the best of all. Actually I thought out loud while eating <a href="http://static.twoday.net/BielefelderFlaneure/images/doener.jpg">doener</a> with Michael and Jan and so I hacked doenerfs as prototype in just an afternoon.</p>
+<p>The idea is very simple: Instead of using device-mapper with squashfs snapshot and copy-on-write file I put the ext3 file system in another file system just made to compress it: doenerfs. That filesystem uses <a href="http://tukaani.org/xz/">xz libraries</a>. So you can mount the compressed image and then mount the ext3 file system loop and get a read write file system. Of course it comes with a catch: the writes don&#8217;t go anywhere but in the memory of the fuse driver. The more you write, the bigger the process gets. But in the end it doesn&#8217;t matter what uses your RAM, tmpfs or fuse mounts.</p>
+<p>Meanwhile I extended the code quite a bit in adding some possibly unique features and renamed it to clicfs: Compressed Loop Image Container. The 11.2 Milestone 1&#8217;s Live CDs use it&#8217;s first version.</p>
+<p>As the file system is explicitly made to compress another file system, I only need to support one file with a fixed name and with a known size and all that &#8211; a lot of complexity of other file systems is gone. So I could spend most time developing the interesting parts <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>The fuse driver has only 3 options and each of them marks a feature:</p>
+<ul>
+<li>-m  adds sparse blocks at the end of file. The actual ext3 file system has 0 blocks free, the sparse blocks are appended during boot of the livecd. After that the live cd will resize the file system to match the gained room. And only blocks actually written to will end up in memory. Sparse blocks are only marked as not yet existent. Current live cds hard code 470MB, but it&#8217;s just some /proc/meminfo left to do and then it will have free space depending on RAM amount. So far the free space was limited by either what the ext3 image left free (fedora) or how much is in the tmpfs (aufs solution)</li>
+<li>-l logfile will create a log file with the access pattern. You can pass this log to mkclicfs to group the ext3 blocks in order in the compressed image. I use this while building the livecds to avoid seeks on the CD.</li>
+<li>-c cowfile puts the blocks that are written to in an extra file instead of RAM. This makes it possible to store them on an usb stick and load them at later boots. This is the newest and least tested feature.</li>
+</ul>
+<p>The sources are at <a href="http://git.opensuse.org/?p=people/coolo/clicfs.git">git.opensuse.org</a>.</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

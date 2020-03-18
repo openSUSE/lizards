@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>of &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/of/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>openSUSE 11.4 :: Wine&#8230; A practical case&#8230;</title>
+		<link>https://lizards.opensuse.org/2011/03/15/opensuse-11-4-wine-a-practical-case/</link>
+		<comments>https://lizards.opensuse.org/2011/03/15/opensuse-11-4-wine-a-practical-case/#comments</comments>
+		<pubDate>Tue, 15 Mar 2011 11:12:22 +0000</pubDate>
+		<dc:creator><![CDATA[Nelson Marques]]></dc:creator>
+				<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[3D]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[lord]]></category>
+		<category><![CDATA[LOTRO]]></category>
+		<category><![CDATA[of]]></category>
+		<category><![CDATA[online]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[rings]]></category>
+		<category><![CDATA[the]]></category>
+		<category><![CDATA[wine]]></category>
+		<category><![CDATA[winehq]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=6782</guid>
+		<description><![CDATA[For some time I follow the openSUSE Forums which provide me a very interesting view about what our users do with openSUSE. I&#8217;ve noticed there are some relevant questions about Wine once in a while in the Games forums. A few time ago one of my friends nagged me a lot to do a couple [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>For some time I follow the <a href="forums.opensuse.org" target="_blank">openSUSE Forums</a> which provide me a very interesting view about what our users do with openSUSE. I&#8217;ve noticed there are some relevant questions about Wine once in a while in the Games forums.</p>
+<p>A few time ago one of my friends nagged me a lot to do a couple of levels in <a href="http://www.lotro.com/?lang=en_GB&amp;" target="_blank">Lord of the Rings Online</a> which has a &#8216;Free Play&#8217; plan in Europe. People can create an account and play for free the game with some restrictions (contents, equipment, items, etc). Players also have the option of using the online game store to unlock several aspects of the game. I&#8217;ve used a free play account for this, as I don&#8217;t really dedicate much time to it.</p>
+<p>I&#8217;ve downloaded and installed the game in a Windows 7 computer (abour 10.5GB&#8217;s),  updated it and it works as expected. My laptop has somehow better hardware and I&#8217;ve decided to see how it would run under openSUSE through wine! On <a href="http://www.winehq.org/" target="_blank">WineHQ</a> there&#8217;s some extensive know-how shared by the community about this game&#8230; for my little experiment I&#8217;ve used the following:</p>
+<p>* Lord of the Rings Online installation files pulled from the installer (since I had previously downloaded the game on a Windows machine, I&#8217;ve used those files to avoid downloading 10.5GB&#8217;s again).<br />
+* Wine 32 bits (1.3.12, shipped with openSUSE, LotRO requires also wine-gecko);<br />
+* openSUSE 11.4 x86_64;<br />
+* ATI FireGL drivers, release 11.2;<br />
+* PyLotRO Launcher (written in Python, used to launch LOTRO since the normal Turbine .NET launcher has some serious issues);</p>
+<p>Looking at everything written on WineHQ about LotRO it seems quite a hard task to get this running, luckily it&#8217;s actually the opposite&#8230; pretty much a quick step, though time consuming due to the size of the game. Here&#8217;s the procedures:</p>
+<p><strong> </strong></p>
+<ul>
+<li><strong><span style="font-weight: normal"><strong>Installing wine on openSUSE 11.4</strong></span></strong></li>
+</ul>
+<p>Installing wine on openSUSE is pretty easy (like any other software package). Make sure you are networked and open your favourite terminal emulator and type in the following command: <em><strong>zypper install wine wine-gecko</strong></em>. Zypp client will pull all the required dependencies and install the software. Please be aware that your system needs to have 3D capable drivers, often proprietary drivers.</p>
+<ul>
+<li><strong>Installing Lord of the Rings Online</strong></li>
+</ul>
+<p>As I&#8217;ve stated previously, I&#8217;ve had available the installation cache files from a previous Windows installation which made my life easier (around 10.5GB). If this is not your case, you can look into WineHQ and check how it goes with the installer. An interesting thread can be found <a href="http://appdb.winehq.org/objectManager.php?sClass=version&amp;iId=21337" target="_blank">here</a>.</p>
+<p>When one installs LOTRO on a Windows Machine it will create a folder on the Desktop called LOTRO_* which will contain a local cache of the files necessary to install the game. Inside of this folder there&#8217;s a &#8216;lotrosetup.exe&#8217; runs the installer. To start the installation is quite easy&#8230; open a terminal (with normal user), navigate to the directory where we have the cache files from the installer and run: <strong>wine lotrosetup.exe</strong>. The installer window pops up preceded by a small splash screen. Follow the instructions on the screen and wait until it deploys the game (took around 30/40 minutes).</p>
+<ul>
+<li><strong>PyLotRO Launcher for Linux</strong></li>
+</ul>
+<p>There&#8217;s ways to run the game and the Turbine launcher (.NET) isn&#8217;t really friendly of wine. I&#8217;ve decided to go for PyLotRO which is a small launcher written in Python. I&#8217;ve made a small test package which is available on my test repository in OBS (<a href="http://build.opensuse.org" target="_blank">openSUSE Build Service</a>) and called it python-lotro. You can find it <a href="https://build.opensuse.org/package/show?package=pylotro&amp;project=home%3Aketheriel" target="_blank">here</a>. For openSUSE 11.4 it can download this RPM, <a href="http://download.opensuse.org/repositories/home:/ketheriel/openSUSE_Factory/noarch/python-lotro-0.1.14-4.1.noarch.rpm" target="_blank">python-lotro-0.1.14-4.1.noarch.rpm</a> and install it with: <em><strong>sudo zypper install python-lotro-0.1.14-4.1.noarch.rpm</strong></em>. This will also create a link on your Games menu entry (works in GNOME, never tested on KDE).</p>
+<p>You have the Linux launcher installer and are a tiny step away from being able to play LoTRO&#8230;</p>
+<ul>
+<li><strong>Updating the Game&#8230;</strong></li>
+</ul>
+<p>PyLotRO provides a small interface with the very basic functionality available from the Turbine Launcher. Allows to configure wine debugging output and patch the game amongst other features. Here&#8217;s a small screenshot how it&#8217;s looks:</p>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2011/03/Screenshot-Lord-of-the-Rings-Online-Launcher-for-Linux.png"><img class="aligncenter size-full wp-image-6783" src="http://lizards.opensuse.org/wp-content/uploads/2011/03/Screenshot-Lord-of-the-Rings-Online-Launcher-for-Linux.png" alt="" width="808" height="492" srcset="https://lizards.opensuse.org/wp-content/uploads/2011/03/Screenshot-Lord-of-the-Rings-Online-Launcher-for-Linux.png 808w, https://lizards.opensuse.org/wp-content/uploads/2011/03/Screenshot-Lord-of-the-Rings-Online-Launcher-for-Linux-300x182.png 300w" sizes="(max-width: 808px) 100vw, 808px" /></a></p>
+<p>To update the game, it&#8217;s only required to hit the &#8216;<strong>Tools</strong>&#8216; menu and select &#8216;<strong>Patch</strong>&#8216;. This will access the game contents, download, decrypt and update the game to the latest version. Due to the size of the game it really takes a bit of time, so be patient.</p>
+<p><strong>WARNING:</strong> Before launching the game make sure that you have 3D effects disabled on the Desktop (ex: disable compiz or composite in Kwin). If this step isn&#8217;t done, the game might suffer of great performance issues and weird behavior. If something looks fishy, then that&#8217;s because you forgot this step. This also made me think in one thing&#8230; What impact will Unity and gnome-shell have in cases like this&#8230; when the accelerated 3D Desktop will generate performance issues in applications like in this case&#8230; something to look for in the nearby future&#8230;</p>
+<p>After the update it&#8217;s possible to login into the game, configure the options and give it a go&#8230; You will need a game account first than can be created for free (Europe only as far as I am aware, the game seems to be under subscription in the US), make sure you download the European client as well.</p>
+<ul>
+<li><strong>Gameplay</strong></li>
+</ul>
+<p>The game tries to detect the best configuration for your system (Low in my case)&#8230; I&#8217;ve forced it to Very High, selected my native resolution and gave it a go. The game is fluid enough, though lags a bit in big cities (ex: Bree), this is somehow something to expect, the same happens in Windows. While I haven&#8217;t seen much problems with performance, I&#8217;ve disabled dynamic lighting and it&#8217;s somehow a bit better. The runs nice and everything seems to work.</p>
+<p>I know many tutorials talk about winetricks and d3dx9&#8230; I&#8217;ve not did such things and the game runs very nice with the native wine dll&#8217;s without having the need of installing Microsoft&#8217;s DirectX files.</p>
+<p>This was a very pleasant experience, and it really surprised me on the positive. OpenSUSE has a very nice version of wine capable of running at least LotRO and World of Warcraft without any issues! It&#8217;s something that is worth trying with openSUSE!</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2011/03/15/opensuse-11-4-wine-a-practical-case/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+	</channel>
+</rss>

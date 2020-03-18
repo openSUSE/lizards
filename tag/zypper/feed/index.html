@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>zypper &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/zypper/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>zypper-upgraderepo 1.2 is out</title>
+		<link>https://lizards.opensuse.org/2019/02/23/zypper-upgraderepo-1-2-is-out/</link>
+		<comments>https://lizards.opensuse.org/2019/02/23/zypper-upgraderepo-1-2-is-out/#comments</comments>
+		<pubDate>Sat, 23 Feb 2019 15:26:03 +0000</pubDate>
+		<dc:creator><![CDATA[FabioMux]]></dc:creator>
+				<category><![CDATA[Software Management]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[Ruby]]></category>
+		<category><![CDATA[zypper]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=13401</guid>
+		<description><![CDATA[Fixes and updates applied with this second minor version improved and extended the main functions, let&#8217;s see what&#8217;s new. If you are new to the zypper-upgraderepo plugin, give a look to the previous article to better understand the mission and the basic usage. Repository check The first important change is inherent the way to check [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Fixes and updates applied with this second minor version improved and extended the main functions, let&#8217;s see what&#8217;s new.</p>
+<p>If you are new to the zypper-upgraderepo plugin, give a look to the <a href="//lizards.opensuse.org/2018/08/07/zypper-upgraderepo-plugin-is-here/">previous article</a> to better understand the mission and the basic usage.</p>
+<h3>Repository check</h3>
+<p>The first important change is inherent the way to check a valid repository:</p>
+<ul>
+<li>the HTTP request sent is <em>HEAD</em> instead of <em>GET</em> in order to have a more lightweight answer from the server, being the HTML page not included in the packet;</li>
+<li>the request point directly to the <em>repodata.xml</em> file instead of the folder, that because some server security setting could hide the directory listing and send back a 404 error although the repository works properly.</li>
+</ul>
+<h3>Check just a few repos</h3>
+<p>Most of the times we want to check the whole repository&#8217;s list at once, but sometimes we want to check few of them to see whether or not they are finally available or ready to be upgraded without looping through the whole list again and again. That&#8217;s where the <em>&#8211;only-repo</em> switch followed by a list of comma-separated numbers comes in help.</p>
+<div id="attachment_13541" style="width: 310px" class="wp-caption alignnone"><a href="//lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_120602.png"><img class="size-medium wp-image-13541" src="//lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_120602-300x182.png" alt="--only-repo switch" width="300" height="182" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_120602-300x182.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_120602-768x466.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_120602.png 992w" sizes="(max-width: 300px) 100vw, 300px" /></a><p class="wp-caption-text">&#8211;only-repo switch</p></div>
+<h3>All repo by default</h3>
+<p>The disabled repositories now are shown by default and a new column highlights which of them are enabled or not, keeping their number in sync with the <code>zypper lr</code> output. To see only the enabled ones just use the switch <em>&#8211;only-enabled.</em></p>
+<div id="attachment_13540" style="width: 310px" class="wp-caption alignnone"><a href="//lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_120224.png"><img class="size-medium wp-image-13540" src="//lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_120224-300x182.png" alt="Table view" width="300" height="182" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_120224-300x182.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_120224-768x466.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_120224.png 992w" sizes="(max-width: 300px) 100vw, 300px" /></a><p class="wp-caption-text">Table view</p></div>
+<h3>Report view</h3>
+<p>Beside the table view, the switch <em>&#8211;report</em> introduce a new pleasant view using just two columns and spanning the right cell to more rows in order to improve the number of info and the reading quality.</p>
+<div id="attachment_13542" style="width: 310px" class="wp-caption alignnone"><a href="//lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_160739.png"><img class="size-medium wp-image-13542" src="//lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_160739-300x182.png" alt="Report view" width="300" height="182" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_160739-300x182.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_160739-768x466.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_160739.png 992w" sizes="(max-width: 300px) 100vw, 300px" /></a><p class="wp-caption-text">Report view</p></div>
+<h3>Other changes</h3>
+<p>The procedure which tries to discover an alternative URL now dives back and forth the directory list in order to explore the whole tree of folders wherever the access is allowed by the server itself. The side effect is a general improvement also in repo downgrade.</p>
+<p>The output in upgrade mode is now verbose and shows a table similar to the checking one, giving details about the changed URLs in the details column.</p>
+<p>The server timeout error is now handled through the switch <em>&#8211;timeout</em> which allows tweaking the time before to consider an error any late answer from the server itself.</p>
+<h3>Final thoughts and what&#8217;s next</h3>
+<p>This plugin is practically completed, achieving all the goals needed for its main purpose no other relevant changes are scheduled, so I started thinking of other projects to work in my spare time.</p>
+<p>Among them, there is one I am interested in: bring the power of <a href="http://software.opensuse.org">openSUSE software search page</a> to the command line.</p>
+<p>However, there are some problems:</p>
+<ul>
+<li>This website doesn&#8217;t implement any web API so will be a lot of scraping job;</li>
+<li>There are missing packages while switching from the global research (selecting <em>All distribution</em>) to the specific distribution;</li>
+<li>Packages from Packman are not included.</li>
+</ul>
+<p>I have already got some ideas to solve them and did lay down several lines of code, so let&#8217;s see what happens!</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2019/02/23/zypper-upgraderepo-1-2-is-out/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>zypper-upgraderepo-plugin is here</title>
+		<link>https://lizards.opensuse.org/2018/08/07/zypper-upgraderepo-plugin-is-here/</link>
+		<comments>https://lizards.opensuse.org/2018/08/07/zypper-upgraderepo-plugin-is-here/#comments</comments>
+		<pubDate>Tue, 07 Aug 2018 18:55:25 +0000</pubDate>
+		<dc:creator><![CDATA[FabioMux]]></dc:creator>
+				<category><![CDATA[Software Management]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[Ruby]]></category>
+		<category><![CDATA[zypper]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=13239</guid>
+		<description><![CDATA[zypper-upgraderepo-plugin adds to zypper the ability to check the repository URLs either for the current version or the next release, and upgrade them all at once in order to upgrade the whole system from command line. This tool started as a personal project when a day I was in the need to upgrade my distro [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>zypper-upgraderepo-plugin adds to zypper the ability to check the repository URLs either for the current version or the next release, and upgrade them all at once in order to <a href="https://en.opensuse.org/SDB:System_upgrade">upgrade the whole system from command line</a>.</p>
+<p>This tool started as a personal project when a day I was in the need to upgrade my distro quicker than using a traditional ISO image, Zypper was the right tool but I got a little stuck when I had to handle repositories: some of them were not yet upgraded, others changed slightly in the URL path.</p>
+<p>Who knows how <em>to Bash</em> the problem is not exactly a nightmare, and so I did until I needed to make a step further.</p>
+<p>The result is <a href="https://rubygems.org/gems/zypper-upgraderepo">zypper-upgraderepo</a> Ruby gem which can be integrated as a zypper plugin just installing the zypper-upgraderepo-plugin package.</p>
+<h3>Installing zypper-upgraderepo-plugin</h3>
+<p>Installing <em>zypper-upgraderepo-plugin</em> is as easy as:</p>
+<ol>
+<li>Adding my repo:<br />
+<code>sudo zypper ar https://download.opensuse.org/repositories/home:/FabioMux/openSUSE_Leap_42.3/home:FabioMux.repo</code></li>
+<li>Install the package:<br />
+<code>sudo zypper in zypper-upgraderepo-plugin</code></li>
+</ol>
+<h3>How to use it</h3>
+<p>Sometime we want to know the status of current repositories, the command <em>zypper ref</em> does a similar job but it is primarily intended to update the repository&#8217;s data and that slow down a bit the whole process.<br />
+Instead we can type:<br />
+<code><br />
+$ zypper upgraderepo --check-current<br />
+</code><br />
+<a href="//lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174451.png"><img class="alignnone size-medium wp-image-13242" src="//lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174451-300x179.png" alt="" width="300" height="179" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174451-300x179.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174451-768x457.png 768w, https://lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174451-1024x610.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174451.png 1060w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>To know whether or not all the available repositories are <em>upgrade-ready</em>:<br />
+<code><br />
+$ zypper upgraderepo --check-next<br />
+</code><br />
+<a href="//lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174520.png"><img class="alignnone size-medium wp-image-13243" src="//lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174520-300x179.png" alt="" width="300" height="179" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174520-300x179.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174520-768x457.png 768w, https://lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174520-1024x610.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174520.png 1060w" sizes="(max-width: 300px) 100vw, 300px" /></a><br />
+As you can see from the example above all the enabled repositories are ready to upgrade except for the OSS repo which has a slightly different URL.<br />
+<code><br />
+# The URL used in the openSUSE Leap 42.3<br />
+http://download.opensuse.org/distribution/leap/42.3/repo/oss/suse/<br />
+# The suggested one for openSUSE Leap 15.0<br />
+http://download.opensuse.org/distribution/leap/15.0/repo/oss/<br />
+</code></p>
+<p>Let&#8217;s try again overriding the URL without make any real change:<br />
+<code><br />
+$ zypper upgraderepo --check-next \<br />
+--override-url 8,http://download.opensuse.org/distribution/leap/15.0/repo/oss/<br />
+</code><br />
+<a href="//lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174904.png"><img class="alignnone size-medium wp-image-13244" src="//lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174904-300x179.png" alt="" width="300" height="179" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174904-300x179.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174904-768x457.png 768w, https://lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174904-1024x610.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174904.png 1060w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Once everything is ok, and after performed a backup including all the repositories, it&#8217;s time to upgrade all the repository at once:<br />
+<code><br />
+$ sudo zypper upgraderepo --upgrade \<br />
+--override-url 8,http://download.opensuse.org/distribution/leap/15.0/repo/oss/<br />
+</code></p>
+<h3>Conclusions</h3>
+<p>That&#8217;s all with the basic commands, more information is available in the wiki page of <a href="https://github.com/fabiomux/zypper-upgraderepo/wiki">zypper-upgraderepo</a> gem where all the commands are intended with the only use of the gem, but installing the plugin they are also available as zypper subcommands like shown above, also a man page is available as<br />
+<code><br />
+$ zypper help upgraderepo<br />
+</code></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2018/08/07/zypper-upgraderepo-plugin-is-here/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>zypper install tab-completion</title>
+		<link>https://lizards.opensuse.org/2015/06/06/zypper-install-tab-completion/</link>
+		<pubDate>Sat, 06 Jun 2015 07:50:58 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[bash]]></category>
+		<category><![CDATA[tab-completion]]></category>
+		<category><![CDATA[zypper]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11469</guid>
+		<description><![CDATA[This is a follow-up on my earlier post on zypper tab-completion. Completion for package-names just made its way into git (thus soon will appear in Factory aka Tumbleweed) after ~6 weeks of back and forth exploring different approaches. And it is super-fast 🙂 If you do not want to wait, you can use OneClickInstallCLI http://multiymp.zq1.de/zypp:Head/zypper [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>This is a follow-up on <a href="https://lizards.opensuse.org/2015/04/26/zypper-tab-completion-and-some-thoughts/">my earlier post on zypper tab-completion</a>.</p>
+<p>Completion for package-names <a href="https://github.com/openSUSE/zypper/pull/66">just made its way into git</a> (thus soon will appear in Factory aka Tumbleweed) after ~6 weeks of back and forth exploring different approaches.</p>
+<p>And it is super-fast <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>If you do not want to wait, you can use <code>OneClickInstallCLI <a href="http://multiymp.zq1.de/zypp:Head/zypper">http://multiymp.zq1.de/zypp:Head/zypper</a></code><br />
+with allowing some vendor changes for libzypp and libsolv</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>zypper tab-completion and some thoughts</title>
+		<link>https://lizards.opensuse.org/2015/04/26/zypper-tab-completion-and-some-thoughts/</link>
+		<pubDate>Sun, 26 Apr 2015 19:45:11 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[bash]]></category>
+		<category><![CDATA[benchmarking]]></category>
+		<category><![CDATA[rpm]]></category>
+		<category><![CDATA[tab-completion]]></category>
+		<category><![CDATA[zypper]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11367</guid>
+		<description><![CDATA[Today I spent some hours implementing nice tab-completion for zypper. There was already a lot done 6 years ago, but the part about installing/removing packages was missing. Now the thinking part is about the speed. For the tab-completion I needed a list of installed packages and of course we have that in our RPM database [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Today I spent some hours implementing nice <a href="https://github.com/openSUSE/zypper/pull/66">tab-completion for zypper</a>. There was <a href="https://lizards.opensuse.org/2009/02/12/zypper-improved-bash-completion-and-practical-usage/">already a lot done 6 years ago</a>, but the part about installing/removing packages was missing.</p>
+<p>Now the thinking part is about the speed. For the tab-completion I needed a list of installed packages and of course we have that in our RPM database (using berkeley DB as a backend). However querying the list with rpm -qa already took over a second on a modern and fast system. On my poor netbook with a cold cache, it took 25 seconds (5 secs on second try with hot cache)&#8230; And the point is that you probably do not want to wait 5 seconds for your tab-completion to react.</p>
+<p>So to avoid this problem, I used caching via make to produce a better format (plain text). This is then post-processed with sed in a fraction of a second &#8211; a speedup factor somewhere between 15 and 150. This makes a big difference.</p>
+<p>In the end, I still wonder why plain text is so much faster than a DB. I guess, one reason is that the DB is optimized for retrieval of single values &#8211; e.g. rpm -q bash &#8211; this is very fast (but even there an egrep &#8220;^bash-[^-]+-[^-]+$&#8221; is more than twice as fast).</p>
+<p>I still want to optimize zypper for better speed, so that a search might some day return in under 2 seconds. One idea for that is to not parse all those config+repo files every time, but only when they change. It could use mmaped files under /var/cache/zypp* as memory to store the binary representations. Though it might become complicated, if dynamic structures such as linked lists are involved.</p>
+<p>The future will be interesting&#8230;</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>What&#8217;s New in 11.2: Install Debuginfo Package by build-id</title>
+		<link>https://lizards.opensuse.org/2009/04/27/whats-new-in-112-install-debuginfo-package-by-build-id/</link>
+		<pubDate>Mon, 27 Apr 2009 09:37:50 +0000</pubDate>
+		<dc:creator><![CDATA[Jan Blunck]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Toolchain]]></category>
+		<category><![CDATA[debugging]]></category>
+		<category><![CDATA[Debuginfo]]></category>
+		<category><![CDATA[zypper]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=816</guid>
+		<description><![CDATA[With the help of a unique identifier that is stored in every binary executable matching the executable, a coredump and the corresponding debuginfo together becomes really easy. You don&#8217;t need to know the package name and the version-release string to download and install the correct debuginfo package. This is achieved by extending the linker, some [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>With the help of a unique identifier that is stored in every binary executable matching the executable, a coredump and the corresponding debuginfo together becomes really easy. You don&#8217;t need to know the package name and the version-release string to download and install the correct debuginfo package. This is achieved by extending the linker, some additional tools and the package management itself.</p>
+<p><span id="more-816"></span></p>
+<p>The build id is a unique identifier stored in the <em>.note.gnu.build-id</em> note section of the executable file and loaded into the process image during run-time. Different means to compute the unique identifier are supported although the default setting is to use a 20 byte SHA1 hash of the unstripped executable (see ld linker documentation for further information about the <em>&#8211;build-id</em> option).</p>
+<p>To be able to read the build id from a core dump the kernel must include the ELF header pages in file-backed private memory areas (see documentation on <em>/proc/&lt;pid&gt;/coredump_filter</em>). This is the default setting on recent openSUSE kernel versions.</p>
+<p>Different tools can be used to print out the build-id. <em>eu-readelf</em> (from the elfutils package) prints the contents of the note sections given the <em>-n</em> option in a human readable fashion. <em>pbuildid</em> (from the ptools package) is prints the build-id from executables and from core files including the build-id of all loaded shared objects during the crash.</p>
+<p>Now, zypper can be asked to install the debuginfo package that provides the debuginfo for the given build-id.</p>
+<pre>
+# zypper install -C "debuginfo(build-id)=b75bab63c9a25eb13264bb95f1fef190e157f865"
+Loading repository data...
+Reading installed packages...
+Resolving package dependencies...
+
+The following NEW package is going to be installed:
+  bash-debuginfo
+
+
+Overall download size: 605.0 K. After the operation, additional 2.1 M will be used.
+Continue? [YES/no]: yes
+Retrieving package bash-debuginfo-3.2-148.2.x86_64 (1/1), 605.0 K (2.1 M unpacked)
+Retrieving: bash-debuginfo-3.2-148.2.x86_64.rpm [done]
+Installing: bash-debuginfo-3.2-148.2 [done]
+# 
+</pre>
+<p>If you are really lazy you can call the following script to do the job for you:</p>
+<pre>
+#!/bin/bash                                                                     
+#                                                                               
+# Sample script how to install debuginfo packages by build-id                   
+#                                                                               
+
+IDS=''
+for f in "$*"; do
+    case "$(file -L $f)" in
+        *ELF*)
+            IDS+="$(pbuildid $f 2&gt;/dev/null | awk '{print $NF}') "
+            ;;
+        *)  
+            ;;
+    esac
+done
+
+echo "Install Debuginfo for following build-ids: $IDS"
+
+CMDLINE=""
+for i in $IDS; do
+    CMDLINE+="debuginfo(build-id)=$i "
+done
+
+echo $CMDLINE | xargs zypper install -C
+</pre>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>How survive zypper dup on system with bad internet connection</title>
+		<link>https://lizards.opensuse.org/2008/10/30/how-survive-zypper-dup-on-system-with-bad-internet-connection/</link>
+		<comments>https://lizards.opensuse.org/2008/10/30/how-survive-zypper-dup-on-system-with-bad-internet-connection/#comments</comments>
+		<pubDate>Thu, 30 Oct 2008 08:40:37 +0000</pubDate>
+		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
+				<category><![CDATA[Software Management]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[how-to]]></category>
+		<category><![CDATA[zypper]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=269</guid>
+		<description><![CDATA[Maybe someday you try zypper dup to actualize your distribution and in middle of process it fail, because you are disconnected or some packages is actualized before you download it (especially on factory this can happen). It is more safety download packages at first and then install from this local files. How todo this is [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Maybe someday you try zypper dup to actualize your distribution and in middle of process it fail, because you are disconnected or some packages is actualized before you download it (especially on factory this can happen). It is more safety download packages at first and then install from this local files.</p>
+<p>How todo this is little tricky, at first you must enable caching downloaded files (I do it only for remote connection):</p>
+<blockquote><p>zypper mr &#8211;keep-packages &#8211;remote</p></blockquote>
+<p>So now you cache all downloaded files and now try testing run of dup. Trick is that all packages download for that test is cached.</p>
+<blockquote><p>zypper dup &#8211;dry-run</p></blockquote>
+<p>Now if you have slow connection I reccomend also disable autorefresh for all repositories, because if repository is refreshed before dup, you can easily find that some packages is newer than package in cache and you must download it.</p>
+<blockquote><p>zypper mr &#8211;all &#8211;no-refresh</p></blockquote>
+<p>Now is everything prepared for zypper dup, which use files from cache. Cache can take quite lot of disk space, so after dup you can clean it.</p>
+<blockquote><p>zypper clean</p></blockquote>
+<p>And thats all. This features work from OpenSuse 11 and you can also use this trick for zypper update or zypper install.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2008/10/30/how-survive-zypper-dup-on-system-with-bad-internet-connection/feed/</wfw:commentRss>
+		<slash:comments>6</slash:comments>
+		</item>
+	</channel>
+</rss>

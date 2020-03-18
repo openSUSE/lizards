@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>altimagebuild &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/altimagebuild/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>How to build OS images without kiwi</title>
+		<link>https://lizards.opensuse.org/2016/12/26/how-to-build-os-images-without-kiwi/</link>
+		<pubDate>Mon, 26 Dec 2016 05:56:48 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Toolchain]]></category>
+		<category><![CDATA[altimagebuild]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12224</guid>
+		<description><![CDATA[kiwi has long been the one standard way of building images in openSUSE, but even though there exist extensive writings on how to use it, for many it is still an arcane thing better left to the Great Magicians. Thus, I started to use a simpler alternative image building method, named altimagebuild when I built [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>kiwi has long been the one standard way of building images in openSUSE, but even though there exist extensive writings on how to use it, for many it is still an arcane thing better left to the Great Magicians.</p>
+<p>Thus, I started to use a simpler alternative image building method, named altimagebuild when I built our first working <a href="https://lizards.opensuse.org/2013/09/07/new-raspberry-pi-image/">Raspberry Pi images</a> in 2013 and now I re-used that to build x86_64 VM images at<br />
+<a href="https://build.opensuse.org/package/show/home:bmwiedemann/altimagebuild">https://build.opensuse.org/package/show/home:bmwiedemann/altimagebuild</a><br />
+after I found out that it even works in OBS, including publishing the result to our mirror infrastructure.<br />
+It is still in rpm format because of how it is produced, so you have to use unrpm to get to the image file.</p>
+<p>This method uses 3 parts.</p>
+<ul>
+<li>a .spec file that lists packages to be pulled into the image</li>
+<li>a mkrootfs.sh that converts the build system into the future root filesystem you want</li>
+<li>a mkimage.sh that converts the rootfs into a filesystem image</li>
+</ul>
+<p>The good thing about it is that you do not need specialized external tools, because everything is hard-coded in the scripts.<br />
+And the bad thing about it is that everything is hard-coded in the scripts, so it is hard to share general improvements over a wider range of images.</p>
+<p>In the current version, it builds cloud-enabled partitionless images (which is nice for VMs because you can just use resize2fs to get a larger filesystem and if you later want to access your VM&#8217;s data from outside, you simply use mount -o loop)<br />
+But it can build anything you want.</p>
+<p>To make your own build, do <code>osc checkout home:bmwiedemann/altimagebuild &amp;&amp; cd $_ &amp;&amp; osc build openSUSE_Leap_42.2</code></p>
+<p>So what images would you want to build?</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

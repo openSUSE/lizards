@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0"
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -9,19 +8,126 @@
 	>
 
 <channel>
-	<title>openSUSE Lizards &#187; Apache</title>
-	<atom:link href="http://lizards.opensuse.org/category/server/apache/feed/" rel="self" type="application/rss+xml" />
-	<link>http://lizards.opensuse.org</link>
+	<title>Apache &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/category/server/apache/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
 	<description>Blogs and Ramblings of the openSUSE Members</description>
-	<lastBuildDate>Mon, 24 Mar 2014 12:46:00 +0000</lastBuildDate>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
 	<language>en-US</language>
-		<sy:updatePeriod>hourly</sy:updatePeriod>
-		<sy:updateFrequency>1</sy:updateFrequency>
-	<generator>http://wordpress.org/?v=3.8.1</generator>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
 	<item>
+		<title>Basic Nextcloud installation on openSUSE Leap</title>
+		<link>https://lizards.opensuse.org/2016/10/28/nextcloud-installation-on-opensuse-leap/</link>
+		<comments>https://lizards.opensuse.org/2016/10/28/nextcloud-installation-on-opensuse-leap/#comments</comments>
+		<pubDate>Fri, 28 Oct 2016 15:09:09 +0000</pubDate>
+		<dc:creator><![CDATA[Efstathios Iosifidis]]></dc:creator>
+				<category><![CDATA[Apache]]></category>
+		<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Server]]></category>
+		<category><![CDATA[42.1]]></category>
+		<category><![CDATA[cloud]]></category>
+		<category><![CDATA[Leap]]></category>
+		<category><![CDATA[nextcloud]]></category>
+		<category><![CDATA[openSUSE]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12089</guid>
+		<description><![CDATA[I see the official documentation has full tutorial for RHEL 6 or CentOS 6 and RHEL 7 or CentOS 7. The main documentation covers Ubuntu 14.04 LTS openSUSE already has the Nextcloud client packaged in Tumbelweed and the Server is in the PHP extra repo! Personally, I prefer to install eveything from official repository, so [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><img src="https://en.opensuse.org/images/0/0f/Nextcloud.png" alt="Nextcloud Logo" width="40%" height="40%" /></p>
+<p>I see the official documentation has full tutorial for <a href="https://docs.nextcloud.com/server/10/admin_manual/installation/php_54_installation.html" target="1">RHEL 6 or CentOS 6</a> and <a href="https://docs.nextcloud.com/server/10/admin_manual/installation/php_55_installation.html" target="1">RHEL 7 or CentOS 7</a>. The main documentation covers <a href="https://docs.nextcloud.com/server/10/admin_manual/installation/source_installation.html" target="1">Ubuntu 14.04 LTS</a></p>
+<p>openSUSE already has the <a href="https://software.opensuse.org/search?utf8=%E2%9C%93&amp;q=nextcloud&amp;search_devel=false&amp;search_unsupported=false&amp;baseproject=openSUSE%3AFactory" target="1">Nextcloud client packaged in Tumbelweed and the Server is in the PHP extra repo!</a> Personally, I prefer to install eveything from official repository, so when an update is available, I can have it without a glitch. This tutorial describes how to install Nextcloud using command line. I followed the official documentation of <a href="https://docs.nextcloud.com/server/10/admin_manual/installation/source_installation.html" target="1">Ubuntu 14.04 LTS installation</a>.</p>
+<p>Why choose <a href="https://en.opensuse.org/Portal:Leap" target="1">openSUSE Leap</a>? openSUSE Leap is a brand new way of building openSUSE and is new type of hybrid Linux distribution. Leap uses source from <a href="https://www.suse.com/promo/sle/" target="1">SUSE Linux Enterprise (SLE)</a>, which gives Leap a level of stability unmatched by other Linux distributions, and combines that with community developments to give users, developers and sysadmins the best stable Linux experience available. Contributor and enterprise efforts for Leap bridge a gap between matured packages and newer packages found in openSUSE’s other distribution Tumbleweed. You can download openSUSE Leap from the site <a href="https://software.opensuse.org/" target="1">https://software.opensuse.org/</a>.<br />
+<span id="more-12089"></span><br />
+Make sure that ssh (sshd) is enabled and also the firewall either is disabled or <a href="https://en.opensuse.org/SuSEfirewall2" target="1">make an exception to the apache and ssh services</a>. You can also set a static IP (<a href="http://eiosifidis.blogspot.gr/2015/05/set-static-ip-on-your-opensuse-raspberry-pi.html" target="1">check out how</a>).</p>
+<p>First of all, let&#8217;s install the required and recommended modules for a typical Nextcloud installation, using Apache and MariaDB, by issuing the following commands in a terminal:</p>
+<div class="code"><strong>zypper in apache2 mariadb apache2-mod_php5 php5-gd php5-json php5-fpm php5-mysql php5-curl php5-intl php5-mcrypt php5-zip php5-mbstring php5-zlib</strong></div>
+<p><b>Create Database (optional since it&#8217;ll create eveything automatically)</b><br />
+Next step, create a database. First of all start the service.</p>
+<div class="code"><strong>systemctl start mysql.service<br />
+systemctl enable mysql.service</strong></div>
+<p>The root password is empty by default. That means that you can press enter and you can use your root user. That&#8217;s not safe at all. So you can set a password using the command:</p>
+<div class="code"><strong>mysqladmin -u root password newpass</strong></div>
+<p>Where newpass is the password you want.</p>
+<p>Now you set the root password, create the database.</p>
+<blockquote><p>mysql -u root -p<br />
+#you&#8217;ll be asked for your root passwordCREATE DATABASE nextcloudb;</p>
+<p>GRANT ALL ON nextcloudb.* TO ncuser@localhost IDENTIFIED BY &#8216;dbpass&#8217;;</p></blockquote>
+<p>Database user: <b>ncuser</b><br />
+Database name: <b>nextcloudb</b><br />
+Database user password: <b>dbpass</b></p>
+<p>You can change the above information accordingly.</p>
+<p><b>PHP changes</b><br />
+Now you should edit the php.ini file.</p>
+<blockquote><p>nano /etc/php5/apache2/php.ini</p></blockquote>
+<p>change the values</p>
+<blockquote><p>post_max_size = 50G<br />
+upload_max_filesize = 25G<br />
+max_file_uploads = 200<br />
+max_input_time = 3600<br />
+max_execution_time = 3600<br />
+session.gc_maxlifetime = 3600<br />
+memory_limit = 512M</p></blockquote>
+<p>and finally enable the extensions.</p>
+<blockquote><p>extension=php_gd2.dll<br />
+extension=php_mbstring.dll</p></blockquote>
+<p><b>Apache Configuration</b><br />
+You should enable some modules. Some might be already enabled.</p>
+<blockquote><p>a2enmod php5<br />
+a2enmod rewrite<br />
+a2enmod headers<br />
+a2enmod env<br />
+a2enmod dir<br />
+a2enmod mime</p></blockquote>
+<p>Now start the apache service.</p>
+<blockquote><p>systemctl start apache2.service<br />
+systemctl enable apache2.service</p></blockquote>
+<p><b>Install Nextcloud from source code (option 1, preferable)</b><br />
+Before the installation, create the data folder and give the right permissions (preferably outside the server directory for security reasons). I created a directory in the <i>/mnt</i> directory. You can mount a USB disk, add it to fstab and save your data there. The commands are:</p>
+<blockquote><p>mkdir /mnt/nextcloud_data<br />
+chmod -R 0770 /mnt/nextcloud_data<br />
+chown wwwrun /mnt/nextcloud_data</p></blockquote>
+<p>Now download Nextcloud (find the latest version at <a href="https://nextcloud.com/install/" target="1">https://nextcloud.com/install/</a>). Then unzip and move the folder to the server directory.</p>
+<blockquote><p>wget https://download.nextcloud.com/server/releases/nextcloud-10.0.0.zip<br />
+unzip nextcloud-10.0.0.zip<br />
+cp -r nextcloud /srv/www/htdocs<br />
+chown -R wwwrun /srv/www/htdocs/nextcloud/</p></blockquote>
+<p>Make sure that everything is OK and then delete the folder nextcloud and nextcloud-10.0.0.zip from the root (user) directory.</p>
+<p>Now open your browser to the server IP/nextcloud</p>
+<p><a href="https://www.dropbox.com/s/45s9l5te6ektb5s/nextcloud_install.png?raw=1" target="1"><img src="https://www.dropbox.com/s/45s9l5te6ektb5s/nextcloud_install.png?raw=1" width="80%" height="80%" /></a>Set your administrator username and password.<br />
+Your data directory is: /mnt/nextcloud_data<br />
+Regarding database, use the following.<br />
+Database user: <b>ncuser</b><br />
+Database name: <b>nextcloudb</b><br />
+Database user password: <b>dbpass</b></p>
+<p>Wait until it ends the installation. The page you&#8217;ll see is the following.</p>
+<p><a href="https://www.dropbox.com/s/e0mbm5tdktilmsp/nextcloud_first_login.png?raw=1" target="1"><img src="https://www.dropbox.com/s/e0mbm5tdktilmsp/nextcloud_first_login.png?raw=1" width="80%" height="80%" /></a></p>
+<p><b>Install Nextcloud using the respository (option 2)</b></p>
+<p>If you want to have automatic updates of your Nextcloud instance when there&#8217;s a new version, you can add the repository. There are packages available for openSUSE Leap 42.1, 42.2 and Tumbleweed (we recommend openSUSE Leap 42.1). You should be an administrator, so you can install Nextloud on your server.</p>
+<p>1. Add the Nextcloud repository.<br />
+<strong>openSUSE_Leap_42.2</strong></p>
+<blockquote><p>zypper ar http://download.opensuse.org/repositories/server:/php:/applications/openSUSE_Leap_42.2/ Nextcloud</p></blockquote>
+<p><strong>openSUSE_Leap_42.1</strong></p>
+<blockquote><p>zypper ar http://download.opensuse.org/repositories/server:/php:/applications/openSUSE_Leap_42.1/ Nextcloud</p></blockquote>
+<p><strong>openSUSE_Leap_Tumbleweed</strong></p>
+<blockquote><p>zypper ar http://download.opensuse.org/repositories/server:/php:/applications/openSUSE_Tumbleweed/ Nextcloud</p></blockquote>
+<p>2. Refresh your repositories</p>
+<blockquote><p>zypper refresh</p></blockquote>
+<p>3. Install Nextcloud (be careful you have to install LAMP first and change permissions of the files).</p>
+<blockquote><p>zypper install nextcloud</p></blockquote>
+<p>4. Open http://serverIP/nextcloud to install your instance (admin user account). Be careful to create another folder with the proper permissions for your data (as described).</p>
+<p>5. Login and use Nextloud.</p>
+<p>For more information about Nextcloud on openSUSE, check <a href="https://en.opensuse.org/SDB:Nextcloud" target="_blank">openSUSE wiki</a>.</p>
+<p>For any changes, check the <a href="https://github.com/iosifidis/nextcloud-opensuse-leap" target="1">github page</a>.</p>
+<p>For more configuration, you can follow the <a href="https://docs.nextcloud.com/server/10/admin_manual/contents.html" target="1">official documentation</a>. That was the basic installation on openSUSE Leap.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2016/10/28/nextcloud-installation-on-opensuse-leap/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
 		<title>Announcing openSUSE Education Li-f-e 13.1</title>
-		<link>http://lizards.opensuse.org/2013/12/17/announcing-opensuse-education-li-f-e-13-1/</link>
-		<comments>http://lizards.opensuse.org/2013/12/17/announcing-opensuse-education-li-f-e-13-1/#comments</comments>
+		<link>https://lizards.opensuse.org/2013/12/17/announcing-opensuse-education-li-f-e-13-1/</link>
+		<comments>https://lizards.opensuse.org/2013/12/17/announcing-opensuse-education-li-f-e-13-1/#comments</comments>
 		<pubDate>Tue, 17 Dec 2013 10:15:17 +0000</pubDate>
 		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
 				<category><![CDATA[Apache]]></category>
@@ -105,13 +211,13 @@
 <p>Have a lot of fun&#8230;</p>
 <p>Your openSUSE Education Team</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/12/17/announcing-opensuse-education-li-f-e-13-1/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/12/17/announcing-opensuse-education-li-f-e-13-1/feed/</wfw:commentRss>
 		<slash:comments>4</slash:comments>
 		</item>
 		<item>
 		<title>How to peek into remote isos</title>
-		<link>http://lizards.opensuse.org/2012/07/17/how-to-peek-into-remote-isos/</link>
-		<comments>http://lizards.opensuse.org/2012/07/17/how-to-peek-into-remote-isos/#comments</comments>
+		<link>https://lizards.opensuse.org/2012/07/17/how-to-peek-into-remote-isos/</link>
+		<comments>https://lizards.opensuse.org/2012/07/17/how-to-peek-into-remote-isos/#comments</comments>
 		<pubDate>Tue, 17 Jul 2012 06:18:39 +0000</pubDate>
 		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
 				<category><![CDATA[Apache]]></category>
@@ -136,13 +242,12 @@
 <p>fusermount -u mntiso</p>
 <p>fusermount -u mnthttp</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2012/07/17/how-to-peek-into-remote-isos/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2012/07/17/how-to-peek-into-remote-isos/feed/</wfw:commentRss>
 		<slash:comments>1</slash:comments>
 		</item>
 		<item>
 		<title>openSUSE Edu Li-f-e 12.1 out now!</title>
-		<link>http://lizards.opensuse.org/2011/12/22/edu-li-f-e-12-1-out/</link>
-		<comments>http://lizards.opensuse.org/2011/12/22/edu-li-f-e-12-1-out/#comments</comments>
+		<link>https://lizards.opensuse.org/2011/12/22/edu-li-f-e-12-1-out/</link>
 		<pubDate>Thu, 22 Dec 2011 07:37:21 +0000</pubDate>
 		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
 				<category><![CDATA[Apache]]></category>
@@ -176,13 +281,11 @@
 <p><a href="http://www.opensuse-education.org/download/ISOs/openSUSE-Edu-li-f-e-12.1-latest-i686.iso" rel="nofollow">Direct Download </a>| <a href="http://www.opensuse-education.org/download/ISOs/openSUSE-Edu-li-f-e-12.1-1-i686.iso.meta4" rel="nofollow">new metalink</a> | <a href="http://www.opensuse-education.org/download/ISOs/openSUSE-Edu-li-f-e-12.1-1-i686.iso.metalink" rel="nofollow">old metalink</a> | <a href="http://www.opensuse-education.org/download/ISOs/openSUSE-Edu-li-f-e-12.1-latest-i686.iso.md5" rel="nofollow">md5sum</a> | <a title="Torrent file for openSUSE-Edu-li-f-e" href="http://www.opensuse-education.org/download/ISOs/openSUSE-Edu-li-f-e-12.1-latest-i686.iso.torrent" target="_blank">torrent</a></p>
 <p>Use download manager or <a title="SDB:Metalink" href="http://en.opensuse.org/SDB:Metalink">Metalink</a> client such as aria2c for most efficient way to download.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2011/12/22/edu-li-f-e-12-1-out/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
+			</item>
 		<item>
 		<title>Oxygenise your Apache</title>
-		<link>http://lizards.opensuse.org/2011/01/24/oxygenise-your-apache/</link>
-		<comments>http://lizards.opensuse.org/2011/01/24/oxygenise-your-apache/#comments</comments>
+		<link>https://lizards.opensuse.org/2011/01/24/oxygenise-your-apache/</link>
+		<comments>https://lizards.opensuse.org/2011/01/24/oxygenise-your-apache/#comments</comments>
 		<pubDate>Mon, 24 Jan 2011 18:37:15 +0000</pubDate>
 		<dc:creator><![CDATA[Javier Llorente]]></dc:creator>
 				<category><![CDATA[Apache]]></category>
@@ -190,18 +293,17 @@
 		<category><![CDATA[KDE]]></category>
 
 		<guid isPermaLink="false">http://lizards.opensuse.org/?p=6466</guid>
-		<description><![CDATA[I have updated apache2-icons-oxygen with icons from KDE 4.6 RC2. Thanks Nuno &#38; Co! Now Apache&#8217;s directory listings look a bit better See it in action here. If you want to download the tarball/rpm, go to the Build Service.]]></description>
-				<content:encoded><![CDATA[<p>I have updated <a href="https://build.opensuse.org/package/show?package=apache2-icons-oxygen&amp;project=Apache">apache2-icons-oxygen</a> with icons from KDE 4.6 RC2. Thanks Nuno &amp; Co! Now Apache&#8217;s directory listings look a bit better <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif" alt=";-)" class="wp-smiley" /> </p>
-<p><a href="http://www.javierllorente.com/tmp/"><img class="alignnone size-medium wp-image-6467" title="apache2-icons-oxygen" src="http://lizards.opensuse.org/wp-content/uploads/2011/01/screenshot-300x205.png" alt="" width="300" height="205" /></a></p>
+		<description><![CDATA[I have updated apache2-icons-oxygen with icons from KDE 4.6 RC2. Thanks Nuno &#38; Co! Now Apache&#8217;s directory listings look a bit better 😉 See it in action here. If you want to download the tarball/rpm, go to the Build Service.]]></description>
+				<content:encoded><![CDATA[<p>I have updated <a href="https://build.opensuse.org/package/show?package=apache2-icons-oxygen&amp;project=Apache">apache2-icons-oxygen</a> with icons from KDE 4.6 RC2. Thanks Nuno &amp; Co! Now Apache&#8217;s directory listings look a bit better <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p><a href="http://www.javierllorente.com/tmp/"><img class="alignnone size-medium wp-image-6467" title="apache2-icons-oxygen" src="http://lizards.opensuse.org/wp-content/uploads/2011/01/screenshot-300x205.png" alt="" width="300" height="205" srcset="https://lizards.opensuse.org/wp-content/uploads/2011/01/screenshot-300x205.png 300w, https://lizards.opensuse.org/wp-content/uploads/2011/01/screenshot-1024x701.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2011/01/screenshot.png 1090w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
 <p>See it in action <a href="http://www.javierllorente.com/tmp/">here</a>. If you want to download the tarball/rpm, go to the <a href="https://build.opensuse.org/package/show?package=apache2-icons-oxygen&amp;project=Apache">Build Service</a>.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2011/01/24/oxygenise-your-apache/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2011/01/24/oxygenise-your-apache/feed/</wfw:commentRss>
 		<slash:comments>1</slash:comments>
 		</item>
 		<item>
 		<title>How to set up a Production Server for your Rails App</title>
-		<link>http://lizards.opensuse.org/2010/05/28/how-to-set-up-a-production-server-for-your-rails-app/</link>
-		<comments>http://lizards.opensuse.org/2010/05/28/how-to-set-up-a-production-server-for-your-rails-app/#comments</comments>
+		<link>https://lizards.opensuse.org/2010/05/28/how-to-set-up-a-production-server-for-your-rails-app/</link>
 		<pubDate>Fri, 28 May 2010 10:40:52 +0000</pubDate>
 		<dc:creator><![CDATA[Jan Loeser]]></dc:creator>
 				<category><![CDATA[Apache]]></category>
@@ -233,19 +335,16 @@ Options -MultiViews<br />
 <p style="padding-left: 30px"><code>#NameVirtualHost *:80</code></p>
 <p style="padding-left: 30px">6. Now you can start your Apache server:</p>
 <p style="padding-left: 30px"><code>$&gt; rcapache2 start</code></p>
-<p style="padding-left: 30px"><strong>Important:</strong> when you want to check the log file be aware of the mode Passenger runs the Rails application (&#8216;production.log&#8217;/'development.log&#8217;). By default, the log file is written by the user who owns the &#8216;environment.rb&#8217; &#8211; check the log file&#8217;s write permissions (See also: <a title="User switching" href="http://www.modrails.com/documentation/Users%20guide%20Apache.html#User_switching" target="_blank">User switching</a>).</p>
+<p style="padding-left: 30px"><strong>Important:</strong> when you want to check the log file be aware of the mode Passenger runs the Rails application (&#8216;production.log&#8217;/&#8217;development.log&#8217;). By default, the log file is written by the user who owns the &#8216;environment.rb&#8217; &#8211; check the log file&#8217;s write permissions (See also: <a title="User switching" href="http://www.modrails.com/documentation/Users%20guide%20Apache.html#User_switching" target="_blank">User switching</a>).</p>
 <p style="padding-left: 30px">Have a look at the <a title="apache_docu2" href="http://www.modrails.com/documentation/Users%20guide%20Apache.html" target="_blank">documentation</a>! There you find a lot of configuration options which you should think of.</p>
 <p>That&#8217;s it. Sure, there are many many other ways to get such a server running and this was just scratching the surface but should be a good point to start. Thanks to Thomas Schmidt for a good introduction into the topic.</p>
 <p><a title="passenger" href="http://www.modrails.com/" target="_blank">Phusion Passenger</a><a title="apache_docu" href="http://www.modrails.com/documentation/Users guide Apache.html" target="_blank"><br />
 Passenger Apache Documentation</a></p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2010/05/28/how-to-set-up-a-production-server-for-your-rails-app/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
+			</item>
 		<item>
 		<title>apache2-icons-oxygen is now in Factory</title>
-		<link>http://lizards.opensuse.org/2010/05/20/apache2-icons-oxygen-is-now-in-factory/</link>
-		<comments>http://lizards.opensuse.org/2010/05/20/apache2-icons-oxygen-is-now-in-factory/#comments</comments>
+		<link>https://lizards.opensuse.org/2010/05/20/apache2-icons-oxygen-is-now-in-factory/</link>
 		<pubDate>Thu, 20 May 2010 18:17:52 +0000</pubDate>
 		<dc:creator><![CDATA[Javier Llorente]]></dc:creator>
 				<category><![CDATA[Apache]]></category>
@@ -254,8 +353,8 @@ Passenger Apache Documentation</a></p>
 		<category><![CDATA[KDE]]></category>
 
 		<guid isPermaLink="false">http://lizards.opensuse.org/?p=4058</guid>
-		<description><![CDATA[For those who don&#8217;t know it yet, apache2-icons-oxygen is now in Factory Go to www.javierllorente.com/tmp/ to see it in action. If you want to try it out, take a look at README.SuSE included in the rpm package: apache2-icons-oxygen Author: Javier Llorente URL: https://build.opensuse.org/package/show?package=apache2-icons-oxygen&#038;project=Apache License: LGPLv3 Based on Oxygen and Crystal icons http://www.oxygen-icons.org/ http://www.everaldo.com/crystal/ &#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8211; You [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>For those who don&#8217;t know it yet, <a href="https://build.opensuse.org/package/show?package=apache2-icons-oxygen&#038;project=openSUSE%3AFactory">apache2-icons-oxygen</a> is now in <a href="http://en.opensuse.org/Factory">Factory</a> <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /><br />
+		<description><![CDATA[For those who don&#8217;t know it yet, apache2-icons-oxygen is now in Factory 🙂 Go to www.javierllorente.com/tmp/ to see it in action. If you want to try it out, take a look at README.SuSE included in the rpm package: apache2-icons-oxygen Author: Javier Llorente URL: https://build.opensuse.org/package/show?package=apache2-icons-oxygen&#038;project=Apache License: LGPLv3 Based on Oxygen and Crystal icons http://www.oxygen-icons.org/ http://www.everaldo.com/crystal/ &#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8211; [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>For those who don&#8217;t know it yet, <a href="https://build.opensuse.org/package/show?package=apache2-icons-oxygen&#038;project=openSUSE%3AFactory">apache2-icons-oxygen</a> is now in <a href="http://en.opensuse.org/Factory">Factory</a> <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /><br />
 Go to <a href="http://www.javierllorente.com/tmp/">www.javierllorente.com/tmp/</a> to see it in action.<br />
 If you want to try it out, take a look at README.SuSE included in the rpm package:<br />
 <span id="more-4058"></span></p>
@@ -264,12 +363,12 @@ apache2-icons-oxygen</p>
 <p>Author: Javier Llorente <javier@opensuse.org><br />
 URL: https://build.opensuse.org/package/show?package=apache2-icons-oxygen&#038;project=Apache<br />
 License: LGPLv3<br />
-Based on Oxygen and Crystal icons</p>
-<p>http://www.oxygen-icons.org/</p>
-<p>http://www.everaldo.com/crystal/</p>
+Based on Oxygen and Crystal icons<br />
+http://www.oxygen-icons.org/<br />
+http://www.everaldo.com/crystal/</p>
 <p>&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8211;<br />
 You may enable this collection of icons Apache-wide and/or Virtual host-based:</p>
-<p>- Apache-wide<br />
+<p>&#8211; Apache-wide<br />
 Add<br />
 Include /etc/apache2/mod_autoindex-defaults-oxygen.conf<br />
 to /etc/apache2/httpd.conf. Do not forget to comment the line<br />
@@ -286,7 +385,7 @@ Alias /icons/ &#8220;/usr/share/apache2/icons/&#8221;<br />
 service apache2 reload<br />
 or<br />
 service apache2 restart</p>
-<p>- Virtual hosts<br />
+<p>&#8211; Virtual hosts<br />
 Add<br />
 Include /etc/apache2/mod_autoindex-defaults-oxygen.conf<br />
 to your virtual host configuration file (usually located under /etc/apache2/vhosts.d/).</p>
@@ -299,13 +398,11 @@ Your openSUSE Team</p>
 </blockquote>
 <p>As always, comments and suggestions are welcome!</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2010/05/20/apache2-icons-oxygen-is-now-in-factory/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
+			</item>
 		<item>
 		<title>KDE icons for Apache</title>
-		<link>http://lizards.opensuse.org/2010/02/15/kde-icons-for-apache/</link>
-		<comments>http://lizards.opensuse.org/2010/02/15/kde-icons-for-apache/#comments</comments>
+		<link>https://lizards.opensuse.org/2010/02/15/kde-icons-for-apache/</link>
+		<comments>https://lizards.opensuse.org/2010/02/15/kde-icons-for-apache/#comments</comments>
 		<pubDate>Mon, 15 Feb 2010 23:36:21 +0000</pubDate>
 		<dc:creator><![CDATA[Javier Llorente]]></dc:creator>
 				<category><![CDATA[Apache]]></category>
@@ -314,20 +411,20 @@ Your openSUSE Team</p>
 
 		<guid isPermaLink="false">http://lizards.opensuse.org/?p=3258</guid>
 		<description><![CDATA[I have been working on making Apache&#8217;s directory listings a bit more beautiful by creating a collection of KDE icons (Oxygen and Crystal). Apache&#8217;s default icons are a bit old and not that vivid. In fact, they were originally made for Mosaic. So, what I&#8217;ve done is handpicking some Crystal and Oxygen icons, making a [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p><img src="http://lizards.opensuse.org/wp-content/uploads/2010/02/apache-kde.png" alt="apache-kde" width="690" height="64" class="aligncenter size-full wp-image-3265" /> </p>
+				<content:encoded><![CDATA[<p><img src="http://lizards.opensuse.org/wp-content/uploads/2010/02/apache-kde.png" alt="apache-kde" width="690" height="64" class="aligncenter size-full wp-image-3265" srcset="https://lizards.opensuse.org/wp-content/uploads/2010/02/apache-kde.png 690w, https://lizards.opensuse.org/wp-content/uploads/2010/02/apache-kde-300x27.png 300w" sizes="(max-width: 690px) 100vw, 690px" /> </p>
 <p>I have been working on making Apache&#8217;s directory listings a bit more beautiful by creating a collection of KDE icons (Oxygen and Crystal). Apache&#8217;s default icons are a bit old and not that vivid. In fact, they were originally made for Mosaic. So, what I&#8217;ve done is handpicking some Crystal and Oxygen icons, making a few by combining two icons, modifying some Apache&#8217;s config files, writing the instructions and, finally, putting everything together. So, now we have apache2-icons-oxygen and apache2-icons-crystal.<br />
 I would like to take this opportunity to thank Adrian Schröter and Peter Pöml for the help and feedback.</p>
 <p>The rpm packages are available on my OBS home project:<br />
 <a href="http://download.opensuse.org/repositories/home:/javierllorente/">http://download.opensuse.org/repositories/home:/javierllorente/</a></p>
 <p> Comments and suggestions are welcome!</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2010/02/15/kde-icons-for-apache/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2010/02/15/kde-icons-for-apache/feed/</wfw:commentRss>
 		<slash:comments>10</slash:comments>
 		</item>
 		<item>
 		<title>Improved mirror selection for India</title>
-		<link>http://lizards.opensuse.org/2009/07/29/improved-mirror-selection-for-india/</link>
-		<comments>http://lizards.opensuse.org/2009/07/29/improved-mirror-selection-for-india/#comments</comments>
+		<link>https://lizards.opensuse.org/2009/07/29/improved-mirror-selection-for-india/</link>
+		<comments>https://lizards.opensuse.org/2009/07/29/improved-mirror-selection-for-india/#comments</comments>
 		<pubDate>Wed, 29 Jul 2009 19:10:52 +0000</pubDate>
 		<dc:creator><![CDATA[Peter Pöml]]></dc:creator>
 				<category><![CDATA[Apache]]></category>
@@ -346,13 +443,13 @@ I would like to take this opportunity to thank Adrian Schröter and Peter Pöml 
 <p>While it is not new that we do this, the screenshot of Adrian&#8217;s analysis illustrates the issue very nicely. We have similar configuration for a number of countries, where a mirror selection purely based on countries and regions wouldn&#8217;t work. For this kind of tuning, we depend on user input.</p>
 <p>Hints about how to improve serving our downloads are always appreciated. Please write to admin at opensuse dot org with input in this regard. Thanks!</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2009/07/29/improved-mirror-selection-for-india/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/07/29/improved-mirror-selection-for-india/feed/</wfw:commentRss>
 		<slash:comments>5</slash:comments>
 		</item>
 		<item>
 		<title>Longstanding Wiki Problem Fixed.</title>
-		<link>http://lizards.opensuse.org/2008/12/15/longstanding-wiki-problem-fixed/</link>
-		<comments>http://lizards.opensuse.org/2008/12/15/longstanding-wiki-problem-fixed/#comments</comments>
+		<link>https://lizards.opensuse.org/2008/12/15/longstanding-wiki-problem-fixed/</link>
+		<comments>https://lizards.opensuse.org/2008/12/15/longstanding-wiki-problem-fixed/#comments</comments>
 		<pubDate>Mon, 15 Dec 2008 00:54:57 +0000</pubDate>
 		<dc:creator><![CDATA[Peter Pöml]]></dc:creator>
 				<category><![CDATA[Apache]]></category>
@@ -367,7 +464,7 @@ I would like to take this opportunity to thank Adrian Schröter and Peter Pöml 
 				<content:encoded><![CDATA[<p>Today, I fixed a <strong>long-standing, serious problem</strong> in the openSUSE wiki:</p>
 <p><strong>15-20 seconds long hangs that one would see when loading pages.</strong> It occured only when one was logged in, and it happened (for me) on every second access. So one page load hang, the next would work, the next would hang again, and so on. Eventually each page would load and show correctly, but after an initial waiting time of nearly 20 seconds.</p>
 <p>I experienced this on Friday, and was not happy about it, because we are preparing for an openSUSE release. I fixed it today.</p>
-<p>What follows is the complete story of how I debugged it. It was quite complicated, took hours, and can hopefully serve as an educational example of the diagnostic thinking and different debugging methods. I always planned to write up things like this <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif" alt=":-)" class="wp-smiley" /> </p>
+<p>What follows is the complete story of how I debugged it. It was quite complicated, took hours, and can hopefully serve as an educational example of the diagnostic thinking and different debugging methods. I always planned to write up things like this <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
 <p>So at first, I made sure that the hang is not in my browser, or my network. I could reproduce it from a different machine in a different browser. Next, I tried to reproduce it from an Internet server on the commandline. After grabbing the exact Cookie headers from Firefox (with the Firebug extension), it was possible. (<strong>Note: all sensitive data in the following logs, like cookies, is garbled.</strong>)</p>
 <p><code>date; curl -sv -H 'Cookie: opensuse_enUserName=Poeml; bblastvisit=1227878957; bblastactivity=0; s_sq=%5D%5D; s_cc=true; sessionhash=392aee91a9d014da0d7; opensuse_en=6eb4a0c94855; opensuse_de=3jtsao6a6jr8mrfm1; ZNP00-opensuse=09a41c; opensuse_deUserName=Poeml; opensuse_enLoggedOut=20081212192257; opensuse_deLoggedOut=20081212213443; IPC8ef153=e3c5b0f; opensuse_deUserID=87; cmTPSet=Y; cm=u2=1104985&amp;pi=User%3APoeml; opensuse_enUserID=32' http://en.opensuse.org/User:Poeml; date</code><br />
 Next was to find out where the hang occurs. The normal way that the request should take is from my client to the <strong>iChain</strong> servers that are in front of the openSUSE wiki servers, and they should pass it on to one of the servers. (The iChain proxy acts as a reverse proxy, and sends the request to the backend server(s) as if it was the client itself.)</p>
@@ -618,7 +715,7 @@ After:
 <p>A simple bug, in the end. Luckily, with a trivial fix. But quite a long way to go to find it.<br />
 And I hope this writeup is useful.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2008/12/15/longstanding-wiki-problem-fixed/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2008/12/15/longstanding-wiki-problem-fixed/feed/</wfw:commentRss>
 		<slash:comments>4</slash:comments>
 		</item>
 	</channel>

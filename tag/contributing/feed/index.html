@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>contributing &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/contributing/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>The issues with contributing to projects only once</title>
+		<link>https://lizards.opensuse.org/2017/06/04/the-issues-with-contributing-to-projects-only-once/</link>
+		<comments>https://lizards.opensuse.org/2017/06/04/the-issues-with-contributing-to-projects-only-once/#comments</comments>
+		<pubDate>Sun, 04 Jun 2017 04:06:31 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[contributing]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12523</guid>
+		<description><![CDATA[I work to improve the openSUSE Tumbleweed (GNU/)Linux distribution. Specifically I make sure that all packages can be built twice on different hosts and still produce identical results, which has multiple benefits. This generates a lot of patches in a single week. OBS Sometimes it is enough to adjust the .spec file &#8211; that is [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I work to improve the openSUSE Tumbleweed (GNU/)Linux distribution. Specifically I make sure that all packages can be built twice on different hosts and still produce identical results, which has <a href="https://reproducible-builds.org/docs/buy-in/">multiple benefits</a>. This generates <a href="https://reproducible.alioth.debian.org/blog/posts/109/">a lot of patches</a> in a single week.</p>
+<p><strong>OBS</strong><br />
+Sometimes it is enough to adjust the .spec file &#8211; that is a small text file usually specific to us. Then <a href="https://news.opensuse.org/2011/09/27/get-your-package-in-factory-for-12-1/">it is straight-forward</a></p>
+<ol>
+<li>osc bco</li>
+<li>cd $PROJECT/$PACKAGE</li>
+<li>optional: spec_add_patch $MY.patch $SOME.spec</li>
+<li>edit *.spec</li>
+<li>osc build</li>
+<li>osc vc</li>
+<li>osc ci</li>
+<li>osc sr</li>
+</ol>
+<p>And OBS will even auto-clean the branch when the submit-request is accepted. And it has a &#8216;tasks&#8217; page to see and track SRs in various stages. For the spec_add_patch to work, you need to do once<br />
+ln -s /usr/lib/build/spec_add_patch /usr/local/bin/</p>
+<p>When you want to contribute patches upstream, so that other distributions benefit from your improvements as well, then you first need to find out, where they collaborate. A good starting point is the URL field in the .spec file, but a google search for &#8216;contribute $PROJECT&#8217; often is better.</p>
+<p><strong>github</strong><br />
+Then there are those many projects hosted on github, where it is also pretty low effort, because I already have the account and it even remains signed in. But some repos on github are only read-only mirrors.</p>
+<ol>
+<li>check pull requests, if some have been merged recently</li>
+<li>fork the project</li>
+<li>git clone git@github.com:&#8230;</li>
+<li>cd $REPO</li>
+<li>edit $FILES</li>
+<li>git commit -a</li>
+<li>git push</li>
+<li>open pull request</li>
+<li>maybe have to sign a CLA for the project</li>
+<li>When change is accepted, delete fork to not clutter up repository list too much (on github under settings)</li>
+</ol>
+<p><strong>sourceforge</strong><br />
+The older brother of github. They integrate various ways of contributing. The easiest one is to open a Ticket (Patch or Bug) and attach the .patch you want them to merge with a good description. While many developers do not have the time and energy to debug every bug you file, applying patches is much easier, so gets your issue fixed with a higher chance.</p>
+<p><strong>devel Mailinglist</strong><br />
+Some projects collaborate mainly through their development MLs, then I need to</p>
+<ol>
+<li>subscribe</li>
+<li>confirm the subscription</li>
+<li>git format-patch origin/master</li>
+<li>git send-email &#8211;to $FOO-devel@&#8230; &#8211;from $MYSUBSCRIBEDEMAIL 000*.patch</li>
+<li>wait for replies</li>
+<li>if it is a high-volume ML, also add an IMAP folder and an entry to .procmailrc</li>
+<li>unsubscribe</li>
+<li>confirm</li>
+</ol>
+<p><strong>project bugtracker</strong><br />
+Like https://bugzilla.gnome.org/ https://bugs.python.org/ https://bugs.ruby-lang.org/ https://bz.apache.org/bugzilla/</p>
+<ol>
+<li>create unique email addr</li>
+<li>sign up for account</li>
+<li>add info to my account list</li>
+<li>optional: search for existing bug (90% of the time there is none)</li>
+<li>file bug</li>
+<li>attach patch</li>
+</ol>
+<p>So as you can see there is a wide range of ways. And most of them have some initial effort that you would only have once&#8230; But then I only contribute once per project, so I always pay that.</p>
+<p>Thus, please make it easy for people to contribute one simple fix.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2017/06/04/the-issues-with-contributing-to-projects-only-once/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+	</channel>
+</rss>

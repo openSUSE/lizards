@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Schema Design &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/schema-design/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Why Ant Sucks (Somehow)</title>
+		<link>https://lizards.opensuse.org/2009/02/16/why-ant-sucks-somehow/</link>
+		<comments>https://lizards.opensuse.org/2009/02/16/why-ant-sucks-somehow/#comments</comments>
+		<pubDate>Mon, 16 Feb 2009 12:44:17 +0000</pubDate>
+		<dc:creator><![CDATA[Thomas Schraitle]]></dc:creator>
+				<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Ant]]></category>
+		<category><![CDATA[RELAX NG]]></category>
+		<category><![CDATA[Schema Design]]></category>
+		<category><![CDATA[XML]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=429</guid>
+		<description><![CDATA[What is Ant? According to Ant&#8217;s webpage: &#8220;Ant is a Java-based build tool. In theory, it is kind of like Make, without Make&#8217;s wrinkles and with the full portability of pure Java code.&#8221; Sounds nice, isn&#8217;t it? But XML design problems make Ant nearly unusable which this post becomes kind of a rant&#8230; The Current [&#8230;]]]></description>
+				<content:encoded><![CDATA[<h2>What is Ant?</h2>
+<p>According to <a href="http://ant.apache.org/faq.html#what-is-ant">Ant&#8217;s webpage</a>:</p>
+<p style="30px;">&#8220;Ant is a Java-based build tool. In theory, it is kind of         like Make, without Make&#8217;s wrinkles and with the full         portability of pure Java code.&#8221;</p>
+<p>Sounds nice, isn&#8217;t it? But XML design problems make Ant nearly unusable which this post becomes kind of a rant&#8230;</p>
+<p><span id="more-429"></span></p>
+<h2>The Current Situation</h2>
+<p>It started some time ago when I tried to use Ant for building a book. So I&#8217;ve looked into the documentation and saw Ant uses XML for their build files. &#8220;Great!&#8221;, I thought, &#8220;I start my XML editor and I&#8217;m ready to go!&#8221;</p>
+<p>A good XML user should use a Schema whenever possible. So I searched for some <a title="Document Type Definition">DTD</a>, <a title="RELAX NG">RNG</a>, or W3C Schema which my XML editor can use. However, I found this <a href="http://ant.apache.org/faq.html#dtd">notice</a> from the FAQ (cited from this page):</p>
+<hr />An incomplete DTD can be created by the <tt>&lt;antstructure&gt;</tt> task &#8211; but this one has a few problems:</p>
+<ul>
+<li>It doesn&#8217;t know about required attributes.  Only manual tweaking of this file can help here.</li>
+<li>It is not complete &#8211; if you add new tasks via <tt>&lt;taskdef&gt;</tt> it won&#8217;t know about it.  See  <a href="http://www.sdv.fr/pages/casa/html/ant-dtd.en.html">this page</a> by Michel Casabianca for a solution to this problem. Note that the DTD you can download at this page             is based on Ant 0.3.1.</li>
+<li>It may even be an invalid DTD.  As Ant allows tasks writers to define arbitrary elements, name collisions will happen quite frequently &#8211; if your version of Ant contains the optional <tt>&lt;test&gt;</tt> and <tt>&lt;junit&gt;</tt> tasks, there are two XML elements named <tt>test</tt> (the task and the nested child element of <tt>&lt;junit&gt;</tt>) with different attribute lists.  This problem cannot be solved; DTDs don&#8217;t give a syntax rich enough to support this.</li>
+</ul>
+<hr />(Hint: The DTD is not accessible through this link anymore&#8212;it can be found in the <a href="http://wiki.apache.org/ant/AntDTD">Ant-Wiki</a> now.)</p>
+<p>So with a XML editor on one hand, and with no schema on the other, Ant left me in the dark.</p>
+<h2>The Problem</h2>
+<p>So why then use XML? Why not use another syntax? The reason to use XML is not only it is easy to parse its syntax, it is also for its ability to validate your XML file. I don&#8217;t know the decisions that drove the Ant team to XML. However, it seems to me, Ant uses XML only halfhearted. This wouldn&#8217;t be bad per se. The bad thing is, that it <em>circumvents</em> XML good practices!</p>
+<p>So what&#8217;s exactly my problem with Ant? I have these:</p>
+<ol>
+<li><strong>A XML Structure Without Schema is Useless</strong><br />
+Ok, to be fair, not every XML structure needs a Schema. Very easy ones does not probably need one. However, if your structure becomes a bit more complicated, it is very important to have a Schema. It is even more important when your structure are used by other people and becomes widespread. How can people know if something is wrong when there is no Schema? Impossible! They have to run Ant every time or look into the documentation.</li>
+<li><strong>Redefining the XML Structure is Breaking XML</strong><br />
+The taskdef is probably one of the worst elements in Ant. I have never seen this concept in any other XML structure before. Even when you have a Schema, it <em>circumvents</em> the structure by introducing new elements just &#8220;accidentally&#8221;. This makes the whole concept of your validation useless.</li>
+<li><strong>No Official Schema</strong><br />
+Why using such &#8220;complicated&#8221; XML when no Schema is available? This seems not very userfriendly to offer XML without an underlying fundament.</li>
+<li><strong>Why XML?</strong><br />
+Although you can tell me a &#8220;fan&#8221; of XML, I don&#8217;t think it is useful in every case. There are certainly reasons why the Ant team chooses XML over another syntax. However, then it should take into account of a schema too. I&#8217;m not fully convinced of the advantages of XML as a building tool (with the lack of a good schema.)</li>
+</ol>
+<h2>A Possible Solution</h2>
+<p>To improve the situation for XML users, I think the following should be interesting:</p>
+<ol>
+<li><strong>Provide a RELAX NG Schema (RNG)</strong><br />
+In my humble opinion, this is the absolute minimum to work efficiently with Ant&#8217;s XML structure. The RNG should contain the core elements of Ant&#8217;s structure. Weather the RNG is liberal enough to allow further elements from other namespaces or not, is a matter of design.<br />
+If your XML editor does not support RNG, there should be a DTD or W3C Schema available. However, the semantic power is not always the same with these schema languages.</li>
+<li><strong>Use The Expressive Power of RELAX NG</strong><br />
+Ant&#8217;s XML structure contains sometimes conditions like: &#8220;Use only one attribute from this list.&#8221; This condition can be expressed with RNG&#8217;s <tt>choice</tt> element. The advantage of this approach: your XML editor helps you in creating valid XML during your writing.</li>
+<li><strong>Get Rid of taskdef (And The Like)</strong><br />
+This was not only totally unexpected, it is a nightmare for every XML editor (as described above). No Schema should be fooled with this &#8220;broken by design&#8221; method. There are other methods to introduce further elements, be it in a separate namespace or, for example, with an element usetask with an attribute name. This might be not as short as <tt>taskdef</tt>, but it is much more safer.</li>
+<li><strong>Document The RELAX NG Schema</strong><br />
+With documenting I mean not only a decent HTML page, but also some helpful tips <em>inside</em> the RELAX NG schema too. Modern XML editors which support annotations, can show a small tool tip to provide  users with helpful information. This is <em>very</em> useful as the user does not have to find the information-the information comes automatically through the XML editor.<br />
+Another advantage: You can extract the annotation to create a separate HTML page, for example.</li>
+<li><strong>Provide a Conversation Tool</strong><br />
+You can only make these &#8220;radical&#8221; steps, when there is a good conversion tool from major version n to n+1 available. This could be a XSLT stylesheet that converts the <tt>taskdef</tt> into something more useful.</li>
+<li><strong>Offer a &#8220;Compact Syntax</strong>&#8221;<br />
+RELAX NG schemas can be written in two forms: as XML and as a compact syntax. This is very, very useful, as it allows users to take part when they don&#8217;t like XML. It is also possible to convert the two without problems. If you still need the validation structure, convert it into XML, validate it and you are done.</li>
+</ol>
+<p>Schema design is not as easy as it looks. There are lots of problems that you only see after some time. That&#8217;s probably the reason, why the World Wide Web Consortium needs some time to declare a specification a <em>W3C Recommendation</em>.</p>
+<p>XML can be good. But it can also be broken when it is badly designed.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/02/16/why-ant-sucks-somehow/feed/</wfw:commentRss>
+		<slash:comments>7</slash:comments>
+		</item>
+	</channel>
+</rss>

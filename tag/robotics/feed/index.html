@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Robotics &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/robotics/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>We are the robots</title>
+		<link>https://lizards.opensuse.org/2013/11/26/we-are-the-robots/</link>
+		<pubDate>Tue, 26 Nov 2013 06:46:15 +0000</pubDate>
+		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
+				<category><![CDATA[Education]]></category>
+		<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Robotics]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10181</guid>
+		<description><![CDATA[&#8216;Welcome to Central Industrial, &#8220;We are the future&#8221;&#8216; is a quote from Blade Runner and now we are entering at last to future with anual European Robotics Week. When Blade Runner world is just around the corner it&#8217;s time to reveal small Robotics pet project with openSUSE and OpenCV. Starting project After reading articles like [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>&#8216;Welcome to Central Industrial, &#8220;We are the future&#8221;&#8216; is a quote from Blade Runner and now we are entering at last to future with anual <a href="http://www.eu-robotics.net/eurobotics-week/" title="European Robotics Week " target="_blank">European Robotics Week</a>. When Blade Runner world is just around the corner it&#8217;s time to reveal small Robotics pet project with openSUSE and <a href="http://opencv.org/" title="OpenCV">OpenCV</a>.<span id="more-10181"></span></p>
+<h2>Starting project</h2>
+<p>After reading articles <a href="http://www.einfach-cnc.de/bf20_cnc-umbau.html" title="BF20 CNC-Umbau">like this</a> and <a href="http://www.students.tut.fi/~kontkant/bf20.php.html" title="Optimum BF20 Vario CNC conversion">this</a> I&#8217;ve get idea to turn our mill also to CNC-machine. You can read from those good articles how to make it.They&#8217;ll tell it better than me. If you don&#8217;t read Germany I can let you know neater do I.<br />
+I&#8217;ve just took <a href="http://arduino.cc/en/Main/arduinoBoardUno" title="Arduino Uno">Arduino Uno</a> (That was laying around in office), <a href="https://www.synthetos.com/project/grblshield/" title="The Arduino grblShield">grblShield</a> and couple of <a href="http://www.trinamic.com/" title="Trinamic">Trinamic NEMA-17 stepper motor</a> (Not cheapest but they work ok with grblShield). So I was ready to rock.</p>
+<h2>Loooooong IDLE</h2>
+<p>Then I&#8217;ve take</p>
+<pre>
+WHILE(1)
+  IF HAVE_TIME != YES THEN
+    PRINT "All work and no play makes Jack a dull boy"
+    SLEEP MONTH
+  ELSE
+    PRINT "Hello Doctor Falken, Do you want to play?"
+    BREAK
+  FI
+ELIHW</pre>
+<p>Long IDLE and then I  had little spare time so I started project and formulated CNC machine. It&#8217;s not as beautiful as those examples but it works good and it&#8217;s very accurate.</p>
+<h2>CNC machine ain&#8217;t robot</h2>
+<p>You are correct I just kind of robot. It does what GRBL (G-Code) says but it doesn&#8217;t function by itself. So next when I have more free R&amp;D slots I&#8217;ll take webcam and OpenCV and start converting it to real robot that can function without me.</p>
+<h2>But but you didn&#8217;t tell how to get GRBL into Arduino UNO</h2>
+<p>Okay I&#8217;ll share this with you and just with you. Download HEX file <a href="https://github.com/grbl/grbl" title="GRBL">from https://github.com/grbl/grbl</a>. Then download Arduino RPMs and avr-dude from <a href="http://build.opensuse.org" title="OBS">http://build.opensuse.org</a>. You got to be on dialout-group in openSUSE to do this (Tune it from YaST2 groups &amp; users position and re-login to it take effect). If you don&#8217;t have any other ACM (probably Modem or GPS device) devices in you machine you device location is probably &#8216;<em>/dev/ttyACM0</em>&#8216; and you also have to know which arduino programming version you have (Mine is <strong>1.0.5</strong>). After that HEX goes in and Arduino blinks light and your robot is alive..</p>
+<pre>
+avrdude -C/usr/share/arduino-1.0.5/hardware/tools/avrdude.conf -pm328p -carduino -P/your/ACM/device/here -D -U flash:w:your_grbl_hex_here.hex</pre>
+<p>Now is time to listen <a href="http://www.youtube.com/watch?v=VXa9tXcMhXQ" title="We are the robots">Kraftwerks: We are the robots</a> for few times..</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

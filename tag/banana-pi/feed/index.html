@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Banana Pi &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/banana-pi/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>How to create an openSUSE Banana Pi M1 image with MATE Desktop</title>
+		<link>https://lizards.opensuse.org/2015/09/17/how-to-create-an-opensuse-banana-pi-m1-image-with-mate-desktop/</link>
+		<pubDate>Thu, 17 Sep 2015 18:32:51 +0000</pubDate>
+		<dc:creator><![CDATA[Efstathios Iosifidis]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[arm7l]]></category>
+		<category><![CDATA[Banana Pi]]></category>
+		<category><![CDATA[MATE]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[openSUSE MATE]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11533</guid>
+		<description><![CDATA[I won a Banana Pi from ownCloud. So I tried to install openSUSE. There are 3 options: 1. According to the wiki page, you can download the image they provide but there&#8217;s no kernel support for Mali400MP2 GPU (who knows if it&#8217;s fixed by now). No Mali mean no GUI. The link to image is [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I won a <a href="http://eiosifidis.blogspot.gr/2014/12/my-banana-pi-and-owncloud-promo.html" target="1">Banana Pi from ownCloud</a>. So I tried to install <a href="https://en.opensuse.org/HCL:BananaPi" target="1">openSUSE</a>. </p>
+<p>There are 3 options:</p>
+<p>1. According to the wiki page, you can download the image they provide but there&#8217;s no kernel support for Mali400MP2 GPU (who knows if it&#8217;s fixed by now). No Mali mean no GUI. The link to image is <a href="http://download.opensuse.org/ports/armv7hl/tumbleweed/images/openSUSE-Tumbleweed-ARM-JeOS-bananapi.armv7l-Current.raw.xz" target="1">http://download.opensuse.org/ports/armv7hl/tumbleweed/images/</a>. </p>
+<p>2. Download the image from <a href="http://www.lemaker.org/article-36-1.html" target="1">http://www.lemaker.org</a>. The GUI used is XFCE.</p>
+<p>3. Do it the hard way, build it yourself. I would like to install MATE. I know, I could use the lemaker image.<br />
+I followed the page <a href="http://www.bananapi.org/p/blog-page_20.html?m=1" target="1">HowTo Build Banana Pi Image</a>. </p>
+<p>This post has 2 sections. The first is how to create the SD card and the next one is how to install MATE.<br />
+<span id="more-11533"></span><br />
+<b>Create the SD card.</b></p>
+<p>1. Create a folder where you&#8217;re going to work (download the nessesary files).</p>
+<blockquote><p>mkdir WORKSPACE</p>
+<p>cd WORKSPACE</p></blockquote>
+<p>2. I&#8217;ll skip the steps 1-5 from the Build it yourself page. You can download the file:</p>
+<p><a href="https://copy.com/4gjStwm3lm2R4kuf/BananaPi_hwpack.tar.xz" target="1">BananaPi_hwpack.tar.xz</a></p>
+<p>Download also the rootfs openSUSE image file.</p>
+<p><a href="http://download.opensuse.org/ports/armv7hl/tumbleweed/images" target="1">openSUSE-Tumbleweed-ARM-JeOS.armv7-rootfs.armv7l-Current.tbz</a></p>
+<p>3. Create the folder with the ROOTFS_DIR</p>
+<blockquote><p>mkdir ROOTFS_DIR</p></blockquote>
+<p>4. Decompress the file to ROOTFS_DIR</p>
+<p><a href="http://download.opensuse.org/ports/armv7hl/tumbleweed/images/openSUSE-Tumbleweed-ARM-JeOS.armv7-rootfs.armv7l-Current.tbz" target="1">openSUSE-Tumbleweed-ARM-JeOS.armv7-rootfs.armv7l-Current.tbz</a></p>
+<p>5. Now work with the file <b>BananaPi_hwpack.tar.xz</b>. Decompress the file.</p>
+<blockquote><p>tar xvfJ BananaPi_hwpack.tar.xz</p></blockquote>
+<p>6. Copy related files to the directory ROOTFS_DIR</p>
+<blockquote><p>cp kernel/script.bin ROOTFS_DIR/boot<br />
+cp kernel/uImage ROOTFS_DIR/boot</p></blockquote>
+<p>Create the file:</p>
+<blockquote><p>
+nano ROOTFS_DIR/boot/uEnv.txt
+</p></blockquote>
+<p>with the following content</p>
+<blockquote><p>
+mmcboot=fatload mmc 0 0x43000000 script.bin || fatload mmc 0 0x43000000 evb.bin; \<br />
+fatload mmc 0 0x48000000 uImage; if fatload mmc 0 0x43100000 uInitrd; \<br />
+then bootm 0x48000000 0x43100000; else bootm 0x48000000; fi<br />
+uenvcmd=run mmcboot<br />
+bootargs=console=ttyS0,115200 console=tty0 \<br />
+disp.screen0_output_mode=EDID:1280x720p60 \<br />
+hdmi.audio=EDID:0 root=/dev/mmcblk0p1
+</p></blockquote>
+<p>Copy the rootfs folder:</p>
+<blockquote><p>
+cp -r rootfs/* ROOTFS_DIR
+</p></blockquote>
+<p>7. Now prepare the SD. Format the sdcard (assume the sdcard mounted at /dev/sdb. You can find it with the command <b>cat /proc/partitions</b>) </p>
+<blockquote><p>
+sudo umount /dev/sdb1<br />
+sudo dd if=/dev/zero of=/dev/sdb bs=1k count=1024<br />
+sudo dd if=bootloader/u-boot-sunxi-with-spl.bin of=/dev/sdb bs=1024 seek=8
+</p></blockquote>
+<p>Create partition (you can do it using gparted too)</p>
+<blockquote><p>
+sudo fdisk /dev/sdb
+</p></blockquote>
+<p>* Delete partitions: o<br />
+* List partitions: p<br />
+* Create new partitions: n<br />
+* Primary partitions: p<br />
+* Partition number: 1<br />
+* Press ENTER twice to use the total size of the card<br />
+* Write the partition table: w </p>
+<p>Format the parititon</p>
+<blockquote><p>
+sudo mkfs.ext4 /dev/sdb1
+</p></blockquote>
+<p>8. Copy ROOTFS_DIR into sdcard</p>
+<blockquote><p>
+mkdir mnt<br />
+sudo mount /dev/sdb1 mnt<br />
+sudo cp -a ROOTFS_DIR/* mnt<br />
+sudo sync<br />
+sudo umount mnt
+</p></blockquote>
+<p>Now boot the card. The default username/password are:</p>
+<blockquote><p>
+Username: root<br />
+Password: linux
+</p></blockquote>
+<p>Unfortunately ssh didn&#8217;t work. I logged in and changed few things.<br />
+First of all I edited the file sshd_conf</p>
+<div class="code">
+nano /etv/ssh/sshd_conf
+</div>
+<p>And found:<br />
+<b>Port 22<br />
+PasswordAthentication yes<br />
+PermitRootlogin yes<br />
+</b></p>
+<p>Then I used the command</p>
+<div class="code">
+chown -R root /var/lib/empty
+</div>
+<p>Rebooted and all set.</p>
+<p>You can download the image from <a href="https://copy.com/k2KRWmIZUwwpUkFK" target="1">openSUSE-Tumbleweed-BananaPi-headless-20150928.tar.xz</a></p>
+<p>copy it at least 2GB sd card and resize it.</p>
+<p><b>Install MATE Desktop</b></p>
+<p>The first thing you have to do is to update (zypper up).</p>
+<p>The easiest way is to open YaST and go to Software Management.<br />
+Then filter by Patterns.<br />
+Click to install <b>MATE Desktop Environment</b> and <b>MATE Base system</b>.</p>
+<p>After everything is installed, make MATE-session as default window manager</p>
+<div class="code">
+nano /etc/sysconfig/windowmanager
+</div>
+<p>Find the line:</p>
+<p><b>DEFAULT_WM = &#8220;kde-plasma&#8221;</b></p>
+<p>and change it to</p>
+<p><b>DEFAULT_WM = &#8220;mate-session&#8221;</b></p>
+<p>Then reboot. Login and type <b>startx</b></p>
+<p><a href="https://lh5.googleusercontent.com/-TrRE7mteVHQ/Vfc22U4OmTI/AAAAAAAALts/sH1V7njwd2o/w958-h539-no/MATE_3.png"><img src="https://lh5.googleusercontent.com/-TrRE7mteVHQ/Vfc22U4OmTI/AAAAAAAALts/sH1V7njwd2o/w958-h539-no/MATE_3.png" height="80%" width="80%"></a></p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>LTSP client goes Banana Pi!</title>
+		<link>https://lizards.opensuse.org/2014/12/16/ltsp-client-goes-banana-pi/</link>
+		<comments>https://lizards.opensuse.org/2014/12/16/ltsp-client-goes-banana-pi/#comments</comments>
+		<pubDate>Tue, 16 Dec 2014 14:03:33 +0000</pubDate>
+		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Derivative]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Education]]></category>
+		<category><![CDATA[Server]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[arm7]]></category>
+		<category><![CDATA[Banana Pi]]></category>
+		<category><![CDATA[LTSP]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11121</guid>
+		<description><![CDATA[The Raspberry Pi is a credit-card sized computer running ARM processor that plugs into your TV/PC monitor, mouse and a keyboard, it is capable of running Linux and can be made to do many interesting things.The Banana Pi is a what Chinese ingeniousness came up with after they checked out Raspberry Pi, they made a [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The <a href="http://www.raspberrypi.org/">Raspberry Pi</a> is a credit-card sized computer running ARM processor that plugs into your TV/PC monitor, mouse and a keyboard, it is capable of running Linux and can be made to do many interesting things.The <a href="http://www.bananapi.org/">Banana Pi </a>is a what Chinese ingeniousness came up with after they checked out Raspberry Pi, they made a lot more powerful knockoff. This is a &#8220;How-to&#8221; use Banana Pi as <a href="http://en.opensuse.org/Portal:KIWI-LTSP">LTSP</a> client. <span id="more-11121"></span></p>
+<p>There is <a href="http://www.berryterminal.com/">BerryTerminal</a> project which makes it possible to use Raspberry Pi as <a href="http://ltsp.org">LTSP</a> Thin Client, on the server you can run any distribution that can run LTSP server, it can be running CPU with x86/x86_64/whatever architecture as LTSP provides a way to run X session from the server via SSH tunnel. Biggest benefit of running LTSP is centralized user and data management, and clients can be of modest specification as all clients&#8217; sessions are run on the server. This is a drawback as well, as the server needs to be powerful enough to handle many sessions. This is where LTSP Fat Client help, it allows running of users&#8217; session on the client that are powerful enough, while users and data are stored on the central server allowing modest server to serve many more clients than it would otherwise. Raspberry Pi is not that capable to run full featured Linux desktop, Banana Pi with it&#8217;s dual core CPU and 1 GB RAM is just good enough to work as a Thin Client as well as a Fat Client. perfect for home, small office or school lab.</p>
+<div style="width: 309px" class="wp-caption aligncenter"><a href="https://lh3.googleusercontent.com/-iWlIHB6CcSU/VJEprCaOjwI/AAAAAAAAJHo/250poN-CX6M/w873-h658-no/IMG_20141217_122350.jpg"><img class="" src="https://lh3.googleusercontent.com/-iWlIHB6CcSU/VJEprCaOjwI/AAAAAAAAJHo/250poN-CX6M/w873-h658-no/IMG_20141217_122350.jpg" alt="" width="299" height="226" /></a><p class="wp-caption-text">Piece of history, first ever Banana Pi LTSP terminal running openSUSE KIWI-LTSP</p></div>
+<p>There is <a href="http://www.lemaker.org/resources/9-101/opensuse_for_bananapi.html">openSUSE 13.1 available for Banana Pi</a>, it comes with XFCE desktop and many useful software pre-installed. Because I do not know how to create images for this hardware, that image is used as a base for Banana Terminal. Here are the steps to turn your Banana Pi into LTSP client.</p>
+<p>* Download <a class="name" title="Click to download openSUSE-Bananapi-LTSP.tar.xz" href="http://sourceforge.net/projects/cyberorg-home/files/opensuse-arm/openSUSE-Bananapi-LTSP.tar.xz/download">openSUSE-Bananapi-LTSP.tar.xz</a></p>
+<p>* Extract the archive to get openSUSE-Bananapi-LTSP.img from it.</p>
+<p>* Dump the openSUSE-Bananapi-LTSP.img on to a SD card, <a href="http://www.lemaker.org/resources/9-39/banana_pi_quick_start_guide.html">see step 5 here</a>.</p>
+<p>* Change settings according to your network configuration</p>
+<p>In the second partition of SD card etc/lts.conf edit the SERVER variable to point to LTSP server in your network.</p>
+<p>* Plug the SD card in your Banana Pi and boot it up, make sure the network is connected and LTSP server is <a href="https://en.opensuse.org/SDB:LTSP_quick_start_12.2_Edu">set up properly</a>. You have to create users on the server to use for login on client.</p>
+<p>*  In case you have a bigger SD card, use yast2 disk(partitioner) on the client to expand the second partition. You can use yast&#8217;s package manager to install more software. The default password for root is bananapi, you may want to change that first thing after booting.</p>
+<p>If you would like to run LTSP client on <a href="https://en.opensuse.org/Category:ARM_devices">ARM7 hardware supported by openSUSE</a> I would be happy to accept hardware donation to get it working <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>Have a lot of fun&#8230;</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2014/12/16/ltsp-client-goes-banana-pi/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+	</channel>
+</rss>

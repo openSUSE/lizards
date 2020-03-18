@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>YUMI &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/yumi/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Create multi liveUSB with openSUSE</title>
+		<link>https://lizards.opensuse.org/2015/05/30/create-multi-liveusb-with-opensuse/</link>
+		<pubDate>Sat, 30 May 2015 08:51:44 +0000</pubDate>
+		<dc:creator><![CDATA[Efstathios Iosifidis]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[multiboot]]></category>
+		<category><![CDATA[multisystem]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[script]]></category>
+		<category><![CDATA[YUMI]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11466</guid>
+		<description><![CDATA[I was trying to create a liveUSB with many distros. The reason is simple. All of my USB sticks were quite big for only one distro. So the rest of the USB space is wasted. For example, the openSUSE USBs I got from conferences, are 8GB. If I use installation DVD, I&#8217;m going to use [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><a href="https://www.dropbox.com/s/anhmgd91ylak9a8/geeko-head-black.png?raw=1"><img src="https://www.dropbox.com/s/anhmgd91ylak9a8/geeko-head-black.png?raw=1" width="50%" height="50%"></a></p>
+<p>I was trying to create a liveUSB with many distros. The reason is simple. All of my USB sticks were quite big for only one distro. So the rest of the USB space is wasted. For example, the openSUSE USBs I got from conferences, are 8GB. If I use installation DVD, I&#8217;m going to use only 4GB. LiveGNOME is only 1GB (the rest would be persistent drive for storage but personally, I don&#8217;t use it.</p>
+<p>For that reason, I used 2 programs.</p>
+<p>1. <a href="http://liveusb.info/" target="1">Multisystem</a>.</p>
+<p>I translated to Greek. Unfortunately, this software is installed only on Ubuntu/Debian distros. I used it also on <a href="https://aur.archlinux.org/packages/multisystem/" target="1">Arch Linux</a> but there was a problem lately and didn&#8217;t work correctly. On Ubuntu, I managed to insert 13.1 successfully and lately this was difficult to do. At the end of each time, there were some strange symbols running for a quite long time with a sound (I muted the sound for that reason).  I think persistent drive for 13.2 and Tumbleweed wasn&#8217;t something that the creators of the program added.<br />
+DVD ISO and NET install ISO wasn&#8217;t at their list either.</p>
+<p>2. <a href="http://www.pendrivelinux.com/yumi-multiboot-usb-creator/" target="1">YUMI</a></p>
+<p>This works on Windows. At the end of the page there&#8217;s a version for Ubuntu/Debian (and source code). I didn&#8217;t test them.<br />
+I tested this tool and I inserted NET install ISOs to an old 512MB USB I had. The only &#8220;negative&#8221; is that there wasn&#8217;t room left for the ISOs I wanted. 90MB x 4 = 360MB. It adds syslinux stuff. Anyways, at least I can use a very old USB.<br />
+<span id="more-11466"></span></p>
+<p>With the help of my friend Thanos, I created a liveUSB with the Tumbleweed versions of GNOME and KDE.<br />
+I&#8217;ll write here how I did it with some possible options. Firstly the references. I used <a href="https://wiki.archlinux.org/index.php/Multiboot_USB_drive#openSUSE" target="1">Arch wiki</a> and a και έναν <a href="http://www.circuidipity.com/multi-boot-usb.html" target="1">tutorial</a> that Thanos sent me.</p>
+<p>Let&#8217;s see the steps:</p>
+<p>1. Create a FAT32 partition</p>
+<p>If you use terminal, you need the commands:</p>
+<p>To find the name of your USB</p>
+<blockquote><p>$ cat /proc/partition</p></blockquote>
+<p>To unmount your USB (yours might have different name than sdX)</p>
+<blockquote><p>$ sudo umount /dev/sdX1</p></blockquote>
+<p>Format the partition</p>
+<blockquote><p>$ sudo mkfs.vfat -n MULTIBOOT /dev/sdX1</p></blockquote>
+<p>2. Create 2 directories <em>boot</em> and <em>iso</em> inside your USB.</p>
+<blockquote><p>$ sudo mkdir /run/media/USERNAME/MULTIBOOT/{boot,iso}</p></blockquote>
+<p>if this doesn&#8217;t work, just go to MULTIBOOT and create the directories with the command mkdir.</p>
+<p>3. Install grub (this command didn&#8217;t work on openSUSE. I guess there was something more to install).</p>
+<blockquote><p>$ sudo grub-install &#8211;force &#8211;no-floppy &#8211;root-directory=/run/media/USERNAME/MULTIBOOT /dev/sdX</p></blockquote>
+<p>4. Copy the ISO you want to the iso directory of the USB.</p>
+<p>5. Create a <b>grub.cfg</b> file</p>
+<blockquote><p>$ nano /run/media/USERNAME/MULTIBOOT/boot/grub/grub.cfg</p></blockquote>
+<p>Here is all the different options you could have.<br />
+Add the text:</p>
+<blockquote><p># Config for GNU GRand Unified Bootloader (GRUB)<br />
+# /boot/grub/grub.cfg</p>
+<p># Timeout for menu<br />
+set timeout=30</p>
+<p># Default boot entry<br />
+set default=0</p>
+<p># Menu Colours<br />
+set menu_color_normal=white/black<br />
+set menu_color_highlight=white/green</p>
+<p># Path to the partition holding ISO images (using UUID)<br />
+#set imgdevpath=&#8221;/dev/disk/by-uuid/UUID_value&#8221;<br />
+# &#8230; or&#8230;<br />
+# Path to the partition holding ISO images (using device labels)<br />
+#set imgdevpath=&#8221;/dev/disk/by-label/label_value&#8221;<br />
+set imgdevpath=&#8221;/dev/disk/by-label/MULTIBOOT&#8221;</p>
+<p># Boot ISOs<br />
+menuentry ‘openSUSE Tumbleweed GNOME Live x86_64′ {<br />
+set isofile=’/iso/openSUSE-Tumbleweed-GNOME-Live-x86_64.iso’<br />
+loopback loop $isofile<br />
+linux (loop)/boot/x86_64/loader/linux isofrom_device=$imgdevpath isofrom_system=$isofile LANG=en_US.UTF-8<br />
+initrd (loop)/boot/x86_64/loader/initrd<br />
+}</p>
+<p>menuentry ‘openSUSE Tumbleweed KDE Live x86_64′ {<br />
+set isofile=’/iso/openSUSE-Tumbleweed-KDE-Live-x86_64.iso’<br />
+loopback loop $isofile<br />
+linux (loop)/boot/x86_64/loader/linux isofrom_device=$imgdevpath isofrom_system=$isofile LANG=en_US.UTF-8<br />
+initrd (loop)/boot/x86_64/loader/initrd<br />
+}</p>
+<p>menuentry ‘openSUSE Tumbleweed GNOME Live 32bit’ {<br />
+set isofile=’/iso/openSUSE-Tumbleweed-GNOME-Live-i686.iso’<br />
+loopback loop $isofile<br />
+linux (loop)/boot/i386/loader/linux isofrom_device=$imgdevpath isofrom_system=$isofile LANG=en_US.UTF-8<br />
+initrd (loop)/boot/i386/loader/initrd<br />
+}</p>
+<p>menuentry ‘openSUSE Tumbleweed KDE Live 32bit’ {<br />
+set isofile=’/iso/openSUSE-Tumbleweed-KDE-Live-i686.iso’<br />
+loopback loop $isofile<br />
+linux (loop)/boot/i386/loader/linux isofrom_device=$imgdevpath isofrom_system=$isofile LANG=en_US.UTF-8<br />
+initrd (loop)/boot/i386/loader/initrd<br />
+}</p>
+<p>menuentry ‘openSUSE-Tumbleweed-DVD-x86_64′ {<br />
+set isofile=’/iso/openSUSE-Tumbleweed-DVD-x86_64.iso’<br />
+loopback loop $isofile<br />
+linux (loop)/boot/x86_64/loader/linux install=hd:$isofile<br />
+initrd (loop)/boot/x86_64/loader/initrd<br />
+}</p>
+<p>menuentry ‘openSUSE-Tumbleweed-DVD-i586′ {<br />
+set isofile=’/iso/openSUSE-Tumbleweed-DVD-i586.iso’<br />
+loopback loop $isofile<br />
+linux (loop)/boot/i386/loader/linux install=hd:$isofile<br />
+initrd (loop)/boot/i386/loader/initrd<br />
+}</p>
+<p>menuentry ‘openSUSE-Tumbleweed-NET-x86_64′ {<br />
+set isofile=’/iso/openSUSE-Tumbleweed-NET-x86_64.iso’<br />
+loopback loop $isofile<br />
+linux (loop)/boot/x86_64/loader/linux install=hd:$isofile<br />
+initrd (loop)/boot/x86_64/loader/initrd<br />
+}</p>
+<p>menuentry ‘openSUSE-Tumbleweed-NET-i586′ {<br />
+set isofile=’/iso/openSUSE-Tumbleweed-NET-i586.iso’<br />
+loopback loop $isofile<br />
+linux (loop)/boot/i386/loader/linux install=hd:$isofile<br />
+initrd (loop)/boot/i386/loader/initrd<br />
+}</p>
+<p>menuentry ‘openSUSE-Leap-42.1-DVD-x86_64′ {<br />
+set isofile=’/iso/openSUSE-Leap-42.1-DVD-x86_64.iso’<br />
+loopback loop $isofile<br />
+linux (loop)/boot/x86_64/loader/linux install=hd:$isofile<br />
+initrd (loop)/boot/x86_64/loader/initrd<br />
+}</p>
+<p>menuentry ‘openSUSE-Leap-42.1-NET-x86_64′ {<br />
+set isofile=’/iso/openSUSE-Leap-42.1-NET-x86_64.iso’<br />
+loopback loop $isofile<br />
+linux (loop)/boot/x86_64/loader/linux install=hd:$isofile<br />
+initrd (loop)/boot/x86_64/loader/initrd<br />
+}</p>
+</blockquote>
+<p>I wrote all possible senarios. You choose what you need.</p>
+<p>Everytime that new snapshot is available, you download and change the name. Then just copy it in the iso directory.</p>
+<p>You can test <a href="https://copy.com/oOy2hhAD1cU6pQgB" target="_blank">my live USB Tumbleweed GNOME+KDE, 32-64bit plus NET install of Leap.</a> It fits in 4GBs USB.</p>
+<p>If you want to use other distro, just check the <a href="https://wiki.archlinux.org/index.php/Multiboot_USB_drive" target="1">wiki</a>.</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

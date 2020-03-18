@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>kaffeine &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/kaffeine/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Problem with an selfmade DVD (DVD RECORDER)</title>
+		<link>https://lizards.opensuse.org/2009/04/12/problem-with-an-selfmade-dvd-dvd-recorder/</link>
+		<pubDate>Sun, 12 Apr 2009 13:06:00 +0000</pubDate>
+		<dc:creator><![CDATA[Sascha Manns]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Usability]]></category>
+		<category><![CDATA[dvd]]></category>
+		<category><![CDATA[kaffeine]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=702</guid>
+		<description><![CDATA[Symptom: Since a few days i had an Problem with playing selfmade DVDs. CDs (Audio and *.avi) can be playes. Original DVD&#8217;s too. But i have made DVDs with an DVD RECORDER (for TV). Then i burn 2 Movies on the DVD and the Recorder makes an own Menu for the Movies. But if i [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Symptom:</p>
+<p>Since a few days i had an Problem with playing selfmade DVDs. CDs (Audio and *.avi) can be playes. Original DVD&#8217;s too. But i have made DVDs with an DVD RECORDER (for TV). Then i burn 2 Movies on the DVD and the Recorder makes an own Menu for the Movies. But if i insert the DVD to the DVD Player, the Device Monitor sayd me, the only three Alternatives are: open in Dolphin, open with Digikam and do nothing. If i choosed Dolphin, dolphin startsand then i see in the bottom an Red Line with the Error &#8220;No Access&#8221;.</p>
+<p>First tries:</p>
+<p>I listed the Directory:<br />
+lrwxrwxrwx   1 root   root          3 10. Apr 15:24 cdrom -&gt; sr0<br />
+lrwxrwxrwx   1 root   root          3 10. Apr 11:45 cdrw -&gt; sr1<br />
+lrwxrwxrwx   1 root   root          3 10. Apr 11:45 dvd -&gt; sr0<br />
+lrwxrwxrwx   1 root   root          3 10. Apr 11:45 fb -&gt; fb0<br />
+brw-rw&#8212;-+  1 root   cdrom         11,   0 10. Apr 11:45 sr0<br />
+brw-rw&#8212;-+  1 root   cdrom   11,   1 10. Apr 11:45 sr1<br />
+lrwxrwxrwx   1 root   root          3 10. Apr 11:45 scd0 -&gt; sr0</p>
+<p>lrwxrwxrwx   1 root   root          3 10. Apr 11:45 scd1 -&gt; sr<br />
+My User is in the Group &#8220;cdrom&#8221;.</p>
+<p>Then  i&#8217;ve checked /etc/udev/rules.d 99-my.rules:<br />
+There i found: KERNEL==&#8221;[sr*[0-9]&#8221;,GROUP=&#8221;cdrom&#8221;,MODE=&#8221;0660&#8243;</p>
+<p>getfacl /dev/sr0 says:</p>
+<p>getfacl: Removing leading &#8216;/&#8217; from absolute path names<br />
+# file: dev/sr0</p>
+<p># owner: root</p>
+<p># group: cdrom user::rw-<br />
+user:sascha:rw-<br />
+group::rw-<br />
+mask::rw-<br />
+other::&#8212;<br />
+For sr1 its the same output.</p>
+<p>Then i go to  /usr/share/PolicyKit/policy/org.freedesktop.hal.device-access.policy and set the following:<br />
+&#8212; org.freedesktop.hal.device-access.policy.orig   2008-12-23<br />
+23:34:16.241840351 +0100<br />
++++ org.freedesktop.hal.device-access.policy        2008-12-23<br />
+23:34:45.375339211 +0100<br />
+@@ -59,8 +59,8 @@<br />
+&lt;description&gt;Directly access removable block<br />
+devices&lt;/description&gt; &lt;message&gt;System policy prevents access to<br />
+removable block devices&lt;/message&gt;<br />
+&lt;defaults&gt;<br />
+&#8211;      &lt;allow_inactive&gt;no&lt;/allow_inactive&gt;<br />
+&#8211;      &lt;allow_active&gt;no&lt;/allow_active&gt;<br />
++      &lt;allow_inactive&gt;yes&lt;/allow_inactive&gt;<br />
++      &lt;allow_active&gt;yes&lt;/allow_active&gt;<br />
+&lt;/defaults&gt;<br />
+&lt;/action&gt;</p>
+<p>Then i made an reboot, but nothing happens. The same Error is<br />
+present.</p>
+<p>Today i found out, that all non accessable DVD have the following<br />
+Rights:<br />
+dr&#8211;r&#8211;r&#8211;  3 sascha 4294967295   88 15. Okt 2006  DVD_VIDEO_RECORDER/<br />
+^^^^^^^^^^^^</p>
+<p>Strange permissions.</p>
+<p>SOLUTION:</p>
+<p>Then i created an File in /usr/share/kde4/apps/solid/action with the following:</p>
+<p>[Desktop Entry]<br />
+X-KDE-Solid-Predicate=[ StorageVolume.ignored == false AND OpticalDisc.availableContent == &#8216;Data|VideoDvd&#8217; ]<br />
+Type=Service<br />
+Actions=open;</p>
+<p>[Desktop Action open]<br />
+Name=Play DVD with video player (Kaffeine)<br />
+Exec=kaffeine -d %d DVD<br />
+Icon=kaffeine</p>
+<p>After an relogin, the new Alternative are present. I can go to open with Kaffeine, and than we have finished this task.</p>
+<p>BTW: Please check if KDE3/Kaffeine is installed. Without them the Workaround will not work.</p>
+<p>Special Thanks goes to: slowhand/medwin</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

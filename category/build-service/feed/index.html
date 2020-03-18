@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0"
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -9,19 +8,422 @@
 	>
 
 <channel>
-	<title>openSUSE Lizards &#187; Build Service</title>
+	<title>Build Service &#8211; openSUSE Lizards</title>
 	<atom:link href="https://lizards.opensuse.org/category/build-service/feed/" rel="self" type="application/rss+xml" />
 	<link>https://lizards.opensuse.org</link>
 	<description>Blogs and Ramblings of the openSUSE Members</description>
-	<lastBuildDate>Mon, 24 Mar 2014 12:46:00 +0000</lastBuildDate>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
 	<language>en-US</language>
-		<sy:updatePeriod>hourly</sy:updatePeriod>
-		<sy:updateFrequency>1</sy:updateFrequency>
-	<generator>http://wordpress.org/?v=3.8.1</generator>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
 	<item>
+		<title>openSUSE on reproducible builds summit</title>
+		<link>https://lizards.opensuse.org/2019/12/13/opensuse-on-reproducible-builds-summit/</link>
+		<pubDate>Fri, 13 Dec 2019 11:43:37 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[reproducible-builds]]></category>
+		<category><![CDATA[Summit]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=14231</guid>
+		<description><![CDATA[As in the past 3 years, I joined the r-b summit where many people interested in reproducible builds met. There were several participants from companies, including Microsoft, Huawei and Google. Also some researchers from universities that work on tools like DetTrace, tuf and in-toto. But the majority still came from various open-source projects &#8211; with [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>As in the past 3 years, I joined <a href="https://reproducible-builds.org/events/Marrakesh2019/">the r-b summit</a> where many people interested in reproducible builds met.</p>
+<p>There were several participants from companies, including Microsoft, Huawei and Google.<br />
+Also some researchers from universities that work on tools like <a href="http://nickrenner.us-east-2.elasticbeanstalk.com/projects/dettrace">DetTrace</a>, tuf and in-toto.<br />
+But the majority still came from various open-source projects &#8211; with Fedora/RedHat being notably absent.</p>
+<p>We had many good discussion rounds, one of which spawned my writeup on <a href="https://lists.reproducible-builds.org/pipermail/rb-general/2019-December/001732.html">the goal of reproducible builds</a></p>
+<p>Another session was about our wish to design a nice interface, where people can easily find the reproducibility status of a package in various distributions. I might code a Proof-of-Concept of that in the next weeks (when I have time).<br />
+I also got some help with java patches in openSUSE and made several nice upstream reproducibility fixes &#8211; showing some others how easy that can be.</p>
+<p>This whole event also was good team-building, getting to know each other better. This will allow us to better collaborate in the Future.</p>
+<p>Later there will be a larger report compiled by others.</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>openSUSE WSL images in OBS</title>
+		<link>https://lizards.opensuse.org/2019/10/09/opensuse-wsl-images-in-obs/</link>
+		<pubDate>Wed, 09 Oct 2019 14:17:44 +0000</pubDate>
+		<dc:creator><![CDATA[lnussel]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=14127</guid>
+		<description><![CDATA[A fundamental concept of all openSUSE packages as well as any image offered for download is a fully transparent, reproducible and automatic build and development process based on sources. In openSUSE developers do not perform manual builds on some specially crafted machine in their basement and then upload the result somewhere. Instead all sources are [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>A fundamental concept of all openSUSE packages as well as any image offered for download is a fully transparent, reproducible and automatic build and development process based on sources.</p>
+<p>In openSUSE developers do not perform manual builds on some specially crafted machine in their basement and then upload the result somewhere. Instead all sources are stored in a version control system inside the <a href="https://openbuildservice.org/">open build service</a> (OBS) instance at <a href="https://build.opensuse.org/">build.opensuse.org</a>. OBS then automatically builds the sources including all dependencies according to defined build instructions (eg spec files for rpms). OBS also automatically adds cryptographic signatures to files that support it to make sure nobody can tamper with those files.</p>
+<p>The WSL appx files are basically zip files that contain a tarball of a Linux system (like a container) and a Windows exe file, the so called launcher. Building a container is something OBS can already do fully automatic by means of <a href="http://osinside.github.io/kiwi/">Kiwi</a>. The launcher as well as the final appx however is typically built on a Windows machine using Visual Studio by the developer.</p>
+<p>Since the goal of the openSUSE WSL offering is to have the appx files officially and automatically be produced along with other images such as the DVD installer, Live images or containers, the appx files have to be built from sources in OBS.</p>
+<p>Fortunately there&#8217;s already a <a href="http://www.mingw.org/">MinGW</a> cross toolchain <a href="https://build.opensuse.org/project/show/windows:mingw:win64">packaged as rpms OBS</a> and a <a href="https://github.com/facebook/fb-util-for-appx">tool to generate appx files on Linux</a>.</p>
+<p>Combining that all together OBS can actually build the WSL appx from sources. The current state of development can be found in the <a href="https://build.opensuse.org/project/show/Virtualization:WSL">Virtualization:WSL</a> project in OBS. The generated appx files are published on <a href="https://download.opensuse.org/repositories/Virtualization:/WSL/">download.opensuse.org</a>.<br />
+The current images for <a href="https://download.opensuse.org/repositories/Virtualization:/WSL/openSUSE_Leap_15.2/openSUSE-Leap-15.2-Alpha.appx">Leap 15.2 Alpha</a> and <a href="https://download.opensuse.org/repositories/Virtualization:/WSL/openSUSE_Tumbleweed/openSUSE-Tumbleweed.appx">Tumbleweed</a> there are good enough for some testing already so please go ahead and do so, feedback welcome!<br />
+Note that since the appx files are signed by OBS rather than Microsoft, there are a <a href="https://en.opensuse.org/WSL/Manual_Installation">few steps required</a> to install them.</p>
+<p>Going forward there is still quite some work needed to polish this up. Kiwi for example can&#8217;t build the appx directly itself but rather the fb-util-for-appx is called by a spec file. That requires some hacks with the OBS project config to work. On Linux side there&#8217;s currently no password set for the root user, so we need a better &#8220;first boot&#8221; solution. More details on that in a later article. Meanwhile, remember to have a lot of fun&#8230;</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>openSUSE OBS git mirror</title>
+		<link>https://lizards.opensuse.org/2019/09/13/opensuse-obs-git-mirror/</link>
+		<comments>https://lizards.opensuse.org/2019/09/13/opensuse-obs-git-mirror/#comments</comments>
+		<pubDate>Fri, 13 Sep 2019 19:42:12 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Security]]></category>
+		<category><![CDATA[git]]></category>
+		<category><![CDATA[IPFS]]></category>
+		<category><![CDATA[mirror]]></category>
+		<category><![CDATA[obs]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=14032</guid>
+		<description><![CDATA[There was some discussion about our OBS and how in contrast Gentoo, VoidLinux or Fedora used git to track packages. So I made an experimental openSUSE:Factory git mirror to see how well it goes and how using it feels. The repo currently needs around 1GB but will slowly grow over time. I did not want [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>There was some discussion about our OBS and how in contrast <a href="https://github.com/gentoo/gentoo">Gentoo</a>, <a href="https://github.com/void-linux/void-packages/tree/master/srcpkgs/aubio/">VoidLinux</a> or <a href="https://src.fedoraproject.org/rpms/aubio/tree/master">Fedora</a> used git to track packages.</p>
+<p>So I made an experimental <a href="https://github.com/bmwiedemann/openSUSE/">openSUSE:Factory git mirror</a> to see how well it goes and how using it feels.<br />
+The repo currently needs around 1GB but will slowly grow over time. I did not want to spend effort to import all history.</p>
+<p>Binary files are replaced by cryptographically secure symlinks into IPFS<br />
+and I am currently providing files up to 9MB there.</p>
+<p>If you can not run ipfs, you can still get these files through any of the public gateways like this:<br />
+<code>curl https://ipfs.io$(readlink packages/a/aubio/aubio-0.4.9.tar.bz2) &gt; OUTPUT</code></p>
+<p>So some benefits are already obvious.<br />
+It is now much easier to find and download our patches.<br />
+Downloading and seaching all of openSUSE is now much faster.<br />
+And it works even on Thursdays (when our maintenance window often causes OBS downtimes).</p>
+<p>It is meant to be a read-only mirror, so there is no point in opening pull-requests on github.</p>
+<p>I hope, you enjoy it and have a lot of fun&#8230;</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2019/09/13/opensuse-obs-git-mirror/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>The issues with contributing to projects only once</title>
+		<link>https://lizards.opensuse.org/2017/06/04/the-issues-with-contributing-to-projects-only-once/</link>
+		<comments>https://lizards.opensuse.org/2017/06/04/the-issues-with-contributing-to-projects-only-once/#comments</comments>
+		<pubDate>Sun, 04 Jun 2017 04:06:31 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[contributing]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12523</guid>
+		<description><![CDATA[I work to improve the openSUSE Tumbleweed (GNU/)Linux distribution. Specifically I make sure that all packages can be built twice on different hosts and still produce identical results, which has multiple benefits. This generates a lot of patches in a single week. OBS Sometimes it is enough to adjust the .spec file &#8211; that is [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I work to improve the openSUSE Tumbleweed (GNU/)Linux distribution. Specifically I make sure that all packages can be built twice on different hosts and still produce identical results, which has <a href="https://reproducible-builds.org/docs/buy-in/">multiple benefits</a>. This generates <a href="https://reproducible.alioth.debian.org/blog/posts/109/">a lot of patches</a> in a single week.</p>
+<p><strong>OBS</strong><br />
+Sometimes it is enough to adjust the .spec file &#8211; that is a small text file usually specific to us. Then <a href="https://news.opensuse.org/2011/09/27/get-your-package-in-factory-for-12-1/">it is straight-forward</a></p>
+<ol>
+<li>osc bco</li>
+<li>cd $PROJECT/$PACKAGE</li>
+<li>optional: spec_add_patch $MY.patch $SOME.spec</li>
+<li>edit *.spec</li>
+<li>osc build</li>
+<li>osc vc</li>
+<li>osc ci</li>
+<li>osc sr</li>
+</ol>
+<p>And OBS will even auto-clean the branch when the submit-request is accepted. And it has a &#8216;tasks&#8217; page to see and track SRs in various stages. For the spec_add_patch to work, you need to do once<br />
+ln -s /usr/lib/build/spec_add_patch /usr/local/bin/</p>
+<p>When you want to contribute patches upstream, so that other distributions benefit from your improvements as well, then you first need to find out, where they collaborate. A good starting point is the URL field in the .spec file, but a google search for &#8216;contribute $PROJECT&#8217; often is better.</p>
+<p><strong>github</strong><br />
+Then there are those many projects hosted on github, where it is also pretty low effort, because I already have the account and it even remains signed in. But some repos on github are only read-only mirrors.</p>
+<ol>
+<li>check pull requests, if some have been merged recently</li>
+<li>fork the project</li>
+<li>git clone git@github.com:&#8230;</li>
+<li>cd $REPO</li>
+<li>edit $FILES</li>
+<li>git commit -a</li>
+<li>git push</li>
+<li>open pull request</li>
+<li>maybe have to sign a CLA for the project</li>
+<li>When change is accepted, delete fork to not clutter up repository list too much (on github under settings)</li>
+</ol>
+<p><strong>sourceforge</strong><br />
+The older brother of github. They integrate various ways of contributing. The easiest one is to open a Ticket (Patch or Bug) and attach the .patch you want them to merge with a good description. While many developers do not have the time and energy to debug every bug you file, applying patches is much easier, so gets your issue fixed with a higher chance.</p>
+<p><strong>devel Mailinglist</strong><br />
+Some projects collaborate mainly through their development MLs, then I need to</p>
+<ol>
+<li>subscribe</li>
+<li>confirm the subscription</li>
+<li>git format-patch origin/master</li>
+<li>git send-email &#8211;to $FOO-devel@&#8230; &#8211;from $MYSUBSCRIBEDEMAIL 000*.patch</li>
+<li>wait for replies</li>
+<li>if it is a high-volume ML, also add an IMAP folder and an entry to .procmailrc</li>
+<li>unsubscribe</li>
+<li>confirm</li>
+</ol>
+<p><strong>project bugtracker</strong><br />
+Like https://bugzilla.gnome.org/ https://bugs.python.org/ https://bugs.ruby-lang.org/ https://bz.apache.org/bugzilla/</p>
+<ol>
+<li>create unique email addr</li>
+<li>sign up for account</li>
+<li>add info to my account list</li>
+<li>optional: search for existing bug (90% of the time there is none)</li>
+<li>file bug</li>
+<li>attach patch</li>
+</ol>
+<p>So as you can see there is a wide range of ways. And most of them have some initial effort that you would only have once&#8230; But then I only contribute once per project, so I always pay that.</p>
+<p>Thus, please make it easy for people to contribute one simple fix.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2017/06/04/the-issues-with-contributing-to-projects-only-once/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Reducing YaST rebuild time by 30%</title>
+		<link>https://lizards.opensuse.org/2016/10/11/reducing-yast-rebuild-time-by-30/</link>
+		<comments>https://lizards.opensuse.org/2016/10/11/reducing-yast-rebuild-time-by-30/#comments</comments>
+		<pubDate>Tue, 11 Oct 2016 13:51:10 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12030</guid>
+		<description><![CDATA[Here comes the YaST team again trying to flood your aggregator with blog post! Now it&#8217;s time for the story of how we reduced the critical path of the rebuild time of YaST RPM packages from 42min 2s to 29min 40s. Chapter 1: where to optimize Of course, the first step to start fixing something [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Here comes the YaST team again trying to flood your aggregator with blog post! Now it&#8217;s time for the story of how we reduced the critical path of the rebuild time of YaST RPM packages from 42min 2s to 29min 40s.</p>
+<h2>Chapter 1: where to optimize</h2>
+<p>Of course, the first step to start fixing something is finding out what exactly needs to be fixed. In our case, this breaks down into</p>
+<ol>
+<li>knowing the dependencies, and</li>
+<li>knowing the individual build times.</li>
+</ol>
+<h3>Dependencies</h3>
+<p>It is tempting to figure out the dependencies by yourself, by parsing the spec files. But it is hard to do right, and, more importantly, a reinvention of the wheel. The Build Service must know all this to be able to schedule the builds, and provides a convenient way to access it, with <code>osc dependson</code>:</p>
+<pre>
+$ osc dependson YaST:Head openSUSE_Factory x86_64
+[...]
+yast2-x11 :
+   yast2-devtools
+yast2-xml :
+   yast2-core
+   yast2-devtools
+yast2-ycp-ui-bindings :
+   libyui
+   yast2-core
+   yast2-devtools
+</pre>
+<h3>Individual build times</h3>
+<p>For each source package, the Build Service produces not only binary RPMs but also a <code>_statistics</code> file, available in the <a href="https://build.opensuse.org/package/statistics/YaST:Head/yast2-core?arch=x86_64&amp;repository=openSUSE_Factory">web UI</a> or via <code>osc getbinaries</code>. We were interested in the total build time, although the data was of limited use because packages can be built on machines with vastly different power and this information is not included.</p>
+<h2>Chapter 2: how to optimize</h2>
+<p>Once we knew which screws needed to be tightened, it was time to do it. Fortunately we had more than one tool for the job.</p>
+<h3>Stop using Autotools</h3>
+<p>Autotools (automake, autoconf and configure) took up a majority of the time needed for building YaST packages. Now that most of those packages are written in pure Ruby, we don&#8217;t need autotools there checking for portability problems that we don&#8217;t have. Autotools are a leftover from the times 15 years back when they were the only sensible option. We <a href="https://twitter.com/timmartin2/status/23365017839599616">have wiped them out</a> where possible and have been <a href="https://github.com/yast/yast-bootloader/commit/5fb46ea8046ea9863e5411ffe1394797e71dde1e">switching</a> to our own <a href="https://github.com/openSUSE/packaging_rake_tasks">set of Rake tasks</a>.</p>
+<h3>Stub the APIs used in tests</h3>
+<p>We run a mixture of unit and integration tests at RPM build time. The downside of this is that we pull in many of the run time dependencies. Fortunately Ruby is a dynamic language and makes it easy to replace interfaces by stubs. That enables us to cut those dependencies.</p>
+<p>
+In fact, we also have some Perl code, notably in yast2-users. Although the stubbing techniques across languages are messier than with pure ruby, they are still effective for our purposes.</p>
+<h3>Do not build specialized documentation</h3>
+<p>This one is simple: if the development documentation is only useful for people that will check out the git repo anyway, then leave it out from the RPM.</p>
+<h2>Appendix: the details</h2>
+<p>
+Enough of high-level explanations, we we promised you graphs, code and all kind of gory details, and a promise made is a debt unpaid. So there we go.</p>
+<h3>Dependency graphs</h3>
+<p>A picture is worth a thousand words. That&#8217;s why we came up with <a href="https://github.com/mvidner/rpm-build-dependencies">this small tool</a> to generate a graphical representation of the dependencies of the YaST packages. In the resulting graphs displayed below, a node is a source package in the build service, and an arrow means &#8220;needs for its build&#8221;. Redundant arrows are omitted (that is, we&#8217;ve erased an A→C if both A→B and B→C existed).</p>
+<p>
+We can see that the most prominent conclusion is that there is a large number of packages that depend on yast2, a collection of basic libraries.</p>
+<p>
+But on top of that, in the original graph there are 6 more layers, and the graph is not very dense there. After our fixes, there are only 4 layers that are more dense.</p>
+<p>Is worth mentioning that the &#8220;layer&#8221; concept only works if the packages take roughly the same time to build; it would not be helpful if there were huge variations. To get a more accurate picture, we should have generated a histogram of build times. But the graph was good enough in our scenario&#8230; and we had to stop the analysis at some point. <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>
+The build dependency graph before our fixes:</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2016/10/yast_deps_before.png"><img src="//lizards.opensuse.org/wp-content/uploads/2016/10/yast_deps_before-248x300.png" alt="YaST dependencies graph (before)" width="248" height="300" class="aligncenter size-medium wp-image-12033" srcset="https://lizards.opensuse.org/wp-content/uploads/2016/10/yast_deps_before-248x300.png 248w, https://lizards.opensuse.org/wp-content/uploads/2016/10/yast_deps_before-768x928.png 768w, https://lizards.opensuse.org/wp-content/uploads/2016/10/yast_deps_before-848x1024.png 848w, https://lizards.opensuse.org/wp-content/uploads/2016/10/yast_deps_before.png 1600w" sizes="(max-width: 248px) 100vw, 248px" /></a></p>
+<p>The build dependency graph after our fixes:</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2016/09/yast_deps_after.png"><img src="//lizards.opensuse.org/wp-content/uploads/2016/09/yast_deps_after-184x300.png" alt="YaST dependencies graph (after)" width="184" height="300" class="aligncenter size-medium wp-image-11989" srcset="https://lizards.opensuse.org/wp-content/uploads/2016/09/yast_deps_after-184x300.png 184w, https://lizards.opensuse.org/wp-content/uploads/2016/09/yast_deps_after-768x1255.png 768w, https://lizards.opensuse.org/wp-content/uploads/2016/09/yast_deps_after-627x1024.png 627w, https://lizards.opensuse.org/wp-content/uploads/2016/09/yast_deps_after.png 1600w" sizes="(max-width: 184px) 100vw, 184px" /></a></p>
+<h3>Build statistics</h3>
+<p>If those graph are not geeky enough for you, here you are the detailed build statistics from the build service</p>
+<pre>
+&lt;buildstatistics&gt;
+  &lt;disk&gt;
+    &lt;usage&gt;
+      &lt;size unit="M"&gt;1118&lt;/size&gt;
+      &lt;io_requests&gt;15578&lt;/io_requests&gt;
+      &lt;io_sectors&gt;2156642&lt;/io_sectors&gt;
+    &lt;/usage&gt;
+  &lt;/disk&gt;
+  &lt;memory&gt;
+    &lt;usage&gt;      &lt;size unit="M"&gt;580&lt;/size&gt; &lt;/usage&gt;
+  &lt;/memory&gt;
+  &lt;times&gt;
+    &lt;total&gt;      &lt;time unit="s"&gt;756&lt;/time&gt; &lt;/total&gt;         &lt;!-- THIS --&gt;
+    &lt;preinstall&gt; &lt;time unit="s"&gt;8&lt;/time&gt;   &lt;/preinstall&gt;
+    &lt;install&gt;    &lt;time unit="s"&gt;72&lt;/time&gt;  &lt;/install&gt;
+    &lt;main&gt;       &lt;time unit="s"&gt;555&lt;/time&gt; &lt;/main&gt;
+    &lt;download&gt;   &lt;time unit="s"&gt;4&lt;/time&gt;   &lt;/download&gt;
+  &lt;/times&gt;
+  &lt;download&gt;
+    &lt;size unit="k"&gt;33564&lt;/size&gt;
+    &lt;binaries&gt;53&lt;/binaries&gt;
+    &lt;cachehits&gt;24&lt;/cachehits&gt;
+    &lt;preinstallimage&gt;preinstallimage.preinstallimage.tar.gz&lt;/preinstallimage&gt;
+  &lt;/download&gt;
+&lt;/buildstatistics&gt;
+</pre>
+<h2>Epilogue</h2>
+<p>This was definitely an interesting journey. We learned quite some  things. Specially we learned that there is still room for improvement, but most likely the time reduction will not pay off for the time invested implementing those improvements.</p>
+<p>We have to be realistic and keep working in other interesting stuff to fuel the next sprint report, coming next week!</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2016/10/11/reducing-yast-rebuild-time-by-30/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>targitter project &#8211; about OBS, tars and git</title>
+		<link>https://lizards.opensuse.org/2015/10/05/targitter-project-about-obs-tars-and-git/</link>
+		<pubDate>Mon, 05 Oct 2015 19:24:57 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[git]]></category>
+		<category><![CDATA[obs]]></category>
+		<category><![CDATA[tar]]></category>
+		<category><![CDATA[targitter]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11543</guid>
+		<description><![CDATA[In OBS we use source tarballs everywhere to build rpms (and debs) from. This has at least two major downsides: Storing all old tar files takes up a lot of disk space OBS workflows with .tar files and patches are rather different and somewhat disconnected from the git workflows we usually use everywhere else these [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>In OBS we use source tarballs everywhere to build rpms (and debs) from.</p>
+<p>This has at least two major downsides:</p>
+<ol>
+<li>
+Storing all old tar files takes up a lot of disk space
+</li>
+<li>
+OBS workflows with .tar files and patches are rather different and somewhat disconnected from the git workflows we usually use everywhere else these days. E.g. for the SUSE OpenStack Cloud team we have a &#8220;trackupstream&#8221; jenkins job, that pulls the latest git version into a tarball once every day.
+</li>
+</ol>
+<p>Fedora already keeps <a href="http://pkgs.fedoraproject.org/cgit/perl-OpenGL.git/plain/">their metadata</a> in git, but only a hash of the tarball.</p>
+<p>So as one first step, I used two rather different projects to see how different the space usage would be. On the slow side I used 20 gtk2 tarballs from the last 5 years and on the fast side, I used 31 openstack-nova tarballs from Cloud:OpenStack:Master project from the last 5 months.<br />
+I used <a href="https://www.zq1.de/~bernhard/targitter/eval/">scripts</a> that uncompressed each tarball, added it to a git repo and used git gc to trigger git&#8217;s compression. </p>
+<p>Here are the resulting cumulative size graphs:</p>
+<p><img src="https://www.zq1.de/~bernhard/targitter/eval/size-gtk2.svg" alt="gtk2 size graph" /><br />
+<img src="https://www.zq1.de/~bernhard/targitter/eval/size-nova.svg" alt="nova size graph" /></p>
+<p>The raw numbers after 20 tarballs: for nova the ratio is 89772:7344 = 12.2 and for gtk2 the ratio is 296836:53076 = 5.6</p>
+<p>What do you think: would it be worth the effort to use more git in our OBS workflows?</p>
+<p>Do we care about being able to reproduce the original tarballs? While this is possible, it has some challenges in differing file-ordering, timestamps, file-ownerships and <a href="https://github.com/jmacd/xdelta/pull/207">compression levels</a>.<br />
+Or would it be enough if OBS converted a tarball into a signed commit (so it cannot be forged without people being able to notice)?</p>
+<p>Do you know of a tool that can uncompress tarballs in a way that allows to track the content as single files, and allows to later re-create the original verbatim tarball, such that upstream signatures would still match?</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>oSC15 &#8211; 200, Why not packaging workshop like mini hack sprint</title>
+		<link>https://lizards.opensuse.org/2015/01/17/osc15-200-why-not-packaging-workshop-like-mini-hack-sprint/</link>
+		<pubDate>Sat, 17 Jan 2015 16:01:50 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Events]]></category>
+		<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[2015]]></category>
+		<category><![CDATA[osc]]></category>
+		<category><![CDATA[workshop]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11193</guid>
+		<description><![CDATA[Hello Geekos. I&#8217;m contacting you personally, as an openSUSE Board member. You certainly already know that we want to have a kicking openSUSE conference next 1st-4th May 2015 at the Haag (NL). Thus I&#8217;ve found that creating special workshop organized by development project could foster our beloved distribution. oSC is the unique case in the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><a href="//lizards.opensuse.org/wp-content/uploads/2015/01/li2.png"><img src="//lizards.opensuse.org/wp-content/uploads/2015/01/li2-163x300.png" alt="welcome" width="163" height="300" class="alignright size-medium wp-image-11198" srcset="https://lizards.opensuse.org/wp-content/uploads/2015/01/li2-163x300.png 163w, https://lizards.opensuse.org/wp-content/uploads/2015/01/li2.png 214w" sizes="(max-width: 163px) 100vw, 163px" /></a>Hello Geekos. </p>
+<p>I&#8217;m contacting you personally, as an openSUSE Board member.</p>
+<p>You certainly already know that we want to have a kicking openSUSE conference next 1st-4th May 2015 at the Haag (NL).</p>
+<p>Thus I&#8217;ve found that creating special workshop organized by development project could foster our beloved distribution.</p>
+<p>oSC is the unique case in the year, where Geekos from all around the world meet together.<br />
+Let&#8217;s imagine you, meeting perhaps for the first time your fellows, having nice discussions, and hacking around the software you maintain.<br />
+There&#8217;s high level of chance to meet also your end users, and have constructive exchanges.</p>
+<p>That&#8217;s why I invite you to propose a workshop directly to our event tools:<br />
+<a href="https://events.opensuse.org/conference/osc15/proposal" target="_blank">https://events.opensuse.org/conference/osc15/proposal</a></p>
+<p>Having a workshop run like a mini-hack sprint, would help any of us in the distribution and the project.<br />
+Be it like learn people how to submit nice package, how to do maintenance, or how to do bug triage.<br />
+<a href="//lizards.opensuse.org/wp-content/uploads/2015/01/li1.png"><img src="//lizards.opensuse.org/wp-content/uploads/2015/01/li1.png" alt="li1" width="248" height="287" class="aligncenter size-full wp-image-11197" /></a><br />
+I feel confident that you will have the creative approach to resolve your own problematic.<br />
+The event place has small rooms for unattended sessions and they could be used to extend your workshop to get some more work done.</p>
+<p>Some practical aspects:<br />
+oSC website : <a href="https://events.opensuse.org/conference/oSC15" target="_blank">https://events.opensuse.org/conference/oSC15</a></p>
+<p>And soon the travel support program for oSC 15 will be opened to handle your request about getting financial support for going to oSC.<br />
+<a href="https://connect.opensuse.org/travel-support/" target="_blank">https://connect.opensuse.org/travel-support/</a></p>
+<p>If you have any questions, thoughts or ideas, don&#8217;t hesitate to ask on -project mailing list<br />
+or ping me by reply.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2015/01/li3.png"><img src="//lizards.opensuse.org/wp-content/uploads/2015/01/li3.png" alt="" width="191" height="280" class="alignleft size-full wp-image-11199" /></a>A final note about the why you should do it? Well beside being one of our &#8220;heroes&#8221; even if nobody need them <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /><br />
+You and your co-maintainers will be able to explain your &#8220;job&#8221; on the project.<br />
+Don&#8217;t you want to inspire new comers, lead them directly to the right direction, and share the load.<br />
+Meeting you there, will also help our &#8220;marketing&#8221; force to light up a bit the work done in the shadow.</p>
+<p>I really will appreciate your presence, afterwards, it&#8217;s you that create our distribution.<br />
+The time has come for you to be warmly thank.</p>
+<p>I&#8217;m looking forward to see you there.</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Standing for Re-Election to the openSUSE Board</title>
+		<link>https://lizards.opensuse.org/2015/01/12/standing-for-re-election-to-the-opensuse-board/</link>
+		<pubDate>Mon, 12 Jan 2015 21:20:19 +0000</pubDate>
+		<dc:creator><![CDATA[mrdocs]]></dc:creator>
+				<category><![CDATA[Board]]></category>
+		<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Elections]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Marketing]]></category>
+		<category><![CDATA[Uncategorized]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11179</guid>
+		<description><![CDATA[Hi Fellow Geekos, This post is a summary of my wish to continue to serve on your behalf on the openSUSE board. My term has been a short one, as I was appointed to serve out the remainder of Vincent Untz&#8217; term. While I now work for SUSE (and it has been a fabulous experience), [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi Fellow Geekos,</p>
+<p>This post is a summary of my wish to continue to serve on your behalf on the openSUSE board.</p>
+<p>My term has been a short one, as I was appointed to serve out the remainder of Vincent Untz&#8217; term.</p>
+<p>While I now work for SUSE (and it has been a fabulous experience), that does not change my view or efforts to contribute to openSUSE.  Prior to joining SUSE, as a part of the Sales Engineering team, I was elected to the board for a two year term. To avoid having too many SUSE employees, I had to step down.  A rule I completely support.</p>
+<p>Having been an openSUSE member long before joining SUSE, I think I have a keen awareness of what the community is about and where we can improve together.</p>
+<p>My take is we have an awesome group of contributors who want to see the community grow and prosper.  With things like Tumbleweed and OBS, among others, we have shown real innovation and technical leadership in the Linux world. We have arguably one the top distros available.  It is solid, polished and usable for a wide variety of use cases. We need to keep the openness and solid collaboration which enables everyone to participate and succeed.</p>
+<p>My efforts within openSUSE have been mostly focused on the Open Build Server, maintaining several projects, as well as, being part of the Factory review team.</p>
+<p>Going forward, I want to concentrate on reaching out beyond our community to build more awareness of what an awesome distro we have, along with a pretty friendly community. I see other, less compelling, distros getting more visibility than perhaps is deserved.</p>
+<p>Along the same lines, my take is we as a community can take a more active role in bringing in new members, who might not be technical folks, but can help in the marketing and outreach. I&#8217;ve started a local SUSE group through meetup.com which is a different way to find new users and contributors.</p>
+<p>One other reason I wish to remain on the board, is we have a solid working relationship and there is a lot of mutual respect and good collaboration.</p>
+<p>No matter who is elected to the board, I am very pleased with the caliber of the folks running and know the community will be in good hands moving forward.</p>
+<p>Thank you in advance for your vote!</p>
+<p>Peter Linnell</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>osc: speedup update of a project working copy</title>
+		<link>https://lizards.opensuse.org/2014/06/26/osc-speedup-update-of-a-project-working-copy/</link>
+		<pubDate>Thu, 26 Jun 2014 13:03:57 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Hüwe]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10879</guid>
+		<description><![CDATA[Hi, recently, I pushed a commit that speeds up the update of an osc project working copy, if most of the packages in the working copy are already up to date (that is no update has to be performed). The following table shows the improvements of the new code (in terms of wall-clock time). Both [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi,</p>
+<p>recently, I pushed a commit that speeds up the update of an osc project<br />
+working copy, if most of the packages in the working copy are already up to<br />
+date (that is no update has to be performed).<br />
+The following table shows the improvements of the new code (in terms of<br />
+wall-clock time). Both project working copies were already up to date<br />
+and the packages in the home:Marcus_H project were unexpanded.</p>
+<pre>
+project       # number of packages  #    old code # new code
+home:Marcus_H                   66        51.135s    10.653s
+d:l:r:e                       1245     7:07.07min    17.804s
+</pre>
+<p>(the numbers for the devel:languages:ruby:extensions (d:l:r:e) project<br />
+were kindly provided by darix &#8211; thanks!).</p>
+<p>Technically, we just reduced the number of http requests for packages<br />
+that are already up to date by using the backend&#8217;s getprojectsourceinfo<br />
+call (/source/project?view=info&amp;package=pkg_1&#8230;&amp;package=pkg_n).<br />
+Note: currently, such a reduction is not possible for packages that have<br />
+a _service file, because a small change in the backend is needed (see <a href="http://lists.opensuse.org/opensuse-buildservice/2014-06/msg00067.html">[1]</a>).<br />
+Consequently, there are no time improvements for such packages.</p>
+<p>If you want to test the new code, use the osc package from the<br />
+devel:tools:scm repo (<a href="http://download.opensuse.org/repositories/devel:/tools:/scm/">http://download.opensuse.org/repositories/devel:/tools:/scm/</a>).<br />
+Feedback is always welcome! <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>Next, my plan is to improve the speed of an update of a single package<br />
+working copy (again by reducing the number of http requests).</p>
+<p>[1] <a href="http://lists.opensuse.org/opensuse-buildservice/2014-06/msg00067.html">http://lists.opensuse.org/opensuse-buildservice/2014-06/msg00067.html</a></p>
+]]></content:encoded>
+			</item>
+		<item>
 		<title>First fruits &#8211; update on openQA and Staging work</title>
 		<link>https://lizards.opensuse.org/2014/02/19/first-fruits-update-on-openqa-and-staging-work/</link>
-		<comments>https://lizards.opensuse.org/2014/02/19/first-fruits-update-on-openqa-and-staging-work/#comments</comments>
 		<pubDate>Wed, 19 Feb 2014 08:40:39 +0000</pubDate>
 		<dc:creator><![CDATA[calumma]]></dc:creator>
 				<category><![CDATA[Boosters]]></category>
@@ -32,13 +434,13 @@
 		<description><![CDATA[In our previous summary, we talked about some basic research and some ground work to build on. This time we have some first exciting results! openQA Last week we rearranged the repository a little bit, creating a new branch called &#34;devel&#34; where all the exciting (and not so exciting) changes are taking place. Our little [&#8230;]]]></description>
 				<content:encoded><![CDATA[<p>In our <a href="//lizards.opensuse.org/2014/02/07/some-news-from-the-trenches/">previous summary</a>, we talked about some basic research and some ground work to build on. This time we have some first exciting results!</p>
 <h3>openQA</h3>
-<p>Last week we rearranged the repository a little bit, creating a <a href="https://github.com/openSUSE-Team/openQA/tree/devel">new branch called &quot;devel&quot;</a> where all the exciting (and not so exciting) changes are taking place. Our little Factory <img src="https://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif" alt=";-)" class="wp-smiley" /> </p>
+<p>Last week we rearranged the repository a little bit, creating a <a href="https://github.com/openSUSE-Team/openQA/tree/devel">new branch called &quot;devel&quot;</a> where all the exciting (and not so exciting) changes are taking place. Our little Factory <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
 <p>The main difference between this branch as master is that, as you could read in the previous blog, the devel branch is openQA build on <a href="http://mojolicio.us">Mojolicious</a>, a nice web development framework. And having a proper web framework is starting to show its benefits: we have openID login available! Unfortunately the current openSUSE openID provider is a little bit weird, so it doesn&#8217;t play well with our tool yet, but some others are working and openSUSE accounts will be the next step. Having working user accounts is necessary to be able to start defining permissions and to make openQA truly multiuser. And to be able to deploy the new version on a public server!</p>
 <p>The other main focus of this week has been internal polishing. We have revamped the database layout and changed the way in which the different openQA components communicate with each other. The openQA functionality is spread out over several parts: the workers are responsible of actually executing the tests in virtual machines reporting the result after every execution; some client utilities are used to load new ISO images and similar tasks and, finally, we have the one openQA Server to rule them all. Until now, the communication between the server and the other components was done using <a href="http://json-rpc.org/">JSON-RPC</a> (a lightweight alternative to XML-RPC). We have dropped JSON-RPC in favor of a <a href="http://en.wikipedia.org/wiki/Representational_state_transfer">REST-like</a> API with just JSON over plain HTTP. This change allowed us to implement exactly the same functionality in a way that is simpler, perfectly supported by any web framework, natively spoken by browsers and easier to authenticate (using, for example, plain HTTP authentication or openID). This is also the first step to future integration with other services (think OBS, as the ultimate goal is to use openQA to test staging projects).</p>
 <p>But, who tests the tester? openQA is growing and changing quite fast so we have continued with the task of creating a good testing infrastructure to tests openQA itself to make sure that all our changes do not result in breakage. We only have a few tests right now, but we now have a solid foundation to write more and more tests.</p>
 <h3>Staging and package manipulation</h3>
 <p>In the last blog post we told you we were investigating a code test suite to test the abilities of a osc plugin we are writing. osc is the commandline tool for handling the Open Build Service, and this plugin is meant to help with the administration of staging projects. We&#8217;ve been thinking about how to move forward with the testing part as we want to make sure the functionality works as advertised. More important, we write tests to make sure that our additions and changes do not break existing functionality. We have started merging functionality from various scripts handling staging thingies and rings we had into this plugin. This is partially done so we can do basic staging project tasks! We can take a request (be it submit or delete) and put it to test in a staging project. We can also move packages between staging projects and we have a simple YAML in project descriptions to indicate what packages and what requests are there.</p>
-<p><a href="//lizards.opensuse.org/wp-content/uploads/2014/02/openqa-staging.png"><img src="//lizards.opensuse.org/wp-content/uploads/2014/02/openqa-staging-300x102.png" alt="We're all green!" width="250" height="85" class="alignright size-medium wp-image-10576" /></a><br />
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2014/02/openqa-staging.png"><img src="//lizards.opensuse.org/wp-content/uploads/2014/02/openqa-staging-300x102.png" alt="We're all green!" width="250" height="85" class="alignright size-medium wp-image-10576" srcset="https://lizards.opensuse.org/wp-content/uploads/2014/02/openqa-staging-300x102.png 300w, https://lizards.opensuse.org/wp-content/uploads/2014/02/openqa-staging-1024x350.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2014/02/openqa-staging.png 1131w" sizes="(max-width: 250px) 100vw, 250px" /></a><br />
 Coolo already started using the plugin for some tasks, so you can <a href="https://build.opensuse.org/project/subprojects/openSUSE:Factory:Staging">see pretty titles</a> and <a href="https://build.opensuse.org/project/show/openSUSE:Factory:Staging:C">metadata</a> in staging projects descriptions. Not impressive enough? Let me provide you a good headline:</p>
 <p><b>Thanks to staging projects, no single regression have been introduced this year in the core of Factory</b></p>
 <p>You can enjoy a more detailed description in <a href="http://lists.opensuse.org/opensuse-factory/2014-02/msg00252.html">this announcement</a> written by coolo to the Factory mailing list and have some visual joy in the included screenshot (genuine pr0n for QA engineers).</p>
@@ -47,311 +449,6 @@ Coolo already started using the plugin for some tasks, so you can <a href="https
 <p>We already have some useful functionality which we are going to expand and build on. Not that much to show yet, but we are progressing towards our goal. You can follow our progress either in the way of tasks (<a href="https://progress.opensuse.org/projects/openqav3">openQA</a> and <a href="https://progress.opensuse.org/projects/stagings">staging projects</a>) or just follow our commit history on github (again for both <a href="https://github.com/openSUSE-Team/openQA/tree/devel">openQA</a> and <a href="https://github.com/openSUSE/osc-plugin-factory">staging plugin</a>).</p>
 <p>We are very much looking forward to feedback and thoughts &#8211; these changes aim to make Factory development easier and thus we need to hear from all you!</p>
 ]]></content:encoded>
-			<wfw:commentRss>https://lizards.opensuse.org/2014/02/19/first-fruits-update-on-openqa-and-staging-work/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
-		<item>
-		<title>Some news from the trenches</title>
-		<link>https://lizards.opensuse.org/2014/02/07/some-news-from-the-trenches/</link>
-		<comments>https://lizards.opensuse.org/2014/02/07/some-news-from-the-trenches/#comments</comments>
-		<pubDate>Fri, 07 Feb 2014 18:21:01 +0000</pubDate>
-		<dc:creator><![CDATA[calumma]]></dc:creator>
-				<category><![CDATA[Boosters]]></category>
-		<category><![CDATA[Build Service]]></category>
-		<category><![CDATA[Distribution]]></category>
-		<category><![CDATA[Factory]]></category>
-		<category><![CDATA[Programming]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10518</guid>
-		<description><![CDATA[As you might know, we are focusing our development efforts in two fronts, namely openQA and staging projects. As we just started we don&#8217;t have fireworks for you (yet) but we did some solid ground work that we are going to build upon. Working on openQA We are organizing our daily job in openQA into [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>As you might know, we are focusing our development efforts in two fronts, namely <a href="http://lists.opensuse.org/opensuse-factory/2014-01/msg00317.html">openQA</a> and <a href="http://lists.opensuse.org/opensuse-factory/2014-01/msg00278.html">staging projects</a>. As we just started we don&#8217;t have fireworks for you (yet) but we did some solid ground work that we are going to build upon.</p>
-<h3>Working on openQA</h3>
-<p>We are organizing our daily job in openQA into highly focused sprints of two weeks. The focus of the first sprint was clear: cleanup the current codebase to empower future development and lower the entry barrier for casual contributors, which can be translated as &#8220;cleaning our own mess&#8221;. We created <a href="https://progress.opensuse.org/versions/67">some tasks in progress</a>, grouped in a version with a surprising and catchy name: Sprint 01.</p>
-<h4>Got my mojo workin&#8217;</h4>
-<p>Up to now, openQA web interface was written using just a bunch of custom CGI scripts and some configuration directives in Apache. We missed a convenient way to access to all the bell and whistles of modern web development and some tools to make the code more readable, reliable and easier to extend and test. In short, we missed a proper web development framework. We evaluated the most popular Perl-based alternatives and we finally decided to go for <a href="http://mojolicio.us/">Mojolicious</a> for several reasons:</p>
-<ul>
-<li>It provides all the functionality we demand from a web framework while being lightweight and unbloated.</li>
-<li>It&#8217;s stated as a &#8220;real time framework&#8221; which, buzzwords apart, means that is designed from the ground to fully support Comet (long-polling), EventSource and WebSockets. Very handy technologies for implementing some features in openQA.</li>
-<li>It really &#8220;feels&#8221; very close to <a href="http://www.sinatrarb.com/">Sinatra</a>, which makes Ruby on Rails     developers feel like at home. And we have quite some Rails developers hanging around, don&#8217;t we? Just think about OBS, software.o.o, WebYast, progress.o.o, OSEM, the TSP app&#8230;
-<li>Mojolicious motto is &#8220;web development can be fun again&#8221;. Who could resist to that?</li>
-</ul>
-<p>We&#8217;ve now reached the end of the sprint and we already have something that looks exactly the same than what we had before, but using Mojolicious internally. We are very happy with the framework and we are pretty confident that future development of openQA will be easier and faster than ever. OpenQA has mojo!</p>
-<h4>The database layer in openQA</h4>
-<p>Another part that we worked on during first sprint was the database layer. The user interface part of openQA use a SQLite database to store the jobs and workers registered in the system. The connection between the code and the database was expressed directly in SQL using a simple API.</p>
-<p>We have replaced this layer with another equivalent that uses an ORM (Object-relational mapping) in Perl (<a href="http://www.dbix-class.org/">DBIx::Class</a>). Every data model in openQA is now a true object that can be created, copied and moved between the different layers of the application. Quite handy.</p>
-<p>To make sure we don&#8217;t forget anything, we created a bunch of tests covering the whole functionality of the original code, running this test suite after each step of the migration. In this way we have achieved two goals: we now have a simple way to share and update information through the whole system and we can migrate very easily to a different database engine (something that we plan to do in the future).</p>
-<h3>What to do with staging</h3>
-<p>Over the time, coolo had accumulated quite some scripts that helped him with Factory. Most of them are actually related to something we are doing right now: the staging projects. So in the end we basically migrated all relevant ones to <a href="https://github.com/openSUSE/osc-plugin-factory">github</a> and one by one we are merging their functionality to staging plugin. We also experimented with test frameworks that we could use to test the plugin itself, selected few and we even have a first test! The final plan is to have the whole plugin functionality covered with a proper test suite, so we will know when something breaks. Currently, there is a lot of mess in our repo and the plugin itself need big cleanup, but we are working on it.</p>
-<h3>Contributions are welcome</h3>
-<p>If you want to help but wonder where to start, we identified tasks that are good to dive into the topic and named them &#8220;easy hacks&#8221;: mostly self contained tasks we expect to have little effort but we lack the time to do right now. Just jump over the list for <a href="https://progress.opensuse.org/versions/73">openQA</a> or <a href="https://progress.opensuse.org/versions/69">staging projects</a>.</p>
-<p>For grabbing the code related to staging project, you only need to clone the <a href="https://github.com/openSUSE/osc-plugin-factory">already mentioned repository</a>. The openQA code is spread in several repositories (<a href="https://github.com/openSUSE-Team/os-autoinst">one</a>, <a href="https://github.com/openSUSE-Team/openQA">two</a>, <a href="https://github.com/openSUSE-Team/os-autoinst-distri-opensuse">three</a> and <a href="https://github.com/openSUSE-Team/os-autoinst-needles-opensuse">four</a>), but setting up your own instance to play and hack is a piece of cake using <a href="http://software.opensuse.org/package/openQA">the packages</a> available in OBS (built automatically for every git push).</p>
-<p>If you simply want to see what we are doing in more detail, take a look at progress.o.o, we have both <a href="https://progress.opensuse.org/projects/openqav3">openQA</a> and <a href="https://progress.opensuse.org/projects/stagings">Staging projects</a> there.</p>
-<p>We are having a lot of fun, and we encourage you to join us!</p>
-]]></content:encoded>
-			<wfw:commentRss>https://lizards.opensuse.org/2014/02/07/some-news-from-the-trenches/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
-		<item>
-		<title>spec-cleaner: hide all your precious cruft!</title>
-		<link>https://lizards.opensuse.org/2014/01/31/spec-cleaner-hide-all-your-precious-cruft/</link>
-		<comments>https://lizards.opensuse.org/2014/01/31/spec-cleaner-hide-all-your-precious-cruft/#comments</comments>
-		<pubDate>Fri, 31 Jan 2014 08:33:31 +0000</pubDate>
-		<dc:creator><![CDATA[calumma]]></dc:creator>
-				<category><![CDATA[Build Service]]></category>
-		<category><![CDATA[Distribution]]></category>
-		<category><![CDATA[Packaging]]></category>
-		<category><![CDATA[Quality Assurance]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10484</guid>
-		<description><![CDATA[As we stated in our communication over the time, our team&#8217;s main focus for foreseeable future is Factory and how to manage all those contributions. Goal is not to increase the number of SRs that is coming to Factory, but to make sure we can process more and to make sure we see even well [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>As we stated in our communication over the time, our team&#8217;s main focus for foreseeable future is Factory and how to manage all those contributions. Goal is <strong>not</strong> to increase the number of SRs that is coming to Factory, but to make sure we can process more and to make sure we see even well hidden consequences to make sure that Factory is &#8220;stable&#8221; and &#8220;usable&#8221;.</p>
-<p><img src="//lizards.opensuse.org/wp-content/uploads/2014/01/sprayg-263x300.jpg" alt="sprayg" width="263" height="300" class="alignright size-medium wp-image-10485" />
-<p>Not really part of our current sprints, but something that will hopefully help us is <i>spec-cleaner</i> that Tomáš Chvátal and Tomáš Čech were working on lately during their free time/hackweek. What is it trying to address? Currently, there are some packaging guidelines, but when you write a spec file for your software, you still have plenty of choices. How do you order all the information in the header? Do you use curly brackets around macros? Do you use macros? Which ones do you use and which not? Do you use binaries in dependencies? Package config? Perl symbols? Package names? There is <i>format_spec_file</i> obs service that tries to unify a little bit the coding style but leaves quite some of the stuff up to you. Not necessarily a bad thing, but if you have to compare changes and review packages that are using completely different coding styles the process becomes harder and slower.</p>
-<p><i>spec-cleaner</i> is <i>format_spec_file</i> taken to another level. It tries to unify coding style as much as it can. It uses consistent conventions, makes most of the decisions mentioned previously for you and if you already decided for one way in the past, it will try to convert your spec file to follow the conventions that it specifies. It&#8217;s not enforcing anything, it&#8217;s standalone script and therefore you don&#8217;t have to be worried that you spec file will be out of your control. You can run it, verify the result (actually, you should verify the results as there might still be some bugs) and commit it to OBS. If we all do it, our packages will all look more alike and it will be easier to read and review them.</p>
-<p>How to try it? How to help? Well, code is on <a href="https://github.com/openSUSE/spec-cleaner">GitHub</a> and packages are in <a href="https://build.opensuse.org/package/show/openSUSE:Tools/spec-cleaner">OBS</a>. You may have a version of it in your distribution, but that one is heavily outdated (even the 13.1 version), so add openSUSE:Tools repo and try the version from there.</p>
-<pre>zypper ar -f obs://openSUSE:Tools/openSUSE_13.1 openSUSE-Tools
-zypper in spec-cleaner</pre>
-<p>You can then go to some local checkout and try what changes does it propose for your spec file. Easiest way is to just let it do stuff by calling it and taking a look at changes afterwards.</p>
-<pre>spec-cleaner -p -i *.spec
-osc diff</pre>
-<p>If it works, great, we will have more unified spec files. If it doesn&#8217;t, file a  <a href="https://github.com/openSUSE/spec-cleaner/issues">bug</a> <img src="https://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif" alt=";-)" class="wp-smiley" /> </p>
-]]></content:encoded>
-			<wfw:commentRss>https://lizards.opensuse.org/2014/01/31/spec-cleaner-hide-all-your-precious-cruft/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
-		<item>
-		<title>Magic: It is now possible to use MS Silverlight based websites via pipelight</title>
-		<link>https://lizards.opensuse.org/2013/09/13/magic-it-is-now-possible-to-use-ms-silverlight-based-website-via-pipelight/</link>
-		<comments>https://lizards.opensuse.org/2013/09/13/magic-it-is-now-possible-to-use-ms-silverlight-based-website-via-pipelight/#comments</comments>
-		<pubDate>Fri, 13 Sep 2013 20:42:55 +0000</pubDate>
-		<dc:creator><![CDATA[Richard Bos]]></dc:creator>
-				<category><![CDATA[Build Service]]></category>
-		<category><![CDATA[Mono]]></category>
-		<category><![CDATA[Packaging]]></category>
-		<category><![CDATA[microsoft]]></category>
-		<category><![CDATA[pipelight]]></category>
-		<category><![CDATA[silverlight]]></category>
-		<category><![CDATA[wine]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9913</guid>
-		<description><![CDATA[It has long been a challenge to use MS Silverlight based websites on linux systems. Especially in The Netherlands this is a big hurdle as many (&#62;80%) of the secondary school websites that pupils must use to communicate with their school (for homework, marks, etc) are equipped with Silverlight. Yes, really&#8230; Fortunately at the end [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>It has long been a challenge to use MS Silverlight based websites on linux systems.  Especially in The Netherlands this is a big hurdle as many (&gt;80%) of the secondary school websites that pupils must use to communicate with their school (for homework, marks, etc) are equipped with Silverlight.  Yes, really&#8230; <img src="https://lizards.opensuse.org/wp-includes/images/smilies/icon_sad.gif" alt=":(" class="wp-smiley" /> </p>
-<p>Fortunately at the end of August 2013 I discovered <a href="http://fds-team.de/cms/articles/2013-08/pipelight-using-silverlight-in-linux-browsers.html#section_1_4" title="An incredible solution ">pipelight</a>, a very smart idea to use MS Silverlight based website natively on Linux.  The problem was however to find a working pipelight package for openSUSE.  As there was none, I decided to build one myself using the incredible <a href="https://build.opensuse.org/">openSUSE Build Service</a>.  It was quite a quest to obtain a working package, but due to very good cooperation with the pipelight developers, I&#8217;m now able to present a working pipelight package to the openSUSE community.  Oh, and while working on the package I reported a bug via the bug report system, that was solved and published via an rpm package within 1 hour after reporting it (that was during out of office hours).  Indeed within 1 hour after reporting the problem it was; accepted, investigated, analysed, fixed, tested, handed over to me, packaged, tested and published!  The amazing world of Open Source Software!</p>
-<p>Pipelight works okay for the following sites (<a href="http://fds-team.de/cms/articles/2013-08/pipelight-using-silverlight-in-linux-browsers.html#section_5">among many others</a>): arte, LOVEFiLM, Netflix, Magister based NL schoolwebsites, WATCHEVER, etc.  View the complete list on the <a href="http://fds-team.de/cms/articles/2013-08/pipelight-using-silverlight-in-linux-browsers.html">pipelight website</a>.</p>
-<p>The <a href="http://fds-team.de/cms/articles/2013-08/pipelight-using-silverlight-in-linux-browsers.html#section_1_4">installation instructions</a> are on the pipelight website.  Be aware though, that pipelight requires the wine package that is provided via the home:rbos:pipelight repository.  With any other wine package, pipelight will (very likely) not work.  If you rely on your currently installed wine package and installed MS applications and are unsure that the wine package provided via the home:rbos:pipelight repository will leave your currently in use MS applications untouched: don&#8217;t install pipelight (or only after making very good backups).  You can always start by installing pipelight in a virtual machine.</p>
-<p>Have fun with pipelight.</p>
-]]></content:encoded>
-			<wfw:commentRss>https://lizards.opensuse.org/2013/09/13/magic-it-is-now-possible-to-use-ms-silverlight-based-website-via-pipelight/feed/</wfw:commentRss>
-		<slash:comments>3</slash:comments>
-		</item>
-		<item>
-		<title>Keeping Factory in shape</title>
-		<link>https://lizards.opensuse.org/2013/06/13/keeping-factory-in-shape/</link>
-		<comments>https://lizards.opensuse.org/2013/06/13/keeping-factory-in-shape/#comments</comments>
-		<pubDate>Thu, 13 Jun 2013 12:00:41 +0000</pubDate>
-		<dc:creator><![CDATA[calumma]]></dc:creator>
-				<category><![CDATA[Boosters]]></category>
-		<category><![CDATA[Build Service]]></category>
-		<category><![CDATA[Distribution]]></category>
-		<category><![CDATA[Factory]]></category>
-		<category><![CDATA[Packaging]]></category>
-		<category><![CDATA[Quality Assurance]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9497</guid>
-		<description><![CDATA[Michal Hrušecký has been helping out on maintaining Factory in shape and shares his experiences. Factory is development version of openSUSE and it is where the next openSUSE is taking form. Hundreds of packagers send packages into Factory to be integrated as a part of the new release and many more use Factory for testing [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p><em>Michal Hrušecký</em> has been helping out on maintaining Factory in shape and shares his experiences.</p>
-<p>Factory is development version of openSUSE and it is where the next openSUSE is taking form. Hundreds of packagers send packages into Factory to be integrated as a part of the new release and many more use Factory for testing or for their daily work. Thus it is really important to keep Factory rolling and usable. Everybody knows that <a href="http://news.opensuse.org/2007/08/09/people-of-opensuse-stephan-kulow/">Coolo</a> is the Factory master and he does everything to make next openSUSE be the best ever. But keeping factory in shape is really complicated and stressing task. There are dozens of request everyday and each one of them can potentially break something. So Factory can always use a pair of extra hands and for some time I have been one of them. I&#8217;d like to give you some insight in what we do, working on keeping Factory building and working.<span id="more-9497"></span></p>
-<p><a href="http://openbuildservice.org"><img class="alignright size-full wp-image-9543" alt="obs-logo" src="//lizards.opensuse.org/wp-content/uploads/2013/06/obs-logo.png" width="243" height="101" /></a></p>
-<h2>Keep it building</h2>
-<p>With a constant influx of newer and cooler versions of libraries and tools it is easy to break existing applications with shiny new software. So we always have some build failures in Factory. Part of our job is to resolve them because if it doesn&#8217;t build, you can&#8217;t test nor ship it. As developer, you may have seen submit request in various projects in OBS fixing builds for Factory. Everyday I take a look at a number of build failures, investigate why they are not building in Factory and try to do something about it.</p>
-<p>For example new version of the GNU C Compiler (GCC) is quite often more strict on includes, requiring developers to be more verbose about the exact internal and external libraries there applications require to be build. What used to build now doesn&#8217;t, because you are missing include files. The older GCC let you slip by, but now you have to fix it, build failure by build failure. Another example is GTK which keeps deprecating old API functions and you have to keep up and replace them with correct counterparts from the new API. Sometimes even the kernel changes API and third party modules stops building. All these errors will get eventually resolved upstream (if upstream is alive), but as we follow upstream quite closely before feature freeze, it may happen that we are first facing these issues because sometime we are the first ones who tried to compile this software using new GTK or the new GCC. Of course, we attempt to get these fixes back upstream and share them with other distributions where appropriate!</p>
-<div id="attachment_9541" style="width: 310px" class="wp-caption alignright"><a href="//lizards.opensuse.org/wp-content/uploads/2013/06/600px-Factory_workflow.png"><img class="size-medium wp-image-9541" alt="Factory_workflow" src="//lizards.opensuse.org/wp-content/uploads/2013/06/600px-Factory_workflow-300x176.png" width="300" height="176" /></a><p class="wp-caption-text">Image depicting the Factory Workflow</p></div>
-<h2>Test it</h2>
-<p>Another important part of working on a better Factory is testing. If everything builds, we&#8217;re happy. You might have heard the saying:</p>
-<blockquote><p><em> if it builds, ship it!</em></p></blockquote>
-<p>(un)fortunately, this isn&#8217;t Coolo&#8217;s idea of how the world works. In Factory, things not only have to build, but also work. Oh, AND conform to some stringent requirements. Here comes into play what most of our team was working on in the past months and what was <a href="For example new version of gcc is quite often more strict on includes.  What used to build now doesn't, because you are missing include files. Older gcc let you slip by, but now you have to fix it. Or GTK keeps deprecating old API functions and you have to keep up and replace them with correct counterparts from new API. Sometimes even kernel changes API and third party modules stops building. All these errors will get eventually resolved upstream (if upstream is alive), but as we follow upstream quite closely before feature freeze, it may happen that we are first facing these issues because sometime we are the first ones who tried to compile this software using new GTK and gcc.">described last week &#8211; openQA</a>. openQA tests the latest builds of openSUSE Factory, tries to install them and run tests on some applications as well. But still, not all failures from automatic testing are real failures. Sometimes application just changed too much to be covered by test. So from time to time we go through failing openQA tests, try to reproduce them, figure out what went wrong and either fix it or report it via bugzilla to the corresponding maintainer.</p>
-<h2>Concluding</h2>
-<p>Each of these tasks is relatively small (check why this test failed, fix this package to build with new gcc) but what makes it hard is the number of packages we&#8217;ve got and the constant inflow of changes. Also, because the issue can be all over the place, each and every one requires you to dive into an entirely new package, with new and interesting quirks, build systems, languages and more. It is a great way of getting to know a wide variety of packages and applications, finding a gem every now and then. But also implies a lot of work.</p>
-<p>Things will get slower and more stable after feature freeze when we will spend more time in the testing part, while today we mostly work on the build part. Still, Factory has to keep building, without that it becomes impossible to keep developing openSUSE. What we do, fixing these build errors, it might not be super visible, but it matters a lot.</p>
-<h2>Statistics</h2>
-<p>On a related note, we&#8217;d like to (re) introduce weekly Factory statistics! It has been a while since we had those, once upon a time courtesy of AJ and Guido. Now, Alberto provides them. Here you go, the top-fifteen contributors to openSUSE Factory last week (from Sunday June 2nd to to Sunday June 9th):<br />
-<a href="//lizards.opensuse.org/wp-content/uploads/2013/06/statistics-inside.png"><img src="//lizards.opensuse.org/wp-content/uploads/2013/06/statistics-inside-212x300.png" alt="statistics with Geeko inside" width="212" height="300" class="alignright size-medium wp-image-9572" /></a></p>
-<ol>
-<li>Dominique Leuenberger</li>
-<li>Tobias Klausmann</li>
-<li>Stefan Dirsch</li>
-<li>Peter Varkoly</li>
-<li>Stephan Kulow</li>
-<li>Marcus Meissner</li>
-<li>Michal Hrusecky</li>
-<li>Cristian Rodríguez</li>
-<li>Dirk Mueller</li>
-<li>Sascha Peilicke</li>
-<li>Kyrill Detinov</li>
-<li>Dr. Werner Fink</li>
-<li>Bjørn Lie</li>
-<li>Tomáš Chvátal</li>
-<li>Niels Abspoel</li>
-</ol>
-]]></content:encoded>
-			<wfw:commentRss>https://lizards.opensuse.org/2013/06/13/keeping-factory-in-shape/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
-		<item>
-		<title>openQA in openSUSE</title>
-		<link>https://lizards.opensuse.org/2013/06/06/openqa-in-opensuse/</link>
-		<comments>https://lizards.opensuse.org/2013/06/06/openqa-in-opensuse/#comments</comments>
-		<pubDate>Thu, 06 Jun 2013 12:00:26 +0000</pubDate>
-		<dc:creator><![CDATA[calumma]]></dc:creator>
-				<category><![CDATA[Build Service]]></category>
-		<category><![CDATA[Distribution]]></category>
-		<category><![CDATA[Factory]]></category>
-		<category><![CDATA[Infrastructure]]></category>
-		<category><![CDATA[Packaging]]></category>
-		<category><![CDATA[Quality Assurance]]></category>
-		<category><![CDATA[Uncategorized]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9440</guid>
-		<description><![CDATA[Today, we&#8217;ve got for you an introduction of the teams&#8217; work on openQA by Alberto Planas Domínguez. The last 12.3 release was important for the openSUSE team for a number of reasons. One reason is that we wanted to integrate QA (Quality Assurance) into the release process in an early stage. You might remember that [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p><a href="//lizards.opensuse.org/wp-content/uploads/2013/05/factory-tested.png"><img class="size-full wp-image-9447 alignright" alt="factory-tested" src="//lizards.opensuse.org/wp-content/uploads/2013/05/factory-tested.png" width="217" height="232" /></a>Today, we&#8217;ve got for you an introduction of the teams&#8217; work on openQA by <em>Alberto Planas Domínguez</em>.</p>
-<p>The last 12.3 release was important for the openSUSE team for a number of reasons. One reason is that we wanted to integrate QA (Quality Assurance) into the release process in an early stage. You might remember that this release had UEFI and Secure Boot support coming and everybody had read the scary reports about badly broken machines that can only be fixed replacing the firmware. Obviously openSUSE can&#8217;t allow such things to happen to our user base, so we wanted to do more testing.<span id="more-9440"></span></p>
-<h2>Testing is hard</h2>
-<p>Testing a distribution seems easy at first sight:</p>
-<ol>
-<li>Take the ISO of the last build and put it on the USB stick</li>
-<li>Boot from the USB</li>
-<li>Install and test</li>
-<li>&#8230;</li>
-<li>Profit!</li>
-</ol>
-<div id="attachment_9476" style="width: 310px" class="wp-caption alignright"><a href="//lizards.opensuse.org/wp-content/uploads/2013/06/factory.png"><img class="size-medium wp-image-9476 " title="testing in progress!" alt="testing in progress!" src="//lizards.opensuse.org/wp-content/uploads/2013/06/factory_crop-300x169.png" width="300" height="169" /></a><p class="wp-caption-text">testing in progress!</p></div>
-<p>But look a bit further and you will see that, actually, only the installation process itself is already a <a title="free dictionary on combinatorial" href="http://www.thefreedictionary.com/combinatorial" target="_blank">combinatorial</a> problem. In openSUSE we have different mediums (DVD, KDE and Gnome Live images, NET installation image and the new Rescue image), three official architectures (32 and 64 bits and ARMv7), a bunch of different file systems (Ext3 / Ext4, Btrfs, LVM with or without encryption, etc.), different boot loaders (GRUB 2, LILO, SHIM). <em>Yeah</em>&#8230; Even without doing the math you see that for only this small subset of variables we have hundreds of possible combinations. And this is just the installation process, we are not talking about the various desktops and applications or hardware like network interfaces or graphics cards here.</p>
-<h3>And we want continuous testing</h3>
-<p>And that is only the final testing round! If we want to be serious about QA and testing, we need to run the full test battery for every build that OBS generate for us, with extra attention to the Milestones, Betas and RC which are scheduled in the release road-map.</p>
-<p>We can of course attempt to optimize our testing approach. For example, if I am the maintainer of a package and I sure that my last version is working perfectly in Factory (because I tested it in my system, of course), do I really need to test this application again and again when a new ISO build is released? Unfortunately, we can <em>not</em> take a shortcut here. As Distribution, our job is integration and so we need to test the entire product again for every build. A single change in an external library or in any other package which I depend on can break my package. The interdependencies for a integration project of the size of openSUSE are so intricate that is faster to run the full test again. With this approach we are avoiding regressions in our distribution, important during development. But also a lot of work &#8211; who has time for all this testing?</p>
-<h2>OpenQA as a solution</h2>
-<p>For us, there&#8217;s no doubt about it: <a href="http://openqa.opensuse.org/">openQA</a> is the correct tool for this. openQA is already used to test certain parts of openSUSE, and has shown itself as a competent tool to test other distributions like Fedora or Debian.</p>
-<p>To experiment with openQA, the openSUSE team decided to launch a local implementation of the tool and start feeding it with 12.3 builds. But we soon ran into some limitation in the way we can express desired test outcomes in openQA and we got ideas on how to improve the detection of failed and succeeded tests. We also discovered that some tests in openQA had the bad habit of starting to work in <em>“monkey mode”</em> by simply sending commands and events to the virtual machine without checking if those interaction have expected behavior or not, losing track of the test progress.</p>
-<p>openQA has the great benefit of being open source so we can improve its usefulness for testing Factory. Moreover, the original author of openQA, Bernhard M. Wiedemann, is a very talented developer and works for SUSE so upstream is very close to us. So we decided to start hacking!<br />
-<a href="//lizards.opensuse.org/wp-content/uploads/2013/05/stopwatch.png"><img class="size-medium wp-image-9448 alignright" alt="stopwatch" src="//lizards.opensuse.org/wp-content/uploads/2013/05/stopwatch-227x300.png" width="113" height="150" /></a></p>
-<h2>openQA work</h2>
-<p>After the 12.3 release we decided to spend some quality time improving openQA as a team project. This was managed using the public Chili (a Redmine fork) project management web application. We published all the milestones, tasks, goals and documentation in the <a href="http://board.opensuse.org/projects/openqa-improvement/">&#8220;openQA improvement project&#8221;</a>. The management side of this project perhaps needs a different post, but for now we can say that we tried to develop it as open as possible. Of course you can get the full code from <a href="https://github.com/openSUSE-Team/">the openSUSE github account</a>.</p>
-<h2>Major changes</h2>
-<p>The main architectural changes implemented during our 10 weeks of coding on openQA can be summarized as follows:</p>
-<ul>
-<li>Integration with openCV</li>
-<li>Replacement of PPM graphic file format with PNG</li>
-<li>Introduced needles; test with better control of the state</li>
-<li>A proper job dispatcher for new test configurations</li>
-<li>Better internal scheduler, with snapshots and a way to skip tests</li>
-<li>Improvement in the communication between webUI and the virtual machine</li>
-</ul>
-<div id="attachment_9481" style="width: 310px" class="wp-caption alignright"><a href="//lizards.opensuse.org/wp-content/uploads/2013/06/needleeditor.png"><img class="size-medium wp-image-9481" title="The Needle editor in action" alt="The Needle editor in action" src="//lizards.opensuse.org/wp-content/uploads/2013/06/needleeditor_crop-300x204.png" width="300" height="204" /></a><p class="wp-caption-text">The Needle editor in action</p></div>
-<h3>openCV brings robust testing</h3>
-<p>The tests in openQA need to check what is happening in the virtual (or real) machine to verify results, and the main source of information is the output of the screen. This information is usually a graphical information: we can instruct QEMU (or Vbox) to retry screenshots in a periodic basis. To properly evaluate a test outcome we need to find some kind of information in those pictures, and for that we use the computer vision library openCV.</p>
-<p>With this library we can implement different methods to find relevant sections of the image, like buttons, error messages or text. These are then used for the test to get information about the actual environment of the installation process and to find out if the test passed or not. Previously, checksums on the images were used to determine outcomes. This led to many false positives (tests failing too often) due to simple theming and layout changes &#8211; a single pixel changing broke the test. openCV support was introduced earlier by Dominik Heidler to enable testing with noisy analogue VGA capture and we extended the usage of openCV matching to be more versatile, powerful and easier to use (both for test-module-writers and for maintainers).<br />
-<a href="http://www.flickr.com/photos/63567936@N00/4210167891/" title="Headless Horse by Perry McKenna, on Flickr"><img src="http://farm3.staticflickr.com/2632/4210167891_dbfe5d540f_n.jpg" width="320" height="192" class="alignright" alt="Finding the needle"></a></p>
-<h3>Introducing needles</h3>
-<p>openQA has been modified to use PNG instead of PPM files to store images to test against, improving performance but also enabling openQA to store certain meta-data within the images. This brings us to the most important improvement in openQA: the introduction of the needle. A needle is an PNG image with some meta-data associated (a JSON document). This meta-data describes one or multiple &#8216;regions of interest&#8217; (RoI) in the original image which can be used by the test to match the current screenshot. For example, if the installation is in the partition manager and we send the expected keystrokes to set Btrfs as our default file system, we can assert that this option is currently set using a needle where the RoI has the correct check box marked. In other words: we create a needle with an area covering the check box. The system will search this area in the current screen to assert that there is, somewhere, a check box with this label correctly marked. And will use openCV to make sure that slight changes in theming or layout will not result in a failed test.</p>
-<p>The needle concept is really powerful. When a test uses needles with multiple RoI&#8217;s, the system will try to match every area in the current screenshot, in whatever position. There are areas that can be excluded, and areas that can be processed using an OCR (Tesseract) to extract and match text from them.</p>
-<p>Thanks to needles we can now create tests that are always in a known state and they can inform complex decisions about the next step to take. For example, we can have tests that can detect and respond correctly when a sudo prompt appears suddenly, or where an error dialog appears when is not expected. More important, we can detect errors more quickly, aborting the installation process and pointing the developer to the exact error.</p>
-<h3>Faster testing with snapshots</h3>
-<div id="attachment_9477" style="width: 310px" class="wp-caption alignright"><a href="//lizards.opensuse.org/wp-content/uploads/2013/06/results.png"><img class="size-medium wp-image-9477" title="Test result overview" alt="Test result overview" src="//lizards.opensuse.org/wp-content/uploads/2013/06/results_crop-300x172.png" width="300" height="172" /></a><p class="wp-caption-text">Test result overview</p></div>
-<p>We also implemented a way to create snapshots of the virtual machine status. This is useful if we want to retry some tests, or start the test-set from a specific test. For example, if we are testing the Firefox web browser, we want to avoid all the installation tests, and maybe some of the tests related with other applications. With this snapshot feature, we can load the virtual machine in the state where Firefox can be tested immediately.</p>
-<h3>Improved web UI</h3>
-<p>The final major area of focus has been on the web interface. We designed a set of dialogs to create and edit needles. Using this editor we can also see why the current tests are failing, comparing the current screenshot with the different expected needles from the tests.</p>
-<p>Also, from the web interface we can control the execution of the virtual machine: signaling to stop or continue the execution. This is a feature that is useful when we want to create needles in an interactive way.</p>
-<h2>Upstream</h2>
-<p>We&#8217;re very happy that Bernhard has helped us, both with work and advice, to get these changes implemented. Several improvements were integrated in the <a href="https://github.com/bmwiedemann/os-autoinst/">current production version of openQA</a> and most of the more invasive ones are part of the V2 branch of openQA. We plan to sit together with Bernhard to see about deploying V2 to <a title="openQA in action" href="http://openqa.opensuse.org/results/" target="_blank">openqa.opensuse.org</a> for testing factory as soon as possible.</p>
-<p>There is still work to be done. For example, for full integration testing we need to expand on the current ability which allows to run the tests on real hardware. This will for example allow testing graphics and network cards. Also, writing proper documentation is on the todo list. For those interested in helping out putting openQA to work and keeping the quality of our distribution high, the <a title="openSUSE Conference site" href="http://conference.opensuse.org" target="_blank">openSUSE Conference</a> will feature a workshop on creating tests for Factory.</p>
-]]></content:encoded>
-			<wfw:commentRss>https://lizards.opensuse.org/2013/06/06/openqa-in-opensuse/feed/</wfw:commentRss>
-		<slash:comments>4</slash:comments>
-		</item>
-		<item>
-		<title>Tidy home, tidy Build Service</title>
-		<link>https://lizards.opensuse.org/2013/04/06/tidy-home-tidy-build-service/</link>
-		<comments>https://lizards.opensuse.org/2013/04/06/tidy-home-tidy-build-service/#comments</comments>
-		<pubDate>Sat, 06 Apr 2013 11:50:08 +0000</pubDate>
-		<dc:creator><![CDATA[Will Stephenson]]></dc:creator>
-				<category><![CDATA[Build Service]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9354</guid>
-		<description><![CDATA[Anyone using the Open Build Service in the last couple of weeks will notice how hopelessly overloaded it is.  I blame the ARM lads ;).  But there is something that we should all do as responsible community members: delete or disable your old stuff. I&#8217;ve just spent 15 minutes going through my Open Build Service [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>Anyone using the Open Build Service in the last couple of weeks will notice how hopelessly overloaded it is.  I blame the ARM lads ;).  But there is something that we should all do as responsible community members: delete or disable your old stuff.</p>
-<p>I&#8217;ve just spent 15 minutes going through my Open Build Service <a href="https://build.opensuse.org/project/show?project=home%3Awstephenson">home:wstephenson</a> project, deleting unfinished works in progress, finished branches that were never deleted, inherited repositories in branched projects that aren&#8217;t relevant to the tweaks I&#8217;m making, and I think I&#8217;ve saved about 100 repositories for the OBS scheduler to recalculate and look at publishing.</p>
-<p>Time for you to spring clean too?</p>
-]]></content:encoded>
-			<wfw:commentRss>https://lizards.opensuse.org/2013/04/06/tidy-home-tidy-build-service/feed/</wfw:commentRss>
-		<slash:comments>1</slash:comments>
-		</item>
-		<item>
-		<title>wxRuby is now on BuildService</title>
-		<link>https://lizards.opensuse.org/2013/03/22/wxruby-is-now-on-buildservice/</link>
-		<comments>https://lizards.opensuse.org/2013/03/22/wxruby-is-now-on-buildservice/#comments</comments>
-		<pubDate>Fri, 22 Mar 2013 09:29:12 +0000</pubDate>
-		<dc:creator><![CDATA[FabioMux]]></dc:creator>
-				<category><![CDATA[Build Service]]></category>
-		<category><![CDATA[Packaging]]></category>
-		<category><![CDATA[Programming]]></category>
-		<category><![CDATA[gems]]></category>
-		<category><![CDATA[Ruby]]></category>
-		<category><![CDATA[wxRuby]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9331</guid>
-		<description><![CDATA[I am happy to announce that i succeded in compiling wxRuby 2.0.1 on my Buildservice account and it is available to be installed in just one click for openSUSE 12.2 and 12.3. wxRuby is an old but working library based on wxWidgets toolkit, till some day ago the dependency from SWIG 1.3.38 and some small [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>I am happy to announce that i succeded in compiling wxRuby 2.0.1 on my Buildservice account and it is available to be installed in just one click for openSUSE 12.2 and 12.3.</p>
-<p>wxRuby is an old but working library based on wxWidgets toolkit, till some day ago the dependency from SWIG 1.3.38 and some small errors raised during the manual compilation, made the use of this library the worst nightmare for beginners who was looking for a fast approach to GUI based programming in Ruby.</p>
-<p>After some day spent to investigate about a possible upgrade of the SWIG dependency to the current 2.0 version, i produced some patches to fix this and the other annoying compiling errors, and finally, thanks to the Buildservice infrastructure, a wxRuby RPM compiled from sources with the relative patches are now availables for all openSUSE users!</p>
-<p>As far i googled this should be the first distro to have a precompiled and working wxruby gem among its repositories (being compiled from sources the gem is generated for 32 and 64 bits architecture from Buildservice itself), so Rubyists take a look on software.opensuse.org, select the package coming from my home project account and enjoy!</p>
-]]></content:encoded>
-			<wfw:commentRss>https://lizards.opensuse.org/2013/03/22/wxruby-is-now-on-buildservice/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
-		<item>
-		<title>openSUSE 12.3 Image available for ARM64 (AArch64)</title>
-		<link>https://lizards.opensuse.org/2013/03/05/opensuse-12-3-image-available-for-arm64-aarch64/</link>
-		<comments>https://lizards.opensuse.org/2013/03/05/opensuse-12-3-image-available-for-arm64-aarch64/#comments</comments>
-		<pubDate>Tue, 05 Mar 2013 12:56:02 +0000</pubDate>
-		<dc:creator><![CDATA[Dirk Müller]]></dc:creator>
-				<category><![CDATA[Base System]]></category>
-		<category><![CDATA[Build Service]]></category>
-		<category><![CDATA[Distribution]]></category>
-		<category><![CDATA[Packaging]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9304</guid>
-		<description><![CDATA[Howdy, the openSUSE on ARM team was quite busy the last few weeks with getting openSUSE 12.3 for AArch64 (ARM64, also called ARMv8) ready. At the time of this post, we have finished around 4100 packages (out of ~ 6000) of openSUSE 12.3 built for AArch64, the ARM 64bit platform. With those successfully built packages, [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>Howdy,</p>
-<p>the openSUSE on ARM team was quite busy the last few weeks with getting openSUSE 12.3 for AArch64 (ARM64, also called ARMv8) ready. At the time of this post, we have finished around 4100 packages (out of ~ 6000) of openSUSE 12.3 built for AArch64, the ARM 64bit platform. With those successfully built packages, we&#8217;re also able to build a regular openSUSE image for you to try and run in the ARMv8 System emulator (ARMv8 Foundation Model).</p>
-<p>This is a huge achievement and milestone for us, thanks to lots of helpful hands within openSUSE. Just to put this into perspective: This is not a minimal system with a couple of toolchain packages. It is also not an embedded variant of a Linux environment. No, this is the <strong>full featured, standard openSUSE distribution</strong> as you&#8217;re used to, ported to AArch64, up and running. We have built it based on (slightly newer versions of) standard openSUSE 12.3 packages, and the changes are mostly already merged back into openSUSE Factory. For all we know it’s also more successful package builds than any other Linux distribution has on AArch64! If you’d like to see the status yourself, please check out <a href="https://build.opensuse.org/project/show?project=devel%3AARM%3AAArch64%3A12.3">the OBS repository we created for this</a>.</p>
-<p>As an open distribution, it is important to make contributions easy and we worked hard to enable others to participate in our effort. We extended OBS to automatically spawn a <a href="http://www.arm.com/products/tools/models/fast-models/foundation-model.php">Foundation Model</a> virtual machine when you want to build for aarch64. This works remotely on the OBS server as well as locally using osc build. More information on this is available on the <a href="http://en.opensuse.org/Portal:ARM/AArch64">respective wiki page</a>.</p>
-<p>So, dive right into it:  Get the image and start with openSUSE on AArch64 by following our wiki page: <a href="https://en.opensuse.org/Portal:ARM/AArch64">https://en.opensuse.org/Portal:ARM/AArch64</a>.</p>
-]]></content:encoded>
-			<wfw:commentRss>https://lizards.opensuse.org/2013/03/05/opensuse-12-3-image-available-for-arm64-aarch64/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
-		<item>
-		<title>new osc buildlog &#8211;strip-time option</title>
-		<link>https://lizards.opensuse.org/2012/12/17/new-osc-buildlog-strip-time-option/</link>
-		<comments>https://lizards.opensuse.org/2012/12/17/new-osc-buildlog-strip-time-option/#comments</comments>
-		<pubDate>Mon, 17 Dec 2012 13:49:05 +0000</pubDate>
-		<dc:creator><![CDATA[Marcus Hüwe]]></dc:creator>
-				<category><![CDATA[Build Service]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9115</guid>
-		<description><![CDATA[Hi, as of late each line in the buildlog is prefixed with a &#8220;timestamp&#8221;. If you do not need this information just run &#8220;osc bl &#8211;strip-time &#8230;&#8221; (this will remove the leading timestamp). Additionally there&#8217;s a new config option to permanently enable the stripping: osc config general buildlog_strip_time 1 (by default &#8220;buildlog_strip_time&#8221; is set to [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>Hi,</p>
-<p>as of late each line in the buildlog is prefixed with a &#8220;timestamp&#8221;. If you do not need<br />
-this information just run &#8220;osc bl &#8211;strip-time &#8230;&#8221; (this will remove the leading timestamp).<br />
-Additionally there&#8217;s a new config option to permanently enable the stripping:<br />
-<code>osc config general buildlog_strip_time 1</code><br />
-(by default &#8220;buildlog_strip_time&#8221; is set to False).<br />
-The &#8220;&#8211;strip-time&#8221; option is also supported by the &#8220;localbuildlog&#8221; and &#8220;remotebuildlog&#8221;<br />
-commands.</p>
-<p>Marcus</p>
-]]></content:encoded>
-			<wfw:commentRss>https://lizards.opensuse.org/2012/12/17/new-osc-buildlog-strip-time-option/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
+			</item>
 	</channel>
 </rss>

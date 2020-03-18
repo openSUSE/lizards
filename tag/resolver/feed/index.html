@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>resolver &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/resolver/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Highlights of YaST Development Sprint 85</title>
+		<link>https://lizards.opensuse.org/2019/09/26/highlights-of-yast-development-sprint-85/</link>
+		<pubDate>Thu, 26 Sep 2019 08:22:24 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+		<category><![CDATA[bonding]]></category>
+		<category><![CDATA[graph]]></category>
+		<category><![CDATA[networking]]></category>
+		<category><![CDATA[openqa]]></category>
+		<category><![CDATA[refactoring]]></category>
+		<category><![CDATA[resolver]]></category>
+		<category><![CDATA[storage]]></category>
+		<category><![CDATA[vlan]]></category>
+		<category><![CDATA[zoom]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=14083</guid>
+		<description><![CDATA[Encryption got so many improvements that we are writing a separate post (stay tuned). Refactored Network on its way to Tumbleweed. When you fix a corner case, automatic tests will break in a different corner. Not only in flight simulators but also in storage device graphs it matters which way is up and which is [&#8230;]]]></description>
+				<content:encoded><![CDATA[<ul>
+<li><a href="#FIXME">Encryption</a> got so many improvements that we are writing a separate post (stay tuned).</li>
+<li><a href="#s85-net">Refactored Network on its way to Tumbleweed</a>.</li>
+<li>When you fix a corner case, <a href="#s85-openqa">automatic tests will break in a different corner</a>.</li>
+<li>Not only in flight simulators but also in storage device graphs <a href="#s85-zoom">it matters which way is up and which is down</a>.</li>
+</ul>
+<h3 id="refactored-network-on-its-way-to-tumbleweed">Refactored Network on its way to Tumbleweed<a name="s85-net"></a></h3>
+<p>A few weeks ago we submitted the first round of changes to the network module to Tumbleweed. At that point, it was still using the old data model for most operations (except routing and DNS handling) and a lot of work remained to be done.</p>
+<p>We have been working hard on improving the overall quality of this module and we will submit an updated (and much improved) version in the upcoming days. To summarize, here are some highlights:</p>
+<ul>
+<li>Completed the new data model (support for TUN/TAP, bridges, bonding, VLANs, etc.).</li>
+<li>New wireless configuration workflow.</li>
+<li>Revamped support for interface renaming and driver assignment, including better udev rule handling.</li>
+<li>Fixed <code>/etc/hosts</code> handling when switching from static to DHCP based configuration.</li>
+<li>Many small fixes in several areas.</li>
+</ul>
+<p>Are we done with the refactoring? No, we are still working on improving S390 support and fixing small issues, but most of the work is already done.</p>
+<p>Of course, as soon as we finish, we will publish a blog entry with the gory details. But, as we know that you love screenshots, let us show you a handful of them.</p>
+<p>Although we have not introduced big user interface changes, we have tried to improve small things, like properly displaying whether an interface belongs to a VLAN or hiding the &quot;Hardware&quot; tab for virtual interfaces.</p>
+<div class="figure"><a href="//lizards.opensuse.org/wp-content/uploads/2019/09/s85-network-ng-enslaved.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/09/s85-network-ng-enslaved-300x217.png" alt="" width="300" height="217" class="aligncenter size-medium wp-image-14085" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/09/s85-network-ng-enslaved-300x217.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/09/s85-network-ng-enslaved-768x557.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/09/s85-network-ng-enslaved-1024x742.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2019/09/s85-network-ng-enslaved.png 1025w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<div class="figure"><a href="//lizards.opensuse.org/wp-content/uploads/2019/09/s85-network-ng-bond.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/09/s85-network-ng-bond-300x217.png" alt="" width="300" height="217" class="aligncenter size-medium wp-image-14086" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/09/s85-network-ng-bond-300x217.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/09/s85-network-ng-bond-768x557.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/09/s85-network-ng-bond-1024x742.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2019/09/s85-network-ng-bond.png 1025w" sizes="(max-width: 300px) 100vw, 300px" /></a>
+</div>
+<h3 id="dns-resolution-not-working-during-installation-or-openqa-is-different">DNS resolution not working during installation, or: openQA is different<a name="s85-openqa"></a></h3>
+<p>When we got a bug report that DNS resolution was not working during installation (since SLE-15 apparently), a solution seemed straightforward: <code>/run/netconfig/resolv.conf</code> was missing because the <code>/run</code> directory was not mirrored (bind-mounted) into the target system. That&#8217;s a task that used to be done by yast-storage in times before SLE-15 and was for some unknown reason forgotten when we implemented yast-storage-ng. A <a href="https://github.com/yast/yast-storage-ng/pull/958">one-line fix</a> was easily done, tested, and submitted.</p>
+<p>Or so it seemed.</p>
+<p>A few days later we got reports from SLE <a href="https://openqa.opensuse.org/">openQA</a> that tests started to fail with this patch. Nothing networking related but the installation did not finish because the 10 seconds countdown dialog (&#8216;going to reboot&#8217;) at the very end of the installation was frozen. The UI didn&#8217;t accept any input whatsoever. But whatever we tried, the issue was not reproducible outside openQA. <a href="https://en.opensuse.org/openSUSE:Report_a_YaST_bug">YaST logs</a> from openQA showed that <code>/run</code> got mounted as planned and was cleanly unmounted at the end of the installation &#8211; before that frozen dialog. So no clue so far and the issue was set aside for a while. Until the same reports came in from Tumbleweed testing. It was clearly linked to this one-line patch. But how?</p>
+<p>It stayed a mystery until a chat with an openQA expert shed some light on the issue. What we <em>thought</em> was happening was: openQA stopped the dialog (by pressing a button) and when it tried to go on the OK button did not respond anymore. What we learned <em>does</em> actually happen is this: openQA stops the dialog, then <a href="https://github.com/os-autoinst/os-autoinst-distri-opensuse/blob/5ab5f605c178189a0cadc40624e2b76ae61e29c9/tests/installation/logs_from_installation_system.pm#L34">switches from X to the text console</a>, <a href="https://github.com/os-autoinst/os-autoinst-distri-opensuse/blob/5ab5f605c178189a0cadc40624e2b76ae61e29c9/tests/installation/logs_from_installation_system.pm#L57">collects logs</a>, switches back to X, and <em>then</em> the UI does not respond anymore. So that was quite an essential point missing.</p>
+<p>And with this it was easily reproduced outside openQA: the X logs showed that the X server lost all its input devices after the switch. And that was because someone had deleted the whole <code>/run</code> directory. The YaST logs didn&#8217;t contain a hint (of course not, would have been too easy) but grepping the sources found the place where YaST deleted the directory.</p>
+<p>The code had been added after complaints that the installation left a cluttered <code>/run</code> directory &#8211; of course the installation did leave files there, since it was forgotten to bind-mount the directory. So once the mentioned patch bind-mounted it again the deletion code cleaned up not <code>/run</code> in the installation target system but the real <code>/run</code> as well &#8211; cutting off the X server from the outside world resulting in freezing the openQA test.</p>
+<p>And the moral of <a href="https://github.com/yast/yast-installation/pull/811">the story</a> is: probably none. But it highlights again that the automated test setup can have unexpected feedback on the test itself. Luckily in this case, as the issue would not have been noticed otherwise.</p>
+<h3 id="computer-enlarge-the-device-graph">Computer, Enlarge the Device Graph<a name="s85-zoom"></a></h3>
+<p>The partitioner module has a graphical view to help you see the relations in more complex storage setups:</p>
+<div class="figure"><a href="//lizards.opensuse.org/wp-content/uploads/2019/09/s85-scrolldir.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/09/s85-scrolldir-300x232.png" alt="" width="300" height="232" class="aligncenter size-medium wp-image-14087" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/09/s85-scrolldir-300x232.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/09/s85-scrolldir-768x594.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/09/s85-scrolldir.png 807w" sizes="(max-width: 300px) 100vw, 300px" /></a>
+</div>
+<p>If you turn the mouse scroll wheel up or down, we will zoom the view in or out. Now the direction matches the behavior in web browsers and online maps, previously we had it the wrong way around.</p>
+<p><strong>Update</strong>: during proofreading, a team mate told me: &quot;A device graph? That&#8217;s not a device graph. <a href="https://www.youtube.com/watch?v=POJtaO2xB_o">THAT&#8217;s</a> a device graph:&quot;</p>
+<div class="figure"><a href="//lizards.opensuse.org/wp-content/uploads/2019/09/s85-thats-a-graph.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/09/s85-thats-a-graph-1024x80.png" alt="" width="1024" height="80" class="aligncenter size-large wp-image-14088" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/09/s85-thats-a-graph-1024x80.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2019/09/s85-thats-a-graph-300x24.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/09/s85-thats-a-graph-768x60.png 768w" sizes="(max-width: 1024px) 100vw, 1024px" /></a>
+</div>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

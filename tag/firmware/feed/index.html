@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>firmware &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/firmware/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>fuk the kit you will love</title>
+		<link>https://lizards.opensuse.org/2012/01/19/fuk-the-kit-you-will-love/</link>
+		<comments>https://lizards.opensuse.org/2012/01/19/fuk-the-kit-you-will-love/#comments</comments>
+		<pubDate>Thu, 19 Jan 2012 20:03:33 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[BIOS]]></category>
+		<category><![CDATA[firmware]]></category>
+		<category><![CDATA[kit]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[update]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8417</guid>
+		<description><![CDATA[Dear fellows, in our moving free world, it&#8217;s not always bienvenue to talk about one of the *kit* software around. Most of them have bad reputation, (with good or bad reasons) this is the debate of this post. But in the uni-kit-verse there&#8217;s one you must known, especially if you are the proud owner of [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Dear fellows, in our moving free world, it&#8217;s not always bienvenue to talk about one of the *kit* software around.<br />
+Most of them have bad reputation, (with good or bad reasons) this is the debate of this post.</p>
+<p>But in the uni-kit-verse there&#8217;s one you must known, especially if you are the proud owner of a laptop or one of this computer the manufacter deliver its firmware only in DOS exe format.<br />
+FirmwareUpdateKit (was introduced in 2008 in openSUSE by <a href="http://lizards.opensuse.org/2008/06/16/firmwareupdatekit/">Steffen Winterfeldt</a></p>
+<h1>How that works?</h1>
+<p>As the title of the post give you the right command, open a console, then use the cnf (command-not-found) tool to learn what to do</p>
+<h2>Install the package</h2>
+<pre>
+cnf fuk
+
+The program 'fuk' can be found in the following package:
+  * FirmwareUpdateKit [ path: /usr/bin/fuk, repository: zypp (repo-oss) ]
+
+Try installing with:
+    zypper install FirmwareUpdateKit
+</pre>
+<p>Pretty clear and cool, let&#8217;s install that stuff!</p>
+<pre>sudo zypper install FirmwareUpdateKit
+root's password:
+Loading repository data...
+Reading installed packages...
+Resolving package dependencies...
+
+The following NEW packages are going to be installed:
+  FirmwareUpdateKit syslinux 
+
+2 new packages to install.
+Overall download size: 758.0 KiB. After the operation, additional 2.1 MiB will be used.
+Continue? [y/n/?] (y): y
+Retrieving package syslinux-4.04-12.1.3.x86_64 (1/2), 642.0 KiB (1.9 MiB unpacked)
+Retrieving: syslinux-4.04-12.1.3.x86_64.rpm [done]
+Retrieving package FirmwareUpdateKit-1.1-14.1.1.x86_64 (2/2), 116.0 KiB (178.0 KiB unpacked)
+Retrieving: FirmwareUpdateKit-1.1-14.1.1.x86_64.rpm [done]
+Installing: syslinux-4.04-12.1.3 [done]
+Installing: FirmwareUpdateKit-1.1-14.1.1 [done]
+</pre>
+<p><img alt="Firmware Update" src="http://i.i.com.com/cnwk.1d/i/tim/2011/09/19/FirmwareUpdateIconX.png" class="alignright" width="128" height="128" /></p>
+<h2>Get your bios</h2>
+<p>Nothing easy for that, you will have to surf on boring mfg website, and find an appropriate bios for your computer.</p>
+<p>Be serious during that selection, you can screw up totally your computer</p>
+<h2>Time to fuk</h2>
+<p>As always before running a program, it&#8217;s always good to check if there&#8217;s the fine manual (not the case here) or try a -h &#8211;help</p>
+<pre>
+fuk --help
+Usage: fuk [OPTIONS] FILES
+FirmwareUpdateKit version 1.1.
+
+Create bootable DOS system and add FILES to it.
+The main purpose is to assist with DOS-based firmware updates.
+
+Options:
+  --grub                        Add boot entry to /boot/grub/menu.lst.
+  --lilo                        Add boot entry to /etc/lilo.conf.
+  --title TITLE                 Use TITLE as label for boot menu entry.
+  --iso FILE                    Create bootable CD.
+  --floppy FILE                 Create bootable (1440 kB) floppy disk.
+  --image FILE                  Create bootable harddisk.
+  --run COMMAND                 Run COMMAND after booting DOS.
+  --verbose                     Be more verbose.
+</pre>
+<p>Nothing complicated as a nuclear plan here, everything seems to be self explicit.<br />
+Let try it, and install a new grub entry for the new A8 version for my lappy.
+</p>
+<pre>
+fuk --verbose --grub --run M4600A08.exe /home/bruno/src_tmp/HARDWARE/DELL_M4600/M4600A08.exe 
+/tmp/fuk.lSVIgS0cMt/fwupdate.img: chs = 186/4/16, size = 11904 blocks
+- writing mbr
+- writing fat12 boot block
+- copying:
+    /usr/share/FirmwareUpdateKit/kernel.sys
+    /usr/share/FirmwareUpdateKit/command.com
+    /tmp/fuk.lSVIgS0cMt/config.sys
+    /tmp/fuk.lSVIgS0cMt/autoexec.bat
+    /home/bruno/src_tmp/HARDWARE/DELL_M4600/M4600_A08.exe
+c-3po:~ # 
+</pre>
+<p>That&#8217;s all I&#8217;ve now a new entry in my grub list</p>
+<pre>
+title Firmware Update
+    kernel /boot/memdisk
+    initrd /boot/fwupdate.img
+</pre>
+<h2>Apply</h2>
+<p>Now just reboot and use the grub entry, then upgrade your bios, like you will normally have done with you old complicated build iso, or diskette (I&#8217;m joking)</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2012/01/19/fuk-the-kit-you-will-love/feed/</wfw:commentRss>
+		<slash:comments>5</slash:comments>
+		</item>
+	</channel>
+</rss>

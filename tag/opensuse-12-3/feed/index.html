@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openSUSE 12.3 &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/opensuse-12-3/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>One that got away &#8211; 12.3 Networking</title>
+		<link>https://lizards.opensuse.org/2013/03/13/one-that-got-away-12-3-networking/</link>
+		<comments>https://lizards.opensuse.org/2013/03/13/one-that-got-away-12-3-networking/#comments</comments>
+		<pubDate>Wed, 13 Mar 2013 13:10:42 +0000</pubDate>
+		<dc:creator><![CDATA[rjschwei]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Network]]></category>
+		<category><![CDATA[networking]]></category>
+		<category><![CDATA[NetworkManager]]></category>
+		<category><![CDATA[openSUSE 12.3]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9318</guid>
+		<description><![CDATA[Well openSUSE 12.3 is about to go live  and we are all pretty excited. It is, as far as I can tell a rock solid release and we have outdone ourselves. Considering the short release cycle makes this even more impressive. One can only thank everyone in the community for pulling together, getting a lot [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Well openSUSE 12.3 is about to go live  and we are all pretty excited. It is, as far as I can tell a rock solid release and we have outdone ourselves. Considering the short release cycle makes this even more impressive.</p>
+<p>One can only thank everyone in the community for pulling together, getting a lot of stuff done and delivering a great release.</p>
+<p>Yet, there&#8217;s one sprinkle that rains on our parade. While we completed the switch to systemd we somewhere along the lines forgot to check the status of NetworkManager on an installed system. Thus, when you upgrade from a previous release and NetworkManager is disabled, it will be enabled and running after the upgrade is complete, sorry. If you happen to be running a network bridge your bridge will not be working and you&#8217;ll end up in some weird network state where <em>ifconfig</em> will tell you that both your bridge and your Ethernet card have an IP address. Your routing table will also be messed up. Addressing the issue is easy.</p>
+<p>Login as root, which you will have to do at the login manager if you happen to run NIS, disable NetworkManager, stop the NetworkManager service, and restart your network. You are now back to your original configuration, no sweat <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> . Below is a list of commands you want to run as the root user to make this happen:</p>
+<p># systemctl &#8211;force disable NetworkManager.service</p>
+<p># systemctl stop NetworkManager.service</p>
+<p># rcnetwork restart</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/03/13/one-that-got-away-12-3-networking/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+	</channel>
+</rss>

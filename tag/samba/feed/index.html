@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>SAMBA &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/samba/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Make your openSUSE Raspberry Pi a seedbox</title>
+		<link>https://lizards.opensuse.org/2015/05/22/make-your-opensuse-raspberry-pi-a-seedbox/</link>
+		<pubDate>Fri, 22 May 2015 12:23:54 +0000</pubDate>
+		<dc:creator><![CDATA[Efstathios Iosifidis]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[android]]></category>
+		<category><![CDATA[raspberry]]></category>
+		<category><![CDATA[Raspberry Pi]]></category>
+		<category><![CDATA[SAMBA]]></category>
+		<category><![CDATA[seedbox]]></category>
+		<category><![CDATA[torrent]]></category>
+		<category><![CDATA[transmission]]></category>
+		<category><![CDATA[vftpd]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11426</guid>
+		<description><![CDATA[Raspberry Pi is a quite slow ARM board, compared to other boards. Even if you compare Raspberry Pi B+ against Raspberry Pi 2. So maybe one of the best use of RasPi is to make it seedbox. Let&#8217;s say you&#8217;re at the office and a friend tells you to test a distro. You can login [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Raspberry Pi is a quite slow ARM board, compared to other boards. Even if you compare Raspberry Pi B+ against Raspberry Pi 2. So maybe one of the best use of RasPi is to make it seedbox. Let&#8217;s say you&#8217;re at the office and a friend tells you to test a distro. You can login to your home Raspberry Pi seedbox and add the torrent file there.</p>
+<p>Here I will show you how to setup Transmission, vftpd and suggestions for Android programs.<br />
+First of all, download and create the openSUSE SD card (resize your SD card to full size or you can mount the extra size as extra partition. Since it&#8217;s not something important, then you can use full size of your SD card).<br />
+Then setup the dynamic dns service (see previous posts).<br />
+Finally set a static IP (to use it with port forward of your router).</p>
+<p><b>INSTALL TRANSMISSION</b></p>
+<p>First install transmission:</p>
+<blockquote><p>$ zypper in transmission transmission-daemon</p></blockquote>
+<p>Create 2 folders for incomplete torrents and completed torrents:</p>
+<blockquote><p>$ mkdir -p /torrents/incomplete &amp;&amp; mkdir /torrents/complete</p></blockquote>
+<p>Configure proper permissions for transmission:</p>
+<blockquote><p>$ chgrp transmission /torrents/incomplete<br />
+$ chgrp transmission /torrents/complete<br />
+$ chmod 770 /torrents/incomplete<br />
+$ chmod 777 /torrents/complete</p></blockquote>
+<p><span id="more-11426"></span><br />
+Now edit transmission <b>settings.json</b> file using:</p>
+<blockquote><p>$ cp /var/lib/transmission/.config/transmission/settings.json /var/lib/transmission/.config/transmission/settings.json.old<br />
+$ rm /var/lib/transmission/.config/transmission/settings.json</p>
+<p>and </p>
+<p>$ nano /var/lib/transmission/.config/transmission/settings.json</p></blockquote>
+<p>Here is the content of your file:</p>
+<blockquote><p>{<br />
+&#8220;alt-speed-down&#8221;: 50,<br />
+&#8220;alt-speed-enabled&#8221;: false,<br />
+&#8220;alt-speed-time-begin&#8221;: 540,<br />
+&#8220;alt-speed-time-day&#8221;: 127,<br />
+&#8220;alt-speed-time-enabled&#8221;: false,<br />
+&#8220;alt-speed-time-end&#8221;: 1020,<br />
+&#8220;alt-speed-up&#8221;: 50,<br />
+&#8220;bind-address-ipv4&#8221;: &#8220;0.0.0.0&#8221;,<br />
+&#8220;bind-address-ipv6&#8221;: &#8220;::&#8221;,<br />
+&#8220;blocklist-enabled&#8221;: false,<br />
+&#8220;blocklist-url&#8221;: &#8220;http://www.example.com/blocklist&#8221;,<br />
+&#8220;cache-size-mb&#8221;: 4,<br />
+&#8220;dht-enabled&#8221;: false,<br />
+&#8220;download-dir&#8221;: &#8220;/torrents/complete&#8221;,<br />
+&#8220;download-limit&#8221;: 100,<br />
+&#8220;download-limit-enabled&#8221;: 0,<br />
+&#8220;download-queue-enabled&#8221;: true,<br />
+&#8220;download-queue-size&#8221;: 5,<br />
+&#8220;encryption&#8221;: 1,<br />
+&#8220;idle-seeding-limit&#8221;: 30,<br />
+&#8220;idle-seeding-limit-enabled&#8221;: false,<br />
+&#8220;incomplete-dir&#8221;: &#8220;/torrents/incomplete&#8221;,<br />
+&#8220;incomplete-dir-enabled&#8221;: true,<br />
+&#8220;lpd-enabled&#8221;: false,<br />
+&#8220;max-peers-global&#8221;: 200,<br />
+&#8220;message-level&#8221;: 2,<br />
+&#8220;peer-congestion-algorithm&#8221;: &#8220;&#8221;,<br />
+&#8220;peer-limit-global&#8221;: 91,<br />
+&#8220;peer-limit-per-torrent&#8221;: 150,<br />
+&#8220;peer-port&#8221;: 51413,<br />
+&#8220;peer-port-random-high&#8221;: 65535,<br />
+&#8220;peer-port-random-low&#8221;: 49152,<br />
+&#8220;peer-port-random-on-start&#8221;: false,<br />
+&#8220;peer-socket-tos&#8221;: &#8220;default&#8221;,<br />
+&#8220;pex-enabled&#8221;: false,<br />
+&#8220;port-forwarding-enabled&#8221;: true,<br />
+&#8220;preallocation&#8221;: 1,<br />
+&#8220;prefetch-enabled&#8221;: 1,<br />
+&#8220;queue-stalled-enabled&#8221;: true,<br />
+&#8220;queue-stalled-minutes&#8221;: 30,<br />
+&#8220;ratio-limit&#8221;: 2,<br />
+&#8220;ratio-limit-enabled&#8221;: false,<br />
+&#8220;rename-partial-files&#8221;: true,<br />
+&#8220;rpc-authentication-required&#8221;: true,<br />
+&#8220;rpc-bind-address&#8221;: &#8220;0.0.0.0&#8221;,<br />
+&#8220;rpc-enabled&#8221;: true,<br />
+&#8220;rpc-password&#8221;: &#8220;{2dc2c41724aab07ccc301e97f56360cb35f8ba1fGVVrdHDX&#8221;,<br />
+&#8220;rpc-port&#8221;: 9091,<br />
+&#8220;rpc-url&#8221;: &#8220;/transmission/&#8221;,<br />
+&#8220;rpc-username&#8221;: &#8220;transmission&#8221;,<br />
+&#8220;rpc-whitelist&#8221;: &#8220;*.*.*.*&#8221;,<br />
+&#8220;rpc-whitelist-enabled&#8221;: false,<br />
+&#8220;scrape-paused-torrents-enabled&#8221;: true,<br />
+&#8220;script-torrent-done-enabled&#8221;: false,<br />
+&#8220;script-torrent-done-filename&#8221;: &#8220;&#8221;,<br />
+&#8220;seed-queue-enabled&#8221;: false,<br />
+&#8220;seed-queue-size&#8221;: 10,<br />
+&#8220;speed-limit-down&#8221;: 250,<br />
+&#8220;speed-limit-down-enabled&#8221;: true,<br />
+&#8220;speed-limit-up&#8221;: 0,<br />
+&#8220;speed-limit-up-enabled&#8221;: true,<br />
+&#8220;start-added-torrents&#8221;: true,<br />
+&#8220;trash-original-torrent-files&#8221;: false,<br />
+&#8220;umask&#8221;: 18,<br />
+&#8220;upload-limit&#8221;: 100,<br />
+&#8220;upload-limit-enabled&#8221;: 0,<br />
+&#8220;upload-slots-per-torrent&#8221;: 14,<br />
+&#8220;utp-enabled&#8221;: true<br />
+}</p></blockquote>
+<p><code>Username: transmission<br />
+Password: transmission<br />
+Port: 9091</code></p>
+<p>Start and enable the service.</p>
+<blockquote><p>$ systemctl start transmission-daemon<br />
+$ systemctl enable transmission-daemon</p></blockquote>
+<p>You&#8217;re done. All you have to do is to open your browser to <b>http://RASPI.IP.ADDRESS:9091/</b> and use the login/password (default for above config <i>transmission/transmission</i>)</p>
+<p><b><a href="http://www.unixmen.com/setup-ftp-server-opensuse-13-213-1/" target="1">INSTALL FTP SERVER</a></b></p>
+<p>Let&#8217;s say that the file is i your pi disk. You&#8217;re not at home. How can you check it? Maybe the easiest way is to setup an FTP server. Maybe the best program is vsftpd. You can install it:</p>
+<blockquote><p>$ zypper in ftp vsftpd</p></blockquote>
+<p>Create a folder for ftp users (if it&#8217;s not there).</p>
+<blockquote><p>$ mkdir /srv/ftp</p></blockquote>
+<p>Create a group called ftp-users.</p>
+<blockquote><p>$ groupadd ftp-users</p></blockquote>
+<p>Create a sample user called seedbox with home directory /srv/ftp/, and assign the user to ftp-users group.</p>
+<blockquote><p>$ useradd -g ftp-users -d /srv/ftp/ seedbox</p></blockquote>
+<p>Set password for the new user.</p>
+<blockquote><p>$ passwd seedbox</p></blockquote>
+<p>Now you should change few things:</p>
+<blockquote><p>$ nano /etc/vsftpd.conf</p></blockquote>
+<p>And uncomment:</p>
+<blockquote><p>local_enable=YES<br />
+write_enable=YES</p></blockquote>
+<p>Start the service and you&#8217;re done:</p>
+<blockquote><p>$ systemctl start vsftpd</p>
+<p>$ systemctl enable vsftpd</p></blockquote>
+<p>Personally I use the program <a href="https://filezilla-project.org/" target="1">filezilla</a> but you can also use the Firefox addon <a href="https://addons.mozilla.org/el/firefox/addon/fireftp/" target="1">FireFTP</a>.</p>
+<p><b>INSTALL SAMBA</b></p>
+<p>OK, you installed torrent server. How can you access the downloaded files from your computer? Well it&#8217;s easy. Just install SAMBA. For that reason, I followed the tutorial <a href="http://www.megaleecher.net/Adding_External_USB_Disk_Drive_Storage_On_RasPi" target="1">here</a>.</p>
+<p>First of all, install SAMBA.</p>
+<blockquote><p>$ zypper in samba</p></blockquote>
+<p>Then all you have to do is to change SAMBA configuration file.</p>
+<blockquote><p>$ cp /etc/samba/smb.conf /etc/samba/smb.cnf<br />
+$ nano /etc/samba/smb.cnf</p></blockquote>
+<p>Just add the following lines:</p>
+<blockquote><p>[Seedbox]<br />
+comment = Public Shares<br />
+path = /torrents/complete<br />
+writeable = Yes<br />
+only guest = Yes<br />
+create mask = 0777<br />
+directory mask = 0777<br />
+browseable = Yes<br />
+public = yes</p></blockquote>
+<p>You should restart SAMBA or you can reboot your Pi.</p>
+<blockquote><p>$ systemctl start smb nmb</p>
+<p>$ systemctl enable smb nmb</p></blockquote>
+<p>Now you can access your Pi from Nautilus (<a href="http://www.cyberciti.biz/tips/browse-a-samba-or-ms-windows-share-in-nautilus.html" target="1">check here how to do that</a>).</p>
+<p><b>Android</b></p>
+<p>If you want to use it via android phone/tablet, you can use the program <a href="https://play.google.com/store/apps/details?id=com.neogb.rtac" target="1">Remote Transmission</a></p>
+<p><a href="https://lh3.ggpht.com/_hZ3551L5UR_QgrVqPYLnW_Eno04O3aVb9EEW4kluP1V84sVnQ0Y1UvHksGNYdtKStM"><img alt="Android's Remote Transmission" src="https://lh3.ggpht.com/_hZ3551L5UR_QgrVqPYLnW_Eno04O3aVb9EEW4kluP1V84sVnQ0Y1UvHksGNYdtKStM" /></a></p>
+<p>More applications are <a href="https://play.google.com/store/apps/details?id=org.transdroid.lite" target="1">Transdrone</a> and <a href="https://play.google.com/store/apps/details?id=net.torrenttoise.free" target="1">TorrentToise</a>.</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>nextcloud &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/nextcloud/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Basic Nextcloud installation on openSUSE Leap</title>
+		<link>https://lizards.opensuse.org/2016/10/28/nextcloud-installation-on-opensuse-leap/</link>
+		<comments>https://lizards.opensuse.org/2016/10/28/nextcloud-installation-on-opensuse-leap/#comments</comments>
+		<pubDate>Fri, 28 Oct 2016 15:09:09 +0000</pubDate>
+		<dc:creator><![CDATA[Efstathios Iosifidis]]></dc:creator>
+				<category><![CDATA[Apache]]></category>
+		<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Server]]></category>
+		<category><![CDATA[42.1]]></category>
+		<category><![CDATA[cloud]]></category>
+		<category><![CDATA[Leap]]></category>
+		<category><![CDATA[nextcloud]]></category>
+		<category><![CDATA[openSUSE]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12089</guid>
+		<description><![CDATA[I see the official documentation has full tutorial for RHEL 6 or CentOS 6 and RHEL 7 or CentOS 7. The main documentation covers Ubuntu 14.04 LTS openSUSE already has the Nextcloud client packaged in Tumbelweed and the Server is in the PHP extra repo! Personally, I prefer to install eveything from official repository, so [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><img src="https://en.opensuse.org/images/0/0f/Nextcloud.png" alt="Nextcloud Logo" width="40%" height="40%" /></p>
+<p>I see the official documentation has full tutorial for <a href="https://docs.nextcloud.com/server/10/admin_manual/installation/php_54_installation.html" target="1">RHEL 6 or CentOS 6</a> and <a href="https://docs.nextcloud.com/server/10/admin_manual/installation/php_55_installation.html" target="1">RHEL 7 or CentOS 7</a>. The main documentation covers <a href="https://docs.nextcloud.com/server/10/admin_manual/installation/source_installation.html" target="1">Ubuntu 14.04 LTS</a></p>
+<p>openSUSE already has the <a href="https://software.opensuse.org/search?utf8=%E2%9C%93&amp;q=nextcloud&amp;search_devel=false&amp;search_unsupported=false&amp;baseproject=openSUSE%3AFactory" target="1">Nextcloud client packaged in Tumbelweed and the Server is in the PHP extra repo!</a> Personally, I prefer to install eveything from official repository, so when an update is available, I can have it without a glitch. This tutorial describes how to install Nextcloud using command line. I followed the official documentation of <a href="https://docs.nextcloud.com/server/10/admin_manual/installation/source_installation.html" target="1">Ubuntu 14.04 LTS installation</a>.</p>
+<p>Why choose <a href="https://en.opensuse.org/Portal:Leap" target="1">openSUSE Leap</a>? openSUSE Leap is a brand new way of building openSUSE and is new type of hybrid Linux distribution. Leap uses source from <a href="https://www.suse.com/promo/sle/" target="1">SUSE Linux Enterprise (SLE)</a>, which gives Leap a level of stability unmatched by other Linux distributions, and combines that with community developments to give users, developers and sysadmins the best stable Linux experience available. Contributor and enterprise efforts for Leap bridge a gap between matured packages and newer packages found in openSUSE’s other distribution Tumbleweed. You can download openSUSE Leap from the site <a href="https://software.opensuse.org/" target="1">https://software.opensuse.org/</a>.<br />
+<span id="more-12089"></span><br />
+Make sure that ssh (sshd) is enabled and also the firewall either is disabled or <a href="https://en.opensuse.org/SuSEfirewall2" target="1">make an exception to the apache and ssh services</a>. You can also set a static IP (<a href="http://eiosifidis.blogspot.gr/2015/05/set-static-ip-on-your-opensuse-raspberry-pi.html" target="1">check out how</a>).</p>
+<p>First of all, let&#8217;s install the required and recommended modules for a typical Nextcloud installation, using Apache and MariaDB, by issuing the following commands in a terminal:</p>
+<div class="code"><strong>zypper in apache2 mariadb apache2-mod_php5 php5-gd php5-json php5-fpm php5-mysql php5-curl php5-intl php5-mcrypt php5-zip php5-mbstring php5-zlib</strong></div>
+<p><b>Create Database (optional since it&#8217;ll create eveything automatically)</b><br />
+Next step, create a database. First of all start the service.</p>
+<div class="code"><strong>systemctl start mysql.service<br />
+systemctl enable mysql.service</strong></div>
+<p>The root password is empty by default. That means that you can press enter and you can use your root user. That&#8217;s not safe at all. So you can set a password using the command:</p>
+<div class="code"><strong>mysqladmin -u root password newpass</strong></div>
+<p>Where newpass is the password you want.</p>
+<p>Now you set the root password, create the database.</p>
+<blockquote><p>mysql -u root -p<br />
+#you&#8217;ll be asked for your root passwordCREATE DATABASE nextcloudb;</p>
+<p>GRANT ALL ON nextcloudb.* TO ncuser@localhost IDENTIFIED BY &#8216;dbpass&#8217;;</p></blockquote>
+<p>Database user: <b>ncuser</b><br />
+Database name: <b>nextcloudb</b><br />
+Database user password: <b>dbpass</b></p>
+<p>You can change the above information accordingly.</p>
+<p><b>PHP changes</b><br />
+Now you should edit the php.ini file.</p>
+<blockquote><p>nano /etc/php5/apache2/php.ini</p></blockquote>
+<p>change the values</p>
+<blockquote><p>post_max_size = 50G<br />
+upload_max_filesize = 25G<br />
+max_file_uploads = 200<br />
+max_input_time = 3600<br />
+max_execution_time = 3600<br />
+session.gc_maxlifetime = 3600<br />
+memory_limit = 512M</p></blockquote>
+<p>and finally enable the extensions.</p>
+<blockquote><p>extension=php_gd2.dll<br />
+extension=php_mbstring.dll</p></blockquote>
+<p><b>Apache Configuration</b><br />
+You should enable some modules. Some might be already enabled.</p>
+<blockquote><p>a2enmod php5<br />
+a2enmod rewrite<br />
+a2enmod headers<br />
+a2enmod env<br />
+a2enmod dir<br />
+a2enmod mime</p></blockquote>
+<p>Now start the apache service.</p>
+<blockquote><p>systemctl start apache2.service<br />
+systemctl enable apache2.service</p></blockquote>
+<p><b>Install Nextcloud from source code (option 1, preferable)</b><br />
+Before the installation, create the data folder and give the right permissions (preferably outside the server directory for security reasons). I created a directory in the <i>/mnt</i> directory. You can mount a USB disk, add it to fstab and save your data there. The commands are:</p>
+<blockquote><p>mkdir /mnt/nextcloud_data<br />
+chmod -R 0770 /mnt/nextcloud_data<br />
+chown wwwrun /mnt/nextcloud_data</p></blockquote>
+<p>Now download Nextcloud (find the latest version at <a href="https://nextcloud.com/install/" target="1">https://nextcloud.com/install/</a>). Then unzip and move the folder to the server directory.</p>
+<blockquote><p>wget https://download.nextcloud.com/server/releases/nextcloud-10.0.0.zip<br />
+unzip nextcloud-10.0.0.zip<br />
+cp -r nextcloud /srv/www/htdocs<br />
+chown -R wwwrun /srv/www/htdocs/nextcloud/</p></blockquote>
+<p>Make sure that everything is OK and then delete the folder nextcloud and nextcloud-10.0.0.zip from the root (user) directory.</p>
+<p>Now open your browser to the server IP/nextcloud</p>
+<p><a href="https://www.dropbox.com/s/45s9l5te6ektb5s/nextcloud_install.png?raw=1" target="1"><img src="https://www.dropbox.com/s/45s9l5te6ektb5s/nextcloud_install.png?raw=1" width="80%" height="80%" /></a>Set your administrator username and password.<br />
+Your data directory is: /mnt/nextcloud_data<br />
+Regarding database, use the following.<br />
+Database user: <b>ncuser</b><br />
+Database name: <b>nextcloudb</b><br />
+Database user password: <b>dbpass</b></p>
+<p>Wait until it ends the installation. The page you&#8217;ll see is the following.</p>
+<p><a href="https://www.dropbox.com/s/e0mbm5tdktilmsp/nextcloud_first_login.png?raw=1" target="1"><img src="https://www.dropbox.com/s/e0mbm5tdktilmsp/nextcloud_first_login.png?raw=1" width="80%" height="80%" /></a></p>
+<p><b>Install Nextcloud using the respository (option 2)</b></p>
+<p>If you want to have automatic updates of your Nextcloud instance when there&#8217;s a new version, you can add the repository. There are packages available for openSUSE Leap 42.1, 42.2 and Tumbleweed (we recommend openSUSE Leap 42.1). You should be an administrator, so you can install Nextloud on your server.</p>
+<p>1. Add the Nextcloud repository.<br />
+<strong>openSUSE_Leap_42.2</strong></p>
+<blockquote><p>zypper ar http://download.opensuse.org/repositories/server:/php:/applications/openSUSE_Leap_42.2/ Nextcloud</p></blockquote>
+<p><strong>openSUSE_Leap_42.1</strong></p>
+<blockquote><p>zypper ar http://download.opensuse.org/repositories/server:/php:/applications/openSUSE_Leap_42.1/ Nextcloud</p></blockquote>
+<p><strong>openSUSE_Leap_Tumbleweed</strong></p>
+<blockquote><p>zypper ar http://download.opensuse.org/repositories/server:/php:/applications/openSUSE_Tumbleweed/ Nextcloud</p></blockquote>
+<p>2. Refresh your repositories</p>
+<blockquote><p>zypper refresh</p></blockquote>
+<p>3. Install Nextcloud (be careful you have to install LAMP first and change permissions of the files).</p>
+<blockquote><p>zypper install nextcloud</p></blockquote>
+<p>4. Open http://serverIP/nextcloud to install your instance (admin user account). Be careful to create another folder with the proper permissions for your data (as described).</p>
+<p>5. Login and use Nextloud.</p>
+<p>For more information about Nextcloud on openSUSE, check <a href="https://en.opensuse.org/SDB:Nextcloud" target="_blank">openSUSE wiki</a>.</p>
+<p>For any changes, check the <a href="https://github.com/iosifidis/nextcloud-opensuse-leap" target="1">github page</a>.</p>
+<p>For more configuration, you can follow the <a href="https://docs.nextcloud.com/server/10/admin_manual/contents.html" target="1">official documentation</a>. That was the basic installation on openSUSE Leap.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2016/10/28/nextcloud-installation-on-opensuse-leap/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+	</channel>
+</rss>

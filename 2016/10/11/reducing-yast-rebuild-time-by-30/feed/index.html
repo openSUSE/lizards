@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	
+	>
+<channel>
+	<title>Comments on: Reducing YaST rebuild time by 30%</title>
+	<atom:link href="https://lizards.opensuse.org/2016/10/11/reducing-yast-rebuild-time-by-30/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org/2016/10/11/reducing-yast-rebuild-time-by-30/</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 17:50:09 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>By: Saulo</title>
+		<link>https://lizards.opensuse.org/2016/10/11/reducing-yast-rebuild-time-by-30/#comment-15059</link>
+		<dc:creator><![CDATA[Saulo]]></dc:creator>
+		<pubDate>Thu, 13 Oct 2016 20:39:49 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12030#comment-15059</guid>
+		<description><![CDATA[checkmedia is set as &quot;recommended&quot; (not required), see below:
+
+# ensure that &#039;checkmedia&#039; is on the medium
+Recommends:     checkmedia
+
+But as we cant use it without the &quot;checkmedia&quot; package. I suppose it should be set as a required dependency. Anyway I know it envolves a change in how yast deps are packaged, so it is just a suggestion.
+
+Thank you for everybody in your Team for improve Yast!]]></description>
+		<content:encoded><![CDATA[<p>checkmedia is set as &#8220;recommended&#8221; (not required), see below:</p>
+<p># ensure that &#8216;checkmedia&#8217; is on the medium<br />
+Recommends:     checkmedia</p>
+<p>But as we cant use it without the &#8220;checkmedia&#8221; package. I suppose it should be set as a required dependency. Anyway I know it envolves a change in how yast deps are packaged, so it is just a suggestion.</p>
+<p>Thank you for everybody in your Team for improve Yast!</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: mvidner</title>
+		<link>https://lizards.opensuse.org/2016/10/11/reducing-yast-rebuild-time-by-30/#comment-15057</link>
+		<dc:creator><![CDATA[mvidner]]></dc:creator>
+		<pubDate>Thu, 13 Oct 2016 10:21:27 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12030#comment-15057</guid>
+		<description><![CDATA[Saulo, the dependencies in this graph are for build time (BuildRequires), not for run time (Requires). 
+
+Regarding the Media Check, we do have checkmedia as a soft dependency:
+
+# rpm -qf /usr/share/YaST2/clients/checkmedia.rb 
+yast2-packager-3.1.84.1-3.1.x86_64
+# rpm -qf /usr/share/YaST2/clients/checkmedia.rb --recommends
+checkmedia]]></description>
+		<content:encoded><![CDATA[<p>Saulo, the dependencies in this graph are for build time (BuildRequires), not for run time (Requires). </p>
+<p>Regarding the Media Check, we do have checkmedia as a soft dependency:</p>
+<p># rpm -qf /usr/share/YaST2/clients/checkmedia.rb<br />
+yast2-packager-3.1.84.1-3.1.x86_64<br />
+# rpm -qf /usr/share/YaST2/clients/checkmedia.rb &#8211;recommends<br />
+checkmedia</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: saulo</title>
+		<link>https://lizards.opensuse.org/2016/10/11/reducing-yast-rebuild-time-by-30/#comment-15051</link>
+		<dc:creator><![CDATA[saulo]]></dc:creator>
+		<pubDate>Tue, 11 Oct 2016 23:31:00 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12030#comment-15051</guid>
+		<description><![CDATA[It shows only deps between yast packages, but it would be great if yast package also include external deps, for example:
+Software -&#062; &quot;Media Check&quot;
+
+It always ask to user install &quot;checkmedia&quot; package (it is very annoying) Why yast2 package do not include &quot;checkmedia&quot; as a dependency?
+
+Same problem for yast modules: &quot;printer&quot;, &quot;scanner&quot;, &quot;remote administration&quot;, etc...]]></description>
+		<content:encoded><![CDATA[<p>It shows only deps between yast packages, but it would be great if yast package also include external deps, for example:<br />
+Software -&gt; &#8220;Media Check&#8221;</p>
+<p>It always ask to user install &#8220;checkmedia&#8221; package (it is very annoying) Why yast2 package do not include &#8220;checkmedia&#8221; as a dependency?</p>
+<p>Same problem for yast modules: &#8220;printer&#8221;, &#8220;scanner&#8221;, &#8220;remote administration&#8221;, etc&#8230;</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

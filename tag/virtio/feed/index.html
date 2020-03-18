@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>virtio &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/virtio/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>osc build with kvm on an encrypted volume group</title>
+		<link>https://lizards.opensuse.org/2014/03/15/osc-build-with-kvm-on-an-encrypted-volume-group/</link>
+		<pubDate>Sat, 15 Mar 2014 17:34:14 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Uncategorized]]></category>
+		<category><![CDATA[Build]]></category>
+		<category><![CDATA[kvm]]></category>
+		<category><![CDATA[osc]]></category>
+		<category><![CDATA[virtio]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10665</guid>
+		<description><![CDATA[How-to build a initrd-virtio on a fully encrypted volume group If like me you care about your data stored on your laptop, you certainly use a fully encrypted (excepted /boot) configuration based on lvm. In my case I also like to create, build, fix packages locally with our tool osc. I&#8217;ve plenty of power, beefy [&#8230;]]]></description>
+				<content:encoded><![CDATA[<h1>How-to build a initrd-virtio on a fully encrypted volume group</h1>
+<p>If like me you care about your data stored on your laptop, you certainly use a fully encrypted (excepted /boot) configuration based on lvm.</p>
+<p>In my case I also like to create, build, fix packages locally with our tool osc. I&#8217;ve plenty of power, beefy ssd, so I dedicate a logical lvm for building cleanly package with qemu-kvm configuration, like <a href="http://build.opensuse.org">obs</a> does</p>
+<h2>Prepare the kvm building system</h2>
+<p>As root you create 2 lvm volume with lvcreate, one will be the build root, the other one will be the additional swap</p>
+<p>In ~/.oscrc I enable the following parameters</p>
+<pre>
+build-type = kvm
+build-device = /dev/mapper/vg0-lvobsbuild
+build-swap = /dev/mapper/vg1-lvobsswap
+build-memory = 4096
+build-vmdisk-rootsize = 16000
+build-vmdisk-swapsize = 4000
+build-vmdisk-filesystem = ext4
+</pre>
+<p>You just have to adjust the Memory quantity and the device to what you create for your own environment.</p>
+<p><span id="more-10665"></span></p>
+<h2>Building with qemu-kvm</h2>
+<p>Once the preparation is done you could try to build a package</p>
+<pre>
+Skipping verification of package signatures due to secure VM build
+Writing build configuration
+Running build
+No initrd that provides virtio support found. virtio accelleration disabled.
+Run the following command as root to enable virtio:
+ "env" "rootfstype=ext4" "mkinitrd" "-d" "/dev/null" "-m" "ext3 ext4 btrfs reiserfs binfmt_misc virtio_pci virtio_blk" "-k" "/boot/vmlinuz" "-i" "/boot/initrd-3.13.6-1.g4727218-desktop-virtio"
+VM_IMAGE: /dev/mapper/vg0-lvobsbuild, VM_SWAP: /dev/mapper/vg1-lvobsswap
+Creating ext4 filesystem on /dev/mapper/vg0-lvobsbuild
+tune2fs 1.42.8 (20-Jun-2013)
+Setting maximal mount count to -1
+mkswap /dev/mapper/vg1-lvobsswap
+Setting up swapspace version 1, size = 4194300 KiB
+no label, UUID=935f0e2d-52d7-4013-8a7f-7d48c813a482
+logging output to /tmp/obsbuild/.build.log...
+</pre>
+<p>As you can see, it warn you that you could create a -virtio initrd to use virtio acceleration (who contribute a patch for the typo <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /><br />
+<br />But the command line is not completely correct in our case. It need the -d to be filled with the lvm buildroot to work as expected. If you successfully create the initrd-virtio you still will face a number of trouble, due to the way mkinitrd work.
+</p>
+<h2>Defeating the errors</h2>
+<p>You remember that we have a fully encrypted volume group, and as a clever tool mkinitrd will feed the initrd with all the tools needed to boot your system.<br />
+<br />But that mean it will forget the lv buildroot we ask, and will put unnecessary tools and options.
+</p>
+<p>Typical errors with a non optimized -virtio initrd</p>
+<pre>
+[    3s] /usr/bin/qemu-kvm -no-reboot -nographic -vga none -net none -cpu host -kernel /boot/vmlinuz -initrd /boot/initrd-3.13.6-1.g4727218-desktop -append root=/dev/sda panic=1 quiet no-kvmclock nmi_watchdog=0 rw elevator=noop console=ttyS0 init=/.build/build -m 4096 -hda /dev/mapper/vg0-lvobsbuild -drive file=/dev/mapper/vg1-lvobsswap,if=ide,index=1,cache=none -smp 8
+[    9s] FATAL: Error inserting nvidia (/lib/modules/3.13.6-1.g4727218-desktop/updates/nvidia.ko): No such device
+[    9s]   WARNING: Failed to connect to lvmetad: No such file or directory. Falling back to internal scanning.
+[    9s]   Volume group "vg0" not found
+[    9s]   WARNING: Failed to connect to lvmetad: No such file or directory. Falling back to internal scanning.
+[    9s]   Volume group "vg0" not found
+[    9s] *** Note: only US keyboard layout is supported.
+[    9s] *** Please ensure that the password is typed correctly.
+[   41s] Waiting for device /dev/disk/by-id/ata-Corsair_Force_GT_blah-part2 to appear: ..............................Unlocking cr_sda2 (/dev/disk/by-id/ata-Corsair_Force_GT_blah-part2)
+[   41s] Device /dev/disk/by-id/ata-Corsair_Force_GT_blah-part2 doesn't exist or access denied.
+[   41s] Trying manual resume from /dev/vg0/lvswap
+[   41s] resume device /dev/vg0/lvswap not found (ignoring)
+[   41s] Trying manual resume from /dev/vg0/lvswap
+[   41s] resume device /dev/vg0/lvswap not found (ignoring)
+[   73s] Waiting for device /dev/sda to appear: ..............................Could not find /dev/sda.
+[   73s] Want me to fall back to /dev/vg0/lvsuse? (Y/n)
+</pre>
+<p><b>Rescue</b> you have as root to kill all build process.</p>
+<pre>for P in $(ps auxw| grep build | grep -v grep | awk {'print $2'} );do kill $P;done</pre>
+<p>
+<h2>Find a solution</h2>
+<p>We want an optimized -virtio initrd, which filter all the lvm and crypting tools we don&#8217;t need. Also there&#8217;s no need to encumber it with graphic blob.<br />
+Then I create a small script I&#8217;ve called patch-initrd-virtio (source below) which exactly do that work anytime I&#8217;ve a kernel change.<br />
+As it need to be run by root only, I normally place it in /root/bin/
+</p>
+<h2>patch-initrd-virtio sources</h2>
+<pre>
+#!/usr/bin/env bash
+
+# WTF License 1.0 
+# Author Bruno Friedmann tigerfoot (at) opensuse.org
+
+# Usage : this script will create an optimized virtio initrd without
+# lvm, crypt, gfx tool
+# by using the actual /boot/initrd symlink you have.
+# Edit the 2 devices you target to use 
+# 
+DEVBUILD='/dev/vg0/lvobsbuild'
+DEVSWAP='/dev/vg1/lvobsswap'
+
+nokms(){
+sed -i '/^NO_KMS_IN_INITRD/s/no/yes/' /etc/sysconfig/kernel
+}
+
+kms(){
+sed -i '/^NO_KMS_IN_INITRD/s/yes/no/' /etc/sysconfig/kernel
+}
+
+echo "cleanup /tmp"
+rm -fr /tmp/initrd*
+
+# Patch the virtio initrd
+if [ -z "$1" ];then
+export VER=`uname -r`
+else
+export VER="$1"
+fi
+export INITRD="/boot/initrd-$VER-virtio"
+echo "Setting nokms"
+nokms
+
+echo "Building -virtio initrd ..."
+"env" "rootfstype=ext4,resume=$DEVSWAP,rootdev=$DEVBUILD,udevtimeout=2,udev_timeout=2,nosplash,noluks" "mkinitrd" "-B" "-d" "$DEVBUILD" "-m" "ext4 btrfs binfmt_misc virtio_pci virtio_blk" "-k" "/boot/vmlinuz-$VER" "-i" "$INITRD"
+
+ls -l $INITRD
+
+echo "Setting kms"
+kms
+
+# copy the *.virtio initrd to /tmp
+cp -vfa $INITRD /tmp/initrd-virtio.gz
+
+# ungzip it gzip -d initrd
+cd /tmp
+mkdir initrd.build
+gzip -d initrd-virtio.gz
+
+cd initrd.build
+
+# uncpio cpio -id &lt; ../initrd
+cpio -id  ../initrd
+rm -fv ../initrd-virtio
+echo "rebuilding initrd ..."
+find . | cpio --create --format='newc' &gt; ../initrd-virtio
+cd ../
+echo "Compressing initrd ..."
+# Install pigz if you want to save half an hour of your life.
+if [ -x /usr/bin/pigz ];then
+ pigz -9v initrd-virtio
+else
+ gzip -9v initrd-virtio
+fi
+# copy to /boot
+cp -v initrd-virtio.gz $INITRD
+echo "Done ..."
+
+</pre>
+<h2>Usage of patch-initrd-virtio</h2>
+<p>Here&#8217;s the result of a run</p>
+<pre>
+cleanup /tmp
+Setting nokms
+Building -virtio initrd ...
+
+Kernel image:   /boot/vmlinuz-3.13.6-1.g4727218-desktop
+Initrd image:   /boot/initrd-3.13.6-1.g4727218-desktop-virtio
+Root device:    /dev/vg0/lvobsbuild (mounted on / as ext4)
+Resume device:  /dev/vg0/lvswap
+enabling LUKS support for /dev/disk/by-id/ata-Corsair_Force_GT_blah-part2 (cr_sda2)
+Microcode: Adding Intel microcode 06-2a-07
+Kernel Modules: thermal_sys thermal processor fan libcrc32c xor raid6_pq btrfs binfmt_misc virtio virtio_ring virtio_pci virtio_blk dm-mod dm-crypt dm-log dm-region-hash dm-mirror dm-snapshot scsi_dh scsi_dh_hp_sw scsi_dh_alua scsi_dh_rdac scsi_dh_emc xhci-hcd hid-logitech-dj hid-holtek-kbd hid-lenovo-tpkbd hid-ortek hid-roccat hid-roccat-common hid-roccat-arvo hid-roccat-isku hid-samsung ohci-pci linear arc4 sha256_generic cryptd crct10dif-pclmul crc32-pclmul crc32c-intel ghash-clmulni-intel aes-x86_64 glue_helper gf128mul lrw ablk_helper aesni-intel
+Features:       acpi dm intel_microcode block usb lvm2 luks btrfs resume.userspace resume.kernel
+Did not refresh the bootloader. You might need to refresh it manually.
+-rw------- 1 root root 29338540 Mar 15 18:18 /boot/initrd-3.13.6-1.g4727218-desktop-virtio
+Setting kms
+‘/boot/initrd-3.13.6-1.g4727218-desktop-virtio’ -&gt; ‘/tmp/initrd-virtio.gz’
+160249 blocks
+removed ‘./boot/71-luks.sh’
+removed ‘./config/luks.sh’
+removed ‘../initrd-virtio’
+rebuilding initrd ...
+160239 blocks
+Compressing initrd ...
+initrd-virtio to initrd-virtio.gz
+‘initrd-virtio.gz’ -&gt; ‘/boot/initrd-3.13.6-1.g4727218-desktop-virtio’
+Done ...
+</pre>
+<h2>Finally start a build with -virtio activated</h2>
+<p>So with our new optimized initrd-virtio we can restart a fully qemu-kvm build with osc build &#8211;clean</p>
+<pre>
+Skipping verification of package signatures due to secure VM build
+Writing build configuration
+Running build
+VM_IMAGE: /dev/mapper/vg0-lvobsbuild, VM_SWAP: /dev/mapper/vg1-lvobsswap
+Creating ext4 filesystem on /dev/mapper/vg0-lvobsbuild
+tune2fs 1.42.8 (20-Jun-2013)
+Setting maximal mount count to -1
+mkswap /dev/mapper/vg1-lvobsswap
+mkswap: /dev/mapper/vg1-lvobsswap: warning: wiping old swap signature.
+Setting up swapspace version 1, size = 4194300 KiB
+no label, UUID=c19c873b-2b6c-4200-9575-a60adc581204
+logging output to /tmp/obsbuild/.build.log...
+[    0s] Using BUILD_ROOT=/tmp/obsbuild/.mount
+[    0s] Using BUILD_ARCH=x86_64:i686:i586:i486:i386
+[    0s] Doing kvm build in /dev/mapper/vg0-lvobsbuild
+[    0s] 
+[    0s] 
+[    0s] c-3po.labaroche.ioda.net started "build postgresql-plr.spec" at Sat Mar 15 17:27:18 UTC 2014.
+[    0s] 
+[    0s] 
+[    0s] processing specfile /home/bruno/openSUSE/obs/home:bruno_friedmann:branches:openSUSE:12.3:Update/postgresql-plr.openSUSE_12.3_Update/postgresql-plr.spec ...
+[    0s] running changelog2spec --target rpm --file /home/bruno/openSUSE/obs/home:bruno_friedmann:branches:openSUSE:12.3:Update/postgresql-plr.openSUSE_12.3_Update/postgresql-plr.spec
+[    0s] init_buildsystem --configdir /usr/lib/build/configs --cachedir /var/cache/build --prepare --clean --rpmlist /tmp/rpmlist.Vy31Li /home/bruno/openSUSE/obs/home:bruno_friedmann:branches:openSUSE:12.3:Update/postgresql-plr.openSUSE_12.3_Update/postgresql-plr.spec ...
+[    1s] cycle: pam -&gt; permissions -&gt; coreutils
+[    1s]   breaking dependency permissions -&gt; coreutils
+[    1s] [1/29] preinstalling filesystem...
+
+</pre>
+<p>Hope this give you the taste of building!</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

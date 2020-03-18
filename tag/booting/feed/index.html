@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>booting &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/booting/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Encrypted installation media</title>
+		<link>https://lizards.opensuse.org/2017/11/17/encrypted-installation-media/</link>
+		<pubDate>Fri, 17 Nov 2017 14:21:57 +0000</pubDate>
+		<dc:creator><![CDATA[Steffen Winterfeldt]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[Security]]></category>
+		<category><![CDATA[Uncategorized]]></category>
+		<category><![CDATA[booting]]></category>
+		<category><![CDATA[openSUSE]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12886</guid>
+		<description><![CDATA[Hackweek project: create encrypted installation media You&#8217;re still carrying around your precious autoyast config files on an unencrypted usb stick? You have a customized installation disk that could reveal lots of personal details? You use ad blockers, private browser tabs, or even tor but still carry around your install or rescue disk unencrypted for everyone [&#8230;]]]></description>
+				<content:encoded><![CDATA[<h2>Hackweek project: create encrypted installation media</h2>
+<ul>
+<li>You&#8217;re still carrying around your precious autoyast config files on an unencrypted usb stick?</li>
+<li>You have a customized installation disk that could reveal lots of personal details?</li>
+<li>You use ad blockers, private browser tabs, or even <code>tor</code> but still carry around your install or rescue disk unencrypted for everyone to see?</li>
+<li>You have your personal files and an openSUSE installation tree on the same partition just because you are lazy and can&#8217;t be bothered to tidy things up?</li>
+<li>A simple Linux install stick is just not geekish enough for you?</li>
+</ul>
+<p><strong>Not any longer!</strong></p>
+<p><code>mksusecd</code> can now (well, once <a href="https://github.com/openSUSE/mksusecd/pull/27">this pull request</a> has been merged) create fully encrypted installation media (both UEFI and legacy BIOS bootable).</p>
+<p>Everything (but the plain grub) is on a LUKS-encrypted partition. If you&#8217;re creating a customized boot image and add sensitive data via <code>--boot</code> or add an add-on repo or autoyast config or some secret driver update &#8211; this is all safe now!</p>
+<p>You can get the latest <code>mksusecd-1.54</code> already <a href="https://build.opensuse.org/package/show/home%3Asnwint/mksusecd">here</a> to try it out! (Or visit <a href="https://software.opensuse.org/package/mksusecd">software.opensuse.org</a> and look for (at least) version 1.54 under &#8216;Show other versions&#8217;.</p>
+<p>It&#8217;s as easy as</p>
+<pre>mksusecd --create crypto.img --crypto --password=xxx some_tumbleweed.iso
+</pre>
+<p>And then <code>dd</code> the image to your usb stick.</p>
+<p>But if your Tumbleweed or SLE/Leap 15 install media are a bit old (well, as of now they are) check the &#8216;Crypto notes&#8217; in <code>mksusecd --help</code> first! &#8211; You will need to add two extra options.</p>
+<p>This is how the first screen looks then<br />
+<img src="http://users.suse.com/~snwint/encrypted_install.png"></img></p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Mounting /usr in the initrd</title>
+		<link>https://lizards.opensuse.org/2011/08/03/mounting-usr-in-the-initrd/</link>
+		<comments>https://lizards.opensuse.org/2011/08/03/mounting-usr-in-the-initrd/#comments</comments>
+		<pubDate>Wed, 03 Aug 2011 15:41:06 +0000</pubDate>
+		<dc:creator><![CDATA[Michal Marek]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[booting]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7726</guid>
+		<description><![CDATA[Hi, I changed the openSUSE mkinitrd to mount the /usr filesystem in the initrd, if /usr is a separate partition. I hope this will calm down some heated discussions about systemd, udev, etc. It&#8217;s not 100% ready yet, some setups like root or /usr on nfs or md might not work as expected (*), but [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi,</p>
+<p>I changed the openSUSE mkinitrd to mount the /usr filesystem in the initrd, if /usr is a separate partition. I hope this will calm down some heated discussions about systemd, udev, etc. It&#8217;s not 100% ready yet, some setups like root or /usr on nfs or md might not work as expected (*), but the common usecases should be covered. Try updating mkinitrd from the <a href="http://download.opensuse.org/repositories/Base:/System/openSUSE_Factory/">Base:System project</a> and let me know if it works for you. Before testing it, you should do a backup of your initrd:</p>
+<pre># cp /boot/initrd-`uname -r`{,.orig}</pre>
+<p>and create a section in /boot/grub/menu.lst pointing to the /boot/initrd-*.orig file.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2011/08/03/mounting-usr-in-the-initrd/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+	</channel>
+</rss>

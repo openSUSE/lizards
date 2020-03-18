@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	
+	>
+<channel>
+	<title>Comments on: Firewall Zone Switcher</title>
+	<atom:link href="https://lizards.opensuse.org/2009/07/10/1453/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org/2009/07/10/1453/</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 17:50:09 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>By: Oleg Artemiev</title>
+		<link>https://lizards.opensuse.org/2009/07/10/1453/#comment-1156</link>
+		<dc:creator><![CDATA[Oleg Artemiev]]></dc:creator>
+		<pubDate>Wed, 05 Aug 2009 04:25:31 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1453#comment-1156</guid>
+		<description><![CDATA[Nice for these who change environment &#038; need diffrent network configurations w/ default OpenSuSE firewall. Though I don&#039;t need diffrent configs - always paranoid. ;)
+
+
+I also notice you about a bug in previouse report on adding entire drive encryption to Open SuSE from the box here:: http://lizards.opensuse.org/2009/03/18/encrypted-root-file-system-on-lvm/. Sorry - comments there seem to be closed.
+
+ Value of variable &#039;root_luks&#039; must be device you&#039;ve encription on. In this case root_luks=/dev/sda2 . Value &#039;1&#039; works only when booting from /dev/sda1 &#038; makes me on each boot enter cryptsetup luksOpen /dev/sda2 root &#038; so on.
+From this we can guess that with value of curluks &#039;root&#039; the $(eval echo $luks_root) should give /dev/sda2 (or your specific device):
+olli@linux-82d5:~&#062; cat /lib/mkinitrd/scripts/boot-luks.sh &#124; grep curluks
+for curluks in $luks; do
+        /sbin/cryptsetup luksOpen $(eval echo \$luks_${curluks}) $curluks
+olli@linux-82d5:~&#062;
+
+Also I had trouble with getting initrd w/ luks future by default at least on one of my notebooks (having all done by your howto).
+To get this work anyway I found that variable:
+olli@linux-82d5:~&#062; grep ADDITIONAL_FEATURES /lib/mkinitrd/scripts/ -r &#124; grep %
+/lib/mkinitrd/scripts/setup-prepare.sh:#%param_f: &quot;Features to be enabled when generating initrd.\nAvailable features are:\niscsi, md, mpath, lvm, lvm2, evms&quot; &quot;\&quot;feature list\&quot;&quot; ADDITIONAL_FEATURES
+olli@linux-82d5:~&#062;
+
+Also to get the things work I had to modify INITRD_MODULES in sysconfig/kernel - append all crypto modules I needed to cryptsetup luksOpen .
+So my configuraation looks now this way:
+
+olli@linux-82d5:~&#062; cat /etc/sysconfig/kernel &#124; grep INITRD_
+INITRD_MODULES=&quot;processor thermal ata_piix ata_generic ide_pci_generic fan jbd ext3 dm_mod edd aes_generic arc4 cbc aes-i586 dm_crypt crypto_blkcipher ecb sha256_generic&quot;
+DOMU_INITRD_MODULES=&quot;xennet xenblk&quot;
+olli@linux-82d5:~&#062; cat /etc/sysconfig/initrd
+luks_root=/dev/sda2
+luks=root
+ADDITIONAL_FEATURES=&quot;luks usb&quot;
+olli@linux-82d5:~&#062;
+
+One more mminor notice: within advanced options in GUI for grub installation it is possible to append &#039;luks_root=/dev/sda2&#039;, this will lead in appearing this string in all needed strings in sysconfig/bootloader.&#038; save a few seconds. :)
+
+Also for those who will use usb keys to boot: I had to use root=(hd0,1) (not hd1,1) w/ grub, since after booting from usb the usb beconmes a 1st drive for grub (in loaded linux it was second for me). 
+
+Thanks for your howto, BTW,  really  - now I can enjoy openSuSE &#038; giveup my tries to find something w/ entire encryption support &#038; good enough for my needs.
+
+Please update howto w/ notices above - after this changes my system is booted from usb  key &#038; prompts for password for /dev/sda2 w/o noisy messages &#038; shell prompt. =)]]></description>
+		<content:encoded><![CDATA[<p>Nice for these who change environment &amp; need diffrent network configurations w/ default OpenSuSE firewall. Though I don&#8217;t need diffrent configs &#8211; always paranoid. 😉</p>
+<p>I also notice you about a bug in previouse report on adding entire drive encryption to Open SuSE from the box here:: <a href="http://lizards.opensuse.org/2009/03/18/encrypted-root-file-system-on-lvm/" rel="nofollow">http://lizards.opensuse.org/2009/03/18/encrypted-root-file-system-on-lvm/</a>. Sorry &#8211; comments there seem to be closed.</p>
+<p> Value of variable &#8216;root_luks&#8217; must be device you&#8217;ve encription on. In this case root_luks=/dev/sda2 . Value &#8216;1&#8217; works only when booting from /dev/sda1 &amp; makes me on each boot enter cryptsetup luksOpen /dev/sda2 root &amp; so on.<br />
+From this we can guess that with value of curluks &#8216;root&#8217; the $(eval echo $luks_root) should give /dev/sda2 (or your specific device):<br />
+olli@linux-82d5:~&gt; cat /lib/mkinitrd/scripts/boot-luks.sh | grep curluks<br />
+for curluks in $luks; do<br />
+        /sbin/cryptsetup luksOpen $(eval echo \$luks_${curluks}) $curluks<br />
+olli@linux-82d5:~&gt;</p>
+<p>Also I had trouble with getting initrd w/ luks future by default at least on one of my notebooks (having all done by your howto).<br />
+To get this work anyway I found that variable:<br />
+olli@linux-82d5:~&gt; grep ADDITIONAL_FEATURES /lib/mkinitrd/scripts/ -r | grep %<br />
+/lib/mkinitrd/scripts/setup-prepare.sh:#%param_f: &#8220;Features to be enabled when generating initrd.\nAvailable features are:\niscsi, md, mpath, lvm, lvm2, evms&#8221; &#8220;\&#8221;feature list\&#8221;&#8221; ADDITIONAL_FEATURES<br />
+olli@linux-82d5:~&gt;</p>
+<p>Also to get the things work I had to modify INITRD_MODULES in sysconfig/kernel &#8211; append all crypto modules I needed to cryptsetup luksOpen .<br />
+So my configuraation looks now this way:</p>
+<p>olli@linux-82d5:~&gt; cat /etc/sysconfig/kernel | grep INITRD_<br />
+INITRD_MODULES=&#8221;processor thermal ata_piix ata_generic ide_pci_generic fan jbd ext3 dm_mod edd aes_generic arc4 cbc aes-i586 dm_crypt crypto_blkcipher ecb sha256_generic&#8221;<br />
+DOMU_INITRD_MODULES=&#8221;xennet xenblk&#8221;<br />
+olli@linux-82d5:~&gt; cat /etc/sysconfig/initrd<br />
+luks_root=/dev/sda2<br />
+luks=root<br />
+ADDITIONAL_FEATURES=&#8221;luks usb&#8221;<br />
+olli@linux-82d5:~&gt;</p>
+<p>One more mminor notice: within advanced options in GUI for grub installation it is possible to append &#8216;luks_root=/dev/sda2&#8217;, this will lead in appearing this string in all needed strings in sysconfig/bootloader.&amp; save a few seconds. 🙂</p>
+<p>Also for those who will use usb keys to boot: I had to use root=(hd0,1) (not hd1,1) w/ grub, since after booting from usb the usb beconmes a 1st drive for grub (in loaded linux it was second for me). </p>
+<p>Thanks for your howto, BTW,  really  &#8211; now I can enjoy openSuSE &amp; giveup my tries to find something w/ entire encryption support &amp; good enough for my needs.</p>
+<p>Please update howto w/ notices above &#8211; after this changes my system is booted from usb  key &amp; prompts for password for /dev/sda2 w/o noisy messages &amp; shell prompt. =)</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Ludwig Nussel</title>
+		<link>https://lizards.opensuse.org/2009/07/10/1453/#comment-1067</link>
+		<dc:creator><![CDATA[Ludwig Nussel]]></dc:creator>
+		<pubDate>Sat, 11 Jul 2009 15:04:31 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1453#comment-1067</guid>
+		<description><![CDATA[it&#039;s not a gnome app. plain (python-)gtk.]]></description>
+		<content:encoded><![CDATA[<p>it&#8217;s not a gnome app. plain (python-)gtk.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Ludwig Nussel</title>
+		<link>https://lizards.opensuse.org/2009/07/10/1453/#comment-1066</link>
+		<dc:creator><![CDATA[Ludwig Nussel]]></dc:creator>
+		<pubDate>Sat, 11 Jul 2009 15:03:55 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1453#comment-1066</guid>
+		<description><![CDATA[yes :)]]></description>
+		<content:encoded><![CDATA[<p>yes 🙂</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Ludwig Nussel</title>
+		<link>https://lizards.opensuse.org/2009/07/10/1453/#comment-1065</link>
+		<dc:creator><![CDATA[Ludwig Nussel]]></dc:creator>
+		<pubDate>Sat, 11 Jul 2009 15:03:10 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1453#comment-1065</guid>
+		<description><![CDATA[Yes, connecting this to NetworkManager would be nice. Esp since
+NetworkManager knows when it is about to start a new connection so
+it can prepare SuSEfirewall2 already before the interface is set up.
+
+Enhancements for samba are already implemented and will be available
+as online update soon. The SuSEfirewall2 version in the fwzs repo
+has those enhancements too.]]></description>
+		<content:encoded><![CDATA[<p>Yes, connecting this to NetworkManager would be nice. Esp since<br />
+NetworkManager knows when it is about to start a new connection so<br />
+it can prepare SuSEfirewall2 already before the interface is set up.</p>
+<p>Enhancements for samba are already implemented and will be available<br />
+as online update soon. The SuSEfirewall2 version in the fwzs repo<br />
+has those enhancements too.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: jrdls</title>
+		<link>https://lizards.opensuse.org/2009/07/10/1453/#comment-1064</link>
+		<dc:creator><![CDATA[jrdls]]></dc:creator>
+		<pubDate>Fri, 10 Jul 2009 22:42:15 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1453#comment-1064</guid>
+		<description><![CDATA[It&#039;s not openSUSE, it is Novell who&#039;s GNOME-focused. Even though they&#039;re still patrons of KDE, they still have a lot of KDE devs and they still implement KDE very well, GNOME has taken KDE&#039;s place especially in SLED. Look at iFolder. AFAIK it is written using mono and Gtk#. Even though it is not a gnome library, you know which DE you&#039;re targetting if you write an app with Gtk# and where it&#039;ll fit the best. The same applies to banshee, f-spot and tomboy. Furthermore, they sponsor OpenOffice.org and Evolution (and this one is a GNOME app). However Novell doesn&#039;t sponsor a KDE app or a qt app (except yast, of course). They sponsor KDE as a project (just as they sponsor GNOME as a project), but not individual apps. I hope in the future Novell will develop an app using mono and qt (which is perfectly possible) or will sponsor a qt/KDE app as well (BTW this is not meant to offend anybody or to start a flame war, this is what I see and my opinion and it is perfectly debatable).
+As to the feature itself, even if this is shown in gnome, it doesn&#039;t mean the community won&#039;t develop a plasmoid (or won&#039;t add this feature to NM&#039;s plasmoid as suggested by others) and still remains a useful one.]]></description>
+		<content:encoded><![CDATA[<p>It&#8217;s not openSUSE, it is Novell who&#8217;s GNOME-focused. Even though they&#8217;re still patrons of KDE, they still have a lot of KDE devs and they still implement KDE very well, GNOME has taken KDE&#8217;s place especially in SLED. Look at iFolder. AFAIK it is written using mono and Gtk#. Even though it is not a gnome library, you know which DE you&#8217;re targetting if you write an app with Gtk# and where it&#8217;ll fit the best. The same applies to banshee, f-spot and tomboy. Furthermore, they sponsor OpenOffice.org and Evolution (and this one is a GNOME app). However Novell doesn&#8217;t sponsor a KDE app or a qt app (except yast, of course). They sponsor KDE as a project (just as they sponsor GNOME as a project), but not individual apps. I hope in the future Novell will develop an app using mono and qt (which is perfectly possible) or will sponsor a qt/KDE app as well (BTW this is not meant to offend anybody or to start a flame war, this is what I see and my opinion and it is perfectly debatable).<br />
+As to the feature itself, even if this is shown in gnome, it doesn&#8217;t mean the community won&#8217;t develop a plasmoid (or won&#8217;t add this feature to NM&#8217;s plasmoid as suggested by others) and still remains a useful one.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: lefty.crupps</title>
+		<link>https://lizards.opensuse.org/2009/07/10/1453/#comment-1063</link>
+		<dc:creator><![CDATA[lefty.crupps]]></dc:creator>
+		<pubDate>Fri, 10 Jul 2009 17:12:43 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1453#comment-1063</guid>
+		<description><![CDATA[When did SuSE move to creating GNOME apps/applets?  I thought it was a KDE-focused distro.  Shame, seems to me that SuSE is trying to out-do Ubuntu with the same limited interface.]]></description>
+		<content:encoded><![CDATA[<p>When did SuSE move to creating GNOME apps/applets?  I thought it was a KDE-focused distro.  Shame, seems to me that SuSE is trying to out-do Ubuntu with the same limited interface.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Jakub Steiner</title>
+		<link>https://lizards.opensuse.org/2009/07/10/1453/#comment-1062</link>
+		<dc:creator><![CDATA[Jakub Steiner]]></dc:creator>
+		<pubDate>Fri, 10 Jul 2009 15:29:28 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1453#comment-1062</guid>
+		<description><![CDATA[Ideal UI suggestion -- Have a property of a wifi network to be &#039;safe&#039; in NM&#039;s &#039;edit connections&#039; and have NM turn off the firewall automatically. No need to expose any UI for switching and polluting the systray with yet another icon.]]></description>
+		<content:encoded><![CDATA[<p>Ideal UI suggestion &#8212; Have a property of a wifi network to be &#8216;safe&#8217; in NM&#8217;s &#8216;edit connections&#8217; and have NM turn off the firewall automatically. No need to expose any UI for switching and polluting the systray with yet another icon.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Martin Vidner</title>
+		<link>https://lizards.opensuse.org/2009/07/10/1453/#comment-1061</link>
+		<dc:creator><![CDATA[Martin Vidner]]></dc:creator>
+		<pubDate>Fri, 10 Jul 2009 13:59:45 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1453#comment-1061</guid>
+		<description><![CDATA[Hmm, food for the D-Bus junkie!
+
+It looks like this is the &lt;a href=&quot;http://git.opensuse.org/?p=people/lnussel/fwzs.git;a=summary&quot; rel=&quot;nofollow&quot;&gt;git repo&lt;/a&gt;. (Still empty so far)]]></description>
+		<content:encoded><![CDATA[<p>Hmm, food for the D-Bus junkie!</p>
+<p>It looks like this is the <a href="http://git.opensuse.org/?p=people/lnussel/fwzs.git;a=summary" rel="nofollow">git repo</a>. (Still empty so far)</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Livio</title>
+		<link>https://lizards.opensuse.org/2009/07/10/1453/#comment-1060</link>
+		<dc:creator><![CDATA[Livio]]></dc:creator>
+		<pubDate>Fri, 10 Jul 2009 12:23:05 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1453#comment-1060</guid>
+		<description><![CDATA[Move proof-of-concept to NetworkManager. Just not to make a tray-mess like in Windows ;) .
+
+I wonder if firewall configuration for Samba could work... Currently Samba makes user need to do manual firewall config. Add IPs, enable broadcast...]]></description>
+		<content:encoded><![CDATA[<p>Move proof-of-concept to NetworkManager. Just not to make a tray-mess like in Windows 😉 .</p>
+<p>I wonder if firewall configuration for Samba could work&#8230; Currently Samba makes user need to do manual firewall config. Add IPs, enable broadcast&#8230;</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Xila</title>
+		<link>https://lizards.opensuse.org/2009/07/10/1453/#comment-1059</link>
+		<dc:creator><![CDATA[Xila]]></dc:creator>
+		<pubDate>Fri, 10 Jul 2009 12:08:32 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1453#comment-1059</guid>
+		<description><![CDATA[oooh this looks just what the doctor ordered, simple but so usefull ! thanks !!]]></description>
+		<content:encoded><![CDATA[<p>oooh this looks just what the doctor ordered, simple but so usefull ! thanks !!</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

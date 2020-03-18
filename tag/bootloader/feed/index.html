@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>bootloader &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/bootloader/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Highlights of YaST Development Sprint 81</title>
+		<link>https://lizards.opensuse.org/2019/07/29/highlights-of-yast-development-sprint-81/</link>
+		<pubDate>Mon, 29 Jul 2019 13:00:43 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+		<category><![CDATA[bootloader]]></category>
+		<category><![CDATA[console]]></category>
+		<category><![CDATA[keyboard]]></category>
+		<category><![CDATA[raid]]></category>
+		<category><![CDATA[repository]]></category>
+		<category><![CDATA[snapper]]></category>
+		<category><![CDATA[upgrade]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=13955</guid>
+		<description><![CDATA[Console Keyboard Layouts Better Handling of Broken Bootloader Setups during Upgrade AutoYaST: Repositories not containing Products Snapper on RAID Unifying the Console Keyboard Layouts for SLE and openSUSE The way of managing internationalization in Linux systems has changed through the years, as well as the technologies used to represent the different alphabets and characters used [&#8230;]]]></description>
+				<content:encoded><![CDATA[<ul>
+<li><a href="#unifying-the-console-keyboard-layouts-for-sle-and-opensuse">Console Keyboard Layouts</a></li>
+<li><a href="#better-handling-of-broken-bootloader-setups-during-upgrade">Better Handling of Broken Bootloader Setups during Upgrade</a></li>
+<li>AutoYaST:
+<ul>
+<li><a href="#exporting-user-defined-repositories-to-autoyast-configuration-file.">Repositories not containing Products</a></li>
+<li><a href="#old-storage-new-features">Snapper on RAID</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="unifying-the-console-keyboard-layouts-for-sle-and-opensuse">Unifying the Console Keyboard Layouts for SLE and openSUSE</h3>
+<p>The way of managing internationalization in Linux systems has changed through the years, as well as the technologies used to represent the different alphabets and characters used in every language. YaST tries to offer a centralized way of managing the system-wide settings in that regard. An apparently simple action like changing the language in the YaST interface implies many aspects like setting the font and the keyboard map to be used in the text-based consoles, doing the same for the graphical X11 environment and keeping those fonts and keyboard maps in sync, ensuring the compatibility between all the pieces.</p>
+<p>For that purpose, YaST maintains a list with all the correspondences between keyboard layouts and its corresponding &quot;keymap&quot; files living under <code>/usr/share/kbd/keymaps</code>. Some time ago the content of that list diverged between openSUSE and SLE-based products. During this sprint we took the opportunity to analyze the situation and try to unify criteria in that regard.</p>
+<p>We analyzed the status and origin of all the keymap files used in both families of distributions (you can see a rather comprehensive research starting in <a href="https://bugzilla.suse.com/show_bug.cgi?id=1124921#c18">comment #18 of bug#1124921</a>) and we came to the conclusions that:</p>
+<ul>
+<li>The openSUSE list needed some minor adjustments.</li>
+<li>Leaving that aside, the keymaps used in openSUSE were in general a better option because they are more modern and aligned with current upstream development.</li>
+</ul>
+<p>So we decided to unify all systems to adopt the openSUSE approach. That will have basically no impact for our openSUSE users but may have some implications for users installing the upcoming SLE-15-SP2. In any case, we hope that change will be for the better in most cases. Time will tell.</p>
+<h3 id="exporting-user-defined-repositories-to-autoyast-configuration-file.">Exporting User Defined Repositories to AutoYaST Configuration File.</h3>
+<p>With the call <code>yast clone_system</code> an AutoYaST configuration file will be generated which reflects the state of the running system. Up to now only SUSE Add-Ons have been defined in the AutoYaST configration module. Now also user defined repositories will be exported in an own subsection <code>&lt;add_on_others&gt;</code> of the <code>&lt;add-on&gt;</code> section.</p>
+<div class="sourceCode">
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;add-on&gt;</span>
+  <span class="kw">&lt;add_on_others</span><span class="ot"> config:type=</span><span class="st">&quot;list&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;listentry&gt;</span>
+      <span class="kw">&lt;alias&gt;</span>yast_head<span class="kw">&lt;/alias&gt;</span>
+      <span class="kw">&lt;media_url&gt;</span>https://download.opensuse.org/repositories/YaST:/Head/openSUSE_Leap_15.1/<span class="kw">&lt;/media_url&gt;</span>
+      <span class="kw">&lt;name&gt;</span>Yast head<span class="kw">&lt;/name&gt;</span>
+      <span class="kw">&lt;priority</span><span class="ot"> config:type=</span><span class="st">&quot;integer&quot;</span><span class="kw">&gt;</span>99<span class="kw">&lt;/priority&gt;</span>
+      <span class="kw">&lt;product_dir&gt;</span>/<span class="kw">&lt;/product_dir&gt;</span>
+    <span class="kw">&lt;/listentry&gt;</span>
+  <span class="kw">&lt;/add_on_others&gt;</span>
+  <span class="kw">&lt;add_on_products</span><span class="ot"> config:type=</span><span class="st">&quot;list&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;listentry&gt;</span>
+      <span class="kw">&lt;media_url&gt;</span>dvd:/?devices=/dev/sr1<span class="kw">&lt;/media_url&gt;</span>
+      <span class="kw">&lt;product&gt;</span>sle-module-desktop-applications<span class="kw">&lt;/product&gt;</span>
+      <span class="kw">&lt;product_dir&gt;</span>/Module-Desktop-Applications<span class="kw">&lt;/product_dir&gt;</span>
+    <span class="kw">&lt;/listentry&gt;</span>
+    <span class="kw">&lt;listentry&gt;</span>
+      <span class="kw">&lt;media_url&gt;</span>dvd:/?devices=/dev/sr1<span class="kw">&lt;/media_url&gt;</span>
+      <span class="kw">&lt;product&gt;</span>sle-module-basesystem<span class="kw">&lt;/product&gt;</span>
+      <span class="kw">&lt;product_dir&gt;</span>/Module-Basesystem<span class="kw">&lt;/product_dir&gt;</span>
+    <span class="kw">&lt;/listentry&gt;</span>
+  <span class="kw">&lt;/add_on_products&gt;</span>
+<span class="kw">&lt;/add-on&gt;</span></code></pre>
+</div>
+<p>The format of the <code>&lt;add_on_others&gt;</code> section is the same as the <code>&lt;add_on_products&gt;</code> section.</p>
+<h3 id="better-handling-of-broken-bootloader-setups-during-upgrade">Better Handling of Broken Bootloader Setups during Upgrade</h3>
+<p>With the current versions of SLE and openSUSE, using the installation media to upgrade a system which contains a badly broken GRUB2 configuration (e.g. contains references to udev links that do not longer exist) can result in an ugly internal error during the process.</p>
+<p>The first possible problem could arise in the summary screen. Like shown in this screenshot.</p>
+<div class="figure">
+<a href="//lizards.opensuse.org/wp-content/uploads/2019/07/61807675-49bd7500-ae3a-11e9-97e6-4ec7d722425e.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/07/61807675-49bd7500-ae3a-11e9-97e6-4ec7d722425e-300x225.png" alt="" width="300" height="225" class="aligncenter size-medium wp-image-13956" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/07/61807675-49bd7500-ae3a-11e9-97e6-4ec7d722425e-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/07/61807675-49bd7500-ae3a-11e9-97e6-4ec7d722425e-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/07/61807675-49bd7500-ae3a-11e9-97e6-4ec7d722425e.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a>
+</div>
+<p>If the error didn&#8217;t pop-up or if the user managed to recover from it, it was possible to reach the final phase of the upgrade process. But then the same internal error could still pop up in a different place:</p>
+<div class="figure">
+<a href="//lizards.opensuse.org/wp-content/uploads/2019/07/61807871-a6209480-ae3a-11e9-8e6c-38cfd322d7c0.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/07/61807871-a6209480-ae3a-11e9-8e6c-38cfd322d7c0-300x225.png" alt="" width="300" height="225" class="aligncenter size-medium wp-image-13957" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/07/61807871-a6209480-ae3a-11e9-8e6c-38cfd322d7c0-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/07/61807871-a6209480-ae3a-11e9-8e6c-38cfd322d7c0-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/07/61807871-a6209480-ae3a-11e9-8e6c-38cfd322d7c0.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a>
+</div>
+<p>Those errors will be fixed in the upcoming releases of SLE-12-SP5 and SLE-15-SP2 and, of course, in the corresponding openSUSE Leap version and in Tumbleweed. Now if such a broken setup is detected in the summary screen, a proper warning is displayed, including the technical details and a tip on what to do to fix the problem.</p>
+<div class="figure">
+<a href="//lizards.opensuse.org/wp-content/uploads/2019/07/61808101-129b9380-ae3b-11e9-966e-02061f99b758.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/07/61808101-129b9380-ae3b-11e9-966e-02061f99b758-300x225.png" alt="" width="300" height="225" class="aligncenter size-medium wp-image-13958" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/07/61808101-129b9380-ae3b-11e9-966e-02061f99b758-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/07/61808101-129b9380-ae3b-11e9-966e-02061f99b758-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/07/61808101-129b9380-ae3b-11e9-966e-02061f99b758.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a>
+</div>
+<p>The user can ignore the problem or click on &quot;booting&quot; to fix it. In the latter case, the usual pop-up with instructions will appear.</p>
+<div class="figure">
+<a href="//lizards.opensuse.org/wp-content/uploads/2019/07/61808202-3f4fab00-ae3b-11e9-8e88-85c2599e56a2.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/07/61808202-3f4fab00-ae3b-11e9-8e88-85c2599e56a2-300x225.png" alt="" width="300" height="225" class="aligncenter size-medium wp-image-13959" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/07/61808202-3f4fab00-ae3b-11e9-8e88-85c2599e56a2-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/07/61808202-3f4fab00-ae3b-11e9-8e88-85c2599e56a2-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/07/61808202-3f4fab00-ae3b-11e9-8e88-85c2599e56a2.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a>
+</div>
+<p>If the final stage of the upgrade process is reached without fixing the error, the wild internal error is now replaced by an informative message that does not interrupt the process.</p>
+<div class="figure">
+<a href="//lizards.opensuse.org/wp-content/uploads/2019/07/61808336-7aea7500-ae3b-11e9-96fc-a49dc9fbe507.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/07/61808336-7aea7500-ae3b-11e9-96fc-a49dc9fbe507-300x225.png" alt="" width="300" height="225" class="aligncenter size-medium wp-image-13960" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/07/61808336-7aea7500-ae3b-11e9-96fc-a49dc9fbe507-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/07/61808336-7aea7500-ae3b-11e9-96fc-a49dc9fbe507-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/07/61808336-7aea7500-ae3b-11e9-96fc-a49dc9fbe507.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a>
+</div>
+<p>Hopefully most of our users will never see these improvements. But users with a broken system will likely appreciate the extra guidance.</p>
+<h3 id="old-storage-new-features">Old Storage, New Features</h3>
+<p>If you are an usual reader of this blog, most likely you already know that YaST has a completely re-implemented Storage stack (a.k.a. storage-ng). That new storage code did its debut with the SLE 15 (and openSUSE Leap 15.0) family. And thanks to this revamped code, our beloved users can enjoy today some new great features in YaST like Bcache, partitionable Software RAIDs or multi-device Btrfs file system (just to mention a few examples). But SLE 12 (openSUSE 42) products are still alive and getting improvements with every maintenance update! Of course, the old Storage stack is not an exception, and now on a new installation scenario is supported.</p>
+<p>Thanks to a <a href="https://bugzilla.suse.com/show_bug.cgi?id=1135083">bug report</a>, we realized that <a href="http://snapper.io/">Snapper</a> could not be configured in some cases. More specifically, the reporter was trying to install with AutoYaST over a directly formatted Software RAID by using Btrfs for root and enabling snapper. The installation was perfectly performed, but it turned out that snapper was not correctly enabled in the installed system. After having a deeper look into the problem, we discovered that this was not a bug exactly but a completely missing feature. But no problems, YaST got down to work and now it is nicely supported.</p>
+<div class="figure">
+<a href="//lizards.opensuse.org/wp-content/uploads/2019/07/62031334-03bc3480-b1df-11e9-9bce-f8f45b34ebd3.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/07/62031334-03bc3480-b1df-11e9-9bce-f8f45b34ebd3-300x225.png" alt="" width="300" height="225" class="aligncenter size-medium wp-image-13961" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/07/62031334-03bc3480-b1df-11e9-9bce-f8f45b34ebd3-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/07/62031334-03bc3480-b1df-11e9-9bce-f8f45b34ebd3-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/07/62031334-03bc3480-b1df-11e9-9bce-f8f45b34ebd3.png 800w" sizes="(max-width: 300px) 100vw, 300px" /></a>
+</div>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>What changed in perl-Bootloader between 11.0 and 11.1</title>
+		<link>https://lizards.opensuse.org/2008/12/18/what-changed-in-perl-bootloader-between-110-and-111/</link>
+		<comments>https://lizards.opensuse.org/2008/12/18/what-changed-in-perl-bootloader-between-110-and-111/#comments</comments>
+		<pubDate>Thu, 18 Dec 2008 12:04:25 +0000</pubDate>
+		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[bootloader]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=323</guid>
+		<description><![CDATA[I start with history. After 11.0 I became maintainer of perl-Bootloader (I never before write anything in perl, but know some other scripting language, so it is not so hard learn another one) after Alexander. Problem is that alexander doesn&#8217;t have enough time for maintainer it (he is also leader of arch team). This mean [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I start with history. After 11.0 I became maintainer of perl-Bootloader (I never before write anything in perl, but know some other scripting language, so it is not so hard learn another one) after Alexander. Problem is that alexander doesn&#8217;t have enough time for maintainer it (he is also leader of arch team).  This mean I get many unresolved bugs (around 150), because lack of resource prevents fixing it. Also I get some features to implement and some enhancement I found enough useful (some idea start in bug reports or on factory mailing list, so thanks community) to implement it. I describe what succeed and what not in rest of this blog entry.<span id="more-323"></span><br />
+Features can be divide to official which come through fate process ( you can read more about this process in <a href="http://lizards.opensuse.org/2008/12/16/fate-internal-up-and-downstream/">another blog</a>) and enhancement, which sounds reasonable for me.</p>
+<h3>Official features</h3>
+<p>First I look on official features. I think most important is automatic test suite. This is set of automatic test, which test again interface of library (it is black box testing).  Before release of 11.1 this test suite contain 232 tests. I hope this increase quality of each perl-Bootloader release, because this suite catch many problems and also if new occur I add to it (this should prevent regression). Only problem with this test suite is that it doesn&#8217;t test whole kernel upgrade. It is hard to due, because kernel upgrade must fill itself hardware informations and if I want test it correctly I must simulate it with actual utilities which is used and on many types of hardware. So this part should be improved, but need some idea how test many hardware configuration (like different RAIDs (linux and bios), LVMs, multipath, different hardware architecture (like macos, efika or chrp on powerpc))  on one machine.<br />
+Another feature is consistent device names. This is most problematic feature, because it is hard to resolve many different devices given by udev (also udev is broken during some part of development). I experiment with many different sollution and at final I decide (it is after last beta) to create function which translate everything to kernel device and then compare that device to another translated device (previous solution based on filling all symlinks also work, but after device mapper problem with udev(more lower) I change it to more efficient and more reliable solution).<br />
+Next feature you can use if you have machine with chip to trusted computing (some notebooks have it). More about trusted computing you can read <a href="http://trousers.sourceforge.net/grub.html">here</a>. Most work did thorsten duwe (maintainer of grub) and in final I only ensure that due to security reason no splash screen is loaded (I remove message line even if user want it).  If you have pc with GPT table and x86_64 processor you must for 11.0 use legacy booting. Now you can use ELILO bootloader (which have support efi) also on x86 architecture. This is also quite easy to implement, but harder to ensure it works, because get hardware with that configuration is not so easy. Only short notes for another features. Old disks which uses C/H/S is dropped and LBA is forced, kernel append during upgrade is taken from sysconfig and add support for disk remapping for windows entries.</p>
+<h3>Enhancement</h3>
+<p>Difference between feature and bug is really small and maybe some of enhancement looks more like bug and vice versa. For me interesting enhancement is check, if /boot is mounted. I use it at home quite often, because if you have separate home you needn&#8217;t mount it, but if during update also kernel is updated I often forgot mount it. First implementation is not ideal and I get many experience, that some users have really exotic entries in fstab, which of course bad match to check pattern. But after three iteration and one work-around this work quite good and I am satisfied with it. Another enhancement (really close to bug) is none bootloader. It is special bootloader settings, which ensure that nothing happen during kernel upgrade. It is quite useful if kernel update mess your configuration (which is bug, but you want prevent it until I fixed it) or take to much time (this is also bug). More important usage is for netboot, when you needn&#8217;t any bootloader, because you boot via PXE.<br />
+Important enhanced is stop kernel install, if bootloader update fail (problem is in using tee in pipe and ignore script return value). It is good, because you know that something goes wrong and reload backup. Also because usually new kernel is installed first, you still have old kernel and can boot it. Last enhancement is for anyone who want look how perl-bootloader works inside. Now you can use <i>make doc</i> in sources and it generates html page from comments (something like javadoc). Beside this documentation together with Jozo Uhliarik we create wiki page about <a href="http://en.opensuse.org/YaST/Bootloader_API">interface of library</a> and anyone who want use perl-Bootloader should use it.</p>
+<h3>Bugs</h3>
+<p>Solving bugs in perl-Bootloader is not so interesting as it looks like ;). You need analyze many long logs (if perl-Bootloader uses yast, then it is saved to y2log, if used by kernel upgrade then save to perl-BL-standalone log) and find what and when going wrong. You find what is wrong, but not who break it. Sometime it is bug in parsing configuration, sometime in parsing output of external commands and sometime is bug outside (like break udev).  Source code (also with test suite) have 15k LOC and when I try look how many line I change (oneliner for it `find . -type f 2&gt;/dev/null | grep -v .svn | xargs svn blame | grep jreidinger | wc -l `) I find, that I change 3k LOC. So code base is good, but need some improvement. I note some interesting bugs, which I solve.<br />
+One is longterm problem with chainload, when as root is current mounted root, but chainloader key is with right prefix (root of chainloaded partition). This on some hardware causes problems and now root is correctly set and I don&#8217;t have any negative responses (so I hope it works).<br />
+Another one is also quite long term problem when you change flavor of kernel, sometime previous kernel is uninstalled and after that new installed (normal work-flow is install new and uninstall old). Of course it switch default, which is quite annoying. Fix this is quite tricky, and trick is that after remove last image section and if it is default, I add comment about that and when new kernel is added, then set it as default. That fix works quite good, but after sent iso to factory (for boxes) I get bugs, that if you update via YaST, it doesn&#8217;t work. Problem is in some deprecated code which overwrite my comment by another one. Fix is easy, I only remove deprecated code, which cause it. So if you after install of opensuse11.1 see update of perl-Bootloader you know why.  As late update is also solved problem with hanging kernel update. It take too much time because when I read logs I add useful logging lines to code (I hope it help me next time find problem faster) and when log records reach some level, it take too much time (due to array copying of records). I reduce debug logging and also improve whole performance of logging, so I hope it significant improve time to kernel update (at least it should not take minutes to upgrade bootloader configuration).<br />
+Not every bug is problem of perl-Bootloader, but you must solve it in code. Example is device mapper and udev inconsistency. Udev points to /dev/dm0, but device mapper to /dev/mapper/something. This became real problem when persistant names feature is implemented. Solution is also little tricky, udev define variables for links and one of that variable is DM_NAME for name of device and DM_PART for partition number and with this information I can construct whole /dev/mapper/name. I find this solution as working, but not much robust. If someone know better, (s-)he is welcome to write it to comment. Also many perl warnings is fixed, it usually doesn&#8217;t break anything, but it looks really unprofessional.<br />
+Now I have only 2 unresolved bugs (both is enhancement on which I work) and wait for another, so report all problems in opensuse11.1, I don&#8217;t throw it to bin <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2008/12/18/what-changed-in-perl-bootloader-between-110-and-111/feed/</wfw:commentRss>
+		<slash:comments>6</slash:comments>
+		</item>
+	</channel>
+</rss>

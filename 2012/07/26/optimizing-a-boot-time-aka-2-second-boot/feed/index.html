@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	
+	>
+<channel>
+	<title>Comments on: Optimizing a boot time, aka 2 second boot</title>
+	<atom:link href="https://lizards.opensuse.org/2012/07/26/optimizing-a-boot-time-aka-2-second-boot/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org/2012/07/26/optimizing-a-boot-time-aka-2-second-boot/</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 17:50:09 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>By: Thomas Langkamp</title>
+		<link>https://lizards.opensuse.org/2012/07/26/optimizing-a-boot-time-aka-2-second-boot/#comment-8217</link>
+		<dc:creator><![CDATA[Thomas Langkamp]]></dc:creator>
+		<pubDate>Sun, 07 Oct 2012 11:25:10 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8868#comment-8217</guid>
+		<description><![CDATA[On another machine I wait very long for nfsserver to start (its a fast system with an SSD). This is when no nfs-client is online, and also when one is online, but I have configured them to not auto-mount. So there is no activity required of NFS at boot. Would it be possible to delay the start of the nfsserver.service to say 1 minute after the boot finished? How?
+
+systemd-analyze blame &#124; head
+  7136ms syslog.service 
+  7127ms systemd-logind.service    
+  5871ms nfsserver.service      
+   805ms md.service]]></description>
+		<content:encoded><![CDATA[<p>On another machine I wait very long for nfsserver to start (its a fast system with an SSD). This is when no nfs-client is online, and also when one is online, but I have configured them to not auto-mount. So there is no activity required of NFS at boot. Would it be possible to delay the start of the nfsserver.service to say 1 minute after the boot finished? How?</p>
+<p>systemd-analyze blame | head<br />
+  7136ms syslog.service<br />
+  7127ms systemd-logind.service<br />
+  5871ms nfsserver.service<br />
+   805ms md.service</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: tomtomme</title>
+		<link>https://lizards.opensuse.org/2012/07/26/optimizing-a-boot-time-aka-2-second-boot/#comment-8191</link>
+		<dc:creator><![CDATA[tomtomme]]></dc:creator>
+		<pubDate>Wed, 03 Oct 2012 11:53:31 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8868#comment-8191</guid>
+		<description><![CDATA[nice after switching to Network manager bootup is also twice as fast for me - but why is ifup so slow?
+
+systemd-analyze blame &#124; head
+  1859ms nfsserver.service
+  1473ms SuSEfirewall2_setup.service
+   811ms SuSEfirewall2_init.service
+   569ms network-remotefs.service
+   564ms xdm.service
+   488ms systemd-logind.service
+   430ms nmb.service
+   328ms syslog.service
+   302ms NetworkManager.service
+   250ms nfs.service
+
+Startup finished in 3825ms (kernel) + 15064ms (userspace) = 18889ms]]></description>
+		<content:encoded><![CDATA[<p>nice after switching to Network manager bootup is also twice as fast for me &#8211; but why is ifup so slow?</p>
+<p>systemd-analyze blame | head<br />
+  1859ms nfsserver.service<br />
+  1473ms SuSEfirewall2_setup.service<br />
+   811ms SuSEfirewall2_init.service<br />
+   569ms network-remotefs.service<br />
+   564ms xdm.service<br />
+   488ms systemd-logind.service<br />
+   430ms nmb.service<br />
+   328ms syslog.service<br />
+   302ms NetworkManager.service<br />
+   250ms nfs.service</p>
+<p>Startup finished in 3825ms (kernel) + 15064ms (userspace) = 18889ms</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: philomath</title>
+		<link>https://lizards.opensuse.org/2012/07/26/optimizing-a-boot-time-aka-2-second-boot/#comment-8004</link>
+		<dc:creator><![CDATA[philomath]]></dc:creator>
+		<pubDate>Sat, 01 Sep 2012 23:11:44 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8868#comment-8004</guid>
+		<description><![CDATA[Is it safe to just mask vconsole.service?]]></description>
+		<content:encoded><![CDATA[<p>Is it safe to just mask vconsole.service?</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: SUSE</title>
+		<link>https://lizards.opensuse.org/2012/07/26/optimizing-a-boot-time-aka-2-second-boot/#comment-7831</link>
+		<dc:creator><![CDATA[SUSE]]></dc:creator>
+		<pubDate>Mon, 30 Jul 2012 23:11:37 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8868#comment-7831</guid>
+		<description><![CDATA[2 second boot is great, 
+
+but what about a 2 second startup of firefox, which is achievable in other distro but averaged 30 seconds in openSUSE.]]></description>
+		<content:encoded><![CDATA[<p>2 second boot is great, </p>
+<p>but what about a 2 second startup of firefox, which is achievable in other distro but averaged 30 seconds in openSUSE.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Bruno Friedmann</title>
+		<link>https://lizards.opensuse.org/2012/07/26/optimizing-a-boot-time-aka-2-second-boot/#comment-7827</link>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+		<pubDate>Mon, 30 Jul 2012 17:30:30 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8868#comment-7827</guid>
+		<description><![CDATA[Well with plymouth entering the danse in 12.2, did we really need that splashy things ?
+Okay plymouth and branding are heavy on initrd cause we need all the graphics present before you unlock the crypted disk on you laptop (cause you have it, otherwise its no more your data :-)
+Should we adapt a minimalistic text prompt and sacrifice the beauty?
+Can we have both alternative, a branding quick boot and a branding nice my life?
+Both of that look like nice pretendant for a bof at Summit and OSC no ?]]></description>
+		<content:encoded><![CDATA[<p>Well with plymouth entering the danse in 12.2, did we really need that splashy things ?<br />
+Okay plymouth and branding are heavy on initrd cause we need all the graphics present before you unlock the crypted disk on you laptop (cause you have it, otherwise its no more your data 🙂<br />
+Should we adapt a minimalistic text prompt and sacrifice the beauty?<br />
+Can we have both alternative, a branding quick boot and a branding nice my life?<br />
+Both of that look like nice pretendant for a bof at Summit and OSC no ?</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Michal Vyskocil</title>
+		<link>https://lizards.opensuse.org/2012/07/26/optimizing-a-boot-time-aka-2-second-boot/#comment-7826</link>
+		<dc:creator><![CDATA[Michal Vyskocil]]></dc:creator>
+		<pubDate>Mon, 30 Jul 2012 12:31:38 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8868#comment-7826</guid>
+		<description><![CDATA[@Andreas Jaeger: sure, I tested dracut as well. Frederic pointed me to some cool switches reduced a kernel time a bit.
+
+@Wolfgang: the trick is not run NM through /etc/init.d/network, but mask it and use native NetworkManager.service. Then no dependencies are included.
+
+@zoehneto: sure, I sent a patch to maintainer
+
+@Petr Uzel: unfortunately I did rpm -e --force. The workaround would be split mkinitrd setup macros to suspend-mkinitrd with Supplements: packageand(suspend:mkinitrd) -will send a request.
+
+@jospoortvliet: I see three things to do - 1.) purge-kernels (and continue with systemdification), 2.) enable NM.service with laptop pattern, 3.) split the suspend mkinitrd files to enable simple removal - or adapt dracut.]]></description>
+		<content:encoded><![CDATA[<p>@Andreas Jaeger: sure, I tested dracut as well. Frederic pointed me to some cool switches reduced a kernel time a bit.</p>
+<p>@Wolfgang: the trick is not run NM through /etc/init.d/network, but mask it and use native NetworkManager.service. Then no dependencies are included.</p>
+<p>@zoehneto: sure, I sent a patch to maintainer</p>
+<p>@Petr Uzel: unfortunately I did rpm -e &#8211;force. The workaround would be split mkinitrd setup macros to suspend-mkinitrd with Supplements: packageand(suspend:mkinitrd) -will send a request.</p>
+<p>@jospoortvliet: I see three things to do &#8211; 1.) purge-kernels (and continue with systemdification), 2.) enable NM.service with laptop pattern, 3.) split the suspend mkinitrd files to enable simple removal &#8211; or adapt dracut.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: jospoortvliet</title>
+		<link>https://lizards.opensuse.org/2012/07/26/optimizing-a-boot-time-aka-2-second-boot/#comment-7825</link>
+		<dc:creator><![CDATA[jospoortvliet]]></dc:creator>
+		<pubDate>Mon, 30 Jul 2012 10:15:34 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8868#comment-7825</guid>
+		<description><![CDATA[BTW where&#039;s the second blog :D
+
+I&#039;m quite excited about these improvements, hope some of them can somehow make it into 12.2 or at least 12.3...]]></description>
+		<content:encoded><![CDATA[<p>BTW where&#8217;s the second blog 😀</p>
+<p>I&#8217;m quite excited about these improvements, hope some of them can somehow make it into 12.2 or at least 12.3&#8230;</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: jospoortvliet</title>
+		<link>https://lizards.opensuse.org/2012/07/26/optimizing-a-boot-time-aka-2-second-boot/#comment-7824</link>
+		<dc:creator><![CDATA[jospoortvliet]]></dc:creator>
+		<pubDate>Mon, 30 Jul 2012 10:14:32 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8868#comment-7824</guid>
+		<description><![CDATA[Yeah, I bumped into the same. I&#039;m OK with dumping any fancy boot if we can boot all openSUSE systems in 7 seconds, but then suspend should of course work...]]></description>
+		<content:encoded><![CDATA[<p>Yeah, I bumped into the same. I&#8217;m OK with dumping any fancy boot if we can boot all openSUSE systems in 7 seconds, but then suspend should of course work&#8230;</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Petr Uzel</title>
+		<link>https://lizards.opensuse.org/2012/07/26/optimizing-a-boot-time-aka-2-second-boot/#comment-7811</link>
+		<dc:creator><![CDATA[Petr Uzel]]></dc:creator>
+		<pubDate>Fri, 27 Jul 2012 09:08:22 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8868#comment-7811</guid>
+		<description><![CDATA[Great post, thanks.
+
++1 on pushing your purge-kernel.service to 12.2
+
+One more additional question: how to remove splashy without breaking suspend? Suspend seems to depend on it. TIA]]></description>
+		<content:encoded><![CDATA[<p>Great post, thanks.</p>
+<p>+1 on pushing your purge-kernel.service to 12.2</p>
+<p>One more additional question: how to remove splashy without breaking suspend? Suspend seems to depend on it. TIA</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: zoehneto</title>
+		<link>https://lizards.opensuse.org/2012/07/26/optimizing-a-boot-time-aka-2-second-boot/#comment-7805</link>
+		<dc:creator><![CDATA[zoehneto]]></dc:creator>
+		<pubDate>Thu, 26 Jul 2012 19:02:54 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8868#comment-7805</guid>
+		<description><![CDATA[Thanks for the great post. Could you please make sure that your purge-kernel.service file is integrated into the appropriate package so all openSUSE users can benefit from it.]]></description>
+		<content:encoded><![CDATA[<p>Thanks for the great post. Could you please make sure that your purge-kernel.service file is integrated into the appropriate package so all openSUSE users can benefit from it.</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	
+	>
+<channel>
+	<title>Comments on: AMD/ATI Catalyst fglrx rpms, end of an era!</title>
+	<atom:link href="https://lizards.opensuse.org/2016/12/07/amdati-catalyst-fglrx-rpms-end-of-an-era/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org/2016/12/07/amdati-catalyst-fglrx-rpms-end-of-an-era/</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 17:50:09 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>By: Néstor</title>
+		<link>https://lizards.opensuse.org/2016/12/07/amdati-catalyst-fglrx-rpms-end-of-an-era/#comment-15214</link>
+		<dc:creator><![CDATA[Néstor]]></dc:creator>
+		<pubDate>Thu, 19 Jan 2017 04:01:32 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12178#comment-15214</guid>
+		<description><![CDATA[Good, And killed fglrx on Windows since same time. Currently it&#039;s Crimson the fglrx replacement so I am surprised AMD didn&#039;t launch this driver on openSUSE.
+
+Currently in my ATI Radeon R5 I&#039;m running fglrx with that last release. I downloaded the rubber from AMD in tar format and I installed it from scratch waiting it could have the Crimson version and the new Radeon settings software but SURPRISE, still Catalyst and fglrx remained.
+
+So I don&#039;t know if the current Linux tar file on AMD is the correct driver for my APU device.]]></description>
+		<content:encoded><![CDATA[<p>Good, And killed fglrx on Windows since same time. Currently it&#8217;s Crimson the fglrx replacement so I am surprised AMD didn&#8217;t launch this driver on openSUSE.</p>
+<p>Currently in my ATI Radeon R5 I&#8217;m running fglrx with that last release. I downloaded the rubber from AMD in tar format and I installed it from scratch waiting it could have the Crimson version and the new Radeon settings software but SURPRISE, still Catalyst and fglrx remained.</p>
+<p>So I don&#8217;t know if the current Linux tar file on AMD is the correct driver for my APU device.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Sebastian Siebert</title>
+		<link>https://lizards.opensuse.org/2016/12/07/amdati-catalyst-fglrx-rpms-end-of-an-era/#comment-15164</link>
+		<dc:creator><![CDATA[Sebastian Siebert]]></dc:creator>
+		<pubDate>Mon, 19 Dec 2016 08:27:51 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12178#comment-15164</guid>
+		<description><![CDATA[Hello all,
+
+@Bruno: Thanks for providing us the formerly fglrx driver.
+
+I am currently working on repackaging of AMDGPU-Pro 16.50 (SLED 12 SP 2) for openSUSE Leap 42.2 with a rewritten makerpm-amdgpupro python script from scratch.
+
+The bad news:
+Unfortunately AMD has forgotten packaging 32-bit libraries (I have already report it to AMD). So I use temporarily the 32-libraries from Ubuntu 16.04. The default openSUSE kernel does not work with my graphics card. So I should installed Kernel 4.9 from Kernel repo because I have a Radeon R9 290X (Southern Island architecture).  :-(
+
+The good news:
+Open-Source 3D-Games with OpenGL is working. 3D-Games from Steam is working. OpenCL is working. Hardware video acceleration based upon VDPAU is working. Performance is really really very good. ;-)
+
+
+# lsmod &#124; grep radeon
+
+[No output]
+
+
+# lsmod &#124; grep amdgpu
+
+Output:
+mfd_core 16384 1 amdgpu
+i2c_algo_bit 16384 1 amdgpu
+drm_kms_helper 159744 1 amdgpu
+ttm 102400 1 amdgpu
+drm 360448 14 amdgpu,ttm,drm_kms_helper
+
+
+# hwinfo --gfxcard
+
+Output:
+39: PCI 100.0: 0300 VGA compatible controller (VGA)
+[Created at pci.378]
+Unique ID: VCu0.2+ifnaJv4L1
+Parent ID: _Znp.+7g4VeAizS0
+SysFS ID: /devices/pci0000:00/0000:00:02.0/0000:01:00.0
+SysFS BusID: 0000:01:00.0
+Hardware Class: graphics card
+Model: &quot;XFX Pine Double Dissipation R9 290X&quot;
+Vendor: pci 0x1002 &quot;ATI Technologies Inc&quot;
+Device: pci 0x67b0 &quot;Hawaii XT / Grenada XT [Radeon R9 290X/390X]&quot;
+SubVendor: pci 0x1682 &quot;XFX Pine Group Inc.&quot;
+SubDevice: pci 0x9290 &quot;Double Dissipation R9 290X&quot;
+Driver: &quot;amdgpu&quot;
+Driver Modules: &quot;drm&quot;
+Memory Range: 0xc0000000-0xcfffffff (ro,non-prefetchable)
+Memory Range: 0xd0000000-0xd07fffff (ro,non-prefetchable)
+I/O Ports: 0xe000-0xefff (rw)
+Memory Range: 0xfea00000-0xfea3ffff (rw,non-prefetchable)
+Memory Range: 0x000c0000-0x000dffff (rw,non-prefetchable,disabled)
+IRQ: 35 (70884 events)
+I/O Ports: 0x3c0-0x3df (rw)
+Module Alias: &quot;pci:v00001002d000067B0sv00001682sd00009290bc03sc00i00&quot;
+Driver Info #0:
+Driver Status: radeon is not active
+Driver Activation Cmd: &quot;modprobe radeon&quot;
+Driver Info #1:
+Driver Status: amdgpu is active
+Driver Activation Cmd: &quot;modprobe amdgpu&quot;
+Config Status: cfg=new, avail=yes, need=no, active=unknown
+Attached to: #22 (PCI bridge)
+
+Primary display adapter: #39
+
+
+# glxinfo
+
+Ausgabe:
+name of display: :0
+display: :0 screen: 0
+direct rendering: Yes
+server glx vendor string: AMD
+server glx version string: 1.4
+server glx extensions:
+[...]
+client glx vendor string: AMD
+client glx version string: 1.4
+client glx extensions:
+[...]
+GLX version: 1.4
+GLX extensions:
+[...]
+OpenGL vendor string: Advanced Micro Devices, Inc.
+OpenGL renderer string: AMD Radeon R9 200 Series
+OpenGL core profile version string: 4.5.13462 Core Profile Context
+OpenGL core profile shading language version string: 4.50
+OpenGL core profile context flags: (none)
+OpenGL core profile profile mask: core profile
+OpenGL core profile extensions:
+[...]
+OpenGL version string: 4.5.13462 Compatibility Profile Context
+OpenGL shading language version string: 4.50
+OpenGL context flags: (none)
+OpenGL profile mask: compatibility profile
+OpenGL extensions:
+[...]
+OpenGL ES profile version string: 4.5.13462 Compatibility Profile Context
+OpenGL ES profile shading language version string: 4.50
+OpenGL ES profile extensions:
+[...]
+
+
+# clinfo
+
+Ausgabe:
+Number of platforms: 1
+Platform Profile: FULL_PROFILE
+Platform Version: OpenCL 2.0 AMD-APP (2236.5)
+Platform Name: AMD Accelerated Parallel
+Processing
+Platform Vendor: Advanced Micro Devices, Inc.
+Platform Extensions: cl_khr_icd cl_amd_event_callback cl_amd_offline_devices
+
+
+Platform Name: AMD Accelerated Parallel
+Processing
+Number of devices: 2
+Device Type: CL_DEVICE_TYPE_GPU
+Vendor ID: 1002h
+Board name: AMD Radeon R9 200 Series
+Device Topology: PCI[ B#1, D#0, F#0 ]
+[...]
+
+
+# vainfo
+
+Output:
+libva info: VA-API version 0.39.4
+libva info: va_getDriverName() returns 0
+libva info: Trying to open /opt/amdgpu-pro/lib64/dri/amdgpu_drv_video.so
+libva info: Found init function __vaDriverInit_0_39
+Warning: LLVM emitted unknown config register: 0x4
+libva info: va_openDriver() returns 0
+vainfo: VA-API version: 0.39 (libva 1.7.3.pre1)
+vainfo: Driver version: mesa gallium vaapi
+vainfo: Supported profile and entrypoints
+VAProfileMPEG2Simple : VAEntrypointVLD
+VAProfileMPEG2Main : VAEntrypointVLD
+VAProfileVC1Simple : VAEntrypointVLD
+VAProfileVC1Main : VAEntrypointVLD
+VAProfileVC1Advanced : VAEntrypointVLD
+VAProfileH264Baseline : VAEntrypointVLD
+VAProfileH264Main : VAEntrypointVLD
+VAProfileH264High : VAEntrypointVLD
+VAProfileNone : VAEntrypointVideoProc
+
+
+Stay tuned. I post a new article if the AMDGPU-Pro installation script is done.
+
+
+Greetings,
+
+Sebastian Siebert
+openSUSE Member
+Formerly Package Maintainer for AMD Catalyst (fglrx)]]></description>
+		<content:encoded><![CDATA[<p>Hello all,</p>
+<p>@Bruno: Thanks for providing us the formerly fglrx driver.</p>
+<p>I am currently working on repackaging of AMDGPU-Pro 16.50 (SLED 12 SP 2) for openSUSE Leap 42.2 with a rewritten makerpm-amdgpupro python script from scratch.</p>
+<p>The bad news:<br />
+Unfortunately AMD has forgotten packaging 32-bit libraries (I have already report it to AMD). So I use temporarily the 32-libraries from Ubuntu 16.04. The default openSUSE kernel does not work with my graphics card. So I should installed Kernel 4.9 from Kernel repo because I have a Radeon R9 290X (Southern Island architecture).  🙁</p>
+<p>The good news:<br />
+Open-Source 3D-Games with OpenGL is working. 3D-Games from Steam is working. OpenCL is working. Hardware video acceleration based upon VDPAU is working. Performance is really really very good. 😉</p>
+<p># lsmod | grep radeon</p>
+<p>[No output]</p>
+<p># lsmod | grep amdgpu</p>
+<p>Output:<br />
+mfd_core 16384 1 amdgpu<br />
+i2c_algo_bit 16384 1 amdgpu<br />
+drm_kms_helper 159744 1 amdgpu<br />
+ttm 102400 1 amdgpu<br />
+drm 360448 14 amdgpu,ttm,drm_kms_helper</p>
+<p># hwinfo &#8211;gfxcard</p>
+<p>Output:<br />
+39: PCI 100.0: 0300 VGA compatible controller (VGA)<br />
+[Created at pci.378]<br />
+Unique ID: VCu0.2+ifnaJv4L1<br />
+Parent ID: _Znp.+7g4VeAizS0<br />
+SysFS ID: /devices/pci0000:00/0000:00:02.0/0000:01:00.0<br />
+SysFS BusID: 0000:01:00.0<br />
+Hardware Class: graphics card<br />
+Model: &#8220;XFX Pine Double Dissipation R9 290X&#8221;<br />
+Vendor: pci 0x1002 &#8220;ATI Technologies Inc&#8221;<br />
+Device: pci 0x67b0 &#8220;Hawaii XT / Grenada XT [Radeon R9 290X/390X]&#8221;<br />
+SubVendor: pci 0x1682 &#8220;XFX Pine Group Inc.&#8221;<br />
+SubDevice: pci 0x9290 &#8220;Double Dissipation R9 290X&#8221;<br />
+Driver: &#8220;amdgpu&#8221;<br />
+Driver Modules: &#8220;drm&#8221;<br />
+Memory Range: 0xc0000000-0xcfffffff (ro,non-prefetchable)<br />
+Memory Range: 0xd0000000-0xd07fffff (ro,non-prefetchable)<br />
+I/O Ports: 0xe000-0xefff (rw)<br />
+Memory Range: 0xfea00000-0xfea3ffff (rw,non-prefetchable)<br />
+Memory Range: 0x000c0000-0x000dffff (rw,non-prefetchable,disabled)<br />
+IRQ: 35 (70884 events)<br />
+I/O Ports: 0x3c0-0x3df (rw)<br />
+Module Alias: &#8220;pci:v00001002d000067B0sv00001682sd00009290bc03sc00i00&#8221;<br />
+Driver Info #0:<br />
+Driver Status: radeon is not active<br />
+Driver Activation Cmd: &#8220;modprobe radeon&#8221;<br />
+Driver Info #1:<br />
+Driver Status: amdgpu is active<br />
+Driver Activation Cmd: &#8220;modprobe amdgpu&#8221;<br />
+Config Status: cfg=new, avail=yes, need=no, active=unknown<br />
+Attached to: #22 (PCI bridge)</p>
+<p>Primary display adapter: #39</p>
+<p># glxinfo</p>
+<p>Ausgabe:<br />
+name of display: :0<br />
+display: :0 screen: 0<br />
+direct rendering: Yes<br />
+server glx vendor string: AMD<br />
+server glx version string: 1.4<br />
+server glx extensions:<br />
+[&#8230;]<br />
+client glx vendor string: AMD<br />
+client glx version string: 1.4<br />
+client glx extensions:<br />
+[&#8230;]<br />
+GLX version: 1.4<br />
+GLX extensions:<br />
+[&#8230;]<br />
+OpenGL vendor string: Advanced Micro Devices, Inc.<br />
+OpenGL renderer string: AMD Radeon R9 200 Series<br />
+OpenGL core profile version string: 4.5.13462 Core Profile Context<br />
+OpenGL core profile shading language version string: 4.50<br />
+OpenGL core profile context flags: (none)<br />
+OpenGL core profile profile mask: core profile<br />
+OpenGL core profile extensions:<br />
+[&#8230;]<br />
+OpenGL version string: 4.5.13462 Compatibility Profile Context<br />
+OpenGL shading language version string: 4.50<br />
+OpenGL context flags: (none)<br />
+OpenGL profile mask: compatibility profile<br />
+OpenGL extensions:<br />
+[&#8230;]<br />
+OpenGL ES profile version string: 4.5.13462 Compatibility Profile Context<br />
+OpenGL ES profile shading language version string: 4.50<br />
+OpenGL ES profile extensions:<br />
+[&#8230;]</p>
+<p># clinfo</p>
+<p>Ausgabe:<br />
+Number of platforms: 1<br />
+Platform Profile: FULL_PROFILE<br />
+Platform Version: OpenCL 2.0 AMD-APP (2236.5)<br />
+Platform Name: AMD Accelerated Parallel<br />
+Processing<br />
+Platform Vendor: Advanced Micro Devices, Inc.<br />
+Platform Extensions: cl_khr_icd cl_amd_event_callback cl_amd_offline_devices</p>
+<p>Platform Name: AMD Accelerated Parallel<br />
+Processing<br />
+Number of devices: 2<br />
+Device Type: CL_DEVICE_TYPE_GPU<br />
+Vendor ID: 1002h<br />
+Board name: AMD Radeon R9 200 Series<br />
+Device Topology: PCI[ B#1, D#0, F#0 ]<br />
+[&#8230;]</p>
+<p># vainfo</p>
+<p>Output:<br />
+libva info: VA-API version 0.39.4<br />
+libva info: va_getDriverName() returns 0<br />
+libva info: Trying to open /opt/amdgpu-pro/lib64/dri/amdgpu_drv_video.so<br />
+libva info: Found init function __vaDriverInit_0_39<br />
+Warning: LLVM emitted unknown config register: 0x4<br />
+libva info: va_openDriver() returns 0<br />
+vainfo: VA-API version: 0.39 (libva 1.7.3.pre1)<br />
+vainfo: Driver version: mesa gallium vaapi<br />
+vainfo: Supported profile and entrypoints<br />
+VAProfileMPEG2Simple : VAEntrypointVLD<br />
+VAProfileMPEG2Main : VAEntrypointVLD<br />
+VAProfileVC1Simple : VAEntrypointVLD<br />
+VAProfileVC1Main : VAEntrypointVLD<br />
+VAProfileVC1Advanced : VAEntrypointVLD<br />
+VAProfileH264Baseline : VAEntrypointVLD<br />
+VAProfileH264Main : VAEntrypointVLD<br />
+VAProfileH264High : VAEntrypointVLD<br />
+VAProfileNone : VAEntrypointVideoProc</p>
+<p>Stay tuned. I post a new article if the AMDGPU-Pro installation script is done.</p>
+<p>Greetings,</p>
+<p>Sebastian Siebert<br />
+openSUSE Member<br />
+Formerly Package Maintainer for AMD Catalyst (fglrx)</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Rod Donovan</title>
+		<link>https://lizards.opensuse.org/2016/12/07/amdati-catalyst-fglrx-rpms-end-of-an-era/#comment-15154</link>
+		<dc:creator><![CDATA[Rod Donovan]]></dc:creator>
+		<pubDate>Wed, 14 Dec 2016 16:32:18 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12178#comment-15154</guid>
+		<description><![CDATA[Thanks for the uncountable hours of service!I have mostly used Nvidia.Great! But, several of my machines have Radeon. Proliant Microserver with a 4225 card was workable with the 12s and 13s. Always a pain though. Finally added a 6245 card and was able to run it at a resolution greater than 1024. Happy so far. 
+
+I also emailed AMD in November letting them know that if they cannot support us linux users, we will no longer support their pruducts. I just hope that theywork in conjunction of equating their drivers to our releases. SuSE has always had problems with video. Since i started using it in ver. 6.1 it has been one thing or another. Oh well, love it, or leave it. Heck, I love it!]]></description>
+		<content:encoded><![CDATA[<p>Thanks for the uncountable hours of service!I have mostly used Nvidia.Great! But, several of my machines have Radeon. Proliant Microserver with a 4225 card was workable with the 12s and 13s. Always a pain though. Finally added a 6245 card and was able to run it at a resolution greater than 1024. Happy so far. </p>
+<p>I also emailed AMD in November letting them know that if they cannot support us linux users, we will no longer support their pruducts. I just hope that theywork in conjunction of equating their drivers to our releases. SuSE has always had problems with video. Since i started using it in ver. 6.1 it has been one thing or another. Oh well, love it, or leave it. Heck, I love it!</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Jason Newton</title>
+		<link>https://lizards.opensuse.org/2016/12/07/amdati-catalyst-fglrx-rpms-end-of-an-era/#comment-15151</link>
+		<dc:creator><![CDATA[Jason Newton]]></dc:creator>
+		<pubDate>Sun, 11 Dec 2016 06:54:37 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12178#comment-15151</guid>
+		<description><![CDATA[Seems like this also doesn&#039;t really matter thanks to the SLES/SLED 12 sp2 support that others have mentioned.  If you look at the installer script, you&#039;ll see it supports OpenSUSE.  More importantly it installs and seems to work just fine.  So AMDGPU Pro drivers are being released properly (as properly as proprietary gets anyway) from AMD themselves.  Hurray!  More hurrays coming when everything is on an open source stack, upstreamed, save for a few closed userspace bits... maybe.]]></description>
+		<content:encoded><![CDATA[<p>Seems like this also doesn&#8217;t really matter thanks to the SLES/SLED 12 sp2 support that others have mentioned.  If you look at the installer script, you&#8217;ll see it supports OpenSUSE.  More importantly it installs and seems to work just fine.  So AMDGPU Pro drivers are being released properly (as properly as proprietary gets anyway) from AMD themselves.  Hurray!  More hurrays coming when everything is on an open source stack, upstreamed, save for a few closed userspace bits&#8230; maybe.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: gino</title>
+		<link>https://lizards.opensuse.org/2016/12/07/amdati-catalyst-fglrx-rpms-end-of-an-era/#comment-15146</link>
+		<dc:creator><![CDATA[gino]]></dc:creator>
+		<pubDate>Fri, 09 Dec 2016 11:31:43 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12178#comment-15146</guid>
+		<description><![CDATA[today AMD published gpu-pro 16.50, for sles and sled 12 sp2. Is this release good for 42.2 too?]]></description>
+		<content:encoded><![CDATA[<p>today AMD published gpu-pro 16.50, for sles and sled 12 sp2. Is this release good for 42.2 too?</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Daniël Mantione</title>
+		<link>https://lizards.opensuse.org/2016/12/07/amdati-catalyst-fglrx-rpms-end-of-an-era/#comment-15141</link>
+		<dc:creator><![CDATA[Daniël Mantione]]></dc:creator>
+		<pubDate>Thu, 08 Dec 2016 21:29:27 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12178#comment-15141</guid>
+		<description><![CDATA[&#062; therefore a lot of them are still in production
+
+I mean here that these GPUs are still being used in daily work, not that they are still produced today.]]></description>
+		<content:encoded><![CDATA[<p>&gt; therefore a lot of them are still in production</p>
+<p>I mean here that these GPUs are still being used in daily work, not that they are still produced today.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Daniël Mantione</title>
+		<link>https://lizards.opensuse.org/2016/12/07/amdati-catalyst-fglrx-rpms-end-of-an-era/#comment-15140</link>
+		<dc:creator><![CDATA[Daniël Mantione]]></dc:creator>
+		<pubDate>Thu, 08 Dec 2016 21:12:59 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12178#comment-15140</guid>
+		<description><![CDATA[You are not understanding correctly about what GPU&#039;s I am talking about and that also explains the rest of your answer. The HD2x to HD4x is the first generation Terascale architecture. These cards are no longer supported by current Fglrx drivers. There is also the second generation and third generation Terascale architecture.
+
+Many GPU&#039;s in the HD7000 and HD8000 series are using a Terascale architecture:
+
+https://en.wikipedia.org/wiki/Radeon_HD_7000_Series
+https://en.wikipedia.org/wiki/Radeon_HD_8000_series
+
+These GPUs are less than 5 years on the market and therefore a lot of them are still in production.
+
+Second and third generation Terascale GPUs very much depend on Fglrx because they give very competitive performance with Fglrx in such a way that even many modern games can be played, while on the open source driver side, the majority recent progress has happened on the RadeonSI driver for GCN cards, while Terascale cards (r600 driver), has by far not seen the same progress, and still gives subpar performance. Other stuff like OpenGL 4.5, OpenCL, Eyefinity monitor support, all works perfect on Fglrx, and not on r600.
+
+Now it is absolutely true that Fglrx is a dead horse, so not bad word for dropping it. But at the same time, for owners of Terascale cards, the advantages of 42.2 are mostly likely not big enough accept severely decreased graphics functionality. Therefore I expect this will cause some users not to upgrade and stick with older distributions. Wether or not a new Evergreen happens depends on demand, but these decisions contribute to such demand.
+
+As for the time how long the repo would need to be available, I can&#039;t make financial trade-offs, but I propose to look at the economic life of a computer. Let&#039;s put the economic life of a computer at 5 years. The final Terascale cards were introduced in 2013. Allowing users of those computers to run (some version of OpenSuSE) during this economic life period, would mean that the repositories would need to be available until somewhere in 2018.]]></description>
+		<content:encoded><![CDATA[<p>You are not understanding correctly about what GPU&#8217;s I am talking about and that also explains the rest of your answer. The HD2x to HD4x is the first generation Terascale architecture. These cards are no longer supported by current Fglrx drivers. There is also the second generation and third generation Terascale architecture.</p>
+<p>Many GPU&#8217;s in the HD7000 and HD8000 series are using a Terascale architecture:</p>
+<p><a href="https://en.wikipedia.org/wiki/Radeon_HD_7000_Series" rel="nofollow">https://en.wikipedia.org/wiki/Radeon_HD_7000_Series</a><br />
+<a href="https://en.wikipedia.org/wiki/Radeon_HD_8000_series" rel="nofollow">https://en.wikipedia.org/wiki/Radeon_HD_8000_series</a></p>
+<p>These GPUs are less than 5 years on the market and therefore a lot of them are still in production.</p>
+<p>Second and third generation Terascale GPUs very much depend on Fglrx because they give very competitive performance with Fglrx in such a way that even many modern games can be played, while on the open source driver side, the majority recent progress has happened on the RadeonSI driver for GCN cards, while Terascale cards (r600 driver), has by far not seen the same progress, and still gives subpar performance. Other stuff like OpenGL 4.5, OpenCL, Eyefinity monitor support, all works perfect on Fglrx, and not on r600.</p>
+<p>Now it is absolutely true that Fglrx is a dead horse, so not bad word for dropping it. But at the same time, for owners of Terascale cards, the advantages of 42.2 are mostly likely not big enough accept severely decreased graphics functionality. Therefore I expect this will cause some users not to upgrade and stick with older distributions. Wether or not a new Evergreen happens depends on demand, but these decisions contribute to such demand.</p>
+<p>As for the time how long the repo would need to be available, I can&#8217;t make financial trade-offs, but I propose to look at the economic life of a computer. Let&#8217;s put the economic life of a computer at 5 years. The final Terascale cards were introduced in 2013. Allowing users of those computers to run (some version of OpenSuSE) during this economic life period, would mean that the repositories would need to be available until somewhere in 2018.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Bruno Friedmann</title>
+		<link>https://lizards.opensuse.org/2016/12/07/amdati-catalyst-fglrx-rpms-end-of-an-era/#comment-15139</link>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+		<pubDate>Thu, 08 Dec 2016 15:00:01 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12178#comment-15139</guid>
+		<description><![CDATA[Just to be precise for readers, you cite terrascale, but the fglrx drivers was already (since a long time : February 2013 with openSUSE 12.3) available only for HD5xxx and above.
+
+The mass you describe was HD2x to HD4x mostly, and those have already moved to free and open source driver.
+
+The other point : need another evergreen ? Don&#039;t get silly, asking in one things, doing is another one. And we don&#039;t get the expected contribution for evergreen (even if it was successful).
+
+Same you ask to keep the repo, but how much time, and with which money?]]></description>
+		<content:encoded><![CDATA[<p>Just to be precise for readers, you cite terrascale, but the fglrx drivers was already (since a long time : February 2013 with openSUSE 12.3) available only for HD5xxx and above.</p>
+<p>The mass you describe was HD2x to HD4x mostly, and those have already moved to free and open source driver.</p>
+<p>The other point : need another evergreen ? Don&#8217;t get silly, asking in one things, doing is another one. And we don&#8217;t get the expected contribution for evergreen (even if it was successful).</p>
+<p>Same you ask to keep the repo, but how much time, and with which money?</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Bruno Friedmann</title>
+		<link>https://lizards.opensuse.org/2016/12/07/amdati-catalyst-fglrx-rpms-end-of-an-era/#comment-15138</link>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+		<pubDate>Thu, 08 Dec 2016 14:53:49 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12178#comment-15138</guid>
+		<description><![CDATA[Sorry I can&#039;t understand how I can be forced of whatever. None of a) my free time, b) my hardware, c) my server and bandwidth are sponsored by anybody else than my own enterprise and myself.
+
+;-)]]></description>
+		<content:encoded><![CDATA[<p>Sorry I can&#8217;t understand how I can be forced of whatever. None of a) my free time, b) my hardware, c) my server and bandwidth are sponsored by anybody else than my own enterprise and myself.</p>
+<p>😉</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Daniël Mantione</title>
+		<link>https://lizards.opensuse.org/2016/12/07/amdati-catalyst-fglrx-rpms-end-of-an-era/#comment-15137</link>
+		<dc:creator><![CDATA[Daniël Mantione]]></dc:creator>
+		<pubDate>Thu, 08 Dec 2016 11:32:31 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12178#comment-15137</guid>
+		<description><![CDATA[I don&#039;t it is good idea to already remove the repository. Fglrx is still the best option for people with cards based on AMD&#039;s Terascale architecture, they are getting dated, but a lot were sold, people don&#039;t always install Linux on the latest hardware, so a lot of those cards are still in use. It means 42.2 will not be a good choice for those people. Some will upgrade their hardware, some will stay on older OpenSuSE, an Evergreen, if 13.1 is phased out, there will be demand for a newer Evergreen. Having the repository available makes then a lot of sense for them.]]></description>
+		<content:encoded><![CDATA[<p>I don&#8217;t it is good idea to already remove the repository. Fglrx is still the best option for people with cards based on AMD&#8217;s Terascale architecture, they are getting dated, but a lot were sold, people don&#8217;t always install Linux on the latest hardware, so a lot of those cards are still in use. It means 42.2 will not be a good choice for those people. Some will upgrade their hardware, some will stay on older OpenSuSE, an Evergreen, if 13.1 is phased out, there will be demand for a newer Evergreen. Having the repository available makes then a lot of sense for them.</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

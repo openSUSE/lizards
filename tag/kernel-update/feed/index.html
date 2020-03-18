@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>kernel update &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/kernel-update/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Improved Kernel Package Retention in 12.1</title>
+		<link>https://lizards.opensuse.org/2011/07/14/improved-kernel-package-retention-in-12-1/</link>
+		<comments>https://lizards.opensuse.org/2011/07/14/improved-kernel-package-retention-in-12-1/#comments</comments>
+		<pubDate>Thu, 14 Jul 2011 13:38:14 +0000</pubDate>
+		<dc:creator><![CDATA[Michal Marek]]></dc:creator>
+				<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[openSUSE 11.2]]></category>
+		<category><![CDATA[kernel update]]></category>
+		<category><![CDATA[openSUSE 12.1]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7635</guid>
+		<description><![CDATA[A long awaited feature of the openSUSE update stack is finally here! Since some time, it has been possible to tell libzypp to not delete old kernels on update: multiversion = provides:multiversion(kernel) in /etc/zypp/zypp.conf. That way, you don&#8217;t have to worry that a brand new -rc kernel from Factory makes your system unbootable. This however [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>A long awaited feature of the openSUSE update stack is finally here!<br />
+Since some time, it has been possible to tell libzypp to not delete old<br />
+kernels on update:</p>
+<pre>multiversion = provides:multiversion(kernel)</pre>
+<p>in <tt>/etc/zypp/zypp.conf</tt>. That way, you don&#8217;t have to worry that a<br />
+brand new -rc kernel from Factory makes your system unbootable.  This however<br />
+solves one problem and brings another one &#8211; you have to manually delete the<br />
+old kernel so that your /boot partition does not fill up. openSUSE 12.1 will<br />
+provide a solution to this, you will be able to tell what kernels you want to<br />
+keep after an update, other kernels will be deleted. The configuration is the<br />
+same file, <tt>/etc/zypp/zypp.conf</tt>:</p>
+<pre>## Comma separated list of kernel packages to keep installed in parallel, if the
+## above multiversion variable is set. Packages can be specified as
+## 2.6.32.12-0.7 - Exact version to keep
+## latest        - Keep kernel with the highest version number
+## latest-N      - Keep kernel with the Nth highest version number
+## running       - Keep the running kernel
+## oldest        - Keep kernel with the lowest version number (the GA kernel)
+## oldest+N      - Keep kernel with the Nth lowest version number
+##
+## Default: Do not delete any kernels if multiversion = provides:multiversion(kernel) is set
+multiversion.kernels = latest,running
+</pre>
+<p>If you configure this and the above multiversion variable, then after each<br />
+kernel update, during a subsequent reboot, a script will compare the list of<br />
+installed kernels with the multiversion.kernels setting and delete those that<br />
+are no longer needed. Examples:</p>
+<ul>
+<li> Keep the latest kernel and the running one if it differs. This is similar to<br />
+no enabling the multiversion feature at all, except that the old kernel is<br />
+removed after reboot and not immediatelly after installation.  BTW, you<br />
+probably always want to include &#8220;running&#8221;:</p>
+<pre>multiversion.kernels = latest,running</pre>
+</li>
+<li>Keep last two kernels and the running one:
+<pre>multiversion.kernels = latest,latest-1,running</pre>
+</li>
+<li>Keep the latest kernel, the running and a my test kernel with a fancy<br />
+patch:</p>
+<pre>multiversion.kernels = latest,running,3.0.rc7-test</pre>
+</li>
+</ul>
+<p>If you want to try it, it&#8217;s all in Factory already. Check if these packages are<br />
+recent enough and uncomment the two variables in zypp.conf:</p>
+<pre>$ rpm -q --changelog kernel-desktop mkinitrd libzypp | grep -B2 312018
+* Fri Jun 17 2011 mmarek@suse.cz
+- rpm/post.sh: Touch /boot/do_purge_kernels on package install
+    (fate#312018).
+--
+- Add purge-kernels script to automatically delete old kernel packages
+  on boot, based on configuration in /etc/zypp/zypp.conf, variable
+  multiversion_kernels (fate#312018).
+--
+* Tue Jun 21 2011 dmacvicar@suse.de
+- Add configuration template for automatic kernel
+  purge (feature#312018) to zypp.conf
+$ grep ^multiversion /etc/zypp/zypp.conf
+multiversion = provides:multiversion(kernel)
+multiversion.kernels = latest,running
+</pre>
+<p>Happy updating!</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2011/07/14/improved-kernel-package-retention-in-12-1/feed/</wfw:commentRss>
+		<slash:comments>10</slash:comments>
+		</item>
+		<item>
+		<title>What to do if every kernel update break your bootloader settings</title>
+		<link>https://lizards.opensuse.org/2008/11/06/what-to-do-if-every-kernel-update-break-your-bootloader-settings/</link>
+		<pubDate>Thu, 06 Nov 2008 08:57:00 +0000</pubDate>
+		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[kernel update]]></category>
+		<category><![CDATA[perl-Bootloader]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=272</guid>
+		<description><![CDATA[Perl-Bootloader response for kernel post-install bootloader update script. Current target is ensure, that you have in your bootloader actually kernel and also that entries for old kernel is removed. This is problematic for some complex or manually enhanced configuration. In this case perl-Bootloader should somehow break your settings (this mean you still can boot, but [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Perl-Bootloader response for kernel post-install bootloader update script. Current target is ensure, that you have in your bootloader actually kernel and also that entries for old kernel is removed. This is problematic for some complex or manually enhanced configuration. In this case perl-Bootloader should somehow break your settings (this mean you still can boot, but your enhancement or extra sections can dismiss). This should change in future as noticed in <a href="https://bugzilla.novell.com/show_bug.cgi?id=427854"> bugzilla </a>.</p>
+<p>If you want maintain your configuration manually, you can simple set your bootloader to none. There is two ways how you can do it. First is set <em>LOADER_TYPE=&#8221;none&#8221;</em> in <em>/etc/sysconfig/bootloader</em>. Second is set this in <em>yast2 bootloader</em>. Another advantage is that this take almost no-time, so if obtain hardware configuration for update take to much time, this is workaround.</p>
+<p><strong>Warning</strong>, if you set bootloader type to none you must manually edit your bootloader configuration after kernel update. What can help you, is set image and initrd to symlinks which lead to actual kernel.</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

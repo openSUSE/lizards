@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>keyboard &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/keyboard/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Highlights of YaST Development Sprint 81</title>
+		<link>https://lizards.opensuse.org/2019/07/29/highlights-of-yast-development-sprint-81/</link>
+		<pubDate>Mon, 29 Jul 2019 13:00:43 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+		<category><![CDATA[bootloader]]></category>
+		<category><![CDATA[console]]></category>
+		<category><![CDATA[keyboard]]></category>
+		<category><![CDATA[raid]]></category>
+		<category><![CDATA[repository]]></category>
+		<category><![CDATA[snapper]]></category>
+		<category><![CDATA[upgrade]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=13955</guid>
+		<description><![CDATA[Console Keyboard Layouts Better Handling of Broken Bootloader Setups during Upgrade AutoYaST: Repositories not containing Products Snapper on RAID Unifying the Console Keyboard Layouts for SLE and openSUSE The way of managing internationalization in Linux systems has changed through the years, as well as the technologies used to represent the different alphabets and characters used [&#8230;]]]></description>
+				<content:encoded><![CDATA[<ul>
+<li><a href="#unifying-the-console-keyboard-layouts-for-sle-and-opensuse">Console Keyboard Layouts</a></li>
+<li><a href="#better-handling-of-broken-bootloader-setups-during-upgrade">Better Handling of Broken Bootloader Setups during Upgrade</a></li>
+<li>AutoYaST:
+<ul>
+<li><a href="#exporting-user-defined-repositories-to-autoyast-configuration-file.">Repositories not containing Products</a></li>
+<li><a href="#old-storage-new-features">Snapper on RAID</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="unifying-the-console-keyboard-layouts-for-sle-and-opensuse">Unifying the Console Keyboard Layouts for SLE and openSUSE</h3>
+<p>The way of managing internationalization in Linux systems has changed through the years, as well as the technologies used to represent the different alphabets and characters used in every language. YaST tries to offer a centralized way of managing the system-wide settings in that regard. An apparently simple action like changing the language in the YaST interface implies many aspects like setting the font and the keyboard map to be used in the text-based consoles, doing the same for the graphical X11 environment and keeping those fonts and keyboard maps in sync, ensuring the compatibility between all the pieces.</p>
+<p>For that purpose, YaST maintains a list with all the correspondences between keyboard layouts and its corresponding &quot;keymap&quot; files living under <code>/usr/share/kbd/keymaps</code>. Some time ago the content of that list diverged between openSUSE and SLE-based products. During this sprint we took the opportunity to analyze the situation and try to unify criteria in that regard.</p>
+<p>We analyzed the status and origin of all the keymap files used in both families of distributions (you can see a rather comprehensive research starting in <a href="https://bugzilla.suse.com/show_bug.cgi?id=1124921#c18">comment #18 of bug#1124921</a>) and we came to the conclusions that:</p>
+<ul>
+<li>The openSUSE list needed some minor adjustments.</li>
+<li>Leaving that aside, the keymaps used in openSUSE were in general a better option because they are more modern and aligned with current upstream development.</li>
+</ul>
+<p>So we decided to unify all systems to adopt the openSUSE approach. That will have basically no impact for our openSUSE users but may have some implications for users installing the upcoming SLE-15-SP2. In any case, we hope that change will be for the better in most cases. Time will tell.</p>
+<h3 id="exporting-user-defined-repositories-to-autoyast-configuration-file.">Exporting User Defined Repositories to AutoYaST Configuration File.</h3>
+<p>With the call <code>yast clone_system</code> an AutoYaST configuration file will be generated which reflects the state of the running system. Up to now only SUSE Add-Ons have been defined in the AutoYaST configration module. Now also user defined repositories will be exported in an own subsection <code>&lt;add_on_others&gt;</code> of the <code>&lt;add-on&gt;</code> section.</p>
+<div class="sourceCode">
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;add-on&gt;</span>
+  <span class="kw">&lt;add_on_others</span><span class="ot"> config:type=</span><span class="st">&quot;list&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;listentry&gt;</span>
+      <span class="kw">&lt;alias&gt;</span>yast_head<span class="kw">&lt;/alias&gt;</span>
+      <span class="kw">&lt;media_url&gt;</span>https://download.opensuse.org/repositories/YaST:/Head/openSUSE_Leap_15.1/<span class="kw">&lt;/media_url&gt;</span>
+      <span class="kw">&lt;name&gt;</span>Yast head<span class="kw">&lt;/name&gt;</span>
+      <span class="kw">&lt;priority</span><span class="ot"> config:type=</span><span class="st">&quot;integer&quot;</span><span class="kw">&gt;</span>99<span class="kw">&lt;/priority&gt;</span>
+      <span class="kw">&lt;product_dir&gt;</span>/<span class="kw">&lt;/product_dir&gt;</span>
+    <span class="kw">&lt;/listentry&gt;</span>
+  <span class="kw">&lt;/add_on_others&gt;</span>
+  <span class="kw">&lt;add_on_products</span><span class="ot"> config:type=</span><span class="st">&quot;list&quot;</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;listentry&gt;</span>
+      <span class="kw">&lt;media_url&gt;</span>dvd:/?devices=/dev/sr1<span class="kw">&lt;/media_url&gt;</span>
+      <span class="kw">&lt;product&gt;</span>sle-module-desktop-applications<span class="kw">&lt;/product&gt;</span>
+      <span class="kw">&lt;product_dir&gt;</span>/Module-Desktop-Applications<span class="kw">&lt;/product_dir&gt;</span>
+    <span class="kw">&lt;/listentry&gt;</span>
+    <span class="kw">&lt;listentry&gt;</span>
+      <span class="kw">&lt;media_url&gt;</span>dvd:/?devices=/dev/sr1<span class="kw">&lt;/media_url&gt;</span>
+      <span class="kw">&lt;product&gt;</span>sle-module-basesystem<span class="kw">&lt;/product&gt;</span>
+      <span class="kw">&lt;product_dir&gt;</span>/Module-Basesystem<span class="kw">&lt;/product_dir&gt;</span>
+    <span class="kw">&lt;/listentry&gt;</span>
+  <span class="kw">&lt;/add_on_products&gt;</span>
+<span class="kw">&lt;/add-on&gt;</span></code></pre>
+</div>
+<p>The format of the <code>&lt;add_on_others&gt;</code> section is the same as the <code>&lt;add_on_products&gt;</code> section.</p>
+<h3 id="better-handling-of-broken-bootloader-setups-during-upgrade">Better Handling of Broken Bootloader Setups during Upgrade</h3>
+<p>With the current versions of SLE and openSUSE, using the installation media to upgrade a system which contains a badly broken GRUB2 configuration (e.g. contains references to udev links that do not longer exist) can result in an ugly internal error during the process.</p>
+<p>The first possible problem could arise in the summary screen. Like shown in this screenshot.</p>
+<div class="figure">
+<a href="//lizards.opensuse.org/wp-content/uploads/2019/07/61807675-49bd7500-ae3a-11e9-97e6-4ec7d722425e.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/07/61807675-49bd7500-ae3a-11e9-97e6-4ec7d722425e-300x225.png" alt="" width="300" height="225" class="aligncenter size-medium wp-image-13956" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/07/61807675-49bd7500-ae3a-11e9-97e6-4ec7d722425e-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/07/61807675-49bd7500-ae3a-11e9-97e6-4ec7d722425e-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/07/61807675-49bd7500-ae3a-11e9-97e6-4ec7d722425e.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a>
+</div>
+<p>If the error didn&#8217;t pop-up or if the user managed to recover from it, it was possible to reach the final phase of the upgrade process. But then the same internal error could still pop up in a different place:</p>
+<div class="figure">
+<a href="//lizards.opensuse.org/wp-content/uploads/2019/07/61807871-a6209480-ae3a-11e9-8e6c-38cfd322d7c0.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/07/61807871-a6209480-ae3a-11e9-8e6c-38cfd322d7c0-300x225.png" alt="" width="300" height="225" class="aligncenter size-medium wp-image-13957" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/07/61807871-a6209480-ae3a-11e9-8e6c-38cfd322d7c0-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/07/61807871-a6209480-ae3a-11e9-8e6c-38cfd322d7c0-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/07/61807871-a6209480-ae3a-11e9-8e6c-38cfd322d7c0.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a>
+</div>
+<p>Those errors will be fixed in the upcoming releases of SLE-12-SP5 and SLE-15-SP2 and, of course, in the corresponding openSUSE Leap version and in Tumbleweed. Now if such a broken setup is detected in the summary screen, a proper warning is displayed, including the technical details and a tip on what to do to fix the problem.</p>
+<div class="figure">
+<a href="//lizards.opensuse.org/wp-content/uploads/2019/07/61808101-129b9380-ae3b-11e9-966e-02061f99b758.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/07/61808101-129b9380-ae3b-11e9-966e-02061f99b758-300x225.png" alt="" width="300" height="225" class="aligncenter size-medium wp-image-13958" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/07/61808101-129b9380-ae3b-11e9-966e-02061f99b758-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/07/61808101-129b9380-ae3b-11e9-966e-02061f99b758-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/07/61808101-129b9380-ae3b-11e9-966e-02061f99b758.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a>
+</div>
+<p>The user can ignore the problem or click on &quot;booting&quot; to fix it. In the latter case, the usual pop-up with instructions will appear.</p>
+<div class="figure">
+<a href="//lizards.opensuse.org/wp-content/uploads/2019/07/61808202-3f4fab00-ae3b-11e9-8e88-85c2599e56a2.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/07/61808202-3f4fab00-ae3b-11e9-8e88-85c2599e56a2-300x225.png" alt="" width="300" height="225" class="aligncenter size-medium wp-image-13959" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/07/61808202-3f4fab00-ae3b-11e9-8e88-85c2599e56a2-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/07/61808202-3f4fab00-ae3b-11e9-8e88-85c2599e56a2-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/07/61808202-3f4fab00-ae3b-11e9-8e88-85c2599e56a2.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a>
+</div>
+<p>If the final stage of the upgrade process is reached without fixing the error, the wild internal error is now replaced by an informative message that does not interrupt the process.</p>
+<div class="figure">
+<a href="//lizards.opensuse.org/wp-content/uploads/2019/07/61808336-7aea7500-ae3b-11e9-96fc-a49dc9fbe507.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/07/61808336-7aea7500-ae3b-11e9-96fc-a49dc9fbe507-300x225.png" alt="" width="300" height="225" class="aligncenter size-medium wp-image-13960" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/07/61808336-7aea7500-ae3b-11e9-96fc-a49dc9fbe507-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/07/61808336-7aea7500-ae3b-11e9-96fc-a49dc9fbe507-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/07/61808336-7aea7500-ae3b-11e9-96fc-a49dc9fbe507.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a>
+</div>
+<p>Hopefully most of our users will never see these improvements. But users with a broken system will likely appreciate the extra guidance.</p>
+<h3 id="old-storage-new-features">Old Storage, New Features</h3>
+<p>If you are an usual reader of this blog, most likely you already know that YaST has a completely re-implemented Storage stack (a.k.a. storage-ng). That new storage code did its debut with the SLE 15 (and openSUSE Leap 15.0) family. And thanks to this revamped code, our beloved users can enjoy today some new great features in YaST like Bcache, partitionable Software RAIDs or multi-device Btrfs file system (just to mention a few examples). But SLE 12 (openSUSE 42) products are still alive and getting improvements with every maintenance update! Of course, the old Storage stack is not an exception, and now on a new installation scenario is supported.</p>
+<p>Thanks to a <a href="https://bugzilla.suse.com/show_bug.cgi?id=1135083">bug report</a>, we realized that <a href="http://snapper.io/">Snapper</a> could not be configured in some cases. More specifically, the reporter was trying to install with AutoYaST over a directly formatted Software RAID by using Btrfs for root and enabling snapper. The installation was perfectly performed, but it turned out that snapper was not correctly enabled in the installed system. After having a deeper look into the problem, we discovered that this was not a bug exactly but a completely missing feature. But no problems, YaST got down to work and now it is nicely supported.</p>
+<div class="figure">
+<a href="//lizards.opensuse.org/wp-content/uploads/2019/07/62031334-03bc3480-b1df-11e9-9bce-f8f45b34ebd3.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/07/62031334-03bc3480-b1df-11e9-9bce-f8f45b34ebd3-300x225.png" alt="" width="300" height="225" class="aligncenter size-medium wp-image-13961" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/07/62031334-03bc3480-b1df-11e9-9bce-f8f45b34ebd3-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/07/62031334-03bc3480-b1df-11e9-9bce-f8f45b34ebd3-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/07/62031334-03bc3480-b1df-11e9-9bce-f8f45b34ebd3.png 800w" sizes="(max-width: 300px) 100vw, 300px" /></a>
+</div>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Having trouble with vmware-console &#038; your keyboard mouse</title>
+		<link>https://lizards.opensuse.org/2010/01/22/having-trouble-with-vmware-console-your-keyboard-mouse/</link>
+		<comments>https://lizards.opensuse.org/2010/01/22/having-trouble-with-vmware-console-your-keyboard-mouse/#comments</comments>
+		<pubDate>Fri, 22 Jan 2010 06:27:45 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[console]]></category>
+		<category><![CDATA[keyboard]]></category>
+		<category><![CDATA[mouse]]></category>
+		<category><![CDATA[vmware]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/2010/01/22/having-trouble-with-vmware-console-your-keyboard-mouse/</guid>
+		<description><![CDATA[If you are like me, looking around for a fix to get your keyboard &#38; mouse working like before the 11.2 release with your vmware console. Try this fix : Uncomment the line in /etc/X11/xorg.conf option &#8220;AutoAddDevices&#8221; &#8220;off&#8221; I&#8217;ve tried this in xfce &#38; kde4 desktop, and now don&#8217;t have any strange grabbing off keyboard [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>If you are like me, looking around for a fix to get your keyboard &amp; mouse working like before the 11.2 release with your vmware console. Try this fix :</p>
+<p>Uncomment the line in /etc/X11/xorg.conf<br />
+option       &#8220;AutoAddDevices&#8221; &#8220;off&#8221;</p>
+<p>I&#8217;ve tried this in xfce &amp; kde4 desktop, and now don&#8217;t have any strange grabbing off keyboard &amp; mouse.<br />
+I can now easily send the ctrl+alt+del evil sequence to some windows vms.</p>
+<p>If it works for you, please send a reply to these bugs :<br />
+https://bugzilla.novell.com/show_bug.cgi?id=558780<br />
+and<br />
+https://bugzilla.novell.com/show_bug.cgi?id=551929#c17</p>
+<p>Many ubuntu 9.10 guys are also hit by this problem !</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2010/01/22/having-trouble-with-vmware-console-your-keyboard-mouse/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+	</channel>
+</rss>

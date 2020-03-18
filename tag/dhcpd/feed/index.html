@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>dhcpd &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/dhcpd/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>How to filter a certain class of hardware in dhcpd.conf</title>
+		<link>https://lizards.opensuse.org/2014/03/19/how-to-filter-a-certain-class-of-hardware-in-dhcpd-conf/</link>
+		<pubDate>Wed, 19 Mar 2014 12:00:59 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Uncategorized]]></category>
+		<category><![CDATA[dhcpd]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10675</guid>
+		<description><![CDATA[To prepare the end of the XP world Atfer 8th April 2014, Windows XP system will be Like children in the lions&#8217; den, if connected to internet In a network around, all the still running XP are all vmware virtual machine, and none of the end-users are the right to modify the settings of the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<h2>To prepare the end of the XP world</h2>
+<p>Atfer 8th April 2014, Windows XP system will be Like children in the lions&#8217; den, if connected to internet</p>
+<p>In a network around, all the still running XP are all vmware virtual machine, and none of the end-users are the right to modify the settings of the virtual machine, nor has administrative right under XP</p>
+<p>The idea is the simply to just suppress the gateway of the network.</p>
+<h3>Playing with dhcpd.conf</h3>
+<p>There&#8217;s lot of way to handle this classification, but I discover that you need to find the right syntax, and understand how the binary-to-ascii function of dhcpd work.</p>
+<p>First binary-to-ascii remove any leading 0, then we will just readd them <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>Extract of the dhcpd.conf</p>
+<pre>
+# binary-to-ascii remove leading 0 rebuild the complete MAC
+set testmac = concat ( suffix (concat ("0", binary-to-ascii (16, 8, "", substring(hardware,1,1))),2), ":", suffix (concat ("0", binary-to-ascii (16, 8, "", substring(hardware,2,1))),2), ":", suffix (concat ("0", binary-to-ascii (16, 8, "", substring(hardware,3,1))),2), ":", suffix (concat ("0", binary-to-ascii (16, 8, "", substring(hardware,4,1))),2), ":",  suffix (concat ("0", binary-to-ascii (16, 8, "", substring(hardware,5,1))),2), ":", suffix (concat ("0", binary-to-ascii (16, 8, "", substring(hardware,6,1))),2) );
+
+# Extract the only first 8 chars 
+set testclass = substring(testmac, 0, 8);
+# You will find a lot of this on internet but doesn't work
+# set testmac = binary-to-ascii(16, 8, ":", substring(hardware, 1, 6));
+
+# All our VMware VM use the same prefix
+if ( testclass = "00:0c:29" ){
+  # put dummy router
+  option routers 127.0.0.1;
+  # useful debug log
+  log (info, "xp32 lease");
+}else{
+  # Default gateway for anyone else
+  option routers 192.168.1.254;
+  log (info, "standard lease");
+}
+</pre>
+<p>That&#8217;s all for today</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

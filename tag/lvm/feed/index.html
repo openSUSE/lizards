@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>lvm &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/lvm/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Snapper and LVM thin-provisioned Snapshots</title>
+		<link>https://lizards.opensuse.org/2012/07/25/snapper-lvm/</link>
+		<pubDate>Wed, 25 Jul 2012 08:52:42 +0000</pubDate>
+		<dc:creator><![CDATA[Arvin Schnell]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[lvm]]></category>
+		<category><![CDATA[snapper]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8837</guid>
+		<description><![CDATA[SUSEs Hackweek 8 allowed me to implement support for LVM thin-provisioned snapshots in snapper. Since thin-provisioned snapshots themself are new I will shortly show their usage. Unfortunately openSUSE 12.2 RC1 does not include LVM tools with thin-provisioning so you have to compile them on your own. First install the thin-provisioning-tools. Then install LVM with thin-provisioning [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>SUSEs Hackweek 8 allowed me to implement support for LVM thin-provisioned snapshots in <a href="http://en.opensuse.org/Portal:Snapper">snapper</a>. Since thin-provisioned snapshots themself are new I will shortly show their usage.</p>
+<p>Unfortunately openSUSE 12.2 RC1 does not include LVM tools with thin-provisioning so you have to compile them on your own. First install the <a href="https://github.com/jthornber/thin-provisioning-tools"> thin-provisioning-tools</a>. Then install <a href="ftp://sources.redhat.com/pub/lvm2/LVM2.2.02.96.tgz">LVM</a> with thin-provisioning enabled (configure option &#8211;with-thin=internal).</p>
+<p>To setup LVM we first have to create a volume group either using the LVM tools or YaST. I assume it&#8217;s named <i>test</i>. Then we create a storage pool with 3GB space.</p>
+<pre>
+  # modprobe dm-thin-pool
+  # lvcreate --thin test/pool --size 3G
+</pre>
+<p>Now we can create a thin-provisioned logical volume named <i>thin</i> with a size of 5GB. The size can be larger than the pool since data is only allocated from the pool when needed.</p>
+<p><pre>
+  # lvcreate --thin test/pool --virtualsize 5G --name thin
+
+  # mkfs.ext4 /dev/test/thin
+  # mkdir /thin
+  # mount /dev/test/thin /thin
+</pre>
+<p>Finally we can create a snapshot from the logical volume.</p>
+<pre>
+  # lvcreate --snapshot --name thin-snap1 /dev/test/thin
+
+  # mkdir /thin-snapshot
+  # mount /dev/test/thin-snap1 /thin-snapshot
+</pre>
+<p>Space for the snapshot is also allocated from the pool when needed. The command lvs gives an overview of the allocated space.</p>
+<pre>
+  # lvs
+  LV         VG   Attr     LSize Pool Origin Data%  Move Log Copy%  Convert
+  pool       test twi-a-tz 3.00g               4.24
+  thin       test Vwi-aotz 5.00g pool          2.54
+  thin-snap1 test Vwi-a-tz 5.00g pool thin     2.54
+</pre>
+<p>After installing <a href="https://build.opensuse.org/project/show?project%3Dfilesystems%3Asnapper">snapper version 0.0.12</a> or later we can create a config for the logical volume <i>thin</i>.</p>
+<pre>
+  # snapper -c thin create-config --fstype="lvm(ext4)" /thin
+</pre>
+<p>As a simple test we can create a new file and see that snapper detects its creation.</p>
+<pre>
+  # snapper -c thin create --command "touch /thin/lenny"
+
+  # snapper -c thin list
+  Type   | # | Pre # | Date                          | Cleanup | Description | Userdata
+  -------+---+-------+-------------------------------+---------+-------------+---------
+  single | 0 |       |                               |         | current     |
+  pre    | 1 |       | Tue 24 Jul 2012 15:49:51 CEST |         |             |
+  post   | 2 | 1     | Tue 24 Jul 2012 15:49:51 CEST |         |             |
+
+  # snapper -c thin status 1..2
+  +... /thin/lenny
+</pre>
+<p>So now you can use snapper even if you don&#8217;t trust btrfs. Feedback is welcomed.</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

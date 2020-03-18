@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>cross-development &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/cross-development/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>openSUSE and GCC part 1: getting started</title>
+		<link>https://lizards.opensuse.org/2013/10/07/opensuse-and-gcc-part1/</link>
+		<pubDate>Mon, 07 Oct 2013 08:41:01 +0000</pubDate>
+		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
+				<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[YaST]]></category>
+		<category><![CDATA[cross-development]]></category>
+		<category><![CDATA[Gcc]]></category>
+		<category><![CDATA[YaST2]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9978</guid>
+		<description><![CDATA[I try to explain in this series of blog entries how to install gcc (GNU C-Compiler) and what to do with it. I  also try to explain little make and CMake/Autotools. This is not very generic tutorial because I like to promote openSUSE as coding platform. Most of the tips goes just fine with every [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I try to explain in this series of blog entries how to install gcc (GNU C-Compiler) and what to do with it. I  also try to explain little make and CMake/Autotools. This is not very generic tutorial because I like to promote openSUSE as coding platform. Most of the tips goes just fine with every distro. For the first words I like to say one thing: openSUSE is excellent platform for C-coding. Though, you can choose your programming language  but this time I like to talk about GCC and specially C-Compiler. I&#8217;ll try to how to get there with these writings because I have noticed that this substance is getting less attention that it needs. Also noted that <a title="the GNU Compiler Collection" href="http://gcc.gnu.org/">GCC</a> anf <a title="https://www.gnu.org/gnu30/" href="https://www.gnu.org/gnu30/" target="_blank">GNU is 30 years</a> and I have used it almost 15 so time to share some information.<span id="more-9978"></span></p>
+<h2>openSUSE and Linux</h2>
+<p>This is for first timers with openSUSE and GCC not people who know how to use YaST and openSUSE. If you understand <em>openSUSE is Linux-kernel based <a title="Redhat Package Manager" href="http://en.wikipedia.org/wiki/RPM_Package_Manager" target="_blank">RPM</a> application distribution in common language openSUSE is Linux operating system</em> you shouldn&#8217;t be reading this it&#8217;s just waste of your time. If you are still reading you should understand  in deep openSUSE is GNU/Linux based operating system but let&#8217;s not get in to that battle.<br />
+So One can think Google Android as Google/Linux distribution (It&#8217;s also Linux say what you want). They took some tools from normal Linux distributions (there are common tools like GCC) and made rest from the scratch. Is it better or worst you have to choose that from you point of view.<br />
+If you come from BSD world for example Mac OS X or FreeBSD and have done some object-C or C (with or without command-line) you don&#8217;t have to forget everything just keep your mind open. If you popped just from Microsoft Windows world thought &#8216;hey I&#8217;ll start developing Linux/Android/Cross-platform apps.&#8217; you REALLY have to keep you mind open. Hey I was on Windows decade a go and I&#8217;m still alive in Linux world in base Microsoft Windows is <a title="http://en.wikipedia.org/wiki/POSIX" href="http://en.wikipedia.org/wiki/POSIX" target="_blank">POSIX</a> standard compliant like Linux.</p>
+<h2>Command-line (CLI) and Graphical User Interface (GUI)</h2>
+<p>All I&#8217;ll cover in these blog posts are Command-line examples. If you want to use IDE (Eclipse or such) go a head but I&#8217;ll like one to understand how everything really works. You don&#8217;t have to dream like those machines about cosmic <a title="Electric sheep" href="http://en.wikipedia.org/wiki/Electric_Sheep" target="_blank">electric sheeps</a> to understand command-line. You can get there also in Microsoft Windows world and you don&#8217;t have to ever get there in Linux if you don&#8217;t want to. I&#8217;ll just feel little bit safer if you or me understand how to install and compile applications on Linux with command line. <a title="CLI" href="http://www.freesoftwaremagazine.com/articles/command_line_intro" target="_blank">I won&#8217;t explain to you what is command-line</a> (CLI) and<a title="Tips" href="http://www.linuxcommand.org/" target="_blank"> how to get there from GUI (Graphical User Interface)</a> where you probably are reading this from you browser please surf to read the <a title="http://en.wikipedia.org/wiki/Command-line_interface" href="http://en.wikipedia.org/wiki/Command-line_interface" target="_blank">Wikipedia article about it</a>. If you didn&#8217;t understand anything what I just said you can blame me and take a break.</p>
+<h2>Install GCC on openSUSE</h2>
+<p>I assume that you have installed <a title="Download openSUSE" href="http://en.wikipedia.org/wiki/Command-line_interface" target="_blank">openSUSE</a>. If not download and install version that have GUI. Do it if you aren&#8217;t PRO or have some very very very very good reason (<a title="Install on Virtualbox" href="http://en.opensuse.org/SDB:VirtualBox_Installation" target="_blank">like running it on virtual machine</a> top of Windows then <a title="VMWare" href="http://www.vmware.com/" target="_blank">VMWare</a> and <a title="Oracle Virtualbox" href="https://www.virtualbox.org/" target="_blank">Virtualbox</a> are you way to go. <a title="QEMU is a generic and open source machine emulator and virtualizer" href="http://wiki.qemu.org/Main_Page" target="_blank">Qemu</a> works but you have be again very open minded).<br />
+But now you have running openSUSE system with nice <a title="KDE" href="http://www.kde.org/" target="_blank">KDE</a>/<a title="Gnome" href="http://www.gnome.org/" target="_blank">Gnome</a>/<a title="Xfce" href="http://www.xfce.org/" target="_blank">XFCE4</a>/<a title="LXDE" href="http://lxde.org/" target="_blank">LXDE</a> GUI look and If you were hacker you installed all you needed stuff when you installed openSUSE to hard drive. If you like me and didn&#8217;t keep reading. In openSUSE you can manage everything with <a title="YaST is the installation and configuration tool for openSUSE" href="http://en.opensuse.org/Portal:YaST" target="_blank">YaST</a> or you can choose the <span style="color: #ff0000">red pill</span> and see the true world.</p>
+<h2>YaST way</h2>
+<p>open YaST from application menu. You find it there just look for <img alt="Yast2" src="http://en.opensuse.org/images/thumb/f/f8/Icon-yast.png/128px-Icon-yast.png" width="32" height="32" />Logo under<strong> settings</strong>. Type in root password. Choose &#8216;<em>Software Managemen</em>t&#8217;. Now you can just type &#8216;gcc&#8217; in &#8216;<em>Find:</em>&#8216; box. I&#8217;ll just assume you install &#8216;<em>gcc</em>&#8216; by clicking box (there comes green right mark) front of it and then push Apply. It&#8217;s easy as that. Now you have C-compiler (no C++ or ADA) but no auto-tools or make (or Cmake/Scons).</p>
+<p>If you are on CLI you see <a title="New Curses" href="http://en.wikipedia.org/wiki/Ncurses" target="_blank">NCurses</a> based YaST:</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2013/10/gcc-blog1.png"><img class="alignnone size-medium wp-image-9987" alt="gcc-blog1" src="//lizards.opensuse.org/wp-content/uploads/2013/10/gcc-blog1-300x178.png" width="300" height="178" srcset="https://lizards.opensuse.org/wp-content/uploads/2013/10/gcc-blog1-300x178.png 300w, https://lizards.opensuse.org/wp-content/uploads/2013/10/gcc-blog1.png 482w" sizes="(max-width: 300px) 100vw, 300px" /></a> <a href="//lizards.opensuse.org/wp-content/uploads/2013/10/gcc-blog2.png"><img class="alignnone size-medium wp-image-9988" alt="gcc-blog2" src="//lizards.opensuse.org/wp-content/uploads/2013/10/gcc-blog2-300x176.png" width="300" height="176" srcset="https://lizards.opensuse.org/wp-content/uploads/2013/10/gcc-blog2-300x176.png 300w, https://lizards.opensuse.org/wp-content/uploads/2013/10/gcc-blog2.png 482w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h2>pure CLI way without YaST</h2>
+<p>Go to CLI (<a title="KDE Konsole" href="http://konsole.kde.org/">Konsole</a>/<a title="Gnome Terminal" href="http://en.wikipedia.org/wiki/GNOME_Terminal">Gnome-terminal</a>/<a title="Xorg Xterm" href="http://en.wikipedia.org/wiki/Xterm">xterm</a> or in to real CLI). You have to be use &#8216;root&#8217; or have sudo rights to do any wizardry that is explained here. So I assume you just are root just type</p>
+<pre>zypper install gcc</pre>
+<p>and answer &#8216;y&#8217; after it asks. It does the same as YaST.</p>
+<p>That is that for first blog. If everything went right Now you have Gnu C-Compiler available. next time I&#8217;ll explain what you can do with it.</p>
+<pre>Disclaimer: All the stuff here are my own opinions not openSUSE nor Linux community. I'm have used openSUSE or SuSE something over 10 years. I have made <a title="Ilmi Solutions Oy" href="http://ilmi.fi" target="_blank">professionally</a> many years of development with openSUSE so I know somethings but I don't know everything and I just try to get you along.</pre>
+<p>&nbsp;</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>openSUSE@ARM/GSoC: Cross-compilation &#038; speedup</title>
+		<link>https://lizards.opensuse.org/2009/06/16/opensusearmgsoc-cross-compilation-speedup/</link>
+		<comments>https://lizards.opensuse.org/2009/06/16/opensusearmgsoc-cross-compilation-speedup/#comments</comments>
+		<pubDate>Tue, 16 Jun 2009 14:13:04 +0000</pubDate>
+		<dc:creator><![CDATA[Jan-Simon Möller]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[cross-compilation]]></category>
+		<category><![CDATA[cross-development]]></category>
+		<category><![CDATA[embedded]]></category>
+		<category><![CDATA[gsoc]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[openSUSE@ARM]]></category>
+		<category><![CDATA[Toolchain]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1282</guid>
+		<description><![CDATA[This weeks topic was the integration of the cross-compilation mode into the build environment. But it&#8217;s more than just a cross-toolchain &#8211; it&#8217;s a speed-boost for our ARM build environment. As of today, the source is deployed in the repository Base:build:arm:cross. It&#8217;s not fully bootstrapped because of the current high load and the upcoming downtime [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>This weeks topic was the integration of the cross-compilation mode into the build environment. But it&#8217;s more than just a cross-toolchain &#8211; it&#8217;s a speed-boost for our ARM build environment. As of today, the source is deployed in the repository Base:build:arm:cross. It&#8217;s not fully bootstrapped because of the current high load and the upcoming downtime &#8211; so watch out for changes there and in Base:build:arm.</p>
+<p>But what are these &#8220;speedup&#8217;s&#8221; ? First, you&#8217;ve to know that in our build environment the ARM binaries are executed through an emulation-layer. This works on the cost of speed. The goal is now, to exchange some key parts in a transparent manner with native x86 binaries: no emulation, no slowdown. Sounds reasonable, but is it easily possible ?<br />
+I had to take care not to mix stuff too much because the environment would break. But now I&#8217;ve to say:  WOW, this worked incredibly well  <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> .</p>
+<p>The distinctive feature of our approach in comparison to usual cross-build environments is that we use the best of native environment emulation and the speed of cross-compilation. <em>Because of this combination we don&#8217;t have to patch the individual packages to make them cross-compilation ready</em>. This is a <em>new way of cross-compiling</em> suitable also for large number of packages. A detailed overview about the different crossbuild types can be found on <a href="http://en.opensuse.org/Build_Service/Concepts/CrossDevelopment" target="_blank">this page</a>.<br />
+Another feature to note is that <em>the exchanged binaries</em> (replacing ARM with x86 in the build environment) <em>also don&#8217;t need heavy patching and there&#8217;s no need to compile them as static binaries</em>. All of them are normal distribution packages.</p>
+<p>A switch in the project enables/disables the new features. With the new changes in place, the speed could be vastly increased. Some figures:<br />
+* package rpm<br />
+* package glibc w/o locales</p>
+<table border="0" cellspacing="0" rules="none">
+<col width="86"></col>
+<col width="86"></col>
+<col width="136"></col>
+<col width="128"></col>
+<col width="86"></col>
+<col width="86"></col>
+<col width="110"></col>
+<tbody>
+<tr>
+<td colspan="7" width="717" height="17" align="center" valign="middle">Build time in minutes</td>
+</tr>
+<tr>
+<td height="17" align="center"></td>
+<td align="center">x86 native</td>
+<td align="center">armv5tel native</td>
+<td align="center">armv5tel cross</td>
+<td align="center"></td>
+<td align="center">factor native</td>
+<td align="center">factor cross</td>
+</tr>
+<tr>
+<td height="17" align="left">rpm</td>
+<td align="center">8</td>
+<td align="center">107</td>
+<td align="center">17</td>
+<td align="center"></td>
+<td align="center">13,38</td>
+<td align="center">2,13</td>
+</tr>
+<tr>
+<td height="17" align="left">glibc</td>
+<td align="center">33</td>
+<td align="center">505</td>
+<td align="center">63</td>
+<td align="center"></td>
+<td align="center">15,3</td>
+<td align="center">1,91</td>
+</tr>
+</tbody>
+</table>
+<p><img class="aligncenter size-full wp-image-1331" src="http://lizards.opensuse.org/wp-content/uploads/2009/06/stats_html_46617482.jpg" alt="overview cross-environment" width="663" height="636" srcset="https://lizards.opensuse.org/wp-content/uploads/2009/06/stats_html_46617482.jpg 663w, https://lizards.opensuse.org/wp-content/uploads/2009/06/stats_html_46617482-300x287.jpg 300w" sizes="(max-width: 663px) 100vw, 663px" /></p>
+<p>Thats a drop from about x15 to x2 in comparison to the native x86 build-time !! See it yourself when the &#8220;crosscompiled&#8221; repo in Base:build:arm is up and running.</p>
+<p>In other words: &#8220;Warp 5, Mr. Sulu !&#8221; <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/06/16/opensusearmgsoc-cross-compilation-speedup/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+	</channel>
+</rss>

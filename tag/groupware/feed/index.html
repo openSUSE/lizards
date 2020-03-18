@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Groupware &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/groupware/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Kolab cyrus-imapd inherits from openSUSE base cyrus-imapd</title>
+		<link>https://lizards.opensuse.org/2009/12/03/kolab-cyrus-imapd-inherits-from-opensuse-base-cyrus-imapd/</link>
+		<pubDate>Thu, 03 Dec 2009 19:52:57 +0000</pubDate>
+		<dc:creator><![CDATA[Richard Bos]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Server]]></category>
+		<category><![CDATA[Collaboration]]></category>
+		<category><![CDATA[Groupware]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=2700</guid>
+		<description><![CDATA[This week kolab became one small step closer to realize feature request 307846: include Kolab in openSUSE. Although it will take lots and lots of more work to achieve this goal at all. The one step closer was realized in cooperation with the openSUSE cyrus-imapd maintainer R. The openSUSE cyrus-imapd spec file in the repository [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>This week kolab became one small step closer to realize feature request  <a href="https://features.opensuse.org/307846">307846: include Kolab in openSUSE</a>.  Although it will take lots and lots of more work to achieve this goal at all.  The one step closer was realized in cooperation with the openSUSE cyrus-imapd maintainer R.  The openSUSE cyrus-imapd spec file in the <a href="http://download.opensuse.org/repositories/server:/mail/openSUSE_11.1/i586/">repository server:mail</a> spec file has been extended with information about kolab, but the actual execution of the information has been switched off.  With the Build Service <strong>link</strong> functionality the package server:mail/cyrus-imapd has been linked to the package <a href="http://download.opensuse.org/repositories/server:/Kolab:/UNSTABLE/">server:kolab:UNSTABLE/cyrus-imapd-kolab</a>, where the kolab functionality gets built.  This is achieved by activating the variable <strong>with_kolab</strong> in the project related configuration file:<br />
+<code># osc meta prjconf server:Kolab:UNSTABLE<br />
+%define with_kolab 1<br />
+Macros:<br />
+%with_kolab 1<br />
+</code><br />
+See the <a href="http://en.opensuse.org/Build_Service/prjconf#Macros">Build_Service prjconf page</a> in the openSUSE wiki for more information about this awesome functionality.  This way the cyrus-imapd-kolab package inherits everything from the openSUSE base cyrus-imapd package.</p>
+<p>One drawback for kolab administrators, you have to manually correct the currently installed kolab packages.  Start with downgrading cyrus-imapd-kolab (it only downgrades the Build service version and not cyrus-imapd itself):<br />
+<code># zyp in cyrus-imapd-kolab</code><br />
+This will install the dependent package perl-Cyrus-IMAP-kolab instead of perl-Cyrus-IMAP and perl-Cyrus-SIEVE-managesieve-kolab instead of perl-Cyrus-SIEVE-managesieve and it might remove kolab and perl-kolab. </p>
+<p>Now reinstall kolab with:<br />
+<code># zyp in kolab</code><br />
+that should be sufficient to be in sync with the repository again.  Don&#8217;t forget to restart the services, with:<br />
+<code># rckolab restart</code></p>
+<p>This week also showed the power of the <a href="http://build.opensuse.org">build service</a>, as I could install kolab within only some minutes after installing openSUSE-11.2 in Virtualbox, while I never installed openSUSE-11.2 before.</p>
+<p>The kolab installation in openSUS-11.2 made some problems visible in <strong>kolabconf -n</strong>.  The latter has been fixed, it was a general problem in kolabconf and did not have anything to do with openSUSE-11.2.</p>
+<p>The kolabconf problem however required some debugging, with a resulted spin off that the spamassassin daemon <strong>spamd</strong> is no longer activated via the startup scripts, but as a library of amavisd instead.  That is the way amavisd and spamd have been configured in kolab, but what was not honored in the kolab setup on openSUSE.</p>
+<p>Due to the change in the amavisd and spamd deamons, the script <strong>kolabsrv</strong> has been extended, and can now show a list with services required by kolab and what their current status is (see screenshot):</p>
+<div id="attachment_2701" style="width: 507px" class="wp-caption aligncenter"><img src="http://lizards.opensuse.org/wp-content/uploads/2009/12/kolabsrv1.png" alt="kolabsrv list and status output" width="497" height="284" class="size-full wp-image-2701" srcset="https://lizards.opensuse.org/wp-content/uploads/2009/12/kolabsrv1.png 497w, https://lizards.opensuse.org/wp-content/uploads/2009/12/kolabsrv1-300x171.png 300w" sizes="(max-width: 497px) 100vw, 497px" /><p class="wp-caption-text">kolabsrv list and status output</p></div>
+<p>The main task of <strong>kolabsrv</strong> is to convert the openpkg service names to the distribution dependent names.</p>
+<p>The kolab project is heading towards a <a href="http://www.kolab.org/roadmap.html">new release 2.2.3</a> with a planned release date in December 2009.</p>
+<p>Sascha released a nice <a href="http://kolab.org/pipermail/kolab-devel/2009-November/010984.html">Brain Dump of the Week</a>, giving a nice insight in the possible future of Kolab.</p>
+<p>In one of the replies of Sasha&#8217;s brain dump, a references was made to <a href="http://trac.project-builder.org/">project-builder</a>, a project similar to the openSUSE build service.  Although the OBS and project-builder may be similar, some people are wondering what the <a href="http://trac.project-builder.org/wiki/FAQ#Howdoesproject-buildercomparetoOpenSuSEBuildServiceOBS">differences (1)</a> and <a href="http://lists.opensuse.org/opensuse-buildservice/2009-11/msg00295.html">(2)</a> are.</p>
+<p>That&#8217;s quite a lot of information, but lots of things happened since my <a href="http://lizards.opensuse.org/2009/10/18/kolab-becomes-available-again-for-opensuse/">last blog entry about Kolab</a>.</p>
+<p>PS: many thanks that M. from Novell, who made my Lizards blog account working again.  For the most part of this week, I&#8217;ve not been able to login to my blog account.  After logging in with the correct credentials, I was referred back to the <a href="http://lizards.opensuse.org">Lizards entry page</a>.  M. knows the details, so if this happens to you contact M. from Novell <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

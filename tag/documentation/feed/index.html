@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Documentation &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/documentation/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Merging SVN Repositories Explained</title>
+		<link>https://lizards.opensuse.org/2010/10/30/merging-svn-repos-explained/</link>
+		<pubDate>Sat, 30 Oct 2010 14:49:27 +0000</pubDate>
+		<dc:creator><![CDATA[Thomas Schraitle]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Server]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[administration]]></category>
+		<category><![CDATA[howto]]></category>
+		<category><![CDATA[svn]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=5669</guid>
+		<description><![CDATA[Adding files to a SVN server is usually a task done in seconds. However, having several independent SVN repositories and wanting to “combine” them, this is not trivial—especially if you want to preserve the history. The doc team had had three different, independent repositories on BerliOS (opensuse-ha-doc, opensuse-docmaker, and opensuse-lfl) all holding separate information. This [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Adding files to a <a title="Subversion" href="http://en.wikipedia.org/wiki/Apache_Subversion" target="_blank">SVN</a> server is usually a task done in seconds. However, having several independent SVN repositories and wanting to “combine” them,  this is not trivial—especially if you want to preserve the history.</p>
+<p>The doc team had had three different, independent repositories on BerliOS (opensuse-ha-doc,  opensuse-docmaker, and opensuse-lfl) all holding separate information. This was a bit silly, so my task was to consolidate them into <a title="Our SVN repo with all doc related stuff" href="https://developer.berlios.de/projects/opensuse-doc/" target="_blank">opensuse-doc</a> by <em>keeping</em> all history.</p>
+<h2><span id="more-5669"></span></h2>
+<p>A SVN history is nice as you can see what you or others have done with the files. Loosing the history is the same as starting from scratch &#8212; which can be sometimes a good idea. In that case, the doc team wanted to preserve the history as we use it very often. So I had to think of a solution how to merge different SVN repositories into one. I came up with a solution containing the following steps:</p>
+<ol>
+<li>Create a test repository</li>
+<li>Create the dump files</li>
+<li>Filter the dump files and extract trunk only</li>
+<li>Rename trunk content</li>
+<li>Edit the dump files</li>
+<li>Load dump files into test repository</li>
+</ol>
+<p>Several tools are needed: <tt>svnadmin</tt> and <tt>svndumpfilter</tt> are already available from the <tt>subversion</tt> package. Additionally, Darix recommended the <a href="http://svn.borg.ch/svndumptool/" target="_blank">svndumptool</a> from devel:tools:scm:svn (thanks Darix!). A very convenient tool when dealing with <a href="http://svnbook.red-bean.com/nightly/en/svn-book.html#svn.reposadmin.maint.migrate" target="_blank">SVN dumps</a>.</p>
+<p>Apart from this, all three SVN repositories consist of the usual <tt>trunk</tt>, <tt>branches</tt>, and a <tt>tags</tt> directories.</p>
+<h2>Step 1: Creating Test Repository</h2>
+<p>Before I got my hands dirty, I needed a test repository. Luckily, the subversion package contains everything what I need.  In my case, I&#8217;ve used the <a href="http://svnbook.red-bean.com/en/1.5/svn.ref.svnadmin.c.hotcopy.html"><tt>hotcopy</tt></a> command to create this test repository. I&#8217;ve logged in to BerliOS and made a hotcopy of my target SVN repository:</p>
+<pre># ssh svn.berlios.de
+# svnadmin hotcopy /svnroot/repos/opensuse-doc opensuse-doc</pre>
+<p>I did the same for my other repositories as well, just for safety reasons:</p>
+<pre># svnadmin hotcopy /svnroot/repos/opensuse-lfl opensuse-lfl
+# svnadmin hotcopy /svnroot/repos/opensuse-docmaker opensuse-docmaker
+# svnadmin hotcopy /svnroot/repos/opensuse-ha-doc opensuse-ha-doc</pre>
+<p>Later, I will use the opensuse-doc hotcopy to test my modifications before I apply them to the production SVN repository. With this method, I wanted to make sure everything is correct. Of course, you have to be sure that nobody commits to your repositories, otherwise any later commits won&#8217;t be incorporated.</p>
+<h2>Step 2: Creating Dump Files</h2>
+<p>Dump files contain everything what&#8217;s inside a repository including <a title="SVN Properties" href="http://svnbook.red-bean.com/en/1.5/svn.advanced.props.html" target="_blank">SVN properties</a>. However, they don&#8217;t contain the configuration or <a href="http://svnbook.red-bean.com/en/1.5/svn.ref.reposhooks.html" target="_blank">repository hooks</a> from the repository. If you want to keep them, you&#8217;ll have to save them manually.</p>
+<p>It&#8217;s very easy to create a dump file. In BerliOS, everything lives under <tt>/svnroot/repos/<em>PROJECT</em></tt>:</p>
+<pre># svnadmin dump /svnroot/repos/opensuse-lfl &gt; opensuse-lfl.dump
+# svnadmin dump /svnroot/repos/opensuse-docmaker &gt; opensuse-docmaker.dump
+# svnadmin dump /svnroot/repos/opensuse-ha-doc &gt; opensuse-ha-doc.dump</pre>
+<p>The above lines create a dump file for each of my SVN repositories. As the BerliOS server doesn&#8217;t have the <tt>svndumptool</tt> command, I have to copy them to my own machine:</p>
+<pre>toms@earth:~ &gt; scp shell.berlios.de:~/opensuse-*.dump .</pre>
+<h2>Step 3: Extracting trunk</h2>
+<p>In most SVN repositories, <tt>tags</tt> and <tt>branches</tt> contain information which were at some point in time copied (for <tt>tags</tt>) or copied and modified later (for <tt>branches</tt>). I haven&#8217;t found a satisfying solution to use <tt>svndumptool</tt> and take into account these two directories. Anyway, I&#8217;ve decided to just concentrate on trunk and manually adjust <tt>tags</tt> and <tt>branches</tt> later. This makes it easier when dealing with dump files.</p>
+<p>To extract only parts of a dump file, the <a href="http://svnbook.red-bean.com/en/1.5/svn.reposadmin.maint.html#svn.reposadmin.maint.tk.svndumpfilter" target="_blank">svndumpfilter</a> command is the right tool. Combined with the needed options and subcommands, I&#8217;ve used:</p>
+<pre>toms@earth:~ &gt; svndumpfilter --renumber-revs --drop-empty-revs \
+    include trunk &lt; opensuse-docmaker.dump &gt; docmaker-trunk.dump
+toms@earth:~ &gt; cat dumps/opensuse-ha-doc.dump | \
+    svndumpfilter --renumber-revs --drop-empty-revs  include "trunk" | \
+    svndumpfilter exclude trunk/package &gt; ha-doc-trunk.dump
+toms@earth:~ &gt; svndumpfilter --renumber-revs --drop-empty-revs \
+    include trunk &lt; opensuse-lfl.dump &gt; lfl-trunk.dump</pre>
+<p>The commands are not exactly the same, as the SVN repositories are slightly different. For example, the opensuse-ha-doc repo contained a <tt>trunk/package</tt> directory which I don&#8217;t want. Therefor you see the <tt>exclude</tt> command in <tt>svndumpfilter</tt>. The resulting dump files contain only <tt>trunk</tt>, nothing else.</p>
+<h2>Step 4: Renaming trunk Directory</h2>
+<p>The last step created dump files which contain only the <tt>trunk</tt> directory. The dump files can already be loaded into the target SVN repository. However, this is only partly successful. After loading you have to rename and move subdirectories around which is unconvenient. To avoid this cumbersome task, I&#8217;ve used the <tt>svndumptool</tt> command which does the job <em>directly</em> on the dump file!</p>
+<p>For example, the former docmaker repository has to appear under <tt>trunk/tools/docmaker</tt>, not directly under <tt>trunk</tt>. This can be done with the <tt>merge</tt> subcommand of <tt>svndumptool</tt>:</p>
+<pre>toms@earth:~ &gt; svndumptool merge -o docmaker-trunk-rename.dump \
+   -i docmaker-trunk.dump \
+   -s '^trunk' 'trunk/tools/docmaker' \
+   -d trunk/tools/docmaker</pre>
+<p>The <tt>-d</tt> option creates the <tt>trunk/tools/docmaker</tt> directory in case it doesn&#8217;t exist in your target. The <tt>-i</tt> and <tt>-o</tt> options are the input and output stream of the dump files, <tt>-s</tt> contains a regular expression how to rename the source (<tt>^trunk</tt>) into the target (<tt>trunk/tools/docmaker</tt>). The other repositories are similar:</p>
+<pre>toms@earth:~ &gt; svndumptool merge -o ha-doc-trunk-rename.dump  \
+  -i ha-doc-trunk.dump \
+  -d trunk/documents/ha/ \
+  -s '^trunk/books/en' 'trunk/documents/ha/en' \
+  -s '^trunk/books' 'trunk/documents'
+toms@earth:~ &gt; svndumptool merge -o lfl-trunk-rename.dump  \
+  -i lfl-trunk.dump \
+  -d trunk/documents/lfl/ \
+  -s '^trunk/books/en' 'trunk/documents/lfl/en' \
+  -s '^trunk/books' 'trunk/documents'</pre>
+<p>After this step I have three files, named <tt>*-trunk-rename.dump</tt> which contains the renamed directories.</p>
+<h2>Step 5: Editing Dump File</h2>
+<p>This step is a bit tricky and I haven&#8217;t found a better solution yet. Probably this can also be done with cat and sed magic, but I preferred vi. The task is to list the content of the dump files and decide which directory entries need to be deleted. This step is absolutely necessary to avoid any SVN error (something like “directory/file already exists”) when trying to load the dump file into the repository.</p>
+<ol>
+<li>Get an overview of the contents:
+<pre>toms@earth:~ &gt; svndumptool ls ha-doc-trunk-rename.dump
+/trunk
+...
+toms@earth:~ &gt; svndumptool ls docmaker-trunk-rename.dump
+/trunk
+/trunk/documents</pre>
+<p>Usually this is /trunk and probably some other directories (depending on the structure).</li>
+<li>Modify the dump file(s) and remove any directories which are available in the target SVN repository.<br />
+The renamed directories from the last step contains a single <tt>trunk</tt> “node” which has to be removed. The same applies for <tt>trunk/documents</tt>. Both exist already on the BerliOS server. Manually edit the dump files and remove the following lines:</p>
+<pre>Node-path: trunk
+Node-action: add
+Node-kind: dir
+Prop-content-length: 10
+Content-length: 10
+PROPS-END
+...
+Node-path: trunk/documents
+Node-action: add
+Node-kind: dir
+Prop-content-length: 10
+Content-length: 10
+  [[ Some other content could be available here ]]
+PROPS-END</pre>
+</li>
+<li>Save the dump file</li>
+</ol>
+<p>Be careful! It is very important not to destroy any structure in the dump file!</p>
+<p>I&#8217;ve checked the result with “svndumptool ls DUMPFILE”. No lonely <tt>trunk</tt> directory should be shown anymore. To be on the safe side, I&#8217;ve checked the two files with <tt>svndumptool check -A DUMPFILE</tt>, too.</p>
+<h2>Step 6: Loading Dump Files into Test Repository</h2>
+<p>The last step created the dump files with the correct structure. As this was done on my own machine, I have to copy the files back to BerliOS (remember to use the <tt>shell.berlios.de</tt> server):</p>
+<pre>toms@earth:~ &gt; scp *-rename.dump  shell.berlios.de:</pre>
+<p>It&#8217;s almost done! Logged into BerliOS and loaded the dump files in my hotcopy test repository (see step 1):</p>
+<pre># svnadmin load opensuse-doc  &lt; docmaker-trunk-rename.dump
+# svnadmin load opensuse-doc  &lt; ha-doc-trunk-rename.dump
+# svnadmin load opensuse-doc  &lt; lfl-trunk-rename.dump</pre>
+<p>After playing around a bit, everything was successful. So I repeated it, but replaced the opensuse-doc hotcopy with the correct path /svnroot/repos/opensuse-doc.</p>
+<p>The remaining pieces are the <tt>tags</tt> and <tt>branches</tt> directory. As revision numbers have been changed, the revision number in the original repository and the revision number in opensuse-doc are obviously not the same anymore. Creating tags can only be done with a correct date, because dates are preserved. For this reason, it is convenient to still have the original repositories around to look for the exact date and log message:</p>
+<pre>$ svn copy -r "{2010-10-20T10:00:00}" -m "..." \
+   $BERLIOSURL/trunk/tools/docmaker \
+   $BERLIOSURL/tags/tools/docmaker/obs</pre>
+<p>The <tt>branches</tt> are a bit different. Maybe the history can be preserved with the same method as with trunk, but I haven&#8217;t tried it. Our three repositories hadn&#8217;t had meaningful information in branch, or it wasn&#8217;t worth the effort.</p>
+<h2>Conclusion</h2>
+<p>The steps above showed how to merge different SVN repository into one while keeping the history.  Unfortunately, this task could be easier. Although <tt>svndumpfilter</tt> is very easy, it is also very limited. Especially when you have to modify the dump file itself, <tt>svndumpfilter</tt> won&#8217;t rescue you. It would be very good, if <tt>svndumpfilter</tt> could be extended to work with dump files in the same way as <tt>svndumptool</tt>. That would be fun. <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>RTFM!</title>
+		<link>https://lizards.opensuse.org/2010/10/23/rtfm/</link>
+		<comments>https://lizards.opensuse.org/2010/10/23/rtfm/#comments</comments>
+		<pubDate>Sat, 23 Oct 2010 08:52:24 +0000</pubDate>
+		<dc:creator><![CDATA[Thomas Schraitle]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Marketing]]></category>
+		<category><![CDATA[Usability]]></category>
+		<category><![CDATA[Website]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=5550</guid>
+		<description><![CDATA[Before and during the openSUSE conference, some nice people (Jens-Daniel, Jürgen, Darix) created the following site for you: http://rtfm.opensuse.org http://doc.opensuse.org Thank you guys! I like the thrilling name. 😉 It&#8217;s a static page (at the moment?) and collects the current documentation from several products and projects. Probably you will see more to come in the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Before and during the openSUSE conference, some nice people (Jens-Daniel, Jürgen, Darix) created the following site for you:</p>
+<p><span style="text-decoration: line-through;"><a title="openSUSE Documentation" href="http://doc.opensuse.org" target="_blank">http://rtfm.opensuse.org</a></span> <a href="http://doc.opensuse.org" target="_blank">http://doc.opensuse.org</a></p>
+<p>Thank you guys! I like the thrilling name. <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>It&#8217;s a static page (at the moment?) and collects the current documentation from several products and projects. Probably you will see more to come in the next weeks.</p>
+<p>Have fun!</p>
+<p><strong>Update (AJ since Thomas is ill) 2010-10-27:</strong> Based on the feedback received, we&#8217;re going to  change now rtfm.opensuse.org to docs.opensuse.org. So, you can reach the fine side under <a href="http://docs.opensuse.org">http://docs.opensuse.org</a> and <a href="http://doc.opensuse.org">http://doc.opensuse.org</a>.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2010/10/23/rtfm/feed/</wfw:commentRss>
+		<slash:comments>11</slash:comments>
+		</item>
+		<item>
+		<title>openSUSE Wiki Changes</title>
+		<link>https://lizards.opensuse.org/2009/12/19/opensuse-wiki-changes/</link>
+		<pubDate>Sat, 19 Dec 2009 20:31:03 +0000</pubDate>
+		<dc:creator><![CDATA[Klaas Freitag]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[Wiki]]></category>
+		<category><![CDATA[contribution]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=2871</guid>
+		<description><![CDATA[There was a lot of dicussion in the openSUSE project about the project wiki which was suffering from something all successful projects in some point of time experience: There is a huge amount of documentation in the Wiki, however it seems a bit unstructured, sometimes outdated or not really maintained. The brave openSUSE wiki team [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>There was a lot of dicussion in the openSUSE project about the <a href="http://en.opensuse.org">project wiki</a> which was suffering from something all successful projects in some point of time experience: There is a huge amount of documentation in the Wiki, however it seems a bit unstructured, sometimes outdated or not really maintained.</p>
+<p>The <a href="http://en.opensuse.org/Wiki_team">brave openSUSE wiki team</a> stepped up to change that. The decision is to set up a new wiki with a well selected set of extensions and now the content of the old wiki is going to be transfered to the new wiki. Of course there will be a rigorous quality check of the articles, as well as a new thought through structure. The goal of this huge amount of work is to provide a outstanding good and well consumable source of information for all people in and interested in the openSUSE project. That is a high goal and I admire the energy and dedication of the wiki team.</p>
+<p>The new wiki is now in place. So if you also want to help, either with the motivation of a developer telling how things work, or from the upstream perspective using the openSUSE vehicle to push the project or simply because you want to help openSUSE to become even better, first read the <a href="http://en.opensuse.org/Transition_Guidelines">Transition Guidelines</a> and subscribe on the wiki mailinglist, since most of the coordination happens there.<br />
+There is also a <a href="http://forums.opensuse.org/tech-news/428612-wiki-transition-call-contributors.html">Forum Thread</a> going on around that.</p>
+<p>Please <b>help</b> to make this a success &#8211; thanks <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>The Value of (Good) Documentation</title>
+		<link>https://lizards.opensuse.org/2009/01/16/the-value-of-good-documentation/</link>
+		<comments>https://lizards.opensuse.org/2009/01/16/the-value-of-good-documentation/#comments</comments>
+		<pubDate>Fri, 16 Jan 2009 12:17:06 +0000</pubDate>
+		<dc:creator><![CDATA[Thomas Schraitle]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=360</guid>
+		<description><![CDATA[Maybe you know this situation: You find an interesting software that is worth to play. After you&#8217;ve installed it there are two possibilities: either the software is (a) very easy and self-explanatory, or (b) it is very complex. As most software fall into category (b), one way to get used to it is you can [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Maybe you know this situation: You find an interesting software that is worth to play. After you&#8217;ve installed it there are two possibilities: either the software is (a) very easy and self-explanatory, or (b) it is very complex.</p>
+<p>As most software fall into category (b), one way to get used to it is you can play around and discover it by yourself. Sometimes it works, sometimes not. In case you need help, you can either ask a programmer, or write a post to a mailinglist or forum. But when you need an answer for your question <em>now</em> what else remains? Right! You need documentation!<br />
+And with documentation, I mean <em>good</em> documentation. Not something with &#8220;Documentation? Use the source!&#8221;</p>
+<p><span id="more-360"></span><br />
+Although it seems obvious, I&#8217;ve learned this lesson again some time ago, when I tried to use Python bindings for Subversion. Yes, there is a subversion-python package, but there is no documentation. No API documentation, no quickstart, nothing. Maybe the situation has changed now. I tried to find some examples in the Internet. Nothing. Simply I couldn&#8217;t use it and I haven&#8217;t had the time to discover the inner working of this piece.</p>
+<p>Another example: A lot of KDE programs come with, at least, some documentation, but this is not always the case. You can display it from the Help menu. What I observed from these documentation, they mostly <em>describe</em> the software: &#8220;Here is this, here is that.&#8221;<br />
+&#8220;Why should this be wrong?&#8221;, you ask. Well, in my opinion the mere description of a GUI with all its menus is <em>not</em> what I consider efficient. Come on, this is <strong>boring</strong>! I can <em>see</em> the menu right in front of my nose! <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>But what is good documentation? I collected a list &#8212; very likely not exhausting &#8212; which I consider good documentation:</p>
+<ul>
+<li><strong>It is easy to read.</strong><br />
+  Well, this should be obvious. But it is always difficult to write clearly and to the point.
+ </li>
+<li>
+<strong>It tells me <em>how</em> to solve problems.</strong><br />
+As I wrote before, in most cases it is useless to describe GUI menus in great depth. I prefer a &#8220;problem-oriented&#8221; style: here is a problem, there is the solution.
+</li>
+<li>
+  <strong>It gives me step-by-step instructions.</strong><br />
+  When software is a bit more complex, it helps a lot to solve a complicated task with some small steps: &#8220;First do this, then do that and then &#8230;&#8221; I can check every step to see if I completed it successfully.
+</li>
+<li><strong>It is targeted to its audience.</strong><br />
+A lot of documentations don&#8217;t know their audience. An API documentation is very likely to be read by a developer, so it is perfectly ok to use acronyms or technical terms that is well-known to this group. On the other side, a quickstart that explains the installation of Linux for a Windows user needs more thoughts on style and what is acutally known.
+</li>
+<li><strong>It is typographically and aesthetically attractive.</strong><br />
+Although this has nothing to do with the content of documentation itself, I consider it nevertheless important. Good documentation accompanied with good typography is better to read and understand. Bad typography annoys the reader or even creates misunderstandings in the worst case (&#8220;Does this line belong to the listing?&#8221;)
+</li>
+</ul>
+<p>So, what&#8217;s the consequence of this? Good documentation saves me time. With more time I can try out more things and concentrate on my task or problem. </p>
+<p>Complicated software without good documentation is very likely to be unusable. I guess, without good documentation, users are unhappy and turn away from it.</p>
+<p>So how do you &#8220;measure&#8221; the value of documentation?</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/01/16/the-value-of-good-documentation/feed/</wfw:commentRss>
+		<slash:comments>4</slash:comments>
+		</item>
+	</channel>
+</rss>
