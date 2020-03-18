@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0"
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -9,19 +8,171 @@
 	>
 
 <channel>
-	<title>openSUSE Lizards &#187; Toolchain</title>
-	<atom:link href="http://lizards.opensuse.org/category/base-system/toolchain/feed/" rel="self" type="application/rss+xml" />
-	<link>http://lizards.opensuse.org</link>
+	<title>Toolchain &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/category/base-system/toolchain/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
 	<description>Blogs and Ramblings of the openSUSE Members</description>
-	<lastBuildDate>Mon, 24 Mar 2014 12:46:00 +0000</lastBuildDate>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
 	<language>en-US</language>
-		<sy:updatePeriod>hourly</sy:updatePeriod>
-		<sy:updateFrequency>1</sy:updateFrequency>
-	<generator>http://wordpress.org/?v=3.8.1</generator>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
 	<item>
+		<title>experimental openSUSE mirror via IPFS</title>
+		<link>https://lizards.opensuse.org/2019/04/03/experimental-opensuse-mirror-via-ipfs/</link>
+		<comments>https://lizards.opensuse.org/2019/04/03/experimental-opensuse-mirror-via-ipfs/#comments</comments>
+		<pubDate>Wed, 03 Apr 2019 13:41:39 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Infrastructure]]></category>
+		<category><![CDATA[Security]]></category>
+		<category><![CDATA[Toolchain]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=13716</guid>
+		<description><![CDATA[The InterPlanetary File System (IPFS) can be used to provide files in a more efficient and distributed way than HTTP. Our filesystem repo already has the go-ipfs client. You use it with ipfs daemon --init And then you can add my Tumbleweed mirror with zypper ar http://127.0.0.1:8080/ipns/opensuse.zq1.de./tumbleweed/repo/oss/ ipfs-oss You can also browse the content online [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The <a href="https://en.wikipedia.org/wiki/InterPlanetary_File_System">InterPlanetary File System</a> (IPFS) can be used to provide files in a more efficient and distributed way than HTTP.</p>
+<p>Our <a href="https://software.opensuse.org/package/go-ipfs">filesystem repo</a> already has the go-ipfs client.</p>
+<p>You use it with<br />
+<code>ipfs daemon --init</code></p>
+<p>And then you can add my Tumbleweed mirror with<br />
+<code>zypper ar http://127.0.0.1:8080/ipns/opensuse.zq1.de./tumbleweed/repo/oss/ ipfs-oss</code></p>
+<p>You can also browse the content online at<br />
+<a href="http://opensuse.zq1.de./tumbleweed/repo/oss/">http://opensuse.zq1.de./tumbleweed/repo/oss/</a> . During my testing I found that the results are sometimes inappropriately cached on the Cloudflare CDN, so if you used it under this URL without the ipfs client, this might throw signature errors in zypper.</p>
+<p>On the server side, the mirror is updated using the <code>syncopensuse</code> script from<br />
+<a href="https://github.com/bmwiedemann/opensusearchive">https://github.com/bmwiedemann/opensusearchive</a> and consistency of the repo is verified with <code>checkrepo</code></p>
+<p>When a complete repo was synced, <a href="https://github.com/bmwiedemann/dynaname">dynaname</a> updates a DNS entry to point to the new head:</p>
+<blockquote><p>
+&gt; host -t txt _dnslink.opensuse.zq1.de.<br />
+_dnslink.opensuse.zq1.de is an alias for tumbleweedipfs.d.zq1.de.<br />
+tumbleweedipfs.d.zq1.de descriptive text &#8220;Last update: 2019-04-03 12:23:43 UTC&#8221;<br />
+tumbleweedipfs.d.zq1.de descriptive text &#8220;dnslink=/ipfs/QmSXEVuU5z23rDxMyFYDhSAUaGRUPswuSXD3aVsBEzucjE&#8221;</p></blockquote>
+<p>If you got spare bandwidth and 300 GB disk on some public server, you could also host a mirror of today&#8217;s version, simply by doing <code>ipfs pin add QmSXEVuU5z23rDxMyFYDhSAUaGRUPswuSXD3aVsBEzucjE</code></p>
+<p>This is a permalink: <a href="http://127.0.0.1:8080/ipfs/QmSXEVuU5z23rDxMyFYDhSAUaGRUPswuSXD3aVsBEzucjE">http://127.0.0.1:8080/ipfs/QmSXEVuU5z23rDxMyFYDhSAUaGRUPswuSXD3aVsBEzucjE</a> also browsable via <a href="https://cloudflare-ipfs.com/ipfs/QmSXEVuU5z23rDxMyFYDhSAUaGRUPswuSXD3aVsBEzucjE">any public IPFS gateway</a>. This means, it will always remain on the 20190401 version of Tumbleweed and no changes in content are possible &#8211; similar to how a git commit ID always refers to the same data.</p>
+<p>So why did I create this IPFS mirror? That is related to my work on <a href="https://en.opensuse.org/openSUSE:Reproducible_Builds">reproducible builds for openSUSE</a>. There it regularly happened that published Tumbleweed binaries were built with libraries, compilers and toolchains that were no longer available in current Tumbleweed. This prevented me from verifying that the published binaries were indeed built correctly without manipulation on the OBS build workers.</p>
+<p>Now, with this archive of rpms easily available, it was possible to verify many more Tumbleweed packages than before. And most importantly, it remains possible to independently verify even after Tumbleweed moves on to newer versions. This data is going to stay available as long as anyone pins it on a reachable server. I&#8217;m going to pin it as long as it remains relevant to me, so probably a bit until after the next full Tumbleweed rebuild &#8211; maybe 6 to 12 months.</p>
+<p>Thus, it now is even less easy to sneak in binary backdoors during our package build process.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2019/04/03/experimental-opensuse-mirror-via-ipfs/feed/</wfw:commentRss>
+		<slash:comments>9</slash:comments>
+		</item>
+		<item>
+		<title>Report from the reproducible builds summit 2018</title>
+		<link>https://lizards.opensuse.org/2018/12/17/report-from-the-reproducible-builds-summit-2018/</link>
+		<comments>https://lizards.opensuse.org/2018/12/17/report-from-the-reproducible-builds-summit-2018/#comments</comments>
+		<pubDate>Mon, 17 Dec 2018 10:36:10 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Events]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Security]]></category>
+		<category><![CDATA[Toolchain]]></category>
+		<category><![CDATA[Paris]]></category>
+		<category><![CDATA[reproducible-builds]]></category>
+		<category><![CDATA[Summit]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=13522</guid>
+		<description><![CDATA[Last week I attended the reproducible builds world summit in Paris. It was very well organized by Holger, Gunner and their hidden helpers in the background. Very similar to the last 2 summits I attended in Berlin. Because we were around 50 participants, introductions and announcements were the only things done in the big group. [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Last week I attended <a href="https://reproducible-builds.org/events/paris2018/">the reproducible builds world summit in Paris</a>.<br />
+It was very well organized by Holger, Gunner and their hidden helpers in the background. Very similar to the last 2 summits I attended in Berlin.</p>
+<p>Because we were around 50 participants, introductions and announcements were the only things done in the big group. All actual work happened in 5-10 smaller circles.</p>
+<p>We had participants from large companies like Google (with bazel), MicroSoft and Huawei, but also from many distributions and open source projects. Even MirageOS as non-Linux OS.</p>
+<p>We did knowledge-sharing, refine definitions of terms, evolve concepts like &#8220;rebuilders&#8221; for verifying builds and allow users to better trust software they install, and such.</p>
+<p>I learned about <a href="https://tests.reproducible-builds.org/reproducible.sql.xz">the undocumented DB dump</a> (153 MB) and  <a href="https://tests.reproducible-builds.org/reproducibledb.html">DB schema</a></p>
+<p>And we had some hacking time, too, so there is now<br />
+<a href="https://jenkins.debian.net/job/reproducible_opensuse_import_json/">a jenkins job</a> that renders <a href="https://tests.reproducible-builds.org/opensuse/factory/x86_64/index_FTBR.html">the list of unreproducible openSUSE Factory packages</a>.</p>
+<p>Also, <a href="https://maintainer.zq1.de/?pkg=bash">my maintainer tool</a> now has added support for the Alpine Linux distribution, thanks to help by one of its maintainers: Natanael Copa.<br />
+This is meant to help all cross-distro collaboration, not just for reproducible builds.</p>
+<p>There is still work to be done to make better use of Mitre CPE to map package names across distributions.</p>
+<p>I think, one major benefit of the summit was all the networking and talking going on, so that we have an easier time working with each other over the internet in the future.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2018/12/17/report-from-the-reproducible-builds-summit-2018/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>How to build OS images without kiwi</title>
+		<link>https://lizards.opensuse.org/2016/12/26/how-to-build-os-images-without-kiwi/</link>
+		<pubDate>Mon, 26 Dec 2016 05:56:48 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Toolchain]]></category>
+		<category><![CDATA[altimagebuild]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12224</guid>
+		<description><![CDATA[kiwi has long been the one standard way of building images in openSUSE, but even though there exist extensive writings on how to use it, for many it is still an arcane thing better left to the Great Magicians. Thus, I started to use a simpler alternative image building method, named altimagebuild when I built [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>kiwi has long been the one standard way of building images in openSUSE, but even though there exist extensive writings on how to use it, for many it is still an arcane thing better left to the Great Magicians.</p>
+<p>Thus, I started to use a simpler alternative image building method, named altimagebuild when I built our first working <a href="https://lizards.opensuse.org/2013/09/07/new-raspberry-pi-image/">Raspberry Pi images</a> in 2013 and now I re-used that to build x86_64 VM images at<br />
+<a href="https://build.opensuse.org/package/show/home:bmwiedemann/altimagebuild">https://build.opensuse.org/package/show/home:bmwiedemann/altimagebuild</a><br />
+after I found out that it even works in OBS, including publishing the result to our mirror infrastructure.<br />
+It is still in rpm format because of how it is produced, so you have to use unrpm to get to the image file.</p>
+<p>This method uses 3 parts.</p>
+<ul>
+<li>a .spec file that lists packages to be pulled into the image</li>
+<li>a mkrootfs.sh that converts the build system into the future root filesystem you want</li>
+<li>a mkimage.sh that converts the rootfs into a filesystem image</li>
+</ul>
+<p>The good thing about it is that you do not need specialized external tools, because everything is hard-coded in the scripts.<br />
+And the bad thing about it is that everything is hard-coded in the scripts, so it is hard to share general improvements over a wider range of images.</p>
+<p>In the current version, it builds cloud-enabled partitionless images (which is nice for VMs because you can just use resize2fs to get a larger filesystem and if you later want to access your VM&#8217;s data from outside, you simply use mount -o loop)<br />
+But it can build anything you want.</p>
+<p>To make your own build, do <code>osc checkout home:bmwiedemann/altimagebuild &amp;&amp; cd $_ &amp;&amp; osc build openSUSE_Leap_42.2</code></p>
+<p>So what images would you want to build?</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>DocBook Authoring and Publishing Suite (DAPS) 2.0 Released</title>
+		<link>https://lizards.opensuse.org/2015/06/23/daps-2-0-released/</link>
+		<pubDate>Tue, 23 Jun 2015 12:46:08 +0000</pubDate>
+		<dc:creator><![CDATA[Thomas Schraitle]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Toolchain]]></category>
+		<category><![CDATA[css]]></category>
+		<category><![CDATA[daps]]></category>
+		<category><![CDATA[docbook]]></category>
+		<category><![CDATA[html]]></category>
+		<category><![CDATA[pdf]]></category>
+		<category><![CDATA[stylesheets]]></category>
+		<category><![CDATA[XML]]></category>
+		<category><![CDATA[XSLT]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11479</guid>
+		<description><![CDATA[After more than two years of development, 15 pre-releases and more than 2000 commits we proudly present release 2.0 of the DocBook Authoring and Publishing Suite, in short DAPS 2.0. DAPS lets you publish your DocBook 4 or Docbook 5 XML sources in various output formats such as HTML, PDF, ePUB, man pages or ASCII [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>After more than two years of development, 15 pre-releases and more than 2000 commits we proudly present release 2.0 of the DocBook Authoring and Publishing Suite, in short DAPS 2.0.</p>
+<p>DAPS lets you publish your DocBook 4 or Docbook 5 XML sources in various output formats such as HTML, PDF, ePUB, man pages or ASCII with a single command. It is perfectly suited for large documentation projects by providing profiling support and packaging tools. DAPS supports authors by providing linkchecker, validator, spellchecker, and editor macros. DAPS exclusively runs on Linux.</p>
+<p><span id="more-11479"></span></p>
+<h2>Download &amp; Installation</h2>
+<p>For download and installation instructions refer to <a href="https://github.com/openSUSE/daps/blob/master/INSTALL.adoc" target="_blank">https://github.com/openSUSE/daps/blob/master/INSTALL.adoc</a><br />
+Highlights of the DAPS 2.0 release include:</p>
+<ul>
+<li>fully supports DocBook 5 (production ready)</li>
+<li>daps_autobuild for automatically building and releasing books from different sources</li>
+<li>support for EPUB 3 and Amazon .mobi format</li>
+<li>default HTML output is XHTML, also supports HTML5</li>
+<li>now supports XSLT processor saxon6 (in addition to xsltproc)</li>
+<li>improved &#8220;scriptability&#8221;</li>
+<li>properly handles CSS, JavaScript and images for HTML and EPUB builds (via a &#8220;static/&#8221; directory in the respective stylesheet folder)</li>
+<li>added support for JPG images</li>
+<li>supports all DocBook profiling attributes</li>
+<li>improved performance by only loading makefiles that are needed for the given subcommand</li>
+<li>added a comprehensive test suite to ensure better code quality when releasing</li>
+<li>tested on Debian Wheezy, Fedora 20/21 openSUSE 13.x, SLE 12, and Ubuntu 14.10.</li>
+</ul>
+<blockquote><p><strong>Please note that this DAPS release does not support webhelp. It is planned to re-add webhelp support with DAPS 2.1.</strong></p></blockquote>
+<p>For a complete Changelog refer to <a href="https://github.com/openSUSE/daps/blob/master/ChangeLog" target="_blank">https://github.com/openSUSE/daps/blob/master/ChangeLog</a></p>
+<h2>Support</h2>
+<p>If you have got questions regarding DAPS, please use the discussion forum at <a href="https://sourceforge.net/p/daps/discussion/General/" target="_blank">https://sourceforge.net/p/daps/discussion/General/</a>. We will do our best to help.</p>
+<h2>Bug Reports</h2>
+<p>To report bugs or file enhancement issues, use the issue Tracker at <a href="https://github.com/openSUSE/daps/issues" target="_blank">https://github.com/openSUSE/daps/issues</a>.</p>
+<h2>The DAPS Project</h2>
+<p>DAPS is developed by the SUSE Linux documentation team and used to generate the product documentation for all SUSE Linux products. However, it is not exclusively tailored for SUSE documentation, but supports every documentation written in DocBook.<br />
+DAPS has been tested on Debian Wheezy, Fedora 20/21 openSUSE 13.x, SLE 12, and Ubuntu 14.10.</p>
+<p>The DAPS project moved from SourceForge to GitHub and is now available at <a href="https://opensuse.github.io/daps/" target="_blank">https://opensuse.github.io/daps/</a>.</p>
+]]></content:encoded>
+			</item>
+		<item>
 		<title>Unterstanding the nvidia driver process</title>
-		<link>http://lizards.opensuse.org/2014/01/15/unterstanding-the-nvidia-driver-process/</link>
-		<comments>http://lizards.opensuse.org/2014/01/15/unterstanding-the-nvidia-driver-process/#comments</comments>
+		<link>https://lizards.opensuse.org/2014/01/15/unterstanding-the-nvidia-driver-process/</link>
+		<comments>https://lizards.opensuse.org/2014/01/15/unterstanding-the-nvidia-driver-process/#comments</comments>
 		<pubDate>Wed, 15 Jan 2014 15:59:59 +0000</pubDate>
 		<dc:creator><![CDATA[calumma]]></dc:creator>
 				<category><![CDATA[Base System]]></category>
@@ -32,7 +183,7 @@
 
 		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10402</guid>
 		<description><![CDATA[The NVIDIA drivers for openSUSE 13.1 took a while to appear. Many users have asked why this was and we&#8217;d like to explain what happened and what we plan to do to prevent this in the future. This post was written with input from the openSUSE developers who maintain these drivers at SUSE and work [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p><a href="http://www.muktware.com/2013/12/nvidia-drivers-now-available-opensuse-13-1/17381"><img src="//lizards.opensuse.org/wp-content/uploads/2014/01/Nvidia-300x168.jpg" alt="Nvidia pic from Muktware" width="300" height="168" class="alignright size-medium wp-image-10405" /></a><br />
+				<content:encoded><![CDATA[<p><a href="http://www.muktware.com/2013/12/nvidia-drivers-now-available-opensuse-13-1/17381"><img src="//lizards.opensuse.org/wp-content/uploads/2014/01/Nvidia-300x168.jpg" alt="Nvidia pic from Muktware" width="300" height="168" class="alignright size-medium wp-image-10405" srcset="https://lizards.opensuse.org/wp-content/uploads/2014/01/Nvidia-300x168.jpg 300w, https://lizards.opensuse.org/wp-content/uploads/2014/01/Nvidia-1024x575.jpg 1024w, https://lizards.opensuse.org/wp-content/uploads/2014/01/Nvidia.jpg 1074w" sizes="(max-width: 300px) 100vw, 300px" /></a><br />
 The NVIDIA drivers for openSUSE 13.1 took a while to appear. Many users have asked why this was and we&#8217;d like to explain what happened and what we plan to do to prevent this in the future. This post was written with input from the openSUSE developers who maintain these drivers at SUSE and work with NVIDIA to make them available for our users.</p>
 <h2>How it should work</h2>
 <p>Legally, the Linux kernel GPLv2 license leaves proprietary binary drivers in a bit of a tangle. While some claim it should be OK, others say not &#8211; and that is what most distributions currently assume: one can not ship a Linux distribution with proprietary, binary drivers. NVIDIA has agreed that our users can grab their drivers from the official NVIDIA servers. They are packaged by SUSE engineers however. They take care of both SLE and openSUSE proprietary driver packaging for NVIDIA hardware, and have contacts at NVIDIA who get the drivers up on their ftp mirrors.<br />
@@ -54,11 +205,11 @@ The packages are build on a dedicated system, but the package spec (skeleton for
 <li>We could write some scripts that check regularly whether repo and packages are still available and in a valid state (meta data matches available RPMs)</li>
 </ul>
 <p>We&#8217;ll have to see which of these we can implement, when and how. But rest assured that we will do what we can to prevent this in the future!</p>
-<p><img src="//lizards.opensuse.org/wp-content/uploads/2013/06/statistics-inside-212x300.png" alt="statistics with Geeko inside" width="212" height="300" class="alignright size-medium wp-image-9572" /><br />
+<p><img src="//lizards.opensuse.org/wp-content/uploads/2013/06/statistics-inside-212x300.png" alt="statistics with Geeko inside" width="212" height="300" class="alignright size-medium wp-image-9572" srcset="https://lizards.opensuse.org/wp-content/uploads/2013/06/statistics-inside-212x300.png 212w, https://lizards.opensuse.org/wp-content/uploads/2013/06/statistics-inside.png 620w" sizes="(max-width: 212px) 100vw, 212px" /></p>
 <h2>And the stats!</h2>
 <p>After a bit of a hiatus, we&#8217;re back with the numbers. Development has slowed down around new year and isn&#8217;t back to speed yet so the 10th spot is shared by quite a big group of people&#8230;</p>
-<p><!--<br />
-BODY,DIV,TABLE,THEAD,TBODY,TFOOT,TR,TH,TD,P { font-family:"Liberation Sans"; font-size:x-small }<br />
+<p><!--
+BODY,DIV,TABLE,THEAD,TBODY,TFOOT,TR,TH,TD,P { font-family:"Liberation Sans"; font-size:x-small }
 --></p>
 <table border="0" cellspacing="0">
 <tbody>
@@ -109,13 +260,13 @@ BODY,DIV,TABLE,THEAD,TBODY,TFOOT,TR,TH,TD,P { font-family:"Liberation Sans"; fon
 </tbody>
 </table>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2014/01/15/unterstanding-the-nvidia-driver-process/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2014/01/15/unterstanding-the-nvidia-driver-process/feed/</wfw:commentRss>
 		<slash:comments>1</slash:comments>
 		</item>
 		<item>
 		<title>New Raspberry Pi Image</title>
-		<link>http://lizards.opensuse.org/2013/09/07/new-raspberry-pi-image/</link>
-		<comments>http://lizards.opensuse.org/2013/09/07/new-raspberry-pi-image/#comments</comments>
+		<link>https://lizards.opensuse.org/2013/09/07/new-raspberry-pi-image/</link>
+		<comments>https://lizards.opensuse.org/2013/09/07/new-raspberry-pi-image/#comments</comments>
 		<pubDate>Sat, 07 Sep 2013 12:41:10 +0000</pubDate>
 		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
 				<category><![CDATA[Architectures]]></category>
@@ -129,12 +280,12 @@ BODY,DIV,TABLE,THEAD,TBODY,TFOOT,TR,TH,TD,P { font-family:"Liberation Sans"; fon
 		<description><![CDATA[update: new image with kernel-3.6 and minimal X11/icewm http://www.zq1.de/~bernhard/linux/opensuse/raspberrypi-opensuse-20130911x.img.xz (103MB) We got a new armv6 based image for the Raspberry Pi. This one is only 82MB compressed, so pretty minimalistic. http://www.zq1.de/~bernhard/linux/opensuse/raspberrypi-opensuse-20130907.img.xz The exciting new thing is that this was created using an alternative image building automatism which I wrote from scratch in three hours this [&#8230;]]]></description>
 				<content:encoded><![CDATA[<blockquote><p><strong>update:</strong> new image with kernel-3.6 and minimal X11/icewm http://www.zq1.de/~bernhard/linux/opensuse/raspberrypi-opensuse-20130911x.img.xz (103MB)</p></blockquote>
 <p>We got a new armv6 based image for the Raspberry Pi.<br />
-This one is only 82MB compressed, so pretty minimalistic.</p>
-<p>http://www.zq1.de/~bernhard/linux/opensuse/raspberrypi-opensuse-20130907.img.xz</p>
+This one is only 82MB compressed, so pretty minimalistic.<br />
+http://www.zq1.de/~bernhard/linux/opensuse/raspberrypi-opensuse-20130907.img.xz</p>
 <p>The exciting new thing is that this was created using an alternative image building automatism which I wrote from scratch in three hours this morning.<br />
-The scripts can be found at</p>
-<p>https://build.opensuse.org/package/show/devel:ARM:Factory:Contrib:RaspberryPi/altimagebuild</p>
-<p>and are also embedded within the image under /home/abuild/rpmbuild/SOURCES/</p>
+The scripts can be found at<br />
+https://build.opensuse.org/package/show/devel:ARM:Factory:Contrib:RaspberryPi/altimagebuild<br />
+and are also embedded within the image under /home/abuild/rpmbuild/SOURCES/</p>
 <p>This means that everyone can now easily build his own images the way he likes and even branch and do submit requests for changes that are useful for others.<br />
 The way to use this is simple.<br />
 If you have 6GB RAM, you can speed things up with export OSC_BUILD_ROOT=/dev/shm/arm before you do<br />
@@ -168,13 +319,12 @@ so for example you can install a minimalistic graphical environment with <code>z
 </ul>
 <p>So if you wanted to play with openSUSE on RPi, you can do so right now and have a lot of fun.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/09/07/new-raspberry-pi-image/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/09/07/new-raspberry-pi-image/feed/</wfw:commentRss>
 		<slash:comments>3</slash:comments>
 		</item>
 		<item>
 		<title>Linux Kernel built with clang boots into openSUSE</title>
-		<link>http://lizards.opensuse.org/2012/07/14/linux-kernel-built-with-clang-boots-into-opensuse/</link>
-		<comments>http://lizards.opensuse.org/2012/07/14/linux-kernel-built-with-clang-boots-into-opensuse/#comments</comments>
+		<link>https://lizards.opensuse.org/2012/07/14/linux-kernel-built-with-clang-boots-into-opensuse/</link>
 		<pubDate>Sat, 14 Jul 2012 16:11:17 +0000</pubDate>
 		<dc:creator><![CDATA[Jan-Simon Möller]]></dc:creator>
 				<category><![CDATA[Architectures]]></category>
@@ -188,13 +338,11 @@ so for example you can install a minimalistic graphical environment with <code>z
 <p>The kernel was compiled with Clang (C frontend of LLVM)  and boots into a running openSUSE desktop!</p>
 <p>&nbsp;</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2012/07/14/linux-kernel-built-with-clang-boots-into-opensuse/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
+			</item>
 		<item>
 		<title>OBS 2.1: Status of SuperH (sh4) support with QEMU</title>
-		<link>http://lizards.opensuse.org/2010/10/24/obs-2-1-status-of-superh-sh4-support-with-qemu/</link>
-		<comments>http://lizards.opensuse.org/2010/10/24/obs-2-1-status-of-superh-sh4-support-with-qemu/#comments</comments>
+		<link>https://lizards.opensuse.org/2010/10/24/obs-2-1-status-of-superh-sh4-support-with-qemu/</link>
+		<comments>https://lizards.opensuse.org/2010/10/24/obs-2-1-status-of-superh-sh4-support-with-qemu/#comments</comments>
 		<pubDate>Sun, 24 Oct 2010 20:13:41 +0000</pubDate>
 		<dc:creator><![CDATA[Martin Mohring]]></dc:creator>
 				<category><![CDATA[Build Service]]></category>
@@ -206,18 +354,17 @@ so for example you can install a minimalistic graphical environment with <code>z
 		<guid isPermaLink="false">http://lizards.opensuse.org/?p=5576</guid>
 		<description><![CDATA[With established ARM support in OBS the as well as emulated MIPS and PowerPC is getting more mature, the last big embedded architecture not working in OBS with QEMU user mode was SH4. QEMU developers community had done a lot of work in improving QEMU user mode during the last months, so I can proudly [&#8230;]]]></description>
 				<content:encoded><![CDATA[<p>With established <a href="http://lizards.opensuse.org/2008/11/18/arm-support-for-opensuse-buildservice-and-opensuse/">ARM</a>  support in OBS the as well as emulated <a href="http://lizards.opensuse.org/2010/08/22/obs-2-1-status-of-powerpc-and-mips-support-with-qemu/">MIPS and PowerPC </a> is getting more mature, the last big embedded architecture not working in OBS with QEMU user mode was SH4. QEMU developers community had done a lot of work in improving QEMU user mode during the last months, so I can proudly present with currently only a few patches to QEMU git master OBS builds working with the SH4 port of Debian Sid. The new <a href="http://wiki.qemu.org/Main_Page">QEMU 0.13</a> released recently is a big milestone for this.</p>
-<p>Another news is that I had fixed the bugs in Virtual Machine builds (build script) when using them with some architectures like PowerPC 32bit and SH4. So now also the combination of using for example KVM (XEN should also work) in a worker together with ARM, MIPS, PowerPC and SH4 is working. The appropriate fixes are in one of the next build script releases (if not even released already now with OBS 2.1, I have to check that). You can select architecture &#8220;sh4&#8243; with OBS 2.1 and also start a scheduler with &#8220;sh4&#8243;. </p>
+<p>Another news is that I had fixed the bugs in Virtual Machine builds (build script) when using them with some architectures like PowerPC 32bit and SH4. So now also the combination of using for example KVM (XEN should also work) in a worker together with ARM, MIPS, PowerPC and SH4 is working. The appropriate fixes are in one of the next build script releases (if not even released already now with OBS 2.1, I have to check that). You can select architecture &#8220;sh4&#8221; with OBS 2.1 and also start a scheduler with &#8220;sh4&#8221;. </p>
 <p>With the use of the QEMU User Mode, you can build also accelerated native cross toolchains for your host architecture so time critical parts like the compiler can run without the emulator. This works with .deb as well as with .rpm based backages. The <a href="https://www.meego.com">MeeGo Project</a> as well as the openSUSE Port to ARM uses this technique to provide an optimum between compatibility and performance. It means you can mix natively build packages and use cross toolchains on it. The &#8220;CBinstall:&#8221; feature helps you to use native or cross builds automatically depending on if your build host is a native machine or a x86 machine with cross build. In summary, <strong>we have the current classics of linux embedded archs</strong> together now in OBS: <strong>ARM, x86, MIPS 32, PowerPC 32 and SH4</strong>.</p>
 <p>I have uploaded the fixed QEMU package to the OBS project <a href="https://build.opensuse.org/project/show?project=openSUSE%3ATools%3AUnstable">openSUSE:Tools:Unstable</a> inside the package &#8220;qemu-devel&#8221; after some more testing. I have of course also a OBS meta prjconf file working with Debian Sid. The SH4 port of Debian Sid you can find at <a href="http://ftp.debian-ports.org/debian"> Debian Ports Site</a>.</p>
 <p>And last but not least I would like to thank Riku Voipio of the Debian Project, QEMU project and MeeGo project and other major contributors during the QEMU 0.13 development cycle for the restless work on QEMU user mode improvements. In case of KVM, QEMU is used even twice, with QEMU-KVM as well as QEMU User Mode. I am sure I had forgotten other important people, so thanks to them also.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2010/10/24/obs-2-1-status-of-superh-sh4-support-with-qemu/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2010/10/24/obs-2-1-status-of-superh-sh4-support-with-qemu/feed/</wfw:commentRss>
 		<slash:comments>3</slash:comments>
 		</item>
 		<item>
 		<title>OBS 2.1: ACL Feature and Status</title>
-		<link>http://lizards.opensuse.org/2010/08/15/obs-2-1-features-and-status/</link>
-		<comments>http://lizards.opensuse.org/2010/08/15/obs-2-1-features-and-status/#comments</comments>
+		<link>https://lizards.opensuse.org/2010/08/15/obs-2-1-features-and-status/</link>
 		<pubDate>Sun, 15 Aug 2010 19:37:54 +0000</pubDate>
 		<dc:creator><![CDATA[Martin Mohring]]></dc:creator>
 				<category><![CDATA[Build Service]]></category>
@@ -279,13 +426,10 @@ so for example you can install a minimalistic graphical environment with <code>z
 <p><strong>What is next?</strong> Code is tested and debugged against granting unwanted access due to some concepts inside OBS that are &#8220;working against ACL&#8221;, like project or package links, aggregates or kiwi imaging. We will inform you interested user of course about beta releases and an official 2.1 release.</p>
 <p><strong>Stay tuned.</strong></p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2010/08/15/obs-2-1-features-and-status/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
+			</item>
 		<item>
 		<title>openSUSE@ARM/GSoC: weekly status</title>
-		<link>http://lizards.opensuse.org/2009/06/06/opensusearmgsoc-weekly-status-2/</link>
-		<comments>http://lizards.opensuse.org/2009/06/06/opensusearmgsoc-weekly-status-2/#comments</comments>
+		<link>https://lizards.opensuse.org/2009/06/06/opensusearmgsoc-weekly-status-2/</link>
 		<pubDate>Sat, 06 Jun 2009 11:12:13 +0000</pubDate>
 		<dc:creator><![CDATA[Jan-Simon Möller]]></dc:creator>
 				<category><![CDATA[Build Service]]></category>
@@ -306,150 +450,6 @@ in the build process can also be improved, just think of the bash.</p>
 * prepare / submit fixes for rpm<br />
 * more work on cross-toolchain</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2009/06/06/opensusearmgsoc-weekly-status-2/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
-		<item>
-		<title>-fomit-all-instructions</title>
-		<link>http://lizards.opensuse.org/2009/05/27/fomit-all-instructions/</link>
-		<comments>http://lizards.opensuse.org/2009/05/27/fomit-all-instructions/#comments</comments>
-		<pubDate>Wed, 27 May 2009 15:34:00 +0000</pubDate>
-		<dc:creator><![CDATA[coolo]]></dc:creator>
-				<category><![CDATA[openSUSE 11.2]]></category>
-		<category><![CDATA[Toolchain]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1142</guid>
-		<description><![CDATA[Now that milestone2 is almost done, we get into the next round and we decided (basically during coffee break) to try something and change the compile flags for our i586 distribution (which is still the major one for openSUSE). If there aren&#8217;t major problems coming up with it, the next milestone will be compiled with [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>Now that milestone2 is almost done, we get into the next round and we decided (basically during coffee break) to try something and change the compile flags for our i586 distribution (which is still the major one for openSUSE). If there aren&#8217;t major problems coming up with it, the next milestone will be compiled with -fomit-frame-pointer -mtune=generic instead of the old -march=i586 -mtune=i586.</p>
-<p>It will feel around 20% faster, I&#8217;m sure <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /> </p>
-<p>On unrelated news: I&#8217;m away for a very long Pentecost weekend. If there are issues with Factory, I won&#8217;t be able to fix them. See you in June!</p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2009/05/27/fomit-all-instructions/feed/</wfw:commentRss>
-		<slash:comments>3</slash:comments>
-		</item>
-		<item>
-		<title>What&#8217;s New in 11.2: Install Debuginfo Package by build-id</title>
-		<link>http://lizards.opensuse.org/2009/04/27/whats-new-in-112-install-debuginfo-package-by-build-id/</link>
-		<comments>http://lizards.opensuse.org/2009/04/27/whats-new-in-112-install-debuginfo-package-by-build-id/#comments</comments>
-		<pubDate>Mon, 27 Apr 2009 09:37:50 +0000</pubDate>
-		<dc:creator><![CDATA[Jan Blunck]]></dc:creator>
-				<category><![CDATA[Base System]]></category>
-		<category><![CDATA[Toolchain]]></category>
-		<category><![CDATA[debugging]]></category>
-		<category><![CDATA[Debuginfo]]></category>
-		<category><![CDATA[zypper]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=816</guid>
-		<description><![CDATA[With the help of a unique identifier that is stored in every binary executable matching the executable, a coredump and the corresponding debuginfo together becomes really easy. You don&#8217;t need to know the package name and the version-release string to download and install the correct debuginfo package. This is achieved by extending the linker, some [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>With the help of a unique identifier that is stored in every binary executable matching the executable, a coredump and the corresponding debuginfo together becomes really easy. You don&#8217;t need to know the package name and the version-release string to download and install the correct debuginfo package. This is achieved by extending the linker, some additional tools and the package management itself.</p>
-<p><span id="more-816"></span></p>
-<p>The build id is a unique identifier stored in the <em>.note.gnu.build-id</em> note section of the executable file and loaded into the process image during run-time. Different means to compute the unique identifier are supported although the default setting is to use a 20 byte SHA1 hash of the unstripped executable (see ld linker documentation for further information about the <em>&#8211;build-id</em> option).</p>
-<p>To be able to read the build id from a core dump the kernel must include the ELF header pages in file-backed private memory areas (see documentation on <em>/proc/&lt;pid&gt;/coredump_filter</em>). This is the default setting on recent openSUSE kernel versions.</p>
-<p>Different tools can be used to print out the build-id. <em>eu-readelf</em> (from the elfutils package) prints the contents of the note sections given the <em>-n</em> option in a human readable fashion. <em>pbuildid</em> (from the ptools package) is prints the build-id from executables and from core files including the build-id of all loaded shared objects during the crash.</p>
-<p>Now, zypper can be asked to install the debuginfo package that provides the debuginfo for the given build-id.</p>
-<pre>
-# zypper install -C "debuginfo(build-id)=b75bab63c9a25eb13264bb95f1fef190e157f865"
-Loading repository data...
-Reading installed packages...
-Resolving package dependencies...
-
-The following NEW package is going to be installed:
-  bash-debuginfo
-
-
-Overall download size: 605.0 K. After the operation, additional 2.1 M will be used.
-Continue? [YES/no]: yes
-Retrieving package bash-debuginfo-3.2-148.2.x86_64 (1/1), 605.0 K (2.1 M unpacked)
-Retrieving: bash-debuginfo-3.2-148.2.x86_64.rpm [done]
-Installing: bash-debuginfo-3.2-148.2 [done]
-# 
-</pre>
-<p>If you are really lazy you can call the following script to do the job for you:</p>
-<pre>
-#!/bin/bash                                                                     
-#                                                                               
-# Sample script how to install debuginfo packages by build-id                   
-#                                                                               
-
-IDS=''
-for f in "$*"; do
-    case "$(file -L $f)" in
-        *ELF*)
-            IDS+="$(pbuildid $f 2&gt;/dev/null | awk '{print $NF}') "
-            ;;
-        *)  
-            ;;
-    esac
-done
-
-echo "Install Debuginfo for following build-ids: $IDS"
-
-CMDLINE=""
-for i in $IDS; do
-    CMDLINE+="debuginfo(build-id)=$i "
-done
-
-echo $CMDLINE | xargs zypper install -C
-</pre>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2009/04/27/whats-new-in-112-install-debuginfo-package-by-build-id/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
-		<item>
-		<title>ARM support in openSUSE Buildservice &#8211; fixed</title>
-		<link>http://lizards.opensuse.org/2009/04/27/arm-support-in-opensuse-buildservice-fixed/</link>
-		<comments>http://lizards.opensuse.org/2009/04/27/arm-support-in-opensuse-buildservice-fixed/#comments</comments>
-		<pubDate>Mon, 27 Apr 2009 09:23:38 +0000</pubDate>
-		<dc:creator><![CDATA[Martin Mohring]]></dc:creator>
-				<category><![CDATA[Base System]]></category>
-		<category><![CDATA[Build Service]]></category>
-		<category><![CDATA[Packaging]]></category>
-		<category><![CDATA[Quality Assurance]]></category>
-		<category><![CDATA[Server]]></category>
-		<category><![CDATA[Toolchain]]></category>
-		<category><![CDATA[Virtualization]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=820</guid>
-		<description><![CDATA[The issue caused by the OBS worker update on arm builds is fixed by a new qemu. This new qemu version also has fixed the Fedora 10 @ ARM build problem. So we have the following working ARM target distros available for ARM: Fedora 10, Debian 5.0 and Ubuntu 9.04. Have fun.]]></description>
-				<content:encoded><![CDATA[<p>The issue caused by the OBS worker update on arm builds is fixed by a new qemu.</p>
-<p>This new qemu version also has fixed the Fedora 10 @ ARM build problem.</p>
-<p>So we have the following working ARM target distros available for ARM: Fedora 10, Debian 5.0 and Ubuntu 9.04.</p>
-<p>Have fun.</p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2009/04/27/arm-support-in-opensuse-buildservice-fixed/feed/</wfw:commentRss>
-		<slash:comments>1</slash:comments>
-		</item>
-		<item>
-		<title>ARM support for openSUSE Buildservice and openSUSE &#8211; Status update</title>
-		<link>http://lizards.opensuse.org/2009/04/26/arm-support-for-opensuse-buildservice-and-opensuse-status-update/</link>
-		<comments>http://lizards.opensuse.org/2009/04/26/arm-support-for-opensuse-buildservice-and-opensuse-status-update/#comments</comments>
-		<pubDate>Sun, 26 Apr 2009 11:11:50 +0000</pubDate>
-		<dc:creator><![CDATA[Martin Mohring]]></dc:creator>
-				<category><![CDATA[Base System]]></category>
-		<category><![CDATA[Build Service]]></category>
-		<category><![CDATA[Distribution]]></category>
-		<category><![CDATA[Packaging]]></category>
-		<category><![CDATA[Server]]></category>
-		<category><![CDATA[Toolchain]]></category>
-		<category><![CDATA[Virtualization]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=750</guid>
-		<description><![CDATA[Its a while since I posted the status about the ongoing work for ARM support in the OBS and for an openSUSE port. It all started with my participation in the OBS development as an external contributor. Then, on Hackweek 2008, we had the idea to enforce a new solution other than the traditional methods [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>Its a while since I posted the status about the ongoing work for <a href="http://www.arm.com/">ARM</a> support in the OBS and for an openSUSE port. It all started with my participation in the OBS development as an external contributor. Then, on <a href="http://lizards.opensuse.org/2008/09/10/opensuse-buildservice-cross-build-with-obs-part-3/">Hackweek 2008</a>, we had the idea to enforce a new solution other than the traditional methods of compiling code either natively or via a cross compiler on a host system. The idea was to give build scripts as much of the target enviroment as they need to <a href="http://en.opensuse.org/Build_Service/Concepts/CrossDevelopment">just work</a> without changes in the packaging definition &#8211; in order not to change thousands of package descriptions which define a linux distribution.</p>
-<p>A lot happened in the meantime. And I can now report some significant progess in bringing the joys of OBS and openSUSE also to all the ARM users:</p>
-<li>I held a talk about cross build in OBS on <a href="http://en.opensuse.org/FOSDEM2009">FOSDEM 2009</a> &#8211; documenting the solution
-<li>ARM support is in the source tree for OBS and the <a href="http://download.opensuse.org/repositories/openSUSE:/Tools/">publicly available packages</a>
-<li>ARM support is activated in the public OBS
-<li><a href="http://lists.opensuse.org/opensuse-buildservice/2009-04/msg00091.html">OBS 1.6 release is currently in beta</a> &#8211; this release is the dedicated version for ARM
-<li>The Linux foundation will bring the joy of OBS to an even <a href="http://www.linuxfoundation.org/news-media/announcements/2009/04/news-summit-linux-foundation-make-opensuse-build-service-available-">wider audience</a>
-<li>Some preparations have been done for porting Base:build to ARM &#8211; we can mix cross compilers an native emulated code now
-<li>A Summer of Code project will be done to accelerate the development of an openSUSE @ ARM port
-</li>
-<p>To accelerate the openSUSE @ ARM development itself, we want to involve more people of the community. We have an IRC Channel #opensuse-arm for OBS and openSUSE @ ARM &#8211; i invite you to visit us there. We will also find a solution to bring the needed changes into the openSUSE Factory codebase so regular build for openSUSE can take place once the base system is working. I will inform you once we have a working base system that can be used to port many other packages. The soon starting <a href="http://news.opensuse.org/2009/04/21/opensuse-google-summer-of-code-accepted-projects-announced/">Summer of Code Project</a> &#8220;Porting openSUSE to ARM platform&#8221; is intended as the starting point here.</p>
-<p>The next steps are to bring in all the useful applications into OBS, so you have the wide range of applications that is already available for x86 or powerpc then also on ARM. You will see interesting things happening during the next time here.  To support this, more and more of the <a href="http://en.opensuse.org/Build_Service/PoweredBy#OBS_Testing_and_Development_System_for_new_OBS_Features_.28_Martin_Mohring_.2F_5e_Datasoft_.29">tested ARM targets</a> will be made available also on the public OBS. I will follow up with status updates.</p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2009/04/26/arm-support-for-opensuse-buildservice-and-opensuse-status-update/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
+			</item>
 	</channel>
 </rss>

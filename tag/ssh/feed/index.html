@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>ssh &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/ssh/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Securing SSH (Secure Shell) from attacker</title>
+		<link>https://lizards.opensuse.org/2011/03/22/securing-ssh-secure-shell-from-brute-force-attempts/</link>
+		<pubDate>Tue, 22 Mar 2011 17:11:04 +0000</pubDate>
+		<dc:creator><![CDATA[Saydul Akram]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Network]]></category>
+		<category><![CDATA[Security]]></category>
+		<category><![CDATA[networking]]></category>
+		<category><![CDATA[ssh]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=6847</guid>
+		<description><![CDATA[Secure Shell or SSH is a network protocol that allows exchange of data through secure channels between two network devices. Particularly widely used on Linux and Unix-based system to access your shell, SSHwas designed as a substitute for Telnet and other insecure remote shells, which sentinformation, especially passwords, in the form of simple text that makes it easy to be intercepted. Encryption used by SSH provides confidentiality and integrity of dataover an insecure network like the Internet. For the Security Server We From Attacks The attacker who usually Always Use SSHAs a door Early Entry Into System To us, of course, become an admin obligation todispel various Efforts That. There are several ways which ordinary people do to secure SSH from a variety ofattacks which one of them is by editing the file / etc / ssh / sshd_config. before doing the configuration in the file / etc / ssh / sshd_config make sure SSH isinstalled on your linux distribution, and for openSUSE that I use it already automatically installed. #vim /etc/ssh/sshd_config change options, as below : LoginGraceTime 2m PermitRootLogin no MaxAuthTries 3 LoginGraceTime which option is used to give a time limit of user logins, so please [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Secure Shell or SSH is a network protocol that allows exchange of data through secure channels between two network devices.</p>
+<p>Particularly widely used on Linux and Unix-based system to access your shell, SSHwas designed as a substitute for Telnet and other insecure remote shells, which sentinformation, especially passwords, in the form of simple text that makes it easy to be intercepted. Encryption used by SSH provides confidentiality and integrity of dataover an insecure network like the Internet.</p>
+<p>For the Security Server We From Attacks The attacker who usually Always Use SSHAs a door Early Entry Into System To us, of course, become an admin obligation todispel various Efforts That.</p>
+<p>There are several ways which ordinary people do to secure SSH from a variety ofattacks which one of them is by editing the file / etc / ssh / sshd_config.</p>
+<p>before doing the configuration in the file / etc / ssh / sshd_config make sure SSH isinstalled on your linux distribution, and for openSUSE that I use it already automatically installed.</p>
+<blockquote><p>#vim /etc/ssh/sshd_config</p></blockquote>
+<p>change options, as below :</p>
+<blockquote><p>LoginGraceTime 2m<br />
+PermitRootLogin no<br />
+MaxAuthTries 3</p></blockquote>
+<p><strong>LoginGraceTime</strong> which option is used to give a time limit of user logins, so please change these options according to your wishes.</p>
+<p><strong>PermitRootLogin</strong> is no option to allow the root user can login to ssh or not to give yes or no value on the options tersebut.sebaiknya give no value, so that users can not loginas root into your ssh.</p>
+<p><strong>MaxAuthTries</strong> 3 to give the limit on the number of errors allowed when the user logs in,this is very useful to avoid attackers do brute force on the server anda.dimana usersonly allowed to make a mistake typing the password in accordance with that alreadyset on the options.</p>
+<p>If you want only certain users who may log into your ssh add AllowUsers option at the end of the line followed by a distinguished user name in the allowed login.</p>
+<p>otherwise, you can install software, <a href="http://software.opensuse.org/search?q=denyhost&amp;baseproject=openSUSE%3A11.4&amp;lang=en&amp;exclude_debug=true" target="_blank">denyhost</a>, for your ssh security</p>
+<p style="text-align: left"><em>NB:do not enable the root user, for ssh login</em></p>
+<p>Similarly, a fairly simple tutorial .. hopefully this can be useful.</p>
+<div>Best Regards</div>
+<div>Saydul Akram</div>
+<div>Email : idulk@opensuse.org</div>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

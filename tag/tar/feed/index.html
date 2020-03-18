@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>tar &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/tar/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>targitter project &#8211; about OBS, tars and git</title>
+		<link>https://lizards.opensuse.org/2015/10/05/targitter-project-about-obs-tars-and-git/</link>
+		<pubDate>Mon, 05 Oct 2015 19:24:57 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[git]]></category>
+		<category><![CDATA[obs]]></category>
+		<category><![CDATA[tar]]></category>
+		<category><![CDATA[targitter]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11543</guid>
+		<description><![CDATA[In OBS we use source tarballs everywhere to build rpms (and debs) from. This has at least two major downsides: Storing all old tar files takes up a lot of disk space OBS workflows with .tar files and patches are rather different and somewhat disconnected from the git workflows we usually use everywhere else these [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>In OBS we use source tarballs everywhere to build rpms (and debs) from.</p>
+<p>This has at least two major downsides:</p>
+<ol>
+<li>
+Storing all old tar files takes up a lot of disk space
+</li>
+<li>
+OBS workflows with .tar files and patches are rather different and somewhat disconnected from the git workflows we usually use everywhere else these days. E.g. for the SUSE OpenStack Cloud team we have a &#8220;trackupstream&#8221; jenkins job, that pulls the latest git version into a tarball once every day.
+</li>
+</ol>
+<p>Fedora already keeps <a href="http://pkgs.fedoraproject.org/cgit/perl-OpenGL.git/plain/">their metadata</a> in git, but only a hash of the tarball.</p>
+<p>So as one first step, I used two rather different projects to see how different the space usage would be. On the slow side I used 20 gtk2 tarballs from the last 5 years and on the fast side, I used 31 openstack-nova tarballs from Cloud:OpenStack:Master project from the last 5 months.<br />
+I used <a href="https://www.zq1.de/~bernhard/targitter/eval/">scripts</a> that uncompressed each tarball, added it to a git repo and used git gc to trigger git&#8217;s compression. </p>
+<p>Here are the resulting cumulative size graphs:</p>
+<p><img src="https://www.zq1.de/~bernhard/targitter/eval/size-gtk2.svg" alt="gtk2 size graph" /><br />
+<img src="https://www.zq1.de/~bernhard/targitter/eval/size-nova.svg" alt="nova size graph" /></p>
+<p>The raw numbers after 20 tarballs: for nova the ratio is 89772:7344 = 12.2 and for gtk2 the ratio is 296836:53076 = 5.6</p>
+<p>What do you think: would it be worth the effort to use more git in our OBS workflows?</p>
+<p>Do we care about being able to reproduce the original tarballs? While this is possible, it has some challenges in differing file-ordering, timestamps, file-ownerships and <a href="https://github.com/jmacd/xdelta/pull/207">compression levels</a>.<br />
+Or would it be enough if OBS converted a tarball into a signed commit (so it cannot be forged without people being able to notice)?</p>
+<p>Do you know of a tool that can uncompress tarballs in a way that allows to track the content as single files, and allows to later re-create the original verbatim tarball, such that upstream signatures would still match?</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

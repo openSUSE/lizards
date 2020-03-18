@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>button order &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/button-order/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Button Order in YaST: Trying to Make Peace with Both Worlds</title>
+		<link>https://lizards.opensuse.org/2008/08/28/button-order-in-yast-trying-to-make-peace-with-both-worlds/</link>
+		<comments>https://lizards.opensuse.org/2008/08/28/button-order-in-yast-trying-to-make-peace-with-both-worlds/#comments</comments>
+		<pubDate>Thu, 28 Aug 2008 15:23:25 +0000</pubDate>
+		<dc:creator><![CDATA[Stefan Hundhammer]]></dc:creator>
+				<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[Usability]]></category>
+		<category><![CDATA[YaST]]></category>
+		<category><![CDATA[button order]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=145</guid>
+		<description><![CDATA[KDE and GNOME have different button orders. Like many desktop-related issues, this has been a subject of heated debates time and time again. Where KDE uses something like this: GNOME would use something like this: Which one is right? Which one is wrong? There is no real answer to that; it will always be more [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>KDE and GNOME have different button orders. Like many desktop-related issues, this has been a subject of heated debates time and time again.</p>
+<p>Where KDE uses something like this:</p>
+<p><img src="http://files.opensuse.org/opensuse/en/e/e5/Kde-ok-cancel.png" /></p>
+<p><img src="http://files.opensuse.org/opensuse/en/0/0c/Kde-continue-cancel.png" /></p>
+<p><img src="http://files.opensuse.org/opensuse/en/2/28/Kde-ok-apply-cancel-help.png" /></p>
+<p>GNOME would use something like this:</p>
+<p><img src="http://files.opensuse.org/opensuse/en/c/cc/Gnome-ok-cancel.png" /></p>
+<p><img src="http://files.opensuse.org/opensuse/en/d/dc/Gnome-continue-cancel.png" /></p>
+<p><img src="http://files.opensuse.org/opensuse/en/8/82/Gnome-ok-apply-cancel-help.png" /></p>
+<p>Which one is right? Which one is wrong? There is no real answer to that; it will always be more a religious debate rather than an objective discussion. </p>
+<p><strong>YaST Button Order</strong></p>
+<p>So, which button order to choose for YaST?</p>
+<p>For historical reasons, we used the KDE button order. But this has repeatedly started the same heated discussions as for KDE vs. GNOME, with the same results &#8212; which is, no tangible result, only something along the lines of &#8220;because we says so&#8221; (and didn&#8217;t you always hate it as a kid when mom or dad said that?).</p>
+<p>YaST should not favour one of the major desktops over another. YaST should work well for all users. So, YaST should adapt to the environment it runs in.</p>
+<p>YaST comes in different flavours. There is the graphical version: The YaST Qt UI (user interface) engine (Side note: The YaST Qt UI is not in any way KDE specific; Qt just happens to be a great toolkit for making graphical user interfaces, and KDE happens to use it, too. There is not one single line of KDE-specific code in the YaST Qt UI.). </p>
+<p>There is also the text-based version, the YaST NCurses UI.</p>
+<p>As an alternative graphical UI, there is also the YaST Gtk UI which uses the same widget toolkit (Gtk) as GNOME. That brings YaST closer to the GNOME crowd.  At least, that&#8217;s the theory. Yet, that alone didn&#8217;t improve the situation in any way for this button order issue:</p>
+<p>YaST dialogs are specified in a subset of the YaST-specific YCP scripting language. Those dialog descriptions include input fields, list boxes, headings, etc. as well as the logical arrangement of all those user interface elements (<em>widgets</em>, even though that term has seen a lot of misuse recently). And buttons, too, of course.</p>
+<p>So, the arrangement of buttons was still fixed. The YaST Gtk UI couldn&#8217;t really do anything about changing that button order so it looked more GNOMEish.</p>
+<p>This is now different. We introduced a new widget <em>ButtonBox</em> that abstracts exactly that. A YaST module developer now only specifies &#8220;there is a ButtonBox, this is where I put my buttons, and the ButtonBox will arrange them as appropriate&#8221;.</p>
+<p><strong>&#8230;for users&#8230;</strong></p>
+<p>So now it is possible for the first time to use the proper button order for each environment: GNOME button order for the Gtk UI, KDE button order for the Qt UI.</p>
+<p>But there is more.</p>
+<p><strong>&#8230;for power users&#8230;</strong></p>
+<p>The Qt UI can now demonstrate the fact that it&#8217;s not KDE specific. It checks what environment it runs in and uses the appropriate button order: GNOME button order when running in GNOME and KDE button order for KDE (or other window managers).</p>
+<p>It checks the $DESKTOP_SESSION and $WINDOWMANAGER environment variables to figure that out. But of course power users can still override that and set the $Y2_BUTTON_ORDER environment variable to &#8220;KDE&#8221; or &#8220;GNOME&#8221;.</p>
+<p><strong>&#8230;for YaST developers&#8230;</strong></p>
+<p>Of course, such a change doesn&#8217;t come over night. There is a very large amount of YaST code. I counted 69 .desktop files in my /usr/share/applications/YaST2 directory; that corresponds to 69 YaST modules. On my machine I have 432000+ lines of YCP code below /usr/share/YaST2 . Now try to figure out how many YaST dialogs that might be, and how many of them need to be converted to use that new <em>ButtonBox</em> mechanism.</p>
+<p>Obviously, it&#8217;s a lot of stuff to change. So the change should not hurt the people doing the change more than it absolutely has to. Don&#8217;t forget, it&#8217;s not just working hours that have to be paid; it&#8217;s also working hours that can&#8217;t be spent on implementing other features or on fixing bugs. And any change (even more so changing code at so many places) means a possibility to introduce new bugs.</p>
+<p><strong>&#8230;trying to be smart&#8230;</strong></p>
+<p>So this <em>ButtonBox</em> mechanism was made to be smart, to re-use existing information (things that are already there in the code), to make good use of existing conventions.</p>
+<p>In principle, using something like the <em>ButtonBox</em> means having to tell it which logical role each button has so it can be arranged according to the current button order&#8217;s conventions: Which button is the positive confirmation of a dialog (it might be &#8220;OK&#8221; or &#8220;Continue&#8221; or &#8220;Yes&#8221;, but it might also be someting like &#8220;Save&#8221; or &#8220;Print&#8221;), which one is the &#8220;safe escape&#8221; (&#8220;Cancel&#8221;, but sometimes also &#8220;No&#8221;), which one is the &#8220;Apply&#8221; button or the &#8220;Help&#8221; button, and which ones are just &#8220;other&#8221; buttons. Remember, YaST is being translated into some dozen languages, so just hard-coding the English button labels won&#8217;t do.</p>
+<p>But we already have a mechanism that maps (translated!) button labels to function keys, and that mechanism does something similar: There is a list of commonly used button labels and what function key is to be used (in the NCurses UI) for them. For example, &#8220;OK&#8221;, &#8220;Continue&#8221;, &#8220;Yes&#8221;, &#8220;Next&#8221; all map to the F10 key, &#8220;Cancel&#8221; to F9, &#8220;Help&#8221; to F1.</p>
+<p>Extending that thought some more, it makes sense to assume an &#8220;okButton&#8221; role for buttons that are otherwise assigned the F10 key, &#8220;cancelButton&#8221; for buttons that get the F9 key, etc.</p>
+<p>Buttons in YCP each are assigned a widget ID. That ID is the &#8220;handle&#8221; by which a button is being referenced; this is what the YCP application receives when it is informed that the user clicked that key. When specifiying a layout with buttons, this looks (slightly simplified) like this:</p>
+<pre>
+UI::OpenDialog( 
+    `VBox(
+         `InputField(`id(`name  ), "Name" ),
+         `InputField(`id(`street), "Street" ),
+         ...
+         `HBox(
+               `PushButton(`id(`ok    ), "OK" ),
+               `PushButton(`id(`apply ), "Apply" ),
+               `PushButton(`id(`cancel), "Cancel" )
+               )
+         )
+);
+</pre>
+<p>As shown in this example, a button with the &#8220;OK&#8221; role typically has an ID like `id(`ok), a &#8220;Cancel&#8221; button has `id(`cancel), an &#8220;Apply&#8221; button has `id(`apply). So this information is used, too, to figure out what role a button has.</p>
+<p>Of course, there are still situations where the system needs to be explicitly told what button has which role: It&#8217;s hard to figure out in a generic way that a &#8220;Print&#8221; button or a &#8220;Save&#8221; button has the &#8220;okButton&#8221; role in a dialog. In that case, the YCP developer has to change the code to look like this:</p>
+<p><code>`PushButton(`id(`print), `opt(`okButton), "Print" )</code></p>
+<p><strong>&#8230;the normal case&#8230;</strong></p>
+<p>But in many cases, the migration is as simple as replacing the `HBox() (the horizontal layout box) holding the buttons with `ButtonBox():</p>
+<pre>
+UI::OpenDialog( 
+    `VBox(
+         `InputField(`id(`name  ), "Name" ),
+         `InputField(`id(`street), "Street" ),
+         ...
+         `ButtonBox(        // This is the only line that changed
+               `PushButton(`id(`ok    ), "OK" ),
+               `PushButton(`id(`apply ), "Apply" ),
+               `PushButton(`id(`cancel), "Cancel" )
+               )
+         )
+);
+</pre>
+<p><strong>&#8230;taming the masses&#8230;</strong></p>
+<p>Just imagine doing only this little change in 432000+ lines of code &#8211; of course, only where such a `HBox() contains `PushButtons, not just blindly replacing all `HBoxes. And just changing it is not all there is to it; each dialog has to be tested, too. And that alone is not so trivial: A dialog might easily only be shown in very exotic cases, so the developers doing the test have to recreate each of those exotic cases just to see the dialog.</p>
+<p>You see, masses of code are a dimension of complexity all of their own. Little things that look trivial to do gain a whole new meaning. Everybody can do this change in one or two places, but try to do it in someting as big as YaST &#8212; without introducing new bugs that would wreck other people&#8217;s system.</p>
+<p>Yet, we do those kinds of changes, typically unnoticed by the user community. And those little things are what, if added up, make or break a system&#8217;s quality.</p>
+<p>We don&#8217;t take such decisions lightly. But we felt that in this specific case (the button order) the gain would be worth the pain: Users should feel at home in the tools we provide. And having the buttons where you are used to is part of this feeling at home.</p>
+<p><strong>Further Reading</strong></p>
+<p><a href="http://en.opensuse.org/YaST/Development/Misc/Button_Order">http://en.opensuse.org/YaST/Development/Misc/Button_Order</a></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2008/08/28/button-order-in-yast-trying-to-make-peace-with-both-worlds/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+	</channel>
+</rss>

@@ -1,0 +1,670 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Factory &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/category/distribution/factory/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Highlights of YaST Development Sprint 94</title>
+		<link>https://lizards.opensuse.org/2020/03/06/yast-sprint-94/</link>
+		<comments>https://lizards.opensuse.org/2020/03/06/yast-sprint-94/#comments</comments>
+		<pubDate>Fri, 06 Mar 2020 11:29:40 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=14350</guid>
+		<description><![CDATA[After some time of silent work (our previous blog post was published a month ago), the YaST Team is back with some news about the latest development sprint and some Hack Week experiments. Those news include: Enabling YaST on the Windows Subsystem for Linux Usability improvements for the Online Search, the Partitioner and the Kdump [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>After some time of silent work (our <a href="https://lizards.opensuse.org/2020/02/07/yast-sprint-93">previous blog post</a> was published a month ago), the YaST Team is back with some news about the latest development sprint and some <a href="https://hackweek.suse.com/">Hack Week</a> experiments. Those news include:</p>
+<ul>
+<li>Enabling YaST on the Windows Subsystem for Linux</li>
+<li>Usability improvements for the Online Search, the Partitioner and the Kdump module</li>
+<li>Better control of overridden <code>sysctl</code> configuration values</li>
+<li>Improvements in the default selections of the upcoming SLE 15 SP2 installer</li>
+<li>New features for zSeries mainframes like Secure Boot and I/O devices auto-configuration</li>
+<li>And, as a bonus, a couple of Hack Week projects related to YaST, Ruby and Crystal</a>
+</ul>
+<p>So, as you can see, we have a little bit of everything in the menu, from WSL to mainframes, from new features to small usability improvements, from installation to system fine-tuning&#8230; So let&#8217;s dive into the details!</p>
+<h3 id="wsl">Improved compatibility with WSL</h3>
+<p>Have you ever heard about <a href="https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux">WSL</a>, the Windows Subsystem for Linux? To be honest, before this sprint we haven&#8217;t payed much attention to it either. But as both openSUSE Leap and SUSE Linux Enterprise (SLE) are available to Windows users via WSL images and the 15.2 releases of both distributions are approaching, we decided it was time to dive into WSL to research how it works and how can YaST be useful there.</p>
+<p>Setting up an (open)SUSE test system inside a WSL environment was a piece of cake thanks to the <a href="https://en.opensuse.org/openSUSE:WSL">excellent documentation</a> at the openSUSE Wiki.</p>
+<p>Many components of YaST are useless in WSL because not everything can actually be configured from the Linux system itself and because systemd is not available (we are talking exclusively about WSL1 here). But YaST is still very useful for the initial setup of the system when running the (open)SUSE image for the first time. It can be used to setup the first user, to confirm the license and, in the SLE case, also to register the system. The YaST modules for software management can also be very handy to customize the image at any point after that initial setup.</p>
+<p>So far, we have done three changes to improve the experience of executing YaST within WSL.</p>
+<ul>
+<li>We increased the speed of the initial boot by removing calls to systemd when it is not available.</li>
+<li>We fixed the registration process for YaST Firstboot.</li>
+<li>We implemented a feature to explicitly mark YaST modules that work in WSL and show only those modules in the YaST control center.
+</li>
+</ul>
+<p>We also documented all our findings about WSL in <a href="https://yastgithubio.readthedocs.io/en/latest/WSL/">this document</a>.</p>
+<p>As always, we are hungry for feedback. Please reach out to us and tell us what&#8217;s your experience using YaST inside WSL and which modules do you miss the most.</p>
+<h3 id="online-search">Improving the UX of the Online Search</h3>
+<p>As we <a href="https://lizards.opensuse.org/2020/02/07/yast-sprint-93/#the-online-search-feature-comes-to-yast">announced</a> one month ago, YaST will offer a mechanism to search for packages through all SUSE Linux Enterprise modules, even if they are not registered. This feature, known as <em>package online search</em>, was already available using zypper&#8217;s <code>search-packages</code> command or through the <a href="https://scc.suse.com/packages">SCC web interface</a>.</p>
+<p>After gathering some feedback during the sprint review meeting, we decided to invest some time improving the overall UX experience. Perhaps the most relevant change is the new summary screen, which shows the list of modules to activate and packages to install. </p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2020/03/online-search.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/03/online-search-300x153.png" alt="New summary screen for the online search" width="300" height="153" class="aligncenter size-medium wp-image-14352" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/03/online-search-300x153.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/03/online-search-768x391.png 768w, https://lizards.opensuse.org/wp-content/uploads/2020/03/online-search-1024x521.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2020/03/online-search.png 1263w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Additionally, we improved error handling and, by the way, we fixed the <em>case sensitive</em> filter.</p>
+<h3 id="partitioner-ux">&#8230;And the Partitioner as Well</h3>
+<p>The online search is not the only part of YaST that has received some love in the UX area. We also tried to improve a bit the usability of the Partitioner. In this occasion, based on the feedback coming from our users via <a href="http://bugzilla.opensuse.org">openSUSE&#8217;s Bugzilla</a>.</p>
+<p>On one hand, we got a report about this dialog been too long to properly fit in low screen resolutions.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2020/03/mount-old-qt.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/03/mount-old-qt-193x300.png" alt="Previous dialog for mount options" width="193" height="300" class="aligncenter size-medium wp-image-14356" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/03/mount-old-qt-193x300.png 193w, https://lizards.opensuse.org/wp-content/uploads/2020/03/mount-old-qt.png 400w" sizes="(max-width: 193px) 100vw, 193px" /></a></p>
+<p>The result was even worse in a text console with a resolution of 80 columns and 24 lines, which is the minimum size we design all YaST screens to work on.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2020/03/mount-old-curses.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/03/mount-old-curses-300x181.png" alt="Previous text-based dialog for mount options" width="300" height="181" class="aligncenter size-medium wp-image-14357" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/03/mount-old-curses-300x181.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/03/mount-old-curses.png 642w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>So we dropped some obsolete options and made others more compact. Now the dialog fits in 24 lines again.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2020/03/mount-new-curses.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/03/mount-new-curses-300x189.png" alt="Revamped text-based dialog for mount options" width="300" height="189" class="aligncenter size-medium wp-image-14358" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/03/mount-new-curses-300x189.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/03/mount-new-curses.png 641w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>And, as you can see below, it looks also nicer (or at least less overwhelming) in graphical mode as well. It&#8217;s worth mentioning we also took the opportunity to fix other related dialogs that had similar problems.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2020/03/mount-new-qt.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/03/mount-new-qt-300x273.png" alt="Revamped dialog for mount options" width="300" height="273" class="aligncenter size-medium wp-image-14359" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/03/mount-new-qt-300x273.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/03/mount-new-qt.png 519w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>On the other hand, we also got a report about how inconvenient was to always jump to the first tab when a device was selected in the devices tree at the left of the Partitioner, forcing the user to click in the &#8220;Partitions&#8221; tab (or any other desired one) over and over.</p>
+<p>In that regard and as you may remember, a couple of sprints ago <a href="https://lizards.opensuse.org/2020/01/24/highlights-of-yast-development-sprint-92/#an-actionable-partitioner-overview-screen" rel="nofollow">we made the overview screen <em>actionable</em></a>, avoiding the navigation to the device page just to perform a simple action over it. But navigating through the different devices back and forth is still possible and useful. Now such navigation has been improved by remembering the last tab and row selected per section or device whenever possible, which will save you a bunch of clicks when working with multiple devices.</p>
+<p>Related to this, <a href="https://lists.opensuse.org/yast-devel/2020-01/msg00014.html">we started a public discussion</a> about what should be the default tab the first time a device is visited. Once again, we are looking for opinions. So we would be grateful if you read the thread and contribute to the discussion.</p>
+<h3 id="kdump">Showing Suggested Values for Kdump Configuration</h3>
+<p>But the Partitioner was not the only YaST module for which our users pointed usability problems via Bugzilla. After some changes in how Kdump works after the migration from openSUSE Leap 42.3 to 15.0, it turned out that using YaST to re-adjust the values was not as helpful as it should be. YaST Kdump displayed the current size of the memory reservations, as well as the min and max margins. But it did not show the recommended default values for the current system, so if the user has adjusted the limits in the past it was impossible to get an up-to-date proposal from YaST calculated for the current system.</p>
+<p>We have adapted the dialog to show those suggested values. As you can see below, we also took the opportunity to extend the help text to explain the meaning of the different values.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2020/03/kdump.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/03/kdump-300x194.png" alt="New Kdump configuration screen" width="300" height="194" class="aligncenter size-medium wp-image-14367" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/03/kdump-300x194.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/03/kdump-768x496.png 768w, https://lizards.opensuse.org/wp-content/uploads/2020/03/kdump-1024x661.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2020/03/kdump.png 1177w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3 id="sysctl">Better Control of Overridden Kernel Parameter Values</h3>
+<p>And talking about YaST pieces we are improving step by step, you may remember from <a href="https://lizards.opensuse.org/2019/10/09/highlights-of-yast-development-sprint-86">our report of sprint 86</a> that we are adapting YaST to deal with the new structure of the <code>sysctl</code> configuration.</p>
+<p>Up to now YaST has stored <code>sysctl</code> values mainly in <code>/etc/sysctl.conf</code> and <code>/etc/sysctl.d/70-yast.conf</code>. But this reflects only a part of the possibilities for storing those values. The truth is that there are many more locations where these settings can be stored: <code>/run/sysctl.d</code>, <code>/etc/sysctl.d</code>, <code>/usr/local/lib/sysctl.d</code>, <code>/usr/lib/sysctl.d</code>, <code>/lib/sysctl.d</code>, <code>/etc/sysctl.conf</code>&#8230;</p>
+<p>Now YaST also takes care of these locations and informs the user if there are some conflicting values, as you can see in the following screenshot.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2020/03/sysctl.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/03/sysctl-300x233.png" alt="YaST alerting about conflicts in sysctl" width="300" height="233" class="aligncenter size-medium wp-image-14355" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/03/sysctl-300x233.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/03/sysctl-768x596.png 768w, https://lizards.opensuse.org/wp-content/uploads/2020/03/sysctl.png 800w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3 id="sle-modules">The Default Pre-selected SLE Modules</h3>
+<p>We have also invested some time smoothing some rough edges off the installation process for the upcoming openSUSE 15.2 and SLE 15 SP2. For example, if you register your SLE 15 product during installation you will see the available modules and extensions in the following dialog. Some of them are by default pre-selected because they either contain the base system components (kernel, glibc,&#8230;) or the product specific packages (e.g. GNOME for SLE Desktop).</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2020/03/modules.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/03/modules-300x214.png" alt="Modules selection during SLE installation" width="300" height="214" class="aligncenter size-medium wp-image-14362" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/03/modules-300x214.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/03/modules.png 740w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>However, if you skip the registration and use the packages from the DVD medium there were no modules or extension pre-selected. The problem is that the information about the default modules was only available in the <a href="https://scc.suse.com">SCC</a> data which obviously is not available in an offline installation.</p>
+<p>In SLE 15 SP2 we added this extra information to the installer configuration files so now also in an offline installation YaST can preselect the default modules for each product.</p>
+<h3 id="ntp">Proposing NTP Servers During Installation</h3>
+<p>And talking about offering sensible defaults for installation, we also improved the situation regarding the configuration of the NTP server. For openSUSE based systems (including Kubic) and a few SUSE products, like CaaSP or SLE High Performance Computing, YaST sets up the NTP daemon during installation. YaST tries to determine which server to use through the DHCP information but, when it is not available, it will propose one from openSUSE and SUSE pools (e.g., <code>n.opensuse.pool.ntp.org</code> where <code>n</code> is a number between 0 and 3).</p>
+<p>However, we still were using the <code>novell.pool.ntp.org</code> pool for SUSE based products. During this sprint, we have switched to the <code>suse.pool.ntp.org</code> pool of servers and, additionally, we have refactored some code in order to reduce duplication and improve testability.</p>
+<h3 id="secure-boot">Secure Boot Support for IBM zSeries</h3>
+<p>You may have noticed by the recent sprint reports that we are improving several aspects related to the installation and configuration of zSeries mainframes. This sprint was not an exception&#8230; and will certainly not be the last one in that regard. </p>
+<p>As a result of that effort, YaST now supports the Secure Boot feature found on the latest zSeries machines. It&#8217;s rather similar to the existing UEFI Secure Boot so we took the opportunity to unify the Secure Boot handling found on different architectures.</p>
+<p>This means you get this checkbox if your zSeries machine does have Secure Boot support.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2020/03/secure-boot.jpg"><img src="//lizards.opensuse.org/wp-content/uploads/2020/03/secure-boot-300x165.jpg" alt="Configuring Secure Boot in zSeries" width="300" height="165" class="aligncenter size-medium wp-image-14363" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/03/secure-boot-300x165.jpg 300w, https://lizards.opensuse.org/wp-content/uploads/2020/03/secure-boot.jpg 606w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>In addition, we added a shortcut link on the installation summary screen that lets you enable Secure Boot with just a click.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2020/03/secure-boot-proposal.jpg"><img src="//lizards.opensuse.org/wp-content/uploads/2020/03/secure-boot-proposal-300x165.jpg" alt="Secure Boot in the proposal screen" width="300" height="165" class="aligncenter size-medium wp-image-14364" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/03/secure-boot-proposal-300x165.jpg 300w, https://lizards.opensuse.org/wp-content/uploads/2020/03/secure-boot-proposal.jpg 606w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>As mentioned, we took the opportunity to unify the management of Secure Boot in all platforms, so this new shortcut link is also available in x86_64 or aarch64 machines that have UEFI Secure Boot.</p>
+<h3 id="chzdev">Automatic Configuration of I/O Devices in zSeries</h3>
+<p>And talking about zSeries mainframes, anyone having used Linux in one of those systems know that input/output devices, like disks or network cards, must be configured and activated before they can be detected and used normally by the operating system.</p>
+<p>But thanks to the new I/O device auto-configuration mechanism, users can now specify IDs and settings of I/O devices that should be automatically enabled in Linux. We modified the installer to detect such configuration and trigger the corresponding configuration actions, removing the need of manually activating disks and network devices during the installation process.</p>
+<p>This is still an experimental feature and we are waiting for feedback to make sure the current implementation works in all the desired scenarios. If everything goes as expected, the feature will debut in SLE 15 SP2.</p>
+<h3 id="hackweek">Hack Week</h3>
+<p>As said at the beginning of the post, the main reason for spending almost a month without publishing any report was that the whole YaST Team at SUSE was diving into completely different topics due to <a href="https://hackweek.suse.com/">Hack Week 19</a>, which theme was &#8220;Simplify, Modernize and Accelerate&#8221;.</p>
+<p>There were not many projects related to YaST in this edition of Hack Week, but there are at least two that could be interesting for YaST fans and contributors. Fortunately, we have published reports for both of them in the yast-devel mailing list. So check out the results of &#8220;<a href="https://lists.opensuse.org/yast-devel/2020-02/msg00024.html">Learn Crystal by Porting Part of YaST to that Language</a>&#8221; and &#8220;<a href="https://lists.opensuse.org/yast-devel/2020-02/msg00026.html">YaST Logs Analyzer</a>&#8220;.</p>
+<h3 id="closing">More to come</h3>
+<p>Now that we are back to our usual development pace, we should have more news about YaST development in a couple of weeks. The plan is to focus on fixing bugs for the upcoming releases of openSUSE Leap and SUSE Enterprise Linux, but we are pretty sure we will still find interesting bits of information for you.</p>
+<p>Meanwhile, keep in touch through the usual channels and have a lot of fun!</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2020/03/06/yast-sprint-94/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>Highlights of YaST Development Sprint 93</title>
+		<link>https://lizards.opensuse.org/2020/02/07/yast-sprint-93/</link>
+		<comments>https://lizards.opensuse.org/2020/02/07/yast-sprint-93/#comments</comments>
+		<pubDate>Fri, 07 Feb 2020 16:31:11 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[Network]]></category>
+		<category><![CDATA[Software Management]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=14311</guid>
+		<description><![CDATA[Lately, the YaST team has been quite busy fixing bugs and finishing some features for the upcoming (open)SUSE releases. Although we did quite some things, in this report we will have a closer look at just a few topics: A feature to search for packages across all SLE modules has arrived to YaST. Improved support [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Lately, the YaST team has been quite busy fixing bugs and finishing some features for the upcoming (open)SUSE releases. Although we did quite some things, in this report we will have a closer look at just a few topics:</p>
+<ul>
+<li>A feature to search for packages across all SLE modules has arrived to YaST.</li>
+<li>Improved support for S390 systems in the network module.</li>
+<li>YaST command-line interface now returns a proper exit-code.</li>
+<li>Added progress feedback to the Expert Partitioner.</li>
+<li>Partial support for Bitlocker and, as a lesson learned from that, a new warning about resizing empty partitions.</li>
+</ul>
+<h3 id="the-online-search-feature-comes-to-yast">The Online Search Feature Comes to YaST</h3>
+<p>As you already know, starting in version 15, SUSE Linux follows a modular approach. Apart from the base products, the packages are spread through a set of different modules that the user can enable if needed (Basesystem module, Desktop Applications Module, Server Applications Module, Development Tools Module, you name it).</p>
+<p>In this situation, you may want to install a package, but you do not know which module contains such a package. As YaST only knows the data of those packages included in your registered modules, you will have to do a manual search.</p>
+<p>Fortunately, zypper introduced a new <code>search-packages</code> command some time ago that allows to find out where a given package is. And now it is time to bring this feature to YaST.</p>
+<p>For technical reasons, this online search feature cannot be implemented within the package manager, so it is available via the <em>Extra</em> menu.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2020/02/search-online-menu-option.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/02/search-online-menu-option-300x207.png" alt="Search Online Menu Option" width="300" height="207" class="aligncenter size-medium wp-image-14315" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/02/search-online-menu-option-300x207.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/02/search-online-menu-option-768x531.png 768w, https://lizards.opensuse.org/wp-content/uploads/2020/02/search-online-menu-option-1024x708.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2020/02/search-online-menu-option.png 1052w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>YaST offers a simple way to search for the package you want across all available modules and extensions, no matter whether they are registered or not. And, if you find the package you want, it will ask you about activating the needed module/extension right away so you can finally install the package.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2020/02/online-search-enable-containers-module.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/02/online-search-enable-containers-module-300x207.png" alt="Online Search: Enable Containers Module" width="300" height="207" class="aligncenter size-medium wp-image-14313" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/02/online-search-enable-containers-module-300x207.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/02/online-search-enable-containers-module-768x531.png 768w, https://lizards.opensuse.org/wp-content/uploads/2020/02/online-search-enable-containers-module-1024x708.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2020/02/online-search-enable-containers-module.png 1050w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>If you want to see this feature in action, check out the <a href="//lizards.opensuse.org/wp-content/uploads/2020/02/online-search-install-php7.webm">demonstration video</a>. Like any other new YaST feature, we are looking forward to your feedback.</p>
+<h3 id="fixing-and-improving-network-support-for-S390-systems">Fixing and Improving Network Support for S390 Systems</h3>
+<p>We have mentioned a lot of times that we recently refactored the Network module, fixing some long-standing bugs and preparing the code for the future. However, as a result, we introduced a few new bugs too. One of those bugs was dropping, by accident, the network devices activation dialog for S390 systems. Thus, during this sprint, we re-introduced the dialog and, what is more, we did a few improvements as the old one was pretty tricky. Let&#8217;s have a look at them.</p>
+<p>The first obvious change is that the overview shows only one line per each s390 group device, instead of using one row per each channel as the old did.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2020/02/yast2-network-s390-new-overview.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/02/yast2-network-s390-new-overview-300x239.png" alt="New YaST Network Overview for S390 Systems" width="300" height="239" class="aligncenter size-medium wp-image-14318" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/02/yast2-network-s390-new-overview-300x239.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/02/yast2-network-s390-new-overview-768x611.png 768w, https://lizards.opensuse.org/wp-content/uploads/2020/02/yast2-network-s390-new-overview.png 927w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Moreover, the overview will be updated after the activation, displaying the Linux device that corresponds to the just activated device.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2020/02/yast2-network-s390-overview-after-activation.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/02/yast2-network-s390-overview-after-activation-300x190.png" alt="YaST2 Network Overview After Activation" width="300" height="190" class="aligncenter size-medium wp-image-14321" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/02/yast2-network-s390-overview-after-activation-300x190.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/02/yast2-network-s390-overview-after-activation.png 723w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Last but not least, we have improved the error reporting too. Now, when the activation fails, YaST will give more details in order to help the user to solve the problem.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2020/02/yast2-network-s390-error-reporting.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/02/yast2-network-s390-error-reporting-300x239.png" alt="YaST2 Network Error Reporting in S390 Systems" width="300" height="239" class="aligncenter size-medium wp-image-14319" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/02/yast2-network-s390-error-reporting-300x239.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/02/yast2-network-s390-error-reporting-768x613.png 768w, https://lizards.opensuse.org/wp-content/uploads/2020/02/yast2-network-s390-error-reporting.png 926w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3 id="fixing-the-cli">Fixing the CLI</h3>
+<p>YaST command-line interface is a rather unknown feature, although it has been there since ever. Recently, we got some bug reports about its exit codes. We discovered that, due to a technical limitation of our internal API, it always returned a non-zero exit code on any command that was just reading values but not writing anything. Fortunately, we were able to fix the problem and, by the way, we improved the behavior in several situations where, although the exit code was non-zero, YaST did not give any feedback. Now that the CLI works again, it is maybe time to give it a try, especially if it is the first time you hear about it.</p>
+<h3 id="yast2-partitioner-feedback">Adding Progress Feedback to the Partitioner</h3>
+<p>The <em>Expert Partitioner</em> is a very powerful tool. It allows you to perform very complex configurations in your storage devices. At every time you can check the changes you have been doing in your devices by using the Installation Summary option on the left bar. All those changes will not be applied on the system until you confirm them by clicking the Next button. But once you confirm the changes, the Expert Partitioner simply closes without giving feedback about the progress of the changes being performed.</p>
+<p>Actually, this is a kind of regression after migrating YaST to its new Storage Stack (a.k.a. storage-ng). The old Partitioner had a final step which did inform the user about the progress of the changes. That dialog has been brought back, allowing you to be aware of what is happening once you decide to apply the configuration. This progress dialog will be available in SLE 15 SP2, openSUSE 15.2 and, of course, openSUSE Tumbleweed.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2020/02/yast2-storage-ng-progress-feedback.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/02/yast2-storage-ng-progress-feedback-300x155.png" alt="YaST Partitioner Progress Feedback" width="300" height="155" class="aligncenter size-medium wp-image-14325" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/02/yast2-storage-ng-progress-feedback-300x155.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/02/yast2-storage-ng-progress-feedback-768x397.png 768w, https://lizards.opensuse.org/wp-content/uploads/2020/02/yast2-storage-ng-progress-feedback.png 957w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3 id="bitlocker">Recognizing Bitlocker Partitions</h3>
+<p><a href="https://en.wikipedia.org/wiki/BitLocker">Bitlocker</a> is a filesystem encrypting technology that comes included with Windows. Until the previous sprint, YaST was not able to recognize that a given partition was encrypted with such technology.</p>
+<p>As a consequence, the automatic partitioning proposal of the (open)SUSE installer would happily delete any partition encrypted with Bitlocker to reclaim its space, even for users that had specified they wanted to keep Windows untouched. Moreover, YaST would allow users to resize such partitions using the Expert Partitioner without any warning (more about that below).</p>
+<p>All that is fixed. Now Bitlocker partitions are correctly detected and displayed as such in the Partitioner, which will not allow users to resize them, explaining that such operation is not supported. And the installer&#8217;s Guided Setup will consider those partitions to be part of a Windows installation for all matters.</p>
+<h3 id="beware-of-empty-partitions">Beware of Empty Partitions</h3>
+<p>As explained before, whenever YaST is unable to recognize the content of a partition or a disk, it considers such device to be empty. Although that&#8217;s not longer the case for Bitlocker devices, there are many more technologies out there (and more to come). So users should not blindly trust that a partition displayed as empty in the YaST Partitioner can actually be resized safely.</p>
+<p>In order to prevent data loss, in the future YaST will inform the user about a potential problem when trying to resize a partition that looks empty.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2020/02/yast2-storage-ng-empty-partition-warning-message.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/02/yast2-storage-ng-empty-partition-warning-message-300x180.png" alt="YaST&quot; Expert Partitioning Warning when Resizing Empty Partitions" width="300" height="180" class="aligncenter size-medium wp-image-14329" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/02/yast2-storage-ng-empty-partition-warning-message-300x180.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/02/yast2-storage-ng-empty-partition-warning-message.png 355w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3 id="hack-week-is-coming">Hack Week is coming&#8230;</h3>
+<p>That special time of the year is already around the corner. Christmas? No, Hack Week! From February 10 to February 14 we will be celebrating the 19th Hack Week at SUSE. The theme of this edition is <em>Simplify, Modernize &amp; Accelerate</em>. If you are curious about the projects that we are considering, have a look at <a href="https://hackweek.suse.com/">SUSE Hack Week&#8217;s Page</a>. Bear in mind that the event is not limited to SUSE employees, so if you are interested in any project, do not hesitate to join us.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2020/02/07/yast-sprint-93/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Highlights of YaST Development Sprint 91</title>
+		<link>https://lizards.opensuse.org/2019/12/18/yast-sprint-91/</link>
+		<comments>https://lizards.opensuse.org/2019/12/18/yast-sprint-91/#comments</comments>
+		<pubDate>Wed, 18 Dec 2019 10:35:55 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Software Management]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=14236</guid>
+		<description><![CDATA[The last two weeks of the year, and also the first one of the new year, are vacation season in many parts of the world and YaSTland is not an exception. But before we enter hibernation mode, let&#8217;s take a look to the most important features and bugfixes we implemented in the last sprint of [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The last two weeks of the year, and also the first one of the new year, are vacation season in many parts of the world and YaSTland is not an exception. But before we enter hibernation mode, let&#8217;s take a look to the most important features and bugfixes we implemented in the last sprint of 2019. That includes:</p>
+<ul>
+<li>bringing back to life some sections of the Software Manager,</li>
+<li>implementing system upgrade with the new SLE media types,</li>
+<li>making the installation in Raspberry Pi and IBM Z System even better,</li>
+<li>improving usability of encryption,</li>
+<li>reducing the footprint of the Snapper plugin for ZYpp,</li>
+<li>as always, many other small improvements and fixes.</li>
+</ul>
+<h3>Restored Some Package Views: Recommended, Suggested, etc.</h3>
+<p>Let&#8217;s start with a redemption story. Some time ago we implemented feature <a href="https://fate.suse.com/326485">fate#326485</a> which requested dropping the &#8220;Package Groups&#8221; view from the package manager UI. That was quite an easy task.</p>
+<p>However, a few weeks later we got a bug report that the lists of recommended, suggested, etc&#8230; packages couldn&#8217;t be displayed anymore. It turned out that, in the Qt package manager front-end, the removed &#8220;Package Groups&#8221; view not only used to display the static group data from the packages but it also contained some special computed package lists like orphaned, suggested or recommended packages. So these lists were lost as a collateral damage of removing the &#8220;Package Groups&#8221; view.</p>
+<p>The ncurses package manager was not affected by the same problem because, in that front-end, those views are grouped in a separate &#8220;Package Classification&#8221; section. So the task for this sprint was to somehow revive the lists in Qt and make them again available to the users.</p>
+<p>We partly reverted the Package Groups removal and restored displaying those special package groups. To make it consistent we also use the &#8220;Package Classification&#8221; name for the view, like in the ncurses package manager.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/12/packages-qt.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/12/packages-qt-300x188.png" alt="The new Package Classification view in Qt" width="300" height="188" class="aligncenter size-medium wp-image-14238" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/12/packages-qt-300x188.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/12/packages-qt-768x481.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/12/packages-qt.png 775w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>On the other hand, the ncurses front-end was missing some lists like the &#8220;Multiversion Packages&#8221; and &#8220;All Packages&#8221;. To take consistency another step further, we added these missing lists and did some small cleanup and fixes so now both the Qt and the ncurses package managers should offer the same functionality and should look similar.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/12/packages-ncurses.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/12/packages-ncurses-300x197.png" alt="The revamped Package Classification view in ncurses" width="300" height="197" class="aligncenter size-medium wp-image-14239" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/12/packages-ncurses-300x197.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/12/packages-ncurses-768x505.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/12/packages-ncurses.png 802w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3>User-friendly Encryption Device Names</h3>
+<p>And talking about bug reports that trigger some usability revamp, some users had pointed that, when the system is booting and prompts for the password of an encrypted device, it&#8217;s not always that easy to identify which exact device it is referring to:</p>
+<p><img src="//lizards.opensuse.org/wp-content/uploads/2019/12/prompt-udev-1.png" alt="Booting password prompt before the change"></p>
+<p>The root of the problem is that when YaST creates an encryption device (during the installation by means of the storage proposal, or manually with the Expert Partitioner), the device mapper name for the new encrypted device is generated from the udev id of the underlying device (e.g., <em>cr_ccw-0XAF5E-part2</em>).</p>
+<p>We decided to improve the encryption naming generation in YaST for Tumbleweed and future releases of Leap and SLE. From now on, the name will be based on the mount point of the device. For example, if an encrypted device is going to be mounted at root, its device mapper name would be <em>cr_root</em>. In general, when the encrypted device is mounted, the device mapper name would be <em>cr_mount_point</em> (e.g., <em>cr_home_linux</em> for an encrypted device mounted at <em>/home/linux</em>).</p>
+<p><img src="//lizards.opensuse.org/wp-content/uploads/2019/12/prompt-mountpoint-1.png" alt="Booting password prompt after the change"></p>
+<p>Note that udev-based names might still be used for some scenarios. For example, when the device is not mounted or for an indirectly used encrypted device (e.g., an encrypted LVM Physical Volume).</p>
+<p>And related to the identification of encryption devices, we have also added more information about the device when the encryption devices are activated during the installation process. Providing the password for the correct device was very difficult because the user needed to know the UUID of the encryption device. Now on, the activation popup also informs about the kernel name of the underlying device, making much easier to identify it.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/12/luks-activation.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/12/luks-activation-300x225.png" alt="New password prompt during installation" width="300" height="225" class="aligncenter size-medium wp-image-14249" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/12/luks-activation-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/12/luks-activation-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/12/luks-activation.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Because names matter&#8230; which leads us to the next topic.</p>
+<h3>How does it Feel to Run a Mainframe?</h3>
+<p>As you may know, (open)SUSE runs in a vast range of hardware, including powerful mainframes like the <a href="https://en.wikipedia.org/wiki/IBM_Z">IBM Z family</a>. One of the strengths of our beloved distributions is that, despite the differences in hardware and scope, the installation and usage experience is very similar in all the supported systems.</p>
+<p>Consistency and ease of use are good, but when you drive a luxury car you want to see the brand&#8217;s badge on top of the hood. So in future versions of the installer, the model of the machine will be displayed when installing in an IBM Z system. See the right-top corner of the following screenshot.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/12/s390-qt.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/12/s390-qt-300x187.png" alt="IBM Z Model in the installer" width="300" height="187" class="aligncenter size-medium wp-image-14280" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/12/s390-qt-300x187.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/12/s390-qt-768x479.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/12/s390-qt-1024x639.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2019/12/s390-qt.png 1179w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>The text-based installer also has been modified to include the same banner in a similar place.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/12/s390-curses.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/12/s390-curses-300x61.png" alt="IBM Z Model in the text-mode installer" width="300" height="61" class="aligncenter size-medium wp-image-14281" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/12/s390-curses-300x61.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/12/s390-curses.png 515w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>But in the same way that (open)SUSE enables you to install and use Linux in a mainframe &#8220;just like in any other computer&#8221;, we also target to do the same in the other extreme of the hardware spectrum.</p>
+<h3>Better Support for Raspberry Pi in the Partitioning Proposal</h3>
+<p>One year ago <a href="https://lizards.opensuse.org/2018/12/04/highlights-of-yast-development-sprint-68/">we announced</a> that openSUSE Leap 15.1 and SLE-15-SP1 would be the first Linux distributions that could be installed in Raspberry Pi devices following the standard installation procedure, instead of deploying a Raspberry-specific pre-built image. The only prerequisite was the existence in the target SD card (or disk) of a partition containing the Raspberry Pi boot code.</p>
+<p>But we are now able to go one step further for SLE-15-SP2 (and Leap 15.2). Thanks to the technologies included in those upcoming releases, (open)SUSE will not longer need a separate partition with the boot code in all cases. Now the installer can make a reasonable installation proposal in all situations, even if the target storage device doesn&#8217;t contain a booting partition in advance. See, for example, what the installer suggests by default for installing a fully standard SLE-15-SP2 Beta1 in a 32 GiB SD card that contained initially a GPT partition table (tip: GPT partition tables cannot be used to boot in a Raspberry Pi device&#8230; and the installer knows it).</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/12/proposal-32gb.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/12/proposal-32gb-300x203.png" alt="Installer proposal for a Raspberry Pi" width="300" height="203" class="aligncenter size-medium wp-image-14256" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/12/proposal-32gb-300x203.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/12/proposal-32gb.png 669w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>With that, the installation of the standard SLE-15-SP2 Beta1 (the aarch64 version, of course) in a Raspberry Pi 3 or 4 is as easy as &#8220;next&#8221;, &#8220;next&#8221;, &#8220;next&#8221;&#8230; with the only exception of a couple of packages that must be manually selected for installation (<code>raspberrypi-*</code> and <code>u-boot-rpi3</code>). Hopefully, future beta images of both SLE and openSUSE Leap 15.2 will select those packages automatically when installing in a Pi, which will make the (open)SUSE experience in those devices basically identical to any other computer. </p>
+<h3>SLE Upgrade with the New Media Types</h3>
+<p>And talking about the standard installation images of the upcoming SLE-15-SP2, we explained in <a href="https://lizards.opensuse.org/2019/12/05/yast-sprint-90/">our previous blog post</a> that those versions of SUSE Linux Enterprise (SLE) and all its associated products will be distributed in two new kinds of media &#8211; Full and Online. The Full Media contains many repositories and the system can be installed without network connectivity. The Online Media is similar to the openSUSE&#8217;s net installer, it contains no repository and it must download everything from the network. The big difference with openSUSE is that SLE systems need to be registered in order to have access to remote repositories.</p>
+<p>But apart from installation, those two new media types can also be used to upgrade an existing system&#8230; at least after all the improvements implemented during the latest sprint.</p>
+<p>In the case of the Online Media, if the system is registered the upgrade process will switch all repositories to point to their corresponding versions at the SUSE Customer Center (SCC) and will get the new software from there. If the system is not registered, the upgrade process is cancelled and the user is advised to either register the system or use the Full Media.</p>
+<p>The Full Media can be used to upgrade any system, registered or not,  but the process is different in each case. For a non-registered system, the repositories will be switched to the ones included in the media and the system will be upgraded from there. For registered systems the process is the same that with the Online Media, so the software will be fetched from the remote repositories at the SUSE Customer Center.</p>
+<p>Last but not least, we also made sure the process with both medias works with an AutoYaST upgrade (yes, you can also use AutoYaST to perform an unattended upgrade, in addition to the better known unattended installation). For a registered system, we simplified the   procedure as much as possible and it only needs access to SCC and an empty AutoYaST profile. For non-registered systems it is a little bit more complex because the profile must specify which repositories from the media should be used for the upgrade. But other than that, the process works quite smooth.</p>
+<p>And, of course, we used the opportunity to improve the unit test coverage of the code and to improve the documentation, including the profiles we used for testing.</p>
+<h3>The Snapper Plugin for ZYpp Becomes More Compact and Future-proof</h3>
+<p><a href="http://snapper.io/">Snapper</a> lets you make filesystem snapshots. It has a companion, <code>snapper-zypp-plugin</code>, a plugin for <a href="https://en.opensuse.org/Portal:Libzypp">ZYpp</a> that makes snapshots automatically during commits. See the &#8220;zypp&#8221; descriptions in this listing:</p>
+<pre><code>
+# snapper list
+
+  # | Type   |Pre # | Date                     | User | Used Space | Cleanup  | Description  | Userdata     
+----+--------+------+--------------------------+------+------------+----------+--------------+-------------
+  0 | single |      |                          | root |            |          | current      |              
+[...]
+824 | pre    |      | Tue Dec 17 10:00:27 2019 | root |  16.00 KiB | number   | zypp(zypper) | important=no
+826 | post   |  824 | Tue Dec 17 10:02:19 2019 | root |  16.00 KiB | number   |              | important=no
+827 | single |      | Tue Dec 17 11:00:01 2019 | root |  16.00 KiB | timeline | timeline     |             
+828 | single |      | Tue Dec 17 11:00:01 2019 | root |  16.00 KiB | timeline | timeline     |             </code></pre>
+<p>To make our enterprise products supportable for a looong time, we have rewritten this plugin to C++, starting with snapper-0.8.7. (The original Python implementation is not dead, it is resting in old Git commits.)</p>
+<p>As a result, <a href="https://www.regular-expressions.info/python.html">Python regular expressions</a> are no longer supported in the <code>/etc/snapper/zypp.conf</code> file. <a href="https://www.regular-expressions.info/posix.html">POSIX extended regular expressions</a> work instead, which should work sufficiently well for the purpose of package name matching. <a href="http://man7.org/linux/man-pages/man7/glob.7.html" rel="nofollow">Shell patterns</a> continue working unchanged.</p>
+<h3>Happy new year!</h3>
+<p>During the following three weeks, the YaST team will interrupt the usual sprint-based development pace. That also means, almost for sure, that we will not publish any blog post about the development of YaST until mid January of 2020. So we want to take this opportunity to wish you a happy new year full of joy and Free Software.</p>
+<p>See you soon and make sure to start the year with a lot of fun!</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2019/12/18/yast-sprint-91/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Highlights of YaST Development Sprint 90</title>
+		<link>https://lizards.opensuse.org/2019/12/05/yast-sprint-90/</link>
+		<pubDate>Thu, 05 Dec 2019 14:21:25 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=14198</guid>
+		<description><![CDATA[As usual, during this sprint we have been working on a wide range of topics. The release of the next (open)SUSE versions is approaching and we need to pay attention to important changes like the new installation media or the /usr/etc and /etc split. Although we have been working on more stuff, we would like [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>As usual, during this sprint we have been working on a wide range of topics. The release of the next (open)SUSE versions is approaching and we need to pay attention to important changes like the new installation media or the /usr/etc and /etc split.</p>
+<p>Although we have been working on more stuff, we would like to highlight these topics:</p>
+<ul>
+<li>Support for the new SLE installation media.</li>
+<li>Proper handling of shadow suite settings.</li>
+<li>Mount points handling improvements.</li>
+<li>Help others to keep the Live Installation working.</li>
+<li>Proper configuration of console fonts.</li>
+<li>Better calculation of minimum and maximum sizes while resizing ext2/3/4 filesystems.</li>
+<li>Small fixes in the network module.</li>
+</ul>
+<h3 id="the-new-online-and-full-sle-installation-media">The New Online and Full SLE Installation Media</h3>
+<p>The upcoming Service Pack 2 of SUSE Linux Enterprise products will be released on two media types: <em>Online</em> and <em>Full</em>.</p>
+<p>On the one hand, the <em>Online</em> medium does not contain any repository at all. They will be added from a registration server (SCC/SMT/RMT) after registering the selected base product. The <em>Online</em> medium is very small and contains only the files needed for booting the system and running the installer. On the other hand, the <em>Full</em> medium includes several repositories containing base products and several add-ons, which can help to save some bandwidth.</p>
+<p>Obviously, as the installer is the same for both media types, we need to adapt it to make it work properly in all scenarios. This is an interesting challenge because the code is located in many YaST packages and at different places. Keep also in mind that the same installer needs to also work with the openSUSE Leap 15.2 product. That makes another set of scenarios which we need to support (or at least not to break).</p>
+<p>The basic support is already there and we are now fine-tuning the details and corner cases, improving the user experience and so on.</p>
+<h3 id="proper-handling-of-shadow-suite-settings">Proper Handling of Shadow Suite Settings</h3>
+<p>A few weeks ago, we anticipated that (open)SUSE would split system&#8217;s configuration between <a href="https://lizards.opensuse.org/2019/10/09/highlights-of-yast-development-sprint-86#splitting-configuration-files-between-etc-and-usretc">/usr/etc and /etc directories</a>. The former will contain vendor settings and the latter will define host-specific settings.</p>
+<p>One of the first packages to be changed was <code>shadow</code>, which stores now its default configuration in <code>/usr/etc/login.defs</code>. The problem is that YaST was not adapted in time and it was still trying to read settings only from <code>/etc/login.defs</code></p>
+<p>During this sprint, we took the opportunity to fix this behavior and, what is more, to define a strategy to adapt the handling of other files in the future. In this case, YaST will take into account the settings from <code>/usr/etc</code> directory and it will write its changes to a dedicated <code>/etc/login.defs.d/70-yast.conf</code> file.</p>
+<h3 id="missing-console-font-settings">Missing Console Font Settings</h3>
+<p>The YaST team got a nice present this year (long before Christmas) thanks to <a href="https://github.com/jyeray">Joaquín</a>, who made an awesome <a href="https://github.com/yast/yast-country/pulls?q=is%3Apr+is%3Aclosed+author%3Ajyeray">contribution</a> to the YaST project by refactoring the keyboard management module. Thanks a lot, Joaquín!</p>
+<p>We owe all of you a blog entry explaining the details but, for the time being, let&#8217;s say that now the module plays nicely with systemd.</p>
+<p>After merging those changes, our QA team detected that the console font settings were not being applied correctly. Did you ever think about the importance of having the right font in the console? The problem was that the <a href="https://github.com/yast/yast.github.io/blob/master/doc/architecture.md#system-configuration-repository-scr">SCR agent</a> responsible for writing the <a href="https://www.freedesktop.org/software/systemd/man/vconsole.conf.html">configuration file for the virtual consoles</a> was removed. Fortunately, bringing back the deleted agent was enough to fix the problem, so your console will work fine again.</p>
+<h3 id="helping-the-live-installation-to-survive">Helping the Live Installation to Survive</h3>
+<p>Years ago, the YaST Team stopped supporting installation from the openSUSE live versions due to maintainability reasons. That has not stopped others from trying to keep the possibility open. Instead of fixing the old <code>LiveInstallation</code> mode of the installer, they have been adapting the live versions of openSUSE to include the regular installer and to be able to work with it.</p>
+<p>Sometimes that reveals hidden bugs in the installer that nobody had noticed because they do not really affect the supported standard installation procedures. In this case, YaST was not always marking for installation in the target system all the packages needed by the storage stack. For example, the user could have decided to use Btrfs and still the installer would not automatically select to install the corresponding <code>btrfsprogs</code> package.</p>
+<p>It happened because YaST was checking which packages were already installed and skipping them. That check makes sense when YaST is running in an already installed system and is harmless when performed in the standard installation media. But it was tricky in the live media. Now the check is skipped where it does not make sense and the live installation works reasonably well again.</p>
+<h3 id="a-more-robust-yast-bootloader">A More Robust YaST Bootloader</h3>
+<p>In order to perform any operation, the bootloader module of YaST first needs to inspect the disk layout of the system to determine which devices allocate the more relevant mount points like <code>/boot</code> or the root filesystem. The usage of Btrfs, with all its exclusive features like subvolumes and snapshots, has expanded the possibilities about how a Linux system can look in that regard. Sometimes, that meant YaST Bootloader was not able to clearly identify the root file system and it just crashed.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/12/missing-root-mount-point-error.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/12/missing-root-mount-point-error-300x222.png" alt="&quot;Missing &#039;/&#039; mount point&quot; error" width="300" height="222" class="aligncenter size-medium wp-image-14204" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/12/missing-root-mount-point-error-300x222.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/12/missing-root-mount-point-error.png 677w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Fortunately, those scenarios are reduced now to the very minimum thanks to all the adaptations and fixes introduced during this sprint regarding <a href="#improving-detection-of-mount-points">mount points detection</a>. But there is still a possibility in extreme cases like unfinished rollback procedures or very unusual subvolumes organization.</p>
+<p>So, in addition to the mentioned improvements in <code>yast2-storage-ng</code>, we have also instructed <code>yast2-bootloader</code> to better deal with those unusual Btrfs scenarios, so it will find its way to the root file system, even if it’s tricky. That means the “missing ‘/’ mount point” errors should be gone for good.</p>
+<p>But in case we overlooked something and there is still an open door to reach the same situation again in the future, we also have improved YaST to display an explanation and quit instead of crashing. Although we have done our best to ensure this blog entry will be the only chance for our users to see this new error pop-up.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/12/bootloader-root-file-system-not-found.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/12/bootloader-root-file-system-not-found-300x223.png" alt="YaST2 Bootloader: root file sytem not found" width="300" height="223" class="aligncenter size-medium wp-image-14206" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/12/bootloader-root-file-system-not-found-300x223.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/12/bootloader-root-file-system-not-found.png 677w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3 id="improving-detection-of-mount-points">Improving the Detection of Mount Points</h3>
+<p>As mentioned above, improving the detection of mount points helped to prevent some problems that were affecting <code>yast2-bootloader</code>. However, that is not the only module that benefits from such changes.</p>
+<p>When you run some clients like the <em>Expert Partitioner</em>, they automatically use the <em>libstorage-ng</em> library to discover all your storage devices. During that phase, <em>libstorage-ng</em> tries to find the mount points for all the file systems by inspecting <code>/etc/fstab</code> and <code>/proc/mounts</code> files. Normally, a file system is mounted only once, either at boot time or manually by the user. For the first case, both files <code>/etc/fstab</code> and <code>/proc/mounts</code> would contain an entry for the file system, for example:</p>
+<pre><code>$ cat /etc/fstab
+/dev/sda1  /  ext4  defaults  0  0
+
+$ cat /proc/mounts
+/dev/sda1 / ext4 rw,relatime 0 0
+</code></pre>
+<p>In the example above, <em>libstorage-ng</em> associates the <code>/</code> mount point to the file system which is placed on the partition <code>/dev/sda1</code>. But, what happens when the user bind-mounts a directory? In such a situation, <code>/proc/mounts</code> would contain two entries for the same device:</p>
+<pre><code>$ mound /tmp/foo /mnt -o bind
+$ cat /proc/mounts
+/dev/sda1 / ext4 rw,relatime 0 0
+/dev/sda1 /mnt ext4 rw,relatime 0 0
+</code></pre>
+<p>In the <em>Expert Partitioner</em>, that file system will appear as mounted at <code>/mnt</code> instead of <code>/</code>. So it will look like if your system did not have the root file system after all!</p>
+<p>This issue was solved by improving the heuristic for associating mount points to the devices. Now, the <code>/etc/fstab</code> mount point is assigned to the device if that mount point also appears in the <code>/proc/mounts</code> file. That means, if a device is included in the <code>/etc/fstab</code> and the device is still mounted at that location, the <code>/etc/fstab</code> mount point takes precedence.</p>
+<p>As a bonus, and also related to mount points handling, now the <em>Expert Partitioner</em> is able to detect the situation where, after performing a snapshot-based rollback, the system has not been rebooted. As a result, it will display a nice and informative message to the user.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/12/not-rebooted-after-rollback.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/12/not-rebooted-after-rollback-300x225.png" alt="System not rebooted after snapshot rollback" width="300" height="225" class="aligncenter size-medium wp-image-14214" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/12/not-rebooted-after-rollback-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/12/not-rebooted-after-rollback-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/12/not-rebooted-after-rollback.png 800w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3 id="improved-calculation-of-minimum-and-maximum-sizes-for-ext234g">Improved Calculation of Minimum and Maximum Sizes for ext2/3/4</h3>
+<p>If you want to resize a filesystem using YaST, it needs to find out the minimum and maximum sizes for the given filesystem. Until now, the estimation for ext2/3/4 was based on the <code>statvfs</code> system call and it <a href="https://bugzilla.suse.com/show_bug.cgi?id=1149148">did not work well at all</a>.</p>
+<p>Recently, we have improved YaST to use the value reported by <code>resize2fs</code> as the minimum size which is more precise. Additionally, YaST checks now the block size and whether the 64bit feature is on to calculate the maximum size.</p>
+<h3 id="polishing-the-network-module">Polishing the Network Module</h3>
+<p>As part of our recent network module refactorization, we have improved the workflow of wireless devices configuration, among other UI changes. Usually, these changes are controversial and, as a consequence, we received a few bug reports about some missing steps that are actually not needed anymore. However, checking those bugs allowed us to find some small UI glitches, like a problem with the <em>Authentication Mode</em> widget.</p>
+<p>Moreover, we have used this sprint to drop the support for some deprecated device types, like Token Ring or FDDI. Below you can see how bad the device type selection looks now. But fear not! We are aware and we will give it some love during the next sprint.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/12/network-device-type-selection.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/12/network-device-type-selection-300x173.png" alt="Network Device Type Selection" width="300" height="173" class="aligncenter size-medium wp-image-14216" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/12/network-device-type-selection-300x173.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/12/network-device-type-selection-768x442.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/12/network-device-type-selection-1024x590.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2019/12/network-device-type-selection.png 1344w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3 id="conclusions">Conclusions</h3>
+<p>The last sprint of the year is already in progress. This time, we are still polishing our storage and network stacks, improving the migration procedure, and fixing several miscelaneous issues. We will give you all the details in two weeks through our next sprint report. Until then, have a lot of fun!</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Highlights of YaST Development Sprint 87</title>
+		<link>https://lizards.opensuse.org/2019/10/23/yast-sprint-87/</link>
+		<comments>https://lizards.opensuse.org/2019/10/23/yast-sprint-87/#comments</comments>
+		<pubDate>Wed, 23 Oct 2019 14:02:18 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=14141</guid>
+		<description><![CDATA[It&#8217;s time for another YaST team report! Let&#8217;s see what&#8217;s on the menu today. More news and improvements in the storage area, specially regarding encryption support. Some polishing of the behavior of YaST Network. New widgets in libYUI. A look into systemd timers and how we are using them to replace cron. And a new [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>It&#8217;s time for another YaST team report! Let&#8217;s see what&#8217;s on the menu today.</p>
+<ul>
+<li>More news and improvements in the storage area, specially regarding encryption support.</li>
+<li>Some polishing of the behavior of YaST Network.</li>
+<li>New widgets in libYUI.</li>
+<li>A look into systemd timers and how we are using them to replace <code>cron</code>.</li>
+<li>And a new cool tool for developers who have to deal with complex object-oriented code!</li>
+</ul>
+<p>So let&#8217;s go for it all.</p>
+<h3>Performance Improvements in Encrypted Devices</h3>
+<p>As you may know, we have recently extended YaST to support additional encryption mechanisms like volatile encryption for swap devices or pervasive encryption for data volumes. You can find more details in our blog post titled &quot;<a href="https://lizards.opensuse.org/2019/10/09/advanced-encryption-yast/">Advanced Encryption Options Land in the YaST Partitioner</a>&quot;.</p>
+<p>Those encryption mechanisms offer the possibility of adjusting the sector size of the encryption layer according to the sector size of the disk. That can result in a performance boost with storage devices based on 4k blocks. To get the best of your systems, we have instructed YaST to set the sector size to 4096 bytes whenever is possible, which should improve the performance of the encrypted devices created with the recently implemented methods.</p>
+<p>Additionally, we took the time to improve the codebase related to encryption, based on the lessons we learned while implementing volatile and pervasive encryption. We also performed some additional tests and we found <a href="https://bugzilla.suse.com/show_bug.cgi?id=1154267">a problem</a> that we are already fixing in the sprint that has just started.</p>
+<h3>Other improvements related to encryption</h3>
+<p>One of those lessons we have learnt recently is that resizing a device encrypted with a LUKS2 encryption layer works slightly different to the traditional LUKS1 case. With LUKS2 the password must be provided in the moment of resizing, even if the device is already open and active. So we changed how libstorage-ng handles the passwords provided by the user to make it possible to resize LUKS2 devices in several situations, although there are still some cases in which it will not be possible to use the YaST Partitioner to resize a LUKS2 device.</p>
+<p>As a side effect of the new passwords management, now the process that analyzes the storage devices at the beginning of the installation should be more pleasant in scenarios like the one described in the <a href="https://bugzesilla.suse.com/show_bug.cgi?id=1129496">report of bug#1129496</a>, where there are many encrypted devices but the user doesn&#8217;t want to activate them all.</p>
+<p>And talking about improvements based on our users&#8217; feedback, we have also adapted the names of the new methods for encrypting swap with volatile keys, as suggested in the comments of our already mentioned previous blog post. We also took the opportunity to improve the corresponding warning messages and help texts.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/10/volatile.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/10/volatile-300x226.png" alt="New name and description for encryption with volatile keys" width="300" height="226" class="aligncenter size-medium wp-image-14160" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/10/volatile-300x226.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/10/volatile-768x579.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/10/volatile.png 801w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3>Network and Dependencies Between Devices</h3>
+<p>Similar to encryption, the network backend is another area that needed some final adjustments after the big implementation done in the previous sprints. In particular, we wanted to improve the management of devices that depend on other network devices, like VLANs (virtual LANs) or bridges. </p>
+<p>Historically, YaST has simply kept the name of the device as a dependency, even if such device does not exist any longer. That leaded to inconsistent states. Now the dependencies are updated dynamically. If the user renames a device, then it&#8217;s automatically renamed in all its dependencies. If the user deletes a device that is needed by any other one, YaST will immediately ask the user whether to modify (in the case of bonding and bridges) or to remove (in the case of VLANs) those dependent devices.</p>
+<h3>New libYUI Widget: ItemSelector</h3>
+<p>Now that we mention the user experience, it&#8217;s fair to note that it has been quite a while since we created the last new widget for libYUI, our YaST UI toolkit. But we identified a need for a widget that lets the user select one or many from a number of items with not only a short title, but also a descriptive text for each one (and optionally an icon), and that can scroll if there are more items than fit on the screen.</p>
+<p>So say hello to the new <code>SingleItemSelector</code>.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/10/single-qt.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/10/single-qt-300x215.png" alt="SingleItemSelector in graphical mode" width="300" height="215" class="aligncenter size-medium wp-image-14146" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/10/single-qt-300x215.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/10/single-qt.png 552w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>As you would expect from any libYUI widget, there is also a text-based (ncurses) alternative.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/10/single-ncurses.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/10/single-ncurses-300x176.png" alt="SingleItemSelector in text mode" width="300" height="176" class="aligncenter size-medium wp-image-14147" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/10/single-ncurses-300x176.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/10/single-ncurses.png 640w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Please, note the screenshots above are just short usage examples. We are NOT planning to bring back the desktop selection screen. On the other hand, now we have the opportunity to make a prettier screen to select the computer role. Stay tuned for more news about that.</p>
+<p>There is also an alternative version of the new widget that allows to select several items. The unsurprisingly named <code>MultiItemSelector</code>.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/10/multi-qt.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/10/multi-qt-300x227.png" alt="MultiItemSelector in graphical mode" width="300" height="227" class="aligncenter size-medium wp-image-14148" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/10/multi-qt-300x227.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/10/multi-qt.png 351w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Which, of course, also comes with an ncurses version.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/10/multi-ncurses.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/10/multi-ncurses-300x176.png" alt="MultiItemSelector in text mode" width="300" height="176" class="aligncenter size-medium wp-image-14149" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/10/multi-ncurses-300x176.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/10/multi-ncurses.png 641w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>In the near future, we are planning to use that for selecting products and add-on modules. But this kind of widgets will find other uses as well.</p>
+<h3>Fun with Systemd Timers</h3>
+<p>And talking about the close future, many of you may know there is a plan coming together to replace the usage of <code>cron</code> with systemd timers as the default mechanism for (open)SUSE packages to execute periodic tasks.</p>
+<p>In our case, we decided to start the change with <code>yast2-ntp-client</code>, which offers the possibility to synchronize the system time once in a while. So let&#8217;s take a look to how systemd timers work and how we used them to replace <code>cron</code>.</p>
+<p>When defining a service in systemd it is possible to specify a type for that service to define how it behaves. When started, a service of type <code>oneshot</code> will simply execute some action and then finish. Those services can be combined with the timers, which invoke any service according to monotonous clock with a given cadence. To make that cadence configurable by the user, the YaST module overrides the default timer with another one located at <code>/etc/systemd/system</code>.</p>
+<p>As a note for anyone else migrating to systemd timers, our first though was to use the <code>EnvironmentFile</code> directive instead of overriding the timer. But that seems to not be possible for timers.</p>
+<p>One clear advantage of using a systemd service to implement this is the possibility of specifying dependencies and relations with other services. In our case, that allows us to specify that one time synchronization cannot be used if the chrony daemon is running, since they would both conflict. So the new system is slightly more complex than a one-liner cron script, but it&#8217;s also more descriptive and solid.</p>
+<p>And another tip for anyone dealing with one-shot services and systemd timers, you can use <code>systemd-cat</code> to catch the output of any script and redirect it to the systemd journal.</p>
+<h3>Everybody Loves Diagrams</h3>
+<p>But apart from tips for sysadmins and packagers, we also have some content for our fellow developers. You know YaST is a huge project that tries to manage all kind of inter-related pieces. Often, the average YaST developer needs to jump into some complex module. Code documentation can help to know your way around YaST internals that you don&#8217;t work with every day. To generate such documentation, we use the <a href="https://yardoc.org/">YARD</a> tool, and its output is for example here, for <a href="https://www.rubydoc.info/github/yast/yast-network">yast-network</a>. Still, for large modules with many small classes, this is not enough to get a good overview.</p>
+<p>Enter <a href="https://github.com/mvidner/yard-medoosa">yard-medoosa</a>, a plugin for YARD that automatically creates <a href="https://en.wikipedia.org/wiki/Class_diagram">UML class diagrams</a>, clickable to get you to the classes textual documentation.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/10/medoosa.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/10/medoosa-300x35.png" alt="The yast2-network medoosa" width="300" height="35" class="aligncenter size-medium wp-image-14153" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/10/medoosa-300x35.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/10/medoosa-768x89.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/10/medoosa-1024x118.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>It is still a prototype but it has proven useful for navigating a certain large pull request. We hope to soon tell you about an improved version.</p>
+<h3>More Solid Device Names in fstab and crypttab</h3>
+<p>Back to topics related to storage management, you surely know there are several ways to specify a device to be mounted in the <code>/etc/fstab</code> file or a device to be activated in the <code>/etc/crypttab</code>. Apart from using directly the name of the device (like <code>/dev/sda1</code>) or any of its alternative names based on udev, you can also use the UUID or the label of the file-system or of the LUKS device.</p>
+<p>By default, YaST will use the udev path in s390 systems and the UUID in any other architecture. Although that&#8217;s something that can be configured modifying the <code>/etc/sysconfig/storage</code> file or simply using this screen of the Partitioner, which makes possible to change how the installation (both the Guided Setup and the Expert Partitioner) writes the resulting <code>fstab</code> and <code>crypttab</code> files.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/10/mount_by_setting.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/10/mount_by_setting-300x225.png" alt="Changing the way devices are referenced" width="300" height="225" class="aligncenter size-medium wp-image-14162" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/10/mount_by_setting-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/10/mount_by_setting-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/10/mount_by_setting.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>But, what happens when the default option (like the udev path) is not a valid option for some particular device? So far, YaST simply used the device name (e.g. <code>/dev/sda1</code>) as an immediate fallback. That happened at the very end of the process, when already writing the changes to disk.</p>
+<p>We have improved that for Tumbleweed, for SLE-15-SP1 (which implies Leap 15.1) and for the upcoming versions of (open)SUSE. Now, if the default value is not suitable for a particular device because the corresponding udev path does not exists, because using a given name is incompatible with the chosen encryption method, or for any other reason, YaST will fall back to the most reasonable and stable alternative. And it will do it from the very beginning of the process, being immediately visible in the Partitioner.</p>
+<h3>Stay Tuned for More&#8230; and Stay Communicative</h3>
+<p>As usual, when we publish our sprint report we are already working on the next development sprint. So in approximately two weeks you will have more news about our work, this time likely with a strong focus in AutoYaST.</p>
+<p>Don&#8217;t forget to keep providing us feedback. As commented above, it&#8217;s very valuable for us and we really use it as an input to plan subsequent development sprints.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2019/10/23/yast-sprint-87/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Advanced Encryption Options Land in the YaST Partitioner</title>
+		<link>https://lizards.opensuse.org/2019/10/09/advanced-encryption-yast/</link>
+		<comments>https://lizards.opensuse.org/2019/10/09/advanced-encryption-yast/#comments</comments>
+		<pubDate>Wed, 09 Oct 2019 10:07:42 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Security]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=14054</guid>
+		<description><![CDATA[Welcome to a new sneak peek on the YaST improvements you will enjoy in SLE-15-SP2 and openSUSE Leap 15.2&#8230; or much earlier if you, as most YaST developers, are a happy user of openSUSE Tumbleweed. In our report of the 84th sprint we mentioned some changes regarding the encryption capabilities of the YaST Partitioner, like [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Welcome to a new sneak peek on the YaST improvements you will enjoy in SLE-15-SP2 and openSUSE Leap 15.2&#8230; or much earlier if you, as most YaST developers, are a happy user of openSUSE Tumbleweed.</p>
+<p>In <a href="https://lizards.opensuse.org/2019/09/16/yast-sprint-84/">our report of the 84th sprint</a> we mentioned some changes regarding the encryption capabilities of the YaST Partitioner, like displaying the concrete encryption technology or the possibility to keep an existing encryption layer.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/09/part-reencrypt.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/09/part-reencrypt-300x189.png" alt="Keeping the previous encryption layer" width="300" height="189" class="aligncenter size-medium wp-image-14042" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/09/part-reencrypt-300x189.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/09/part-reencrypt-768x483.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/09/part-reencrypt.png 958w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>And the <a href="https://lizards.opensuse.org/2019/09/26/highlights-of-yast-development-sprint-85/">report of sprint 85</a> contained a promise about a separate blog post detailing the new possibilities we have been adding when it comes to create encrypted devices.</p>
+<p>So here we go! But let&#8217;s start with a small disclaimer. Although some of the new options are available for all (open)SUSE users, it&#8217;s fair to say that this time the main beneficiaries are the users of s390 systems, which may enjoy up to four new ways of encrypting their devices.</p>
+<h3>Good Things don&#8217;t Need to Change</h3>
+<p>As you may know, so far the YaST Partitioner offered an &#8220;Encrypt Device&#8221; checkbox when creating or editing a block device. If such box is marked, the Partitioner asks for an encryption password and creates a LUKS virtual device on top of the device being encrypted.</p>
+<p>LUKS (<a href="https://gitlab.com/cryptsetup/cryptsetup/wikis/home">Linux Unified Key Setup</a>) is the standard for Linux hard disk encryption. By providing a standard on-disk-format, it facilitates compatibility among distributions. LUKS stores all necessary setup information in the partition header, enabling to transport or migrate data seamlessly. So far, there are two format specifications for such header: LUKS1 and LUKS2. YaST uses LUKS1 because is established, solid and well-known, being fully compatible with the (open)SUSE installation process and perfectly supported by all the system tools and by most bootloaders, like Grub2.</p>
+<p>You should not fix what is not broken. Thus, in most cases, the screen for encrypting a device has not changed at all and it still works exactly in the same way under the hood.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/09/part-edit-crypt.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/09/part-edit-crypt-300x188.png" alt="Editing an encrypted device" width="300" height="188" class="aligncenter size-medium wp-image-14041" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/09/part-edit-crypt-300x188.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/09/part-edit-crypt-768x481.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/09/part-edit-crypt.png 958w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>But using an alternative approach may be useful for some use cases, and we wanted to offer an option in the Partitioner for those who look for something else. So in some special cases that screen will include a new selector to choose the encryption method. Let&#8217;s analyze all those new methods.</p>
+<h3>Volatile Swap Encryption with a Random Key</h3>
+<p>When a swap device has been marked to be encrypted, the user will be able to choose between &#8220;Regular LUKS1&#8221; and &#8220;Volatile Encryption with Random Key&#8221;. Both options will be there for swap devices on all hardware architectures. The first option simply uses the classical approach described above.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/10/prvasive1.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/10/prvasive1-300x225.png" alt="Selecting the encryption method" width="300" height="225" class="aligncenter size-medium wp-image-14102" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/10/prvasive1-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/10/prvasive1-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/10/prvasive1.png 800w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>The second one allows to configure the system in a way in which the swap device is re-encrypted on every boot with a new randomly generated password.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/10/prvasive2.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/10/prvasive2-300x225.png" alt="Encrypt swap with a random password" width="300" height="225" class="aligncenter size-medium wp-image-14103" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/10/prvasive2-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/10/prvasive2-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/10/prvasive2.png 800w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Some advanced users may point that configuring such a random encryption for swap was already possible in versions of openSUSE prior to Leap 15.0. But the procedure to do so was obscure to say the least. The encryption with a random password was achieved by simply leaving blank the &#8220;Enter a Password&#8221; field in the encryption step. The exact implications were not explained anywhere in the interface and the help text didn&#8217;t mention all the risks.</p>
+<p>Now the same configuration can be achieved with a more explicit interface, relevant information is provided as you can see in the screenshot below and some extra internal controls are in place to try to limit the potential harm.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/10/prvasive3.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/10/prvasive3-300x225.png" alt="Help text for the random swap method" width="300" height="225" class="aligncenter size-medium wp-image-14104" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/10/prvasive3-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/10/prvasive3-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/10/prvasive3.png 800w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>With this approach, the key used to encrypt the content of the swap is generated on every boot using <code>/dev/urandom</code> which is extremely secure. But you can always go a bit further&#8230;</p>
+<h3>Swap Encryption with Volatile Protected AES Keys</h3>
+<p>One of the nice things about having a <a href="https://en.wikipedia.org/wiki/Mainframe_computer">mainframe computer</a> (and believe us there are MANY nice things) is the extra security measures implemented at all levels. In the case of IBM Z or IBM LinuxONE that translates into the so-called <a href="https://www.ibm.com/support/knowledgecenter/linuxonibm/liaaf/lnz_r_crypt.html">pervasive encryption</a>. Pervasive encryption is an infrastructure for end-to-end data protection. It includes data encryption with protected and secure keys.</p>
+<p>In s390 systems offering that technology, the swap can be encrypted on every boot using a volatile protected AES key, which offers an extra level of security compared to regular encryption using data from <code>/dev/urandom</code>. <a href="https://www.ibm.com/support/knowledgecenter/linuxonibm/com.ibm.linux.z.lxdc/lxdc_swapdisks.html">This document</a> explains how to setup such system by hand. But now you can just use YaST and configure everything with a single click, as shown in the following screenshot.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/10/perv-swap-protected.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/10/perv-swap-protected-300x179.png" alt="Encrypting swap with volatile protected keys" width="300" height="179" class="aligncenter size-medium wp-image-14095" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/10/perv-swap-protected-300x179.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/10/perv-swap-protected-768x458.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/10/perv-swap-protected.png 802w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>The good thing about this method is that you can use it even if your s390 system does not have a CCA cryptographic coprocessor. Oh, wait&#8230; you may not know what a cryptographic coprocessor is. Don&#8217;t worry, just keep reading.</p>
+<h3>Pervasive Encryption for Data Volumes</h3>
+<p>Have you ever wondered how James Bond would protect his information from the most twisted and resourceful villains? We don&#8217;t know for sure (or, at least, we are supposed to not disclosure that information), but we would bet he has an s390 system with at least one Crypto Express cryptographic coprocessor configured in CCA mode (shortly referred as a CCA coprocessor).</p>
+<p>Those dedicated pieces of hardware, when properly combined with CPU with <a href="https://www.ibm.com/support/knowledgecenter/en/SSLTBW_2.1.0/com.ibm.zos.v2r1.csfb300/csfb3za218.htm">CPACF</a> support, make sure the information at-rest in any storage device can only be read in the very same system where that information was encrypted. They even have a physical mechanism to destroy all the keys when the hardware is removed from the machine, like the self-destruction mechanisms in the spy movies!</p>
+<p>As <a href="https://www.ibm.com/support/knowledgecenter/linuxonibm/liaaf/lnz_r_dccnt.html">documented here</a>, the process to enjoy the full power of pervasive encryption for data volumes in Linux can be slightly complex&#8230; unless you have the YaST Partitioner at hand!</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/09/pervasive.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/09/pervasive-300x178.png" alt="Pervasive volume encryption" width="300" height="178" class="aligncenter size-medium wp-image-14078" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/09/pervasive-300x178.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/09/pervasive-768x455.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/09/pervasive.png 803w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>As you can see in the screenshot above, the process with YaST is as simple as choosing &#8220;Pervasive Volume Encryption&#8221; instead of the classic LUKS1 that YaST uses regularly for non-swap volumes. If YaST finds in the system a secure AES key already associated to the volume being encrypted, it will use that key and the resulting encryption device will have the DeviceMapper name specified for that key. If such secure keys don&#8217;t exist, YaST will automatically register a new one for each volume.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/09/pervasive_help.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/09/pervasive_help-300x194.png" alt="Help for pervasive volume encryption" width="300" height="194" class="aligncenter size-medium wp-image-14077" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/09/pervasive_help-300x194.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/09/pervasive_help-768x496.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/09/pervasive_help.png 854w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Pervasive encryption can be used on any volume of the system, even the root partition.</p>
+<h3>I want it all!</h3>
+<p>So far we have seen you can use protected AES keys for randomly encrypting swap and registered secure keys for protecting data volumes. But what if you want your swap to be randomly encrypted with a volatile secure AES key? After all, you have already invested time and money installing those great CCA coprocessors, let&#8217;s use them also for the random swap encryption!</p>
+<p>If your hardware supports it, when encrypting the swap you will see a &#8220;Volatile Encryption with Secure Key&#8221; option, in addition to the other four possibilities commented above. As easy as it gets!</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/10/perv-swap-secure.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/10/perv-swap-secure-300x178.png" alt="All possible methods for encrypting a swap" width="300" height="178" class="aligncenter size-medium wp-image-14096" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/10/perv-swap-secure-300x178.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/10/perv-swap-secure-768x457.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/10/perv-swap-secure.png 802w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3>More Booting Checks in non-s390 Systems</h3>
+<p>As described in the help for pervasive volume encryption showed above, that encryption method uses LUKS2 under the hood. So we took the opportunity to improve the Partitioner checks about encryption and booting. Now, in any architecture that is not s390 the following warning will be displayed if the expert partitioner is used to place the root directory in a LUKS2 device without a separate plain <code>/boot</code>.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/09/luks2_warning.jpg"><img src="//lizards.opensuse.org/wp-content/uploads/2019/09/luks2_warning-300x233.jpg" alt="New check for booting" width="300" height="233" class="aligncenter size-medium wp-image-14076" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/09/luks2_warning-300x233.jpg 300w, https://lizards.opensuse.org/wp-content/uploads/2019/09/luks2_warning-768x597.jpg 768w, https://lizards.opensuse.org/wp-content/uploads/2019/09/luks2_warning.jpg 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>As mentioned, that doesn&#8217;t apply to s390 mainframes. The usage of <code>zipl</code> makes possible to boot Linux in those systems as long as the kernel supports the encryption technology, independently of the Grub2 (lack of) capabilities.</p>
+<h3>What&#8217;s next?</h3>
+<p>We are still working to smooth off the rough edges of the new encryption methods offered by YaST and to add AutoYaST support for them. You may have noticed that most of the improvements currently implemented will only directly benefit s390 systems&#8230; even just a subset of those. But at the current stage, we already have built the foundation for a new era of encryption support in YaSTland.</p>
+<p>We are thinking about adding more encryption methods that could be useful for all (open)SUSE users, with general support for LUKS2 being an obvious candidate. But that&#8217;s not something we will see in the short term because there are many details to iron up first in those technologies to make then fit nicely into the current installation process.</p>
+<p>But hey, meanwhile you can play with all the other new toys!</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2019/10/09/advanced-encryption-yast/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>Highlights of YaST Development Sprint 84</title>
+		<link>https://lizards.opensuse.org/2019/09/16/yast-sprint-84/</link>
+		<pubDate>Mon, 16 Sep 2019 15:09:29 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=14038</guid>
+		<description><![CDATA[The YaST Team finished yet another development sprint last week and we want to take the opportunity to let you all glance over the engine room to see what&#8217;s going on. Today we will confess an uncomfortable truth about how we manage the Qt user interface, will show you how we organize our work (or [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The YaST Team finished yet another development sprint last week and we want to take the opportunity to let you all glance over the engine room to see what&#8217;s going on.</p>
+<p>Today we will confess an uncomfortable truth about how we manage the Qt user interface, will show you how we organize our work (or at least, how we try to keep the administrative part of that under control) and will give you a sneak peak on some upcoming YaST features and improvements.</p>
+<p>Let&#8217;s go for it!</p>
+<h3>There Be Dragons: YaST Qt UI Event Handling</h3>
+<p>The YaST Qt UI is different in the way that it uses Qt. Normal Qt applications are centered around a short main program that after initializing widgets passes control to the Qt event loop. Not so YaST: it is primarily an interpreter for the scripts (today in Ruby, in former times in YCP) that are executed for the business logic. Those scripts, among other things, also create and destroy widget trees. But the control flow is in the script, not in a Qt event loop. So YaST uses different execution threads to handle both sides: graphic&#8217;s system events for Qt widgets and the control flow from the scripts.</p>
+<p>This was always quite nonstandard, and we always needed to do weird things to make it happen. We always kind of misused Qt to hammer it into shape for that. And we always feared that it might break with the next Qt release, and that we might have a hard time to make it work again.</p>
+<p>This time has now come with <a href="https://bugzilla.opensuse.org/show_bug.cgi?id=1139967">bug#1139967</a>, but we were lucky enough to find a Qt call to bring it back to life; a <code>QEventLoop::wakeUp()</code> call fixed it. We don&#8217;t quite know (yet) why, though. Any hint, anyone?.</p>
+<p>Should we even tell you that? Well, we think you deserve to know. After all, it worked well for about 20 years (!)&#8230; and now it&#8217;s working again.</p>
+<h3>The Refactoring of YaST Network Keeps Going</h3>
+<p>What is still not working that fine is the revamped network management. We have been working on it during the latest sprint, but it will take at least another one before it&#8217;s stable enough to be submitted to openSUSE Tumbleweed.</p>
+<p>On which parts have we be working during the this sprint? Glad you asked! <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> We are cleaning the current mess in wireless configuration. Soon that part will be more intuitive and consistent with other types of network. We are also making sure we propose meaningful defaults for the new cards added to the network configuration (all types of cards, not only wireless). The functionality to configure udev in order to enjoy stable names for the network interfaces has also received some love. The new version is more stable and flexible. And last but not least, we are improving the device activation in s390 systems for it to be more straightforward in the code and more clear in the user interface.</p>
+<p>If everything goes as planned, by the end of the next sprint we will be ready to submit the improved YaST Network to Tumbleweed. That will be the right time for a dedicated blog post with screenshots and further explanations of all the changes.</p>
+<h3>Enhancing the Partitioner Experience with Encrypted Devices</h3>
+<p>And talking about ongoing work, we are currently working to broaden the set of technologies and use-cases the Partitioner supports when it comes to data encryption. As with the network area, the big headlines in that regard will have to wait for future blog posts. But if you look close enough to the user interface of the Partitioner available in Tumbleweed you can start spotting some small changes that anticipate the upcoming new features.</p>
+<p>The first change is very subtle. When visualizing the details of an encrypted device, next to the previously existing &#8220;Encrypted: Yes&#8221; text you will now be able to see the concrete type of encryption. For all devices encrypted using YaST, that type will always be LUKS1 since that&#8217;s the only format that YaST has supported&#8230; so far. <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/09/enc-part1.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/09/enc-part1-300x120.png" alt="Partitioner: show the type of encryption" width="300" height="120" class="aligncenter size-medium wp-image-14039" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/09/enc-part1-300x120.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/09/enc-part1.png 463w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Some other small changes are visible when editing an encrypted device. If such a device was not originally encrypted in the system, nothing changes apart from minor adjustments in the labels. The user simply sees a form with an empty field to enter the password.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/09/part-new-crypt.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/09/part-new-crypt-300x188.png" alt="Encrypting a plain device" width="300" height="188" class="aligncenter size-medium wp-image-14040" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/09/part-new-crypt-300x188.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/09/part-new-crypt-768x483.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/09/part-new-crypt.png 955w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>When editing for a second time a device that was already marked for encryption during the current execution of the Partitioner, the form is already prefilled with the password entered before. In the past, the previous encryption layer was ditched (so it&#8217;s password and other arguments were forgotten) and the user had to define the encryption again from scratch. That will become even more relevant soon, when the form for encryption becomes more than just a password field. Stay tuned for news in that regard.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/09/part-edit-crypt.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/09/part-edit-crypt-300x188.png" alt="Editing an encrypted device" width="300" height="188" class="aligncenter size-medium wp-image-14041" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/09/part-edit-crypt-300x188.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/09/part-edit-crypt-768x481.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/09/part-edit-crypt.png 958w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Moreover, when editing a device that is already encrypted in the system, an option is offered to just use the existing encryption layer instead of replacing it with a (likely more limited) encryption created by the Partitioner.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/09/part-reencrypt.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/09/part-reencrypt-300x189.png" alt="Keeping the previous encryption layer" width="300" height="189" class="aligncenter size-medium wp-image-14042" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/09/part-reencrypt-300x189.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/09/part-reencrypt-768x483.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/09/part-reencrypt.png 958w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Apart from opening the door for more powerful and relevant changes in the area of encryption, these changes represent an important usability improvement by themselves.</p>
+<h3>Tidying up the YaST Team&#8217;s Trello Board</h3>
+<p>As you can see in this report and in all the previous ones, the YaST Team works constantly on many different areas like installation, network management, storage technologies&#8230; you name it. We use <a href="https://trello.com">Trello</a> to organize all that work.  For each bug in Bugzilla or feature in Jira there is a corresponding Trello card. As it happens, sometimes when a bug is closed its Trello card is forgotten to be updated.</p>
+<p>A check with <a href="https://github.com/mvidner/ytrello">ytrello</a> revealed that, out of a total of 900-something cards, about 500 were outdated and could be closed. More than the half! Why so many?</p>
+<p>We found that quite a number of these cards were open cards in closed (archived) lists. So when you archive a list, don&#8217;t forget to archive its cards before. We have just learned that Trello does not do this automatically. That&#8217;s exactly why there&#8217;s a menu item <code>Archive All Cards in This List...</code> besides <code>Archive This List</code> in the Trello user interface.</p>
+<h3>Back to work!</h3>
+<p>This has been a summer of promises on our side. We told you we are working to improve our user interface library (libYUI), revamping the code to manage the network configuration, extending the support for encryption&#8230; which means we have a lot work to be finished.</p>
+<p>So let us go back to work while you do your part &#8211; having a lot of fun!</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>openSUSE OBS git mirror</title>
+		<link>https://lizards.opensuse.org/2019/09/13/opensuse-obs-git-mirror/</link>
+		<comments>https://lizards.opensuse.org/2019/09/13/opensuse-obs-git-mirror/#comments</comments>
+		<pubDate>Fri, 13 Sep 2019 19:42:12 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Security]]></category>
+		<category><![CDATA[git]]></category>
+		<category><![CDATA[IPFS]]></category>
+		<category><![CDATA[mirror]]></category>
+		<category><![CDATA[obs]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=14032</guid>
+		<description><![CDATA[There was some discussion about our OBS and how in contrast Gentoo, VoidLinux or Fedora used git to track packages. So I made an experimental openSUSE:Factory git mirror to see how well it goes and how using it feels. The repo currently needs around 1GB but will slowly grow over time. I did not want [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>There was some discussion about our OBS and how in contrast <a href="https://github.com/gentoo/gentoo">Gentoo</a>, <a href="https://github.com/void-linux/void-packages/tree/master/srcpkgs/aubio/">VoidLinux</a> or <a href="https://src.fedoraproject.org/rpms/aubio/tree/master">Fedora</a> used git to track packages.</p>
+<p>So I made an experimental <a href="https://github.com/bmwiedemann/openSUSE/">openSUSE:Factory git mirror</a> to see how well it goes and how using it feels.<br />
+The repo currently needs around 1GB but will slowly grow over time. I did not want to spend effort to import all history.</p>
+<p>Binary files are replaced by cryptographically secure symlinks into IPFS<br />
+and I am currently providing files up to 9MB there.</p>
+<p>If you can not run ipfs, you can still get these files through any of the public gateways like this:<br />
+<code>curl https://ipfs.io$(readlink packages/a/aubio/aubio-0.4.9.tar.bz2) &gt; OUTPUT</code></p>
+<p>So some benefits are already obvious.<br />
+It is now much easier to find and download our patches.<br />
+Downloading and seaching all of openSUSE is now much faster.<br />
+And it works even on Thursdays (when our maintenance window often causes OBS downtimes).</p>
+<p>It is meant to be a read-only mirror, so there is no point in opening pull-requests on github.</p>
+<p>I hope, you enjoy it and have a lot of fun&#8230;</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2019/09/13/opensuse-obs-git-mirror/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>Highlights of YaST Development Sprint 83</title>
+		<link>https://lizards.opensuse.org/2019/08/30/yast-sprint-83/</link>
+		<comments>https://lizards.opensuse.org/2019/08/30/yast-sprint-83/#comments</comments>
+		<pubDate>Fri, 30 Aug 2019 13:34:22 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Network]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[Uncategorized]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=14003</guid>
+		<description><![CDATA[The summer is almost gone but, looking back, it has been pretty productive from the YaST perspective. We have fixed a lot of bugs, introduced quite interesting features to the storage layer and the network module refactoring continues to progress (more or less) as planned. So it is time for another sprint report. During the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The summer is almost gone but, looking back, it has been pretty productive from the YaST perspective. We have fixed a lot of bugs, introduced quite interesting features to the storage layer and the network module refactoring continues to progress (more or less) as planned.</p>
+<p>So it is time for another sprint report. During the last two weeks, we have been basically busy squashing bugs and trying to get the network module as feature-complete as possible. But, after all, we have had also some time to improve our infrastructure and organize for the future.</p>
+<h3 id="yast2-network-refactoring-status">YaST2 Network Refactoring Status</h3>
+<p>Although we have been working hard, we have not said a word about the yast2-network refactoring progress <a href="https://lizards.opensuse.org/2019/07/19/yast-sprint-80/#shipping-another-round-of-network-refactored-code">since the end of July</a>, when we merged part of the changes into yast2-network 4.2.9 and pushed it to Tumbleweed. That version included quite a lot of internal changes related to the user interface and a few bits of the new data model, especially regarding routing and DNS handling.</p>
+<p>However, things have changed a lot since then, so we would like you to give you an overview of the current situation. Probably, the most remarkable achievement is that the development version is able to read and write the configuration using the new data model. OK, it is not perfect and does not cover all the use cases, but we are heading in the right direction.</p>
+<p>In the screencast below you can see it in action, reading and writing the configuration of an interface. The demo includes handling aliases too, which is done way better than the currently released versions.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/08/yast2-network-new-data-model-in-action.gif"><img src="//lizards.opensuse.org/wp-content/uploads/2019/08/yast2-network-new-data-model-in-action-300x225.gif" alt="YaST2 Network New Data Model in Action" width="300" height="225" class="aligncenter size-medium wp-image-14007" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/08/yast2-network-new-data-model-in-action-300x225.gif 300w, https://lizards.opensuse.org/wp-content/uploads/2019/08/yast2-network-new-data-model-in-action-768x577.gif 768w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Moreover, we had brought back support for many types of devices (VLAN, InfiniBand, qeth, TAP, TUN, etc.), improved the WiFi set-up workflow and reimplemented the support for renaming devices.</p>
+<p>Now, during the current sprint, we are focused on taking this new implementation to a usable state so we can release the current work as soon as possible and get some feedback from you.</p>
+<p>Finally, if you like numbers, we can give you a few. Since our last update, we have merged <a href="https://github.com/search?q=repo%3Ayast%2Fyast-network+created%3A%3E2019-07-19+state%3Aclosed+type%3Apr&amp;type=Issues">34 pull requests</a> and have increased the unit test coverage from 44% in openSUSE Leap 15.0/SUSE Linux Enterprise SP1 to around 64%. The new version is composed of 31.702 (physical) lines of code scattered through 231 files (around 137 lines per file) vs 22.542 in 70 files of the old one (more than 300 lines per file). And these numbers will get better as we continue to replace the old code <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<h3 id="missing-packages-in-leap">Missing Packages in Leap</h3>
+<p>It turned out that some YaST packages were not updated in Leap 15.1. The problem is that, normally, the YaST packages are submitted to the SLE15 product and they are automatically mirrored to the Leap 15 distribution via the build service bots. So we do not need to specially handle the package updates for Leap.</p>
+<p>However, there are few packages which are not included in the SUSE Linux Enteprise product line, but are included in openSUSE Leap. Obviously these packages cannot be updated automatically from SUSE Linux Enterprise because they are not present there. In this case Leap contained the old package versions from the initial 15.0 release.</p>
+<p>In order to fix this issue, we manually submitted the latest packages to the Leap 15.2 distribution. To avoid this problem in the future we asked the Leap maintainers to add the Leap specific packages to a check list so they are verified before the next release. Of course, if you see any outdated YaST package in Leap you can still open a <a href="https://en.opensuse.org/openSUSE:Report_a_YaST_bug">bug report</a>. <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>Just for reference, the affected packages are: <code>yast2-alternatives</code>, <code>yast2-slp-server</code>, <code>yast2-docker</code> and <code>skelcd-control-openSUSE</code> (the content is only present on the installation medium, it&#8217;s not released as an RPM).</p>
+<h3 id="lets-use-all-disks">Let&#8217;s use all disks!</h3>
+<p>As you may remember, three sprints ago we added some extra configuration options to make the storage guided proposal able to deal with the SUSE Manager approach. We even wrote a <a href="https://lizards.opensuse.org/2019/07/16/suse-manager-guided-setup/">dedicated blog post about it</a>!</p>
+<p>Despite offering the new options in the Guided Setup, we tried to keep the default initial behavior of the installer consistent with other (open)SUSE products. So the installer initially tried to install the whole system in a single disk, unless that was impossible or it was told by the user to expand on several disks.</p>
+<p>But the SUSE Manager folks found that to be contrary to the new ideas introduced in their Guided Setup. According to their feedback, in this case remaining consistent with other (open)SUSE product was not reducing the confusion, but rather increasing it. SUSE Manager should try from the very beginning to expand the product as much as possible among all available disks.</p>
+<p>For that reason, during this sprint we introduced the first <a href="https://github.com/yast/yast-storage-ng/pull/953">improvement</a> (a.k.a. another configuration option), so now it is possible to tell whether the initial proposal should try to use multiple disks as first try.</p>
+<h3 id="bootloader-and-small-mbr-gaps">Bootloader and Small MBR Gaps</h3>
+<p>We received a <a href="https://bugzilla.suse.com/show_bug.cgi?id=1142229">bug report</a> because a system was not able to boot after installation. In this case, the user decided to use Btrfs and placed the root file system in a logical partition. In theory, this scenario should work but, unfortunately, the MBR gap was too small to embed the Grub2 bootloader code.</p>
+<p>At first sight, this problem could be solved by asking YaST to install the bootloader into the logical partition and the generic boot code in the MBR. But this will only work if you set the logical partition as the active one. Sadly, some BIOSes could insist on having a primary partition as the active one.</p>
+<p>But don&#8217;t worry, we have good news. Grub2 maintainers took care of <a href="https://bugzilla.suse.com/show_bug.cgi?id=841247">this problem</a>. In case the MBR gap is too small, Grub2 will automatically fall-back to the Btrfs partition. That&#8217;s all. And what does it mean for YaST? Well, thanks to this fix, YaST will simply work out of the box and your system will be bootable again. But not so fast! You still have to wait a little bit more to have these Grub2 improvements available in a Tumbleweed installer.</p>
+<h3 id="handling-empty-comment-lines-in-ntp-configuration">Handling Empty Comment Lines in NTP Configuration</h3>
+<p>AutoYaST supports defining an specific NTP configuration to be applied during the installation and it relies in <a href="http://augeas.net/">Augeas</a> to read/write the <code>ntp.conf</code> file. But it seems that Augeas has some problems when it tries to write comments with empty lines, as you can see in <a href="https://bugzilla.suse.com/show_bug.cgi?id=1142026">bug 1142026</a>. The solution was to adapt YaST to filter out empty comment lines before saving the configuration file, working around the Augeas problem.</p>
+<h3 id="error-resizing-some-partitions">Error Resizing Some Partitions</h3>
+<p>Typically, an MS-DOS partition table reserves its first MiB for the MBR gap, so the partitions normally start after that point. But it is possible, especially in partitions for old Windows systems, that it starts before that first MiB. In that case, if we try to resize that partition (e.g., by using the Expert Partitioner), <a href="https://bugzilla.suse.com/show_bug.cgi?id=1146686">YaST crashes</a> due to an error when calculating the resize information. Fortunately, this problem is gone now, and you will be able to resize this kind of partitions as well.</p>
+<h3 id="side-effects-of-keyboard-layouts-unification">Side Effects of Keyboard Layouts Unification</h3>
+<p>During the <a href="https://lizards.opensuse.org/2019/07/29/highlights-of-yast-development-sprint-81/">sprint 81</a>, the openSUSE and SUSE Linux Enterprise <em>console</em> keyboard layouts were unified after some minor changes. One of those changes was to stop using the, in appearance, useless keymaps symlinks for Arabic and Cambodian. But they were there for a reason: are being used by YaST to correctly adapt the keyboard in the X11 environment. Just visit the <a href="https://github.com/yast/yast-country/pull/224">pull request</a> if you <del>prefer to scare yourself</del> want to dive in more technical details.</p>
+<p>Fortunately for the users of those keyboards, we realized about this problem before the upcoming SLE-15-SP2 was released <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> And, it&#8217;s fixed.</p>
+<h3 id="house-keeping-tasks">House Keeping Tasks</h2>
+<p>As part of our development duties for this sprint, we invested quite some time in reviewing and updating our continuous integration (CI) set up. Apart from using Travis CI for pull requests, we rely on <a href="https://ci.opensuse.org">Jenkins</a> to run the tests and submit the code to the appropriate projects in the <a href="https:/build.opensuse.org/">Open Build Service instances</a>.</p>
+<p>Then, when the development of a new version starts or when the product is about to be released, we need to adjust the configuration. Just in case you are wondering, we do not do this work by hand anymore and we use <a href="https://saltstack.org/">Salt</a> and <a href="https://docs.openstack.org/infra/jenkins-job-builder/">Jenkins Job Builder</a> to handle this configuration.</p>
+<h3 id="closing-thoughts">Closing Thoughts</h3>
+<p>During the next sprint (actually, the current one) we are working in three different areas, apart from squashing bugs: improving encryption support in the storage layer, adding some features to the installer (repo-less installer, support for reading product licenses from a tarball, etc.) and, of course, refactoring the network code. Obviously, we will give you all sort of details in our next sprint report.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2019/08/30/yast-sprint-83/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>Highlights of YaST Development Sprint 82</title>
+		<link>https://lizards.opensuse.org/2019/08/14/yast-sprint-82/</link>
+		<comments>https://lizards.opensuse.org/2019/08/14/yast-sprint-82/#comments</comments>
+		<pubDate>Wed, 14 Aug 2019 12:16:08 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=13988</guid>
+		<description><![CDATA[July and August are very sunny months in Europe&#8230; and chameleons like sun. That&#8217;s why most YaST developers run away from their keyboards during this period to enjoy vacations. Of course, that has an impact in the development speed of YaST and, as a consequence, in the length of the YaST Team blog posts. But [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>July and August are very sunny months in Europe&#8230; and chameleons like sun. That&#8217;s why most YaST developers run away from their keyboards during this period to enjoy vacations. Of course, that has an impact in the development speed of YaST and, as a consequence, in the length of the YaST Team blog posts.</p>
+<p>But don&#8217;t worry much, we still have enough information to keep you entertained for a few minutes if you want to dive with us into our summer activities that includes:</p>
+<ul>
+<li>Enhancing the development documentation</li>
+<li>Extending AutoYaST capabilities regarding Bcache</li>
+<li>Lots of small fixes and improvements</li>
+</ul>
+<h3>AutoYaST and Bcache &#8211; Broader Powers</h3>
+<p>Bcache technology made its debut in YaST several sprints ago. You can use the Expert Partitioner to create your Bcache devices and improve the performance of your slow disks. We even published a <a href="https://lizards.opensuse.org/2019/02/27/recap-bcache-in-yast/">dedicated blog post</a> with all details about it.</p>
+<p>Apart of the Expert Partitioner, <a href="https://lizards.opensuse.org/2019/03/14/yast-sprint-73/">AutoYaST was also extended</a> to support Bcache devices. And this time, we are pleased to announce that &#8230; we have fixed our <a href="https://bugzilla.suse.com/show_bug.cgi?id=1139783" rel="nofollow">first Bcache bug</a>!</p>
+<p>Actually, there were two different bugs in the AutoYaST side. First, the auto-installation failed when you tried to create a Bcache device without a caching set. On the other hand, it was not possible to create a Bcache with an LVM Logical Volume as backing device. Both bugs are gone, and now AutoYaST supports those scenarios perfectly.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/08/autoyast-bcache.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/08/autoyast-bcache-300x147.png" alt="Configuring Bcache and LVM with AutoYaST" width="300" height="147" class="aligncenter size-medium wp-image-13989" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/08/autoyast-bcache-300x147.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/08/autoyast-bcache-768x376.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/08/autoyast-bcache.png 800w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>But Bcache is a quite young technology and it is not free of bugs. In fact, it fails when the backing device is an LVM Logical Volume and you try to set the cache mode. We have already <a href="https://bugzilla.suse.com/show_bug.cgi?id=1139948">reported a bug</a> to the Bcache crew and (as you can see in the bug report) a patch is already been tested.</p>
+<h3>Enhancing Our Development Documentation</h3>
+<p>This sprint we also touched our <a href="https://yastgithubio.readthedocs.io/en/latest/README/">development documentation</a>, specifically we documented our process for creating the maintenance branches for the released products. The <a href="https://yastgithubio.readthedocs.io/en/latest/branching-how-to/">new branching documentation</a> describes not only how to actually create the branches but also how to adapt all the infrastructure around (like Jenkins or Travis) which requires special knowledge.</p>
+<p>We will see how much the documentation is helpful next time when somebody has to do the branching process for the next release. <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<h3>Working for a better <del datetime="2019-08-14T10:13:54+00:00">world</del> YaST</h3>
+<p>We do our best to write code free of bugs&#8230; but some bugs are smarter than us and they manage to survive and reproduce. Fortunately we used this sprint to do some hunting.</p>
+<ul>
+<li>We made the recently added <code>select_product</code> control file option work as it&#8217;s really expected. That is, selecting the given product in addition to displaying its license. See the <a href="https://github.com/yast/yast-yast2/pull/954">pull request containing the fix</a> for (a lot of) additional information.
+</li>
+<li>
+We fixed the <a href="https://github.com/yast/yast-packager/pull/459">previously improved product selection for multi-repository medias</a>, which was raising some <code>undefined method</code> errors. See <a href="https://github.com/yast/yast-packager/pull/462">yast/yast-packager#462</a>.
+</li>
+<li>
+The Expert Partitioner <a href="https://bugzilla.suse.com/show_bug.cgi?id=1142669">was failing</a> in some cases when trying to remove devices from a Btrfs file system. Now it works as expected.
+</li>
+<li>
+During the installation, the partitioning proposal <a href="https://bugzilla.suse.com/show_bug.cgi?id=1139808">was raising an unexpected exception</a> under certain scenarios involving BIOS RAIDs. This error was also fixed.
+</li>
+</ul>
+<p>Those are only some examples of the kind of bugs we have fought during this sprint. But checking bug reports has also made us think in the future&#8230;</p>
+<h3>LibYUI in 21st Century</h3>
+<p>We fixed <a href="https://bugzilla.suse.com/show_bug.cgi?id=1142353">a bug</a> related to how the focus was managed in text mode after changing any setting via the hyperlinks available in the installation summary.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2018/07/efi-warning-ncurses.png"><img src="//lizards.opensuse.org/wp-content/uploads/2018/07/efi-warning-ncurses-300x224.png" alt="Installation summary in text mode" width="300" height="224" class="aligncenter size-medium wp-image-13262" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/07/efi-warning-ncurses-300x224.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/07/efi-warning-ncurses-768x574.png 768w, https://lizards.opensuse.org/wp-content/uploads/2018/07/efi-warning-ncurses-1024x765.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2018/07/efi-warning-ncurses.png 1025w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>The implemented solution is actually not perfect, it&#8217;s just the better we can do with our set of widgets. And that was yet another example of such problem &#8211; LibYUI is an awesome library that allows us to create interfaces that work in both graphic and text modes, but it has basically not evolved for more than a decade&#8230; and it&#8217;s time to fix that!</p>
+<p>So we have been discussing how to organize our time in the close future to leave some room for innovation and renovation regarding LibYUI and the YaST UI in general. Stay tuned for more news.</p>
+<h3>August is still not over</h3>
+<p>The YaST Team will keep working during the rest of the summer sharpening our Linux Swiss army knife. But half of the team is still on vacation or starting their vacation now. So most likely our next report will be here in two weeks and it will also be a light read.</p>
+<p>Meanwhile, don&#8217;t forget to have a lot of fun!</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2019/08/14/yast-sprint-82/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+	</channel>
+</rss>

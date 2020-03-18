@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0"
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -9,19 +8,331 @@
 	>
 
 <channel>
-	<title>openSUSE Lizards &#187; Network</title>
-	<atom:link href="http://lizards.opensuse.org/category/base-system/network/feed/" rel="self" type="application/rss+xml" />
-	<link>http://lizards.opensuse.org</link>
+	<title>Network &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/category/base-system/network/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
 	<description>Blogs and Ramblings of the openSUSE Members</description>
-	<lastBuildDate>Mon, 24 Mar 2014 12:46:00 +0000</lastBuildDate>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
 	<language>en-US</language>
-		<sy:updatePeriod>hourly</sy:updatePeriod>
-		<sy:updateFrequency>1</sy:updateFrequency>
-	<generator>http://wordpress.org/?v=3.8.1</generator>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
 	<item>
+		<title>Highlights of YaST Development Sprint 93</title>
+		<link>https://lizards.opensuse.org/2020/02/07/yast-sprint-93/</link>
+		<comments>https://lizards.opensuse.org/2020/02/07/yast-sprint-93/#comments</comments>
+		<pubDate>Fri, 07 Feb 2020 16:31:11 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[Network]]></category>
+		<category><![CDATA[Software Management]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=14311</guid>
+		<description><![CDATA[Lately, the YaST team has been quite busy fixing bugs and finishing some features for the upcoming (open)SUSE releases. Although we did quite some things, in this report we will have a closer look at just a few topics: A feature to search for packages across all SLE modules has arrived to YaST. Improved support [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Lately, the YaST team has been quite busy fixing bugs and finishing some features for the upcoming (open)SUSE releases. Although we did quite some things, in this report we will have a closer look at just a few topics:</p>
+<ul>
+<li>A feature to search for packages across all SLE modules has arrived to YaST.</li>
+<li>Improved support for S390 systems in the network module.</li>
+<li>YaST command-line interface now returns a proper exit-code.</li>
+<li>Added progress feedback to the Expert Partitioner.</li>
+<li>Partial support for Bitlocker and, as a lesson learned from that, a new warning about resizing empty partitions.</li>
+</ul>
+<h3 id="the-online-search-feature-comes-to-yast">The Online Search Feature Comes to YaST</h3>
+<p>As you already know, starting in version 15, SUSE Linux follows a modular approach. Apart from the base products, the packages are spread through a set of different modules that the user can enable if needed (Basesystem module, Desktop Applications Module, Server Applications Module, Development Tools Module, you name it).</p>
+<p>In this situation, you may want to install a package, but you do not know which module contains such a package. As YaST only knows the data of those packages included in your registered modules, you will have to do a manual search.</p>
+<p>Fortunately, zypper introduced a new <code>search-packages</code> command some time ago that allows to find out where a given package is. And now it is time to bring this feature to YaST.</p>
+<p>For technical reasons, this online search feature cannot be implemented within the package manager, so it is available via the <em>Extra</em> menu.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2020/02/search-online-menu-option.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/02/search-online-menu-option-300x207.png" alt="Search Online Menu Option" width="300" height="207" class="aligncenter size-medium wp-image-14315" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/02/search-online-menu-option-300x207.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/02/search-online-menu-option-768x531.png 768w, https://lizards.opensuse.org/wp-content/uploads/2020/02/search-online-menu-option-1024x708.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2020/02/search-online-menu-option.png 1052w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>YaST offers a simple way to search for the package you want across all available modules and extensions, no matter whether they are registered or not. And, if you find the package you want, it will ask you about activating the needed module/extension right away so you can finally install the package.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2020/02/online-search-enable-containers-module.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/02/online-search-enable-containers-module-300x207.png" alt="Online Search: Enable Containers Module" width="300" height="207" class="aligncenter size-medium wp-image-14313" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/02/online-search-enable-containers-module-300x207.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/02/online-search-enable-containers-module-768x531.png 768w, https://lizards.opensuse.org/wp-content/uploads/2020/02/online-search-enable-containers-module-1024x708.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2020/02/online-search-enable-containers-module.png 1050w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>If you want to see this feature in action, check out the <a href="//lizards.opensuse.org/wp-content/uploads/2020/02/online-search-install-php7.webm">demonstration video</a>. Like any other new YaST feature, we are looking forward to your feedback.</p>
+<h3 id="fixing-and-improving-network-support-for-S390-systems">Fixing and Improving Network Support for S390 Systems</h3>
+<p>We have mentioned a lot of times that we recently refactored the Network module, fixing some long-standing bugs and preparing the code for the future. However, as a result, we introduced a few new bugs too. One of those bugs was dropping, by accident, the network devices activation dialog for S390 systems. Thus, during this sprint, we re-introduced the dialog and, what is more, we did a few improvements as the old one was pretty tricky. Let&#8217;s have a look at them.</p>
+<p>The first obvious change is that the overview shows only one line per each s390 group device, instead of using one row per each channel as the old did.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2020/02/yast2-network-s390-new-overview.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/02/yast2-network-s390-new-overview-300x239.png" alt="New YaST Network Overview for S390 Systems" width="300" height="239" class="aligncenter size-medium wp-image-14318" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/02/yast2-network-s390-new-overview-300x239.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/02/yast2-network-s390-new-overview-768x611.png 768w, https://lizards.opensuse.org/wp-content/uploads/2020/02/yast2-network-s390-new-overview.png 927w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Moreover, the overview will be updated after the activation, displaying the Linux device that corresponds to the just activated device.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2020/02/yast2-network-s390-overview-after-activation.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/02/yast2-network-s390-overview-after-activation-300x190.png" alt="YaST2 Network Overview After Activation" width="300" height="190" class="aligncenter size-medium wp-image-14321" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/02/yast2-network-s390-overview-after-activation-300x190.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/02/yast2-network-s390-overview-after-activation.png 723w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Last but not least, we have improved the error reporting too. Now, when the activation fails, YaST will give more details in order to help the user to solve the problem.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2020/02/yast2-network-s390-error-reporting.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/02/yast2-network-s390-error-reporting-300x239.png" alt="YaST2 Network Error Reporting in S390 Systems" width="300" height="239" class="aligncenter size-medium wp-image-14319" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/02/yast2-network-s390-error-reporting-300x239.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/02/yast2-network-s390-error-reporting-768x613.png 768w, https://lizards.opensuse.org/wp-content/uploads/2020/02/yast2-network-s390-error-reporting.png 926w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3 id="fixing-the-cli">Fixing the CLI</h3>
+<p>YaST command-line interface is a rather unknown feature, although it has been there since ever. Recently, we got some bug reports about its exit codes. We discovered that, due to a technical limitation of our internal API, it always returned a non-zero exit code on any command that was just reading values but not writing anything. Fortunately, we were able to fix the problem and, by the way, we improved the behavior in several situations where, although the exit code was non-zero, YaST did not give any feedback. Now that the CLI works again, it is maybe time to give it a try, especially if it is the first time you hear about it.</p>
+<h3 id="yast2-partitioner-feedback">Adding Progress Feedback to the Partitioner</h3>
+<p>The <em>Expert Partitioner</em> is a very powerful tool. It allows you to perform very complex configurations in your storage devices. At every time you can check the changes you have been doing in your devices by using the Installation Summary option on the left bar. All those changes will not be applied on the system until you confirm them by clicking the Next button. But once you confirm the changes, the Expert Partitioner simply closes without giving feedback about the progress of the changes being performed.</p>
+<p>Actually, this is a kind of regression after migrating YaST to its new Storage Stack (a.k.a. storage-ng). The old Partitioner had a final step which did inform the user about the progress of the changes. That dialog has been brought back, allowing you to be aware of what is happening once you decide to apply the configuration. This progress dialog will be available in SLE 15 SP2, openSUSE 15.2 and, of course, openSUSE Tumbleweed.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2020/02/yast2-storage-ng-progress-feedback.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/02/yast2-storage-ng-progress-feedback-300x155.png" alt="YaST Partitioner Progress Feedback" width="300" height="155" class="aligncenter size-medium wp-image-14325" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/02/yast2-storage-ng-progress-feedback-300x155.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/02/yast2-storage-ng-progress-feedback-768x397.png 768w, https://lizards.opensuse.org/wp-content/uploads/2020/02/yast2-storage-ng-progress-feedback.png 957w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3 id="bitlocker">Recognizing Bitlocker Partitions</h3>
+<p><a href="https://en.wikipedia.org/wiki/BitLocker">Bitlocker</a> is a filesystem encrypting technology that comes included with Windows. Until the previous sprint, YaST was not able to recognize that a given partition was encrypted with such technology.</p>
+<p>As a consequence, the automatic partitioning proposal of the (open)SUSE installer would happily delete any partition encrypted with Bitlocker to reclaim its space, even for users that had specified they wanted to keep Windows untouched. Moreover, YaST would allow users to resize such partitions using the Expert Partitioner without any warning (more about that below).</p>
+<p>All that is fixed. Now Bitlocker partitions are correctly detected and displayed as such in the Partitioner, which will not allow users to resize them, explaining that such operation is not supported. And the installer&#8217;s Guided Setup will consider those partitions to be part of a Windows installation for all matters.</p>
+<h3 id="beware-of-empty-partitions">Beware of Empty Partitions</h3>
+<p>As explained before, whenever YaST is unable to recognize the content of a partition or a disk, it considers such device to be empty. Although that&#8217;s not longer the case for Bitlocker devices, there are many more technologies out there (and more to come). So users should not blindly trust that a partition displayed as empty in the YaST Partitioner can actually be resized safely.</p>
+<p>In order to prevent data loss, in the future YaST will inform the user about a potential problem when trying to resize a partition that looks empty.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2020/02/yast2-storage-ng-empty-partition-warning-message.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/02/yast2-storage-ng-empty-partition-warning-message-300x180.png" alt="YaST&quot; Expert Partitioning Warning when Resizing Empty Partitions" width="300" height="180" class="aligncenter size-medium wp-image-14329" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/02/yast2-storage-ng-empty-partition-warning-message-300x180.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/02/yast2-storage-ng-empty-partition-warning-message.png 355w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3 id="hack-week-is-coming">Hack Week is coming&#8230;</h3>
+<p>That special time of the year is already around the corner. Christmas? No, Hack Week! From February 10 to February 14 we will be celebrating the 19th Hack Week at SUSE. The theme of this edition is <em>Simplify, Modernize &amp; Accelerate</em>. If you are curious about the projects that we are considering, have a look at <a href="https://hackweek.suse.com/">SUSE Hack Week&#8217;s Page</a>. Bear in mind that the event is not limited to SUSE employees, so if you are interested in any project, do not hesitate to join us.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2020/02/07/yast-sprint-93/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Highlights of YaST Development Sprint 83</title>
+		<link>https://lizards.opensuse.org/2019/08/30/yast-sprint-83/</link>
+		<comments>https://lizards.opensuse.org/2019/08/30/yast-sprint-83/#comments</comments>
+		<pubDate>Fri, 30 Aug 2019 13:34:22 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Network]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[Uncategorized]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=14003</guid>
+		<description><![CDATA[The summer is almost gone but, looking back, it has been pretty productive from the YaST perspective. We have fixed a lot of bugs, introduced quite interesting features to the storage layer and the network module refactoring continues to progress (more or less) as planned. So it is time for another sprint report. During the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The summer is almost gone but, looking back, it has been pretty productive from the YaST perspective. We have fixed a lot of bugs, introduced quite interesting features to the storage layer and the network module refactoring continues to progress (more or less) as planned.</p>
+<p>So it is time for another sprint report. During the last two weeks, we have been basically busy squashing bugs and trying to get the network module as feature-complete as possible. But, after all, we have had also some time to improve our infrastructure and organize for the future.</p>
+<h3 id="yast2-network-refactoring-status">YaST2 Network Refactoring Status</h3>
+<p>Although we have been working hard, we have not said a word about the yast2-network refactoring progress <a href="https://lizards.opensuse.org/2019/07/19/yast-sprint-80/#shipping-another-round-of-network-refactored-code">since the end of July</a>, when we merged part of the changes into yast2-network 4.2.9 and pushed it to Tumbleweed. That version included quite a lot of internal changes related to the user interface and a few bits of the new data model, especially regarding routing and DNS handling.</p>
+<p>However, things have changed a lot since then, so we would like you to give you an overview of the current situation. Probably, the most remarkable achievement is that the development version is able to read and write the configuration using the new data model. OK, it is not perfect and does not cover all the use cases, but we are heading in the right direction.</p>
+<p>In the screencast below you can see it in action, reading and writing the configuration of an interface. The demo includes handling aliases too, which is done way better than the currently released versions.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/08/yast2-network-new-data-model-in-action.gif"><img src="//lizards.opensuse.org/wp-content/uploads/2019/08/yast2-network-new-data-model-in-action-300x225.gif" alt="YaST2 Network New Data Model in Action" width="300" height="225" class="aligncenter size-medium wp-image-14007" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/08/yast2-network-new-data-model-in-action-300x225.gif 300w, https://lizards.opensuse.org/wp-content/uploads/2019/08/yast2-network-new-data-model-in-action-768x577.gif 768w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Moreover, we had brought back support for many types of devices (VLAN, InfiniBand, qeth, TAP, TUN, etc.), improved the WiFi set-up workflow and reimplemented the support for renaming devices.</p>
+<p>Now, during the current sprint, we are focused on taking this new implementation to a usable state so we can release the current work as soon as possible and get some feedback from you.</p>
+<p>Finally, if you like numbers, we can give you a few. Since our last update, we have merged <a href="https://github.com/search?q=repo%3Ayast%2Fyast-network+created%3A%3E2019-07-19+state%3Aclosed+type%3Apr&amp;type=Issues">34 pull requests</a> and have increased the unit test coverage from 44% in openSUSE Leap 15.0/SUSE Linux Enterprise SP1 to around 64%. The new version is composed of 31.702 (physical) lines of code scattered through 231 files (around 137 lines per file) vs 22.542 in 70 files of the old one (more than 300 lines per file). And these numbers will get better as we continue to replace the old code <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<h3 id="missing-packages-in-leap">Missing Packages in Leap</h3>
+<p>It turned out that some YaST packages were not updated in Leap 15.1. The problem is that, normally, the YaST packages are submitted to the SLE15 product and they are automatically mirrored to the Leap 15 distribution via the build service bots. So we do not need to specially handle the package updates for Leap.</p>
+<p>However, there are few packages which are not included in the SUSE Linux Enteprise product line, but are included in openSUSE Leap. Obviously these packages cannot be updated automatically from SUSE Linux Enterprise because they are not present there. In this case Leap contained the old package versions from the initial 15.0 release.</p>
+<p>In order to fix this issue, we manually submitted the latest packages to the Leap 15.2 distribution. To avoid this problem in the future we asked the Leap maintainers to add the Leap specific packages to a check list so they are verified before the next release. Of course, if you see any outdated YaST package in Leap you can still open a <a href="https://en.opensuse.org/openSUSE:Report_a_YaST_bug">bug report</a>. <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>Just for reference, the affected packages are: <code>yast2-alternatives</code>, <code>yast2-slp-server</code>, <code>yast2-docker</code> and <code>skelcd-control-openSUSE</code> (the content is only present on the installation medium, it&#8217;s not released as an RPM).</p>
+<h3 id="lets-use-all-disks">Let&#8217;s use all disks!</h3>
+<p>As you may remember, three sprints ago we added some extra configuration options to make the storage guided proposal able to deal with the SUSE Manager approach. We even wrote a <a href="https://lizards.opensuse.org/2019/07/16/suse-manager-guided-setup/">dedicated blog post about it</a>!</p>
+<p>Despite offering the new options in the Guided Setup, we tried to keep the default initial behavior of the installer consistent with other (open)SUSE products. So the installer initially tried to install the whole system in a single disk, unless that was impossible or it was told by the user to expand on several disks.</p>
+<p>But the SUSE Manager folks found that to be contrary to the new ideas introduced in their Guided Setup. According to their feedback, in this case remaining consistent with other (open)SUSE product was not reducing the confusion, but rather increasing it. SUSE Manager should try from the very beginning to expand the product as much as possible among all available disks.</p>
+<p>For that reason, during this sprint we introduced the first <a href="https://github.com/yast/yast-storage-ng/pull/953">improvement</a> (a.k.a. another configuration option), so now it is possible to tell whether the initial proposal should try to use multiple disks as first try.</p>
+<h3 id="bootloader-and-small-mbr-gaps">Bootloader and Small MBR Gaps</h3>
+<p>We received a <a href="https://bugzilla.suse.com/show_bug.cgi?id=1142229">bug report</a> because a system was not able to boot after installation. In this case, the user decided to use Btrfs and placed the root file system in a logical partition. In theory, this scenario should work but, unfortunately, the MBR gap was too small to embed the Grub2 bootloader code.</p>
+<p>At first sight, this problem could be solved by asking YaST to install the bootloader into the logical partition and the generic boot code in the MBR. But this will only work if you set the logical partition as the active one. Sadly, some BIOSes could insist on having a primary partition as the active one.</p>
+<p>But don&#8217;t worry, we have good news. Grub2 maintainers took care of <a href="https://bugzilla.suse.com/show_bug.cgi?id=841247">this problem</a>. In case the MBR gap is too small, Grub2 will automatically fall-back to the Btrfs partition. That&#8217;s all. And what does it mean for YaST? Well, thanks to this fix, YaST will simply work out of the box and your system will be bootable again. But not so fast! You still have to wait a little bit more to have these Grub2 improvements available in a Tumbleweed installer.</p>
+<h3 id="handling-empty-comment-lines-in-ntp-configuration">Handling Empty Comment Lines in NTP Configuration</h3>
+<p>AutoYaST supports defining an specific NTP configuration to be applied during the installation and it relies in <a href="http://augeas.net/">Augeas</a> to read/write the <code>ntp.conf</code> file. But it seems that Augeas has some problems when it tries to write comments with empty lines, as you can see in <a href="https://bugzilla.suse.com/show_bug.cgi?id=1142026">bug 1142026</a>. The solution was to adapt YaST to filter out empty comment lines before saving the configuration file, working around the Augeas problem.</p>
+<h3 id="error-resizing-some-partitions">Error Resizing Some Partitions</h3>
+<p>Typically, an MS-DOS partition table reserves its first MiB for the MBR gap, so the partitions normally start after that point. But it is possible, especially in partitions for old Windows systems, that it starts before that first MiB. In that case, if we try to resize that partition (e.g., by using the Expert Partitioner), <a href="https://bugzilla.suse.com/show_bug.cgi?id=1146686">YaST crashes</a> due to an error when calculating the resize information. Fortunately, this problem is gone now, and you will be able to resize this kind of partitions as well.</p>
+<h3 id="side-effects-of-keyboard-layouts-unification">Side Effects of Keyboard Layouts Unification</h3>
+<p>During the <a href="https://lizards.opensuse.org/2019/07/29/highlights-of-yast-development-sprint-81/">sprint 81</a>, the openSUSE and SUSE Linux Enterprise <em>console</em> keyboard layouts were unified after some minor changes. One of those changes was to stop using the, in appearance, useless keymaps symlinks for Arabic and Cambodian. But they were there for a reason: are being used by YaST to correctly adapt the keyboard in the X11 environment. Just visit the <a href="https://github.com/yast/yast-country/pull/224">pull request</a> if you <del>prefer to scare yourself</del> want to dive in more technical details.</p>
+<p>Fortunately for the users of those keyboards, we realized about this problem before the upcoming SLE-15-SP2 was released <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> And, it&#8217;s fixed.</p>
+<h3 id="house-keeping-tasks">House Keeping Tasks</h2>
+<p>As part of our development duties for this sprint, we invested quite some time in reviewing and updating our continuous integration (CI) set up. Apart from using Travis CI for pull requests, we rely on <a href="https://ci.opensuse.org">Jenkins</a> to run the tests and submit the code to the appropriate projects in the <a href="https:/build.opensuse.org/">Open Build Service instances</a>.</p>
+<p>Then, when the development of a new version starts or when the product is about to be released, we need to adjust the configuration. Just in case you are wondering, we do not do this work by hand anymore and we use <a href="https://saltstack.org/">Salt</a> and <a href="https://docs.openstack.org/infra/jenkins-job-builder/">Jenkins Job Builder</a> to handle this configuration.</p>
+<h3 id="closing-thoughts">Closing Thoughts</h3>
+<p>During the next sprint (actually, the current one) we are working in three different areas, apart from squashing bugs: improving encryption support in the storage layer, adding some features to the installer (repo-less installer, support for reading product licenses from a tarball, etc.) and, of course, refactoring the network code. Obviously, we will give you all sort of details in our next sprint report.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2019/08/30/yast-sprint-83/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>Highlights of YaST Development Sprint 69 &#038; 70</title>
+		<link>https://lizards.opensuse.org/2019/01/31/highlights-of-yast-development-sprint-6970/</link>
+		<comments>https://lizards.opensuse.org/2019/01/31/highlights-of-yast-development-sprint-6970/#comments</comments>
+		<pubDate>Thu, 31 Jan 2019 14:31:02 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Network]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[Usability]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=13553</guid>
+		<description><![CDATA[Almost two months has passed since our last sprint report but, except during the Christmas break, the team has been quite busy working on some features and bugfixes for the upcoming (open)SUSE releases. But a post describing all that we have done would be quite long :), so let&#8217;s try to highlight a few of [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Almost two months has passed since our <a href="https://lizards.opensuse.org/2018/12/04/highlights-of-yast-development-sprint-68/">last sprint report</a> but, except during the Christmas break, the team has been quite busy working on some features and bugfixes for the upcoming (open)SUSE releases.</p>
+<p>But a post describing all that we have done would be quite long :), so let&#8217;s try to highlight a few of them.</p>
+<ul>
+<li>YaST got a security audit and, although no real security problems were found, we were asked to introduce some improvements.</li>
+<li>Now it is possible to run the installer through PXE Boot without any local repository. Pretty specific but cool stuff!</li>
+<li>We are in the process of revamping SUSE Manager Salt Formulas support in the YaST2 Configuration Management module. Do not be fooled by the name, it is not limited to SUSE Manager.</li>
+<li>YaST icons are now included in the package were they are used. We hope it will make things easier for icon designers.</li>
+<li>The Firewall module got support for creating <a href="https://firewalld.org/">firewalld</a> custom zones.</li>
+<li>Performance when reading huge <tt>/etc/hosts</tt> files has been greatly improved.</li>
+<li>CD/DVD sources are always disabled after installation.</li>
+</ul>
+<h2 id="yast-security-hardening">YaST Security Hardening</h2>
+<p>Our SUSE security team did a security audit for YaST. The good news is that there were no real security problems that you should be concerned about. Still, we did some hardening to make the code even more secure.</p>
+<p>This might have caused some breakages in Factory / Tumbleweed because many places in the code were touched. We apologize for any inconveniences that might have caused; but we are sure you prefer YaST to be more secure.</p>
+<p>Most changes were centered around calling external commands, which YaST does a lot. Since YaST is running with root permissions in most cases, we want to make sure that this is as secure as possible. If you find any problems with it, please write bug reports.</p>
+<p>What exactly we did and how we did it is summarized here: <a href="https://github.com/yast/yast.github.io/issues/172">YaST Security Audit Fixes: Lessons Learned and Reminder</a></p>
+<h2 id="installing-via-pxe-boot-without-any-installation-repository">Installing via PXE Boot without any Installation Repository</h2>
+<p>In data centers and other big-scale enterprise environments, administrators rarely install new software via removable media such as DVDs. Instead, administrators rely on <a href="https://en.wikipedia.org/wiki/Preboot_Execution_Environment">PXE (Preboot eXecution Environment)</a> booting to image servers.</p>
+<p>Installing Linux Enterprise in such environments typically requires two auxiliary servers in the local network:</p>
+<ul>
+<li>The DHCP/TFTP server providing the minimal system used by PXE to execute the installer.</li>
+<li>A server making the SLE DVD repository accessible in the local network via FTP, HTTP or any similar protocol.</li>
+</ul>
+<p>Very often, the second one is more a requisite imposed by the installer than something really useful. In most cases, the system been installed will be registered in the <a href="https://scc.suse.com">SUSE Customer Center</a> (or any of its proxy technologies like SMT or RMT) and will get all the software from there. Thus, we decided to save the administrators the extra steps of downloading the SLE ISO image and setting up an install server to serve the content of that ISO, for cases in which that was really not needed.</p>
+<p>But the repositories are not only used to get the software been installed in the final system. As explained often in this blog, we have a single installer for all the products and flavors of SUSE and openSUSE, as different as the installation process looks for all of them. That generic installer uses the information in the installation repository to get its own configuration. That includes the available products (and its corresponding system roles), the steps and options to present to the user, the desired partitioning setup and many other aspects. Without that information, the installer is basically a musician without his score.</p>
+<p>Starting with SLE-15-SP1, it will be possible to use the boot parameter <code>NOREPO=1</code> to tell the installer to not expect (and more important, to not require) any local repository in the DVD or in the local network. In that case, the installer will be able to proceed up to the registration screen and get the information for the upcoming steps of the installation from the registration server. In the openSUSE case (where registration makes no sense), it will be able to reach the screen that allows to add more repositories.</p>
+<p>Another step (and certainly not an easy one) to improve the installation experience for our users. Data center administrators, enjoy! <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<h2 id="revamping-salt-formulas-forms-support">Revamping SUSE Manager Salt Formulas Support</h2>
+<p>Back in 2017, the <a href="https://github.com/yast/yast-configuration-management/">YaST Configuration Management</a> module got support to handle SUSE Manager Salt Formulas as part of <a href="https://hackweek.suse.com/15/projects/yast-module-for-suse-manager-salt-parametrizable-formulas">a Hack Week project</a>. If you do not know what this feature is about, you might be interested in checking the <a href="https://www.suse.com/communities/blog/forms-formula-success/">Forms are the Formula for Success</a> presentation or the Hack Week project <a href="https://imobachgs.github.io/yast/2017/03/01/yast2-cm-gets-support-for-salt-parametrizable-formulas.html">follow-up post</a>.</p>
+<p>Since then, the forms specification has evolved quite a lot and YaST support was basically outdated. So on November 2018 we started to work in order to bring the missing pieces to the YaST module. Basically, we rewrote the forms support and, although there are still rough edges, we are pretty close to release a new version with up-to-date support for this powerful feature.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/01/yast2-configuration-management.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/01/yast2-configuration-management-300x225.png" alt="Screenshot of how the dhcpd formula looks like" width="300" height="225" class="aligncenter size-medium wp-image-13565" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/01/yast2-configuration-management-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/01/yast2-configuration-management-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/01/yast2-configuration-management.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h2 id="managing-custom-zones-definitions-in-yast-firewall">Managing Custom Zones Definitions in YaST Firewall</h2>
+<p>The new YaST UI for configuring <code>firewalld</code> was announced in <a href="https://lizards.opensuse.org/2018/10/01/yast-sprint-63/">the report of the sprint #63</a> (four months ago&#8230; time flies!) and, since then, we have continued improving it.</p>
+<p><code>firewalld</code> ships with some predefined <a href="https://firewalld.org/documentation/man-pages/firewalld.zones.html">zones</a>. Although it covers most users needs, in addition it allows the user to define custom zones. During the last sprint we have added support in the new UI and also in AutoYaST to manage <a href="https://firewalld.org/documentation/man-pages/firewalld.zones.html">custom zones</a>.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/01/yast2-firewall-custom-zones.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/01/yast2-firewall-custom-zones-300x266.png" alt="YaST2 Firewall custom zones definition dialog" width="300" height="266" class="aligncenter size-medium wp-image-13555" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/01/yast2-firewall-custom-zones-300x266.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/01/yast2-firewall-custom-zones.png 560w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>During the development process some problems detected in the <strong>AutoYaST configuration</strong> were addressed too.</p>
+<h2 id="updated-yast-branding-and-icon-handling">Updated YaST Branding and Icon Handling</h2>
+<p>In the past the YaST icons were included in the <code>yast2-branding-openSUSE</code> (openSUSE) and <code>yast2-theme-SLE</code> (SUSE Linux Enterprise) packages. The standard YaST icons were included in these packages, the standard YaST modules did not include any icons.</p>
+<p>However, the disadvantage for the icon designer was that it was not clear which icons were really used.<br />
+If you wanted to update the icon theme you could potentially do a lot of useless work because some icons were not used anymore.</p>
+<p>Now the icons are included in the respective YaST package, if the package is dropped the icon is dropped as well.</p>
+<p>The package manager UI includes compiled-in fallback icons. That means if the branding package is broken or the icon files are accidentally deleted from disk then it will be still usable for emergency recovery.</p>
+<p>The branding still works, the vendor can still provide specific icons which will override the included ones. So it is still possible to have a different look in the openSUSE and SLE products.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/01/yast2-control-center-icons.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/01/yast2-control-center-icons-300x224.png" alt="YaST2 Control Center new branding Screenshot" width="300" height="224" class="aligncenter size-medium wp-image-13561" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/01/yast2-control-center-icons-300x224.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/01/yast2-control-center-icons-768x575.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/01/yast2-control-center-icons.png 786w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>A big thank you goes to Stasiek Michalski and Noah Davis from the community who did the changes in the YaST code, designed the new icons and did a lot of cleanup!</p>
+<h2 id="improving-performance-when-loading-huge-etchosts">Improving Performance when Loading Huge <code>/etc/hosts</code> Files</h2>
+<p>It might happen that you need to maintain a huge <code>/etc/hosts</code> file, especially when dealing with ads blockers. Such file with thousands of lines took an incredible amount of time to get loaded into YaST2. On some configurations it could even happen that loading a <code>/etc/hosts</code> with around 10.000 lines freezes the system completely. After some refactoring in YaST2 Host module, the performance has been significantly improved and loading a file with 10.000 lines now takes approximately 30s on the same configuration where it crashed before.</p>
+<h2 id="disabling-cd-dvd-repositories-after-installation">Disabling CD/DVD Repositories After Installation</h2>
+<p>If you install your system from a CD/DVD source it usually happens that this repository was not available for whole live of the system. In some use cases this was only uncomfortable because of some warnings but, in other cases, it caused serious complications, for instance, when trying to do a migration.</p>
+<p>In the past, under some circumstances, those repositories were already disabled. But, from now on, they will be disabled always in order to avoid unwanted side effects.</p>
+<h2 id="closing-thoughs">Closing Thoughts</h2>
+<p>That&#8217;s all for the first report of 2019. In case you are wondering, the plan is to stick to the plan of publishing a report after each sprint, so expect the next one in about two weeks.</p>
+<p>However, we recently had to migrate from the so called GitHub Services (now deprecated) to GitHub web hooks, so you might get an extra blog post about that very soon.</p>
+<p>Stay tuned!</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2019/01/31/highlights-of-yast-development-sprint-6970/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>Highlights of YaST development sprint 28</title>
+		<link>https://lizards.opensuse.org/2016/12/02/highlights-of-yast-development-sprint-28/</link>
+		<pubDate>Fri, 02 Dec 2016 14:13:07 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Network]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[Usability]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12141</guid>
+		<description><![CDATA[November is over, Santa Claus elves start to stress and the YaST team brings you one of the last reports of 2016. Let&#8217;s see what&#8217;s new in YaSTland. Harder to ignore installation warning The &#8220;installation settings&#8221; summary screen usually reports some non-critical errors displayed as a red text. Although the installation can proceed despite those [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>November is over, Santa Claus elves start to stress and the YaST team brings you one of the last reports of 2016. Let&#8217;s see what&#8217;s new in YaSTland.</p>
+<h3>Harder to ignore installation warning</h3>
+<p>The &#8220;installation settings&#8221; summary screen usually reports some non-critical errors displayed as a red text. Although the installation can proceed despite those errors, they are usually serious enough to lead to problems. That&#8217;s why we decided to introduce a change to highlight them a little bit more, making them harder to overlook.</p>
+<p>The following screenshot shows the newly introduced confirmation dialog, presented before proceeding with installation.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2016/11/warn.png"><img src="//lizards.opensuse.org/wp-content/uploads/2016/11/warn-300x227.png" alt="Preventing users to shoot their feet" width="300" height="227" class="aligncenter size-medium wp-image-12152" srcset="https://lizards.opensuse.org/wp-content/uploads/2016/11/warn-300x227.png 300w, https://lizards.opensuse.org/wp-content/uploads/2016/11/warn-768x582.png 768w, https://lizards.opensuse.org/wp-content/uploads/2016/11/warn-1024x776.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2016/11/warn.png 1027w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3>Make DHCLIENT_SET_HOSTNAME configurable on a per-interface basis</h3>
+<p>But that&#8217;s not the only usability-oriented enhancement on this sprint. We also reworked a bit the network configuration dialog.</p>
+<p>For home users is very common to use a fixed hostname -set during installation- for our beloved linux box. But in some circumstances it&#8217;s better to set the hostname of the machine dynamically using DHCP, something YaST has always allowed to do by just ticking a checkbox that used to be in the network configuration screen. See &#8220;Change Hostname via DHCP&#8221; below.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2016/12/old-network.png"><img src="//lizards.opensuse.org/wp-content/uploads/2016/12/old-network-300x225.png" alt="The old network settings screen" width="300" height="225" class="aligncenter size-medium wp-image-12162" srcset="https://lizards.opensuse.org/wp-content/uploads/2016/12/old-network-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2016/12/old-network.png 640w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>That checkbox used to modify the system-wide variable <code>DHCLIENT_SET_HOSTNAME</code>, which was fine in scenarios in which only one of the network interfaces was configured via DHCP. But with several network interfaces connected to different DHCP-enabled networks, some problems arose.</p>
+<p>During installation, if network configuration is used, <a href="https://en.opensuse.org/SDB:Linuxrc">Linuxrc</a> creates the <code>ifcfg</code> files with <code>DHCLIENT_SET_HOSTNAME='yes'</code> for all of the enabled or configured interfaces and this value has precedence over the global one.</p>
+<p>So the main problem was that YaST only allowed us to modify the global variable and setting it to &#8216;no&#8217; did nothing because it was enabled for some interface.</p>
+<p>During this sprint we have fixed that and now the user interface offers the possibility of choosing which DHCP interface will be used to decide the hostname.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2016/12/new-network.png"><img src="//lizards.opensuse.org/wp-content/uploads/2016/12/new-network-300x225.png" alt="The new network settings screen" width="300" height="225" class="aligncenter size-medium wp-image-12163" srcset="https://lizards.opensuse.org/wp-content/uploads/2016/12/new-network-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2016/12/new-network.png 640w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Apart from choosing one of the existing interfaces, the new setting can also be set to &#8216;no&#8217; or to &#8216;any&#8217;. In any case, YaST will always configure the system-wide options and the interface specific ones in a consistent way, so the behavior is always predictable.</p>
+<p>But YaST is not the only way of configuring the network, so it&#8217;s always possible to have an unpredictable configuration. Fortunately, those potentially problematic scenarios will be detected by YaST and reported to the user.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2016/12/any-network.png"><img src="//lizards.opensuse.org/wp-content/uploads/2016/12/any-network-300x225.png" alt="Detecting dangerous scenarios in network settings" width="300" height="225" class="aligncenter size-medium wp-image-12164" srcset="https://lizards.opensuse.org/wp-content/uploads/2016/12/any-network-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2016/12/any-network.png 640w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3>Partitioning in CASP</h3>
+<p>In the <a href="https://lizards.opensuse.org/2016/11/10/highlights-of-yast-development-sprint-27/">previous report</a> we already explained how are we improving the installer to support the definition of the ultra-streamlined installation process of SUSE CASP, the new <a href="http://kubernetes.io/">Kubernetes</a> based member of the SUSE family.</p>
+<p>In this sprint we introduced several additional changes to enable a different partitioning approach, more guided and automatic than ever. In a CASP node it makes no sense to use the advanced settings offered by our storage proposal, like encryption or LVM. Moreover, CASP relies on Btrfs to provide some of its cool and advanced features, like transactional updates.</p>
+<p>As a result, although the regular SUSE and openSUSE releases will keep offering all the current possibilities in the same way than ever, in CASP the partitioning step will be skipped and the automatically calculated proposal will be simply displayed in the installation summary.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2016/12/casp-installation-summary.png"><img src="//lizards.opensuse.org/wp-content/uploads/2016/12/casp-installation-summary-300x186.png" alt="The new CASP installation summary" width="300" height="186" class="aligncenter size-medium wp-image-12170" srcset="https://lizards.opensuse.org/wp-content/uploads/2016/12/casp-installation-summary-300x186.png 300w, https://lizards.opensuse.org/wp-content/uploads/2016/12/casp-installation-summary-768x477.png 768w, https://lizards.opensuse.org/wp-content/uploads/2016/12/casp-installation-summary-1024x636.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2016/12/casp-installation-summary.png 1356w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Clicking on the proposal will allow to re-target the installation to a different disk (or disks) in a similar way than the regular installer, but the options will be more limited. Again, no easy way to use LVM, encryption, separate home or any file system type other than Btrfs.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2016/12/casp-select-partitions.png"><img src="//lizards.opensuse.org/wp-content/uploads/2016/12/casp-select-partitions-300x186.png" alt="Selecting the partitions in CASP, no proposal settings button" width="300" height="186" class="aligncenter size-medium wp-image-12171" srcset="https://lizards.opensuse.org/wp-content/uploads/2016/12/casp-select-partitions-300x186.png 300w, https://lizards.opensuse.org/wp-content/uploads/2016/12/casp-select-partitions-768x477.png 768w, https://lizards.opensuse.org/wp-content/uploads/2016/12/casp-select-partitions-1024x635.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2016/12/casp-select-partitions.png 1352w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>The expert partitioner is still available during CASP installation, but using it will show an extra warning, since it implies a much bigger risk than using it in a regular SUSE or openSUSE system.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2016/12/casp-expert-partitioner-warning.png"><img src="//lizards.opensuse.org/wp-content/uploads/2016/12/casp-expert-partitioner-warning-300x186.png" alt="Expert partitioner warning in CASP" width="300" height="186" class="aligncenter size-medium wp-image-12172" srcset="https://lizards.opensuse.org/wp-content/uploads/2016/12/casp-expert-partitioner-warning-300x186.png 300w, https://lizards.opensuse.org/wp-content/uploads/2016/12/casp-expert-partitioner-warning-768x477.png 768w, https://lizards.opensuse.org/wp-content/uploads/2016/12/casp-expert-partitioner-warning-1024x636.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2016/12/casp-expert-partitioner-warning.png 1352w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3>Improved debugger integration</h3>
+<p>We have improved the Ruby debugger integration in YaST. So far you could start the debugger using the <code>y2debugger=1</code> boot option or by setting the <code>Y2DEBUGGER=1</code> environment variable. The new feature allows starting the Ruby debugger also later when the YaST module is already running.</p>
+<p>Simply press the <code>Shift+Ctrl+Alt+D</code> keyboard shortcut (<code>D</code> as debug) and it will start the Ruby debugger. It works during installation and also in installed system (just make sure the <code>byebug</code> Ruby gem is installed).</p>
+<p>Unfortunately this new feature works only in the Qt UI, the ncurses UI is not supported (currently it does not handle the debugging keyboard shortcut at all).</p>
+<p>After pressing the keyboard shortcut the debugger window will pop up:</p>
+<p><img src="//lizards.opensuse.org/wp-content/uploads/2016/11/debugger.gif" alt="New debugger integration" /></p>
+<h3>Storage reimplementation: it&#8217;s alive!</h3>
+<p>It took us one more sprint than originally expected, but finally we can say the testing ISO for the new storage stack is fully installable.</p>
+<p>We fixed the UEFI + MBR partition table scenario we already had almost working in the previous sprint (turns out it was not that broken in Tumbleweed after all) and we adapted yast2-bootloader to be also able to deal with legacy (i.e. no UEFI) booting using the new storage stack.</p>
+<p>As a nice result, our testing ISO can be used to install a perfectly functional system in both UEFI or legacy systems with the only requirement of having a pre-existing MBR partition table in the disk. It only shows a couple of error pop-ups related to the calculation of the proposal of software to be installed, but nothing that would prevent you from replacing whatever operating system you have with a new shiny openSUSE-based experiment.</p>
+<p>This milestone opens the door to start testing the new stack with openQA, the same system that helps to guarantee the robustness of all the recent SUSE and openSUSE versions.</p>
+<h3>Storage reimplementation: preparations for the storage proposal</h3>
+<p>Now that yast2-bootloader starts to be ready to work with the new storage stack in more and more scenarios, it&#8217;s time to adapt the only component that still complains during the installation. </p>
+<p>In order to make that task doable during the next sprint, we invested some time in this sprint analyzing the interaction between the software proposal calculator and the old storage layer. The outcome was <a href="https://github.com/yast/yast-storage-ng/blob/master/doc/software-requirements.md">a small document</a> detailing what needs to be adapted in the proposal and in the new stack. The perfect input for a task in the next sprint.</p>
+<h3>Help for power-users with short memory</h3>
+<p>Our beloved YaST is packed with <a href="https://en.opensuse.org/SDB:YaST_tricks">magic tricks</a> below the surface. Many of them are very useful to debug installation problems or to better understand how the YaST internals work. Unfortunately developers tend to not be that good at blindly memorizing stuff and the functionality is so well hidden that most newcomers would have hard times finding it&#8230; until now.</p>
+<p>We have added a couple of new keyboard shortcuts to show a summary of all the advanced hotkeys, so now you only have to remember one key combination instead of a dozen of them. In both text (ncurses) and graphical (Qt) mode, it will be enough to press <code>shift+F1</code> to get the advanced help displayed below. Since some terminal emulators could already use that combination, <code>ctrl+D F1</code> can also be used in the ncurses interface as an alternative.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2016/12/hotkey-help-qt.png"><img src="//lizards.opensuse.org/wp-content/uploads/2016/12/hotkey-help-qt-300x268.png" alt="Advanced Hotkeys help dialog" width="300" height="268" class="aligncenter size-medium wp-image-12167" srcset="https://lizards.opensuse.org/wp-content/uploads/2016/12/hotkey-help-qt-300x268.png 300w, https://lizards.opensuse.org/wp-content/uploads/2016/12/hotkey-help-qt.png 589w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3>Contributions keep coming!</h3>
+<p>As we have already mentioned in previous sprint reports, an important part of our daily job as open source developers is helping casual (and not so casual) contributors to bring their ideas and code into YaST and related projects.</p>
+<p>This time that (hopefully not casual) contributor was <a href="https://github.com/dwaas">Devin Waas</a>, who wanted to improve the installation to make the life of cloud-lovers easier.</p>
+<p>For cloud guys out there retrieving logs of a failed installation <del>is</del> was a huge problem. Now, thanks to Devin, all you need is a running a rsyslog server and you&#8217;ll be able to easily access your installation logs from there.</p>
+<p><img class="aligncenter" src="//lizards.opensuse.org/wp-content/uploads/2016/11/dvw.png" alt="A drawing is worth a thousand words" /></p>
+<p>As a matter of fact, the newest Tumbleweed release allows us to specify the IP address of a remote server from the bootloader through the &#8220;Loghost flag&#8221;. Linuxrc will take care of setting up a UDP broadcast for dmesg contents and YaST installation logs.</p>
+<p>This is just a first step. Devin promised further improvements of our newly implemented remote logging system. And he codes better than he draws, so stay tuned! </p>
+<h3>Storage reimplementation: LVM-based proposal</h3>
+<p>As we already mentioned in previous reports, when we started to develop the partitioning proposal we first focused in the scenario of a partition-based proposal with one or several MBR-style partition tables. That looked like the most complex scenario due to the limited number of primary partitions, the alignment problems, the overhead introduced by the <a href="https://en.wikipedia.org/wiki/Extended_boot_record">EBR (extended boot record)</a> of every logical partition and so on.</p>
+<p>A couple of sprints ago, we got that working so we started to work on the LVM-based proposal. It took a little bit longer than expected but now we are able to generate LVM-based proposals for almost every possible scenario. The goal was to have them working in our mocked test cases. So probably the new LVM-based proposal cannot still be used to install a fully functional system, but it is backed by a full load of tests that prove we can handle many situations, from trivial to really tricky ones&#8230; and believe us, things can get quite tricky if you mix logical partitions with their EBR overhead and LVM volumes with their <a href="http://www.tldp.org/HOWTO/LVM-HOWTO/pe.html">PE size</a> rounding and their <a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/5/html/Logical_Volume_Manager_Administration/lvm_metadata.html">metadata</a> overhead.</p>
+<h3>Bugs, bugs, bugs</h3>
+<p>In this sprint we kept the already commented approach of making the fix of low-priority and small bugs part of the Scrum process. As a result we accounted for approximately 50 deaths of those annoying creatures.</p>
+<h3>Conclusion</h3>
+<p>Looking at the report, we could say it was a quite successful sprint. But to be honest we were aiming even higher. Quite some interesting PBIs (features or bug-fixes in Scrum jargon) were almost done at the end of the sprint. But following Scrum philosophy, we never blog about almost-done stuff.</p>
+<p>Thus, if nothing goes wrong things will be even better in the next report in three weeks. So have a lot of fun trying the new stuff and stay tuned for more!</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Announcing Li-f-e 42.1</title>
+		<link>https://lizards.opensuse.org/2015/12/21/announcing-li-f-e-42-1/</link>
+		<comments>https://lizards.opensuse.org/2015/12/21/announcing-li-f-e-42-1/#comments</comments>
+		<pubDate>Mon, 21 Dec 2015 10:37:48 +0000</pubDate>
+		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Derivative]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Education]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Mono]]></category>
+		<category><![CDATA[Network]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Server]]></category>
+		<category><![CDATA[Usability]]></category>
+		<category><![CDATA[Classroom]]></category>
+		<category><![CDATA[Graphic designing]]></category>
+		<category><![CDATA[LTSP]]></category>
+		<category><![CDATA[Multimedia]]></category>
+		<category><![CDATA[openSUSE]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11596</guid>
+		<description><![CDATA[The best Linux distribution for education got a whole lot better, your Li-f-e(Linux for Education) takes a &#8220;Leap&#8221; to 42.1. openSUSE Education community is proud to present this latest edition based on openSUSE 42.1 with all the features, updates and bug fixes available on it till date. This effectively makes it the only enterprise grade [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The best Linux distribution for education got a whole lot better, your <a href="https://en.opensuse.org/openSUSE:Education-Li-f-e">Li-f-e(Linux for Education)</a> takes a &#8220;<a href="https://news.opensuse.org/2015/11/04/opensuse-leap-42-1-becomes-first-hybrid-distribution/">Leap</a>&#8221; to 42.1. <a href="https://en.opensuse.org/Education">openSUSE Education</a> community is proud to present this latest edition based on <a href="https://en.opensuse.org/Portal:42.1">openSUSE 42.1</a> with all the features, updates and bug fixes available on it till date. This effectively makes it the only enterprise grade long term supported(LTS) distribution for Education.</p>
+<p>As with previous releases <a href="http://download.opensuse-education.org/~cyberorg/opensuse-edu-life-4211-packages.txt">we have bundled a ton of softwares</a> on this <a href="https://en.opensuse.org/Live_USB_stick">live DVD/USB</a> specially packaged for education, along with the Plasma, GNOME and Mate Desktop Environments, full multimedia experience is also provided out of the box thanks to the Packman repositories. Only x86_64 architecture is supported, if you have a lot of machines that only support x86 then read on to find out how you can extend their Li-f-e.<br />
+<span id="more-11596"></span></p>
+<p>You can of course very <a href="http://cyberorg.github.io/kiwi-ltsp-howto/">easily turn Li-f-e to full-fledged LTSP server</a> to PXE boot machines in your local network. Booting both i686 and x86_64 architectures is supported. In case you need to PXE boot machines below i686 then you would have to <a href="https://software.opensuse.org/package/kiwi-ltsp-tinycore-tc">install this package</a>.</p>
+<p>Happy holidays!</p>
+
+<a href='https://lizards.opensuse.org/2015/12/21/announcing-li-f-e-42-1/snapshot7/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2015/12/snapshot7-150x150.png" class="attachment-thumbnail size-thumbnail" alt="" /></a>
+<a href='https://lizards.opensuse.org/2015/12/21/announcing-li-f-e-42-1/snapshot8/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2015/12/snapshot8-150x150.png" class="attachment-thumbnail size-thumbnail" alt="" /></a>
+<a href='https://lizards.opensuse.org/2015/12/21/announcing-li-f-e-42-1/snapshot10/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2015/12/snapshot10-150x150.png" class="attachment-thumbnail size-thumbnail" alt="" /></a>
+<a href='https://lizards.opensuse.org/2015/12/21/announcing-li-f-e-42-1/snapshot16/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2015/12/snapshot16-150x150.png" class="attachment-thumbnail size-thumbnail" alt="" /></a>
+<a href='https://lizards.opensuse.org/2015/12/21/announcing-li-f-e-42-1/snapshot15/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2015/12/snapshot15-150x150.png" class="attachment-thumbnail size-thumbnail" alt="" /></a>
+<a href='https://lizards.opensuse.org/2015/12/21/announcing-li-f-e-42-1/snapshot12/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2015/12/snapshot12-150x150.png" class="attachment-thumbnail size-thumbnail" alt="" /></a>
+<a href='https://lizards.opensuse.org/2015/12/21/announcing-li-f-e-42-1/snapshot11/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2015/12/snapshot11-150x150.png" class="attachment-thumbnail size-thumbnail" alt="" /></a>
+<a href='https://lizards.opensuse.org/2015/12/21/announcing-li-f-e-42-1/screenshot-from-2015-12-20-16-41-37/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2015/12/Screenshot-from-2015-12-20-16-41-37-150x150.png" class="attachment-thumbnail size-thumbnail" alt="" /></a>
+
+<p>Get Li-f-e from here: <a href="http://sourceforge.net/projects/opensuse-edu/files/download/ISOs/openSUSE-Edu-li-f-e.x86_64-42.1.1.iso/download">Direct Download</a> | <a href="http://sourceforge.net/projects/opensuse-edu/files/download/ISOs/openSUSE-Edu-li-f-e.x86_64-42.1.1.iso.md5/download">md5sum</a> | <a href="http://download.opensuse-education.org/ISOs/">Alternate download and mirrors</a></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2015/12/21/announcing-li-f-e-42-1/feed/</wfw:commentRss>
+		<slash:comments>5</slash:comments>
+		</item>
+		<item>
 		<title>Is my server alive and how good is my connection</title>
-		<link>http://lizards.opensuse.org/2014/03/10/is-my-server-alive-and-how-good-is-my-connection/</link>
-		<comments>http://lizards.opensuse.org/2014/03/10/is-my-server-alive-and-how-good-is-my-connection/#comments</comments>
+		<link>https://lizards.opensuse.org/2014/03/10/is-my-server-alive-and-how-good-is-my-connection/</link>
 		<pubDate>Mon, 10 Mar 2014 07:25:14 +0000</pubDate>
 		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
 				<category><![CDATA[lizards.openSUSE.org]]></category>
@@ -101,13 +412,10 @@ done
 <p>Script prints mystical output. Things that matters that Success rate is 50 (or what pinging rate you are using) and Fails are not rising fast. It they are rising fast packets are dropped if you are not getting anything check IP/domain name. With this one you can get ping time. If success level is 50 but ping time is high you network is still very slow but that you have to check with ping-command by hand. Even with 2G mobile modem you should get under 300ms (3G should be like 100ms).<br />
 To have any clue about your connection you have make this at least 30 minutes (First ping packets can tell everything but if you want to see whole picture). Actually this is stupid way to find out is your server up but if your WIFI-card  is working everywhere else great you can check are you packets going through. If ICMP-packets are dropping very fast then your TCP/IP packages are dropping very fast and you network stack have to re-send them so you notice that your network is slow (even though it has nothing to do with that). Again it can be route, WIFI-card or firewall problem still.. and ping doesn&#8217;t answer to that question. So this was this days script stuff. If you have better ways to do this.. please share I&#8217;m always interested in this topic.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2014/03/10/is-my-server-alive-and-how-good-is-my-connection/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
+			</item>
 		<item>
 		<title>Network boot live ISO</title>
-		<link>http://lizards.opensuse.org/2014/01/29/network-boot-live-iso/</link>
-		<comments>http://lizards.opensuse.org/2014/01/29/network-boot-live-iso/#comments</comments>
+		<link>https://lizards.opensuse.org/2014/01/29/network-boot-live-iso/</link>
 		<pubDate>Wed, 29 Jan 2014 06:40:12 +0000</pubDate>
 		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
 				<category><![CDATA[Derivative]]></category>
@@ -122,36 +430,34 @@ To have any clue about your connection you have make this at least 30 minutes (F
 		<category><![CDATA[pxe]]></category>
 
 		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10470</guid>
-		<description><![CDATA[The x86_64 edition of openSUSE Education&#8217;s Li-f-e live DVD supports PXE booting the iso over the network, here is how to do it: * Install Li-f-e (Switch to GRUB from Installation Summary page if your hardware does not support EFI boot ), make sure you have plenty of space assigned to / partition(about 20G) * [&#8230;]]]></description>
+		<description><![CDATA[The x86_64 edition of openSUSE Education&#8217;s Li-f-e live DVD supports PXE booting the iso over the network, here is how to do it: * Install Li-f-e on a server from which other machines will PXE boot, make sure you have plenty of space assigned to / partition(about 20G) * Set up LTSP by following this [&#8230;]]]></description>
 				<content:encoded><![CDATA[<p>The x86_64 edition of openSUSE Education&#8217;s <a href="http://en.opensuse.org/openSUSE:Education-Li-f-e" title="Li-f-e">Li-f-e</a> live DVD supports PXE booting the iso over the network, here is how to do it:</p>
-<p>* Install Li-f-e (Switch to GRUB from Installation Summary page if your hardware does not support EFI boot ), make sure you have plenty of space assigned to / partition(about 20G)<br />
-* Set up LTSP by following this <a href="https://en.opensuse.org/SDB:LTSP%20quick%20start%2012.2%20Edu" title="LTSP Quick Start">quick start guide</a><br />
+<p>* Install Li-f-e on a server from which other machines will PXE boot, make sure you have plenty of space assigned to / partition(about 20G)<br />
+* Set up LTSP by following this <a href="https://en.opensuse.org/SDB:KIWI-LTSP%20quick%20start" title="LTSP Quick Start">quick start guide</a><br />
 * Create /srv/nfs folder and copy Li-f-e iso there<br />
 * Run the following as root in terminal:<br />
 <code><br />
-mount /srv/nfs/openSUSE-Edu-li-f-e.x86_64-13.1.1.iso /mnt<br />
+mount /srv/nfs/openSUSE-Edu-li-f-e.x86_64-42.1.1.iso /mnt<br />
 cp /mnt/boot/x86_64/loader/linux /srv/tftpboot/boot/linux-life64<br />
 cp /mnt/boot/x86_64/loader/initrd /srv/tftpboot/boot/initrd-life64<br />
 echo "/srv/nfs *(ro,no_root_squash,async,no_subtree_check)" &gt;&gt; /etc/exports<br />
 cat &lt;&lt;EOF&gt;&gt; /srv/tftpboot/pxelinux.cfg/default<br />
 LABEL Li-f-e<br />
 kernel boot/linux-life64<br />
-append initrd=boot/initrd-life64 isofrom_device=nfs:10.0.0.254:/srv/nfs/ isofrom_system=/openSUSE-Edu-li-f-e.x86_64-13.1.1.iso nonm<br />
+append initrd=boot/initrd-life64 isofrom_device=nfs:10.0.0.254:/srv/nfs/ isofrom_system=/openSUSE-Edu-li-f-e.x86_64-42.1.1.iso<br />
 IPAPPEND 2<br />
 EOF<br />
 chkconfig rpcbind on &amp;&amp; service rpcbind restart<br />
 chkconfig nfsserver on &amp;&amp; service nfsserver restart<br />
 </code><br />
 Now you can PXE boot any machine over the network, select Li-f-e from the end of the boot menu to boot live DVD iso instead of normal LTSP session.</p>
-<p>Please note that if you install Li-f-e booted over the network then after the installation  you will need to remove &#8220;nonm&#8221; boot option using yast2 bootloader to get NetworkManager working again.</p>
+<p>Use &#8220;yast2 live-installer&#8221; to install Li-f-e on the client machine.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2014/01/29/network-boot-live-iso/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
+			</item>
 		<item>
 		<title>One that got away &#8211; 12.3 Networking</title>
-		<link>http://lizards.opensuse.org/2013/03/13/one-that-got-away-12-3-networking/</link>
-		<comments>http://lizards.opensuse.org/2013/03/13/one-that-got-away-12-3-networking/#comments</comments>
+		<link>https://lizards.opensuse.org/2013/03/13/one-that-got-away-12-3-networking/</link>
+		<comments>https://lizards.opensuse.org/2013/03/13/one-that-got-away-12-3-networking/#comments</comments>
 		<pubDate>Wed, 13 Mar 2013 13:10:42 +0000</pubDate>
 		<dc:creator><![CDATA[rjschwei]]></dc:creator>
 				<category><![CDATA[Base System]]></category>
@@ -166,18 +472,17 @@ Now you can PXE boot any machine over the network, select Li-f-e from the end of
 				<content:encoded><![CDATA[<p>Well openSUSE 12.3 is about to go live  and we are all pretty excited. It is, as far as I can tell a rock solid release and we have outdone ourselves. Considering the short release cycle makes this even more impressive.</p>
 <p>One can only thank everyone in the community for pulling together, getting a lot of stuff done and delivering a great release.</p>
 <p>Yet, there&#8217;s one sprinkle that rains on our parade. While we completed the switch to systemd we somewhere along the lines forgot to check the status of NetworkManager on an installed system. Thus, when you upgrade from a previous release and NetworkManager is disabled, it will be enabled and running after the upgrade is complete, sorry. If you happen to be running a network bridge your bridge will not be working and you&#8217;ll end up in some weird network state where <em>ifconfig</em> will tell you that both your bridge and your Ethernet card have an IP address. Your routing table will also be messed up. Addressing the issue is easy.</p>
-<p>Login as root, which you will have to do at the login manager if you happen to run NIS, disable NetworkManager, stop the NetworkManager service, and restart your network. You are now back to your original configuration, no sweat <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif" alt=";)" class="wp-smiley" />  . Below is a list of commands you want to run as the root user to make this happen:</p>
+<p>Login as root, which you will have to do at the login manager if you happen to run NIS, disable NetworkManager, stop the NetworkManager service, and restart your network. You are now back to your original configuration, no sweat <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> . Below is a list of commands you want to run as the root user to make this happen:</p>
 <p># systemctl &#8211;force disable NetworkManager.service</p>
 <p># systemctl stop NetworkManager.service</p>
 <p># rcnetwork restart</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/03/13/one-that-got-away-12-3-networking/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/03/13/one-that-got-away-12-3-networking/feed/</wfw:commentRss>
 		<slash:comments>2</slash:comments>
 		</item>
 		<item>
 		<title>Run X2go thin-client using kiwi-ltsp</title>
-		<link>http://lizards.opensuse.org/2012/09/27/run-x2go-thin-client-using-kiwi-ltsp/</link>
-		<comments>http://lizards.opensuse.org/2012/09/27/run-x2go-thin-client-using-kiwi-ltsp/#comments</comments>
+		<link>https://lizards.opensuse.org/2012/09/27/run-x2go-thin-client-using-kiwi-ltsp/</link>
 		<pubDate>Thu, 27 Sep 2012 11:18:30 +0000</pubDate>
 		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
 				<category><![CDATA[Build Service]]></category>
@@ -214,13 +519,11 @@ Apart from these, x2go also supports sound redirection via pulseaudio, folder sh
 <p>You can simply poweroff the client without the need to disconnect or do normal shutdown.</p>
 <p>Note: this method of using x2go is just for testing and development purpose, you can use x2goserver and x2goclient in a standalone mode without kiwi-ltsp bits. Nothing additional than installing x2goserver package is needed to setup the server, except firewall should allow access to ssh port(22). </p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2012/09/27/run-x2go-thin-client-using-kiwi-ltsp/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
+			</item>
 		<item>
 		<title>How to peek into remote isos</title>
-		<link>http://lizards.opensuse.org/2012/07/17/how-to-peek-into-remote-isos/</link>
-		<comments>http://lizards.opensuse.org/2012/07/17/how-to-peek-into-remote-isos/#comments</comments>
+		<link>https://lizards.opensuse.org/2012/07/17/how-to-peek-into-remote-isos/</link>
+		<comments>https://lizards.opensuse.org/2012/07/17/how-to-peek-into-remote-isos/#comments</comments>
 		<pubDate>Tue, 17 Jul 2012 06:18:39 +0000</pubDate>
 		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
 				<category><![CDATA[Apache]]></category>
@@ -245,231 +548,8 @@ Apart from these, x2go also supports sound redirection via pulseaudio, folder sh
 <p>fusermount -u mntiso</p>
 <p>fusermount -u mnthttp</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2012/07/17/how-to-peek-into-remote-isos/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2012/07/17/how-to-peek-into-remote-isos/feed/</wfw:commentRss>
 		<slash:comments>1</slash:comments>
-		</item>
-		<item>
-		<title>new package squidview available</title>
-		<link>http://lizards.opensuse.org/2011/07/17/new-package-squidview-available/</link>
-		<comments>http://lizards.opensuse.org/2011/07/17/new-package-squidview-available/#comments</comments>
-		<pubDate>Sun, 17 Jul 2011 14:19:03 +0000</pubDate>
-		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
-				<category><![CDATA[Network]]></category>
-		<category><![CDATA[Packaging]]></category>
-		<category><![CDATA[Server]]></category>
-		<category><![CDATA[Systems Management]]></category>
-		<category><![CDATA[monitoring]]></category>
-		<category><![CDATA[proxy]]></category>
-		<category><![CDATA[squid]]></category>
-		<category><![CDATA[squidview]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7649</guid>
-		<description><![CDATA[squidview squidview is one of the software, I&#8217;ve always build and installed on each squid proxy server I build for me or customers. It&#8217;s small, stable, and usefull. So it was a clear real nice candidate to be use to improve my obs and packager skiil. I would like to thanks T1loc, yaloki, mrdocs, coolo, [&#8230;]]]></description>
-				<content:encoded><![CDATA[<h2>squidview</h2>
-<p>squidview is one of the software, I&#8217;ve always build and installed on each squid proxy server I build for me or customers. It&#8217;s small, stable, and usefull. So it was a clear real nice candidate to be use to improve my <a href="http://openbuild-system.org">obs</a> and packager skiil.<br />
-I would like to thanks T1loc, yaloki, mrdocs, coolo, alin, and all others great packagers around, for helping and teaching me during the process.
-</p>
-<h3>Introduction</h3>
-<p>
-Squidview is an interactive console program which monitors and displays squid logs in a nice fashion, and may then go deeper with searching and reporting functions.</p>
-<p>(If you don&#8217;t know what squid is or does this program is probably not for you.)</p>
-<p>To use squidview you must at least have read access to squid&#8217;s access.log file. You may need to see your administrator for this. Squidview uses this text log file for all operations. It does not generate its own database for tasks.
-</p>
-<p>homepage <a href="http://www.rillion.net/squidview/">www.rillion.net/squidview</a></p>
-<h3>Features</h3>
-<p>
-Squidview has a number of functions. Navigate the log file with the cursor pad keys, jump to a certain day or switch to a different log file. Search for text or large http/ftp requests.</p>
-<p>Put squidview into monitor mode: see the latest activity updated every 3 seconds (this is light on cpu load).</p>
-<p>Reports can be generated listing the heavist Internet users and the most popular visited sites. See how many cache hits squid makes to save network traffic.</p>
-<p>Squidview is released under the GPL.
-</p>
-<h3>Examples / Usage</h3>
-<img alt="" src="http://www.rillion.net/squidview/pic1.png" width="484" height="316" />
-<div id="b" style="width: 494px" class="wp-caption alignnone"><img alt="" src="http://www.rillion.net/squidview/pic2.png" width="484" height="316" /><p class="wp-caption-text">What the above would be if viewed with less. </p></div>
-<div id="c" style="width: 494px" class="wp-caption alignnone"><img alt="" src="http://www.rillion.net/squidview/pic3.png" width="484" height="316" /><p class="wp-caption-text">A tally of all users against the bandwidth they used. Kept current in near real time. </p></div>
-<div id="d" style="width: 494px" class="wp-caption alignnone"><img alt="" src="http://www.rillion.net/squidview/pic4.png" width="484" height="316" /><p class="wp-caption-text">A quick investigation into the recent history of one user. </p></div>
-<h2>Installation / Repositories</h2>
-<p>I&#8217;ve just made a submit request against openSUSE_Factory to get it included directly, but in the meantime, you could install it from the repository server:proxy as many other useful &amp; related packages</p>
-<p>For example adding the repository under openSUSE_Factory</p>
-<pre>
-zypper ar -c -f -n "server:proxy" http://download.opensuse.org/repositories/server:/proxy/openSUSE_Factory "server:proxy"
-zypper in squidview
-</pre>
-<h3>Builds available for :</h3>
-<p>The package is build successfully against : SLES10, SLES11, openSUSE 11.3 to Factory</p>
-<p>Have Fun!</p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2011/07/17/new-package-squidview-available/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
-		<item>
-		<title>Securing SSH (Secure Shell) from attacker</title>
-		<link>http://lizards.opensuse.org/2011/03/22/securing-ssh-secure-shell-from-brute-force-attempts/</link>
-		<comments>http://lizards.opensuse.org/2011/03/22/securing-ssh-secure-shell-from-brute-force-attempts/#comments</comments>
-		<pubDate>Tue, 22 Mar 2011 17:11:04 +0000</pubDate>
-		<dc:creator><![CDATA[Saydul Akram]]></dc:creator>
-				<category><![CDATA[Base System]]></category>
-		<category><![CDATA[Network]]></category>
-		<category><![CDATA[Security]]></category>
-		<category><![CDATA[networking]]></category>
-		<category><![CDATA[ssh]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=6847</guid>
-		<description><![CDATA[Secure Shell or SSH is a network protocol that allows exchange of data through secure channels between two network devices. Particularly widely used on Linux and Unix-based system to access your shell, SSHwas designed as a substitute for Telnet and other insecure remote shells, which sentinformation, especially passwords, in the form of simple text that makes it easy to be intercepted. Encryption used by SSH provides confidentiality and integrity of dataover an insecure network like the Internet. For the Security Server We From Attacks The attacker who usually Always Use SSHAs a door Early Entry Into System To us, of course, become an admin obligation todispel various Efforts That. There are several ways which ordinary people do to secure SSH from a variety ofattacks which one of them is by editing the file / etc / ssh / sshd_config. before doing the configuration in the file / etc / ssh / sshd_config make sure SSH isinstalled on your linux distribution, and for openSUSE that I use it already automatically installed. #vim /etc/ssh/sshd_config change options, as below : LoginGraceTime 2m PermitRootLogin no MaxAuthTries 3 LoginGraceTime which option is used to give a time limit of user logins, so please [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>Secure Shell or SSH is a network protocol that allows exchange of data through secure channels between two network devices.</p>
-<p>Particularly widely used on Linux and Unix-based system to access your shell, SSHwas designed as a substitute for Telnet and other insecure remote shells, which sentinformation, especially passwords, in the form of simple text that makes it easy to be intercepted. Encryption used by SSH provides confidentiality and integrity of dataover an insecure network like the Internet.</p>
-<p>For the Security Server We From Attacks The attacker who usually Always Use SSHAs a door Early Entry Into System To us, of course, become an admin obligation todispel various Efforts That.</p>
-<p>There are several ways which ordinary people do to secure SSH from a variety ofattacks which one of them is by editing the file / etc / ssh / sshd_config.</p>
-<p>before doing the configuration in the file / etc / ssh / sshd_config make sure SSH isinstalled on your linux distribution, and for openSUSE that I use it already automatically installed.</p>
-<blockquote><p>#vim /etc/ssh/sshd_config</p></blockquote>
-<p>change options, as below :</p>
-<blockquote><p>LoginGraceTime 2m<br />
-PermitRootLogin no<br />
-MaxAuthTries 3</p></blockquote>
-<p><strong>LoginGraceTime</strong> which option is used to give a time limit of user logins, so please change these options according to your wishes.</p>
-<p><strong>PermitRootLogin</strong> is no option to allow the root user can login to ssh or not to give yes or no value on the options tersebut.sebaiknya give no value, so that users can not loginas root into your ssh.</p>
-<p><strong>MaxAuthTries</strong> 3 to give the limit on the number of errors allowed when the user logs in,this is very useful to avoid attackers do brute force on the server anda.dimana usersonly allowed to make a mistake typing the password in accordance with that alreadyset on the options.</p>
-<p>If you want only certain users who may log into your ssh add AllowUsers option at the end of the line followed by a distinguished user name in the allowed login.</p>
-<p>otherwise, you can install software, <a href="http://software.opensuse.org/search?q=denyhost&amp;baseproject=openSUSE%3A11.4&amp;lang=en&amp;exclude_debug=true" target="_blank">denyhost</a>, for your ssh security</p>
-<p style="text-align: left"><em>NB:do not enable the root user, for ssh login</em></p>
-<p>Similarly, a fairly simple tutorial .. hopefully this can be useful.</p>
-<div>Best Regards</div>
-<div>Saydul Akram</div>
-<div>Email : idulk@opensuse.org</div>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2011/03/22/securing-ssh-secure-shell-from-brute-force-attempts/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
-		<item>
-		<title>Configuring an IPv6 DSL connection</title>
-		<link>http://lizards.opensuse.org/2011/01/19/configuring-an-ipv6-dsl-connection/</link>
-		<comments>http://lizards.opensuse.org/2011/01/19/configuring-an-ipv6-dsl-connection/#comments</comments>
-		<pubDate>Wed, 19 Jan 2011 14:46:12 +0000</pubDate>
-		<dc:creator><![CDATA[lnussel]]></dc:creator>
-				<category><![CDATA[Network]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=6383</guid>
-		<description><![CDATA[The German company rh-tec offers free IPv6 internet connections for people that already have T-DSL. Configuring such a connection on openSUSE 11.3 is not as straight forward as with IPv4. It&#8217;s not hard either if you know where to put the settings though. start the yast2 DSL module follow the instructions of the wizard to [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>The German company rh-tec offers free IPv6 internet connections for people that already have T-DSL. Configuring such a connection on openSUSE 11.3 is not as straight forward as with IPv4. It&#8217;s not hard either if you know where to put the settings though.</p>
-<ol>
-<li>start the yast2 DSL module</li>
-<li>follow the instructions of the wizard to set up a new PPPoE device. Enter your user name and password at the provider screen.</li>
-<li>At the &#8220;Connection Parameters&#8221; screen uncheck &#8220;Automatically Retrieve DNS&#8221;. Enter an arbitrary IPv4 address as first DNS server (yast doesn&#8217;t accept IPv6 there yet, bug 665516).</li>
-<li>finish the wizard and leave yast</li>
-<li>open /etc/sysconfig/network/providers/provider0 (or whatever name was chosen by yast) in an editor</li>
-<li>change DNS1 and DNS2 to the actual IPv6 addresses of your provider&#8217;s name servers</li>
-<li>add the following line to the file:<br />
-	<code>PPPD_OPTIONS="noip +ipv6 ipv6cp-accept-local"</code>
-	</li>
-<li>save and quit</li>
-<li>Done! You may now use cinternet or qinternet to dial in and enjoy the (rather empty) IPv6 internet.</li>
-</ol>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2011/01/19/configuring-an-ipv6-dsl-connection/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
-		<item>
-		<title>Hackweek V: Local caching for CIFS network file system</title>
-		<link>http://lizards.opensuse.org/2010/06/14/hackweek-v-local-caching-for-cifs-network-file-system/</link>
-		<comments>http://lizards.opensuse.org/2010/06/14/hackweek-v-local-caching-for-cifs-network-file-system/#comments</comments>
-		<pubDate>Mon, 14 Jun 2010 12:41:54 +0000</pubDate>
-		<dc:creator><![CDATA[Suresh Jayaraman]]></dc:creator>
-				<category><![CDATA[Network]]></category>
-		<category><![CDATA[caching]]></category>
-		<category><![CDATA[cifs]]></category>
-		<category><![CDATA[fscache]]></category>
-		<category><![CDATA[Hackweek]]></category>
-		<category><![CDATA[hackweek V]]></category>
-		<category><![CDATA[Kernel]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=4400</guid>
-		<description><![CDATA[Hackweek It&#8217;s that time of the year when SUSE/Novell developers use their Innovation Time-off to do a project of their interest/wish &#8211; called as Hackweek. Last week was Hackweek V. I worked on making the Common Internet File System (CIFS) cache aware, i.e. local caching for CIFS Network File System. Linux FS-Cache Caching can result [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>Hackweek</p>
-<p>It&#8217;s that time of the year when SUSE/Novell developers use their Innovation Time-off to do a project of their interest/wish &#8211; called as Hackweek. Last week was Hackweek V. I worked on making the Common Internet File System (CIFS) cache aware, i.e. local caching for CIFS Network File System.</p>
-<p>Linux FS-Cache</p>
-<p>Caching can result in performance improvements in network filesystems where access to network and media is slow. The cache can indirectly improve performance of the network and the server by reduced network calls. Caching can be also viewed as a preparatory work for making disconnected operation (Offline) work with network filesystems.</p>
-<p>The Linux Kernel recently added a generic caching facility (FS-Cache) that any network filesystem like NFS or CIFS or other service can use to cache data locally. FS-Cache supports a variety of cache backends i.e. different types of cache that have different trade-offs (like CacheFiles, CacheFS etc.) FS-Cache mediates between cache backends and the network filesystems. Some of the network filesystems such as NFS and AFS are already integrated with FS-Cache.</p>
-<p>Making CIFS FS-Cache capable</p>
-<p>To make any network filesystem FS-Cache aware, there are a few things to consider. Let&#8217;s consider them step by step (though not in detail):</p>
-<p>* First, we need to define the network filesystem and it should be able to register/unregister with the FS-Cache interface.<br />
-* The network filesystem has to define the index hierarchy which could be used to locate a file object or discard a certain subset of all the files cached.<br />
-* We need to define the objects and the methods associated.<br />
-* All the indices in the index hierarchy and the data file need to be registered. This could be done by requesting a cookie for each index or data file. Upon successful registration, a corresponding cookie is returned.<br />
-* Functions to store and retrieve pages in the cache.<br />
-* Way to identify whether the cache for a file is valid or not.<br />
-* Function to release any in-memory representation for the network filesystem page.<br />
-* Way to invalidate a data file or index subtree and relinquish cookies.</p>
-<p>Implementation</p>
-<p>I wanted to get the prototype working within a week. So the way I have implemented it is rudimentary and has lot of room for improvement.</p>
-<p>The index hierarchy is not very deep. It has three levels &#8211; Server, Share and Inode. The only way that I know of identifying files with CIFS is by &#8216;UniqueId&#8217; which is supposed to be unique. However, some server do not ensure that the &#8216;UniqueId&#8217; is always unique (for example when there is more than one filesystem in the exported share). The cache coherency is currently ensured by verifying the &#8216;LastWriteTime&#8217; and size of the file. This is not a reliable way of detecting changes as some CIFS servers will not update the time until the filehandle is closed.</p>
-<p>The rudimentary implementation is ready and the cumulative patch can be found here:</p>
-<p>http://www.kernel.org/pub/linux/kernel/people/jays/patches/</p>
-<p>[WARNING: The patch is lightly tested and of prototype quality.]</p>
-<p>Here are some initial performance numbers with the patch:</p>
-<p>Copying one big file of size ~150 MB.</p>
-<p>$time cp /mnt/cifs/amuse.zip .<br />
-(Cache initialized)</p>
-<p>real 1m18.603s<br />
-user 0m0.016s<br />
-sys 0m8.569s</p>
-<p>$time cp /mnt/cifs/amuse.zip /<br />
-(Read from Cache)</p>
-<p>real 0m28.055s<br />
-user 0m0.008s<br />
-sys 0m1.140s</p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2010/06/14/hackweek-v-local-caching-for-cifs-network-file-system/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
-		<item>
-		<title>Hacking for Freedom</title>
-		<link>http://lizards.opensuse.org/2010/06/07/hacking-for-freedom/</link>
-		<comments>http://lizards.opensuse.org/2010/06/07/hacking-for-freedom/#comments</comments>
-		<pubDate>Mon, 07 Jun 2010 11:26:16 +0000</pubDate>
-		<dc:creator><![CDATA[Alexander Naumov]]></dc:creator>
-				<category><![CDATA[Hackweek]]></category>
-		<category><![CDATA[KDE]]></category>
-		<category><![CDATA[Network]]></category>
-		<category><![CDATA[fun]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=4276</guid>
-		<description><![CDATA[Hi developers! These are first hours of hackweek. A lot of people in Novell and in the community are starting to work on different projects. What can I give for free software in this week? Sure, my favorite project is NetworkManagement. As you can see, NetworkManagement don&#8217;t work well. For example, it can&#8217;t see WiFi [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>Hi developers!</p>
-<p>These are first hours of hackweek. A lot of people in Novell and in the community are starting to work on different projects. What can I give for free software in this week? Sure, my favorite project is NetworkManagement.</p>
-<p><a href="http://lizards.opensuse.org/wp-content/uploads/2010/06/pnm1.png"><img class="aligncenter size-full wp-image-5373" src="http://lizards.opensuse.org/wp-content/uploads/2010/06/pnm1.png" alt="" width="650" height="346" /></a></p>
-<p>As you can see, NetworkManagement don&#8217;t work well. For example, it can&#8217;t see WiFi connection and don&#8217;t show wired connetcion. Yes, right now we have one bug with module &#8220;networkmanagement&#8221;.</p>
-<p style="text-align: center">
-<p>This module must be loaded after start NetworkManagement, but this is not happening <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_sad.gif" alt=":(" class="wp-smiley" /> </p>
-<p>If you check it, you will see:</p>
-<pre>anaumov@pizza:~/plasma/networkmanagement&gt; qdbus --system org.freedesktop.NetworkManagerUserSettings
-Service 'org.freedesktop.NetworkManagerUserSettings' does not exist.</pre>
-<p>Why it&#8217;s happening? Problem is in connection between plasmoid and deamon NM (via DBus).</p>
-<pre>anaumov@pizza:~/plasma/networkmanagement&gt; qdbus org.kde.kded /kded loadModule networkmanagement
-true
-anaumov@pizza:~/plasma/networkmanagement&gt; qdbus --system org.freedesktop.NetworkManagerUserSettings
-/
-/org
-/org/freedesktop
-/org/freedesktop/NetworkManagerSettings
-/org/freedesktop/NetworkManagerSettings/0
-/org/freedesktop/NetworkManagerSettings/1
-/org/freedesktop/NetworkManagerSettings/2
-/org/freedesktop/NetworkManagerSettings/3
-/org/freedesktop/NetworkManagerSettings/4
-/org/freedesktop/NetworkManagerSettings/5
-/org/freedesktop/NetworkManagerSettings/6
-/org/freedesktop/NetworkManagerSettings/7
-/org/freedesktop/NetworkManagerSettings/8
-anaumov@pizza:~/plasma/networkmanagement&gt;</pre>
-<p>So, now we can see WiFi interface:</p>
-<p><a href="http://lizards.opensuse.org/wp-content/uploads/2010/06/pnm11.png"><img class="aligncenter size-full wp-image-5375" src="http://lizards.opensuse.org/wp-content/uploads/2010/06/pnm11.png" alt="" width="650" height="340" /></a></p>
-<p>And WiFi interface can see WiFi connections:</p>
-<p><a href="http://lizards.opensuse.org/wp-content/uploads/2010/06/pnm2.png"><img src="http://lizards.opensuse.org/wp-content/uploads/2010/06/pnm2.png" alt="" width="650" height="338" class="aligncenter size-full wp-image-5377" /></a></p>
-<p>Good, but this works not automaticly. It&#8217;s first what I want to hack on this week.</p>
-<p>And what do you want to do on this week? <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif" alt=";)" class="wp-smiley" /> </p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2010/06/07/hacking-for-freedom/feed/</wfw:commentRss>
-		<slash:comments>5</slash:comments>
 		</item>
 	</channel>
 </rss>

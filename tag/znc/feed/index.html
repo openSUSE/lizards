@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>ZNC &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/znc/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Compile ZNC (IRC Bouncer) on Raspberry Pi</title>
+		<link>https://lizards.opensuse.org/2015/03/26/compile-znc-irc-bouncer-on-raspberry-pi/</link>
+		<pubDate>Thu, 26 Mar 2015 10:44:18 +0000</pubDate>
+		<dc:creator><![CDATA[Efstathios Iosifidis]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Server]]></category>
+		<category><![CDATA[IRC Bouncer]]></category>
+		<category><![CDATA[raspberry]]></category>
+		<category><![CDATA[ZNC]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11303</guid>
+		<description><![CDATA[There are many IRC Bouncers . My favourite one is ZNC. ZNC installation on server is a simple thing (zypper in znc). But what if you don&#8217;t have a server (avoid all the costs)? The best solution is a Raspberry Pi (it doesn&#8217;t matter if it&#8217;s B, B+, 2). It&#8217;s small, no power consumption, can [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>There are many <a href="http://en.wikipedia.org/wiki/BNC_%28software%29#IRC" target="_blank">IRC Bouncers</a> . My favourite one is ZNC. ZNC installation on server is a simple thing (<strong>zypper in znc</strong>). But what if you don&#8217;t have a server (avoid all the costs)? The best solution is a Raspberry Pi (it doesn&#8217;t matter if it&#8217;s B, B+, 2). It&#8217;s small, no power consumption, can easily setup as home small server. The only thing that it might disturb you, is the lights.</p>
+<p>First of all, check out how you can install openSUSE on <a href="https://en.opensuse.org/HCL:Raspberry_Pi" target="1">Raspberry Pi</a>.</p>
+<p>Now, you have to compile ZNC. There&#8217;s no package in the repositories. If developers read this, please please make an ARM package. Please!!!</p>
+<p>First of all, you have to install the following packages (that&#8217;s what I did):</p>
+<blockquote><p>zypper in gcc-c++ gcc git libopenssl-devel make</p></blockquote>
+<p>Now, let&#8217;s download the <a href="http://znc.in/releases/" target="_blank">last release</a> (you can find the whole procedure at <a href="http://wiki.znc.in/Installation#Source_Tarball" target="_blank">official page</a>)</p>
+<blockquote><p>wget http://znc.in/releases/znc-latest.tar.gz</p></blockquote>
+<p>Then untar the file:</p>
+<blockquote><p>tar -xzvf znc*.*gz</p></blockquote>
+<p>Then you have to do some steps that usually do when you compile:</p>
+<blockquote><p>cd znc*</p></blockquote>
+<p>and run the command</p>
+<blockquote><p>./configure</p></blockquote>
+<p>Next command will take a lot of time to finish</p>
+<blockquote><p>make</p></blockquote>
+<p>When it&#8217;s over, run the final command:</p>
+<blockquote><p>make install</p></blockquote>
+<p>You&#8217;re ready to use it. Now <em>login as user</em> and run the command:</p>
+<blockquote><p>znc &#8211;makeconf</p></blockquote>
+<p>If you have an older configuration, you can use it (run only the command <strong>znc</strong>).</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

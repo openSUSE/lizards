@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>github &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/github/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>YaST Squad Sprint 62</title>
+		<link>https://lizards.opensuse.org/2018/09/12/yast-squad-sprint-62/</link>
+		<comments>https://lizards.opensuse.org/2018/09/12/yast-squad-sprint-62/#comments</comments>
+		<pubDate>Wed, 12 Sep 2018 14:11:31 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+		<category><![CDATA[github]]></category>
+		<category><![CDATA[jenkins]]></category>
+		<category><![CDATA[storage]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=13344</guid>
+		<description><![CDATA[Jenkins commenting in GitHub pull requests Intel Rapid Start Technology for better sleeping Consistent storage proposal in SLE-12 Partitioner: designing the UI for its full potential Partitioner: entire disks as members of a software MD RAID Partitioner: better explanation of unusual conditions A sample of bug fixes Improved Jenkins Integration It happened quite often that [&#8230;]]]></description>
+				<content:encoded><![CDATA[<ul>
+<li>Jenkins commenting in GitHub pull requests</li>
+<li>Intel Rapid Start Technology for better sleeping</li>
+<li>Consistent storage proposal in SLE-12</li>
+<li>Partitioner: designing the UI for its full potential</li>
+<li>Partitioner: entire disks as members of a software MD RAID</li>
+<li>Partitioner: better explanation of unusual conditions</li>
+<li>A sample of bug fixes</li>
+</ul>
+<h3 id="improved-jenkins-integration">Improved Jenkins Integration</h3>
+<p>It happened quite often that our <a href="https://ci.opensuse.org/view/Yast/">Jenkins</a> job failed for some reason after merging a pull request at GitHub. And because the Jenkins is supposed to submit the changes to the build service it happened that the fixes from Git were not released in the RPM packages if nobody noticed the failure. That was a bit confusing because we closed a bug at Bugzilla but the fix was not available anywhere.</p>
+<p>To avoid this we have added a wrapper script which runs the original Jenkins command (<code>rake osc:sr</code> in this case) and writes the result as a comment to the respective pull request at GitHub. If a submit request is created it additionally adds a link to it.</p>
+<div class="figure"><a href="//lizards.opensuse.org/wp-content/uploads/2018/09/s62-1-jenkins.png"><img class="aligncenter size-medium wp-image-13356" src="//lizards.opensuse.org/wp-content/uploads/2018/09/s62-1-jenkins-300x226.png" alt="" width="300" height="226" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/09/s62-1-jenkins-300x226.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/09/s62-1-jenkins.png 418w" sizes="(max-width: 300px) 100vw, 300px" /></a></div>
+<p>Since now you should keep the pull request page open after merging it and wait for the Jenkins status result. If it fails for some reason then try fixing it or ask for help on IRC or the YaST mailing list.</p>
+<p>Note: This automation works only for the code branches which are in active development and for packages which have an Jenkins job assigned (most of the YaST packages have).</p>
+<h3 id="intel-rapid-start-technology-support">Intel Rapid Start Technology Support</h3>
+<p>The <a href="https://software.intel.com/en-us/articles/what-is-intel-rapid-start-technology">Intel Rapid Start Technology</a> allows to use a fast disk (SSD) for suspend-to-RAM to save energy. The idea is that after a given time the contents of RAM will be moved to SSD so that the system can power itself off. When powered on, RAM will be read back. So it&#8217;s something like a dynamic changing of suspend-to-RAM to suspend-to-fast-disk.</p>
+<p>What does this technology need from the installer? It needs its own dedicated partition where it can store the contents of RAM. To support this technology we added in this sprint the ability to create and recognize such a partition. It looks like this:<br />
+<a href="//lizards.opensuse.org/wp-content/uploads/2018/09/s62-2-irst1.png"><img class="aligncenter size-medium wp-image-13355" src="//lizards.opensuse.org/wp-content/uploads/2018/09/s62-2-irst1-300x220.png" alt="" width="300" height="220" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/09/s62-2-irst1-300x220.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/09/s62-2-irst1-768x562.png 768w, https://lizards.opensuse.org/wp-content/uploads/2018/09/s62-2-irst1-1024x750.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2018/09/s62-2-irst1.png 1052w" sizes="(max-width: 300px) 100vw, 300px" /></a><br />
+<a href="//lizards.opensuse.org/wp-content/uploads/2018/09/s62-3-irst2.png"><img class="aligncenter size-medium wp-image-13354" src="//lizards.opensuse.org/wp-content/uploads/2018/09/s62-3-irst2-300x220.png" alt="" width="300" height="220" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/09/s62-3-irst2-300x220.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/09/s62-3-irst2-768x564.png 768w, https://lizards.opensuse.org/wp-content/uploads/2018/09/s62-3-irst2-1024x752.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2018/09/s62-3-irst2.png 1035w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3 id="consistent-storage-proposal-sle-12-sp4-yast2-storage-old">Consistent Storage Proposal (SLE-12-SP4 / yast2-storage-old)</h3>
+<p>We fixed a bug where the behavior was inconsistent if you switched the storage proposal between partition-based and LVM-based / encrypted LVM-based: <a href="https://bugzilla.suse.com/show_bug.cgi?id=1085169">bsc#1085169</a>.</p>
+<p>The behavior was pretty irritating: Initially, it would propose to create a separate &#8220;/home&#8221; partition, but when you changed the proposal parameters and simply kept that checkbox <em>&#8220;[x] separate /home&#8221;</em> checked, it would complain that with the current settings a separate &#8220;/home&#8221; was not possible.</p>
+<p>The two code paths did the calculations differently: One accounted for the other partitions that were also proposed like &#8220;swap&#8221; and &#8220;boot&#8221; (or &#8220;PrEP&#8221; or &#8220;/efi-boot&#8221;), the other did not. We unified that as much as reasonably possible without breaking things, but since calculating when and how to use any boot partitions is quite complex in that <del>old</del> legacy storage stack, we did not go all the way; boot partitions are pretty small, so their size matters only in very pathological fringe cases. We try not to overengineer things, in particular not with the 4th service pack for a business product.</p>
+<p>More details in the <a href="https://github.com/yast/yast-storage/pull/301">pull request with the fix</a>.</p>
+<h3 id="the-partitioner-looks-to-the-future">The Partitioner looks to the future</h3>
+<p>We have blogged a lot about Storage-NG and the possibilities and features it will bring to the users. But a significant part of its power remain dormant under the surface because we decided to clone the user interface and the functionality of the classical YaST Partitioner for the deadline marked by SLE 15 (and Leap 15.0). But now we are finally able to start exposing those long-awaited features and to bring new ones for the current Tumbleweed and for the future SLE-15-SP1 and Leap 15.1.</p>
+<p>The user interface of the Partitioner is already rather packed with functionality, but we want to avoid a too disruptive redesign. So it was time to some pen and paper sessions, trying to find and draw a good way to add exciting new stuff to the Partitioner, including all of the following:</p>
+<ul>
+<li>Allow entire disks (no partition table) to be added as members of a software MD RAID.</li>
+<li>Manage (create, modify and delete) partitions within a software MD RAID device.</li>
+<li>Make possible to format an entire disk (no partition table) and/or define a mount point for it (just as we do with partitions or LVM logical volumes).</li>
+<li>Manage <a href="https://bcache.evilpiepirate.org/">Bcache</a> so the user can set and configure which devices will be used to speed up others.</li>
+</ul>
+<p>As usual, we consulted some UI experts in the process and the result is this <a href="https://github.com/yast/yast-storage-ng/blob/master/doc/sle15_features_in_partitioner.md">first version of a document</a>, which summarizes how to incorporate all that to the Partitioner, including some alternatives we are considering for the near future.</p>
+<p>That document will become the cornerstone of future developments. Sometimes you need to spend a sprint doing other stuff (like researching and documenting) before you can go ahead with writing code.</p>
+<h3 id="partitioner-full-disks-as-members-of-a-software-md-raid">Partitioner: full disks as members of a software MD RAID</h3>
+<p>The first of the features described in the previous document is already available for Tumbleweed users (or it will be as soon as the integration process concludes) and, thus, ready for the upcoming releases of SLE and Leap. Now the Partitioner offers full disks as &#8220;Available Devices&#8221; in the RAID screen, following the criteria and considerations explained at the document.</p>
+<p>That brings even more ways of combining devices together (disks, partitions, software RAIDs, you name it) to create a storage setup. As a result, we decided it was important to explain the situation when some combinations are not possible right away, likely because they need some previous step. Which brings us to&#8230;</p>
+<h3 id="partitioner-more-specific-errors-when-a-device-is-in-use">Partitioner: more specific errors when a device is in use</h3>
+<p>In general, most of the checks already present in the Partitioner were already able to correctly handle situations in which the disk was a direct member of an MD RAID or an LVM volume group. But the message about the device being in use was not informative enough.</p>
+<div class="figure"><a href="//lizards.opensuse.org/wp-content/uploads/2018/09/s62-4-part-err1.png"><img class="aligncenter size-medium wp-image-13353" src="//lizards.opensuse.org/wp-content/uploads/2018/09/s62-4-part-err1-300x140.png" alt="" width="300" height="140" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/09/s62-4-part-err1-300x140.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/09/s62-4-part-err1.png 321w" sizes="(max-width: 300px) 100vw, 300px" /></a></div>
+<p>Now the message includes the name of the device that is making the operation impossible (it&#8217;s usually one, but there are corner cases in which it can be more than one), so the user has some clue about how to fix it.</p>
+<div class="figure"><a href="//lizards.opensuse.org/wp-content/uploads/2018/09/s62-7-part.png"><img class="aligncenter size-medium wp-image-13350" src="//lizards.opensuse.org/wp-content/uploads/2018/09/s62-7-part-300x170.png" alt="" width="300" height="170" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/09/s62-7-part-300x170.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/09/s62-7-part.png 618w" sizes="(max-width: 300px) 100vw, 300px" /></a></div>
+<h3 id="partitioner-improved-creation-of-partition-table">Partitioner: improved creation of partition table</h3>
+<p>One part of the Partitioner that was specially bad at explaining the current situation and the possible consequences was the workflow of &#8220;Create New Partition Table&#8221;, which also used to exhibit a behavior quite inconsistent with the rest of the Partitioner actions.</p>
+<p>In SLE-15 and openSUSE Leap 15.0, the &#8220;Create New Partition Table&#8221; button immediately presents a form to select the partition table type in case the device supports more than one.</p>
+<div class="figure"><a href="//lizards.opensuse.org/wp-content/uploads/2018/09/s62-6-part.png"><img class="aligncenter size-medium wp-image-13351" src="//lizards.opensuse.org/wp-content/uploads/2018/09/s62-6-part-300x188.png" alt="" width="300" height="188" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/09/s62-6-part-300x188.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/09/s62-6-part.png 615w" sizes="(max-width: 300px) 100vw, 300px" /></a></div>
+<p>And <strong>after</strong> the user selects one type it <strong>always</strong> shows a warning about all kind of devices to be destroyed, no matter if some device is really affected or not.</p>
+<div class="figure"></div>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2018/09/s62-5-part-err2.png"><img class="aligncenter size-full wp-image-13352" src="//lizards.opensuse.org/wp-content/uploads/2018/09/s62-5-part-err2.png" alt="" width="279" height="169" /></a></p>
+<p>Even better, if only one partition table type is possible, it still shows the form but with no question. So creating a partition table in a completely empty DASD device result in a misleading warning (nothing is going to be destroyed) on top of an empty wizard.</p>
+<div class="figure"><a href="//lizards.opensuse.org/wp-content/uploads/2018/09/s62-8-part.png"><img class="aligncenter size-medium wp-image-13349" src="//lizards.opensuse.org/wp-content/uploads/2018/09/s62-8-part-300x178.png" alt="" width="300" height="178" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/09/s62-8-part-300x178.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/09/s62-8-part.png 627w" sizes="(max-width: 300px) 100vw, 300px" /></a></div>
+<p>So the whole action was reimplemented to display the warning only if some devices are indeed going to be affected (including the list of affected devices) and to display that warning as soon as the user clicks the button (as any other Partitioner action).</p>
+<div class="figure"><a href="//lizards.opensuse.org/wp-content/uploads/2018/09/s62-9-part-good.png"><img class="aligncenter size-medium wp-image-13348" src="//lizards.opensuse.org/wp-content/uploads/2018/09/s62-9-part-good-300x206.png" alt="" width="300" height="206" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/09/s62-9-part-good-300x206.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/09/s62-9-part-good-768x528.png 768w, https://lizards.opensuse.org/wp-content/uploads/2018/09/s62-9-part-good.png 781w" sizes="(max-width: 300px) 100vw, 300px" /></a></div>
+<p>As seen in the screenshot, the check handles correctly situations in which the disk as a whole (no partitions) is part of an MD RAID or an LVM setup. And, of course, there are no empty wizard steps in the case of DASD or nothing like that. Now the workflow works in the expected way on each situation.</p>
+<p>In short, the Storage-NG Partitioner is moving away, step by step, from being a 1:1 clone of the historical Partitioner to offer more functionality and usability. And there are more improvements to come in that area.</p>
+<h3 id="partitioner-unmounting-devices-in-advance">Partitioner: Unmounting devices in advance</h3>
+<p>The Partitioner allows to extensively configure your system storage devices. You can perform a lot of different kind of actions, from changing the label of a file system to creating a complex configuration by using LVM or RAIDs. Each modification you perform is stored in memory, so the real system is not altered at all until you confirm to apply the changes as last step. But in some circumstances, the Partitioner could not be able to perform some of the required actions, and it would fail when trying to modify the real system. One action that sometimes might fail is unmounting a device. This action might fail for several reasons, but the most common is because the file system is busy. And moreover, sometimes there are actions that require the device to be unmounted, for example, for deleting a partition, so the Partitioner would try to automatically unmount it.</p>
+<p>During this sprint, the Partitioner has recovered its ability of unmounting devices on the fly to avoid possible failures when applying the changes. Now, if you want to delete a currently mounted device (e.g., a LVM Logical Volume) you will be asked in advance to unmount it. If you accept, the Partitioner will try to unmount the device on the fly without waiting to apply all the changes. In case the unmount action fails, you will be informed about the problem and you might try to manually solve the problem before the Partitioner applies the changes in your system. Of course, you can also continue without unmounting the device and the Partitioner will try to automatically unmount it after accepting all the changes.</p>
+<div class="figure"><a href="//lizards.opensuse.org/wp-content/uploads/2018/09/s62-91-umount.png"><img class="aligncenter size-medium wp-image-13347" src="//lizards.opensuse.org/wp-content/uploads/2018/09/s62-91-umount-300x225.png" alt="" width="300" height="225" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/09/s62-91-umount-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/09/s62-91-umount-768x575.png 768w, https://lizards.opensuse.org/wp-content/uploads/2018/09/s62-91-umount.png 869w" sizes="(max-width: 300px) 100vw, 300px" /></a></div>
+<div class="figure"><a href="//lizards.opensuse.org/wp-content/uploads/2018/09/s62-92-umount.png"><img class="aligncenter size-medium wp-image-13346" src="//lizards.opensuse.org/wp-content/uploads/2018/09/s62-92-umount-300x225.png" alt="" width="300" height="225" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/09/s62-92-umount-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/09/s62-92-umount-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2018/09/s62-92-umount.png 870w" sizes="(max-width: 300px) 100vw, 300px" /></a></div>
+<p>Another task that might require unmounting the device is resizing the filesystem. The Partitioner will ask you about unmounting the device when the filesystem does not support resizing while being mounted. And, even when the filesystem does support it, you still might be requested to unmount the device. For example when you want to extend a device by more than 50 GiB. That task might be quite slow and it is highly recommended to unmount the device to speed up the resizing time, otherwise it could take hours.</p>
+<div class="figure"><a href="//lizards.opensuse.org/wp-content/uploads/2018/09/s62-93-grow.png"><img class="aligncenter size-medium wp-image-13345" src="//lizards.opensuse.org/wp-content/uploads/2018/09/s62-93-grow-300x225.png" alt="" width="300" height="225" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/09/s62-93-grow-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/09/s62-93-grow-768x575.png 768w, https://lizards.opensuse.org/wp-content/uploads/2018/09/s62-93-grow.png 868w" sizes="(max-width: 300px) 100vw, 300px" /></a></div>
+<h3 id="bug-fixes">Bug Fixes</h3>
+<p>Of course, we continue fighting against bugs. Thus, from this sprint on, alongside other minor stuff, the system</p>
+<ul>
+<li><a href="https://github.com/yast/yast-ntp-client/pull/116">obeys the user and does not keep running the chrony service</a> when they uncheck the &#8220;Run NTP as daemon&#8221; option in the timezone dialog.</li>
+<li><a href="https://github.com/yast/yast-journal/pull/34">does not crash when the user has no access to the journal logs</a>, displaying a human-readable message, even with a hint!</li>
+<li><a href="https://github.com/yast/yast-installation/pull/738">copies the correct metadata file</a> during the installation, and</li>
+<li><a href="https://github.com/yast/yast-registration/pull/398">limits the size of the registration code</a>, to avoid showing you an ugly and unintelligible error in case of you write there a long paragraph instead ;-P</li>
+</ul>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2018/09/12/yast-squad-sprint-62/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+	</channel>
+</rss>

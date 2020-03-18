@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>progress &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/progress/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Highlights of YaST Development Sprint 92</title>
+		<link>https://lizards.opensuse.org/2020/01/24/highlights-of-yast-development-sprint-92/</link>
+		<pubDate>Fri, 24 Jan 2020 15:35:49 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[Uncategorized]]></category>
+		<category><![CDATA[YaST]]></category>
+		<category><![CDATA[faster]]></category>
+		<category><![CDATA[installation]]></category>
+		<category><![CDATA[nfs]]></category>
+		<category><![CDATA[partitioner]]></category>
+		<category><![CDATA[progress]]></category>
+		<category><![CDATA[retracted]]></category>
+		<category><![CDATA[table]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=14289</guid>
+		<description><![CDATA[Partitioner: An Actionable Overview Screen Not only Partitioner: Numeric Sorting in Tables Improving the NFS Module Package Installation: Installation Progress Improvements Doomsday Preparations: Retracted Packages Qt Package Selection Gets Faster An Actionable Partitioner Overview Screen Until now, the Partitioner landing screen has been useful to have a big picture of the devices in your system [&#8230;]]]></description>
+				<content:encoded><![CDATA[<ul>
+<li><a href="#an-actionable-partitioner-overview-screen">Partitioner: An Actionable Overview Screen</a></li>
+<li><a href="#numeric-sorting-in-tables">Not only Partitioner: Numeric Sorting in Tables</a></li>
+<li><a href="#improving-the-nfs-module">Improving the NFS Module</a></li>
+<li>Package Installation:
+<ul>
+<li><a href="#installation-progress-improvements">Installation Progress Improvements</a></li>
+<li><a href="#doomsday-preparations-retracted-packages">Doomsday Preparations: Retracted Packages</a></li>
+<li><a href="#qt-package-selection-gets-faster">Qt Package Selection Gets Faster</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="an-actionable-partitioner-overview-screen">An Actionable Partitioner Overview Screen</h3>
+<p>Until now, the Partitioner landing screen has been useful to have a big picture of the devices in your system and as a shortcut to jump directly to the device page just with a double click over it. But, do you know what? From yast-storage-ng 4.2.74 on you can work directly with devices from that screen similar as you already do in the more specific pages, through the contextual actions added below the devices list. That means, for example, no more jumps to Hard Disks just to add a new partition nor resize an existing one. Enjoy <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<figure><a href="//lizards.opensuse.org/wp-content/uploads/2020/01/s92-01-part.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/01/s92-01-part-300x225.png" alt="" width="300" height="225" class="aligncenter size-medium wp-image-14290" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-01-part-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-01-part-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-01-part.png 800w" sizes="(max-width: 300px) 100vw, 300px" /></a><br />
+</figure>
+<p>More details: <a href="https://github.com/yast/yast-storage-ng/pull/1024">PR 1024</a></p>
+<h3 id="numeric-sorting-in-tables">Numeric Sorting in Tables</h3>
+<p>We have improved the sorting for tables in <a href="https://github.com/libyui">libyui</a>, the UI library of YaST. So far columns were sorted directly by the text displayed, e.g. the device name or the size in the expert partitioner. For some use-cases this resulted in unexpected ordering, e.g. partitions of a disk were ordered “/dev/sda1”, “/dev/sda10”, “/dev/sda2”, and sizes were ordered “1 GiB”, “2 TiB” and “4 GiB”.</p>
+<p>Now it is possible to <a href="https://github.com/yast/yast-ycp-ui-bindings/blob/master/examples/Table-sort-key.rb">provide a sort-key for every table entry</a> which is then used instead of the displayed text. This allows the expected ordering and is already implemented for the tables in the expert partitioner as the two pictures below show.</p>
+<figure><a href="//lizards.opensuse.org/wp-content/uploads/2020/01/s92-02-num1.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/01/s92-02-num1-300x228.png" alt="" width="300" height="228" class="aligncenter size-medium wp-image-14291" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-02-num1-300x228.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-02-num1.png 733w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2020/01/s92-03-num2.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/01/s92-03-num2-300x240.png" alt="" width="300" height="240" class="aligncenter size-medium wp-image-14292" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-03-num2-300x240.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-03-num2.png 765w" sizes="(max-width: 300px) 100vw, 300px" /></a><br />
+</figure>
+<h3 id="improving-the-nfs-module">Improving the NFS Module</h3>
+<p>YaST offers a specific module to configure your <a href="https://en.wikipedia.org/wiki/Network_File_System">NFS</a> shares. Similar to every YaST module, you can run it by executing <code>yast2 nfs</code> in your terminal, or by launching it from the YaST Control Center. But there is another cool way to use the YaST NFS module: opening the Expert Partitioner!</p>
+<figure><a href="//lizards.opensuse.org/wp-content/uploads/2020/01/s92-04-nfs.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/01/s92-04-nfs-300x201.png" alt="" width="300" height="201" class="aligncenter size-medium wp-image-14293" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-04-nfs-300x201.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-04-nfs.png 715w" sizes="(max-width: 300px) 100vw, 300px" /></a><br />
+</figure>
+<p>The Expert Partitioner offers a NFS section on the left menu tree where you can do everything that the NFS module provides. Thanks to that, you can configure your NFS shares at the same time you format your partitions!</p>
+<p>But that integration needed some improvements after we migrated YaST to the new Storage Stack (a.k.a. storage-ng). Moreover, some bugs were detected when using the NFS module for mounting and unmounting shares, see for example <a href="https://bugzilla.suse.com/show_bug.cgi?id=1006815">bsc#1006815</a> and <a href="https://bugzilla.suse.com/show_bug.cgi?id=1151426">bsc#1151426</a>.</p>
+<p>All those bugs were fixed, ww the NFS module behaves as expected in both cases, when running in standalone mode and inside the Expert Partitioner. Note that now the current status of the existing shares is preserved. That is, an unmounted share will continue unmounted after editing it. Unmounted entries are indicated with an asterisk in the list of shares, similar to what the Expert Partitioner does for the rest of unmounted devices. All these improvements will be available for SUSE Linux Enterprise SP1, openSUSE Leap 15.1 and openSUSE Tumbleweed.</p>
+<figure><a href="//lizards.opensuse.org/wp-content/uploads/2020/01/s92-05-nfs2.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/01/s92-05-nfs2-300x210.png" alt="" width="300" height="210" class="aligncenter size-medium wp-image-14294" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-05-nfs2-300x210.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-05-nfs2.png 530w" sizes="(max-width: 300px) 100vw, 300px" /></a><br />
+</figure>
+<h3 id="installation-progress-improvements">Installation Progress Improvements</h3>
+<p>We got some bug reports about how installation progress reporting works and while we were touching it, we also added a few smaller improvements to the code.</p>
+<p>The first change is that nowadays installing from multiple discs almost never happens but still there was always a “<strong>Medium 1</strong>” column which did not make much sense. So we removed the column and if there is a multi-media source, it will be appended to the name if needed.</p>
+<p>The second visible change is a new Unicode character ⌛ (<strong>hourglass</strong>) during the initial phase of RPM installation until the remaining time can be estimated.</p>
+<p>The third change is that now the maximum time is always capped at 2 hours, so even if there are multiple sources and some of them took more then two hours, it always show just “<strong>&gt;2:00:00</strong>” and even in total it is capped, so it can no longer show something like “&gt;6:00:00”.</p>
+<p>The fourth one is that now you can read the <strong>release notes</strong> without disturbances. Previously you would get switched to the package log tab after each package finished its installation. Now it will redraw only when you go back from the release notes screen.</p>
+<p>The fifth one is a fix for showing the <strong>remaining packages</strong>, where it is shown only for the active source and not for all. So now it shows remaining packages for all repositories.</p>
+<p>And last but not least we do a bunch of refactoring, code quality improvements and also adding automatic unit tests to reduce regressions in the future.</p>
+<p>Tumbleweed before and now:</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2020/01/s92-06-inst1.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/01/s92-06-inst1-300x225.png" alt="" width="300" height="225" class="aligncenter size-medium wp-image-14295" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-06-inst1-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-06-inst1-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-06-inst1.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a> </p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2020/01/s92-07-inst2.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/01/s92-07-inst2-300x225.png" alt="" width="300" height="225" class="aligncenter size-medium wp-image-14296" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-07-inst2-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-07-inst2-768x577.png 768w, https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-07-inst2-1024x769.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-07-inst2.png 1025w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>SLE before and now:</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2020/01/s92-08-inst3.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/01/s92-08-inst3-300x225.png" alt="" width="300" height="225" class="aligncenter size-medium wp-image-14297" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-08-inst3-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-08-inst3-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-08-inst3.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2020/01/s92-09-inst4.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/01/s92-09-inst4-300x225.png" alt="" width="300" height="225" class="aligncenter size-medium wp-image-14298" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-09-inst4-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-09-inst4-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-09-inst4-1024x768.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-09-inst4.png 1026w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>and new ncurses: <a href="//lizards.opensuse.org/wp-content/uploads/2020/01/s92-10-inst5.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/01/s92-10-inst5-300x225.png" alt="" width="300" height="225" class="aligncenter size-medium wp-image-14299" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-10-inst5-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-10-inst5-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-10-inst5-1024x768.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-10-inst5.png 1026w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3 id="doomsday-preparations-retracted-packages">Doomsday Preparations: Retracted Packages</h3>
+<p>If a maintenance update is released for any of our supported products, it may happen that after its release we realize that it introduces new problems, so we have to unpublish (retract) it.</p>
+<p>So far, our maintenance team always managed to find other solutions, but sooner or later it will happen that it takes too long to realize that an update was broken, so users will install it.</p>
+<p>For that purpose we introduced a new status <em>retracted</em> for patches and packages. We hope that we will never need it, but if we do, we need it in a hurry — until a better, fixed version of those packages is released.</p>
+<p>We added new filters “Retracted Packages” and “Retracted Installed Packages” to the package selection, and the affected versions are colored in red and get a <strong>[RETRACTED]</strong> marker in the “Versions” tab:</p>
+<figure><a href="//lizards.opensuse.org/wp-content/uploads/2020/01/s92-11-retr.png"><img src="//lizards.opensuse.org/wp-content/uploads/2020/01/s92-11-retr-300x171.png" alt="" width="300" height="171" class="aligncenter size-medium wp-image-14300" srcset="https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-11-retr-300x171.png 300w, https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-11-retr-768x437.png 768w, https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-11-retr-1024x583.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2020/01/s92-11-retr.png 1087w" sizes="(max-width: 300px) 100vw, 300px" /></a><br />
+</figure>
+<p>Those lists should always be empty. Also, retracted versions will never automatically be installed. If package versions are retracted, but are already installed, the “Retracted Installed Packages” view will be opened automatically when starting the package selection to make you aware of them. Then you can choose to manually downgrade to a previous version or to wait until a fixed version is available.</p>
+<p>In general, don’t worry: We never needed this so far, and we hope that we will never need it. Still, we take precautions for the worst case.</p>
+<p>More details: <a href="https://github.com/libyui/libyui-qt-pkg/pull/82">PR 82</a></p>
+<h3 id="qt-package-selection-gets-faster">Qt Package Selection Gets Faster</h3>
+<p>This came as a byproduct of the previous item: While working on the new filter views for retracted packages, we found that it could take a long time (10-20 seconds) when switching away from the “All Packages” view, so we started digging deeper to find out why.</p>
+<p>We found it strange that <em>clearing</em> the package list on the right side of that dialog was so slow; considerably slower than <em>filling</em> it with all packages. After some investigations, we found that in the course of all those changes for all those Qt versions (since Qt 3.x in mid-2006) some internal housekeeping for those list items was now no longer necessary because later Qt versions took over more and more of those responsibilities, and our own housekeeping now got in the way of that and was considerably slowing it down.</p>
+<p>Once we found the cause, the fix was easy: We threw out our own housekeeping code and are now relying on what the Qt widget does, and hey presto, clearing that list now happens instantly instead of taking 10-20 seconds.</p>
+<p>More details: <a href="https://github.com/libyui/libyui-qt-pkg/pull/82">PR 82 (“Other Fixes”)</a></p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

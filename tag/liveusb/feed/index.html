@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>LiveUSB &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/liveusb/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>How to Make openSUSE 11.0 GM Live USB</title>
+		<link>https://lizards.opensuse.org/2008/06/20/how-to-makeopensuse-110-gm-version-live-usb/</link>
+		<comments>https://lizards.opensuse.org/2008/06/20/how-to-makeopensuse-110-gm-version-live-usb/#comments</comments>
+		<pubDate>Fri, 20 Jun 2008 17:32:59 +0000</pubDate>
+		<dc:creator><![CDATA[Masim "Vavai" Sugianto]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Usability]]></category>
+		<category><![CDATA[LiveUSB]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=75</guid>
+		<description><![CDATA[openSUSE 11.0 with tons of impovement has been announced on June 19, 2008. Since then it was a busiest day for me : setting up a local mirror providing iso image for openSUSE fans in Indonesia, arrange openSUSE 11.0 release party and preparing Indonesian openSUSE community regular meeting on Saturday, June 21, 2008. We have [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>openSUSE 11.0 with <a href="http://news.opensuse.org/2008/06/19/sneak-peeks-at-opensuse-110-a-plethora-of-improvements/">tons of impovement</a> has been <a href="http://news.opensuse.org/2008/06/19/announcing-opensuse-110-gm/">announced</a> on June 19, 2008. Since then it was a busiest day for me : setting up a local mirror providing iso image for openSUSE fans in Indonesia, arrange openSUSE 11.0 release party and preparing <a href="http://www.opensuse.or.id">Indonesian openSUSE community</a> regular meeting on Saturday, June 21, 2008. We have planned all of these since last month but I must updated the planning with latest news and preparation.</p>
+<p>Beside the planning, I also read some comments that noticed me with problem regarding <a href="http://lizards.opensuse.org/2008/05/31/making-opensuse-110-liveusb-the-easiest-and-fastest-way/">openSUSE LiveUSB tutorial</a>. The tutorial used openSUSE 11.0 RC1 and the modified initrd as noticed on the tutorial doesn&#8217;t fit with the GM version.</p>
+<p><span id="more-75"></span>I have updated the initrdud that *should be*  applied with openSUSE 11.0 GM. I got it succeeded with my 2 GB USB Flash Disk. The overall process to make openSUSE 11.0 GM LiveUSB are same as described on the previous tutorial with RC1. The different thing is initrdud file.</p>
+<p><img src="http://opensuse.or.id/wp-content/uploads/opensuse-11-gm-liveusb1.jpg" alt="openSUSE 11.0 LiveUSB sysinfo" width="500" height="490" /></p>
+<p><img src="http://opensuse.or.id/wp-content/uploads/opensuse-11-gm-liveusb2.jpg" alt="openSUSE 11.0 LiveUSB Partitioner" width="500" height="236" /></p>
+<p>Download the modified initrd file (called initrdud) from <a href="http://opensuse.or.id/wp-content/uploads/2008/06/initrdud">this link</a>.</p>
+<p><strong>How to Modify the Initrd</strong></p>
+<p>Initrd modification needed to add <strong>nls_cp437.ko</strong>, module for mount vfat partition that commonly used by USB flash disk<strong>.</strong></p>
+<ol>
+<li>Preparing your LiveUSB ISO. In this example, I used <strong>openSUSE-11.0-KDE4-LiveCD-i386.iso</strong>. Change with your downloaded LiveCD ISO instead</li>
+<li>Preparing, Extract and update the initrd</li>
+<p><code>su<br />
+mkdir unpacked<br />
+mkdir /mnt/iso<br />
+mkdir /mnt/squash<br />
+mount -o loop <strong>openSUSE-11.0-KDE4-LiveCD-i386.iso</strong> /mnt/iso/<br />
+cd unpacked<br />
+gzip -dc /mnt/iso/boot/i386/loader/initrd | cpio -i<br />
+mount -o loop /mnt/iso/openSUSE-*read-only.* /mnt/squash/<br />
+cp /mnt/squash/lib/modules/*/kernel/fs/nls/nls_cp437.ko lib/modules/*/kernel/fs/nls/<br />
+cp /mnt/squash/lib/modules/*/kernel/fs/nls/nls_iso8859-1.ko lib/modules/*/kernel/fs/nls/<br />
+cp -r /mnt/squash/lib/modules/*/kernel/fs/vfat lib/modules/*/kernel/fs/<br />
+cp -r /mnt/squash/lib/modules/*/kernel/fs/fat lib/modules/*/kernel/fs/<br />
+</code></p>
+<li>Edit the linuxrc file and change <strong>/bin/sh</strong> on top of the file with <strong>/bin/sh -x</strong>. This used for verbose option while boot, every command will be display before executed so if there is a problem, it will more easier to resolve.</li>
+<li>Modify the <strong>include</strong> file and change (replace) the function CDDevice with below code. This will change LiveCD to LiveUSB.</li>
+<pre>function CDDevice {
+	# /.../
+	# changed this function so that it finds config.isoclient on vfat disks, e.g. USB drives
+	# ----
+	find /lib/modules/*/kernel/fs/nls/nls* -exec insmod {} \; # needed for vfat filesystem
+        find /lib/modules/*/kernel/fs/*fat/*.ko -exec insmod {} \; # needed for vfat filesystem
+        insmod /lib/modules/*/kernel/drivers/usb/storage/usb-storage.ko # needed for USB
+	sleep 5 # fixme; do this in a proper way
+	cddevs=`/usr/sbin/hwinfo --disk | grep sd | grep "Device File:" | cut -f2 -d: | cut -f2 -d " "` # looks for disks instead of CDs
+	echo cddevs $cddevs
+	for i in $cddevs;do
+		i=$i"1" # fixme; looks on the first partition only
+		echo i $i
+		if [ -b $i ];then
+			test -z $cddev &amp;&amp; cddev=$i || cddev=$cddev:$i
+			echo cddev $cddev
+		fi
+	done
+	if [ -z $cddev ]; then
+		systemException \
+			"Failed to detect CD drive !" \
+		"reboot"
+	fi
+}
+</pre>
+<li>Repack the initrd. We will place the initrdud in root of cureent folder :</li>
+<pre>find . | cpio -o -H newc | gzip -9 &gt; ../initrdud
+</pre>
+</ol>
+<p>Hope the above process solve the problem while making openSUSE 11.0 GM LiveUSB. Don&#8217;t forget to place a comment if you got any problem regarding this tutorial.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2008/06/20/how-to-makeopensuse-110-gm-version-live-usb/feed/</wfw:commentRss>
+		<slash:comments>17</slash:comments>
+		</item>
+		<item>
+		<title>Making openSUSE 11.0 LiveUSB : The Easiest (and Fastest) Way</title>
+		<link>https://lizards.opensuse.org/2008/05/31/making-opensuse-110-liveusb-the-easiest-and-fastest-way/</link>
+		<comments>https://lizards.opensuse.org/2008/05/31/making-opensuse-110-liveusb-the-easiest-and-fastest-way/#comments</comments>
+		<pubDate>Sat, 31 May 2008 05:12:11 +0000</pubDate>
+		<dc:creator><![CDATA[Masim "Vavai" Sugianto]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Usability]]></category>
+		<category><![CDATA[LiveUSB]]></category>
+		<category><![CDATA[openSUSE-ID]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=38</guid>
+		<description><![CDATA[In earlier post, I&#8217;m writing &#8220;How to build openSUSE LiveUSB with Kiwi&#8221; tutorial guide and thinking how to get same results with more easier tips. Another distro came with easy trick to make a bootable LiveUSB and I think openSUSE should be 😉 . Kiwi is a great tools for making openSUSE liveUSB, QEMU Image, [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><a href="http://www.vavai.com/blog/uploads/liveusb-2.png"><img src="http://www.vavai.com/blog/uploads/liveusb-1.jpg" alt="LiveUSB desktop" width="500" height="333" /></a></p>
+<p>In earlier post, I&#8217;m writing &#8220;<a href="http://lizards.opensuse.org/2008/05/21/opensuse-liveusb-with-kiwi/">How to build openSUSE LiveUSB with Kiwi</a>&#8221; tutorial guide and thinking how to get same results with more easier tips.  Another distro came with easy trick to make a bootable LiveUSB and I think openSUSE should be <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> . Kiwi is a great tools for making openSUSE liveUSB, QEMU Image, VMWare Image, XEN Image and LiveCD Image but it would not fit with any situation.</p>
+<p>I&#8217;ve search various topics and found some of them looks pretty interesting to try. After reviewing some tips, here is a tutorial guide to make openSUSE 11.0 LiveUSB with the easiest way :</p>
+<h3><strong><strong>BENEFIT</strong></strong></h3>
+<ol>
+<li>Tutorial can be used on Linux or Windows</li>
+<li>Do not need to install openSUSE onto hard disk for making LiveUSB as it was with KIWI. Just download the LiveCD ISO image and a tools for make an extract of ISO content (7-zip on Windows and mount -o loop tips on Linux)</li>
+<li>Can used FAT 32 file system for interoperability (marketing hype <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> ) and mobility of data. Flash disk could be accessing by various OS</li>
+<li>Simple, only need a few step</li>
+<li>Fast process, required a few minutes for copying ISO image and initrd process</li>
+</ol>
+<h3><span id="more-38"></span><strong>PREPARATION</strong></h3>
+<ol>
+<li>Preparing USB Flash Disk, 1 GB or more</li>
+<li>If using Windows for making LiveCD, download latest version of <a href="//www.kernel.org/pub/linux/utils/boot/syslinux">syslinux</a></li>
+<li>Download modified initrd &#8211; called initrdud &#8211; from <a href="ftp://ftp.emc.com/incoming/suse/">this link</a>. (it&#8217;s free ftp server which deleted any contents every 2 week. You could find another location from <a href="http://www.vavai.com/uploads/opensuse/initrdud">my personal blog uploads folder</a>). The modified initrd contains modification from LiveCD boot into LiveUSB boot and addon for NLS modules (code page and character set) for FAT32 file system on USB. NOTED : for openSUSE 11.0 GM, please used <a href="http://opensuse.or.id/wp-content/uploads/2008/06/initrdud">this initrdud</a> instead. Take a look on <a href="http://lizards.opensuse.org/2008/06/20/how-to-makeopensuse-110-gm-version-live-usb/#more-75">this post</a> for the reason.</li>
+</ol>
+<h3><strong><strong>MAKE A BOOTABLE LIVEUSB</strong></strong></h3>
+<ul>
+<li><strong>ON WINDOWS</strong></li>
+</ul>
+<ol>
+<li>Run your Windows OS</li>
+<li>Plug in USB Flash Disk</li>
+<li>Extract syslinux on Windows folder</li>
+<li>Open DOS Prompt (Command Prompt)</li>
+<li>Navigate into win32 folder on syslinux folder</li>
+<li>run syslinux -ma driver-letter-of-flash-disk, eg : <code>syslinux -ma E: </code> if E is your USB Flash Disk. Note : The process need a few second to make a bootable USB disk with syslinux, so don&#8217;t wait the process finished for 1 minutes or more <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f600.png" alt="&#x1f600;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></li>
+</ol>
+<ul>
+<li><strong>ON LINUX</strong>
+<ol>
+<li>Find your USB disk with <code>df -h</code> on konsole.</li>
+<li>Install syslinux and run <strong>syslinux /dev/sdx</strong> from konsole where /dev/sdx is your USB device</li>
+<li>If the above process failed for making bootable USB disk, try <a href="http://en.opensuse.org/SuSE_install_from_USB_drive#Make_the_USB_drive_bootable">another tips</a></li>
+</ol>
+</li>
+</ul>
+<h3>PROCESSING THE IMAGE</h3>
+<ol>
+<li>Plug in bootable USB disk</li>
+<li>Create temporary folder for mounting LiveCD ISO Image <code>mkdir liveiso</code></li>
+<li>Mount ISO image into specified folder <code>mount -o loop openSUSE-11.0-RC1-KDE4-LiveCD-i386.iso liveiso/</code> (I&#8217;m currently using openSUSE 11.0 RC1 KDE. Make a proper changes to your ISO image)</li>
+<li>Copying all of liveiso content (mounted ISO content) into USB disk</li>
+<li>Copying all of content on boot/i386/loader folder into root folder of USB disk</li>
+<li>Rename isolinux.cfg on root folder of USB disk into syslinux.cfg</li>
+<li>copying initrdud into root folder of usb disk</li>
+<li>Make a few modification into syslinux.cfg, so, USB live will boot with initrdud. Make a change to this line : <code>append initrd=initrd ramdisk_size=512000 ramdisk_blocksize=4096 splash=silent showopts</code> into <code>append initrd=initrdud kiwidebug=1 ramdisk_size=512000 ramdisk_blocksize=4096 splash=silent showopts</code> kiwidebug=1 option will log any error while booting LiveUSB</li>
+</ol>
+<h3>TESTING</h3>
+<ol>
+<li>Boot your computer with USB HDD as top of boot device priority or make a hot boot change by pressing F12, F8, F9 or any key according to your computer</li>
+<li>While booting, just press ENTER on boot option. Typing Live-System as mentioned on boot message will failed <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> regarding kernel image</li>
+</ol>
+<p><a href="http://www.vavai.com/blog/uploads/liveusb-1.png"><img src="http://www.vavai.com/blog/uploads/liveusb-2.jpg" alt="LiveUSB Sysinfo" width="500" height="333" /></a></p>
+<h3>LIVEUSB INSTALLATION SCREENSHOT</h3>
+<p>Below are some LiveUSB installation screenshot.</p>
+<p><a href="http://www.vavai.com/blog/uploads/liveusb-3.png"><img src="http://www.vavai.com/blog/uploads/liveusb-3.jpg" alt="LiveUSB Installation Screen" width="500" height="371" /></a></p>
+<p><a href="http://www.vavai.com/blog/uploads/liveusb-4.png"><img src="http://www.vavai.com/blog/uploads/liveusb-4.jpg" alt="LiveUSB Installation Screen" width="500" height="371" /></a></p>
+<p><a href="http://www.vavai.com/blog/uploads/liveusb-5.png"><img src="http://www.vavai.com/blog/uploads/liveusb-5.jpg" alt="LiveUSB Installation Screen" /></a></p>
+<h3>CREDIT</h3>
+<p>Thanks to <a href="http://www.suseforums.net/index.php?s=d7a69cd0371561b0907600e2757d5ab9&amp;showuser=47359">Manivas</a> for <a href="http://suseforums.net/index.php?showtopic=50712">great idea &amp; tutorial</a>.</p>
+<h3>FUTURE IDEA</h3>
+<p><a href="http://en.opensuse.org/User:Coolo">Coolo</a> was <a href="http://lists.opensuse.org/opensuse-factory/2008-05/msg00455.html">discarded his experimental test</a> for making openSUSE liveUSB. The above process should be fine and *I think* quite enough to provide openSUSE LiveUSB for 11.0 released. By automating overall process and making a nice GUI, it should be increasing openSUSE 11.0 features. (if you asked me, &#8220;Why don&#8217;t you create automated process tools by yourself&#8221;, my answer is : &#8220;Yes, I will. I just thinking that it may need a less than a day for experience openSUSE developers for making the tools rather than waiting my C++ &amp; QT course finished <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f600.png" alt="&#x1f600;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> )</p>
+<p>In 10.3, it was need a month after official release of 10.3 on October 04, 2008 for releasing LiveCD version of openSUSE. With this experience, is this possible to make this features included on openSUSE 11.0 ?</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2008/05/31/making-opensuse-110-liveusb-the-easiest-and-fastest-way/feed/</wfw:commentRss>
+		<slash:comments>35</slash:comments>
+		</item>
+		<item>
+		<title>openSUSE LiveUSB with KIWI</title>
+		<link>https://lizards.opensuse.org/2008/05/21/opensuse-liveusb-with-kiwi/</link>
+		<comments>https://lizards.opensuse.org/2008/05/21/opensuse-liveusb-with-kiwi/#comments</comments>
+		<pubDate>Wed, 21 May 2008 04:51:19 +0000</pubDate>
+		<dc:creator><![CDATA[Masim "Vavai" Sugianto]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[LiveUSB]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=28</guid>
+		<description><![CDATA[As mentioned on previous post, today I&#8217;m playing with LiveUSB creation. Coolo, our lovely (and busy 😉 ) openSUSE project manager discard his experimental test of making LiveUSB due to various specific problem with the USB. I released factory snapshots of USB and CD images &#8211; the USB shows just too many USB specific problems [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><a title="LiveUSB Sysinfo" href="http://www.vavai.net/uploads/liveusb-sysinfo.png"><img src="http://www.vavai.net/uploads/liveusb-sysinfo-kecil.jpg" alt="liveusb sysinfo" width="400" height="372" /></a></p>
+<p>As mentioned on <a href="http://lizards.opensuse.org/2008/05/19/playing-with-opensuse-on-liveusb-stick/">previous post</a>, today I&#8217;m playing with LiveUSB creation. <a href="http://en.opensuse.org/User:Coolo">Coolo</a>, our lovely (and busy <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> ) openSUSE project manager discard his experimental test of making LiveUSB due to various specific problem with the USB.</p>
+<blockquote><p>I released factory snapshots of USB and CD images &#8211; the USB shows just too many USB specific problems to be worthy, so I kind of decided to kill this idea again ;( <a href="http://lists.opensuse.org/opensuse-factory/2008-05/msg00455.html">More&#8230;</a></p></blockquote>
+<p>Before taking <a href="http://klik.atekon.de/wiki/index.php/CustomizeSUSELive">the tutorial</a> mentioned by Luiz Fernando, I&#8217;m trying with <a href="http://en.opensuse.org/Live_USB_stick">KIWI LiveUSB stick tutorial</a>. I&#8217;ve followed the tutorial last month but the process unfinished yet due to the complaining from KIWI that the image doesn&#8217;t fit on my 2 GB USB Flash Disk. At the moment, I was stopped the process and planned to continue after buying another bigger flash disk. I take this conclusion with the assumption KIWI need more than 2 GB of USB disk.</p>
+<p>Today I used same tutorial with another assumption <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> , probably the problem occurred due to the annoying bug with KIWI in earlier version, not with the size of USB disk. KIWI using same image used by LiveCD (about 700 MB), so, 2 GB of USB disk should be fit with the requirement of KIWI for building live USB stick.</p>
+<p><span id="more-28"></span>With this assumption, I&#8217;m trying KIWI once again for building live USB stick with same device (2 GB of USB flash disk), and now the process ended successfully. I could make a running USB Live stick with KIWI Wiki guidance for making USB live stick. Below is the summary of guidance :</p>
+<ol>
+<li>Install openSUSE with standard option. The easiest way is using openSUSE liveCD installation <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f600.png" alt="&#x1f600;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> , but you still needed an installation DVD or DVD iso image as base installation source.</li>
+<li>Copying the entire content of installation DVD  to specified folder as installation source. If you used iso image, you could mount the iso into specified folder with this command : <code>mount -o loop name-of-iso-image specified-folder</code>ex : <code>mount -o loop openSUSE-10.3-GM-DVD-i386.iso /mnt/iso</code></li>
+<li>Add the KIWI installation source.</li>
+<p><code>zypper sa http://download.opensuse.org/repositories/openSUSE:/Tools/openSUSE_10.3 kiwi</code></p>
+<li>Installing kiwi component :</li>
+<p><code>zypper in kiwi kiwi-desc-livesystem kiwi-desc-usbboot</code></p>
+<li>Make proper changes to usbboot config.xml files on /usr/share/kiwi/image/usbboot/suse-10.3/config.xml and replace following lines with your local repos :</li>
+<p><code>&lt;repository type="yast2" status="replaceable"&gt;<br />
+&lt;source path="/image/CDs/full-10.3-i386"/&gt;<br />
+&lt;/repository&gt;<br />
+</code>	</p>
+<li>Make proper changes to livecd config.xml /usr/share/kiwi/image/kwliveCD-suse-10.3/config.xml and replace this portion xml code to your local repos :</li>
+<p><code>&lt;repository type="yast2"&gt;<br />
+&lt;source path="/mounts/dist/install/SLP/openSUSE-10.3-GM-DVD/i386/DVD1/"/&gt;<br />
+&lt;/repository&gt;<br />
+&lt;repository type="rpm-md"&gt;<br />
+&lt;source path="http://download.opensuse.org/repositories/openSUSE:/10.3:/Testing/openSUSE_10.3/"/&gt;<br />
+&lt;/repository&gt;<br />
+&lt;repository type="rpm-md"&gt;<br />
+&lt;source path="http://download.opensuse.org/update/10.3/"/&gt;<br />
+&lt;/repository&gt;<br />
+</code>	</p>
+<li>Newer version of KIWI complaining about the version number on config.xml (it should be version number, major and minor changes), so, change this line : <code> &lt;version&gt;2.5&lt;/version&gt; </code> with something like <code>&lt;version&gt;2.5.0&lt;/version&gt;</code></li>
+<li>Remove file .checksum.md5 on /usr/share/kiwi/image/usbboot/suse-10.3/ (it&#8217;s hidden file, so make a deal with your display on file manager preferences, ie : show hidden files on konqueror)</li>
+<li>Clean up temporary folder for kiwi processing</li>
+<p><code>rm -rf /tmp/kiwi*</code></p>
+<li>Run the kiwi command (replace KDE with Gnome if you more preferred with GNOME desktop manager)</li>
+<p><code>kiwi --prepare /usr/share/kiwi/image/kwliveCD-suse-10.3 --root /tmp/kiwi-tmp --add-profile KDE --logfile terminal</code></p>
+<li>Kiwi will processing and building the image. It should be ended with the information  <em>&#8220;KIWI exited successfully   done&#8221;</em>. If you get an error exception, please make a deal with the error <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></li>
+<li>Create the compressed image. The process will produces the image named openSUSE-10.3.i686-2.5.0 on /tmp/kiwi-image/</li>
+<p><code>mkdir /tmp/kiwi-image<br />
+kiwi <strong>--type usb</strong> --create /tmp/kiwi-tmp -d /tmp/kiwi-image --logfile terminal</code></p>
+<li>Plugin your USB flash disk and specifies the location of your USB flash on /dev folder (ls /dev/sd* will display your USB flash disk at the end of the list)</li>
+<li>Umount (ie : umount /dev/sdc1)</li>
+<li>Create a bootable LiveUSB stick with openSUSE 10.3 by run the command :</li>
+<p><code>kiwi --bootstick /tmp/kiwi-image/initrd-usbboot-suse-10.3.i686-2.1.1.splash.gz --bootstick-system /tmp/kiwi-image/openSUSE-10.3.i686-2.5.0</code></p>
+<li>Try your LiveUSB stick by rebooting with USB boot as your first device boot priority.</li>
+</ol>
+<p><a href="http://www.vavai.net/uploads/liveusb-partition.png"><img src="http://www.vavai.net/uploads/liveusb-partition-kecil.jpg" alt="LiveUSB partition" /></a></p>
+<p>The above procedure using openSUSE 10.3 as base installation but the overall process *should be* work with openSUSE 11.0 or newer version with a small modification. Please change the process path  according your openSUSE version.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2008/05/21/opensuse-liveusb-with-kiwi/feed/</wfw:commentRss>
+		<slash:comments>7</slash:comments>
+		</item>
+		<item>
+		<title>Playing with openSUSE on LiveUSB Stick</title>
+		<link>https://lizards.opensuse.org/2008/05/19/playing-with-opensuse-on-liveusb-stick/</link>
+		<comments>https://lizards.opensuse.org/2008/05/19/playing-with-opensuse-on-liveusb-stick/#comments</comments>
+		<pubDate>Mon, 19 May 2008 21:05:15 +0000</pubDate>
+		<dc:creator><![CDATA[Masim "Vavai" Sugianto]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[LiveUSB]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=24</guid>
+		<description><![CDATA[Today (Tuesday in Indonesia, May 20, 2008) is a public holiday in Indonesia regarding Waisak day (Waisak is a Buddhist event). My agenda for this holiday is give a training session about Zimbra Collaboration Suite with openSUSE 10.3. The training session started on 09.00 am until 03.00 pm but I think I can spare about [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Today (Tuesday in Indonesia, May 20, 2008) is a public holiday in Indonesia regarding Waisak day (Waisak is a <a href="http://www.walubi.or.id/warta2007/warta.2007.05.31.01.shtml">Buddhist event</a>). My agenda for this holiday is give a training session about <a href="http://lizards.opensuse.org/2008/05/15/zimbra-collaboration-suite-50x-auto-install-script/">Zimbra Collaboration Suite</a> with openSUSE 10.3. The training session started on 09.00 am until 03.00 pm but I think I can spare about minimum 20% of my holiday time to an interesting stuff. It&#8217;s a public holiday and I don&#8217;t want to work all of the time <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> .</p>
+<p>The first interesting stuff is making a LiveUSB stick for openSUSE. It&#8217;s not a really new because KIWI has an entry about <a href="http://en.opensuse.org/Live_USB_stick">how to make a live usb on openSUSE wiki</a>, but I give it another try after reading Coolo&#8217;s announcement about <a href="http://lists.opensuse.org/opensuse-factory/2008-05/msg00408.html">new factory snapshot</a> on Sunday, May 18, 2008.</p>
+<blockquote><p><a rel="nofollow" href="http://ftp.suse.com/pub/projects/FactoryLiveCDs/">http://ftp.suse.com/pub/projects/FactoryLiveCDs/</a> has new live cds as of today. Please note that it also has the first experimental release of live usb images.</p>
+<ul>
+<li>Plugin in usb stick</li>
+<li>Check dmesg output about the device name (e.g. sdc)</li>
+<li>Umount all possibly automounted file systems</li>
+<li>bzip2 -cd &lt;download&gt;.raw.bz2 | dd of=/dev/&lt;device_name&gt; bs=4096</li>
+</ul>
+</blockquote>
+<p><span id="more-24"></span>It&#8217;s the first experimental release, so, it would be produces an error on live USB processing. Mailing list thread show some of the problem regarding this experimental. With a simple command to making a live USB, the experiment seems to be a nice addon for next RC1 release <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> .</p>
+<p>The third way for making a LiveUSB stick with openSUSE is a wiki entry on klik.atekon.de, <a href="http://klik.atekon.de/wiki/index.php/CustomizeSUSELive">&#8220;Customize SUSE Live&#8221;</a>. Luiz Fernando send an information about his work for making LiveUSB based on openSUSE 11.0 beta 3.</p>
+<blockquote><p>I tried making a LiveUSB from LiveCD of Beta3 following this tutorial <a href="http://klik.atekon.de/wiki/index.php/CustomizeSUSELive" target="_blank">http://klik.atekon.de/wiki/index.php/CustomizeSUSELive</a> which I only had to make a new initrd with support for usb-storage, vfat modules. <a href="http://lists.opensuse.org/opensuse-factory/2008-05/msg00416.html">More&#8230;</a></p></blockquote>
+<p>So, I have 3 option for making a LiveUSB stick with openSUSE as my agenda before and after Zimbra training session.</p>
+<p>The second interesting stuff is related with Zimbra itself. I&#8217;m thinking to write unattended Zimbra installation script on openSUSE 10.3 while on the way to work place yesterday morning. With the easier way to install Zimbra on openSUSE, I hope I can reached wide openSUSE adoption in server side and in enterprise solution, especially in Indonesia.</p>
+<p>I will describe the idea and how to make it possible in next post.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2008/05/19/playing-with-opensuse-on-liveusb-stick/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+	</channel>
+</rss>

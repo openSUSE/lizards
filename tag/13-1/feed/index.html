@@ -1,0 +1,749 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>13.1 &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/13-1/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>AMD/ATI Catalyst fglrx rpms, end of an era!</title>
+		<link>https://lizards.opensuse.org/2016/12/07/amdati-catalyst-fglrx-rpms-end-of-an-era/</link>
+		<comments>https://lizards.opensuse.org/2016/12/07/amdati-catalyst-fglrx-rpms-end-of-an-era/#comments</comments>
+		<pubDate>Wed, 07 Dec 2016 20:09:48 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.1]]></category>
+		<category><![CDATA[12.2]]></category>
+		<category><![CDATA[12.3]]></category>
+		<category><![CDATA[13.1]]></category>
+		<category><![CDATA[13.2]]></category>
+		<category><![CDATA[42.1]]></category>
+		<category><![CDATA[42.2]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[fglrx]]></category>
+		<category><![CDATA[Tumbleweed]]></category>
+		<category><![CDATA[unified]]></category>
+		<category><![CDATA[xorg]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12178</guid>
+		<description><![CDATA[Long time not talking about fglrx rpm, mostly because they&#8217;ve got no update since last December 2015. Short Summary In a word as hundred, fglrx is now a dead horse! We had the hope of getting it working for Leap 42.2 in October, but except freezing kernel and xorg, you will not get what you [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Long time not talking about fglrx rpm, mostly because they&#8217;ve got no update since last December 2015.</p>
+<h3 style="color:red">Short Summary</h3>
+<p>In a word as hundred, fglrx is now a dead horse!</p>
+<p><img src="https://image.slidesharecdn.com/090214failsoftwaredevelopment-1234881541128932-3/95/090214-fail-software-development-6-728.jpg?cb=1234860218" alt="Dead horse" /></p>
+<p>We had the hope of getting it working for Leap 42.2 in October, but except freezing kernel and xorg, you will not get what you would expect: a stable xorg session</p>
+<p><strong>Say goodbye fglrx!, repeat after me, goodbye fglrx.</strong></p>
+<blockquote><p>If you are locked down and forced for any reasons to use fglrx with your gpu, and are still using 42.1, then don&#8217;t upgrade to 42.2, without a plan B</p></blockquote>
+<p>It has no more support from AMD upstream, and that&#8217;s it!, if someone want to break its computer, it&#8217;s still possible to pick the last files and try it by yourself, but the repository will never contain it for 42.2 (see below how-to)</p>
+<p>That&#8217;s said, I&#8217;m not still sure, to keep for a long time the repository, I&#8217;ve been managing since 6 years now.</p>
+<h3>A bit of history</h3>
+<p>In 2010, when we were working hard to get 11.1 out, the news that no supported ATI (at that time) will be available for end-users, as we have for nvidia gpu</p>
+<p>I didn&#8217;t check back the irc log, but we were a few, that would like to have this still available, by pure commodity. Especially that I&#8217;ve just exchanged a non working gpu by my new hd5750.</p>
+<p>I remember the first chaotic steps, how to build that, and create repeating builds, what about the license? Did we have the right to offer a pre-build rpm etc. I spent some time fixing all of this stuff.<br />
+And start the build on real hardware. Hey afterward kvm was really in infancy stage.
+</p>
+<p>Release after release amd/ati and openSUSE, the driver was build, on hardware for each supported distribution. When beginning of 2013 Sebastian Siebert, who got some direct contacts with AMD, release<br />
+his own script, we collaborate to have the possibility to build on virtual machines, which allow me to simplify the build process, as having on kvm for each openSUSE release supported.
+</p>
+<p>Afterward, AMD start to split fglrx with the fglrx for HD5xx and above, and fglrx-legacy. So 2 drivers to maintain, but as always with proprietary software, the legacy version became rapidly obsolete,<br />
+and non usable. Not that bad, in the meantime the AMD effort on the free and open source radeon driver, quickly overcome the performance of legacy.</p>
+<p>Still from 2013, to 2016 I&#8217;ve been able to propose ready to use rpm for several version of openSUSE&#8217;s distributions. I think the repository serve quite well end users, and I never got big flames.</p>
+<p>I can&#8217;t avoid to mention the openSUSE powered server and sponsored by <a href="http://www.ioda-net.ch">Ioda-Net Sàrl</a> that has serve this objective so well during that time frame.</p>
+<h3>Future of the repository</h3>
+<p>Now that fglrx is becoming obsolete, I think seriously about why the repository online should stay online.</p>
+<p>At openSUSE project level, we still have 13.1, 13.2, 42.1 and 42.2 that are mostly active. 13.1 is already almost out of the game of evergreen,<br />
+13.2 will follow soon, and I don&#8217;t know yet the exact plan for 42.1, but it will certainly go out of maintenance in less than a year.
+</p>
+<p>If you feel or have the need of the repository, please express that in the comments below.</p>
+<h3>Wait there&#8217;s amd-gpu-pro, no?</h3>
+<p>Yeap there&#8217;s a closed driver, called amd-gpu-pro, available, for newer cards. But there&#8217;s two things that bring me out of the game, first I don&#8217;t have those newer gpu,<br />
+and don&#8217;t have the need to replace my hd5750 for the moment. The second and certainly the most important, those drivers are only available for Ubuntu or at least in .deb format.</p>
+<p>I will certainly not help proprietary crap, if I don&#8217;t have a solid base to work with, and a bit of help from their side. I wish good luck to those who want to try those drivers,<br />
+I&#8217;ve got a look inside, and got a blame face.</p>
+<h3>For crazy, and those who don&#8217;t love their computer</h3>
+<p>So you want to loose your time? you can! I&#8217;ve kept <a href="http://geeko.ioda.net/mirror/amd-fglrx/raw-src">in raw-src directory</a> all the script used to build the driver.<br />
+They differ a bit compared to <a href="http://www.sebastian-siebert.de/">Sebastian Siebert last version</a> in the sense of making Leap 422 as a possible target.<br />
+If you dig a bit around, you should be able to build them, but you&#8217;re alone on that way, you&#8217;ve been warned!
+</p>
+<p>I&#8217;m not against a republished version, if someone find a way to make them working, just drop me a message.</p>
+<p>That&#8217;s all for this journey, Have Fun! <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2016/12/07/amdati-catalyst-fglrx-rpms-end-of-an-era/feed/</wfw:commentRss>
+		<slash:comments>15</slash:comments>
+		</item>
+		<item>
+		<title>AMD Catalyst 15.12 for openSUSE – new makerpm-amd-script is available</title>
+		<link>https://lizards.opensuse.org/2016/03/17/amd-catalyst-15-12-for-opensuse-new-makerpm-amd-script-is-available/</link>
+		<comments>https://lizards.opensuse.org/2016/03/17/amd-catalyst-15-12-for-opensuse-new-makerpm-amd-script-is-available/#comments</comments>
+		<pubDate>Thu, 17 Mar 2016 18:41:13 +0000</pubDate>
+		<dc:creator><![CDATA[Sebastian Siebert]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.1]]></category>
+		<category><![CDATA[12.2]]></category>
+		<category><![CDATA[12.3]]></category>
+		<category><![CDATA[13.1]]></category>
+		<category><![CDATA[13.2]]></category>
+		<category><![CDATA[42.1]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[driver]]></category>
+		<category><![CDATA[fglrx]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[radeon]]></category>
+		<category><![CDATA[rpm]]></category>
+		<category><![CDATA[Tumbleweed]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11773</guid>
+		<description><![CDATA[AMD has released the new AMD Catalyst 15.12 (Radeon Crimson Edition). My script replaces the existing packaging script with an updated packaging script. It supports up to Kernel 4.5. (Official support up to Kernel 3.19) Important note: The driver does not work on openSUSE Tumbleweed. Unfortunately, the version of X-server is too new for the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>AMD has released the new AMD Catalyst 15.12 (Radeon Crimson Edition). My script replaces the existing packaging script with an updated packaging script. It supports up to Kernel 4.5. (Official support up to Kernel 3.19)</p>
+<p><strong>Important note:</strong> The driver does not work on openSUSE Tumbleweed. Unfortunately, the version of X-server is too new for the driver.</p>
+<p>SHA1 is obsolete by now. The script used SHA256 for integrity of the downloaded files.</p>
+<p>New Feature from packaging script:</p>
+<ul>
+<li>systemd support</li>
+</ul>
+<p>Resolved Issues:</p>
+<ul>
+<li>[SWDEV-82980] Ubuntu 15.10 fails when building the .deb packages</li>
+</ul>
+<p>Link: <a href="http://support.amd.com/en-us/kb-articles/Pages/AMDRadeonSoftwareCrimsonEdition15-12LINReleaseNotes.aspx">AMD Catalyst 15.12 Release Notes</a></p>
+<p>Downloads:</p>
+<ul>
+<li>Script: <a href="https://www.sebastian-siebert.de/downloads/makerpm-amd-15.12.sh" target="_blank">makerpm-amd-15.12.sh</a></li>
+<li>SHA1: <a href="https://www.sebastian-siebert.de/downloads/makerpm-amd-15.12.sh.sha256" target="_blank">makerpm-amd-15.12.sh.sha256</a></li>
+</ul>
+<p>Installation guide (English):<br />
+<a href="http://en.opensuse.org/SDB:AMD_fglrx#Building_the_rpm_yourself">http://en.opensuse.org/SDB:AMD_fglrx#Building_the_rpm_yourself</a></p>
+<p>Bruno Friedmann will build the new RPM packages in the fglrx repository. Stay tune!</p>
+<p>If you find any issue with the driver. Don’t hesitate to contact me. I am in contact with AMD and can forward your issue to the right place. Feedback are welcome.</p>
+<p>A report of your system is very helpful beside your feedback. You can generate it with the script:<br />
+<code>su -c 'sh makerpm-amd-15.12.sh -ur'</code></p>
+<p>Have a lot of fun!</p>
+<p>Sebastian<br />
+openSUSE member / Official AMD Packaging Script Maintainer for openSUSE<br />
+German Blog: <a href="https://www.sebastian-siebert.de/2016/03/17/opensuse-proprietaeren-grafik-treiber-amd-catalyst-15-12-als-rpm-installieren/">openSUSE – proprietären Grafik-Treiber AMD Catalyst 15.12 als RPM installieren</a></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2016/03/17/amd-catalyst-15-12-for-opensuse-new-makerpm-amd-script-is-available/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>Proprietary AMD/ATI Catalyst fglrx rpms new release 15.11 (15.300.1025-1)</title>
+		<link>https://lizards.opensuse.org/2015/12/06/proprietary-amdati-catalyst-fglrx-rpms-new-release-15-11-15-300-1025-1/</link>
+		<pubDate>Sun, 06 Dec 2015 19:37:24 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[XFCE]]></category>
+		<category><![CDATA[13.1]]></category>
+		<category><![CDATA[13.2]]></category>
+		<category><![CDATA[42.1]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[fglrx]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Tumbleweed]]></category>
+		<category><![CDATA[unified]]></category>
+		<category><![CDATA[xorg]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11582</guid>
+		<description><![CDATA[Time to get an update for fglrx: the new release has been build for 13.1, 13.2, Leap 42.1, and tumbleweed 20151201 Tumbleweed beware : broken Xorg It seems since the release, that a number of report of broken xorg with gdm, ssdm and so&#8230; segfaulting You can still use the previous version hanging on the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Time to get an update for fglrx: the new release has been build for 13.1, 13.2, Leap 42.1, and tumbleweed 20151201</p>
+<h1 style="color:red">Tumbleweed beware : broken Xorg</h1>
+<p>It seems since the release, that a number of report of broken xorg with gdm, ssdm and so&#8230; segfaulting</p>
+<p>You can still use the previous version hanging on the server. But I doubt it would work better</p>
+<p>As soon, with Sebastian Siebert we have a patch for, I will republish a new build</p>
+<p>Informations &amp; bugreport <a href="https://www.sebastian-siebert.de/2015/12/05/opensuse-proprietaeren-grafik-treiber-amd-catalyst-15-11-als-rpm-installieren">Sebastian&#8217;s blog</a> or <a href="https://lizards.opensuse.org/2015/12/05/amd-catalyst-15-11-for-opensuse-new-makerpm-amd-script-is-available/">lizards.o.o</a><br />
+<br />
+The proposed drivers support kernel up to version 4.4
+</p>
+<p>AMD release note <a href="http://support.amd.com/en-us/kb-articles/Pages/AMDRadeonSoftwareCrimsonEdition15-11LINReleaseNotes.aspx">available</p>
+<h4>Sebastien Siebert making script</h4>
+<p style="clear:both"><a href="http://www.sebastian-siebert.de/">Sebastian Siebert posts about fglrx</a></p>
+<p>If you have any problems with the driver, don&#8217;t be afraid to report to Sebastian (German and English bugreports are gladly accepted).<br />
+he will try, as far as I am able to reproduce the bug. Together with the necessary system information, he will go directly to the right place at AMD to have the bug fixed in the next driver release.<br />
+Thank you very much, Sebastian.
+</p>
+<p>See below what to do in case of troubles.</p>
+<p>Or you can also ping him on irc (freespacer)</p>
+<h4>Debugging troubles</h4>
+<p>I recommend in case of trouble the use of <a href="http://www.sebastian-siebert.de/downloads/makerpm-amd-15.11.sh">his script</a> which can collect the whole informations needed to help you. then you just have to issue a simple commande in console to collect all informations, you can review them, and finally transmit them.<br />
+Check the website to get the latest.
+</p>
+<pre>su -c 'sh makerpm-amd-15.11.sh -ur'
+The system report 'amd-report.txt' was generated.                                                                                                          [ OK ]
+Do you want to read the system report 'amd-report.txt' now? yes/no [y/n]: y
+Are you sure to upload the above-named system report to sprunge.us? yes/no [y/n]: y
+
+The report was uploaded to sprunge.us.
+   The link is:  <a href="http://sprunge.us/eMEB">http://sprunge.us/eMEB</a>
+</pre>
+<p>Copy paste the link in the comment zone of Sebastian post</p>
+<p>All proudly distributed by openSUSE powered server and sponsored by <a href="http://www.ioda-net.ch">Ioda-Net Sàrl</a></p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>AMD Catalyst 15.11 for openSUSE – new makerpm-amd-script is available</title>
+		<link>https://lizards.opensuse.org/2015/12/05/amd-catalyst-15-11-for-opensuse-new-makerpm-amd-script-is-available/</link>
+		<comments>https://lizards.opensuse.org/2015/12/05/amd-catalyst-15-11-for-opensuse-new-makerpm-amd-script-is-available/#comments</comments>
+		<pubDate>Sat, 05 Dec 2015 23:00:55 +0000</pubDate>
+		<dc:creator><![CDATA[Sebastian Siebert]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.1]]></category>
+		<category><![CDATA[12.2]]></category>
+		<category><![CDATA[12.3]]></category>
+		<category><![CDATA[13.1]]></category>
+		<category><![CDATA[13.2]]></category>
+		<category><![CDATA[42.1]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[driver]]></category>
+		<category><![CDATA[fglrx]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[radeon]]></category>
+		<category><![CDATA[rpm]]></category>
+		<category><![CDATA[Tumbleweed]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11579</guid>
+		<description><![CDATA[AMD has released the new AMD Catalyst 15.11 (Radeon Crimson Edition). My script replaces the existing packaging script with an updated packaging script. It supports up to Kernel 4.4. (Official support up to Kernel 3.19) I have adapted the AMD driver to the Kernel 4.4 (rc3). For the moment it works for Kernel 4.4-rc3. Unfortunately [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>AMD has released the new AMD Catalyst 15.11 (Radeon Crimson Edition). My script replaces the existing packaging script with an updated packaging script. It supports up to Kernel 4.4. (Official support up to Kernel 3.19)</p>
+<p>I have adapted the AMD driver to the Kernel 4.4 (rc3). For the moment it works for Kernel 4.4-rc3. Unfortunately the AMD driver has a compatibility issue in combination with the GNOME Desktopmanager and X-Server. As a workaround, I recommend for GNOME another Desktopmanager such as lightdm until the issue is hopefully fixed.</p>
+<p>Resolved Issues:</p>
+<ul>
+<li>[SWDEV-55204] Stuttering when running glxgears with VSync enabled</li>
+<li>[SWDEV-7339] Intermittent mouse cursor corruption</li>
+</ul>
+<p>Link: <a href="http://support.amd.com/en-us/kb-articles/Pages/AMDRadeonSoftwareCrimsonEdition15-11LINReleaseNotes.aspx">AMD Catalyst 15.11 Release Notes</a></p>
+<p>Downloads:</p>
+<ul>
+<li>Script: <a href="https://www.sebastian-siebert.de/downloads/makerpm-amd-15.11.sh" target="_blank">makerpm-amd-15.11.sh</a></li>
+<li>SHA1: <a href="https://www.sebastian-siebert.de/downloads/makerpm-amd-15.11.sh.sha1" target="_blank">makerpm-amd-15.11.sh.sha1</a></li>
+</ul>
+<p>Installation guide (English):<br />
+<a href="http://en.opensuse.org/SDB:AMD_fglrx#Building_the_rpm_yourself">http://en.opensuse.org/SDB:AMD_fglrx#Building_the_rpm_yourself</a></p>
+<p>Bruno Friedmann will build the new RPM packages in the fglrx repository. Stay tune!</p>
+<p>If you find any issue with the driver. Don’t hesitate to contact me. I am in contact with AMD and can forward your issue to the right place. Feedback are welcome.</p>
+<p>A report of your system is very helpful beside your feedback. You can generate it with the script:<br />
+<code>su -c 'sh makerpm-amd-15.11.sh -ur'</code></p>
+<p>Have a lot of fun!</p>
+<p>Sebastian<br />
+openSUSE member / Official AMD Packaging Script Maintainer for openSUSE<br />
+German Blog: <a href="https://www.sebastian-siebert.de/2015/12/05/opensuse-proprietaeren-grafik-treiber-amd-catalyst-15-11-als-rpm-installieren/">openSUSE – proprietären Grafik-Treiber AMD Catalyst 15.11 als RPM installieren</a></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2015/12/05/amd-catalyst-15-11-for-opensuse-new-makerpm-amd-script-is-available/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>AMD Catalyst 15.9 for openSUSE – new makerpm-amd-script is available</title>
+		<link>https://lizards.opensuse.org/2015/09/27/amd-catalyst-15-9-for-opensuse-new-makerpm-amd-script-is-available/</link>
+		<comments>https://lizards.opensuse.org/2015/09/27/amd-catalyst-15-9-for-opensuse-new-makerpm-amd-script-is-available/#comments</comments>
+		<pubDate>Sun, 27 Sep 2015 16:15:14 +0000</pubDate>
+		<dc:creator><![CDATA[Sebastian Siebert]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.1]]></category>
+		<category><![CDATA[12.2]]></category>
+		<category><![CDATA[12.3]]></category>
+		<category><![CDATA[13.1]]></category>
+		<category><![CDATA[13.2]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[driver]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[radeon]]></category>
+		<category><![CDATA[rpm]]></category>
+		<category><![CDATA[Tumbleweed]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11536</guid>
+		<description><![CDATA[AMD has released the new AMD Catalyst 15.9. My script replaces the existing packaging script with an updated packaging script. It supports up to Kernel 4.2. (Official support up to Kernel 3.19) Important note: The first beta version of openSUSE Leap (future openSUSE 42.1) was released a few days ago. However, the AMD driver has [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>AMD has released the new AMD Catalyst 15.9. My script replaces the existing packaging script with an updated packaging script. It supports up to Kernel 4.2. (Official support up to Kernel 3.19)</p>
+<p>Important note: The first beta version of openSUSE Leap (future openSUSE 42.1) was released a few days ago. However, the AMD driver has not been adapted yet to the new upcoming openSUSE version. In the next days I will working on this and release a new update for this script.</p>
+<p>Important note 2: After some experimentation with the GNOME Desktopmanager, unfortunately it does not work with the driver. Because actually something seems to be amiss. To this end, I will contact the AMD developers. As a workaround, I recommend for GNOME another Desktopmanager such as lightdm until the issue is fixed.</p>
+<p>Resolved Issues:</p>
+<ul>
+<li>[425910] Driver installation sometimes fails on Ubuntu 14.04.3</li>
+<li>[424450] Company of Heroes® 2 &#8211; Game crashes while running the performance test</li>
+<li>[424794] Middle-earth™: Shadow of Mordor &#8211; Corruption observed in game</li>
+<li>[424882] DIRT® Showdown &#8211; Corruption observed in game</li>
+<li>[425234] DIRT® Showdown &#8211; Game crashes after the loading screen</li>
+<li>[424802] DOTA™ 2 – Application hang observed while exiting the game</li>
+<li>[424255] AMD Catalyst™ Installer removing EGL links resulting in Xserver/Xorg load failure</li>
+<li>[423471] Unable to switch desktop mode after installing AMD Catalyst™ driver</li>
+<li>[423735] Renaming Counter-Strike: GO and other Steam game binary improves performance</li>
+</ul>
+<p>Known Issues:</p>
+<ul>
+<li>[419960]: Vari-Bright on some configurations is not decreasing brightness as expected</li>
+</ul>
+<p>Link: <a href="http://support.amd.com/en-us/kb-articles/Pages/AMDCatalyst15-9LINReleaseNotes.aspx">AMD Catalyst 15.9 Release Notes</a></p>
+<p>Downloads:</p>
+<ul>
+<li>Script: <a href="https://www.sebastian-siebert.de/downloads/makerpm-amd-15.9.sh" target="_blank">makerpm-amd-15.9.sh</a></li>
+<li>SHA1: <a href="https://www.sebastian-siebert.de/downloads/makerpm-amd-15.9.sh.sha1" target="_blank">makerpm-amd-15.9.sh.sha1</a></li>
+</ul>
+<p>Installation guide (English):<br />
+<a href="http://en.opensuse.org/SDB:AMD_fglrx#Building_the_rpm_yourself">http://en.opensuse.org/SDB:AMD_fglrx#Building_the_rpm_yourself</a></p>
+<p>Bruno Friedmann will build the new RPM packages in the fglrx repository. Stay tune!</p>
+<p>If you find any issue with the driver. Don’t hesitate to contact me. I am in contact with AMD and can forward your issue to the right place. Feedback are welcome.</p>
+<p>A report of your system is very helpful beside your feedback. You can generate it with the script:<br />
+<code>su -c 'sh makerpm-amd-15.9.sh -ur'</code></p>
+<p>Have a lot of fun!</p>
+<p>Sebastian<br />
+openSUSE member / Official AMD Packaging Script Maintainer for openSUSE<br />
+German Blog: <a href="https://www.sebastian-siebert.de/2015/09/27/opensuse-proprietaeren-grafik-treiber-amd-catalyst-15-9-als-rpm-installieren/">openSUSE – proprietären Grafik-Treiber AMD Catalyst 15.9 als RPM installieren</a></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2015/09/27/amd-catalyst-15-9-for-opensuse-new-makerpm-amd-script-is-available/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>AMD Catalyst 15.7 for openSUSE &#8211; new makerpm-amd-script is available</title>
+		<link>https://lizards.opensuse.org/2015/07/12/amd-catalyst-15-7-for-opensuse-new-makerpm-amd-script-is-available/</link>
+		<pubDate>Sun, 12 Jul 2015 15:36:38 +0000</pubDate>
+		<dc:creator><![CDATA[Sebastian Siebert]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.1]]></category>
+		<category><![CDATA[12.2]]></category>
+		<category><![CDATA[12.3]]></category>
+		<category><![CDATA[13.1]]></category>
+		<category><![CDATA[13.2]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[driver]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[radeon]]></category>
+		<category><![CDATA[rpm]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11497</guid>
+		<description><![CDATA[AMD has released the new AMD Catalyst 15.7. My script replaces the existing packaging script with an updated packaging script. It supports up to Kernel 4.1. (Official support up to Kernel 3.19) Important note: This driver supports also X-Server 1.17 on Tumbleweed. GNOME Desktopmanager (gdm) is working partially, so you need a workaround. Who has [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>AMD has released the new AMD Catalyst 15.7. My script replaces the existing packaging script with an updated packaging script. It supports up to Kernel 4.1. (Official support up to Kernel 3.19)</p>
+<p>Important note: This driver supports also X-Server 1.17 on Tumbleweed. GNOME Desktopmanager (gdm) is working partially, so you need a workaround. Who has activated the automatic user login in GNOME and want to make a user change, they get a black screen on TTY-console and the login manager seems to be crashed. This issue can be solved when the automatic user login is disabled in GNOME.</p>
+<p>For GNOME user with gdm: Execute the following command as root after the installation of the AMD driver and before restart the machine:<br />
+<code>sh makerpm-amd-15.7.sh --install-gdm-fix</code></p>
+<p>To revert the changes:<br />
+<code>sh makerpm-amd-15.7.sh --uninstall-gdm-fix</code></p>
+<p>New Features:</p>
+<ul>
+<li>AMD PowerXpress support for laptops equipped with Intel 6th generation (Skylake) CPUs</li>
+<li>Linux Platform Atomics &amp; SVM Fine Grain Buffer support for Carrizo APUs</li>
+<li>Multi-Device support for OpenCL 2.0</li>
+</ul>
+<p>Resolved Issues:</p>
+<ul>
+<li>[421317] Segmentation fault observed while launching some OpenGL games in  RHEL7.1</li>
+<li>[419365] Error message observed during installation through rpm package in RHEL 6.5, 7.0</li>
+<li>[419162] System hangs while running Dying Light</li>
+<li>[421858] clinfo could not recognize up to four GPU devices</li>
+</ul>
+<p>Known Issues:</p>
+<ul>
+<li>[419960]: Vari-Bright on some configurations is not decreasing brightness as expected</li>
+</ul>
+<p>Link: <a href="http://support.amd.com/en-us/kb-articles/Pages/AMDCatalyst15-7LINReleaseNotes.aspx">AMD Catalyst 15.7 Release Notes</a></p>
+<p><strong>Downloads:</strong></p>
+<ul>
+<li>Script: <a href="https://www.sebastian-siebert.de/downloads/makerpm-amd-15.7.sh" target="_blank">makerpm-amd-15.7.sh</a></li>
+<li>SHA1: <a href="https://www.sebastian-siebert.de/downloads/makerpm-amd-15.7.sh.sha1" target="_blank">makerpm-amd-15.7.sh.sha1</a></li>
+</ul>
+<p><strong>Installation guide (English):</strong><br />
+<a href="http://en.opensuse.org/SDB:AMD_fglrx#Building_the_rpm_yourself">http://en.opensuse.org/SDB:AMD_fglrx#Building_the_rpm_yourself</a></p>
+<p>Bruno Friedmann will build the new RPM packages in the fglrx repository. Stay tune!</p>
+<p>If you find any issue with the driver. Don’t hesitate to contact me. I am in contact with AMD and can forward your issue to the right place. Feedback are welcome.</p>
+<p>A report of your system is very helpful beside your feedback. You can generate it with the script:<br />
+<code>su -c 'sh makerpm-amd-15.7.sh -ur'</code></p>
+<p>Have a lot of fun!</p>
+<p>Sebastian<br />
+openSUSE member / Official AMD Packaging Script Maintainer for openSUSE<br />
+German Blog: <a href="https://www.sebastian-siebert.de/2015/07/12/opensuse-proprietaeren-grafik-treiber-amd-catalyst-15-7-als-rpm-installieren/">openSUSE – proprietären Grafik-Treiber AMD Catalyst 15.7 als RPM installieren</a></p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>AMD Catalyst 15.5 for openSUSE &#8211; new makerpm-amd-script is available</title>
+		<link>https://lizards.opensuse.org/2015/06/15/amd-catalyst-15-5-for-opensuse-new-makerpm-amd-script-is-available/</link>
+		<comments>https://lizards.opensuse.org/2015/06/15/amd-catalyst-15-5-for-opensuse-new-makerpm-amd-script-is-available/#comments</comments>
+		<pubDate>Mon, 15 Jun 2015 20:58:57 +0000</pubDate>
+		<dc:creator><![CDATA[Sebastian Siebert]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.1]]></category>
+		<category><![CDATA[12.2]]></category>
+		<category><![CDATA[12.3]]></category>
+		<category><![CDATA[13.1]]></category>
+		<category><![CDATA[13.2]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[driver]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[radeon]]></category>
+		<category><![CDATA[rpm]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11476</guid>
+		<description><![CDATA[AMD has released the new AMD Catalyst 15.5. Unfortunately AMD has forgot to update the packaging script. The new feature (SLED 12) is currently broken by the original AMD Catalyst 15.5. My script corrects this mainly issue with an updated packaging script. It included the Kernel patches for 4.0 and 4.1. Warning: This driver based [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>AMD has released the new AMD Catalyst 15.5. Unfortunately AMD has forgot to update the packaging script. The new feature (SLED 12) is currently broken by the original AMD Catalyst 15.5. My script corrects this mainly issue with an updated packaging script. It included the Kernel patches for 4.0 and 4.1.</p>
+<p>Warning: This driver based on an old development fork and does not support X-Server 1.17 on Tumbleweed. GNOME Desktopmanager (gdm) is also broken for the moment. My suggestion for you, stay on the latest AMD Catalyst 15.3 Beta.</p>
+<p>New Features:</p>
+<ul>
+<li>Support for SUSE® Linux Enterprise Desktop 12</li>
+</ul>
+<p>Resolved Issues:</p>
+<ul>
+<li>[417630]: Fixes the issue of discrete GPU not being powered off in Power-Saving mode on some PowerXpress AMD GPU + AMD APU platforms</li>
+<li>[416499]: Fixes minor screen corruption when resuming from S3 caused by display hot plugging</li>
+</ul>
+<p>Known Issues:</p>
+<ul>
+<li>[419960]: Vari-Bright on some configurations is not decreasing brightness as expected</li>
+</ul>
+<p>Link: <a href="http://support.amd.com/en-us/kb-articles/Pages/AMDCatalyst15-5LINReleaseNotes.aspx">AMD Catalyst 15.5 Release Notes</a></p>
+<p><strong>Downloads:</strong></p>
+<ul>
+<li>Script: <a href="https://www.sebastian-siebert.de/downloads/makerpm-amd-15.5.sh" target="_blank">makerpm-amd-15.5.sh</a></li>
+<li>SHA1: <a href="https://www.sebastian-siebert.de/downloads/makerpm-amd-15.5.sh.sha1" target="_blank">makerpm-amd-15.5.sh.sha1</a></li>
+</ul>
+<p><strong>Installation guide (English):</strong><br />
+<a href="http://en.opensuse.org/SDB:AMD_fglrx#Building_the_rpm_yourself">http://en.opensuse.org/SDB:AMD_fglrx#Building_the_rpm_yourself</a></p>
+<p>Bruno Friedmann will build the new RPM packages in the fglrx repository. Stay tune!</p>
+<p>If you find any issue with the driver. Don’t hesitate to contact me. I am in contact with AMD and can forward your issue to the right place. Feedback are welcome.</p>
+<p>A report of your system is very helpful beside your feedback. You can generate it with the script:<br />
+<code>su -c 'sh makerpm-amd-15.5.sh -ur'</code></p>
+<p>Have a lot of fun!</p>
+<p>Sebastian<br />
+openSUSE member / Official AMD Packaging Script Maintainer for openSUSE<br />
+German Blog: <a href="https://www.sebastian-siebert.de/2015/06/15/opensuse-proprietaeren-grafik-treiber-amd-catalyst-15-5-als-rpm-installieren/">openSUSE – proprietären Grafik-Treiber AMD Catalyst 15.5 als RPM installieren</a></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2015/06/15/amd-catalyst-15-5-for-opensuse-new-makerpm-amd-script-is-available/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Upgrade your openSUSE Raspberry Pi from 13.1 to 13.2</title>
+		<link>https://lizards.opensuse.org/2015/05/24/upgrade-your-opensuse-raspberry-pi-from-13-1-to-13-2/</link>
+		<pubDate>Sun, 24 May 2015 09:59:06 +0000</pubDate>
+		<dc:creator><![CDATA[Efstathios Iosifidis]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[13.1]]></category>
+		<category><![CDATA[13.2]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[arm6]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[raspberry]]></category>
+		<category><![CDATA[Raspberry Pi]]></category>
+		<category><![CDATA[upgrade]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11431</guid>
+		<description><![CDATA[We&#8217;ve seen how to create an SD card. I used the 13.1 version. The wiki page https://en.opensuse.org/HCL:Raspberry_Pi is not very clear (to me) about resize partitions. So I tried to upgrade the version 13.1. Here what I did. 1. Check if the update repository already exists and is enabled. $ zypper repos &#8211;uri You should [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>We&#8217;ve seen <a href="https://lizards.opensuse.org/2015/05/18/create-an-sd-card-for-your-raspberry-pi-b-and-b/" target="1">how to create an SD card</a>. I used the <a href="http://download.opensuse.org/repositories/devel:/ARM:/13.1:/Contrib:/RaspberryPi/images/" target="1">13.1 version</a>. The wiki page <a href="https://en.opensuse.org/HCL:Raspberry_Pi" target="1">https://en.opensuse.org/HCL:Raspberry_Pi</a> is not very clear (to me) about resize partitions. So I tried to upgrade the version 13.1. Here what I did.</p>
+<p>1. Check if the update repository already exists and is enabled.</p>
+<blockquote><p>$ zypper repos &#8211;uri</p></blockquote>
+<p>You should have the following enabled</p>
+<blockquote><p>3 | openSUSE-13.1-repo-update | openSUSE-13.1-repo-update    | Yes            | Yes      | http://download.opensuse.org/ports/update/13.1/</p></blockquote>
+<p>If not, then add it</p>
+<blockquote><p>$ zypper addrepo &#8211;check &#8211;refresh &#8211;name &#8216;openSUSE-13.1-Update&#8217; http://download.opensuse.org/update/13.1/ repo-update</p></blockquote>
+<p>2. Refresh and update your system</p>
+<blockquote><p>$ zypper ref &amp;&amp; zypper update</p></blockquote>
+<p>3. Remove all third party/OBS repos you no longer need.</p>
+<blockquote><p>$ zypper lr</p>
+<p># Remove with</p>
+<p>$ zypper rr (alias or number)</p></blockquote>
+<p>4. Change all remaining repo URLs to the new version of the distribution (needs to be run as root).</p>
+<blockquote><p>$ cp -Rv /etc/zypp/repos.d /etc/zypp/repos.d.Old</p></blockquote>
+<p>5. Change the repos.</p>
+<blockquote><p>$ sed -i &#8216;s/13\.1/13.2/g&#8217; /etc/zypp/repos.d/*</p></blockquote>
+<p>6. Refresh new repositories (you might be asked to accept new gpg key)</p>
+<blockquote><p>$ zypper ref</p></blockquote>
+<p>If you haven&#8217;t removed third party/OBS repositories you may encounter some errors as these repositories may not exist yet or they may have different unguessable URL. It is always recommended to remove them and add their newer version after upgrade. </p>
+<p>7. Upgrade</p>
+<blockquote><p>$ zypper dup</p></blockquote>
+<p>Now you have to wait. Reboot at the end, just to be sure that everything went smooth.</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>AMD Catalyst 15.3 Beta for openSUSE &#8211; new makerpm-amd-script is available</title>
+		<link>https://lizards.opensuse.org/2015/04/08/amd-catalyst-15-3-beta-for-opensuse-new-makerpm-amd-script-is-available/</link>
+		<comments>https://lizards.opensuse.org/2015/04/08/amd-catalyst-15-3-beta-for-opensuse-new-makerpm-amd-script-is-available/#comments</comments>
+		<pubDate>Wed, 08 Apr 2015 14:34:50 +0000</pubDate>
+		<dc:creator><![CDATA[Sebastian Siebert]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[XFCE]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.1]]></category>
+		<category><![CDATA[12.2]]></category>
+		<category><![CDATA[12.3]]></category>
+		<category><![CDATA[13.1]]></category>
+		<category><![CDATA[13.2]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[driver]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[radeon]]></category>
+		<category><![CDATA[rpm]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11327</guid>
+		<description><![CDATA[AMD has released the new AMD Catalyst 15.3 Beta. They have not yet released a public beta driver for all other distributions. It is currently available for Ubuntu. *sigh* So, it is a bit hard work to implement this in the makerpm-amd-script to replace the latest AMD Catalyst 14.12 with AMD Catalyst 15.3 Beta. So [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>AMD has released the new AMD Catalyst 15.3 Beta. They have not yet released a public beta driver for all other distributions. It is currently available for Ubuntu. *sigh* So, it is a bit hard work to implement this in the makerpm-amd-script to replace the latest AMD Catalyst 14.12 with AMD Catalyst 15.3 Beta. So do not confused if the script downloads the AMD Catalyst 14.12. <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>Unfortunately there is no release notes from AMD. This update can solve the issue with PowerXpress but I can not really verified this because lack of such hardware.</p>
+<p>Another side note I have implemented a workaround in the script to get the driver works with the GNOME Displaymanager + GNOME. It is a little cruel hack but it works for the moment. Thanks to the user that they posted the article in my blog. <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>For GNOME user with gdm: Execute the following command as root after the installation of the AMD driver and before restart the machine:<br />
+<code>sh makerpm-amd-15.3-beta.sh --install-gdm-fix</code><br />
+If you update the AMD driver, so the workaround does not work anymore. It is important that you do not delete the file /amd_xversion and is needed for the workaround.</p>
+<p>To revert the changes:<br />
+<code>sh makerpm-amd-15.3-beta.sh --uninstall-gdm-fix</code></p>
+<p>Before I forget it: All user from openSUSE Tumbleweed can also install the driver. But remember, Tumbleweed is under heavy development. I can not guarantee that the driver works in the future yet.</p>
+<p><strong>Downloads:</strong></p>
+<ul>
+<li>Script: <a href="https://www.sebastian-siebert.de/downloads/makerpm-amd-15.3-beta.sh">makerpm-amd-15.3-beta.sh</a></li>
+<li>SHA1: <a href="https://www.sebastian-siebert.de/downloads/makerpm-amd-15.3-beta.sh.sha1">makerpm-amd-15.3-beta.sh.sha1</a></li>
+</ul>
+<p>Installation guide (English):<br />
+<a href="http://en.opensuse.org/SDB:AMD_fglrx#Building_the_rpm_yourself">http://en.opensuse.org/SDB:AMD_fglrx#Building_the_rpm_yourself</a></p>
+<p>The above named installation guide is only for the stable driver but you can adapt it for the beta driver.</p>
+<p>Bruno Friedmann will build the new RPM packages in the fglrx repository. Stay tune!</p>
+<p>If you find any issue with the driver. Don&#8217;t hesitate to contact me. I am in contact with AMD and can forward your issue to the right place. Feedback are welcome.</p>
+<p>A report of your system is very helpful beside your feedback. You can generate it with the script:<br />
+<code>su -c 'sh makerpm-amd-15.3-beta.sh -ur'</code></p>
+<p>Have a lot of fun!</p>
+<p>Sebastian<br />
+openSUSE member / Official AMD Packaging Script Maintainer for openSUSE</p>
+<p>German Blog: <a href="https://www.sebastian-siebert.de/2015/04/08/opensuse-proprietaeren-grafik-treiber-amd-catalyst-15-3-beta-als-rpm-installieren/">openSUSE &#8211; proprietären Grafik-Treiber AMD Catalyst 15.3 Beta als RPM installieren</a></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2015/04/08/amd-catalyst-15-3-beta-for-opensuse-new-makerpm-amd-script-is-available/feed/</wfw:commentRss>
+		<slash:comments>5</slash:comments>
+		</item>
+		<item>
+		<title>New Proprietary AMD/ATI Catalyst omega fglrx 14.12 (14.501.1003-1) rpm released</title>
+		<link>https://lizards.opensuse.org/2014/12/13/new-proprietary-amdati-catalyst-omega-fglrx-14-12-14-501-1003-1-rpm-released/</link>
+		<comments>https://lizards.opensuse.org/2014/12/13/new-proprietary-amdati-catalyst-omega-fglrx-14-12-14-501-1003-1-rpm-released/#comments</comments>
+		<pubDate>Sat, 13 Dec 2014 16:43:10 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[XFCE]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.1]]></category>
+		<category><![CDATA[12.2]]></category>
+		<category><![CDATA[12.3]]></category>
+		<category><![CDATA[13.1]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[fglrx]]></category>
+		<category><![CDATA[Tumbleweed]]></category>
+		<category><![CDATA[xorg]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11102</guid>
+		<description><![CDATA[Hey Christmas time around! AMD give us a new version of fglrx, and Sebastian Siebert just release his script yesterday night. So I&#8217;ve prepared the new version available for openSUSE 11.4, 12.1, 12.2, 12.3, 13.1, 13.2 and Tumbleweed. Sebastian&#8217;s script contain a special patch for supporting kernel up to 3.17 and 3.18 version. I should [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hey Christmas time around! AMD give us a new version of fglrx, and Sebastian Siebert just release his script yesterday night.<br />
+So I&#8217;ve prepared the new version available for openSUSE 11.4, 12.1, 12.2, 12.3, 13.1, 13.2 and Tumbleweed.<br />
+Sebastian&#8217;s script contain a special patch for supporting kernel up to 3.17 and 3.18 version.<br />
+I should also share Sebastian&#8217;s surprize about the fact that this version didn&#8217;t got a beta/rc cycle&#8230;.
+</p>
+<p>I hope this release will give better results for all of you who own an apu (especially the recent one), and also fix a number of issue with the hybrid chipset intel cpu/amd gpu embedded.<br />
+<br />See below how to report issue on Sebastian blog.
+</p>
+<p><strong>It will be the last build for all openSUSE version below 13.1</strong> (except if patches are needed).<br />
+In January 12.3 support will definitively end. But I will let the drivers as is so you can still use them in case of.</p>
+<h3>Installation / update</h3>
+<p>Please refer to the wiki page <a href="http://en.opensuse.org/SDB:AMD_fglrx">SDB:AMD_fgrlx</a></p>
+<h3>New packaging schema</h3>
+<p>The driver is now splitted into different rpm that all need to be installed. Normally the necessary Require field is there and should happen automatically.</p>
+<p>My advise is to check if you have them all installed.</p>
+<p><strong>for 32 bits</strong></p>
+<pre>
+zypper install fglrx_xpic fglrx_core fglrx_graphics fglrx_amdcccle fglrx_opencl
+</pre>
+<p><strong>for 64 bits</strong></p>
+<pre>
+zypper install fglrx64_xpic fglrx64_core fglrx64_graphics fglrx64_amdcccle fglrx64_opencl
+</pre>
+<h3>A notice for Tumbleweed users</h3>
+<p>The new release has now its package correctly named, previously they were called SUSEFACTORY, with the new version the package will contain SUSETUMBLEWEED in their name</p>
+<p><span id="more-11102"></span></p>
+<h3>Release note about 14.12</h3>
+<p><a href="http://support.amd.com/en-us/kb-articles/Pages/AMDCatalystOmegaLINReleaseNotes.aspx" title="AMD Full release note">AMD Catalyst Full release note</a></p>
+<p><strong>New Features&#058;</strong><br />
+The following section provides a summary of new features in this driver version.</p>
+<pre>
+    OpenCL 2.0 support (requires 64-bit OS and compatible AMD Radeon™ R Series GPU)
+    VAAPI decoding support (H264, VC1, MPEG2, MPEG4)
+    Distribution specific package support for Ubuntu and Red Hat
+</pre>
+<p><strong>Resolved Issues&#058;</strong><br />
+This section provides information on resolved known issues in this release of the AMD Catalyst Linux Software Suite.</p>
+<pre>
+    [402835]: Unexpected pixmap's time stamp change on Ubuntu with composite enabled causes Linux Khronos CTS to randomly fail
+    [403420]: Driver install can sometimes have an error in Ubuntu 14.10 using GPL symbol before Kernel 3.16
+    [405011]: Driver installation may intermittently fail on Kernel 3.9.0
+    [409856]: Generate Distribution Specific Package' mode of Catalyst install does not create symbolic links for libGL
+    [407550]: Driver upgrade failed in Ubuntu with specific drivers
+</pre>
+<p><strong>Known Issues&#058;</strong><br />
+The following section provides a summary of open issues that may be experienced with the AMD Catalyst Linux Software Suite. </p>
+<pre>
+  [404829]: Horizontal flashing lines on second screen in a clone mode with V-Sync on using AMD Mobility Graphics with Switchable Intel Graphics
+  [404508]: Display takes a long time to redraw the screen after an S4 cycle
+</pre>
+<p>
+This Catalyst fglrx version support openSUSE version from 11.4 to 13.2 plus Tumbleweed (thus covering kernel to 3.18 series).<br />
+Again a special thanks to Sebastian Siebert for his effort on making this driver working under openSUSE and latest kernel.<br />
+Want to help, use the donate button on his <a href="http://www.sebastian-siebert.de/">blog page</a>
+</p>
+</p>
+<p><!--more--></p>
+<h4>Sebastien Siebert making script</h4>
+<p style="clear:both"><a href="http://www.sebastian-siebert.de/2014/12/12/opensuse-proprietaeren-grafik-treiber-amd-catalyst-14-12-als-rpm-installieren/">Sebastian Siebert post about 14.12</a></p>
+<p>Damn I&#8217;m impressed by the number of steam games tested there, I should try some of them during hollidays <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>If you have any problems with the driver, don&#8217;t be afraid to report to Sebastian (German and English bugreports are gladly accepted).<br />
+he will try, as far as I am able to reproduce the bug. Together with the necessary system information, he will go directly to the right place at AMD to have the bug fixed in the next driver release.<br />
+Thank you very much, Sebastian.
+</p>
+<p>See below what to do in case of troubles.</p>
+<h4>Debugging and reporting troubles</h4>
+<p>I recommend in case of trouble the use of <a href="http://www.sebastian-siebert.de/downloads/makerpm-amd-14.12.sh">his script</a> which can collect the whole informations needed to help you. then you just have to issue a simple commande in console to collect all informations, you can review them, and finally transmit them.<br />
+Check the website to get the latest.
+</p>
+<pre>su -c 'sh makerpm-amd-14.12.sh -ur'
+The system report 'amd-report.txt' was generated.                                                                                                          [ OK ]
+Do you want to read the system report 'amd-report.txt' now? yes/no [y/n]: y
+Are you sure to upload the above-named system report to sprunge.us? yes/no [y/n]: y
+
+The report was uploaded to sprunge.us.
+   The link is:  <a href="http://sprunge.us/eMEB">http://sprunge.us/eMEB</a>
+</pre>
+<p>Copy paste the link in the comment zone of Sebastian post</p>
+<h3>Reminder this drivers is only for radeon HD5xxx</h3>
+<p>This release concern only owners of radeon HD5xxx or above.<br />
+For older gpu, the fglrx-legacy is still there see wiki page at<a href="http://en.opensuse.org/SDB:AMD_fglrx_legacy">SDB:AMD_fgrlx_legacy</a>.<br />
+Beware of it obsolete status, and prefer the free open-source radeon driver which came out of the box from your openSUSE distribution.<br />
+For 12.3, and more true with 13.1+ the free radeon often offer a better experience than the old fglrx-legacy, especially for HD2xxx-HD4xxx range.
+</p>
+<h2>Humor : the never ending links</h2>
+<p>In 2014 April, I&#8217;ve decided to close the automatic redirection of http://geeko.ioda.net/mirror/ati after being obsolete for more than one year.<br />
+The reason was that there&#8217;s no safe way to drive people having a older Radeon HD card (series 2xxx to 4xxxx) to not use newer fglrx build.<br />
+<br />
+Guess what? I&#8217;m still seeing more than quarter billion hit on those address (for 12.1 to 13.1) <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /><br />
+<br />
+If you click on such link referring to this url, please do your best to fix thoses and check your or friends computer configurations <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" />
+</p>
+<h2>Mirror total Statistics</h2>
+<div style="width:90%">
+<table style="text-align:right">
+<thead>
+<tr style="text-align:center">
+<th width="80" bgcolor="#ECECEC">Month</th>
+<th width="80" bgcolor="#FFAA66">Unique visitors</th>
+<th width="80" bgcolor="#F4F090">Number of visits</th>
+<th width="80" bgcolor="#4477DD">Pages</th>
+<th width="80" bgcolor="#66DDEE">Hits</th>
+<th width="80" bgcolor="#2EA495">Bandwidth</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2011</td>
+<td>195,167</td>
+<td>537,369</td>
+<td>10.080M</td>
+<td>10.369M</td>
+<td>1,582.25 GB</td>
+</tr>
+<tr>
+<td>2012</td>
+<td>804,092</td>
+<td>2,014,942</td>
+<td>59.263M</td>
+<td>59.656M</td>
+<td>4,390.50 GB</td>
+</tr>
+<tr>
+<td>2013</td>
+<td>570,673</td>
+<td>1,834,450</td>
+<td>28.668M</td>
+<td>29.384M</td>
+<td>6,378.90 GB</td>
+</tr>
+<tr>
+<td>2014</td>
+<td>149,900</td>
+<td>448,086</td>
+<td>15,427M</td>
+<td>15.761M</td>
+<td>6,068.12 GB</td>
+</tr>
+</tbody>
+</table>
+<p>All proudly distributed by openSUSE powered server and sponsored by <a href="http://www.ioda-net.ch">Ioda-Net Sàrl</a></p>
+</div>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2014/12/13/new-proprietary-amdati-catalyst-omega-fglrx-14-12-14-501-1003-1-rpm-released/feed/</wfw:commentRss>
+		<slash:comments>22</slash:comments>
+		</item>
+	</channel>
+</rss>

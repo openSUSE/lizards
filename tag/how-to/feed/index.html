@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>how-to &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/how-to/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>How survive zypper dup on system with bad internet connection</title>
+		<link>https://lizards.opensuse.org/2008/10/30/how-survive-zypper-dup-on-system-with-bad-internet-connection/</link>
+		<comments>https://lizards.opensuse.org/2008/10/30/how-survive-zypper-dup-on-system-with-bad-internet-connection/#comments</comments>
+		<pubDate>Thu, 30 Oct 2008 08:40:37 +0000</pubDate>
+		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
+				<category><![CDATA[Software Management]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[how-to]]></category>
+		<category><![CDATA[zypper]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=269</guid>
+		<description><![CDATA[Maybe someday you try zypper dup to actualize your distribution and in middle of process it fail, because you are disconnected or some packages is actualized before you download it (especially on factory this can happen). It is more safety download packages at first and then install from this local files. How todo this is [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Maybe someday you try zypper dup to actualize your distribution and in middle of process it fail, because you are disconnected or some packages is actualized before you download it (especially on factory this can happen). It is more safety download packages at first and then install from this local files.</p>
+<p>How todo this is little tricky, at first you must enable caching downloaded files (I do it only for remote connection):</p>
+<blockquote><p>zypper mr &#8211;keep-packages &#8211;remote</p></blockquote>
+<p>So now you cache all downloaded files and now try testing run of dup. Trick is that all packages download for that test is cached.</p>
+<blockquote><p>zypper dup &#8211;dry-run</p></blockquote>
+<p>Now if you have slow connection I reccomend also disable autorefresh for all repositories, because if repository is refreshed before dup, you can easily find that some packages is newer than package in cache and you must download it.</p>
+<blockquote><p>zypper mr &#8211;all &#8211;no-refresh</p></blockquote>
+<p>Now is everything prepared for zypper dup, which use files from cache. Cache can take quite lot of disk space, so after dup you can clean it.</p>
+<blockquote><p>zypper clean</p></blockquote>
+<p>And thats all. This features work from OpenSuse 11 and you can also use this trick for zypper update or zypper install.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2008/10/30/how-survive-zypper-dup-on-system-with-bad-internet-connection/feed/</wfw:commentRss>
+		<slash:comments>6</slash:comments>
+		</item>
+	</channel>
+</rss>

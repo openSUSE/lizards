@@ -1,0 +1,1234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" itemscope itemtype="http://schema.org/Blog">
+<head>
+
+
+  <!-- include local CSS file -->
+  <link rel="stylesheet" href="https://lizards.opensuse.org/wp-content/themes/bento/style.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="//static.opensuse.org/themes/bento/css/print.css" type="text/css" media="print" />
+
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <!-- opengraph metadata -->
+  <meta property="og:site_name" content="openSUSE Lizards" />
+  <meta itemprop="name" content="openSUSE News Blog">
+  <meta itemprop="description" content="openSUSE News Blog">
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Highlights of YaST Development Sprint 74" />
+  <meta property="og:url" content="https://lizards.opensuse.org/2019/03/29/highlights-of-yast-development-sprint-74/" />
+  <meta property="og:description" content="" />
+
+  <!-- include JS from static.opensuse.org -->
+  <script src="//static.opensuse.org/themes/bento/js/jquery.js" type="text/javascript" charset="utf-8"></script>
+  <script src="//static.opensuse.org/themes/bento/js/script.js" type="text/javascript" charset="utf-8"></script>
+  <!-- This is for local development:
+  <script src="https://lizards.opensuse.org/wp-content/themes/bento/js/script.js" type="text/javascript" charset="utf-8"></script>
+  -->
+
+  <!-- translated global navigation -->
+  <script src="//static.opensuse.org/themes/bento/js/l10n/global-navigation-data-en_US.js" type="text/javascript" charset="utf-8"></script>
+  <script src="//static.opensuse.org/themes/bento/js/global-navigation.js" type="text/javascript" charset="utf-8"></script>
+
+  <!-- social service scripts -->
+  <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
+  <script type="text/javascript">
+ 	 (function() 
+		{
+  	  		var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    			po.src = 'https://apis.google.com/js/plusone.js';
+    			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  		})();
+  </script>
+
+  <link rel="alternate" type="application/rss+xml" href="https://lizards.opensuse.org/feed/" title="openSUSE Lizards latest posts" />
+  <link rel="alternate" type="application/rss+xml" href="https://lizards.opensuse.org/comments/feed/" title="openSUSE Lizards latest comments" />
+  <link rel="pingback" href="https://lizards.opensuse.org/xmlrpc.php" />
+  
+    <link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="openSUSE Lizards &raquo; Systems Management Category Feed" href="https://lizards.opensuse.org/category/systems-management/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/lizards.opensuse.org\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.7.5"}};
+			!function(a,b,c){function d(a){var b,c,d,e,f=String.fromCharCode;if(!k||!k.fillText)return!1;switch(k.clearRect(0,0,j.width,j.height),k.textBaseline="top",k.font="600 32px Arial",a){case"flag":return k.fillText(f(55356,56826,55356,56819),0,0),!(j.toDataURL().length<3e3)&&(k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57331,65039,8205,55356,57096),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57331,55356,57096),0,0),c=j.toDataURL(),b!==c);case"emoji4":return k.fillText(f(55357,56425,55356,57341,8205,55357,56507),0,0),d=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55357,56425,55356,57341,55357,56507),0,0),e=j.toDataURL(),d!==e}return!1}function e(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i,j=b.createElement("canvas"),k=j.getContext&&j.getContext("2d");for(i=Array("flag","emoji4"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='https://api.w.org/' href='https://lizards.opensuse.org/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://lizards.opensuse.org/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://lizards.opensuse.org/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.7.5" />
+<script type='text/javascript' src='https://lizards.opensuse.org/wp-content/plugins/anti-captcha/anti-captcha-0.3.js.php?ver=3ab6be46e1d6b21d59a3c3a0b9d0f6ef'></script>
+<style type="text/css">
+.avatar {vertical-align:middle}
+.credit {font-size: 50%;}
+</style>
+		  
+  <link rel="icon" type="image/png" href="//static.opensuse.org/themes/bento/images/favicon.png" />
+  <title>openSUSE Lizards</title>
+  
+</head>
+
+<body>
+  
+  <!-- include header from static -->
+    
+  <!-- Start: Header -->
+  <div id="header">
+    
+    <div id="header-content" class="container_12">
+      
+      <a id="header-logo" href="http://www.opensuse.org">
+        <img src="//static.opensuse.org/themes/bento/images/header-logo.png" width="46" height="26" alt="Header Logo" />
+      </a>
+      
+            
+            <ul id="global-navigation">
+        <li id="item-downloads"><a href="http://opensuse.org/sitemap#downloads">Downloads</a></li>
+        <li id="item-support"><a href="http://opensuse.org/sitemap#support">Support</a></li>
+        <li id="item-community"><a href="http://opensuse.org/sitemap#community">Community</a></li>
+        <li id="item-development"><a href="http://opensuse.org/sitemap#development">Development</a></li>
+      </ul>
+      
+      
+<form role="search" method="get" id="searchform" action="https://lizards.opensuse.org" >
+  <div>
+    <!-- TODO: use Label as action indicator ==> JS needed -->
+    <label class="screen-reader-text layer-label" for="s">Search</label>
+    <input type="text" value="" name="s" id="s" />
+    <input type="submit" id="searchsubmit" class="hidden" value="Search" />
+  </div>
+</form>    
+    </div>
+  </div>
+  <!-- End: Header -->
+
+  <div id="subheader" class="container_12">
+    <div id="breadcrump" class="grid_8 alpha">
+      <a href="/"><img src="//static.opensuse.org/themes/bento/images/home_grey.png" width="16" height="16" alt="Home" /></a> <a class="navCrumb lnk" href="https://lizards.opensuse.org">Home</a> &gt; <a class="navCrumb lnk" href="https://lizards.opensuse.org/category/systems-management/">Systems-management</a>    </div>
+    
+          
+          <div class="grid_4" id="login-wrapper">
+        <a href="#signup-page">Sign up</a> | 
+        <!-- <a id="login-trigger" href="" title="Login">Login</a> -->
+        <!-- wp_login_form() ==> http://codex.wordpress.org/Function_Reference/wp_login_form -->
+        <a href="https://lizards.opensuse.org/wp-login.php" title="Login">Login</a>
+      </div>
+      </div>
+
+  <div id="flash-messages" class="container_16">
+    <div class="ui-widget grid_16" style="margin-left: 0;">
+      <div class="ui-state-highlight ui-corner-all ui-widget-shadow">
+        <p>
+          <span class="ui-icon ui-icon-info">
+            <strong>Deprecation notice:</strong>
+            openSUSE Lizards user blog platform is deprecated, and will remain read only for the time being.
+            <a href="https://progress.opensuse.org/issues/64550">Learn more...</a>
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+<!-- Start: Main Content Area -->
+<div id="content" class="container_16 ui-oo-content-wrapper">
+  <div class="box box-shadow grid_12 alpha main">
+
+     
+      
+                  <h2 class="pagetitle">Archive for the &#8216;Systems Management&#8217; Category</h2>
+      
+      <div class="navigation page-navigation">
+        <div class="alignleft"><a href="https://lizards.opensuse.org/category/systems-management/page/4/" >&laquo; Older Entries</a></div>
+        <div class="alignright"><a href="https://lizards.opensuse.org/category/systems-management/page/2/" >Newer Entries &raquo;</a></div>
+        <div class="clearfix"></div>
+      </div>
+
+            <div class="post-13704 post type-post status-publish format-standard hentry category-systems-management category-yast">
+          <h3 id="post-13704"><a href="https://lizards.opensuse.org/2019/03/29/highlights-of-yast-development-sprint-74/" rel="bookmark" title="Permanent Link to Highlights of YaST Development Sprint 74">Highlights of YaST Development Sprint 74</a></h3>
+          <small>March 29th, 2019 by <a href="https://lizards.opensuse.org/author/yast-team/" title="Posts by Yast Team" rel="author">Yast Team</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2019/03/29/highlights-of-yast-development-sprint-74/"
+                data-text="openSUSE News: Highlights of YaST Development Sprint 74"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2019%2F03%2F29%2Fhighlights-of-yast-development-sprint-74%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p><!--
+Highlights of YaST Development Sprint 74
+--></p>
+<p>It took only 73 sprints to complete all YaST features, and there are none left to do. That&#8217;s what you might think after reading this article, because we worked on <em>no features</em>, just bug fixes.</p>
+<p>It might be related to an upcoming release of SLE 15 SP1. For its openSUSE sibling we have put together <a href="https://en.opensuse.org/Features_15.1#YaST">a recap of YaST features</a> in the upcoming openSUSE Leap 15.1 (<a href="https://en.opensuse.org/openSUSE:Roadmap">scheduled for May 2019</a>), since Leap 15.0 (May 2018).</p>
+<h3 id="no-more-locale-errors-during-kubic-runtime">No more locale errors during Kubic runtime</h3>
+<p>Did you know that an installed <a href="https://kubic.opensuse.org/">Kubic</a> (<em>the certified Kubernetes distribution &amp; container-related technologies built by the openSUSE community</em>) only has the American English locale (en_US) available? That is because it intends to be as small as possible (you can run <code>du -h /usr/share/locale</code> if you are curious enough).</p>
+<p>However, YaST allows you to change the language and the keyboard layout at the very beginning of the installation process, which will be persisted as the default locale in the installed system. This is the reason for those locale errors mentioned above. Until now. Because we introduced some changes during this sprint to allow that the chosen language will be used only during the installation in case the product needs it.</p>
+<p>So, from now on you can go through the installation of Kubic in your preferred language without those errors in the final system and, of course, <strong>preserving the selected keyboard layout</strong>. Not bad, huh? &#x1f60e;</p>
+<h3 id="various-fixes">Various Fixes</h3>
+<p>Repositories for add-ons would be marked as disabled after the installation has finished. We have fixed this <a href="https://bugzilla.suse.com/show_bug.cgi?id=1127818">bug#1127818</a>.</p>
+<p>When registering your <a href="https://www.suse.com/solutions/enterprise-linux/">SUSE Linux Enterprise</a> with the <a href="https://scc.suse.com">SUSE Customer Center</a> or its proxy such as the <a href="https://www.suse.com/products/subscription-management-tool/">SUSE Subscription Management Tool</a>, a network timeout can occur. Formerly you had to use the Back and Next buttons to try again but we have <a href="https://github.com/yast/yast-registration/pull/428">added a Retry button</a> for that.</p>
+<p>When creating a new partition or editing an existing one, the widget for the partition type would list the types in a seemingly random order. We have <a href="https://github.com/yast/yast-storage-ng/pull/872">made</a> this widget more boring.</p>
+          </div>
+
+          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/systems-management/" rel="category tag">Systems Management</a>, <a href="https://lizards.opensuse.org/category/systems-management/yast/" rel="category tag">YaST</a> |   <span>Comments Off<span class="screen-reader-text"> on Highlights of YaST Development Sprint 74</span></span></p>
+
+        </div>
+
+            <div class="post-13681 post type-post status-publish format-standard hentry category-systems-management category-virtualization category-yast">
+          <h3 id="post-13681"><a href="https://lizards.opensuse.org/2019/03/14/yast-sprint-73/" rel="bookmark" title="Permanent Link to Highlights of YaST Development Sprint 73">Highlights of YaST Development Sprint 73</a></h3>
+          <small>March 14th, 2019 by <a href="https://lizards.opensuse.org/author/yast-team/" title="Posts by Yast Team" rel="author">Yast Team</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2019/03/14/yast-sprint-73/"
+                data-text="openSUSE News: Highlights of YaST Development Sprint 73"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2019%2F03%2F14%2Fyast-sprint-73%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>As (open)SUSE releases are approaching, the YaST team is basically in bug squashing mode. However, we are still adding some missing bits, like the bcache support for AutoYaST. Additionally, there are some interesting improvements we would like to let you know about:</p>
+<ul>
+<li>AutoYaST support for using Btrfs subvolumes as user <em>home</em> directories.</li>
+<li>Improved Certificates management in the registration module.</li>
+<li>Correct detection of DASDs when using virtio-blk.</li>
+<li>Proper handling of the <code>resume</code> option in the bootloader module.</li>
+<li>Display fonts and icons properly during installation.</li>
+</ul>
+<p>And, as a bonus, some insights about a YaST font scaling problem on the GNOME desktop (spoiler: not a YaST bug at all).</p>
+<h3 id="adding-bcache-support-to-autoyast">Adding bcache support to AutoYaST</h3>
+<p>A few days ago, support for bcache landed in the <em>YaST Partitioner</em>. In a nutshell, bcache is a caching system that allows to improve the performance of any big but slow disk (so-called <em>backing device</em>) by using a faster and smaller disk (<em>caching device</em>).</p>
+<p>The way to describe a bcache in AutoYaST is pretty similar to how a RAID or a LVM Volume Group is described. On one hand, you need to specify which devices are going to be used as <em>backing</em> and <em>caching</em> devices by setting <code>bcache_backing_for</code> and <code>bcache_caching_for</code> elements. And, on the other hand, you need to describe the layout of the bcache device itself. As you would do for a RAID, you can partition the device or use it as a filesystem.</p>
+<p>The example below creates a bcache device (called <code>/dev/bcache0</code>) using <code>/dev/sda</code> to speed up the access to <code>/dev/sdb</code>.</p>
+<pre>
+&lt;partitioning config:type="list"&gt;
+    &lt;drive&gt;
+      &lt;type config:type="symbol"&gt;CT_DISK&lt;/type&gt;
+      &lt;device&gt;/dev/sda&lt;/device&gt;
+      &lt;disklabel&gt;msdos&lt;/disklabel&gt;
+      &lt;use&gt;all&lt;/use&gt;
+      &lt;partitions config:type="list"&gt;
+        &lt;partition&gt;
+          &lt;!-- It can serve as caching device for several bcaches --&gt;
+          &lt;bcache_caching_for config:type="list"&gt;
+            &lt;listentry&gt;/dev/bcache0&lt;/listentry&gt;
+          &lt;/bcache_caching_for&gt;
+          &lt;size&gt;max&lt;/size&gt;
+        &lt;/partition&gt;
+      &lt;/partitions&gt;
+    &lt;/drive&gt;
+
+    &lt;drive&gt;
+      &lt;type config:type="symbol"&gt;CT_DISK&lt;/type&gt;
+      &lt;device&gt;/dev/sdb&lt;/device&gt;
+      &lt;use&gt;all&lt;/use&gt;
+      &lt;!-- &lt;disklabel&gt;none&lt;/disklabel&gt; --&gt;
+      &lt;disklabel&gt;msdos&lt;/disklabel&gt;
+      &lt;partitions config:type="list"&gt;
+        &lt;partition&gt;
+          &lt;!-- It can serve as backing device just for one bcache --&gt;
+          &lt;bcache_backing_for&gt;/dev/bcache0&lt;/bcache_backing_for&gt;
+        &lt;/partition&gt;
+      &lt;/partitions&gt;
+    &lt;/drive&gt;
+
+    &lt;drive&gt;
+      &lt;type config:type="symbol"&gt;CT_BCACHE&lt;/type&gt;
+      &lt;device&gt;/dev/bcache0&lt;/device&gt;
+      &lt;bcache_options&gt;
+        &lt;cache_mode&gt;writethrough&lt;/cache_mode&gt;
+      &lt;/bcache_options&gt;
+      &lt;use&gt;all&lt;/use&gt;
+      &lt;partitions config:type="list"&gt;
+        &lt;partition&gt;
+          &lt;mount&gt;/data&lt;/mount&gt;
+          &lt;size&gt;20GiB&lt;/size&gt;
+        &lt;/partition&gt;
+        &lt;partition&gt;
+          &lt;mount&gt;swap&lt;/mount&gt;
+          &lt;filesystem config:type="symbol"&gt;swap&lt;/filesystem&gt;
+          &lt;size&gt;1GiB&lt;/size&gt;
+        &lt;/partition&gt;
+      &lt;/partitions&gt;
+    &lt;/drive&gt;
+  &lt;/partitioning&gt;
+</pre>
+<h3>Using Btrfs Subvolumes as User Home Directories in AutoYaST</h2>
+<p>In our last report we presented a <a href="https://lizards.opensuse.org/2019/02/27/yast-sprint-71-72/create-user-home-btrfs-subvolume">new feature</a> to allow using Btrfs subvolumes as user&#8217;s home directories. However, the AutoYaST support for that feature was simply missing.</p>
+<p>Now you can use the <code>home_btrfs_subvolume</code> to control whether a Btrfs should be used as home directory.</p>
+<pre>
+&lt;user&gt;
+   &lt;encrypted config:type="boolean"&gt;false&lt;/encrypted&gt;
+   &lt;home_btrfs_subvolume config:type="boolean"&gt;true&lt;/home_btrfs_subvolume&gt;
+   &lt;fullname&gt;test user&lt;/fullname&gt;
+   &lt;gid&gt;100&lt;/gid&gt;
+   &lt;home&gt;/home/test&lt;/home&gt;
+   &lt;shell&gt;/bin/bash&lt;/shell&gt;
+   &lt;uid&gt;1003&lt;/uid&gt;
+   &lt;user_password&gt;test&lt;/user_password&gt;
+   &lt;username&gt;test&lt;/username&gt;
+&lt;/user&gt;
+</pre>
+<h3 id="tuning-the-bootloaders-resume-parameter">Tuning the Bootloader’s <code>resume</code> parameter</h3>
+<p>The <code>resume</code> parameter is used by the bootloader to tell the kernel which swap partition should be used for the <em>suspend to disk</em> feature. If you are curious enough, you can find the value for your system in the <em>Kernel Parameters</em> tab of the <em>YaST bootloader module</em>. Now that we know what the <code>resume</code> parameter is, it is time to talk about the two issues we have solved recently.</p>
+<p>The first problem was related to the way in which YaST determines which swap partition should be used. The bug report mentioned that YaST was taking a swap partition not used by the system that, in addition, was located in a removable device. After checking the code, we found out that we were using a simplistic heuristic which just selected the biggest swap partition available. We improve that logic to use the biggest swap partition <em>which is being used by the system</em>. However, if no suitable partition is found, YaST will fall back to the old behaviour.</p>
+<p>The second problem was related to AutoYaST not handling the <code>noresume</code> option properly. When a user specified that option, AutoYaST just blindly added it to the kernel command line keeping the conflicting <code>resume</code> parameter too. Of course, that caused troubles. Now when <code>noresume</code> is given, AutoYaST simply removes all occurrences of the <code>resume</code> parameter.</p>
+<h3 id="registration-openssl-and-debugging">Registration, OpenSSL and Debugging</h3>
+<p>These days, handling the SSL certificates in a proper way is key to keep our systems secured. So during this sprint, we invested quite some time improving how certificates are used in our registration module. Basically, we have improved YaST behaviour in these scenarios:</p>
+<ul>
+<li>Using self-signed certificates.</li>
+<li>Handling with unknown certificate authorities.</li>
+</ul>
+<p>When the custom registration server (the new <a href="https://www.suse.com/documentation/sles-15/book_rmt/data/book_rmt.html">RMT</a> or the older <a href="https://www.suse.com/documentation/sles-12/book_smt/data/book_smt.html">SMT</a>) use a self-signed certificate, YaST offers to import the server certificate and make it known to the system.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/03/yast-registration-self-signed-certificate.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/03/yast-registration-self-signed-certificate-300x225.png" alt="Self-signed Certificate Dialog" width="300" height="225" class="aligncenter size-medium wp-image-13694" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/03/yast-registration-self-signed-certificate-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/03/yast-registration-self-signed-certificate-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/03/yast-registration-self-signed-certificate.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>On the other hand, when the server SSL key was signed by an unknown key, YaST used to just display an error popup. That was not much helpful as it was not obvious what to do. Now a new popup which contains some hints about how to import the CA certificate manually is displayed. In this case it cannot be imported automatically as YaST does not know where to obtain it, it is not present in the server response.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/03/yast-registration-unknown-certificate-authority.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/03/yast-registration-unknown-certificate-authority-300x225.png" alt="Unknown Certificate Authority Dialog" width="300" height="225" class="aligncenter size-medium wp-image-13695" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/03/yast-registration-unknown-certificate-authority-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/03/yast-registration-unknown-certificate-authority-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/03/yast-registration-unknown-certificate-authority.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>The work of importing and activating the certificate is now performed by a YaST script, preventing the user from having to run some complicated (and error prone) commands manually.</p>
+<p>These improvement and some other OpenSSL details have been documented in the <a href="https://github.com/yast/yast-registration/wiki/OpenSSL-Certificates">OpenSSL Certificates</a> documentation. Additionally, if you ever need to debug some SSL related issue, this new <a href="https://github.com/yast/yast-registration/wiki/OpenSSL-Debugging-Hints">OpenSSL Debugging Hints</a> documentation might be useful for you. It covers basic topics, like displaying PEM certificate details, running a testing HTTPS server, creating a self-signed certificate, etc.</p>
+<h3 id="detecting-dasds-when-using-virtio-blk-in-zkvm">Detecting DASDs when using virtio-blk in zKVM</h3>
+<p>IBM&#8217;s S/390 platform has some special features that you will not find in conventional architectures like x86. One of them are <a href="https://en.wikipedia.org/wiki/Direct-access_storage_device">DASD</a> hard disks. These devices can be accessed in zKVM using the virtio-blk backend, but DASDs need special handling. For instance, the most common DASD type (CDL ECKD) cannot be used with an MS-DOS partition table nor a GPT, instead a DASD partition table is required. Having this requirement in mind, YaST now detects DASDs using virtio-blk properly and uses the correct DASD partition table.</p>
+<h3 id="improving-fonts-and-icons-handling-in-the-installer">Improving Fonts and Icons Handling in the Installer</h3>
+<p>Back some time ago, <a href="https://github.com/hellcp">Stasiek Michalski</a> (a.k.a. as <em>hellcp</em>), one of our very active openSUSE community contributors, spent quite some work for better artwork in YaST. As a result, icons are now used from the desktop’s icon theme whenever possible, and the installer font was changed.</p>
+<p>One fallout of the latter was that the font size was now too small for users with diminishing eyesight: That new font has different font metrics, so the default font size was too small. We fixed that during this sprint. See also <a href="https://github.com/openSUSE/branding/pulls/107">openSUSE/branding#107</a>.</p>
+<p>By the way, the disappearing icons issue was solved too. See <a href="https://github.com/libyui/libyui-qt/pull/100">libyui/libyui-qt#100</a> if you are interested in the details.</p>
+<p>And just to get this straight: We are welcoming active community members to contribute (thanks again, @hellcp!). There will be some bugs; that’s just natural. We need to cooperate to fix them.</p>
+<h3 id="yast-font-scaling-problem-on-the-gnome-desktop">YaST Font Scaling Problem on the GNOME Desktop</h3>
+<p>This is not really a YaST problem, but of course it was still the natural thing to write a bug report against YaST for this <a href="https://bugzilla.suse.com/show_bug.cgi?id=1123424">bsc#1123424</a>. And it took us quite a while to figure out what went wrong here.</p>
+<p>Basically, when you use the <em>GNOME Tweak Tool</em> to set a <em>Font Scaling Factor</em> that is not a multiple of 0.25, this is completely ignored, and so all Qt5 applications (including the YaST Qt Control Center and all YaST modules) appear with unscaled fonts.</p>
+<p>The problem is this <em>GNOME Tweak Tool</em> setting non-integer DPI values (which is already out of spec and thus a bug) and the Qt5 libraries consequently completely ignoring that DPI value. So that GNOME tool should do it correctly, but the Qt5 libs could also handle this more gracefully.</p>
+<p>Unfortunately, there is nothing that we can do about this from the YaST side, even though we are aware that this might become reported as a YaST bug again in the future 🙂</p>
+<h3>Closing Thoughs</h3>
+<p>As we stated at the beginning of this post, we are basically in bug squashing mode. So, please, if you have some time, give the testing versions of (open)SUSE a try and report as many bugs as you can.</p>
+<p>Thanks!</p>
+          </div>
+
+          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/systems-management/" rel="category tag">Systems Management</a>, <a href="https://lizards.opensuse.org/category/server/virtualization/" rel="category tag">Virtualization</a>, <a href="https://lizards.opensuse.org/category/systems-management/yast/" rel="category tag">YaST</a> |   <span>Comments Off<span class="screen-reader-text"> on Highlights of YaST Development Sprint 73</span></span></p>
+
+        </div>
+
+            <div class="post-13625 post type-post status-publish format-standard hentry category-distribution category-factory category-miscellaneous category-programming category-systems-management category-yast">
+          <h3 id="post-13625"><a href="https://lizards.opensuse.org/2019/02/27/yast-sprint-71-72/" rel="bookmark" title="Permanent Link to Highlights of YaST Development Sprint 71 &amp; 72">Highlights of YaST Development Sprint 71 &amp; 72</a></h3>
+          <small>February 27th, 2019 by <a href="https://lizards.opensuse.org/author/yast-team/" title="Posts by Yast Team" rel="author">Yast Team</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2019/02/27/yast-sprint-71-72/"
+                data-text="openSUSE News: Highlights of YaST Development Sprint 71 &amp; 72"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2019%2F02%2F27%2Fyast-sprint-71-72%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>We know we owe you a report for the previous development sprint (namely the 71th). But we also know how to compensate that. This week we have not only one, but up to three blog posts to keep you tuned to the YaST evolution.</p>
+<p>So let&#8217;s start with the summary of what have been implemented and fixed lately. That includes</p>
+<ul>
+<li>Improvements in the Bcache support in the Partitioner</li>
+<li>Users home as Btrfs subvolumes</li>
+<li>Better visualization of Salt formulas in YaST Configuration Management</li>
+<li>Automatic selection of the needed driver packages</li>
+<li>Improvements in many other areas like AutoYaST, bootloader, the Partitioner and the storage Guided Setup</li>
+</ul>
+<p>You will find links to the other more exhaustive blog posts, about the recently added Bcache support and the revamped Configuration Management module, in the corresponding sections of this report.</p>
+<h3>Final Improvements in the Bcache Support</h3>
+<p>During several sprints, we have been detailing our efforts to offer a decent support for the Bcache technology in the YaST partitioner. During this sprint we have implemented what we consider the three final bits:</p>
+<ul>
+<li>Bache devices without caching</li>
+<li>Modifying Bcache devices</li>
+<li>Listing all caching sets</li>
+</ul>
+<p>We will now detail this three improvements. But to celebrate that Bcache support looks complete now in the Partitioner, we have published a <a href="https://lizards.opensuse.org/?p=13596">separate blog post</a> explaining what Bcache is and how to take advantage of that technology using the YaST Partitioner. Enjoy!</p>
+<p>And back to the topic of recent improvements, we should mention that the Bcache technology allows to create a Bcache device without an associated caching one. This is useful if you are considering to use Bcache in the future. In that case you can setup all your slow devices as Bcache backing devices without a cache, leaving open the possibility of adding caching devices later. That is now possible by selecting the new option labeled &#8220;without caching&#8221; during creation, as shown in the following screenshot.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/02/no-caching.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/02/no-caching-300x168.png" alt="No caching device in Bcache" width="300" height="168" class="aligncenter size-medium wp-image-13627" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/02/no-caching-300x168.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/02/no-caching.png 433w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Of course, that&#8217;s not much useful without the possibility of modifying a Bcache device. So in the latest sprints we also added a new &#8220;Change Caching&#8221; button.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/02/modify-bcache.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/02/modify-bcache-300x223.png" alt="New option to modify a bcache" width="300" height="223" class="aligncenter size-medium wp-image-13628" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/02/modify-bcache-300x223.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/02/modify-bcache-768x572.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/02/modify-bcache.png 952w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>This option will only work for bcaches that do not exist in your system yet (e.g., a bcache that you are creating right now). For existing bcache devices, this option is only available when the bcache has no associated caching device yet. Otherwise, a detaching action would be required, and that could take very long time in some situations.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/02/no-modify-bcache.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/02/no-modify-bcache-300x212.png" alt="Avoiding detach operations in bcache" width="300" height="212" class="aligncenter size-medium wp-image-13629" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/02/no-modify-bcache-300x212.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/02/no-modify-bcache-768x542.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/02/no-modify-bcache.png 952w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>And last but not least (regarding Bcache), now the Expert Partitioner also shows the list of all caching sets in a separate tab (unsurprisingly) titled &#8220;Caching Set Devices&#8221;. It is only an informative tab, but thanks to it you will be able to check all devices currently used for caching at a quick glance.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/02/csets.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/02/csets-300x223.png" alt="List of caching sets" width="300" height="223" class="aligncenter size-medium wp-image-13630" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/02/csets-300x223.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/02/csets-768x570.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/02/csets.png 952w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3 id="create-user-home-btrfs-subvolume">Create the User&#8217;s Home as a Btrfs Subvolume</h3>
+<p>As many (open)SUSE users know, <a href="https://btrfs.wiki.kernel.org">Btrfs</a> offers several advantages over traditional Linux file-systems. One of them is the possibility of using subvolumes to customize the configuration and features of different parts of the same file-system.</p>
+<p>From now on, the YaST Users module allows to create the home path of new users as a subvolume instead of a plain directory, as long as a Btrfs file-system could be found in the system, of course. As simple as checking the &#8220;Create as Btrfs Subvolume&#8221; option that you will find just below the &#8220;Home Directory&#8221; field.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/02/subvolume-home-qt.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/02/subvolume-home-qt-300x226.png" alt="Using a Btrfs subvolume as home" width="300" height="226" class="aligncenter size-medium wp-image-13632" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/02/subvolume-home-qt-300x226.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/02/subvolume-home-qt-768x580.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/02/subvolume-home-qt.png 795w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>In a multi-user system, using Btrfs subvolumes for the home paths of the users can open a world of possibilities. The system administrator can decide to give some users the ability to create snapshots of their corresponding home directories, even automated on every login and/or logout using PAM Snapper. Similar ideas can be applied to a Samba deployment. Moreover, using subvolumes as homes can also be useful to implement per user quotas.</p>
+<p>Beyond multi-user systems, fine-tuning the mount options or customizing snapshots and quotas can also be useful for some special system users (e.g. the user associated to a database system).</p>
+<p>And all that, as always in YaST, equally easy to configure with the graphical interface and with the text-based one.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/02/subvolume-home-ncurses.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/02/subvolume-home-ncurses-300x192.png" alt="Moreover, using subvolumes as homes can also be useful to implement per user quotas, ncurses version" width="300" height="192" class="aligncenter size-medium wp-image-13633" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/02/subvolume-home-ncurses-300x192.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/02/subvolume-home-ncurses.png 712w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3>Better Visualization of SUSE Manager Salt Formulas</h3>
+<p>As we <a href="https://lizards.opensuse.org/2019/01/31/highlights-of-yast-development-sprint-6970/#revamping-salt-formulas-forms-support">announced on January</a>, we have been working on updating the SUSE Manager Salt Formulas support in <a href="https://github.com/yast/yast-configuration-management/">YaST Configuration Management</a> to comply with the latest forms specification. As it happens with the Bcache support, we feel we have reached a point in which the feature is polished enough to be shipped in the next (open)SUSE stable releases and to deserve its own separate blog post. So go and enjoy our <a href="https://lizards.opensuse.org/2019/02/27/getting-yast-cm-up-to-date/">third blog post of this week</a>, a sneak peak into the marriage of SUSE Manager and YaST, thanks to the magic of Salt Formulas.</p>
+<p>In that regard, we have been recently improving how the forms look like to make them as easy to use as possible. Bear in mind that a form can be quite long and the support for scrolling in YaST2 is quite limited. In order to workaround this problem, YaST2 will display a tree at the left side outlining the structure of the form.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/02/yast-cm.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/02/yast-cm-300x197.png" alt="Tree view of long salt formulas" width="300" height="197" class="aligncenter size-medium wp-image-13634" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/02/yast-cm-300x197.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/02/yast-cm-768x505.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/02/yast-cm-1024x674.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2019/02/yast-cm.png 1388w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Apart from that, we have solved some known problems, like exporting date/time and numeric values in a correct way or handling missing and default values properly.</p>
+<p>Sure there are some details that we like to improve but, for now, what we need is feedback from you. So, if you are interested in such a functionality, please check the mentioned dedicated blog post about the topic and have a look to <tt>yast2-configuration-management 4.1.5</tt>.</p>
+<h3>Automatically Selecting the Driver Packages in Installed System</h3>
+<p>In openSUSE Leap 15.0 and SUSE Linux Enterprise 15, the packages containing drivers needed by the system are installed automatically if they are available during the installation. However, if a repository with driver packages is added later in the installed system then the drivers are not automatically selected to install.</p>
+<p>Fortunately, in Leap 15.1 and SLE-15-SP1 the <a href="https://github.com/opensuse/libsolv">package solver</a> implements a new solver mode in which it selects for installation only the recommended driver packages, without also dragging other non-driver recommended packages into the system.</p>
+<p>For example, after adding the nVidia driver repository in Leap 15.1 (YaST ➝ Software Repositories ➝ Add ➝ Community Repositories, select &#8220;nVidia Graphics Drivers&#8221;) and starting the package manager (YaST ➝ Software Management), the respective nVidia driver packages are automatically selected to install if there is a supported nVidia graphics card present in the system. This of course works also for the other driver packages and hardware devices.</p>
+<p>Just a last note about automatic selection of recommended driver packages. When running the package manager for the first time in a recently installed openSUSE Leap 15.1, it might automatically select some additional packages to install coming from the Leap OSS on-line repository (which is added automatically the end of the installation). Do not be surprised, that&#8217;s actually desired. If you do not want to install those packages simply deselect them, YaST will remember that and it will not select them next time.</p>
+<p>See more details in the corresponding <a href="https://github.com/yast/yast-packager/wiki/Selecting-the-Driver-Packages">documentation</a>.</p>
+<h3>Improved Disk Selection Screen in the Storage Guided Setup</h3>
+<p>Although it may sound surprising for some users, it&#8217;s not uncommon to install SUSE Linux Enterprise on systems with dozens or even hundreds of disks. Of course, in those advanced scenarios the automatic partitioning proposal is not much useful and users are expected to use the Expert Partitioner. But, what if someone tries to use the partitioning Guided Setup in a system with 30 disks? In SLE-15 (or Leap 15.0, in the case of this concrete screenshot) they will see a screen as unusable as this.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/02/old-qt-30.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/02/old-qt-30-300x176.png" alt="Broken Guided Setup screen" width="300" height="176" class="aligncenter size-medium wp-image-13643" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/02/old-qt-30-300x176.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/02/old-qt-30-768x451.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/02/old-qt-30.png 928w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Of course, it only gets worse if the number of disks increases or if the text-mode interface is used. So we improved the disk selection screen, taking also the opportunity to include additional information to make easier to identify removable devices like USB and IEEE 1394 ones. In future releases, the screen will normally look pretty much as it looks in the previous version, just with the extra information about USB.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/02/new-qt-10.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/02/new-qt-10-300x174.png" alt="Normal Guided Setup screen" width="300" height="174" class="aligncenter size-medium wp-image-13644" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/02/new-qt-10-300x174.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/02/new-qt-10-768x446.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/02/new-qt-10.png 913w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>But if the system contains more than 10 disks to choose from, then a different widget that makes scrolling possible will be used, ensuring the user interface remains usable enough in both graphical and text-based modes.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/02/new-qt-30.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/02/new-qt-30-300x175.png" alt="Guided Setup screen with more than 10 disks" width="300" height="175" class="aligncenter size-medium wp-image-13645" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/02/new-qt-30-300x175.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/02/new-qt-30-768x449.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/02/new-qt-30.png 918w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3>YaST Bootloader Becomes Less Whinny</h3>
+<p>When the installation of the system is spread over multiple physical disks, YaST Bootloader always tries to setup the bootloader in all those disks. This helps for example when MD RAID is used to achieve redundancy and some disk fails. Then the system can still boot from any of the other disks, since they also contain a proper bootloader.</p>
+<p>But in some cases the installation can be spread over multiple disks but with only one of them being prepared to host the bootloader (e.g. containing the needed partitions). YaST bootloader used to complain about it while generating its proposal, which resulted in an error shown during installation.</p>
+<p>In this sprint we have relaxed the YaST Bootloader expectations a bit. It still tries to create a fail-over setup, but the proposal does not complain if at least one disk looks bootable. Additionally if Grub2 is properly installed to at least one device, then possible failures in other disks will not result in an error pop-up, but just logged for future reference.</p>
+<h3>Device Order for MD RAIDs in AutoYaST</h3>
+<p>During the development of storage-ng, the feature to specify the device order for MD RAIDs with AutoYaST was lost. The feature can be useful for RAID level 10 to ensure that one full half of the RAID will only reside on one disk subsystem and the other half on the other subsystem. Only then a complete failure of a single subsystem keeps the RAID working.</p>
+<p>Now the feature has been re-implemented for Leap 15.1 and SLE-15-SP1 and the &#8220;device_order&#8221; tag of the AutoYaST profile works as expected. For further information about configuring RAID with AutoYaST, consult the <a href="https://www.suse.com/documentation/sles-15/singlehtml/book_autoyast/book_autoyast.html#ay.raid_configuration">AutoYaST documentation</a>.</p>
+<h3>Improvements in the Partitioner</h3>
+<p>That AutoYaST feature was not the only thing that temporarily disappeared with the replacement of the old storage components by storage-ng. The &#8220;Provide Crypt Passwords&#8221; button in the Partitioner was also not there in the early versions included in openSUSE Leap 15.0. But it was not really an omission, but a consequence on how the activation of logical devices works now in YaST.</p>
+<p>During installation, all pre-existing logical devices that need some initialization are always activated to make possible to use them. That includes LVM, Multipath devices (for which a user confirmation is requested) and encrypted devices (for which the password is asked to the user). But triggering such activations in an already installed and running system cannot be done so lightly, since it affects the execution of the whole system.</p>
+<p>Still, there are cases in which a user executing the YaST Partitioner in an already installed system may desire to activate currently inactive devices. To allow that we brought back the &#8220;Provide Crypt Passwords&#8221; button, but with two small changes compared to its historical behavior.</p>
+<ul>
+<li>It activates all kind of devices, not only the crypt ones.</li>
+<li>It refreshes all the Partitioner information, reading again the status of all the storage devices.</li>
+</ul>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/02/crypt-button.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/02/crypt-button-300x193.png" alt="Provide Crypt Passwords button" width="300" height="193" class="aligncenter size-medium wp-image-13649" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/02/crypt-button-300x193.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/02/crypt-button.png 741w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Of course, any change in behavior is a nice opportunity to revisit and expand the help texts.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/02/crypt-button-help.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/02/crypt-button-help-300x202.png" alt="The button explained" width="300" height="202" class="aligncenter size-medium wp-image-13650" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/02/crypt-button-help-300x202.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/02/crypt-button-help-768x516.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/02/crypt-button-help.png 786w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Another change that was intentionally introduced in the first versions of the rewritten Partitioner was the fact that new file-systems always got an empty label by default, independently of the previous content of the partition being formatted.</p>
+<p>But the old Partitioner used to do things differently when reformatting a partition. In that case, it actually copied the label of the previous file-system into the new one. Some users told us (via bug reports) they wanted the old behavior back, so now the Partitioner preserves the old label when a partition is reformatted.</p>
+<h3>Wow, that was a lot!</h3>
+<p>As usual, this report only covers a small portion of what the YaST Team has been doing. But definitely this time our readers will have enough material to keep themselves entertained for quite some time. Specially combining this with the two already mentioned monographic posts about <a href="https://lizards.opensuse.org/?p=13596">the Bcache support</a> and about <a href="https://lizards.opensuse.org/2019/02/27/getting-yast-cm-up-to-date/">the compatibility with SUSE Manager Salt Formulas</a>.</p>
+<p>Have a lot of fun reading!</p>
+          </div>
+
+          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/distribution/" rel="category tag">Distribution</a>, <a href="https://lizards.opensuse.org/category/distribution/factory/" rel="category tag">Factory</a>, <a href="https://lizards.opensuse.org/category/miscellaneous/" rel="category tag">Miscellaneous</a>, <a href="https://lizards.opensuse.org/category/programming/" rel="category tag">Programming</a>, <a href="https://lizards.opensuse.org/category/systems-management/" rel="category tag">Systems Management</a>, <a href="https://lizards.opensuse.org/category/systems-management/yast/" rel="category tag">YaST</a> |   <span>Comments Off<span class="screen-reader-text"> on Highlights of YaST Development Sprint 71 &amp; 72</span></span></p>
+
+        </div>
+
+            <div class="post-13657 post type-post status-publish format-standard hentry category-systems-management category-yast">
+          <h3 id="post-13657"><a href="https://lizards.opensuse.org/2019/02/27/getting-yast-cm-up-to-date/" rel="bookmark" title="Permanent Link to Getting YaST Configuration Module up-to-date">Getting YaST Configuration Module up-to-date</a></h3>
+          <small>February 27th, 2019 by <a href="https://lizards.opensuse.org/author/yast-team/" title="Posts by Yast Team" rel="author">Yast Team</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2019/02/27/getting-yast-cm-up-to-date/"
+                data-text="openSUSE News: Getting YaST Configuration Module up-to-date"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2019%2F02%2F27%2Fgetting-yast-cm-up-to-date%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <h3 id="an-introduction-to-the-yast-configuration-management-module">An Introduction to the YaST Configuration Management Module</h3>
+<p><a href="https://github.com/yast/yast-configuration-module">YaST Configuration Management</a> is a relatively unknown module that was born back in 2016 during a workshop and was developed further during <a href="https://hackweek.suse.com/14/projects/1372">Hack Week 14</a>. The idea was to enable AutoYaST to delegate part of its duties to a configuration management system like <a href="https://saltstack.com">Salt</a> or <a href="https://puppet.com/">Puppet</a>. Therefore, AutoYaST would take care of the initial installation (partitioning, software installation, etc.) and it will hand the control over to one of those systems for further configuration.</p>
+<p>During <a href="https://hackweek.suse.com/15/projects/yast-module-for-suse-manager-salt-parametrizable-formulas">Hack Week 15</a> the module got support for <a href="https://www.suse.com/communities/blog/forms-formula-success/">SUMA Salt Parametrizable Formulas</a> and later it was adapted to<br />
+run during the 1st stage of the installation. Apart from that, the module received fixes and minor updates as needed.</p>
+<p>But by the end of 2018, we started to work on the module again in order to:</p>
+<ul>
+<li>Update the <em>SUMA Salt Parametrizable Formulas</em> support.</li>
+<li>Add support for <a href="https://github.com/yast/yast-firstboot">YaST Firstboot</a></li>
+<li>Improve the documentation (the <a href="https://github.com/yast/yast-configuration-management">README</a> was basically rewritten).</li>
+</ul>
+<p>In this article, we will review these changes including, of course, some screenshots. If you want to try this features by yourself, you will need to install <code>yast2-configuration-management 4.1.5</code> and <code>yast2-firstboot 4.1.5</code> (or later).</p>
+<h3 id="updating-the-suma-salt-paramerizable-formulas-support">Updating the SUMA Salt Parametrizable Formulas Support</h3>
+<p>Since the initial implementation of the <em>SUMA Salt Parametrizable Formulas</em> support, the forms specification evolved quite a lot, rendering the module outdated. Support for new data types, collections, conditions, etc. was simply missing.</p>
+<p>When it comes to the new UI design, the main problem we faced is that, in YaST, we must take 80&#215;24 interfaces into account and the support for scrolling in our libraries is quite limited. So we needed to organize the information minimizing the chance of getting out of space.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/02/yast2-configuration-management-dhcpd.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/02/yast2-configuration-management-dhcpd-300x238.png" alt="Configuring the dhcpd formula" width="300" height="238" class="aligncenter size-medium wp-image-13669" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/02/yast2-configuration-management-dhcpd-300x238.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/02/yast2-configuration-management-dhcpd-768x610.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/02/yast2-configuration-management-dhcpd.png 799w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>The screenshot above belongs to a fairly complex <code>dhcp</code> formula. At the left side, there is a tree that you can use to browse through the formula. At the right, YaST displays a set of form controls that you will use to enter the formula parameters.</p>
+<p>When dealing with collections, YaST displays the information in pop-up dialogs as you can see below.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/02/yast2-configuration-management-collection-popup.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/02/yast2-configuration-management-collection-popup-300x238.png" alt="Managing collections" width="300" height="238" class="aligncenter size-medium wp-image-13670" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/02/yast2-configuration-management-collection-popup-300x238.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/02/yast2-configuration-management-collection-popup-768x609.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/02/yast2-configuration-management-collection-popup.png 799w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Do you want to try it by yourself? No problem, but bear in mind that <em>it may modify your system configuration</em>, so it would be wiser to do such experiments in a virtual machine.</p>
+<p>Having said that, the easiest way to try the module is to grab some formulas <a href="https://build.opensuse.org/project/show/systemsmanagement:Uyuni:Retail">from OBS</a>, install them and start the module from the YaST control center by clicking on <em>YaST2 Configuration Management</em> under the <em>Miscellaneous</em> section. If you are a console lover, you can just run <code>yast2 configuration_management</code>.</p>
+<h3 id="adding-firstboot-support">Adding Firstboot Support</h3>
+<p>YaST Firstboot is a module that allows the user to configure a pre-installed system during the first boot (hence the name). It implements a set of <a href="https://github.com/yast/yast-firstboot/tree/master/src/clients">YaST clients</a> to perform different stuff like setting the language, configuring the timezone, etc.</p>
+<p>If you need to configure something which is not supported by YaST Firstboot, you could write your own client having the power of YaST under your fingers. Or, if you prefer, you could use YaST Configuration Management to run a configuration management system. Of course, you can combine this feature with the support for <em>SUMA Salt Parametrizable Formulas</em> to offer a nice UI.</p>
+<p>Now let’s see an example. YaST Firstboot configuration lives in <code>/etc/YaST/firstboot.xml</code>. That file contains the list of clients to use, among other settings. So if you want to use the YaST Configuration Management module, you only need to add the <code>firstboot_configuration_management</code> client to the workflow.</p>
+<pre><code>&lt;workflows config:type="list"&gt;
+  &lt;workflow&gt;
+    &lt;stage&gt;firstboot&lt;/stage&gt;
+    &lt;label&gt;Configuration&lt;/label&gt;
+    &lt;mode&gt;installation&lt;/mode&gt;
+    &lt;modules  config:type="list"&gt;
+      &lt;!-- other modules --&gt;
+      &lt;module&gt;
+        &lt;label&gt;Finish Setup&lt;/label&gt;
+        &lt;name&gt;firstboot_configuration_management&lt;/name&gt;
+      &lt;/module&gt;
+    &lt;/modules&gt;
+    &lt;!-- and more modules --&gt;
+  &lt;/workflow&gt;
+&lt;/workflows&gt;
+</code></pre>
+<p>Additionally, you might be interested in modifying the <code>firstboot_configuration_management</code> behaviour. In that case, you can add a <code>&lt;configuration_management/&gt;</code> section with the relevant settings. The nice thing is that it uses the same options that are supported by AutoYaST. Let’s say that we want to run some Salt formulas:</p>
+<pre><code>&lt;configuration_management&gt;
+  &lt;type&gt;salt&lt;/type&gt;
+  &lt;!-- Default Salt Formulas root directories --&gt;
+  &lt;formulas_roots config:type="list"&gt;
+    &lt;formulas_root&gt;/usr/share/susemanager/formulas/metadata&lt;/formulas_root&gt;
+    &lt;formulas_root&gt;/srv/formula_metadata&lt;/formulas_root&gt;
+  &lt;/formulas_roots&gt;
+&lt;/configuration_management&gt;
+</code></pre>
+<p>Or do you prefer to run Salt against a master server?</p>
+<pre><code>&lt;configuration_management&gt;
+  &lt;type&gt;salt&lt;/type&gt;
+  &lt;master&gt;linux-addc&lt;/master&gt;
+  &lt;auth_attempts config:type="integer"&gt;5&lt;/auth_attempts&gt;
+  &lt;auth_time_out config:type="integer"&gt;10&lt;/auth_time_out&gt;
+  &lt;keys_url&gt;http://keys.example.de/keys&lt;/keys_url&gt;
+&lt;/configuration_management&gt;
+</code></pre>
+<h3 id="asking-for-help">Asking for Help</h3>
+<p>YaST Configuration Management has been greatly improved during these weeks and the new SUMA formulas support opens a lot of possibilities. However, now we need your help: if you are interested in this module, please, check it out and try to report as many bugs as possible. We now they are there just waiting for you to find them ;-).</p>
+<p>Thanks!</p>
+          </div>
+
+          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/systems-management/" rel="category tag">Systems Management</a>, <a href="https://lizards.opensuse.org/category/systems-management/yast/" rel="category tag">YaST</a> |   <span>Comments Off<span class="screen-reader-text"> on Getting YaST Configuration Module up-to-date</span></span></p>
+
+        </div>
+
+            <div class="post-13596 post type-post status-publish format-standard hentry category-distribution category-factory category-programming category-systems-management category-yast">
+          <h3 id="post-13596"><a href="https://lizards.opensuse.org/2019/02/27/recap-bcache-in-yast/" rel="bookmark" title="Permanent Link to Recapping the Bcache support in the YaST Partitioner">Recapping the Bcache support in the YaST Partitioner</a></h3>
+          <small>February 27th, 2019 by <a href="https://lizards.opensuse.org/author/yast-team/" title="Posts by Yast Team" rel="author">Yast Team</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2019/02/27/recap-bcache-in-yast/"
+                data-text="openSUSE News: Recapping the Bcache support in the YaST Partitioner"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2019%2F02%2F27%2Frecap-bcache-in-yast%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>Usual readers of the YaST Team development sprint reports on this blog already know we have been working steadily on adding support for the Bcache technology to the YaST Partitioner. We have already reached a point in which we consider such feature to be ready to be shipped with openSUSE Leap 15.1 and SUSE Linux Enterprise 15 SP1. That sounds like a nice occasion to offer the full picture in a single blog post, so our beloved users don&#8217;t need to dig into several blog posts to know what the future releases will bring regarding Bcache in YaST. Needless to say, all this is already available for openSUSE Tumbleweed users, or will be available in the following weeks.</p>
+<h3>Bcache 101</h3>
+<p>But, to begin with, what is <a href="https://bcache.evilpiepirate.org/">Bcache</a>? It&#8217;s a Linux technology that allows to improve the performance of any big but relative slow storage device (so-called “backing device” in Bcache terminology) by using a faster and smaller device (so-called caching device) to speed up read and write operations. The resulting Bcache device has then the size of the backing device and (almost) the effective speed of the caching one.</p>
+<p>In other words, you can use one or several solid state drives, which are typically fast but small and expensive, to act as a cache for one or several traditional rotational (cheap and big) hard disks&#8230; effectively getting the best of both worlds.</p>
+<p>How does it all look in your Linux system? Let&#8217;s explain it with some good old ASCII art:</p>
+<pre>
+(slow hard disk)   (faster device, SSD)
+    /dev/sda            /dev/sdb
+      |                     |
+[Backing device]    [Caching device]  &lt;-- Actually, this is a set of
+      |                     |             caching devices (Caching Set)
+      |__________ __________|                   
+                 |
+              [Bcache]
+           /dev/bcache0
+</pre>
+<p>Take into account that the same caching device (or the same &#8220;caching set&#8221;, sticking to Bcache terminology) can be shared by several Bcache devices.</p>
+<p>If you are thinking about using Bcache later, it is also possible to setup all your slow devices as Bcache backing devices without a cache. Then you can add the caching device(s) at a later point in time.</p>
+<pre>
+(slow hard disk)   
+    /dev/sda            
+      |                     
+[Backing device]    
+      |                     
+      |__________ __________|                   
+                 |
+              [Bcache]
+           /dev/bcache0
+</pre>
+<p>Last but not least, the Bcache technology allows to create virtual devices on top of an existing caching set without an associated backing device. Such a device is known as Flash-only Bcache and is only useful in some very specific use cases.</p>
+<pre>
+                   (faster device, SSD)
+                        /dev/sdb
+                            |
+                    [Caching device]
+                            |
+      |__________ __________|                   
+                 |
+         [Flash-only Bcache]
+           /dev/bcache0
+</pre>
+<p>You may be thinking: &#8220;<i>hmm, all that sounds interesting and daunting at the same time&#8230; how can I get started with it in an easy way?</i>&#8220;. And sure you are already figuring the answer. 😉</p>
+<h3>Bcache in the YaST Partitioner</h3>
+<p>When running on an x86 64 bits system, the YaST Partitioner will offer a Bcache entry in its usual left tree. There you can see two tabs. The second one lists the Bcache caching sets available in the system and its purely informative. But the first one is your entry door to all the power of the Bcache world. That tab allows to visualize, modify and delete the existing Bcache devices. And, of course, it also enables you to create new Bcache devices on top of any of your not-so-fast existing block devices.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/02/bcache-devices.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/02/bcache-devices-300x223.png" alt="Bcache devices in the Partitioner" width="300" height="223" class="aligncenter size-medium wp-image-13603" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/02/bcache-devices-300x223.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/02/bcache-devices-768x572.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/02/bcache-devices.png 952w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>All Bcache devices can be formatted, mounted or partitioned with the same level of flexibility than other block devices in the system. See the previous screenshots, in which some devices contains partitions while others are formatted directly. </p>
+<p>The creation and edition of Bcache devices allow to select which devices to use as backing and as caching, and also to choose one of the available cache modes (more on this below). Any available block devices (like a disk, a partition or an LVM logical volume) can be used as backing device or as caching one. But a screenshot is worth a thousand words.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/02/bcache-create.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/02/bcache-create-300x168.png" alt="Screen for creating and editing a Bcache" width="300" height="168" class="aligncenter size-medium wp-image-13604" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/02/bcache-create-300x168.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/02/bcache-create.png 433w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>The backing device is mandatory. Flash-only Bcaches cannot be created and there are no plans to include support for them in the future. But as you can see in the previous screenshot, the caching device can be specified as &#8220;without caching&#8221;. That allows to create Bcache devices that will get their caching devices in the future, as explained at the beginning of this post.</p>
+<p>As mentioned, the third field allows to choose one of the cache modes offered by Bcache. If you are not sure what a particular cache mode means, YaST also provides a quite extensive help text explaining them.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/02/bcache-help.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/02/bcache-help-300x237.png" alt="Help about Bcache" width="300" height="237" class="aligncenter size-medium wp-image-13605" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/02/bcache-help-300x237.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/02/bcache-help-768x608.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/02/bcache-help.png 806w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Moreover, when modifying a device, the Partitioner will limit risky combinations, preventing data loss and avoiding operations that can result in unreliable results. For example, it prevents modifying Bcache devices with a caching device that is being already used by the system, because that would require a detaching action. That could take a very long time in some situations and interfere with other operations performed by the Partitioner.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/02/bcache-detach-warning.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/02/bcache-detach-warning-300x212.png" alt="Only safe operations allowed" width="300" height="212" class="aligncenter size-medium wp-image-13608" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/02/bcache-detach-warning-300x212.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/02/bcache-detach-warning-768x542.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/02/bcache-detach-warning.png 952w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Of course the operation to delete a Bcache device offers the usual checks and information available in other parts of the YaST Partitioner, like shown in the following screenshot (this time using the look and feel of the SLE installer).</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/02/bcache-delete.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/02/bcache-delete-300x221.png" alt="Deleting a Bcache device" width="300" height="221" class="aligncenter size-medium wp-image-13609" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/02/bcache-delete-300x221.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/02/bcache-delete.png 768w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3>Bcache for everyone?</h3>
+<p>With all the functionality explained above, we could say the YaST Partitioner lowers the entry barrier enough for all the (open)SUSE users to begin enjoying the bells and whistles of the Bcache technology. Unfortunately, that&#8217;s not exactly true for all the hardware architectures supported by our beloved distributions.</p>
+<p>Bcache is only considered stable and mature enough in x86_64 systems (i.e. x86 architecture of 64 bits). If you don&#8217;t know whether your computer fits into that description, then almost for sure it does. 😉 We have no evidence of anyone using Bcache successfully in 32 bits systems or in any ARM platform. Moreover, we know for sure the technology is unreliable in the PPC64LE and S390x architectures.</p>
+<p>As a result, the YaST Partitioner will only present the &#8220;Bcache&#8221; section in the left tree when running in a x86_64 system, even in the highly unlikely case of an unsupported system in which a Bcache device is found. If that would even happen, YaST will alert the users about the dangers of using Bcache in such unsupported scenario and will urge them to use manual procedures to modify the existing setup.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/02/bcache-not-supported-warning.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/02/bcache-not-supported-warning-300x170.png" alt="Warning: Bcache not supported!" width="300" height="170" class="aligncenter size-medium wp-image-13612" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/02/bcache-not-supported-warning-300x170.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/02/bcache-not-supported-warning.png 445w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3>What&#8217;s next?</h3>
+<p>Obviously, as it always happens when a new technology is added to YaST, there is still a lot of room for improvement regarding the Bcache management in the Partitioner. But now it&#8217;s the turn for our users to test it and come with bug reports and ideas for further improvements and use cases. Profit!</p>
+          </div>
+
+          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/distribution/" rel="category tag">Distribution</a>, <a href="https://lizards.opensuse.org/category/distribution/factory/" rel="category tag">Factory</a>, <a href="https://lizards.opensuse.org/category/programming/" rel="category tag">Programming</a>, <a href="https://lizards.opensuse.org/category/systems-management/" rel="category tag">Systems Management</a>, <a href="https://lizards.opensuse.org/category/systems-management/yast/" rel="category tag">YaST</a> |   <span>Comments Off<span class="screen-reader-text"> on Recapping the Bcache support in the YaST Partitioner</span></span></p>
+
+        </div>
+
+            <div class="post-13401 post type-post status-publish format-standard hentry category-software-management category-systems-management tag-ruby tag-zypper">
+          <h3 id="post-13401"><a href="https://lizards.opensuse.org/2019/02/23/zypper-upgraderepo-1-2-is-out/" rel="bookmark" title="Permanent Link to zypper-upgraderepo 1.2 is out">zypper-upgraderepo 1.2 is out</a></h3>
+          <small>February 23rd, 2019 by <a href="https://lizards.opensuse.org/author/fabiomux/" title="Posts by FabioMux" rel="author">FabioMux</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2019/02/23/zypper-upgraderepo-1-2-is-out/"
+                data-text="openSUSE News: zypper-upgraderepo 1.2 is out"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2019%2F02%2F23%2Fzypper-upgraderepo-1-2-is-out%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>Fixes and updates applied with this second minor version improved and extended the main functions, let&#8217;s see what&#8217;s new.</p>
+<p>If you are new to the zypper-upgraderepo plugin, give a look to the <a href="//lizards.opensuse.org/2018/08/07/zypper-upgraderepo-plugin-is-here/">previous article</a> to better understand the mission and the basic usage.</p>
+<h3>Repository check</h3>
+<p>The first important change is inherent the way to check a valid repository:</p>
+<ul>
+<li>the HTTP request sent is <em>HEAD</em> instead of <em>GET</em> in order to have a more lightweight answer from the server, being the HTML page not included in the packet;</li>
+<li>the request point directly to the <em>repodata.xml</em> file instead of the folder, that because some server security setting could hide the directory listing and send back a 404 error although the repository works properly.</li>
+</ul>
+<h3>Check just a few repos</h3>
+<p>Most of the times we want to check the whole repository&#8217;s list at once, but sometimes we want to check few of them to see whether or not they are finally available or ready to be upgraded without looping through the whole list again and again. That&#8217;s where the <em>&#8211;only-repo</em> switch followed by a list of comma-separated numbers comes in help.</p>
+<div id="attachment_13541" style="width: 310px" class="wp-caption alignnone"><a href="//lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_120602.png"><img class="size-medium wp-image-13541" src="//lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_120602-300x182.png" alt="--only-repo switch" width="300" height="182" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_120602-300x182.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_120602-768x466.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_120602.png 992w" sizes="(max-width: 300px) 100vw, 300px" /></a><p class="wp-caption-text">&#8211;only-repo switch</p></div>
+<h3>All repo by default</h3>
+<p>The disabled repositories now are shown by default and a new column highlights which of them are enabled or not, keeping their number in sync with the <code>zypper lr</code> output. To see only the enabled ones just use the switch <em>&#8211;only-enabled.</em></p>
+<div id="attachment_13540" style="width: 310px" class="wp-caption alignnone"><a href="//lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_120224.png"><img class="size-medium wp-image-13540" src="//lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_120224-300x182.png" alt="Table view" width="300" height="182" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_120224-300x182.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_120224-768x466.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_120224.png 992w" sizes="(max-width: 300px) 100vw, 300px" /></a><p class="wp-caption-text">Table view</p></div>
+<h3>Report view</h3>
+<p>Beside the table view, the switch <em>&#8211;report</em> introduce a new pleasant view using just two columns and spanning the right cell to more rows in order to improve the number of info and the reading quality.</p>
+<div id="attachment_13542" style="width: 310px" class="wp-caption alignnone"><a href="//lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_160739.png"><img class="size-medium wp-image-13542" src="//lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_160739-300x182.png" alt="Report view" width="300" height="182" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_160739-300x182.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_160739-768x466.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_160739.png 992w" sizes="(max-width: 300px) 100vw, 300px" /></a><p class="wp-caption-text">Report view</p></div>
+<h3>Other changes</h3>
+<p>The procedure which tries to discover an alternative URL now dives back and forth the directory list in order to explore the whole tree of folders wherever the access is allowed by the server itself. The side effect is a general improvement also in repo downgrade.</p>
+<p>The output in upgrade mode is now verbose and shows a table similar to the checking one, giving details about the changed URLs in the details column.</p>
+<p>The server timeout error is now handled through the switch <em>&#8211;timeout</em> which allows tweaking the time before to consider an error any late answer from the server itself.</p>
+<h3>Final thoughts and what&#8217;s next</h3>
+<p>This plugin is practically completed, achieving all the goals needed for its main purpose no other relevant changes are scheduled, so I started thinking of other projects to work in my spare time.</p>
+<p>Among them, there is one I am interested in: bring the power of <a href="http://software.opensuse.org">openSUSE software search page</a> to the command line.</p>
+<p>However, there are some problems:</p>
+<ul>
+<li>This website doesn&#8217;t implement any web API so will be a lot of scraping job;</li>
+<li>There are missing packages while switching from the global research (selecting <em>All distribution</em>) to the specific distribution;</li>
+<li>Packages from Packman are not included.</li>
+</ul>
+<p>I have already got some ideas to solve them and did lay down several lines of code, so let&#8217;s see what happens!</p>
+          </div>
+
+          <p class="postmetadata">Tags: <a href="https://lizards.opensuse.org/tag/ruby/" rel="tag">Ruby</a>, <a href="https://lizards.opensuse.org/tag/zypper/" rel="tag">zypper</a><br /> Posted in <a href="https://lizards.opensuse.org/category/systems-management/software-management/" rel="category tag">Software Management</a>, <a href="https://lizards.opensuse.org/category/systems-management/" rel="category tag">Systems Management</a> |   <a href="https://lizards.opensuse.org/2019/02/23/zypper-upgraderepo-1-2-is-out/#comments">1 Comment &#187;</a></p>
+
+        </div>
+
+            <div class="post-13575 post type-post status-publish format-standard hentry category-yast">
+          <h3 id="post-13575"><a href="https://lizards.opensuse.org/2019/02/01/replacing-github-services-with-github-webhooks/" rel="bookmark" title="Permanent Link to Replacing Github Services with GitHub Webhooks">Replacing Github Services with GitHub Webhooks</a></h3>
+          <small>February 1st, 2019 by <a href="https://lizards.opensuse.org/author/yast-team/" title="Posts by Yast Team" rel="author">Yast Team</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2019/02/01/replacing-github-services-with-github-webhooks/"
+                data-text="openSUSE News: Replacing Github Services with GitHub Webhooks"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2019%2F02%2F01%2Freplacing-github-services-with-github-webhooks%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>The GitHub team <a href="https://developer.github.com/changes/2018-11-05-github-services-brownout/">announced</a> some time ago that the so called GitHub Services will be obsolete and <a href="https://developer.github.com/v3/guides/replacing-github-services/">will be replaced</a> with the GitHub web hooks.</p>
+<p>We use the GitHub Services quite a lot in the YaST Team and, as <a href="https://lizards.opensuse.org/2019/01/31/highlights-of-yast-development-sprint-6970/#closing-thoughts">we promised</a>, we will try to summarize how replaced them.</p>
+<h3 id="travis">Travis</h3>
+<p><a href="https://travis-ci.org/">Travis</a> should add the new web hook automatically, just check if you can see a <code>https://notify.travis-ci.org</code> webhook configured for your repository. If it is missing then the easiest way to add them is just disabling the Travis builds for the repository and enabling it back. Doing this should add the new Travis web hook automatically.</p>
+<h3 id="weblate">Weblate</h3>
+<p>If your project uses <a href="https://weblate.org">Weblate</a> for managing the translations then use the <code>https://&lt;weblate_server&gt;/hooks/github/</code> webhook URL. If you use the <a href="https://l10n.opensuse.org/">openSUSE Weblate instance</a>, then use the <code>https://l10n.opensuse.org/hooks/github/</code> URL for the web hook.</p>
+<p>See the <a href="https://docs.weblate.org/en/latest/admin/continuous.html#automatically-receiving-changes-from-github">Weblate documentation</a> for more details.</p>
+<h3 id="rubydoc">RubyDoc.info</h3>
+<p>The <a href="https://www.rubydoc.info/">RubyDoc.info</a> service can be replaced by adding the <code>https://www.rubydoc.info/checkout</code> web hook (leave the other web hook options unchanged).</p>
+<h3 id="read-the-docs">Read the Docs</h3>
+<p>The <a href="https://readthedocs.org">Readthedocs</a> service uses unique web hook URL for each GitHub repository. You need to log into the Read the Docs site, select your project in the dashboard and in the <code>Admin</code> section select option <code>Integrations</code>. Then press <code>Add integration</code> and select the <code>GitHub incoming webhook</code> option. This will generate an URL address which can be used at GitHub as the web hook URL (again, leave the other options unchanged).</p>
+<h3 id="email">Email GitHub Service</h3>
+<p>The email service is automatically converted by GitHub to the new email notification setting so you should not need to do any change. If the notification emails are not delivered then check the <code>Notifications</code> section in the repository settings. In order to do that, you need the admin permission, see the <a href="https://help.github.com/articles/about-email-notifications-for-pushes-to-your-repository/">GitHub documentation</a>.</p>
+<h3 id="bye-github-services">Bye GitHub Services!</h3>
+<p>Github Services has served well for quite some time but moving to a webhooks based approach looks like the correct decision. We have already completed the transition in all of our repositories. Kudos to Ladislav Slezak for taking care!</p>
+          </div>
+
+          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/systems-management/yast/" rel="category tag">YaST</a> |   <span>Comments Off<span class="screen-reader-text"> on Replacing Github Services with GitHub Webhooks</span></span></p>
+
+        </div>
+
+            <div class="post-13553 post type-post status-publish format-standard hentry category-distribution category-factory category-network category-systems-management category-usability category-yast">
+          <h3 id="post-13553"><a href="https://lizards.opensuse.org/2019/01/31/highlights-of-yast-development-sprint-6970/" rel="bookmark" title="Permanent Link to Highlights of YaST Development Sprint 69 &amp; 70">Highlights of YaST Development Sprint 69 &amp; 70</a></h3>
+          <small>January 31st, 2019 by <a href="https://lizards.opensuse.org/author/yast-team/" title="Posts by Yast Team" rel="author">Yast Team</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2019/01/31/highlights-of-yast-development-sprint-6970/"
+                data-text="openSUSE News: Highlights of YaST Development Sprint 69 &amp; 70"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2019%2F01%2F31%2Fhighlights-of-yast-development-sprint-6970%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>Almost two months has passed since our <a href="https://lizards.opensuse.org/2018/12/04/highlights-of-yast-development-sprint-68/">last sprint report</a> but, except during the Christmas break, the team has been quite busy working on some features and bugfixes for the upcoming (open)SUSE releases.</p>
+<p>But a post describing all that we have done would be quite long :), so let&#8217;s try to highlight a few of them.</p>
+<ul>
+<li>YaST got a security audit and, although no real security problems were found, we were asked to introduce some improvements.</li>
+<li>Now it is possible to run the installer through PXE Boot without any local repository. Pretty specific but cool stuff!</li>
+<li>We are in the process of revamping SUSE Manager Salt Formulas support in the YaST2 Configuration Management module. Do not be fooled by the name, it is not limited to SUSE Manager.</li>
+<li>YaST icons are now included in the package were they are used. We hope it will make things easier for icon designers.</li>
+<li>The Firewall module got support for creating <a href="https://firewalld.org/">firewalld</a> custom zones.</li>
+<li>Performance when reading huge <tt>/etc/hosts</tt> files has been greatly improved.</li>
+<li>CD/DVD sources are always disabled after installation.</li>
+</ul>
+<h2 id="yast-security-hardening">YaST Security Hardening</h2>
+<p>Our SUSE security team did a security audit for YaST. The good news is that there were no real security problems that you should be concerned about. Still, we did some hardening to make the code even more secure.</p>
+<p>This might have caused some breakages in Factory / Tumbleweed because many places in the code were touched. We apologize for any inconveniences that might have caused; but we are sure you prefer YaST to be more secure.</p>
+<p>Most changes were centered around calling external commands, which YaST does a lot. Since YaST is running with root permissions in most cases, we want to make sure that this is as secure as possible. If you find any problems with it, please write bug reports.</p>
+<p>What exactly we did and how we did it is summarized here: <a href="https://github.com/yast/yast.github.io/issues/172">YaST Security Audit Fixes: Lessons Learned and Reminder</a></p>
+<h2 id="installing-via-pxe-boot-without-any-installation-repository">Installing via PXE Boot without any Installation Repository</h2>
+<p>In data centers and other big-scale enterprise environments, administrators rarely install new software via removable media such as DVDs. Instead, administrators rely on <a href="https://en.wikipedia.org/wiki/Preboot_Execution_Environment">PXE (Preboot eXecution Environment)</a> booting to image servers.</p>
+<p>Installing Linux Enterprise in such environments typically requires two auxiliary servers in the local network:</p>
+<ul>
+<li>The DHCP/TFTP server providing the minimal system used by PXE to execute the installer.</li>
+<li>A server making the SLE DVD repository accessible in the local network via FTP, HTTP or any similar protocol.</li>
+</ul>
+<p>Very often, the second one is more a requisite imposed by the installer than something really useful. In most cases, the system been installed will be registered in the <a href="https://scc.suse.com">SUSE Customer Center</a> (or any of its proxy technologies like SMT or RMT) and will get all the software from there. Thus, we decided to save the administrators the extra steps of downloading the SLE ISO image and setting up an install server to serve the content of that ISO, for cases in which that was really not needed.</p>
+<p>But the repositories are not only used to get the software been installed in the final system. As explained often in this blog, we have a single installer for all the products and flavors of SUSE and openSUSE, as different as the installation process looks for all of them. That generic installer uses the information in the installation repository to get its own configuration. That includes the available products (and its corresponding system roles), the steps and options to present to the user, the desired partitioning setup and many other aspects. Without that information, the installer is basically a musician without his score.</p>
+<p>Starting with SLE-15-SP1, it will be possible to use the boot parameter <code>NOREPO=1</code> to tell the installer to not expect (and more important, to not require) any local repository in the DVD or in the local network. In that case, the installer will be able to proceed up to the registration screen and get the information for the upcoming steps of the installation from the registration server. In the openSUSE case (where registration makes no sense), it will be able to reach the screen that allows to add more repositories.</p>
+<p>Another step (and certainly not an easy one) to improve the installation experience for our users. Data center administrators, enjoy! 🙂</p>
+<h2 id="revamping-salt-formulas-forms-support">Revamping SUSE Manager Salt Formulas Support</h2>
+<p>Back in 2017, the <a href="https://github.com/yast/yast-configuration-management/">YaST Configuration Management</a> module got support to handle SUSE Manager Salt Formulas as part of <a href="https://hackweek.suse.com/15/projects/yast-module-for-suse-manager-salt-parametrizable-formulas">a Hack Week project</a>. If you do not know what this feature is about, you might be interested in checking the <a href="https://www.suse.com/communities/blog/forms-formula-success/">Forms are the Formula for Success</a> presentation or the Hack Week project <a href="https://imobachgs.github.io/yast/2017/03/01/yast2-cm-gets-support-for-salt-parametrizable-formulas.html">follow-up post</a>.</p>
+<p>Since then, the forms specification has evolved quite a lot and YaST support was basically outdated. So on November 2018 we started to work in order to bring the missing pieces to the YaST module. Basically, we rewrote the forms support and, although there are still rough edges, we are pretty close to release a new version with up-to-date support for this powerful feature.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/01/yast2-configuration-management.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/01/yast2-configuration-management-300x225.png" alt="Screenshot of how the dhcpd formula looks like" width="300" height="225" class="aligncenter size-medium wp-image-13565" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/01/yast2-configuration-management-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/01/yast2-configuration-management-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/01/yast2-configuration-management.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h2 id="managing-custom-zones-definitions-in-yast-firewall">Managing Custom Zones Definitions in YaST Firewall</h2>
+<p>The new YaST UI for configuring <code>firewalld</code> was announced in <a href="https://lizards.opensuse.org/2018/10/01/yast-sprint-63/">the report of the sprint #63</a> (four months ago&#8230; time flies!) and, since then, we have continued improving it.</p>
+<p><code>firewalld</code> ships with some predefined <a href="https://firewalld.org/documentation/man-pages/firewalld.zones.html">zones</a>. Although it covers most users needs, in addition it allows the user to define custom zones. During the last sprint we have added support in the new UI and also in AutoYaST to manage <a href="https://firewalld.org/documentation/man-pages/firewalld.zones.html">custom zones</a>.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/01/yast2-firewall-custom-zones.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/01/yast2-firewall-custom-zones-300x266.png" alt="YaST2 Firewall custom zones definition dialog" width="300" height="266" class="aligncenter size-medium wp-image-13555" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/01/yast2-firewall-custom-zones-300x266.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/01/yast2-firewall-custom-zones.png 560w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>During the development process some problems detected in the <strong>AutoYaST configuration</strong> were addressed too.</p>
+<h2 id="updated-yast-branding-and-icon-handling">Updated YaST Branding and Icon Handling</h2>
+<p>In the past the YaST icons were included in the <code>yast2-branding-openSUSE</code> (openSUSE) and <code>yast2-theme-SLE</code> (SUSE Linux Enterprise) packages. The standard YaST icons were included in these packages, the standard YaST modules did not include any icons.</p>
+<p>However, the disadvantage for the icon designer was that it was not clear which icons were really used.<br />
+If you wanted to update the icon theme you could potentially do a lot of useless work because some icons were not used anymore.</p>
+<p>Now the icons are included in the respective YaST package, if the package is dropped the icon is dropped as well.</p>
+<p>The package manager UI includes compiled-in fallback icons. That means if the branding package is broken or the icon files are accidentally deleted from disk then it will be still usable for emergency recovery.</p>
+<p>The branding still works, the vendor can still provide specific icons which will override the included ones. So it is still possible to have a different look in the openSUSE and SLE products.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/01/yast2-control-center-icons.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/01/yast2-control-center-icons-300x224.png" alt="YaST2 Control Center new branding Screenshot" width="300" height="224" class="aligncenter size-medium wp-image-13561" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/01/yast2-control-center-icons-300x224.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/01/yast2-control-center-icons-768x575.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/01/yast2-control-center-icons.png 786w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>A big thank you goes to Stasiek Michalski and Noah Davis from the community who did the changes in the YaST code, designed the new icons and did a lot of cleanup!</p>
+<h2 id="improving-performance-when-loading-huge-etchosts">Improving Performance when Loading Huge <code>/etc/hosts</code> Files</h2>
+<p>It might happen that you need to maintain a huge <code>/etc/hosts</code> file, especially when dealing with ads blockers. Such file with thousands of lines took an incredible amount of time to get loaded into YaST2. On some configurations it could even happen that loading a <code>/etc/hosts</code> with around 10.000 lines freezes the system completely. After some refactoring in YaST2 Host module, the performance has been significantly improved and loading a file with 10.000 lines now takes approximately 30s on the same configuration where it crashed before.</p>
+<h2 id="disabling-cd-dvd-repositories-after-installation">Disabling CD/DVD Repositories After Installation</h2>
+<p>If you install your system from a CD/DVD source it usually happens that this repository was not available for whole live of the system. In some use cases this was only uncomfortable because of some warnings but, in other cases, it caused serious complications, for instance, when trying to do a migration.</p>
+<p>In the past, under some circumstances, those repositories were already disabled. But, from now on, they will be disabled always in order to avoid unwanted side effects.</p>
+<h2 id="closing-thoughs">Closing Thoughts</h2>
+<p>That&#8217;s all for the first report of 2019. In case you are wondering, the plan is to stick to the plan of publishing a report after each sprint, so expect the next one in about two weeks.</p>
+<p>However, we recently had to migrate from the so called GitHub Services (now deprecated) to GitHub web hooks, so you might get an extra blog post about that very soon.</p>
+<p>Stay tuned!</p>
+          </div>
+
+          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/distribution/" rel="category tag">Distribution</a>, <a href="https://lizards.opensuse.org/category/distribution/factory/" rel="category tag">Factory</a>, <a href="https://lizards.opensuse.org/category/base-system/network/" rel="category tag">Network</a>, <a href="https://lizards.opensuse.org/category/systems-management/" rel="category tag">Systems Management</a>, <a href="https://lizards.opensuse.org/category/usability/" rel="category tag">Usability</a>, <a href="https://lizards.opensuse.org/category/systems-management/yast/" rel="category tag">YaST</a> |   <a href="https://lizards.opensuse.org/2019/01/31/highlights-of-yast-development-sprint-6970/#comments">3 Comments &#187;</a></p>
+
+        </div>
+
+            <div class="post-13513 post type-post status-publish format-standard hentry category-yast tag-installation tag-partitioner tag-raspberry-pi tag-udf">
+          <h3 id="post-13513"><a href="https://lizards.opensuse.org/2018/12/04/highlights-of-yast-development-sprint-68/" rel="bookmark" title="Permanent Link to Highlights of YaST Development Sprint 68">Highlights of YaST Development Sprint 68</a></h3>
+          <small>December 4th, 2018 by <a href="https://lizards.opensuse.org/author/yast-team/" title="Posts by Yast Team" rel="author">Yast Team</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2018/12/04/highlights-of-yast-development-sprint-68/"
+                data-text="openSUSE News: Highlights of YaST Development Sprint 68"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2018%2F12%2F04%2Fhighlights-of-yast-development-sprint-68%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <ul>
+<li>UDF: Share big files with other operating systems</li>
+<li>Raspberry Pi: Fully customized installation with YaST</li>
+</ul>
+<h3 id="support-for-udf-file-system">Support for UDF file system</h3>
+<p>UDF (<a href="https://en.wikipedia.org/wiki/Universal_Disk_Format">Universal Disk Format</a>) is a file system format widely used for DVDs and newer optical disk formats, replacing ISO 9660. But this technology is not limited to optical media only, in fact it can be perfectly used on flash devices like USB sticks and hard drives too. UDF is one of the best choices when transferring data between platforms. Mostly all modern operating system already support it, including Windows, BSD, MacOS X, Solaris, OS/2 (eComStation), BeOS (Haiku) as well as Linux kernel.</p>
+<p>UDF offers several advantages. One of them is the support for quite very large files. With UDF you can create files of several terabytes, making really ridiculous the maximum limitation of 4 gigabytes in VFAT. And not only that, UDF also has optional built-in ability to minimize wearing-off of rewritable media with limited rewrite cycles, such as flash, CD-RW and DVD-RAM.</p>
+<p>YaST is starting to support UDF file systems out of the box. The Expert Partitioner now offers the UDF option when formatting a device, see the following screenshot. And this is available even during the installation, so you could create a volume with UDF format and share it between your different operating systems.</p>
+<div class="figure">
+<a href="//lizards.opensuse.org/wp-content/uploads/2018/12/49377614-8e0cd100-f702-11e8-9832-10b5dac142a6.png"><img src="//lizards.opensuse.org/wp-content/uploads/2018/12/49377614-8e0cd100-f702-11e8-9832-10b5dac142a6-300x218.png" alt="" width="300" height="218" class="aligncenter size-medium wp-image-13516" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/12/49377614-8e0cd100-f702-11e8-9832-10b5dac142a6-300x218.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/12/49377614-8e0cd100-f702-11e8-9832-10b5dac142a6-768x558.png 768w, https://lizards.opensuse.org/wp-content/uploads/2018/12/49377614-8e0cd100-f702-11e8-9832-10b5dac142a6-1024x743.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2018/12/49377614-8e0cd100-f702-11e8-9832-10b5dac142a6.png 1044w" sizes="(max-width: 300px) 100vw, 300px" /></a>
+</div>
+<h3 id="just-click-next-to-install-opensuse-in-a-raspberry-pi">Just click &quot;next&quot; to install (open)SUSE in a Raspberry Pi</h3>
+<p>Anybody who has not been living under a rock for the last five years knows <a href="https://www.raspberrypi.org/">Raspberry Pi</a>. And anyone who has used one of those devices knows the usual way to put an operating system into it is different from what we are used to do in other computers. Instead of installing from a regular ISO, customizing all the options in the process, Raspberry Pi and similar mini-computers are usually loaded with a pre-built image of an operating system (specific for each model) downloaded from the Internet. Many of those precooked Linux systems are purpose-specific and many decisions (like the file-system type to use) are already taken by those who built the image.</p>
+<p>But we wanted SLE 15-SP1 and openSUSE Leap 15.1 to be the first multi-purpose operating systems to support a full standard Linux experience in Raspberry Pi. No custom specific ISO to install from, no precooked image to be copied, just taking the standard unmodified SLE or openSUSE ISO image and installing like you would do in any other computer. And we wanted the process to be as easy as pressing &quot;next&quot;, &quot;next&quot;, &quot;next&quot;, &quot;install&quot;. With the installer detecting and proposing the set of default configurations that makes sense, as usual.</p>
+<p>The main challenge in that regard was the partitioning layout. In order to boot, the Raspberry Pi needs a very specific partition containing the system firmware. So it is important for the installer to detect such a partition and preserve it no matter what, mounting it in <code>/boot/vc</code> to allow the operating system to perform updates of the firmware. In the following screenshot of the installation process performed trough the Raspberry Pi serial console you can see that in action.</p>
+<div class="figure"><a href="//lizards.opensuse.org/wp-content/uploads/2018/12/49296302-25321880-f4b8-11e8-9796-7363bc9ddbc4.png"><img src="//lizards.opensuse.org/wp-content/uploads/2018/12/49296302-25321880-f4b8-11e8-9796-7363bc9ddbc4-300x198.png" alt="" width="300" height="198" class="aligncenter size-medium wp-image-13515" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/12/49296302-25321880-f4b8-11e8-9796-7363bc9ddbc4-300x198.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/12/49296302-25321880-f4b8-11e8-9796-7363bc9ddbc4-768x507.png 768w, https://lizards.opensuse.org/wp-content/uploads/2018/12/49296302-25321880-f4b8-11e8-9796-7363bc9ddbc4.png 802w" sizes="(max-width: 300px) 100vw, 300px" /></a>
+</div>
+<p>The serial console is the method preferred by the experts to manage the Raspberry Pi locally and it works out of the box with the pre-releases of the upcoming SLE-15-SP1 and Leap 15.1. But less advanced users will likely prefer to perform a graphical installation with a keyboard and a screen attached to the device. For it to work flawlessly, the following arguments must be provided to the installer during boot.</p>
+<pre><code>textmode=0 modprobe.blacklist=vc4</code></pre>
+<p>The second argument prevents the HDMI output to be disconnected shortly after the computer has booted, something that will only happen with some monitors. It happened to us during our testing (that you can see below) and that argument certainly made the problem disappear.</p>
+<div class="figure"><a href="//lizards.opensuse.org/wp-content/uploads/2018/12/49433714-ebf8f180-f7b2-11e8-9541-36e49113f2f2.jpg"><img src="//lizards.opensuse.org/wp-content/uploads/2018/12/49433714-ebf8f180-f7b2-11e8-9541-36e49113f2f2-208x300.jpg" alt="" width="208" height="300" class="aligncenter size-medium wp-image-13517" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/12/49433714-ebf8f180-f7b2-11e8-9541-36e49113f2f2-208x300.jpg 208w, https://lizards.opensuse.org/wp-content/uploads/2018/12/49433714-ebf8f180-f7b2-11e8-9541-36e49113f2f2-711x1024.jpg 711w, https://lizards.opensuse.org/wp-content/uploads/2018/12/49433714-ebf8f180-f7b2-11e8-9541-36e49113f2f2.jpg 720w" sizes="(max-width: 208px) 100vw, 208px" /></a>
+</div>
+<p>Just one final note if you want to play with this: Take into account Raspberry Pi uses a different internal architecture than usual PCs. So instead of the x86 image of the installer, you will need to use the aarch64 one. The aarch64 architecture is officially fully supported by SLE and also available for openSUSE Leap and Tumbleweed as an unofficial port.</p>
+          </div>
+
+          <p class="postmetadata">Tags: <a href="https://lizards.opensuse.org/tag/installation/" rel="tag">installation</a>, <a href="https://lizards.opensuse.org/tag/partitioner/" rel="tag">partitioner</a>, <a href="https://lizards.opensuse.org/tag/raspberry-pi/" rel="tag">Raspberry Pi</a>, <a href="https://lizards.opensuse.org/tag/udf/" rel="tag">udf</a><br /> Posted in <a href="https://lizards.opensuse.org/category/systems-management/yast/" rel="category tag">YaST</a> |   <a href="https://lizards.opensuse.org/2018/12/04/highlights-of-yast-development-sprint-68/#comments">1 Comment &#187;</a></p>
+
+        </div>
+
+            <div class="post-13484 post type-post status-publish format-standard hentry category-distribution category-factory category-miscellaneous category-programming category-software-management category-systems-management category-yast">
+          <h3 id="post-13484"><a href="https://lizards.opensuse.org/2018/11/20/yast-sprint-67/" rel="bookmark" title="Permanent Link to Highlights of YaST Development Sprint 67">Highlights of YaST Development Sprint 67</a></h3>
+          <small>November 20th, 2018 by <a href="https://lizards.opensuse.org/author/yast-team/" title="Posts by Yast Team" rel="author">Yast Team</a> </small>
+
+          <div class="share-links">
+	    <div class="share-link">
+              <a href="http://twitter.com/share" class="twitter-share-button"
+                data-url="https://lizards.opensuse.org/2018/11/20/yast-sprint-67/"
+                data-text="openSUSE News: Highlights of YaST Development Sprint 67"
+                data-count="horizontal"
+                data-hashtags="openSUSE"
+                data-via="openSUSE">Tweet</a>
+            </div>
+            <div class="share-link">
+              <iframe src="https//www.facebook.com/plugins/like.php?href=https%3A%2F%2Flizards.opensuse.org%2F2018%2F11%2F20%2Fyast-sprint-67%2F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+            </div>
+            <div class="clear"></div>
+          </div>
+
+          <div class="entry">
+            <p>Time flies and another development sprint has finished for the YaST team. During it we have focused on improving the installation process, refining it and adding new features to unleash new possibilities. That includes:</p>
+<ul>
+<li>More options to configure Kubic during installation.</li>
+<li>Several improvements in the storage proposal.</li>
+<li>Easing the network configuration and the usage of online repositories in openSUSE.</li>
+<li>Improving installation in text mode for CJK and other languages.</li>
+<li>Configuring SSH access during installation and in a running system.</li>
+<li>And many other small fixes here and there!</li>
+<p>Many of these features will be already available in openSUSE Tumbleweed during November (the sprint just finished November 16th and the integration process usually takes some days), others will be visible for the first time in the next SLE-15-SP1 and Leap 15.1 Alpha versions.</p>
+<h3>New Dialogs in the openSUSE Kubic Installation</h3>
+<p>The <a href="https://www.suse.com/products/caas-platform/">SUSE CaaSP</a> and the <a href="https://kubic.opensuse.org/">openSUSE Kubic</a> products got a new installation workflow some time ago. Originally they used a specific installation workflow (a single all-in-one configuration dialog), but the problem was that many openSUSE/SLE installation features were missing because the installer code was completely different.</p>
+<p>That has been changed some time ago to use the usual installation as in standard SLE or openSUSE products. You can read the details about the new installation workflow at the <a href="https://en.opensuse.org/Kubic:CaaSPInstallationComparision#Combined_Workflow">Kubic wiki page</a>.</p>
+<p>However, the CaaSP or Kubic products required some more specific settings depending on the  selected role. During this sprint we have added the corresponding steps to the installation.</p>
+<p><img src="//lizards.opensuse.org/wp-content/uploads/2018/11/kubic.gif" alt="New installation steps for openSUSE Kubic" /></p>
+<p>Currently the extra dialog only asks for the NTP server address, but some more options can be added later.</p>
+<h3>Improve Textmode Support for CJK and Other Languages</h3>
+<p>YaST is able to cope with many languages even when running in textmode. When a user wants to run the installer in textmode using some specific languages -like Chinese, Japanese or Korean-, YaST will use a special terminal emulator called <code>fbiterm</code> which is able to display the characters which are needed in those languages.</p>
+<p>Now, instead of keeping two different approaches depending on the language, YaST will try to use this special terminal emulator whenever is possible for all text based installations. Unfortunately, there is a small set of languages that are not properly handled by fbiterm. In those cases, YaST will inform the user about the problem and it will fall back to English.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2018/11/japanese.png"><img src="//lizards.opensuse.org/wp-content/uploads/2018/11/japanese-300x225.png" alt="YaST installing SLE-15-SP1 in Japanese" width="300" height="225" class="aligncenter size-medium wp-image-13487" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/11/japanese-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/11/japanese-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2018/11/japanese.png 800w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>As a side effect of this unification, the font used during the textmode installation has changed for all the languages that didn&#8217;t used <code>fbiterm</code> in the past. So your SUSE or openSUSE installation may now look slightly different.</p>
+<h3>Storage proposal: playing nicely with Intel Rapid Start Technology</h3>
+<p><a href="https://software.intel.com/en-us/articles/what-is-intel-rapid-start-technology">Intel Rapid Start Technology</a> (shorted as IRST) enables systems to quickly resume from deep sleep (e.g. if your battery runs out). It&#8217;s a firmware-driven technology that relies on the existence of a special partition located on a SSD (solid state device).</p>
+<p>But our partitioning proposal (the so-called Guided Setup) was not aware of the important role of such partition, so it sometimes proposed to delete it in order to use the freed space for installing (open)SUSE on top.</p>
+<p>We have improved that and now the IRST partition will only be deleted as a last resort, if deleting all other allowed partitions in the disk is still not enough to make the new system fit. Moreover, an IRST partition located in the same disk than a Windows system will only be deleted if the user explicitly allows the storage proposal to delete that Windows installation.</p>
+<h3>Running the storage proposal on top of software RAIDs and USB devices</h3>
+<p>But that&#8217;s not the only improvement done in the area of the partitioning guided setup. We have also broadened its usefulness by allowing it to be used on top of new kinds of devices.</p>
+<p>First of all, it&#8217;s now possible to execute the guided setup on top of a software MD RAID. For that, the candidate RAIDs has to fulfill one of two conditions: to contain a partition table or to be completely empty (which includes not being formatted, encrypted or used for any other purpose). That is not only another step to take advantage of the relatively recent capability of YaST to partition software RAIDs (thanks to <code>libstorage-ng</code>) but also a very natural way to support the usage of Dell EMC PowerEdge RAID controllers S130 and S140, which offer an hybrid solution based on software RAIDs but backed up by a firmware-driven configuration.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2018/11/md_raid.png"><img src="//lizards.opensuse.org/wp-content/uploads/2018/11/md_raid-300x208.png" alt="Partitioning proposal on top of a software MD RAID" width="300" height="208" class="aligncenter size-medium wp-image-13489" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/11/md_raid-300x208.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/11/md_raid-768x533.png 768w, https://lizards.opensuse.org/wp-content/uploads/2018/11/md_raid.png 803w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Almost for the same price, we decided that it was time to offer the available USB devices as candidates for the guided setup, even when there are also non-USB candidates. Excluding, of course, the installation media (except when performing a network-based installation, in that case the USB device can be reused to install the system).</p>
+<p>As usual, these features will be soon available in openSUSE Tumbleweed, as well as in the next stable versions of openSUSE Leap (15.1) and SUSE Linux Enterprise (SLE-15-SP1).</p>
+<h3>Fine-tuning the initial storage proposal</h3>
+<p>All the described changes open new possibilities for the users to decide where to execute the storage proposal. But as our users already know, when the installer reaches the storage proposal step for first time (before the user has had the chance to run the Guided Setup or the Expert Partitioner), an initial proposal is automatically calculated and displayed. This proposal is performed without user intervention, and all necessary information is taken from the control file of the current product. For example, whether to create a separate home, or whether to enable snapshots for root, etc.</p>
+<p><a href="https://lizards.opensuse.org/2018/11/07/highlights-of-yast-development-sprint-66/#partitioning-proposel-uses-a-single-disk" rel="nofollow">During the previous sprint</a>, this initial proposal was already improved to make an attempt over each individual disk instead of considering all disks together. Now we have improved this behavior to not discard the first disk so early, even if that means getting a smaller (open)SUSE system.</p>
+<p>For example, let&#8217;s image we have a system with a first small SSD disk of 40 GiB and a second big Hard Disk of 1 TiB, which is a relatively common configuration for laptops. Since the first disk is too small to allocate a system with the optimal partition sizes and a separate <code>/home</code> partition, the installer used to switch to the second disk, in which it could propose a root partition of the recommended size to use Btrfs snapshots (50 GiB) and a partition for <code>/home</code> bigger than the 40GiB specified as minimum for it in the product description.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2018/11/initial-old.png"><img src="//lizards.opensuse.org/wp-content/uploads/2018/11/initial-old-300x228.png" alt="Initial storage proposal before the latest change" width="300" height="228" class="aligncenter size-medium wp-image-13490" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/11/initial-old-300x228.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/11/initial-old.png 511w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Now, more attempts will be performed in the first disk before giving up and moving to the next one. So, when the proposal is not possible with the desired sizes and with all the optional devices enabled, it will try to disable some optional settings and to relax the size requirements (using the minimum sizes instead of the recommended ones). In the following screenshot you can see the result of this adjusted initial proposal.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2018/11/initial-new.png"><img src="//lizards.opensuse.org/wp-content/uploads/2018/11/initial-new-300x222.png" alt="Initial storage proposal after the latest change" width="300" height="222" class="aligncenter size-medium wp-image-13491" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/11/initial-new-300x222.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/11/initial-new.png 508w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3>Tumbleweed: Add Online Repositories during Installation</h3>
+<p>We added a step in the installation workflow to enable online repositories. This means you can now get the latest packages installed immediately during installation instead of installing older versions from the installation media first and later updating them to the latest versions from the openSUSE servers.</p>
+<p>Also, because of disk space limitations, the installation media don&#8217;t contain all the packages that openSUSE provides and thus not all <i>system roles</i>; some of the less frequently used desktops, for example, had not been available in the <i>role selection</i> (formerly <em>desktop selection</em>) dialog. With online repositories, they are now available immediately during installation.</p>
+<p>For details, see the corresponding <a href="https://github.com/yast/yast-packager/pull/385">pull request</a>.</p>
+<h3>Choosing the network backend</h3>
+<p>And more changes to the installer you will be able to enjoy very soon in openSUSE Tumbleweed and also in the upcoming openSUSE Leap 15.1. Now it&#8217;s possible to choose the network backend, <i>wicked</i> or NetworkManager, to be used in the final installed system from the Network proposal.</p>
+<p>As easy as a click on a hyperlink, as you can see in the images below.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2018/11/using-wicked.png"><img src="//lizards.opensuse.org/wp-content/uploads/2018/11/using-wicked-300x169.png" alt="New shortcut to change the network backend" width="300" height="169" class="aligncenter size-medium wp-image-13496" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/11/using-wicked-300x169.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/11/using-wicked.png 555w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3>Managing SSH public keys</h3>
+<p>When you want to access to a system via SSH, it is a good practice to use public key based authentication instead of the common password-based approach. For that reason, we have added support to handle authorized SSH public keys in the <em>user and group management module</em>, also known as the <em>users module</em>.</p>
+<p><img src="//lizards.opensuse.org/wp-content/uploads/2018/11/ssh-keys.gif" alt="Configuring SSH in yast2-users" /></p>
+<p>Additionally, you will be able to set up a public key for the root user at installation time, something that can be especially handy for products like the SUSE CaaS Platform.</p>
+<h3>And it keeps moving!</h3>
+<p>The YaST crew keeps working hard on fixing bugs and, specially, on building new features for everybody to enjoy in the upcoming versions of all the products of the SLE and openSUSE families. So, as much as we would like to keep talking to you all about all the improvements&#8230; it&#8217;s time to go back to coding! See you again in two weeks with a new report.</p>
+          </div>
+
+          <p class="postmetadata"> Posted in <a href="https://lizards.opensuse.org/category/distribution/" rel="category tag">Distribution</a>, <a href="https://lizards.opensuse.org/category/distribution/factory/" rel="category tag">Factory</a>, <a href="https://lizards.opensuse.org/category/miscellaneous/" rel="category tag">Miscellaneous</a>, <a href="https://lizards.opensuse.org/category/programming/" rel="category tag">Programming</a>, <a href="https://lizards.opensuse.org/category/systems-management/software-management/" rel="category tag">Software Management</a>, <a href="https://lizards.opensuse.org/category/systems-management/" rel="category tag">Systems Management</a>, <a href="https://lizards.opensuse.org/category/systems-management/yast/" rel="category tag">YaST</a> |   <a href="https://lizards.opensuse.org/2018/11/20/yast-sprint-67/#comments">4 Comments &#187;</a></p>
+
+        </div>
+
+      
+      <div class="navigation page-navigation">
+        <div class="alignleft"><a href="https://lizards.opensuse.org/category/systems-management/page/4/" >&laquo; Older Entries</a></div>
+        <div class="alignright"><a href="https://lizards.opensuse.org/category/systems-management/page/2/" >Newer Entries &raquo;</a></div>
+      </div>
+      </div>
+
+    
+<div class="grid_4 omega aside">
+  <!-- <div class="box box-shadow"> -->
+    <ul>
+      <li id="text-3" class="widget box box-shadow widget_text"><h3 class="box-subheader">Advertisement</h3>			<div class="textwidget"><center><a href="http://counter.opensuse.org/link/" alt="counter" title="Get it!"><img src="//counter.opensuse.org/small"></a></center></div>
+		</li><li id="tag_cloud-3" class="widget box box-shadow widget_tag_cloud"><h3 class="box-subheader">Tags</h3><div class="tagcloud"><a href='https://lizards.opensuse.org/tag/11-3/' class='tag-link-380 tag-link-position-1' title='15 topics' style='font-size: 12.579439252336pt;'>11.3</a>
+<a href='https://lizards.opensuse.org/tag/11-4/' class='tag-link-414 tag-link-position-2' title='48 topics' style='font-size: 18.990654205607pt;'>11.4</a>
+<a href='https://lizards.opensuse.org/tag/12-1/' class='tag-link-482 tag-link-position-3' title='35 topics' style='font-size: 17.289719626168pt;'>12.1</a>
+<a href='https://lizards.opensuse.org/tag/12-2/' class='tag-link-549 tag-link-position-4' title='26 topics' style='font-size: 15.588785046729pt;'>12.2</a>
+<a href='https://lizards.opensuse.org/tag/12-3/' class='tag-link-559 tag-link-position-5' title='23 topics' style='font-size: 14.934579439252pt;'>12.3</a>
+<a href='https://lizards.opensuse.org/tag/13-1/' class='tag-link-570 tag-link-position-6' title='21 topics' style='font-size: 14.411214953271pt;'>13.1</a>
+<a href='https://lizards.opensuse.org/tag/13-2/' class='tag-link-632 tag-link-position-7' title='11 topics' style='font-size: 11.009345794393pt;'>13.2</a>
+<a href='https://lizards.opensuse.org/tag/amd/' class='tag-link-434 tag-link-position-8' title='48 topics' style='font-size: 18.990654205607pt;'>amd</a>
+<a href='https://lizards.opensuse.org/tag/arm/' class='tag-link-279 tag-link-position-9' title='17 topics' style='font-size: 13.364485981308pt;'>ARM</a>
+<a href='https://lizards.opensuse.org/tag/ati/' class='tag-link-384 tag-link-position-10' title='45 topics' style='font-size: 18.598130841121pt;'>ATI</a>
+<a href='https://lizards.opensuse.org/tag/beta/' class='tag-link-343 tag-link-position-11' title='8 topics' style='font-size: 9.3084112149533pt;'>Beta</a>
+<a href='https://lizards.opensuse.org/tag/buildservice/' class='tag-link-45 tag-link-position-12' title='6 topics' style='font-size: 8pt;'>buildservice</a>
+<a href='https://lizards.opensuse.org/tag/build-service/' class='tag-link-728 tag-link-position-13' title='13 topics' style='font-size: 11.92523364486pt;'>Build Service</a>
+<a href='https://lizards.opensuse.org/tag/c-language/' class='tag-link-575 tag-link-position-14' title='8 topics' style='font-size: 9.3084112149533pt;'>C-Language</a>
+<a href='https://lizards.opensuse.org/tag/cloud/' class='tag-link-584 tag-link-position-15' title='10 topics' style='font-size: 10.485981308411pt;'>cloud</a>
+<a href='https://lizards.opensuse.org/tag/collaboration/' class='tag-link-59 tag-link-position-16' title='7 topics' style='font-size: 8.6542056074766pt;'>Collaboration</a>
+<a href='https://lizards.opensuse.org/tag/community/' class='tag-link-173 tag-link-position-17' title='31 topics' style='font-size: 16.635514018692pt;'>Community</a>
+<a href='https://lizards.opensuse.org/tag/conference/' class='tag-link-355 tag-link-position-18' title='10 topics' style='font-size: 10.485981308411pt;'>conference</a>
+<a href='https://lizards.opensuse.org/tag/education/' class='tag-link-744 tag-link-position-19' title='18 topics' style='font-size: 13.626168224299pt;'>Education</a>
+<a href='https://lizards.opensuse.org/tag/event/' class='tag-link-37 tag-link-position-20' title='7 topics' style='font-size: 8.6542056074766pt;'>event</a>
+<a href='https://lizards.opensuse.org/tag/events/' class='tag-link-731 tag-link-position-21' title='9 topics' style='font-size: 9.9626168224299pt;'>Events</a>
+<a href='https://lizards.opensuse.org/tag/factory/' class='tag-link-745 tag-link-position-22' title='14 topics' style='font-size: 12.317757009346pt;'>Factory</a>
+<a href='https://lizards.opensuse.org/tag/fglrx/' class='tag-link-385 tag-link-position-23' title='42 topics' style='font-size: 18.205607476636pt;'>fglrx</a>
+<a href='https://lizards.opensuse.org/tag/fun/' class='tag-link-200 tag-link-position-24' title='14 topics' style='font-size: 12.317757009346pt;'>fun</a>
+<a href='https://lizards.opensuse.org/tag/gnome/' class='tag-link-723 tag-link-position-25' title='13 topics' style='font-size: 11.92523364486pt;'>GNOME</a>
+<a href='https://lizards.opensuse.org/tag/gsoc/' class='tag-link-261 tag-link-position-26' title='11 topics' style='font-size: 11.009345794393pt;'>gsoc</a>
+<a href='https://lizards.opensuse.org/tag/hackweek/' class='tag-link-741 tag-link-position-27' title='9 topics' style='font-size: 9.9626168224299pt;'>Hackweek</a>
+<a href='https://lizards.opensuse.org/tag/kde/' class='tag-link-722 tag-link-position-28' title='24 topics' style='font-size: 15.196261682243pt;'>KDE</a>
+<a href='https://lizards.opensuse.org/tag/kernel/' class='tag-link-727 tag-link-position-29' title='49 topics' style='font-size: 19.121495327103pt;'>Kernel</a>
+<a href='https://lizards.opensuse.org/tag/kraft/' class='tag-link-247 tag-link-position-30' title='8 topics' style='font-size: 9.3084112149533pt;'>Kraft</a>
+<a href='https://lizards.opensuse.org/tag/linux/' class='tag-link-362 tag-link-position-31' title='16 topics' style='font-size: 12.971962616822pt;'>Linux</a>
+<a href='https://lizards.opensuse.org/tag/lxde/' class='tag-link-287 tag-link-position-32' title='12 topics' style='font-size: 11.401869158879pt;'>LXDE</a>
+<a href='https://lizards.opensuse.org/tag/obs/' class='tag-link-218 tag-link-position-33' title='10 topics' style='font-size: 10.485981308411pt;'>obs</a>
+<a href='https://lizards.opensuse.org/tag/opensuse/' class='tag-link-38 tag-link-position-34' title='83 topics' style='font-size: 22pt;'>openSUSE</a>
+<a href='https://lizards.opensuse.org/tag/package/' class='tag-link-58 tag-link-position-35' title='7 topics' style='font-size: 8.6542056074766pt;'>Package</a>
+<a href='https://lizards.opensuse.org/tag/postgresql/' class='tag-link-367 tag-link-position-36' title='7 topics' style='font-size: 8.6542056074766pt;'>PostgreSQL</a>
+<a href='https://lizards.opensuse.org/tag/radeon/' class='tag-link-464 tag-link-position-37' title='10 topics' style='font-size: 10.485981308411pt;'>radeon</a>
+<a href='https://lizards.opensuse.org/tag/raspberry/' class='tag-link-565 tag-link-position-38' title='11 topics' style='font-size: 11.009345794393pt;'>raspberry</a>
+<a href='https://lizards.opensuse.org/tag/raspberry-pi/' class='tag-link-679 tag-link-position-39' title='9 topics' style='font-size: 9.9626168224299pt;'>Raspberry Pi</a>
+<a href='https://lizards.opensuse.org/tag/rpm/' class='tag-link-269 tag-link-position-40' title='13 topics' style='font-size: 11.92523364486pt;'>rpm</a>
+<a href='https://lizards.opensuse.org/tag/ruby/' class='tag-link-381 tag-link-position-41' title='7 topics' style='font-size: 8.6542056074766pt;'>Ruby</a>
+<a href='https://lizards.opensuse.org/tag/tumbleweed/' class='tag-link-616 tag-link-position-42' title='14 topics' style='font-size: 12.317757009346pt;'>Tumbleweed</a>
+<a href='https://lizards.opensuse.org/tag/xml/' class='tag-link-69 tag-link-position-43' title='8 topics' style='font-size: 9.3084112149533pt;'>XML</a>
+<a href='https://lizards.opensuse.org/tag/xorg-2/' class='tag-link-444 tag-link-position-44' title='31 topics' style='font-size: 16.635514018692pt;'>xorg</a>
+<a href='https://lizards.opensuse.org/tag/yast/' class='tag-link-725 tag-link-position-45' title='14 topics' style='font-size: 12.317757009346pt;'>YaST</a></div>
+</li>		<li id="authors-2" class="widget box box-shadow widget_authors">			<h3 class="box-subheader">Lizards</h3>			<ul><li><img alt='' src='https://secure.gravatar.com/avatar/665cc4ce5b7e7735c418a6bf857227d0?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/665cc4ce5b7e7735c418a6bf857227d0?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/adriansuse/" title="Posts by Adrian Schröter">Adrian Schröter</a> (12)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/6b405d89e8a498ae6a52f60246bb1cb3?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/6b405d89e8a498ae6a52f60246bb1cb3?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/dj_ubun_1/" title="Posts by Agustin Chavarria">Agustin Chavarria</a> (6)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/de70b01367308284c7fffa046b2faf16?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/de70b01367308284c7fffa046b2faf16?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/cabelo/" title="Posts by Alessandro de Oliveira Faria">Alessandro de Oliveira Faria</a> (13)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/9c20c306e84e644f7437fbea954c56c0?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/9c20c306e84e644f7437fbea954c56c0?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/alexbariv/" title="Posts by Alex Barrios">Alex Barrios</a> (12)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/cbae0a6b288a060e2f4f83897dbc62f5?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/cbae0a6b288a060e2f4f83897dbc62f5?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/alexander_naumov/" title="Posts by Alexander Naumov">Alexander Naumov</a> (10)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/c04c73736241252ce1748dcb0b4af496?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/c04c73736241252ce1748dcb0b4af496?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/aorlovskyy/" title="Posts by Alexander Orlovskyy">Alexander Orlovskyy</a> (3)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/1091099af3cd8b684eaba8124c063c45?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/1091099af3cd8b684eaba8124c063c45?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/ealin/" title="Posts by Alin M Elena">Alin M Elena</a> (5)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/12b8b4d0de48863920df21b576b12e89?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/12b8b4d0de48863920df21b576b12e89?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/anubisg1/" title="Posts by Andrea Florio">Andrea Florio</a> (27)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/f15a600d57849d9dc3e0d23539212583?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/f15a600d57849d9dc3e0d23539212583?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/a_jaeger/" title="Posts by Andreas Jaeger">Andreas Jaeger</a> (70)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/60bbc6f441037a434cad33eca68f2bd8?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/60bbc6f441037a434cad33eca68f2bd8?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/andreasstieger/" title="Posts by AndreasStieger">Andreas Stieger</a> (12)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/0c18cf5651bb5ad3c8c6cd10467be536?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/0c18cf5651bb5ad3c8c6cd10467be536?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/funkypenguin/" title="Posts by Andrew Wafaa">Andrew Wafaa</a> (31)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/17c5d6b91957787db64c3d65c9a9b234?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/17c5d6b91957787db64c3d65c9a9b234?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/aschnell/" title="Posts by Arvin Schnell">Arvin Schnell</a> (9)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/33b7ed7d1a68409cffbb4fce216c410c?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/33b7ed7d1a68409cffbb4fce216c410c?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/badshah400/" title="Posts by badshah400">Atri Bhattacharya</a> (3)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/c57258b3faac137a43ddcc63deb22517?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/c57258b3faac137a43ddcc63deb22517?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/bmwiedemann/" title="Posts by bmwiedemann">Bernhard Wiedemann</a> (31)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/3081cb247a705dcb3c912cce12ccb986?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/3081cb247a705dcb3c912cce12ccb986?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/kurniawan-007/" title="Posts by Bonnie Kurniawan">Bonnie Kurniawan</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/482b6c0369f4709de8faa6843cd6b347?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/482b6c0369f4709de8faa6843cd6b347?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/bruno_friedmann/" title="Posts by Bruno Friedmann">Bruno Friedmann</a> (98)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/83f40d98130b1fd3a741b9f01b2f76b1?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/83f40d98130b1fd3a741b9f01b2f76b1?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/calumma/" title="Posts by calumma">Calumma Brevicorne</a> (29)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/5fb81daf243732ab579b45f3bb261041?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/5fb81daf243732ab579b45f3bb261041?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/caf4926/" title="Posts by Carl Fletcher">Carl Fletcher</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/5f12ccab9a5217492279b93dc338f8a3?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/5f12ccab9a5217492279b93dc338f8a3?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/hobbsc/" title="Posts by Christopher Hobbs">Christopher Hobbs</a> (17)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/7a36aa34f42120643cfd761f32ddceca?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/7a36aa34f42120643cfd761f32ddceca?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/babelworx/" title="Posts by Ciaran Farrell">Ciaran Farrell</a> (3)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/e4e8389140088920840a562d3ea05469?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/e4e8389140088920840a562d3ea05469?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/coolo/" title="Posts by coolo">Stephan Kulow</a> (17)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/9195974d6d0f1b8fd7b702dd81618406?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/9195974d6d0f1b8fd7b702dd81618406?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/ganglia/" title="Posts by Craig Gardner">craig gardner</a> (2)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/50a30bb897b32f99e982ea3b2088fa6a?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/50a30bb897b32f99e982ea3b2088fa6a?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/cyberiad/" title="Posts by cyberiad">Stephan Barth</a> (2)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/ced20b885a7272cd73a486554652cefc?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/ced20b885a7272cd73a486554652cefc?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/digitaltomm/" title="Posts by digitaltomm">Thomas Schmidt</a> (2)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/33bbe84eb985eabfa2c8ca16b411ac4d?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/33bbe84eb985eabfa2c8ca16b411ac4d?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/k0da/" title="Posts by Dinar Valeev">Dinar Valeev</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/c13f6726c52ab070fa80fa59a08f5c7c?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/c13f6726c52ab070fa80fa59a08f5c7c?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/dirkmueller/" title="Posts by Dirk Müller">Dirk Mueller</a> (2)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/cf1abc404bab4754fa7a15627fe1a3e0?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/cf1abc404bab4754fa7a15627fe1a3e0?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/dmitry_serpokryl/" title="Posts by Dmitry Serpokryl">Dmitry Serpokryl</a> (7)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/a8e5a97bc15dee2a2c3c8fa74fc2d27d?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/a8e5a97bc15dee2a2c3c8fa74fc2d27d?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/diamond_gr/" title="Posts by Efstathios Iosifidis">Efstathios Iosifidis</a> (21)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/ba9a8bde051ca69ad1d24b565d907482?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/ba9a8bde051ca69ad1d24b565d907482?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/fabiomux/" title="Posts by FabioMux">Fabio Mucciante</a> (5)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/3feb252147c4c69e4de152006c0b3fce?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/3feb252147c4c69e4de152006c0b3fce?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/flucifredi/" title="Posts by Federico Lucifredi">Federico Lucifredi</a> (9)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/25bbc96d9c53647354cb724e744b2222?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/25bbc96d9c53647354cb724e744b2222?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/gregfreemyer/" title="Posts by Greg Freemyer">Greg Freemyer</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/31e251b53e7c41d1fd130ae3809c0092?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/31e251b53e7c41d1fd130ae3809c0092?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/holgisms/" title="Posts by Holgi">Holger Sickenberg</a> (2)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/26505b78e4a5b312c389b578093f6fa6?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/26505b78e4a5b312c389b578093f6fa6?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/wiederda/" title="Posts by Hubert Mantel">Hubert Mantel</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/a04dfb1adae5db8df437ae769c263ca7?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/a04dfb1adae5db8df437ae769c263ca7?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/ansus/" title="Posts by Ilya Chernykh">Ilya Chernykh</a> (5)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/ae3a82716dc7b3f4b8ef9b7508d80c5e?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/ae3a82716dc7b3f4b8ef9b7508d80c5e?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/namtrac/" title="Posts by Ismail Donmez">Ismail Donmez</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/cafe9fb55db0cc3f1f68a327ba1d9eee?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/cafe9fb55db0cc3f1f68a327ba1d9eee?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/jdsn/" title="Posts by J. Daniel Schmidt">J. Daniel Schmidt</a> (2)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/d79616993dab466bee3456e8ac46bfee?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/d79616993dab466bee3456e8ac46bfee?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/jasujt/" title="Posts by James Tremblay">James Tremblay</a> (7)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/c6ce61b8d0a3569ef85184dda1570590?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/c6ce61b8d0a3569ef85184dda1570590?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/janblunck/" title="Posts by Jan Blunck">Jan Blunck</a> (4)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/175c7154a5704e340a373531fa9d342f?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/175c7154a5704e340a373531fa9d342f?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/jloeser/" title="Posts by Jan Loeser">Jan Loeser</a> (3)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/9eb4acd92a9546fbb0b0a269e08cf810?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/9eb4acd92a9546fbb0b0a269e08cf810?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/jan-portugal/" title="Posts by Jan Madsen">Jan Madsen</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/9dbacbc8f5a66d9a6f99c828312bf910?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/9dbacbc8f5a66d9a6f99c828312bf910?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/helcaraxe/" title="Posts by Jan-Christoph Bornschlegel">Jan-Christoph Bornschlegel</a> (3)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/a73d94bc71ab9211ed8a31e3ede4fbfe?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/a73d94bc71ab9211ed8a31e3ede4fbfe?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/dl9pf/" title="Posts by Jan-Simon Möller">Jan-Simon Möller</a> (20)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/8b42838e6dccf7eb90a8ba362e7de858?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/8b42838e6dccf7eb90a8ba362e7de858?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/javierllorente/" title="Posts by Javier Llorente">Javier Llorente</a> (12)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/8b6e7e1e33323b1499e01776ea5ce307?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/8b6e7e1e33323b1499e01776ea5ce307?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/cyberorg/" title="Posts by Jigish Gohil">Jigish Gohil</a> (85)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/c94eecfd9b7519aa4e106164c71938db?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/c94eecfd9b7519aa4e106164c71938db?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/jsrain/" title="Posts by Jiri Srain">Jiri Srain</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/248d14d0cc663817e9ea2e5d3915d81d?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/248d14d0cc663817e9ea2e5d3915d81d?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/jsuchome/" title="Posts by Jiří Suchomel">Jiří Suchomel</a> (3)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/abd6ad5514475b1ebfa926808c403ad1?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/abd6ad5514475b1ebfa926808c403ad1?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/gogga/" title="Posts by Johan Kotze">Johan Kotze</a> (5)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/20896f1aedb65d7bec41c256479a8c51?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/20896f1aedb65d7bec41c256479a8c51?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/jaom7/" title="Posts by José Oramas M.">José Oramas M.</a> (6)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/5d601001fada5a97a0c12f3914a23056?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/5d601001fada5a97a0c12f3914a23056?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/jreidinger/" title="Posts by Josef Reidinger">Josef Reidinger</a> (16)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/c0b2bd9e77ad555fd152d1f1e6ba941c?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/c0b2bd9e77ad555fd152d1f1e6ba941c?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/jnweiger/" title="Posts by Juergen Weigert">Juergen Weigert</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/6741359d1ed61956c5a97b0abcb38ac2?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/6741359d1ed61956c5a97b0abcb38ac2?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/ungaman/" title="Posts by Julio Vannini">Julio Vannini</a> (9)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/e99d62a139171d890638196c4f4a1454?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/e99d62a139171d890638196c4f4a1454?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/eri_zaq/" title="Posts by k0da">Dinar Valeev</a> (5)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/35442b494f156dc790d0991e4f6b3a60?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/35442b494f156dc790d0991e4f6b3a60?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/kdupuy9/" title="Posts by Kevin Yeaux">Kevin "Yeaux" Dupuy</a> (11)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/f1370548d8ba45fc5601d5398f443e2a?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/f1370548d8ba45fc5601d5398f443e2a?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/kfreitag/" title="Posts by Klaas Freitag">Klaas Freitag</a> (55)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/c1a90587ddfde63b222f10157a11b950?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/c1a90587ddfde63b222f10157a11b950?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/lrupp/" title="Posts by kl_eisbaer">Lars Vogdt</a> (11)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/8b6214136e12dcaf922fc54797c42758?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/8b6214136e12dcaf922fc54797c42758?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/lnussel/" title="Posts by lnussel">Ludwig Nussel</a> (13)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/9b1772f92b6518e084164c28075868dc?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/9b1772f92b6518e084164c28075868dc?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/medwin/" title="Posts by M. Edwin Zakaria">M. Edwin Zakaria</a> (4)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/8f947802c8278f7de589d948d49d1c97?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/8f947802c8278f7de589d948d49d1c97?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/marcus_h/" title="Posts by Marcus Hüwe">Marcus Hüwe</a> (39)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/c48e3c23b2f532518ecc31a60bea2ab8?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/c48e3c23b2f532518ecc31a60bea2ab8?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/msmeissn/" title="Posts by Marcus Meissner">Marcus Meissner</a> (2)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/0165e588414858c88d99b90227280b1f?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/0165e588414858c88d99b90227280b1f?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/marcusmoeller/" title="Posts by Marcus Moeller">Marcus Moeller</a> (3)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/5f320b472b5d1c5ca6e446953cb3d371?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/5f320b472b5d1c5ca6e446953cb3d371?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/sax2/" title="Posts by Marcus Schaefer">Marcus Schaefer</a> (4)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/ecd8f651819469eaf51b8b530255f341?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/ecd8f651819469eaf51b8b530255f341?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/mlasars/" title="Posts by Martin Lasarsch">Martin Lasarsch</a> (8)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/ab07ba0fd8f0c45b93e0bdbacc3ef144?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/ab07ba0fd8f0c45b93e0bdbacc3ef144?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/martinmohring/" title="Posts by Martin Mohring">Martin Mohring</a> (11)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/9619e4fc93c7d6573592b1cd384fa56a?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/9619e4fc93c7d6573592b1cd384fa56a?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/vavai/" title="Posts by Masim &quot;Vavai&quot; Sugianto">Masim "Vavai" Sugianto</a> (20)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/2b5e9d0fd12ae21bdb7938b6f1203bbe?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/2b5e9d0fd12ae21bdb7938b6f1203bbe?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/mlandres/" title="Posts by Michael Andres">Michael Andres</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/7db9f4f49d947c634b116b5b22d0d11d?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/7db9f4f49d947c634b116b5b22d0d11d?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/michl19/" title="Posts by Michael Löffler">Michael Löffler</a> (7)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/c6829cd04b1947a249504274a3b8954f?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/c6829cd04b1947a249504274a3b8954f?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/michal-m/" title="Posts by Michal Marek">Michal Marek</a> (7)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/43f1417e56acda517176e140478ce3d6?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/43f1417e56acda517176e140478ce3d6?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/mvyskocil/" title="Posts by Michal Vyskocil">Michal Vyskocil</a> (12)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/4f67ab763c02707130c404ff6bc35bc0?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/4f67ab763c02707130c404ff6bc35bc0?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/migbarajas/" title="Posts by Miguel Angel Barajas Hernandez">Miguel Angel Barajas Hernandez</a> (2)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/615628ff1f2a270d7b809f9be6d739bd?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/615628ff1f2a270d7b809f9be6d739bd?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/mrdocs/" title="Posts by mrdocs">P Linnell</a> (2)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/d83ba9917b5c73d8ea6dc40e13828a2a?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/d83ba9917b5c73d8ea6dc40e13828a2a?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/ketheriel/" title="Posts by Nelson Marques">Nelson Marques</a> (55)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/a32b7ad8f73e716dd50c6bc60739b9e9?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/a32b7ad8f73e716dd50c6bc60739b9e9?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/holden87/" title="Posts by Nenad Latinović">Nenad Latinović</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/24d359e8a9d8c616e55d7f4f348c6f1c?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/24d359e8a9d8c616e55d7f4f348c6f1c?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/nikanth/" title="Posts by Nikanth Karthikesan">Nikanth Karthikesan</a> (2)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/e40965a7525443a26b593b324a1648a5?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/e40965a7525443a26b593b324a1648a5?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/pbojczuk/" title="Posts by pbojczuk">Przemyslaw Bojczuk</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/0f4da55be111d6640f56f3b5166b64b0?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/0f4da55be111d6640f56f3b5166b64b0?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/poeml/" title="Posts by Peter Pöml">Peter Pöml</a> (4)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/b8cea958d8c775ca07fcda50d027bcbe?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/b8cea958d8c775ca07fcda50d027bcbe?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/pgajdos/" title="Posts by Petr Gajdos">Petr Gajdos</a> (2)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/bd71ffa5ce4ce3c4a1802c6aa0d9ca37?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/bd71ffa5ce4ce3c4a1802c6aa0d9ca37?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/pmladek/" title="Posts by Petr Mladek">Petr Mladek</a> (60)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/b38a833149d2d81ac3ce73dc868f20f6?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/b38a833149d2d81ac3ce73dc868f20f6?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/puzel/" title="Posts by Petr Uzel">Petr Uzel</a> (5)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/9c79fcaede7330f7e30d200100df9194?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/9c79fcaede7330f7e30d200100df9194?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/rawang/" title="Posts by Ray Wang">Ray Wang</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/0f2a44ee48448ded558b90d55ed52b28?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/0f2a44ee48448ded558b90d55ed52b28?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/rwooninck/" title="Posts by Raymond Wooninck">Raymond Wooninck</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/1df0fbf4b7fb2b10e93b8d84795a6b4a?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/1df0fbf4b7fb2b10e93b8d84795a6b4a?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/amonthoth/" title="Posts by Ricardo Chung">Ricardo Chung</a> (7)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/fdd7251cf3e8f4d193e4f7f59238303a?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/fdd7251cf3e8f4d193e4f7f59238303a?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/ricardovarassantana/" title="Posts by Ricardo Varas Santana">Ricardo Varas Santana</a> (7)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/c0cff57a7e00b3ad4107e5627460b153?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/c0cff57a7e00b3ad4107e5627460b153?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/rbos/" title="Posts by Richard Bos">Richard Bos</a> (11)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/ed5b1491aa79201a8eaf93bf57193584?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/ed5b1491aa79201a8eaf93bf57193584?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/rjschwei/" title="Posts by rjschwei">Robert Schweikert</a> (16)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/6c9af0fa89f64b30eb228ee80c30595b?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/6c9af0fa89f64b30eb228ee80c30595b?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/g0nz0/" title="Posts by Rossana Motta">Rossana Motta</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/abcd749a57b47babab9ac7c8e35ae13a?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/abcd749a57b47babab9ac7c8e35ae13a?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/rhorstkoetter/" title="Posts by Rupert Horstkötter">Rupert Horstkötter</a> (10)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/9d46eeed4de01dd50e3fd70bd660969b?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/9d46eeed4de01dd50e3fd70bd660969b?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/saigkill/" title="Posts by Sascha Manns">Sascha Manns</a> (66)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/4da4097a3ca6d06d5c5c2423c257e7c5?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/4da4097a3ca6d06d5c5c2423c257e7c5?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/idulk/" title="Posts by Saydul Akram">saydul akram</a> (3)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/25f795db5466abdabad1ff5ead7c152d?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/25f795db5466abdabad1ff5ead7c152d?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/freespacer/" title="Posts by Sebastian Siebert">Sebastian Siebert</a> (6)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/102a74f8297a2c355f7d00e833a0d942?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/102a74f8297a2c355f7d00e833a0d942?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/sfalken/" title="Posts by sfalken">Shawn Dunn</a> (2)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/b75fc92bf436b8b99b404093eb5959e6?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/b75fc92bf436b8b99b404093eb5959e6?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/visnov/" title="Posts by Stanislav Visnovsky">Stanislav Visnovsky</a> (7)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/da5a74c3532da395c68bca5982852e81?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/da5a74c3532da395c68bca5982852e81?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/haass/" title="Posts by Stefan Haas">Stefan Haas</a> (1)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/be695f4500ece3e8a9acc31270099de1?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/be695f4500ece3e8a9acc31270099de1?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/sh-sh-sh/" title="Posts by Stefan Hundhammer">Stefan Hundhammer</a> (5)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/922d00b5cf8398f512c781a792598d23?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/922d00b5cf8398f512c781a792598d23?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/schubi2/" title="Posts by Stefan Schubert">Stefan Schubert</a> (7)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/8b5badfd72c932cf36698242b1610836?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/8b5badfd72c932cf36698242b1610836?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/snwint/" title="Posts by Steffen Winterfeldt">Steffen Winterfeldt</a> (8)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/ff345c5a6b06ad0889db1f1ff52a6489?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/ff345c5a6b06ad0889db1f1ff52a6489?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/sjayaraman/" title="Posts by Suresh Jayaraman">Suresh Jayaraman</a> (3)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/713186a58c872c6bdfd2888469037921?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/713186a58c872c6bdfd2888469037921?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/froh/" title="Posts by Susanne Oberhauser">Susanne Oberhauser</a> (3)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/ab332ba11182affd7a59e701ac43e622?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/ab332ba11182affd7a59e701ac43e622?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/tgoettlicher/" title="Posts by Thomas Göttlicher">Thomas Göttlicher</a> (6)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/a2ab55809fc9fc1cde1c4a519e283ef8?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/a2ab55809fc9fc1cde1c4a519e283ef8?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/thomas-schraitle/" title="Posts by Thomas Schraitle">Thomas Schraitle</a> (26)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/926aae47e9d1677af3799a66f39f330d?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/926aae47e9d1677af3799a66f39f330d?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/toganm/" title="Posts by Togan Muftuoglu">Togan Muftuoglu</a> (3)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/8389419eead797f59285b4da04d33e3d?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/8389419eead797f59285b4da04d33e3d?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/illuusio/" title="Posts by Tuukka Pasanen">Tuukka Pasanen</a> (36)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/ae5863e449a99ef82a76b2778262c9d7?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/ae5863e449a99ef82a76b2778262c9d7?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/wstephenson/" title="Posts by Will Stephenson">Will Stephenson</a> (22)</li>
+<li><img alt='' src='https://secure.gravatar.com/avatar/9353200822a6476865b2f294680f17ce?s=32&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/9353200822a6476865b2f294680f17ce?s=64&amp;d=mm&amp;r=g 2x' class='avatar avatar-32 photo' height='32' width='32' /><a href="https://lizards.opensuse.org/author/yast-team/" title="Posts by Yast Team">YaST Team</a> (90)</li>
+</ul>					</li>	<li id="archives-4" class="widget box box-shadow widget_archive"><h3 class="box-subheader">Archives</h3>		<ul>
+			<li><a href='https://lizards.opensuse.org/2020/03/'>March 2020</a>&nbsp;(1)</li>
+	<li><a href='https://lizards.opensuse.org/2020/02/'>February 2020</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2020/01/'>January 2020</a>&nbsp;(1)</li>
+	<li><a href='https://lizards.opensuse.org/2019/12/'>December 2019</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2019/11/'>November 2019</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2019/10/'>October 2019</a>&nbsp;(4)</li>
+	<li><a href='https://lizards.opensuse.org/2019/09/'>September 2019</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2019/08/'>August 2019</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2019/07/'>July 2019</a>&nbsp;(4)</li>
+	<li><a href='https://lizards.opensuse.org/2019/06/'>June 2019</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2019/04/'>April 2019</a>&nbsp;(4)</li>
+	<li><a href='https://lizards.opensuse.org/2019/03/'>March 2019</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2019/02/'>February 2019</a>&nbsp;(5)</li>
+	<li><a href='https://lizards.opensuse.org/2019/01/'>January 2019</a>&nbsp;(1)</li>
+	<li><a href='https://lizards.opensuse.org/2018/12/'>December 2018</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2018/11/'>November 2018</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2018/10/'>October 2018</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2018/09/'>September 2018</a>&nbsp;(1)</li>
+	<li><a href='https://lizards.opensuse.org/2018/08/'>August 2018</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2018/07/'>July 2018</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2018/05/'>May 2018</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2018/04/'>April 2018</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2018/03/'>March 2018</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2018/02/'>February 2018</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2018/01/'>January 2018</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2017/12/'>December 2017</a>&nbsp;(1)</li>
+	<li><a href='https://lizards.opensuse.org/2017/11/'>November 2017</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2017/10/'>October 2017</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2017/09/'>September 2017</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2017/08/'>August 2017</a>&nbsp;(4)</li>
+	<li><a href='https://lizards.opensuse.org/2017/07/'>July 2017</a>&nbsp;(4)</li>
+	<li><a href='https://lizards.opensuse.org/2017/06/'>June 2017</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2017/05/'>May 2017</a>&nbsp;(4)</li>
+	<li><a href='https://lizards.opensuse.org/2017/04/'>April 2017</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2017/03/'>March 2017</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2017/02/'>February 2017</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2017/01/'>January 2017</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2016/12/'>December 2016</a>&nbsp;(5)</li>
+	<li><a href='https://lizards.opensuse.org/2016/11/'>November 2016</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2016/10/'>October 2016</a>&nbsp;(6)</li>
+	<li><a href='https://lizards.opensuse.org/2016/09/'>September 2016</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2016/08/'>August 2016</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2016/07/'>July 2016</a>&nbsp;(4)</li>
+	<li><a href='https://lizards.opensuse.org/2016/06/'>June 2016</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2016/05/'>May 2016</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2016/04/'>April 2016</a>&nbsp;(1)</li>
+	<li><a href='https://lizards.opensuse.org/2016/03/'>March 2016</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2016/02/'>February 2016</a>&nbsp;(4)</li>
+	<li><a href='https://lizards.opensuse.org/2016/01/'>January 2016</a>&nbsp;(4)</li>
+	<li><a href='https://lizards.opensuse.org/2015/12/'>December 2015</a>&nbsp;(6)</li>
+	<li><a href='https://lizards.opensuse.org/2015/11/'>November 2015</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2015/10/'>October 2015</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2015/09/'>September 2015</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2015/08/'>August 2015</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2015/07/'>July 2015</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2015/06/'>June 2015</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2015/05/'>May 2015</a>&nbsp;(12)</li>
+	<li><a href='https://lizards.opensuse.org/2015/04/'>April 2015</a>&nbsp;(7)</li>
+	<li><a href='https://lizards.opensuse.org/2015/03/'>March 2015</a>&nbsp;(6)</li>
+	<li><a href='https://lizards.opensuse.org/2015/02/'>February 2015</a>&nbsp;(6)</li>
+	<li><a href='https://lizards.opensuse.org/2015/01/'>January 2015</a>&nbsp;(7)</li>
+	<li><a href='https://lizards.opensuse.org/2014/12/'>December 2014</a>&nbsp;(5)</li>
+	<li><a href='https://lizards.opensuse.org/2014/11/'>November 2014</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2014/10/'>October 2014</a>&nbsp;(5)</li>
+	<li><a href='https://lizards.opensuse.org/2014/09/'>September 2014</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2014/08/'>August 2014</a>&nbsp;(5)</li>
+	<li><a href='https://lizards.opensuse.org/2014/07/'>July 2014</a>&nbsp;(5)</li>
+	<li><a href='https://lizards.opensuse.org/2014/06/'>June 2014</a>&nbsp;(7)</li>
+	<li><a href='https://lizards.opensuse.org/2014/05/'>May 2014</a>&nbsp;(9)</li>
+	<li><a href='https://lizards.opensuse.org/2014/04/'>April 2014</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2014/03/'>March 2014</a>&nbsp;(9)</li>
+	<li><a href='https://lizards.opensuse.org/2014/02/'>February 2014</a>&nbsp;(9)</li>
+	<li><a href='https://lizards.opensuse.org/2014/01/'>January 2014</a>&nbsp;(10)</li>
+	<li><a href='https://lizards.opensuse.org/2013/12/'>December 2013</a>&nbsp;(9)</li>
+	<li><a href='https://lizards.opensuse.org/2013/11/'>November 2013</a>&nbsp;(10)</li>
+	<li><a href='https://lizards.opensuse.org/2013/10/'>October 2013</a>&nbsp;(10)</li>
+	<li><a href='https://lizards.opensuse.org/2013/09/'>September 2013</a>&nbsp;(6)</li>
+	<li><a href='https://lizards.opensuse.org/2013/08/'>August 2013</a>&nbsp;(7)</li>
+	<li><a href='https://lizards.opensuse.org/2013/07/'>July 2013</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2013/06/'>June 2013</a>&nbsp;(7)</li>
+	<li><a href='https://lizards.opensuse.org/2013/05/'>May 2013</a>&nbsp;(4)</li>
+	<li><a href='https://lizards.opensuse.org/2013/04/'>April 2013</a>&nbsp;(4)</li>
+	<li><a href='https://lizards.opensuse.org/2013/03/'>March 2013</a>&nbsp;(7)</li>
+	<li><a href='https://lizards.opensuse.org/2013/02/'>February 2013</a>&nbsp;(6)</li>
+	<li><a href='https://lizards.opensuse.org/2013/01/'>January 2013</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2012/12/'>December 2012</a>&nbsp;(3)</li>
+	<li><a href='https://lizards.opensuse.org/2012/10/'>October 2012</a>&nbsp;(6)</li>
+	<li><a href='https://lizards.opensuse.org/2012/09/'>September 2012</a>&nbsp;(6)</li>
+	<li><a href='https://lizards.opensuse.org/2012/08/'>August 2012</a>&nbsp;(5)</li>
+	<li><a href='https://lizards.opensuse.org/2012/07/'>July 2012</a>&nbsp;(12)</li>
+	<li><a href='https://lizards.opensuse.org/2012/06/'>June 2012</a>&nbsp;(6)</li>
+	<li><a href='https://lizards.opensuse.org/2012/05/'>May 2012</a>&nbsp;(4)</li>
+	<li><a href='https://lizards.opensuse.org/2012/04/'>April 2012</a>&nbsp;(4)</li>
+	<li><a href='https://lizards.opensuse.org/2012/03/'>March 2012</a>&nbsp;(5)</li>
+	<li><a href='https://lizards.opensuse.org/2012/02/'>February 2012</a>&nbsp;(2)</li>
+	<li><a href='https://lizards.opensuse.org/2012/01/'>January 2012</a>&nbsp;(5)</li>
+	<li><a href='https://lizards.opensuse.org/2011/12/'>December 2011</a>&nbsp;(10)</li>
+	<li><a href='https://lizards.opensuse.org/2011/11/'>November 2011</a>&nbsp;(6)</li>
+	<li><a href='https://lizards.opensuse.org/2011/10/'>October 2011</a>&nbsp;(5)</li>
+	<li><a href='https://lizards.opensuse.org/2011/09/'>September 2011</a>&nbsp;(9)</li>
+	<li><a href='https://lizards.opensuse.org/2011/08/'>August 2011</a>&nbsp;(12)</li>
+	<li><a href='https://lizards.opensuse.org/2011/07/'>July 2011</a>&nbsp;(14)</li>
+	<li><a href='https://lizards.opensuse.org/2011/06/'>June 2011</a>&nbsp;(11)</li>
+	<li><a href='https://lizards.opensuse.org/2011/05/'>May 2011</a>&nbsp;(18)</li>
+	<li><a href='https://lizards.opensuse.org/2011/04/'>April 2011</a>&nbsp;(15)</li>
+	<li><a href='https://lizards.opensuse.org/2011/03/'>March 2011</a>&nbsp;(26)</li>
+	<li><a href='https://lizards.opensuse.org/2011/02/'>February 2011</a>&nbsp;(16)</li>
+	<li><a href='https://lizards.opensuse.org/2011/01/'>January 2011</a>&nbsp;(23)</li>
+	<li><a href='https://lizards.opensuse.org/2010/12/'>December 2010</a>&nbsp;(27)</li>
+	<li><a href='https://lizards.opensuse.org/2010/11/'>November 2010</a>&nbsp;(18)</li>
+	<li><a href='https://lizards.opensuse.org/2010/10/'>October 2010</a>&nbsp;(21)</li>
+	<li><a href='https://lizards.opensuse.org/2010/09/'>September 2010</a>&nbsp;(16)</li>
+	<li><a href='https://lizards.opensuse.org/2010/08/'>August 2010</a>&nbsp;(21)</li>
+	<li><a href='https://lizards.opensuse.org/2010/07/'>July 2010</a>&nbsp;(20)</li>
+	<li><a href='https://lizards.opensuse.org/2010/06/'>June 2010</a>&nbsp;(33)</li>
+	<li><a href='https://lizards.opensuse.org/2010/05/'>May 2010</a>&nbsp;(29)</li>
+	<li><a href='https://lizards.opensuse.org/2010/04/'>April 2010</a>&nbsp;(24)</li>
+	<li><a href='https://lizards.opensuse.org/2010/03/'>March 2010</a>&nbsp;(29)</li>
+	<li><a href='https://lizards.opensuse.org/2010/02/'>February 2010</a>&nbsp;(22)</li>
+	<li><a href='https://lizards.opensuse.org/2010/01/'>January 2010</a>&nbsp;(20)</li>
+	<li><a href='https://lizards.opensuse.org/2009/12/'>December 2009</a>&nbsp;(15)</li>
+	<li><a href='https://lizards.opensuse.org/2009/11/'>November 2009</a>&nbsp;(21)</li>
+	<li><a href='https://lizards.opensuse.org/2009/10/'>October 2009</a>&nbsp;(17)</li>
+	<li><a href='https://lizards.opensuse.org/2009/09/'>September 2009</a>&nbsp;(22)</li>
+	<li><a href='https://lizards.opensuse.org/2009/08/'>August 2009</a>&nbsp;(28)</li>
+	<li><a href='https://lizards.opensuse.org/2009/07/'>July 2009</a>&nbsp;(36)</li>
+	<li><a href='https://lizards.opensuse.org/2009/06/'>June 2009</a>&nbsp;(38)</li>
+	<li><a href='https://lizards.opensuse.org/2009/05/'>May 2009</a>&nbsp;(40)</li>
+	<li><a href='https://lizards.opensuse.org/2009/04/'>April 2009</a>&nbsp;(30)</li>
+	<li><a href='https://lizards.opensuse.org/2009/03/'>March 2009</a>&nbsp;(20)</li>
+	<li><a href='https://lizards.opensuse.org/2009/02/'>February 2009</a>&nbsp;(21)</li>
+	<li><a href='https://lizards.opensuse.org/2009/01/'>January 2009</a>&nbsp;(27)</li>
+	<li><a href='https://lizards.opensuse.org/2008/12/'>December 2008</a>&nbsp;(23)</li>
+	<li><a href='https://lizards.opensuse.org/2008/11/'>November 2008</a>&nbsp;(12)</li>
+	<li><a href='https://lizards.opensuse.org/2008/10/'>October 2008</a>&nbsp;(23)</li>
+	<li><a href='https://lizards.opensuse.org/2008/09/'>September 2008</a>&nbsp;(40)</li>
+	<li><a href='https://lizards.opensuse.org/2008/08/'>August 2008</a>&nbsp;(24)</li>
+	<li><a href='https://lizards.opensuse.org/2008/07/'>July 2008</a>&nbsp;(12)</li>
+	<li><a href='https://lizards.opensuse.org/2008/06/'>June 2008</a>&nbsp;(28)</li>
+	<li><a href='https://lizards.opensuse.org/2008/05/'>May 2008</a>&nbsp;(26)</li>
+	<li><a href='https://lizards.opensuse.org/2008/04/'>April 2008</a>&nbsp;(1)</li>
+		</ul>
+		</li>      
+    <!-- </div> -->
+
+</div>
+</div>
+<!-- End: Main Content Area -->
+
+  
+    
+  <script type='text/javascript' src='https://lizards.opensuse.org/wp-includes/js/wp-embed.min.js?ver=4.7.5'></script>
+
+</body>
+</html>

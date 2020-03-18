@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0"
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -9,19 +8,183 @@
 	>
 
 <channel>
-	<title>openSUSE Lizards &#187; Architectures</title>
-	<atom:link href="http://lizards.opensuse.org/category/base-system/architectures/feed/" rel="self" type="application/rss+xml" />
-	<link>http://lizards.opensuse.org</link>
+	<title>Architectures &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/category/base-system/architectures/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
 	<description>Blogs and Ramblings of the openSUSE Members</description>
-	<lastBuildDate>Mon, 24 Mar 2014 12:46:00 +0000</lastBuildDate>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
 	<language>en-US</language>
-		<sy:updatePeriod>hourly</sy:updatePeriod>
-		<sy:updateFrequency>1</sy:updateFrequency>
-	<generator>http://wordpress.org/?v=3.8.1</generator>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
 	<item>
+		<title>Highlights of YaST Development Sprint 80</title>
+		<link>https://lizards.opensuse.org/2019/07/19/yast-sprint-80/</link>
+		<pubDate>Fri, 19 Jul 2019 11:35:29 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=13914</guid>
+		<description><![CDATA[After our (really long) sprint report, which featured information from 3 different sprints together, we are back to our regular schedule of publishing a blog post after each sprint. In a nutshell, these are the highlights from the previous one: A new version of yast2-network will be submitted to Tumbleweed shortly, including quite some internal [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>After our (really long) <a href="https://lizards.opensuse.org/2019/06/25/yast-sprints-77-79/">sprint report</a>, which featured information from 3 different sprints together, we are back to our regular schedule of publishing a blog post after each sprint.</p>
+<p>In a nutshell, these are the highlights from the previous one:</p>
+<ul>
+<li>A new version of yast2-network will be submitted to Tumbleweed shortly, including quite some internal changes as part of the refactoring effort.</li>
+<li>The support for offline installation of SUSE Linux Enterprise products has been improved to handle modules and extensions dependencies automatically, among other goodies.</li>
+<li>The partitioning proposal has been adapted to support SUSE Manager special needs.</li>
+<li>The guided partitioning ignores now the <code>adjust_by_ram</code> parameter in IBM z Systems, where it is basically useless.</li>
+<li>Some (open)SUSE 15 features have been backported to 5th Service Pack of SUSE Linux Enterprise.</li>
+</ul>
+<p>And last but not least, we have some words to say about the feedback we get from you (that we really appreciate!) and the future of YaST.</p>
+<h3 id="shipping-another-round-of-network-refactored-code">Shipping Another Round of Network Refactored Code</h3>
+<p>One of the problems we wanted to avoid while refactoring yast2-network is diverging too much from the version shipped in Tumbleweed. As we mentioned in our last report, we have done quite some work, especially when it comes to the internals of the user interface, and codebases are starting to look quite different.</p>
+<p>For that reason, we decided to merge the new code into the master branch so it can be included in Tumbleweed shortly. We are talking about a pull request which contains more than 340 commits, adds 9000 lines, removes 5000 and modifies 197 files. So, what could possibly go wrong? To be honest we did quite some testing but there is a chance that you can find some issues. In that case, please, open a bug report and we will happily fix it.</p>
+<p>About the technical details, we put most of our efforts into drawing a clear line between the user interface and the business logic. In parallel, we are still working on the new data model which enables us to read/write the network configuration using different backends, although at this time we are only supporting <code>sysconfig</code>. We have made some progress during this sprint (you can check the <a href="https://github.com/yast/yast-network/pull/875">pull request</a> if you are interested), but we will not merge this code into our master branch yet. You can find more details in the <a href="https://github.com/yast/yast-network/blob/ea1faacb9ef08ec83d53471cc0220df8245ae9c0/doc/network-ng.md">updated documentation</a>.</p>
+<p>After reading this status update about the yast2-network refactoring, you might be wondering about our plans. Basically, we would like to finish the support to read/write network interfaces configuration and start using it through all the code, killing some rather old and buggy modules like <a href="https://github.com/yast/yast-network/blob/568aadcd71671bd24715f36396968d7cbbc89277/src/modules/LanItems.rb">LanItems</a>.</p>
+<h3 id="offline-media-support">Offline Media Support</h3>
+<p>For SUSE Linux Enterprise 15 products, there are two installation media:</p>
+<ul>
+<li>The installer media, which contains only basic packages for a minimal system.</li>
+<li>The so-called Packages DVD, which contains several modules and extensions, like the <em>Development Tools Module</em> or the <em>Server Application Module</em>.</li>
+</ul>
+<p>The main use case of the Packages DVD is allowing to install the systems without an Internet connection. However, YaST support for such a scenario is pretty simplistic. For instance, dependencies between modules are not evaluated and the user has to select them manually. This approach is error-prone and user-unfriendly.</p>
+<p>Fortunately, these shortcomings will be addressed in SLE 15 SP2. YaST is now able to solve modules and extensions dependencies, so the user does not have to worry about them anymore. For instance, if you select the <em>Web and Scripting Module</em>, the <em>Basesystem Module</em> and <em>Server Application Module</em> will be automatically selected.</p>
+<p>At first, solving dependencies through the 25 repositories which are included in the Packages DVD might be time-consuming, but the current implementation takes advantage of <a href="https://github.com/openSUSE/libsolv">libsolv</a> to reduce it to about 2 seconds in our testing machine.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/07/extensions-and-modules-selection.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/07/extensions-and-modules-selection-300x225.png" alt="Improved Extensions and Modules Selection" width="300" height="225" class="aligncenter size-medium wp-image-13917" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/07/extensions-and-modules-selection-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/07/extensions-and-modules-selection-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/07/extensions-and-modules-selection.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a> </p>
+<p>Additionally, other improvements have been included, like displaying additional information about each module/extension or filtering out base products from the list.</p>
+<h3 id="suse-manager-and-the-partitioning-guided-setup">SUSE Manager and the Partitioning Guided Setup</h3>
+<p>As you know, YaST is a very flexible Linux installer. The creators of each (open)SUSE product or role can define the particular sequence of steps presented to the user and configure many of the options on each of those step. But that was still not enough for the maintainers of <a href="https://www.suse.com/products/suse-manager/">SUSE Manager</a>, the purpose-specific distribution to manage software-defined infrastructures.</p>
+<p>SUSE Manager follows a pretty specific approach regarding the management of the storage devices. So we had to add some extra configuration options to our partitioning guided proposal to fulfill their needs. We felt the topic deserved its own separate blog post. So follow the link and enjoy the love story of <a href="https://lizards.opensuse.org/2019/07/16/suse-manager-guided-setup/">SUSE Manager and the Partitioning Guided Setup</a>.</p>
+<h3 id="taking-care-of-ibm-z-systems">Taking care of IBM z Systems</h3>
+<p>For many reasons, IBM z System architecture (s390) is one of those special cases where YaST flexibility is crucial. One of the many options that YaST offers to products and roles creators is called <code>adjust_by_ram</code>, which instructs YaST to make sure that a given volume size is, at least, as big as the RAM of the system. Obviously, this option is especially useful for the swap volume when we want to be able to suspend the system to disk.</p>
+<p>However, on the 64-bits s390 architecture, resuming from a swap device is not supported, which renders this option useless. For that reason, YaST will take this situation into account, and it will not enlarge the swap volume bye default for s390 machines, even if <code>adjust_by_ram</code> was set in the control file. Of course, the user will be able to enlarge the volume by activating the corresponding checkbox in the Guided Setup options.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/07/guided-partitioning-filesystem-options.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/07/guided-partitioning-filesystem-options-300x225.png" alt="Guided Partitioning Filesystem Options" width="300" height="225" class="aligncenter size-medium wp-image-13924" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/07/guided-partitioning-filesystem-options-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/07/guided-partitioning-filesystem-options-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/07/guided-partitioning-filesystem-options.png 800w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3 id="backporting-stuff">Backporting Stuff to SLE 12 SP5</h3>
+<p>Although most of the development effort is focused on SLE 15 SP2 and openSUSE Leap 15.2, we do not forget about SLE 12. SUSE is working on the 5th Service Pack of this release and the YaST team is no exception.</p>
+<p>During this sprint, SLE 12 got two interesting features that were backported from SLE 15. The first one is the ability to specify kernel mitigations settings, as you already can do in Tumbleweed. And the second one is the support for PMEM devices, that you can see in the screenshot below.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/07/yast2-partitioner-pmem-support-1.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/07/yast2-partitioner-pmem-support-1-300x173.png" alt="YaST2 Partitioner PMEM Support" width="300" height="173" class="aligncenter size-medium wp-image-13942" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/07/yast2-partitioner-pmem-support-1-300x173.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/07/yast2-partitioner-pmem-support-1-768x443.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/07/yast2-partitioner-pmem-support-1-1024x591.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2019/07/yast2-partitioner-pmem-support-1.png 1138w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Recently, there was an interesting <a href="https://www.reddit.com/r/openSUSE/comments/cbp2c7/">discussion about the openSUSE installer on Reddit</a>, continued as a <a href="https://lists.opensuse.org/yast-devel/2019-07/msg00021.html">thread on our yast-devel mailing list</a>.</p>
+<p>This is just a quick heads-up to confirm that we hear you. Some of the issues discussed there were already known to be sore points, some others may need more clarification on why and how things are as they are.</p>
+<p>We are taking your feedback and criticism seriously. But we also have to consider all the requirements, and we try to avoid making unrealistic promises. So please bear with us until we had some further discussions first about what we can do and in what time frame.</p>
+<h3 id="conclusions">Conclusions</h3>
+<p>In addition to what we have described in this report, we have been working on fixing bugs and making other small improvements here and there. And sprint 81th will not be different: part of the team will keep working on yast2-network while the rest squashes as many bugs as possible.</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Announcing Li-f-e 42.1</title>
+		<link>https://lizards.opensuse.org/2015/12/21/announcing-li-f-e-42-1/</link>
+		<comments>https://lizards.opensuse.org/2015/12/21/announcing-li-f-e-42-1/#comments</comments>
+		<pubDate>Mon, 21 Dec 2015 10:37:48 +0000</pubDate>
+		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Derivative]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Education]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Mono]]></category>
+		<category><![CDATA[Network]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Server]]></category>
+		<category><![CDATA[Usability]]></category>
+		<category><![CDATA[Classroom]]></category>
+		<category><![CDATA[Graphic designing]]></category>
+		<category><![CDATA[LTSP]]></category>
+		<category><![CDATA[Multimedia]]></category>
+		<category><![CDATA[openSUSE]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11596</guid>
+		<description><![CDATA[The best Linux distribution for education got a whole lot better, your Li-f-e(Linux for Education) takes a &#8220;Leap&#8221; to 42.1. openSUSE Education community is proud to present this latest edition based on openSUSE 42.1 with all the features, updates and bug fixes available on it till date. This effectively makes it the only enterprise grade [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The best Linux distribution for education got a whole lot better, your <a href="https://en.opensuse.org/openSUSE:Education-Li-f-e">Li-f-e(Linux for Education)</a> takes a &#8220;<a href="https://news.opensuse.org/2015/11/04/opensuse-leap-42-1-becomes-first-hybrid-distribution/">Leap</a>&#8221; to 42.1. <a href="https://en.opensuse.org/Education">openSUSE Education</a> community is proud to present this latest edition based on <a href="https://en.opensuse.org/Portal:42.1">openSUSE 42.1</a> with all the features, updates and bug fixes available on it till date. This effectively makes it the only enterprise grade long term supported(LTS) distribution for Education.</p>
+<p>As with previous releases <a href="http://download.opensuse-education.org/~cyberorg/opensuse-edu-life-4211-packages.txt">we have bundled a ton of softwares</a> on this <a href="https://en.opensuse.org/Live_USB_stick">live DVD/USB</a> specially packaged for education, along with the Plasma, GNOME and Mate Desktop Environments, full multimedia experience is also provided out of the box thanks to the Packman repositories. Only x86_64 architecture is supported, if you have a lot of machines that only support x86 then read on to find out how you can extend their Li-f-e.<br />
+<span id="more-11596"></span></p>
+<p>You can of course very <a href="http://cyberorg.github.io/kiwi-ltsp-howto/">easily turn Li-f-e to full-fledged LTSP server</a> to PXE boot machines in your local network. Booting both i686 and x86_64 architectures is supported. In case you need to PXE boot machines below i686 then you would have to <a href="https://software.opensuse.org/package/kiwi-ltsp-tinycore-tc">install this package</a>.</p>
+<p>Happy holidays!</p>
+
+<a href='https://lizards.opensuse.org/2015/12/21/announcing-li-f-e-42-1/snapshot7/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2015/12/snapshot7-150x150.png" class="attachment-thumbnail size-thumbnail" alt="" /></a>
+<a href='https://lizards.opensuse.org/2015/12/21/announcing-li-f-e-42-1/snapshot8/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2015/12/snapshot8-150x150.png" class="attachment-thumbnail size-thumbnail" alt="" /></a>
+<a href='https://lizards.opensuse.org/2015/12/21/announcing-li-f-e-42-1/snapshot10/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2015/12/snapshot10-150x150.png" class="attachment-thumbnail size-thumbnail" alt="" /></a>
+<a href='https://lizards.opensuse.org/2015/12/21/announcing-li-f-e-42-1/snapshot16/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2015/12/snapshot16-150x150.png" class="attachment-thumbnail size-thumbnail" alt="" /></a>
+<a href='https://lizards.opensuse.org/2015/12/21/announcing-li-f-e-42-1/snapshot15/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2015/12/snapshot15-150x150.png" class="attachment-thumbnail size-thumbnail" alt="" /></a>
+<a href='https://lizards.opensuse.org/2015/12/21/announcing-li-f-e-42-1/snapshot12/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2015/12/snapshot12-150x150.png" class="attachment-thumbnail size-thumbnail" alt="" /></a>
+<a href='https://lizards.opensuse.org/2015/12/21/announcing-li-f-e-42-1/snapshot11/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2015/12/snapshot11-150x150.png" class="attachment-thumbnail size-thumbnail" alt="" /></a>
+<a href='https://lizards.opensuse.org/2015/12/21/announcing-li-f-e-42-1/screenshot-from-2015-12-20-16-41-37/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2015/12/Screenshot-from-2015-12-20-16-41-37-150x150.png" class="attachment-thumbnail size-thumbnail" alt="" /></a>
+
+<p>Get Li-f-e from here: <a href="http://sourceforge.net/projects/opensuse-edu/files/download/ISOs/openSUSE-Edu-li-f-e.x86_64-42.1.1.iso/download">Direct Download</a> | <a href="http://sourceforge.net/projects/opensuse-edu/files/download/ISOs/openSUSE-Edu-li-f-e.x86_64-42.1.1.iso.md5/download">md5sum</a> | <a href="http://download.opensuse-education.org/ISOs/">Alternate download and mirrors</a></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2015/12/21/announcing-li-f-e-42-1/feed/</wfw:commentRss>
+		<slash:comments>5</slash:comments>
+		</item>
+		<item>
+		<title>Banana Pi M2 running openSUSE Tumbleweed</title>
+		<link>https://lizards.opensuse.org/2015/12/03/banana-pi-m2-running-opensuse-tumbleweed/</link>
+		<pubDate>Thu, 03 Dec 2015 05:33:19 +0000</pubDate>
+		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Derivative]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[XFCE]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[arm7]]></category>
+		<category><![CDATA[Banana Pi M2]]></category>
+		<category><![CDATA[Xfce]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11575</guid>
+		<description><![CDATA[Following up from my earlier post about openSUSE LTSP on Banana Pi, Nora Lee from the manufacturer of the board got in touch with me and sent me a couple of their new boards- Banana Pi M2, runs on A31s quad-core CPU and has 1G RAM, powerful enough to run openSUSE Tumbleweed with Xfce Desktop. [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Following up from my earlier post about <a href="https://lizards.opensuse.org/2014/12/16/ltsp-client-goes-banana-pi/">openSUSE LTSP on Banana Pi</a>, <a href="https://plus.google.com/102091635847832058268">Nora Lee</a> from the manufacturer of the board got in touch with me and sent me a couple of their new boards- <a href="http://www.bananapi.com/index.php/component/content/article?layout=edit&amp;id=73">Banana Pi M2,</a> runs on A31s quad-core CPU and has 1G RAM, powerful enough to run openSUSE Tumbleweed with Xfce Desktop.</p>
+<p>Here is how you can get openSUSE running on Banana Pi M2.</p>
+<p>* <a href="http://sourceforge.net/projects/cyberorg-home/files/opensuse-arm/openSUSE-Tumbleweed-Bpi-M2-Xfce.tar.xz/download">Download the image</a></p>
+<p>* Extract the archive to get openSUSE-Tumbleweed-Bpi-M2-Xfce.img</p>
+<p>* Dump openSUSE-Tumbleweed-Bpi-M2-Xfce.img on to a SD card<br />
+(dd if=/path/to/openSUSE-Tumbleweed-Bpi-M2-Xfce.img of=/dev/sdX bs=4M; sync #replace /dev/sdX with your actual SD card device)</p>
+<p>*  In case you have a bigger SD card, use yast2 disk(partitioner) to &#8220;expand&#8221; the second partition. You can use yast’s package manager to install more software. The default password for root is <strong>linux</strong>, you may want to change that first thing after booting.</p>
+<p>I am unable to get sound on this hardware, probably <a href="https://github.com/BPI-SINOVOIP/BPI-Mainline-bsp">their kernel</a> is missing sound related modules, if you figure out how to get sound working drop me a line so I can include it in next release.Everything else(wifi, hdmi out, USB ports etc) works well enough.</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>LTSP client goes Banana Pi!</title>
+		<link>https://lizards.opensuse.org/2014/12/16/ltsp-client-goes-banana-pi/</link>
+		<comments>https://lizards.opensuse.org/2014/12/16/ltsp-client-goes-banana-pi/#comments</comments>
+		<pubDate>Tue, 16 Dec 2014 14:03:33 +0000</pubDate>
+		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Derivative]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Education]]></category>
+		<category><![CDATA[Server]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[arm7]]></category>
+		<category><![CDATA[Banana Pi]]></category>
+		<category><![CDATA[LTSP]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11121</guid>
+		<description><![CDATA[The Raspberry Pi is a credit-card sized computer running ARM processor that plugs into your TV/PC monitor, mouse and a keyboard, it is capable of running Linux and can be made to do many interesting things.The Banana Pi is a what Chinese ingeniousness came up with after they checked out Raspberry Pi, they made a [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The <a href="http://www.raspberrypi.org/">Raspberry Pi</a> is a credit-card sized computer running ARM processor that plugs into your TV/PC monitor, mouse and a keyboard, it is capable of running Linux and can be made to do many interesting things.The <a href="http://www.bananapi.org/">Banana Pi </a>is a what Chinese ingeniousness came up with after they checked out Raspberry Pi, they made a lot more powerful knockoff. This is a &#8220;How-to&#8221; use Banana Pi as <a href="http://en.opensuse.org/Portal:KIWI-LTSP">LTSP</a> client. <span id="more-11121"></span></p>
+<p>There is <a href="http://www.berryterminal.com/">BerryTerminal</a> project which makes it possible to use Raspberry Pi as <a href="http://ltsp.org">LTSP</a> Thin Client, on the server you can run any distribution that can run LTSP server, it can be running CPU with x86/x86_64/whatever architecture as LTSP provides a way to run X session from the server via SSH tunnel. Biggest benefit of running LTSP is centralized user and data management, and clients can be of modest specification as all clients&#8217; sessions are run on the server. This is a drawback as well, as the server needs to be powerful enough to handle many sessions. This is where LTSP Fat Client help, it allows running of users&#8217; session on the client that are powerful enough, while users and data are stored on the central server allowing modest server to serve many more clients than it would otherwise. Raspberry Pi is not that capable to run full featured Linux desktop, Banana Pi with it&#8217;s dual core CPU and 1 GB RAM is just good enough to work as a Thin Client as well as a Fat Client. perfect for home, small office or school lab.</p>
+<div style="width: 309px" class="wp-caption aligncenter"><a href="https://lh3.googleusercontent.com/-iWlIHB6CcSU/VJEprCaOjwI/AAAAAAAAJHo/250poN-CX6M/w873-h658-no/IMG_20141217_122350.jpg"><img class="" src="https://lh3.googleusercontent.com/-iWlIHB6CcSU/VJEprCaOjwI/AAAAAAAAJHo/250poN-CX6M/w873-h658-no/IMG_20141217_122350.jpg" alt="" width="299" height="226" /></a><p class="wp-caption-text">Piece of history, first ever Banana Pi LTSP terminal running openSUSE KIWI-LTSP</p></div>
+<p>There is <a href="http://www.lemaker.org/resources/9-101/opensuse_for_bananapi.html">openSUSE 13.1 available for Banana Pi</a>, it comes with XFCE desktop and many useful software pre-installed. Because I do not know how to create images for this hardware, that image is used as a base for Banana Terminal. Here are the steps to turn your Banana Pi into LTSP client.</p>
+<p>* Download <a class="name" title="Click to download openSUSE-Bananapi-LTSP.tar.xz" href="http://sourceforge.net/projects/cyberorg-home/files/opensuse-arm/openSUSE-Bananapi-LTSP.tar.xz/download">openSUSE-Bananapi-LTSP.tar.xz</a></p>
+<p>* Extract the archive to get openSUSE-Bananapi-LTSP.img from it.</p>
+<p>* Dump the openSUSE-Bananapi-LTSP.img on to a SD card, <a href="http://www.lemaker.org/resources/9-39/banana_pi_quick_start_guide.html">see step 5 here</a>.</p>
+<p>* Change settings according to your network configuration</p>
+<p>In the second partition of SD card etc/lts.conf edit the SERVER variable to point to LTSP server in your network.</p>
+<p>* Plug the SD card in your Banana Pi and boot it up, make sure the network is connected and LTSP server is <a href="https://en.opensuse.org/SDB:LTSP_quick_start_12.2_Edu">set up properly</a>. You have to create users on the server to use for login on client.</p>
+<p>*  In case you have a bigger SD card, use yast2 disk(partitioner) on the client to expand the second partition. You can use yast&#8217;s package manager to install more software. The default password for root is bananapi, you may want to change that first thing after booting.</p>
+<p>If you would like to run LTSP client on <a href="https://en.opensuse.org/Category:ARM_devices">ARM7 hardware supported by openSUSE</a> I would be happy to accept hardware donation to get it working <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>Have a lot of fun&#8230;</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2014/12/16/ltsp-client-goes-banana-pi/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
 		<title>How I ran openSUSE on a Nexus 7</title>
-		<link>http://lizards.opensuse.org/2013/09/22/how-i-ran-opensuse-on-a-nexus-7/</link>
-		<comments>http://lizards.opensuse.org/2013/09/22/how-i-ran-opensuse-on-a-nexus-7/#comments</comments>
+		<link>https://lizards.opensuse.org/2013/09/22/how-i-ran-opensuse-on-a-nexus-7/</link>
 		<pubDate>Sun, 22 Sep 2013 09:21:22 +0000</pubDate>
 		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
 				<category><![CDATA[Architectures]]></category>
@@ -60,13 +223,11 @@ for m in proc sys dev ; do    umount $m ; done<br />
 Running <code>yast lan</code> on the Nexus 7 <a href="https://plus.google.com/photos/108928462394474625418/albums/5701558097275278593/5926357383234418210">gives nice sight</a>.</p>
 <p>I guess one could also use <a href="http://download.opensuse.org/ports/armv7hl/distribution/12.3/images/openSUSE-12.3-ARM-JeOS-rootfs.armv7l-1.12.1-Build47.1.tbz">the armv7 rootfs</a> to have software built for armv7 instead of the compatible armv6. But for me it does not matter much.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/09/22/how-i-ran-opensuse-on-a-nexus-7/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
+			</item>
 		<item>
 		<title>New Raspberry Pi Image</title>
-		<link>http://lizards.opensuse.org/2013/09/07/new-raspberry-pi-image/</link>
-		<comments>http://lizards.opensuse.org/2013/09/07/new-raspberry-pi-image/#comments</comments>
+		<link>https://lizards.opensuse.org/2013/09/07/new-raspberry-pi-image/</link>
+		<comments>https://lizards.opensuse.org/2013/09/07/new-raspberry-pi-image/#comments</comments>
 		<pubDate>Sat, 07 Sep 2013 12:41:10 +0000</pubDate>
 		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
 				<category><![CDATA[Architectures]]></category>
@@ -80,12 +241,12 @@ Running <code>yast lan</code> on the Nexus 7 <a href="https://plus.google.com/ph
 		<description><![CDATA[update: new image with kernel-3.6 and minimal X11/icewm http://www.zq1.de/~bernhard/linux/opensuse/raspberrypi-opensuse-20130911x.img.xz (103MB) We got a new armv6 based image for the Raspberry Pi. This one is only 82MB compressed, so pretty minimalistic. http://www.zq1.de/~bernhard/linux/opensuse/raspberrypi-opensuse-20130907.img.xz The exciting new thing is that this was created using an alternative image building automatism which I wrote from scratch in three hours this [&#8230;]]]></description>
 				<content:encoded><![CDATA[<blockquote><p><strong>update:</strong> new image with kernel-3.6 and minimal X11/icewm http://www.zq1.de/~bernhard/linux/opensuse/raspberrypi-opensuse-20130911x.img.xz (103MB)</p></blockquote>
 <p>We got a new armv6 based image for the Raspberry Pi.<br />
-This one is only 82MB compressed, so pretty minimalistic.</p>
-<p>http://www.zq1.de/~bernhard/linux/opensuse/raspberrypi-opensuse-20130907.img.xz</p>
+This one is only 82MB compressed, so pretty minimalistic.<br />
+http://www.zq1.de/~bernhard/linux/opensuse/raspberrypi-opensuse-20130907.img.xz</p>
 <p>The exciting new thing is that this was created using an alternative image building automatism which I wrote from scratch in three hours this morning.<br />
-The scripts can be found at</p>
-<p>https://build.opensuse.org/package/show/devel:ARM:Factory:Contrib:RaspberryPi/altimagebuild</p>
-<p>and are also embedded within the image under /home/abuild/rpmbuild/SOURCES/</p>
+The scripts can be found at<br />
+https://build.opensuse.org/package/show/devel:ARM:Factory:Contrib:RaspberryPi/altimagebuild<br />
+and are also embedded within the image under /home/abuild/rpmbuild/SOURCES/</p>
 <p>This means that everyone can now easily build his own images the way he likes and even branch and do submit requests for changes that are useful for others.<br />
 The way to use this is simple.<br />
 If you have 6GB RAM, you can speed things up with export OSC_BUILD_ROOT=/dev/shm/arm before you do<br />
@@ -119,13 +280,13 @@ so for example you can install a minimalistic graphical environment with <code>z
 </ul>
 <p>So if you wanted to play with openSUSE on RPi, you can do so right now and have a lot of fun.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/09/07/new-raspberry-pi-image/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/09/07/new-raspberry-pi-image/feed/</wfw:commentRss>
 		<slash:comments>3</slash:comments>
 		</item>
 		<item>
 		<title>openSUSE 12.3 on Android</title>
-		<link>http://lizards.opensuse.org/2013/05/09/opensuse-12-3-on-android/</link>
-		<comments>http://lizards.opensuse.org/2013/05/09/opensuse-12-3-on-android/#comments</comments>
+		<link>https://lizards.opensuse.org/2013/05/09/opensuse-12-3-on-android/</link>
+		<comments>https://lizards.opensuse.org/2013/05/09/opensuse-12-3-on-android/#comments</comments>
 		<pubDate>Thu, 09 May 2013 06:19:02 +0000</pubDate>
 		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
 				<category><![CDATA[Architectures]]></category>
@@ -150,13 +311,12 @@ so for example you can install a minimalistic graphical environment with <code>z
 </tbody>
 </table>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/05/09/opensuse-12-3-on-android/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/05/09/opensuse-12-3-on-android/feed/</wfw:commentRss>
 		<slash:comments>9</slash:comments>
 		</item>
 		<item>
 		<title>openSUSE on phones/tablets</title>
-		<link>http://lizards.opensuse.org/2013/02/20/opensuse-on-phonestablets/</link>
-		<comments>http://lizards.opensuse.org/2013/02/20/opensuse-on-phonestablets/#comments</comments>
+		<link>https://lizards.opensuse.org/2013/02/20/opensuse-on-phonestablets/</link>
 		<pubDate>Wed, 20 Feb 2013 06:03:04 +0000</pubDate>
 		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
 				<category><![CDATA[Architectures]]></category>
@@ -178,13 +338,11 @@ so for example you can install a minimalistic graphical environment with <code>z
 <p>After exiting the chroot terminal, openSUSE services will be stopped, no changes to your android system is made.</p>
 <p>Have a lot of fun&#8230;</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/02/20/opensuse-on-phonestablets/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
+			</item>
 		<item>
 		<title>LiveCDs</title>
-		<link>http://lizards.opensuse.org/2012/12/27/livecds/</link>
-		<comments>http://lizards.opensuse.org/2012/12/27/livecds/#comments</comments>
+		<link>https://lizards.opensuse.org/2012/12/27/livecds/</link>
+		<comments>https://lizards.opensuse.org/2012/12/27/livecds/#comments</comments>
 		<pubDate>Thu, 27 Dec 2012 15:59:51 +0000</pubDate>
 		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
 				<category><![CDATA[Architectures]]></category>
@@ -227,13 +385,12 @@ squashfs supports three different compression methods: lzo, gzip and xz (aka LZM
 104857600000 bytes (105 GB) copied, 12.4499 s, 8.4 GB/s</p>
 <p>Overall, clicfs is performing OK, considering that it already takes care of the overlaying, but for my own LiveCD I would prefer Debian&#8217;s method and I am wondering how it would work.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2012/12/27/livecds/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2012/12/27/livecds/feed/</wfw:commentRss>
 		<slash:comments>2</slash:comments>
 		</item>
 		<item>
 		<title>Linux Kernel built with clang boots into openSUSE</title>
-		<link>http://lizards.opensuse.org/2012/07/14/linux-kernel-built-with-clang-boots-into-opensuse/</link>
-		<comments>http://lizards.opensuse.org/2012/07/14/linux-kernel-built-with-clang-boots-into-opensuse/#comments</comments>
+		<link>https://lizards.opensuse.org/2012/07/14/linux-kernel-built-with-clang-boots-into-opensuse/</link>
 		<pubDate>Sat, 14 Jul 2012 16:11:17 +0000</pubDate>
 		<dc:creator><![CDATA[Jan-Simon Möller]]></dc:creator>
 				<category><![CDATA[Architectures]]></category>
@@ -247,214 +404,6 @@ squashfs supports three different compression methods: lzo, gzip and xz (aka LZM
 <p>The kernel was compiled with Clang (C frontend of LLVM)  and boots into a running openSUSE desktop!</p>
 <p>&nbsp;</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2012/07/14/linux-kernel-built-with-clang-boots-into-opensuse/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
-		<item>
-		<title>openSUSE ARM image</title>
-		<link>http://lizards.opensuse.org/2012/01/21/opensuse-arm-image/</link>
-		<comments>http://lizards.opensuse.org/2012/01/21/opensuse-arm-image/#comments</comments>
-		<pubDate>Sat, 21 Jan 2012 18:10:06 +0000</pubDate>
-		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
-				<category><![CDATA[Architectures]]></category>
-		<category><![CDATA[Factory]]></category>
-		<category><![CDATA[ARM]]></category>
-		<category><![CDATA[arm7]]></category>
-		<category><![CDATA[efikaMX]]></category>
-		<category><![CDATA[genesi]]></category>
-		<category><![CDATA[openSUSE@ARM]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8446</guid>
-		<description><![CDATA[When I wrote this week, how I ran openSUSE on my genesi smarttop some people asked for a ready-to-use image. After spending less than 8 hours fiddling with u-boot-scripts, partition tables, tuning ext3 and initrds, it was done&#8230; and is now so easy: wget http://www.zq1.de/efika.img.xz # 83MB xz -cd efika.img.xz &#124; dd of=/dev/sdX bs=1M with [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>When I wrote this week, <a href="http://lizards.opensuse.org/2012/01/19/running-opensuse-on-arm/">how I ran openSUSE on my genesi smarttop</a> some people asked for a ready-to-use image. After spending less than 8 hours fiddling with u-boot-scripts, partition tables, tuning ext3 and initrds, it was done&#8230; and is now so easy:</p>
-<blockquote><p>wget http://www.zq1.de/efika.img.xz # 83MB<br />
-xz -cd efika.img.xz | dd of=/dev/sdX bs=1M</p></blockquote>
-<p>with sdX being the device name of your SD-card (e.g. &#8220;mmcblk0&#8243; on the smarttop itself) with at least 1GB (actually 1024000000 bytes) of free space.</p>
-<p>When inserted at boot, it should just boot up within 23 seconds and let you login as root with password &#8220;linux&#8221; on SSH, serial and with a USB-keyboard on HDMI. I spent some effort on putting as few packages as possible into it. Still, you have zypper to install packages and nano to edit files.</p>
-<p>There is still a known hangup when you try to reboot. Workaround is: init 2 ; sleep 12 ; killall rsyslogd ; umount /boot/ ; mount -o remount,ro / ; reboot</p>
-<p>As it still uses the original linux-2.6.31 kernel, it has another bug that also happens with pre-installed Ubuntu: sometimes (in ~40% of cases), boot stopps early, before graphics is initialized, when the last line on serial is &#8220;console handover: boot [ttymxc0] -&gt; real [tty1]&#8220;. Try turning it off and on again.</p>
-<p>This should allow you to have a whole lot of fun&#8230;</p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2012/01/21/opensuse-arm-image/feed/</wfw:commentRss>
-		<slash:comments>3</slash:comments>
-		</item>
-		<item>
-		<title>running openSUSE on ARM</title>
-		<link>http://lizards.opensuse.org/2012/01/19/running-opensuse-on-arm/</link>
-		<comments>http://lizards.opensuse.org/2012/01/19/running-opensuse-on-arm/#comments</comments>
-		<pubDate>Thu, 19 Jan 2012 21:11:58 +0000</pubDate>
-		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
-				<category><![CDATA[Architectures]]></category>
-		<category><![CDATA[Factory]]></category>
-		<category><![CDATA[ARM]]></category>
-		<category><![CDATA[arm7]]></category>
-		<category><![CDATA[efikaMX]]></category>
-		<category><![CDATA[genesi]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8410</guid>
-		<description><![CDATA[This week I finally got my genesi efika MX box. By default it has on old Ubuntu version installed on its internal IDE-attached 8GB SSD. It features 512 MB RAM and a 800 MHz ARMv7 CPU. Using a HDMI-cable and an HDMI-DVI-Adaptor I got it connected to a monitor, plugged in a USB keyboard+mouse and [&#8230;]]]></description>
-				<content:encoded><![CDATA[<div class="mceTemp">
-<dl>
-<dt><img src="http://www.zq1.de/%7Ebernhard/images/efikamx.jpg" alt="" width="647" height="1000" /></dt>
-<dd></dd>
-</dl>
-</div>
-<p>This week I finally got my <a href="http://www.genesi-usa.com/products/efika">genesi efika MX</a> box. By default it has on old Ubuntu version installed on its internal IDE-attached 8GB SSD. It features 512 MB RAM and a 800 MHz ARMv7 CPU.</p>
-<p>Using a HDMI-cable and an HDMI-DVI-Adaptor I got it connected to a monitor, plugged in a USB keyboard+mouse and it pretty much worked out of the box with WLAN,Ethernet,X11 (except for a bug that causes it to force you to change PW on every console login). How boring.</p>
-<p>Having read about recent progress with openSUSE on ARM I wanted the excitement of running it on this box.</p>
-<p><a href="http://michal.hrusecky.net/2011/10/opensuse-arm-chroot-less-then-alpha/">Michal&#8217;s image and script</a> (now in alpha) was very helpful to get me started within 15 minutes.</p>
-<p>If you have any (e.g. x86) openSUSE system running, there is another easy way to create a working ARM chroot-environment:</p>
-<blockquote><p>zypper ar http://download.opensuse.org/repositories/openSUSE:/Tools:/Unstable/openSUSE_12.1/openSUSE:Tools:Unstable.repo<br />
-zypper install qemu osc<br />
-osc co openSUSE:Factory:ARM bash<br />
-cd openSUSE:Factory:ARM/bash<br />
-edit bash.spec # add lines with your packages like BuildRequires: zypper,vim<br />
-osc build &#8211;no-verify &#8211;clean standard armv7l</p></blockquote>
-<p>If it worked well, /var/tmp/build-root/ should contain a chroot environment. E.g. you can run</p>
-<blockquote><p>file /var/tmp/build-root/bin/bash<br />
-/var/tmp/build-root/bin/bash: ELF 32-bit LSB executable, ARM, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.16, BuildID[sha1]=0xed9ca12f44c8591560d780cf807b6b6cf8ca8873, stripped</p></blockquote>
-<p>I partitioned my SD-card into two partitions. The first one for /boot with ext2 (needs only 150MB) and the second one for / to contain the rootfs. Be sure to have barrier=0 in your fstab for all ext[34] partitions so that writing to SD will not be as slow. The default U-Boot configuration first checks on the first partition of an SD-card for boot.scr which is a uImage-formatted version of a U-boot script. I copied all of Ubuntu&#8217;s /boot and /lib/modules/, slightly adapted their boot.script file to have root=/dev/mmcblk0p2 and uImage/uInitrd-2.6.31.14.26-efikamx as kernel/initrd, dropped &#8220;quiet splash&#8221; and added &#8220;console=ttymxc0,115200&#8243; to see more of the boot and ran a line from <a href="http://archlinuxarm.org/platforms/armv7/pandaboard">another helpful site</a>:</p>
-<blockquote><p>mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n &#8220;my boot script&#8221; -d boot.script boot.scr<br />
-echo mxc0:S12345:respawn:/sbin/agetty -L 115200 ttymxc0 vt102 &gt;&gt; /etc/inittab # for serial console</p></blockquote>
-<p>However, this failed to boot. Using the serial debug console, I could see U-boot trying to load the boot.scr but it was thinking it was zero bytes for some strange reason. Re-creating my /boot partition as a raw copy of /dev/sda1 with my adaptions ontop finally gave me an SD-card that <strong>just boots</strong> openSUSE Factory on ARM with framebuffer console on HDMI/DVI.</p>
-<p>Find more ARM-related info on our <a href="http://en.opensuse.org/Portal:ARM">openSUSE ARM Portal</a></p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2012/01/19/running-opensuse-on-arm/feed/</wfw:commentRss>
-		<slash:comments>2</slash:comments>
-		</item>
-		<item>
-		<title>fuk the kit you will love</title>
-		<link>http://lizards.opensuse.org/2012/01/19/fuk-the-kit-you-will-love/</link>
-		<comments>http://lizards.opensuse.org/2012/01/19/fuk-the-kit-you-will-love/#comments</comments>
-		<pubDate>Thu, 19 Jan 2012 20:03:33 +0000</pubDate>
-		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
-				<category><![CDATA[Architectures]]></category>
-		<category><![CDATA[Base System]]></category>
-		<category><![CDATA[Systems Management]]></category>
-		<category><![CDATA[BIOS]]></category>
-		<category><![CDATA[firmware]]></category>
-		<category><![CDATA[kit]]></category>
-		<category><![CDATA[openSUSE]]></category>
-		<category><![CDATA[update]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8417</guid>
-		<description><![CDATA[Dear fellows, in our moving free world, it&#8217;s not always bienvenue to talk about one of the *kit* software around. Most of them have bad reputation, (with good or bad reasons) this is the debate of this post. But in the uni-kit-verse there&#8217;s one you must known, especially if you are the proud owner of [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>Dear fellows, in our moving free world, it&#8217;s not always bienvenue to talk about one of the *kit* software around.<br />
-Most of them have bad reputation, (with good or bad reasons) this is the debate of this post.</p>
-<p>But in the uni-kit-verse there&#8217;s one you must known, especially if you are the proud owner of a laptop or one of this computer the manufacter deliver its firmware only in DOS exe format.<br />
-FirmwareUpdateKit (was introduced in 2008 in openSUSE by <a href="http://lizards.opensuse.org/2008/06/16/firmwareupdatekit/">Steffen Winterfeldt</a></p>
-<h1>How that works?</h1>
-<p>As the title of the post give you the right command, open a console, then use the cnf (command-not-found) tool to learn what to do</p>
-<h2>Install the package</h2>
-<pre>
-cnf fuk
-
-The program 'fuk' can be found in the following package:
-  * FirmwareUpdateKit [ path: /usr/bin/fuk, repository: zypp (repo-oss) ]
-
-Try installing with:
-    zypper install FirmwareUpdateKit
-</pre>
-<p>Pretty clear and cool, let&#8217;s install that stuff!</p>
-<pre>sudo zypper install FirmwareUpdateKit
-root's password:
-Loading repository data...
-Reading installed packages...
-Resolving package dependencies...
-
-The following NEW packages are going to be installed:
-  FirmwareUpdateKit syslinux 
-
-2 new packages to install.
-Overall download size: 758.0 KiB. After the operation, additional 2.1 MiB will be used.
-Continue? [y/n/?] (y): y
-Retrieving package syslinux-4.04-12.1.3.x86_64 (1/2), 642.0 KiB (1.9 MiB unpacked)
-Retrieving: syslinux-4.04-12.1.3.x86_64.rpm [done]
-Retrieving package FirmwareUpdateKit-1.1-14.1.1.x86_64 (2/2), 116.0 KiB (178.0 KiB unpacked)
-Retrieving: FirmwareUpdateKit-1.1-14.1.1.x86_64.rpm [done]
-Installing: syslinux-4.04-12.1.3 [done]
-Installing: FirmwareUpdateKit-1.1-14.1.1 [done]
-</pre>
-<p><img alt="Firmware Update" src="http://i.i.com.com/cnwk.1d/i/tim/2011/09/19/FirmwareUpdateIconX.png" class="alignright" width="128" height="128" /></p>
-<h2>Get your bios</h2>
-<p>Nothing easy for that, you will have to surf on boring mfg website, and find an appropriate bios for your computer.</p>
-<p>Be serious during that selection, you can screw up totally your computer</p>
-<h2>Time to fuk</h2>
-<p>As always before running a program, it&#8217;s always good to check if there&#8217;s the fine manual (not the case here) or try a -h &#8211;help</p>
-<pre>
-fuk --help
-Usage: fuk [OPTIONS] FILES
-FirmwareUpdateKit version 1.1.
-
-Create bootable DOS system and add FILES to it.
-The main purpose is to assist with DOS-based firmware updates.
-
-Options:
-  --grub                        Add boot entry to /boot/grub/menu.lst.
-  --lilo                        Add boot entry to /etc/lilo.conf.
-  --title TITLE                 Use TITLE as label for boot menu entry.
-  --iso FILE                    Create bootable CD.
-  --floppy FILE                 Create bootable (1440 kB) floppy disk.
-  --image FILE                  Create bootable harddisk.
-  --run COMMAND                 Run COMMAND after booting DOS.
-  --verbose                     Be more verbose.
-</pre>
-<p>Nothing complicated as a nuclear plan here, everything seems to be self explicit.<br />
-Let try it, and install a new grub entry for the new A8 version for my lappy.
-</p>
-<pre>
-fuk --verbose --grub --run M4600A08.exe /home/bruno/src_tmp/HARDWARE/DELL_M4600/M4600A08.exe 
-/tmp/fuk.lSVIgS0cMt/fwupdate.img: chs = 186/4/16, size = 11904 blocks
-- writing mbr
-- writing fat12 boot block
-- copying:
-    /usr/share/FirmwareUpdateKit/kernel.sys
-    /usr/share/FirmwareUpdateKit/command.com
-    /tmp/fuk.lSVIgS0cMt/config.sys
-    /tmp/fuk.lSVIgS0cMt/autoexec.bat
-    /home/bruno/src_tmp/HARDWARE/DELL_M4600/M4600_A08.exe
-c-3po:~ # 
-</pre>
-<p>That&#8217;s all I&#8217;ve now a new entry in my grub list</p>
-<pre>
-title Firmware Update
-    kernel /boot/memdisk
-    initrd /boot/fwupdate.img
-</pre>
-<h2>Apply</h2>
-<p>Now just reboot and use the grub entry, then upgrade your bios, like you will normally have done with you old complicated build iso, or diskette (I&#8217;m joking)</p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2012/01/19/fuk-the-kit-you-will-love/feed/</wfw:commentRss>
-		<slash:comments>5</slash:comments>
-		</item>
-		<item>
-		<title>Road to 11.3 : when pattern are not your friend, pre selection can be a trap</title>
-		<link>http://lizards.opensuse.org/2010/06/10/road-to-11-3-when-pattern-are-not-your-friend-pre-selection-can-be-a-trap/</link>
-		<comments>http://lizards.opensuse.org/2010/06/10/road-to-11-3-when-pattern-are-not-your-friend-pre-selection-can-be-a-trap/#comments</comments>
-		<pubDate>Thu, 10 Jun 2010 12:17:38 +0000</pubDate>
-		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
-				<category><![CDATA[Architectures]]></category>
-		<category><![CDATA[Base System]]></category>
-		<category><![CDATA[Factory]]></category>
-		<category><![CDATA[Kernel]]></category>
-		<category><![CDATA[openSUSE 11.2]]></category>
-		<category><![CDATA[Quality Assurance]]></category>
-		<category><![CDATA[Software Management]]></category>
-		<category><![CDATA[YaST]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=4305</guid>
-		<description><![CDATA[So it&#8217;s time to take some hours to test our future version. Today I start a fresh M7/Factory install : booting from pxe. The test case is build quickly a minimal server text mode. Just uncheck the auto configuration, we are after all linux admin. Choose your partition keyboard, language (en recommanded for server) etc [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>So it&#8217;s time to take some hours to test our future version.</p>
-<p>Today I start a fresh M7/Factory install : booting from pxe. The test case is build quickly a minimal server text mode.</p>
-<p>Just uncheck the auto configuration, we are after all linux admin. Choose your partition keyboard, language (en recommanded for server) etc &#8230; normal.</p>
-<p>Just before starting the install check software :  click on installation resume . You will discover that base-system-pattern would like to install a kernel-desktop, wtf why we want a server !</p>
-<p>So there&#8217;s a new ticket about that : https://bugzilla.novell.com/show_bug.cgi?id=613216</p>
-<p>I express the fact that it would be nice to have a new pattern selected when we choose minimal install server text mode.</p>
-<p>And you what about your opinion about pre-selection or having a base-system-server pattern &#8230; Please comment, &amp; vote on bugzilla</p>
-<p>A pattern guru wanted to build a patch for that.</p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2010/06/10/road-to-11-3-when-pattern-are-not-your-friend-pre-selection-can-be-a-trap/feed/</wfw:commentRss>
-		<slash:comments>3</slash:comments>
-		</item>
+			</item>
 	</channel>
 </rss>

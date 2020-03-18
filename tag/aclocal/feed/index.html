@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>aclocal &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/aclocal/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>openSUSE and GCC part 7: autotools and how I do it</title>
+		<link>https://lizards.opensuse.org/2013/11/19/opensuse-and-gcc-part-7/</link>
+		<pubDate>Tue, 19 Nov 2013 08:54:05 +0000</pubDate>
+		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
+				<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[aclocal]]></category>
+		<category><![CDATA[autoconf]]></category>
+		<category><![CDATA[automake]]></category>
+		<category><![CDATA[autotools]]></category>
+		<category><![CDATA[C-Language]]></category>
+		<category><![CDATA[libtool]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10147</guid>
+		<description><![CDATA[Last time I was little bit too hard to autotools. Okay they are not easy but they work. I also let last time people to figure how to get a long with autotools. Now I show how I do it. Let&#8217;s dance First put some good music on and relax. Starting new project and trying [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><a href="//lizards.opensuse.org/2013/11/12/opensuse-and-gcc-part-6/" title="openSUSE and GCC part 6: Introduction to autotools">Last time I was little</a> bit too hard to autotools. Okay they are not easy but they work. I also let last time people to figure how to get a long with autotools. Now I show how I do it.<span id="more-10147"></span></p>
+<h2>Let&#8217;s dance</h2>
+<p>First put some good music on and relax. Starting new project and trying to get it compile is very unpleasant experience. Then read blog about <a href="//lizards.opensuse.org/2013/11/12/opensuse-and-gcc-part-6/" title="openSUSE and GCC part 6: Introduction to autotools">autotools</a> and then also see <a href="//lizards.opensuse.org/2013/10/28/opensuse-and-gcc-part4/" title="openSUSE and GCC part 4: Pkg-config and what one can do with it">example that I&#8217;ve been using</a>. Now you should have files: &#8216;configure.ac&#8217;, &#8216;Makefile.am&#8217;, &#8216;SDL_DisplayBitmap.c&#8217;, &#8216;LICENSE.TXT&#8217; and &#8216;image.bmp&#8217; in same directory/folder also you should have rpm libSDL_image-devel installed. Then we zypper needed autotools in. </p>
+<pre>
+zypper install libtool automake autoconf
+</pre>
+<p>after that we need to make directory contain needed scripts and M4-macros. You don&#8217;t need to copy them manually just make like this in console:</p>
+<pre>
+aclocal --force
+libtoolize -c
+automake --copy --add-missing
+autoconf --force
+</pre>
+<p>So we run &#8216;aclocal&#8217; to copy those M4-macros after that we &#8216;libtoolize&#8217; our directory and then &#8216;automake&#8217; creates needed &#8216;Makefile.in&#8217; files from &#8216;Makefile.am&#8217;. Last &#8216;autoconf&#8217; creates configure-script from configure.ac. If everything went fine you ca continue:</p>
+<pre>
+./configure
+make
+./SDL_DisplayBitmap
+</pre>
+<p>Okay now it should work as expected. If you are interested you can try also</p>
+<pre>
+make dist
+</pre>
+<p>and you should have &#8216;SDL_DisplayBitmap-1.0.tar.gz&#8217; and &#8216;SDL_DisplayBitmap-1.0.tar.bz2&#8217; to distribute you application.</p>
+<h2>Let&#8217;s dig further</h2>
+<p>I&#8217;ll explain what these sentences mean in &#8216;configure.ac&#8217;:</p>
+<pre>
+AC_PREREQ([2.57])
+AC_CONFIG_MACRO_DIR([m4])
+</pre>
+<p>Just tell what Autoconf is needed at least 2.57 and what is M4-macro directory (in this case it&#8217;s &#8216;m4&#8217;)</p>
+<pre>
+AC_INIT([SDL_DisplayBitmap], [1.0], [http&#058;//lizards.opensuse.org])
+</pre>
+<p>Let&#8217;s have application named SDL_DisplayBitmap which version is 1.0 and URL to see something more is http&#058;//lizards.opensuse.org</p>
+<pre>
+AM_INIT_AUTOMAKE([foreign dist-bzip2])
+</pre>
+<p>Initialize automake. We want &#8216;tar.bz2&#8217; package also made.</p>
+<pre>
+AC_LANG_C
+AC_PROG_CC
+AM_PROG_LIBTOOL
+</pre>
+<p>Make sure we have C++ and C-compiler and Libtools.</p>
+<pre>
+C_OPTIONS="-ansi -Wall -Werror -std=c99 -fno-strict-aliasing"
+</pre>
+<p>I use these C-Flags in my applications. You should use yours.</p>
+<pre>
+AC_SUBST(C_OPTIONS)
+</pre>
+<p>Make them available in Makefile.in/.am</p>
+<pre>
+PKG_CHECK_MODULES(SDL, SDL_image)
+</pre>
+<p>Check SDL_image from pkg-config and store it in SDL-prefix (SDL_LIBS and SDL_CFLAGS) variable.</p>
+<pre>
+AC_OUTPUT([Makefile])
+</pre>
+<p>Configure these files from configure here. In our case only use formulate Makefile.in file. </p>
+<h2>Makefile.am</h2>
+<p>Now it&#8217;s time to listen <em>Scorpions Still loving you</em> if don&#8217;t already listening it.</p>
+<pre>
+INCLUDES = $(SDL_CFLAGS) $(C_OPTIONS)
+</pre>
+<p>This actually old school way of doing it but it compatible downwards. We but our C_OPTIONS from configure.ac and SDL needed build flags in build.</p>
+<pre>
+EXTRA_DIST = LICENSE.TXT image.bmp
+</pre>
+<p>We also pack these files in distribution tar-ball.</p>
+<pre>
+noinst_PROGRAMS = SDL_DisplayBitmap
+</pre>
+<p>This tell we want to have binary named: &#8216;SDL_DisplayBitmap&#8217; that ain&#8217;t installed anywhere. If you but bin_PROGRAMS application will be installed to &#8216;/usr/local/bin&#8217; or &#8216;prefix/bin&#8217; you mentioned in &#8216;./configure &#8211;prefix=/prefix&#8217; (sbin_PROGRAMS will install it to &#8216;/usr/local/sbin&#8217;).</p>
+<pre>
+SDL_DisplayBitmap_SOURCES = SDL_DisplayBitmap.c
+SDL_DisplayBitmap_LDFLAGS = $(SDL_LIBS)
+</pre>
+<p>Actually tell what sources belongs to SDL_DisplayBitmap and what libs are need to build this.</p>
+<p>Yes that was so easy and nice. Next time is time to make RPM from our example application.</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>openSUSE and GCC part 6: Introduction to autotools</title>
+		<link>https://lizards.opensuse.org/2013/11/12/opensuse-and-gcc-part-6/</link>
+		<comments>https://lizards.opensuse.org/2013/11/12/opensuse-and-gcc-part-6/#comments</comments>
+		<pubDate>Tue, 12 Nov 2013 06:47:56 +0000</pubDate>
+		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
+				<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[aclocal]]></category>
+		<category><![CDATA[autoconf]]></category>
+		<category><![CDATA[automake]]></category>
+		<category><![CDATA[autotools]]></category>
+		<category><![CDATA[C-Language]]></category>
+		<category><![CDATA[libtool]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10114</guid>
+		<description><![CDATA[Autotools, autotools and once again autotools. Years ago I started with autotools I thought, &#8216;Hey someone has really get into linking and compiling&#8217;. I was sold for a while and tried to learn it inside out. Then I understood that I will never be good at autotools (So I started to go to gym instead). [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><a href="http://en.wikipedia.org/wiki/GNU_build_system" title="Wikipedia autotools">Autotools, autotools and once again autotools</a>. Years ago I started with autotools I thought, &#8216;Hey someone has really get into linking and compiling&#8217;. I was sold for a while and tried to learn it inside out. Then I understood that I will never be good at <a href="http://www.gnu.org/savannah-checkouts/gnu/automake/manual/html_node/Autotools-Introduction.html" title="An Introduction to the Autotools">autotools</a> (So I started to go to gym instead). <a href="http://en.wikipedia.org/wiki/M4_%28computer_language%29" title="M4 language">M4 macro language</a> it is not my thing.<br />
+It&#8217;s just something that should be put on one way Mars shuttle and send to gray ones to figure out. I think mr. Spock&#8217;s brains functioned with M4 but mine won&#8217;t. If there is some M4 specialist. Send me e-mail or post comment about it and tell why M4 is best macro language on earth. If nobody stands up for poor M4-macro language I&#8217;ll keep unloving it. I can start liking it because I was so wrong with <a href="http://en.wikipedia.org/wiki/REXX" title="Rexx">Rexx</a>.<span id="more-10114"></span></p>
+<h2>Autotools</h2>
+<p>Autotools are designed to work with GNU GCC (GNU Compiler Collection) and visa versa. You can use Autotools with any C-compiler or with any language but it works best when compiling GNU C or C++ applications. Autotools are actually four tools aclocal, <a href="http://www.gnu.org/software/libtool/" title="Libtool">libtool</a>, <a href="http://www.gnu.org/software/autoconf/" title="Autoconf">autoconf</a> and <a href="http://www.gnu.org/software/automake/" title="Automake">automake</a>.</p>
+<h3>GNU aclocal</h3>
+<p>It&#8217;s easier to tell what aclocal is not than what it is. Aclocal checks your needed M4 macros and copies or symlinks them to your project. I hope you never need to tackle with this or write your own M4 macro for find you great library (use pkg-config I say it once more use pkg-config) or new something that other M4 macros sucks to do. I don&#8217;t have anything else to say about this.</p>
+<h3>GNU libtool</h3>
+<p>If you like to make Share Objects (.so), Windows DLL or something your operating system supports libtool is your friend. You&#8217;ll need this anyways wanted or not.</p>
+<h3>GNU autoconf</h3>
+<p>This one is also strange tool. I compiles from M4 macros an &#8216;configure&#8217;-named bash script. So you have &#8216;configure.ac&#8217; M4 based script that is formulated to &#8216;configure&#8217;-named bash script and autoconf does that.</p>
+<h3>GNU automake</h3>
+<p><a href="//lizards.opensuse.org/2013/11/05/opensuse-and-gcc-part-5/" title="openSUSE and GCC part 5: Make love me do">Last time we talked about Makefiles</a> and how to use them with compiling. Autotools is make based. You can probably use other build tools but I never have seen them in use. Automake seeks for &#8216;Makefile.am&#8217; files and turns macros and stuff inside them to &#8216;Makefile.in&#8217; that is usable with &#8216;configure&#8217;-script from autoconf. Actually its not that simple but with this you can live you life happilly ever after.<br />
+Because everyone wants to know <a href="https://www.lrde.epita.fr/~adl/autotools.html" title="Autotools Tutorial">everything these days read more here</a>.</p>
+<h2>And this was complicated you moron!</h2>
+<p>Yes I can admit it! I&#8217;m not very clever guy. When I was young I though hell there ain&#8217;t nobody that I better than me. Now I can admin there is and I&#8217;m just a ordinary guy from Finland. So you think you are more clever than me okay let&#8217;s test it. I&#8217;ll just throw you a bone and you tackle with by yourself and search machine (I won&#8217;t use that G-word there is so many other ones also). <a href="//lizards.opensuse.org/2013/10/28/opensuse-and-gcc-part4/" title="openSUSE and GCC part 4: Pkg-config and what one can do with it">Example is the same</a> that have been use in other posts and all the needed info is here so you should be able to figure this out by yourself and ask from mr. NSA the rest. Here are configure.ac and Makefile.am but how to utilize them? Good question.. hmm.. use zypper to install automake.. maybe.. maybe?</p>
+<h3>configure.ac</h3>
+<pre>
+AC_PREREQ([2.57])
+AC_CONFIG_MACRO_DIR([m4])
+AC_INIT([SDL_DisplayBitmap], [1.0], [http&#058;//lizards.opensuse.org])
+AM_INIT_AUTOMAKE([foreign dist-bzip2])
+
+EXTRA_DIST = LICENSE.TXT image.bmp
+
+AC_LANG_C
+AC_PROG_CC
+AM_PROG_LIBTOOL
+
+C_OPTIONS="-ansi -Wall -Werror -std=c99 -fno-strict-aliasing"
+
+AC_SUBST(C_OPTIONS)
+
+PKG_CHECK_MODULES(SDL, SDL_image)
+
+AC_OUTPUT([Makefile])</pre>
+<h3>Makefile.am</h3>
+<pre>
+INCLUDES = $(SDL_CFLAGS) $(C_OPTIONS)
+
+EXTRA_DIST = LICENSE.TXT image.bmp
+
+noinst_PROGRAMS = SDL_DisplayBitmap
+
+SDL_DisplayBitmap_SOURCES = SDL_DisplayBitmap.c
+SDL_DisplayBitmap_LDFLAGS = $(SDL_LIBS)</pre>
+<p>Now you have everything and go for the bad thing. Next time I&#8217;ll tell how I do it..</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/11/12/opensuse-and-gcc-part-6/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+	</channel>
+</rss>

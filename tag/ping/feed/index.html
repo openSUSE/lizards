@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>ping &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/ping/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Is my server alive and how good is my connection</title>
+		<link>https://lizards.opensuse.org/2014/03/10/is-my-server-alive-and-how-good-is-my-connection/</link>
+		<pubDate>Mon, 10 Mar 2014 07:25:14 +0000</pubDate>
+		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
+				<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Network]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[bash]]></category>
+		<category><![CDATA[ping]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10639</guid>
+		<description><![CDATA[If you have time to setup real solution and need something reliable test Zabbix (http://zabbix.com). Zabbix is wonderful all in one solutions for monitoring network and your hosts (servers). If you are in need of knowing how good you Internet/(W)LAN connections is then things are getting complicated. Case is like this: You have computer and [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>If you have time to setup real solution and need something reliable test Zabbix (<a href="http://zabbix.com" title="Zabbix">http://zabbix.com</a>). Zabbix is wonderful all in one solutions for monitoring network and your hosts (servers). If you are in need of knowing how good you Internet/(W)LAN connections is then things are getting complicated.<span id="more-10639"></span><br />
+Case is like this: You have computer and WIFI-card (Wireless Internet card). Most of the time it&#8217;s working great! Speed is high and there is no hick-ups any kind. Out of the blue comes troubles. In other network video is not playing from net or you keep getting connection errors in browser.. so what to do? How to debug this one? It can be that other people are just consuming all the router bandwidth available or there is many WIFI routers in same frequency (be sure to check first all the hardware before getting into software level). If hardware is not the case and you have double checked with normal Wire connection to Internet/LAN then there is definitely something else. With WIFI connection it still can be your grandma’s old beloved 1950 microwave oven (If you on 5Ghz band then you can&#8217;t blame her either)..<br />
+So I assume you are on <a href="http://en.wikipedia.org/wiki/TCP/IP" title="TCP/IP">TCP/IP</a>-network if you don&#8217;t know what it is you should first find out and then read the rest of this story.<br />
+WIFI-cards have signal strength monitor. I have notice that many times it&#8217;s just a estimation. You can have 100% strength and your connection is next to nothing. Manufacturers tends to make connections look way too better than they are or they make them look even worst than they are.<br />
+So how to find out is my connection good or bad? Word of warning in this point: this is just one way to find out and it&#8217;s not very good (for some use cases it is). Way is to use little bit BASH (Bourne Again SHell) and <a href="http://www.wikihow.com/Ping-in-Linux" title="ping">ping-command</a> which is installed in openSUSE default.</p>
+<h2>What ping does</h2>
+<p>Ping consumes <a href="http://en.wikipedia.org/wiki/Internet_Control_Message_Protocol" title="ICMP">ICMP-protocol</a> which is very low level and I don&#8217;t know is it used for anything anymore these days (correct me if I&#8217;m very wrong) only with ping-command. If Wikipedia is correct ping calculates round-trip so how long takes data to find it&#8217;s way to server and come back (Small tip here! You can use <a href="http://www.computerhope.com/unix/utracero.htm" title="Traceroute">traceroute</a> to see how you packet is finding it&#8217;s way on the Internet and back to you).<br />
+So how can I use ping to tell me is my server up? Short answer is simple: &#8216;you can&#8217;t&#8217;. Little bit longer answer: &#8216;Yes you can but it&#8217;s little bit more complicated than you first thought&#8217; and the long version: &#8216;You get information about if your server&#8217;s network card answers to (and most of the time kernel network stack) received ICMP-packet. If there is firewall rule that turns ICMP-packet answer off you are out of luck. Ping doesn&#8217;t tell if your service is up or Apache running correctly and reliable. Remember ping answer can work even if most of user space is smashed down and kernel is malfunctioning (been there done that!)&#8217;.<br />
+So what you get it answer from network card and that&#8217;s it. If it&#8217;s enough (99% times it is) keep reading.</p>
+<h2>Script</h2>
+<p>Show me code you scream and I give it to you and please read comments on code before using. This is edited version from <a href="http://stackoverflow.com/questions/18258364/ping-tool-to-check-if-server-is-online" title="Stackoverflow.com">Stackoverflow.com</a> message script (so nothing original here):</p>
+<pre>
+#!/bin/bash
+
+echo "Press [CTRL+C] to stop.."
+
+# Make at least 10 pings in one time
+COUNT=50
+SUCCESS=0
+LASTFAIL=NONE
+# Change this to Domain name/IP
+# or ip you want to monitor
+IP=192.168.1.1
+FAILS=0
+
+while true
+do
+        #
+        # Ping with interval 0.5s to IP (192.168.1.1)
+        # COUNT (50) times
+        # after that we just grep 'byte from' from output
+        # or ping and them calculate how many we got
+        # with wc -l (Lines of output) bacause we drop
+        # other from output
+        # You can use up (normally) 2000 size (-s) of package
+        # to see if it's starts to drop..
+        LINES=$(ping -s 1024 -i 0.5 -c ${COUNT} ${IP} | \
+                grep "bytes from ${SERVERSERVER}" | wc -l)
+
+        # Calculate how many fails there were
+        let FAILS=${COUNT}-${LINES}+${FAILS}
+        # Add to success rate
+        let SUCCESS=${LINES}+${SUCCESS}
+
+        # If there were error but date to LASTFAIL
+        # so if you not every moment looking you can
+        # see when this error happened
+        if [ ${LINES} -ne ${COUNT} ]; then
+             LASTFAIL=$(date)
+        fi
+
+        # Ok ping all together failed
+        if [ $? -ne 0 ] ; then
+          echo "Can't Connect to server ${IP}"
+        else
+          # Print statistics to screen
+          echo "$(date) ${IP} Success: ${LINES} (Tot. F ${FAILS}) \
+(Tot. S ${SUCCESS}) (Last F ${LASTFAIL})"
+        fi
+
+        # Sleep a while (not consume all the bandwidth)
+        sleep 1
+done
+</pre>
+<h2>Output</h2>
+<p>Script prints mystical output. Things that matters that Success rate is 50 (or what pinging rate you are using) and Fails are not rising fast. It they are rising fast packets are dropped if you are not getting anything check IP/domain name. With this one you can get ping time. If success level is 50 but ping time is high you network is still very slow but that you have to check with ping-command by hand. Even with 2G mobile modem you should get under 300ms (3G should be like 100ms).<br />
+To have any clue about your connection you have make this at least 30 minutes (First ping packets can tell everything but if you want to see whole picture). Actually this is stupid way to find out is your server up but if your WIFI-card  is working everywhere else great you can check are you packets going through. If ICMP-packets are dropping very fast then your TCP/IP packages are dropping very fast and you network stack have to re-send them so you notice that your network is slow (even though it has nothing to do with that). Again it can be route, WIFI-card or firewall problem still.. and ping doesn&#8217;t answer to that question. So this was this days script stuff. If you have better ways to do this.. please share I&#8217;m always interested in this topic.</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

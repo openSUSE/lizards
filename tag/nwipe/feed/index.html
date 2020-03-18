@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Nwipe &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/nwipe/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>How to destroy your data from harddisk permamently?</title>
+		<link>https://lizards.opensuse.org/2014/01/24/how-to-destroy-your-data-from-harddisk-permamently/</link>
+		<pubDate>Fri, 24 Jan 2014 12:02:10 +0000</pubDate>
+		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Education]]></category>
+		<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[DBAN]]></category>
+		<category><![CDATA[DWipe]]></category>
+		<category><![CDATA[Nwipe]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10448</guid>
+		<description><![CDATA[First warning and please read it: If you wipe your harddisk, USB-stick or Flash with any of these tips. Your data won&#8217;t magically come back! After correct &#8216;secure rm&#8217; or &#8216;NWipe&#8217; there way is no way to bring your valuable data back. Make backups and happy wiping! Destroying data permanently from hard disk is not [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><strong>First warning and please read it: If you wipe your harddisk, USB-stick or Flash with any of these tips. Your data won&#8217;t magically come back! After correct &#8216;secure rm&#8217; or &#8216;NWipe&#8217; there way is no way to bring your valuable data back. Make backups and happy wiping!<br />
+</strong><br />
+Destroying data permanently from hard disk is not as easy as you think. Sometime hard disks just self destructs without notice but when there is police behind you door knocking and you have destroy as much data as you can it&#8217;s little bit trickier. Even normal cases when there ain&#8217;t police at door and you just want to make sure that your old hard disk is clean and it doesn&#8217;t contain your personal data it&#8217;s a bit of a problem.<span id="more-10448"></span><br />
+Removing with GUIs delete most times just sends files to Trash bin where they can be read normally. Same goes with deleting them permanently. It just tells to filesystem this part of hard disk is up for usage again. It takes many writes in that part of hard disk before it&#8217;s safe to say you can&#8217;t recover any of old data. So if you just accidentally deleted file and popped up here there is still hope but I won&#8217;t tell how to bring it back.<br />
+One method for remove files permanently is use <a href="http://srm.sourceforge.net/" title="Secure rm">secure rm</a> (srm for short). It&#8217;s not fastest way to remove files but after running srm no-one can read your file again and like I say on topic <em>there is no way to bring file back!</em>. Secure rm is nice but it doesn&#8217;t wipe your hard disk entirely.</p>
+<h2>DBAN</h2>
+<p>If you needed hard disk wiping &#8216;<a href="http://www.dban.org/" title="DBAN">Darik&#8217;s Boot And Nuke</a> A.K.A DBAN&#8217; is tool for you. Currently it&#8217;s obtained by Finnish firm that uses same stuff <a href="http://www.blancco.com/en/home/" title="Blancco">so if you are need of professional supported stuff go and ask them</a>. If you are just need for tool for wiping hard disk data go, download and burn latest DBAN image. it&#8217;s easy to use and it will destroy data. Again data is gone after DBAN has runned with default configs so really make backups! <a href="http://www.youtube.com/watch?v=K9jfLDrm2Q0" title="Learn to use DBAN">This is video how to make it with DBAN.</a> If you not pro watch it fully before making any moves.</p>
+<h2>I don&#8217;t want to burn anything to CDR</h2>
+<p>Okay you are in that mood. Many of new laptop doesn&#8217;t contain CD-drive anymore so what to do. Here is my tip for you. <a href="http://en.opensuse.org/SDB:Live_USB_stick" title="openSUSE USB Stick">Create bootable USB stick</a> (read whole thing before doing anything). After you have managed to boot your new shiny openSUSE USB-stick install <a href="http://www.andybev.com/index.php/Nwipe" title="NWipe">NWipe</a>. NWipe is fork of DBAN DWipe that does actual wiping that is ported to work without <a href="http://en.wikipedia.org/wiki/Device_file" title="What are devices and DevFS">devfs</a> (which is obsolette anyways). Install it <a href="http://download.opensuse.org/repositories/home:/illuusio/" title="NWipe rpm">from here</a> with zypper (something like </p>
+<pre>
+zypper install <a href="http://download.opensuse.org/repositories/home:/illuusio/openSUSE_13.1/x86_64/nwipe-0.14-3.1.x86_64.rpm" title="Link to rpm">http://download.opensuse.org/repositories/home:/illuusio/openSUSE_13.1/x86_64/nwipe-0.14-3.1.x86_64.rpm</a>
+</pre>
+<p>) after that run &#8216;nwipe&#8217; application and make sure that you won&#8217;t clean your USB stick.<br />
+After you have chose your partitions and way you want it to be done (I use American army stuff in for wiping but does NSA have some backdoor in those? I don&#8217;t know..) go a head and make your hard disk and processor suffer. <strong>Again once more bit FAT WARNING. If you want to make small joke for your dad or cause anyone hard attack just destroy hard disk for fun there ain&#8217;t coming back (hope you have backups!).</strong> Your partition table is gone same goes with filesystem. No more seeking files with hex editor or dedicated applications. Your files are just random bytes in hard disk.<br />
+and like openSUSE slogan is have a lots of fun when you wipe your disks!</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

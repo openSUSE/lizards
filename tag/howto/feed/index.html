@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>howto &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/howto/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Network boot live ISO</title>
+		<link>https://lizards.opensuse.org/2014/01/29/network-boot-live-iso/</link>
+		<pubDate>Wed, 29 Jan 2014 06:40:12 +0000</pubDate>
+		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
+				<category><![CDATA[Derivative]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Education]]></category>
+		<category><![CDATA[Network]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[eduction]]></category>
+		<category><![CDATA[howto]]></category>
+		<category><![CDATA[li-f-e]]></category>
+		<category><![CDATA[LTSP]]></category>
+		<category><![CDATA[pxe]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10470</guid>
+		<description><![CDATA[The x86_64 edition of openSUSE Education&#8217;s Li-f-e live DVD supports PXE booting the iso over the network, here is how to do it: * Install Li-f-e on a server from which other machines will PXE boot, make sure you have plenty of space assigned to / partition(about 20G) * Set up LTSP by following this [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The x86_64 edition of openSUSE Education&#8217;s <a href="http://en.opensuse.org/openSUSE:Education-Li-f-e" title="Li-f-e">Li-f-e</a> live DVD supports PXE booting the iso over the network, here is how to do it:</p>
+<p>* Install Li-f-e on a server from which other machines will PXE boot, make sure you have plenty of space assigned to / partition(about 20G)<br />
+* Set up LTSP by following this <a href="https://en.opensuse.org/SDB:KIWI-LTSP%20quick%20start" title="LTSP Quick Start">quick start guide</a><br />
+* Create /srv/nfs folder and copy Li-f-e iso there<br />
+* Run the following as root in terminal:<br />
+<code><br />
+mount /srv/nfs/openSUSE-Edu-li-f-e.x86_64-42.1.1.iso /mnt<br />
+cp /mnt/boot/x86_64/loader/linux /srv/tftpboot/boot/linux-life64<br />
+cp /mnt/boot/x86_64/loader/initrd /srv/tftpboot/boot/initrd-life64<br />
+echo "/srv/nfs *(ro,no_root_squash,async,no_subtree_check)" &gt;&gt; /etc/exports<br />
+cat &lt;&lt;EOF&gt;&gt; /srv/tftpboot/pxelinux.cfg/default<br />
+LABEL Li-f-e<br />
+kernel boot/linux-life64<br />
+append initrd=boot/initrd-life64 isofrom_device=nfs:10.0.0.254:/srv/nfs/ isofrom_system=/openSUSE-Edu-li-f-e.x86_64-42.1.1.iso<br />
+IPAPPEND 2<br />
+EOF<br />
+chkconfig rpcbind on &amp;&amp; service rpcbind restart<br />
+chkconfig nfsserver on &amp;&amp; service nfsserver restart<br />
+</code><br />
+Now you can PXE boot any machine over the network, select Li-f-e from the end of the boot menu to boot live DVD iso instead of normal LTSP session.</p>
+<p>Use &#8220;yast2 live-installer&#8221; to install Li-f-e on the client machine.</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Merging SVN Repositories Explained</title>
+		<link>https://lizards.opensuse.org/2010/10/30/merging-svn-repos-explained/</link>
+		<pubDate>Sat, 30 Oct 2010 14:49:27 +0000</pubDate>
+		<dc:creator><![CDATA[Thomas Schraitle]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Server]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[administration]]></category>
+		<category><![CDATA[howto]]></category>
+		<category><![CDATA[svn]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=5669</guid>
+		<description><![CDATA[Adding files to a SVN server is usually a task done in seconds. However, having several independent SVN repositories and wanting to “combine” them, this is not trivial—especially if you want to preserve the history. The doc team had had three different, independent repositories on BerliOS (opensuse-ha-doc, opensuse-docmaker, and opensuse-lfl) all holding separate information. This [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Adding files to a <a title="Subversion" href="http://en.wikipedia.org/wiki/Apache_Subversion" target="_blank">SVN</a> server is usually a task done in seconds. However, having several independent SVN repositories and wanting to “combine” them,  this is not trivial—especially if you want to preserve the history.</p>
+<p>The doc team had had three different, independent repositories on BerliOS (opensuse-ha-doc,  opensuse-docmaker, and opensuse-lfl) all holding separate information. This was a bit silly, so my task was to consolidate them into <a title="Our SVN repo with all doc related stuff" href="https://developer.berlios.de/projects/opensuse-doc/" target="_blank">opensuse-doc</a> by <em>keeping</em> all history.</p>
+<h2><span id="more-5669"></span></h2>
+<p>A SVN history is nice as you can see what you or others have done with the files. Loosing the history is the same as starting from scratch &#8212; which can be sometimes a good idea. In that case, the doc team wanted to preserve the history as we use it very often. So I had to think of a solution how to merge different SVN repositories into one. I came up with a solution containing the following steps:</p>
+<ol>
+<li>Create a test repository</li>
+<li>Create the dump files</li>
+<li>Filter the dump files and extract trunk only</li>
+<li>Rename trunk content</li>
+<li>Edit the dump files</li>
+<li>Load dump files into test repository</li>
+</ol>
+<p>Several tools are needed: <tt>svnadmin</tt> and <tt>svndumpfilter</tt> are already available from the <tt>subversion</tt> package. Additionally, Darix recommended the <a href="http://svn.borg.ch/svndumptool/" target="_blank">svndumptool</a> from devel:tools:scm:svn (thanks Darix!). A very convenient tool when dealing with <a href="http://svnbook.red-bean.com/nightly/en/svn-book.html#svn.reposadmin.maint.migrate" target="_blank">SVN dumps</a>.</p>
+<p>Apart from this, all three SVN repositories consist of the usual <tt>trunk</tt>, <tt>branches</tt>, and a <tt>tags</tt> directories.</p>
+<h2>Step 1: Creating Test Repository</h2>
+<p>Before I got my hands dirty, I needed a test repository. Luckily, the subversion package contains everything what I need.  In my case, I&#8217;ve used the <a href="http://svnbook.red-bean.com/en/1.5/svn.ref.svnadmin.c.hotcopy.html"><tt>hotcopy</tt></a> command to create this test repository. I&#8217;ve logged in to BerliOS and made a hotcopy of my target SVN repository:</p>
+<pre># ssh svn.berlios.de
+# svnadmin hotcopy /svnroot/repos/opensuse-doc opensuse-doc</pre>
+<p>I did the same for my other repositories as well, just for safety reasons:</p>
+<pre># svnadmin hotcopy /svnroot/repos/opensuse-lfl opensuse-lfl
+# svnadmin hotcopy /svnroot/repos/opensuse-docmaker opensuse-docmaker
+# svnadmin hotcopy /svnroot/repos/opensuse-ha-doc opensuse-ha-doc</pre>
+<p>Later, I will use the opensuse-doc hotcopy to test my modifications before I apply them to the production SVN repository. With this method, I wanted to make sure everything is correct. Of course, you have to be sure that nobody commits to your repositories, otherwise any later commits won&#8217;t be incorporated.</p>
+<h2>Step 2: Creating Dump Files</h2>
+<p>Dump files contain everything what&#8217;s inside a repository including <a title="SVN Properties" href="http://svnbook.red-bean.com/en/1.5/svn.advanced.props.html" target="_blank">SVN properties</a>. However, they don&#8217;t contain the configuration or <a href="http://svnbook.red-bean.com/en/1.5/svn.ref.reposhooks.html" target="_blank">repository hooks</a> from the repository. If you want to keep them, you&#8217;ll have to save them manually.</p>
+<p>It&#8217;s very easy to create a dump file. In BerliOS, everything lives under <tt>/svnroot/repos/<em>PROJECT</em></tt>:</p>
+<pre># svnadmin dump /svnroot/repos/opensuse-lfl &gt; opensuse-lfl.dump
+# svnadmin dump /svnroot/repos/opensuse-docmaker &gt; opensuse-docmaker.dump
+# svnadmin dump /svnroot/repos/opensuse-ha-doc &gt; opensuse-ha-doc.dump</pre>
+<p>The above lines create a dump file for each of my SVN repositories. As the BerliOS server doesn&#8217;t have the <tt>svndumptool</tt> command, I have to copy them to my own machine:</p>
+<pre>toms@earth:~ &gt; scp shell.berlios.de:~/opensuse-*.dump .</pre>
+<h2>Step 3: Extracting trunk</h2>
+<p>In most SVN repositories, <tt>tags</tt> and <tt>branches</tt> contain information which were at some point in time copied (for <tt>tags</tt>) or copied and modified later (for <tt>branches</tt>). I haven&#8217;t found a satisfying solution to use <tt>svndumptool</tt> and take into account these two directories. Anyway, I&#8217;ve decided to just concentrate on trunk and manually adjust <tt>tags</tt> and <tt>branches</tt> later. This makes it easier when dealing with dump files.</p>
+<p>To extract only parts of a dump file, the <a href="http://svnbook.red-bean.com/en/1.5/svn.reposadmin.maint.html#svn.reposadmin.maint.tk.svndumpfilter" target="_blank">svndumpfilter</a> command is the right tool. Combined with the needed options and subcommands, I&#8217;ve used:</p>
+<pre>toms@earth:~ &gt; svndumpfilter --renumber-revs --drop-empty-revs \
+    include trunk &lt; opensuse-docmaker.dump &gt; docmaker-trunk.dump
+toms@earth:~ &gt; cat dumps/opensuse-ha-doc.dump | \
+    svndumpfilter --renumber-revs --drop-empty-revs  include "trunk" | \
+    svndumpfilter exclude trunk/package &gt; ha-doc-trunk.dump
+toms@earth:~ &gt; svndumpfilter --renumber-revs --drop-empty-revs \
+    include trunk &lt; opensuse-lfl.dump &gt; lfl-trunk.dump</pre>
+<p>The commands are not exactly the same, as the SVN repositories are slightly different. For example, the opensuse-ha-doc repo contained a <tt>trunk/package</tt> directory which I don&#8217;t want. Therefor you see the <tt>exclude</tt> command in <tt>svndumpfilter</tt>. The resulting dump files contain only <tt>trunk</tt>, nothing else.</p>
+<h2>Step 4: Renaming trunk Directory</h2>
+<p>The last step created dump files which contain only the <tt>trunk</tt> directory. The dump files can already be loaded into the target SVN repository. However, this is only partly successful. After loading you have to rename and move subdirectories around which is unconvenient. To avoid this cumbersome task, I&#8217;ve used the <tt>svndumptool</tt> command which does the job <em>directly</em> on the dump file!</p>
+<p>For example, the former docmaker repository has to appear under <tt>trunk/tools/docmaker</tt>, not directly under <tt>trunk</tt>. This can be done with the <tt>merge</tt> subcommand of <tt>svndumptool</tt>:</p>
+<pre>toms@earth:~ &gt; svndumptool merge -o docmaker-trunk-rename.dump \
+   -i docmaker-trunk.dump \
+   -s '^trunk' 'trunk/tools/docmaker' \
+   -d trunk/tools/docmaker</pre>
+<p>The <tt>-d</tt> option creates the <tt>trunk/tools/docmaker</tt> directory in case it doesn&#8217;t exist in your target. The <tt>-i</tt> and <tt>-o</tt> options are the input and output stream of the dump files, <tt>-s</tt> contains a regular expression how to rename the source (<tt>^trunk</tt>) into the target (<tt>trunk/tools/docmaker</tt>). The other repositories are similar:</p>
+<pre>toms@earth:~ &gt; svndumptool merge -o ha-doc-trunk-rename.dump  \
+  -i ha-doc-trunk.dump \
+  -d trunk/documents/ha/ \
+  -s '^trunk/books/en' 'trunk/documents/ha/en' \
+  -s '^trunk/books' 'trunk/documents'
+toms@earth:~ &gt; svndumptool merge -o lfl-trunk-rename.dump  \
+  -i lfl-trunk.dump \
+  -d trunk/documents/lfl/ \
+  -s '^trunk/books/en' 'trunk/documents/lfl/en' \
+  -s '^trunk/books' 'trunk/documents'</pre>
+<p>After this step I have three files, named <tt>*-trunk-rename.dump</tt> which contains the renamed directories.</p>
+<h2>Step 5: Editing Dump File</h2>
+<p>This step is a bit tricky and I haven&#8217;t found a better solution yet. Probably this can also be done with cat and sed magic, but I preferred vi. The task is to list the content of the dump files and decide which directory entries need to be deleted. This step is absolutely necessary to avoid any SVN error (something like “directory/file already exists”) when trying to load the dump file into the repository.</p>
+<ol>
+<li>Get an overview of the contents:
+<pre>toms@earth:~ &gt; svndumptool ls ha-doc-trunk-rename.dump
+/trunk
+...
+toms@earth:~ &gt; svndumptool ls docmaker-trunk-rename.dump
+/trunk
+/trunk/documents</pre>
+<p>Usually this is /trunk and probably some other directories (depending on the structure).</li>
+<li>Modify the dump file(s) and remove any directories which are available in the target SVN repository.<br />
+The renamed directories from the last step contains a single <tt>trunk</tt> “node” which has to be removed. The same applies for <tt>trunk/documents</tt>. Both exist already on the BerliOS server. Manually edit the dump files and remove the following lines:</p>
+<pre>Node-path: trunk
+Node-action: add
+Node-kind: dir
+Prop-content-length: 10
+Content-length: 10
+PROPS-END
+...
+Node-path: trunk/documents
+Node-action: add
+Node-kind: dir
+Prop-content-length: 10
+Content-length: 10
+  [[ Some other content could be available here ]]
+PROPS-END</pre>
+</li>
+<li>Save the dump file</li>
+</ol>
+<p>Be careful! It is very important not to destroy any structure in the dump file!</p>
+<p>I&#8217;ve checked the result with “svndumptool ls DUMPFILE”. No lonely <tt>trunk</tt> directory should be shown anymore. To be on the safe side, I&#8217;ve checked the two files with <tt>svndumptool check -A DUMPFILE</tt>, too.</p>
+<h2>Step 6: Loading Dump Files into Test Repository</h2>
+<p>The last step created the dump files with the correct structure. As this was done on my own machine, I have to copy the files back to BerliOS (remember to use the <tt>shell.berlios.de</tt> server):</p>
+<pre>toms@earth:~ &gt; scp *-rename.dump  shell.berlios.de:</pre>
+<p>It&#8217;s almost done! Logged into BerliOS and loaded the dump files in my hotcopy test repository (see step 1):</p>
+<pre># svnadmin load opensuse-doc  &lt; docmaker-trunk-rename.dump
+# svnadmin load opensuse-doc  &lt; ha-doc-trunk-rename.dump
+# svnadmin load opensuse-doc  &lt; lfl-trunk-rename.dump</pre>
+<p>After playing around a bit, everything was successful. So I repeated it, but replaced the opensuse-doc hotcopy with the correct path /svnroot/repos/opensuse-doc.</p>
+<p>The remaining pieces are the <tt>tags</tt> and <tt>branches</tt> directory. As revision numbers have been changed, the revision number in the original repository and the revision number in opensuse-doc are obviously not the same anymore. Creating tags can only be done with a correct date, because dates are preserved. For this reason, it is convenient to still have the original repositories around to look for the exact date and log message:</p>
+<pre>$ svn copy -r "{2010-10-20T10:00:00}" -m "..." \
+   $BERLIOSURL/trunk/tools/docmaker \
+   $BERLIOSURL/tags/tools/docmaker/obs</pre>
+<p>The <tt>branches</tt> are a bit different. Maybe the history can be preserved with the same method as with trunk, but I haven&#8217;t tried it. Our three repositories hadn&#8217;t had meaningful information in branch, or it wasn&#8217;t worth the effort.</p>
+<h2>Conclusion</h2>
+<p>The steps above showed how to merge different SVN repository into one while keeping the history.  Unfortunately, this task could be easier. Although <tt>svndumpfilter</tt> is very easy, it is also very limited. Especially when you have to modify the dump file itself, <tt>svndumpfilter</tt> won&#8217;t rescue you. It would be very good, if <tt>svndumpfilter</tt> could be extended to work with dump files in the same way as <tt>svndumptool</tt>. That would be fun. <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

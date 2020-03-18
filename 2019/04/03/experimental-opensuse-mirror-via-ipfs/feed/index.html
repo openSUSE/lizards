@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	
+	>
+<channel>
+	<title>Comments on: experimental openSUSE mirror via IPFS</title>
+	<atom:link href="https://lizards.opensuse.org/2019/04/03/experimental-opensuse-mirror-via-ipfs/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org/2019/04/03/experimental-opensuse-mirror-via-ipfs/</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 17:50:09 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>By: bmwiedemann</title>
+		<link>https://lizards.opensuse.org/2019/04/03/experimental-opensuse-mirror-via-ipfs/#comment-16795</link>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+		<pubDate>Wed, 05 Jun 2019 03:41:35 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=13716#comment-16795</guid>
+		<description><![CDATA[There are hickups now and then. One is that the ipfs daemon leaks memory and has to be restarted now and then.
+
+The other seems to be that freshly added files are only announced to the world within the day.
+
+The workaround for that is to run
+#!/bin/sh
+ipfs swarm connect /ip4/176.9.1.211/tcp/34001/ipfs/QmT7bZwZ3gpBMswUBjtpFhPM42ErFapAPiQHM2ELu3deqs
+
+That sort of makes the DHT-based auto-discovery superfluous, but at least it works.]]></description>
+		<content:encoded><![CDATA[<p>There are hickups now and then. One is that the ipfs daemon leaks memory and has to be restarted now and then.</p>
+<p>The other seems to be that freshly added files are only announced to the world within the day.</p>
+<p>The workaround for that is to run<br />
+#!/bin/sh<br />
+ipfs swarm connect /ip4/176.9.1.211/tcp/34001/ipfs/QmT7bZwZ3gpBMswUBjtpFhPM42ErFapAPiQHM2ELu3deqs</p>
+<p>That sort of makes the DHT-based auto-discovery superfluous, but at least it works.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: bmwiedemann</title>
+		<link>https://lizards.opensuse.org/2019/04/03/experimental-opensuse-mirror-via-ipfs/#comment-16596</link>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+		<pubDate>Tue, 16 Apr 2019 12:30:15 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=13716#comment-16596</guid>
+		<description><![CDATA[I tried the native ipns publishing first, but found that resolving it, always took 60 seconds and was only cached for another minute or so.
+You can try it with /ipns/opensuse2.zq1.de./
+
+Sometimes it would not work at all.]]></description>
+		<content:encoded><![CDATA[<p>I tried the native ipns publishing first, but found that resolving it, always took 60 seconds and was only cached for another minute or so.<br />
+You can try it with /ipns/opensuse2.zq1.de./</p>
+<p>Sometimes it would not work at all.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Etam</title>
+		<link>https://lizards.opensuse.org/2019/04/03/experimental-opensuse-mirror-via-ipfs/#comment-16595</link>
+		<dc:creator><![CDATA[Etam]]></dc:creator>
+		<pubDate>Tue, 16 Apr 2019 09:26:16 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=13716#comment-16595</guid>
+		<description><![CDATA[Ignore this. It works now.
+
+The problem with ipfs is, if your node is not accessible from the internet, it works quite slowly.]]></description>
+		<content:encoded><![CDATA[<p>Ignore this. It works now.</p>
+<p>The problem with ipfs is, if your node is not accessible from the internet, it works quite slowly.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Etam</title>
+		<link>https://lizards.opensuse.org/2019/04/03/experimental-opensuse-mirror-via-ipfs/#comment-16569</link>
+		<dc:creator><![CDATA[Etam]]></dc:creator>
+		<pubDate>Fri, 05 Apr 2019 10:50:19 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=13716#comment-16569</guid>
+		<description><![CDATA[Yesterday the IPFS mirror repo was loading correctly, but now it&#039;s not. It just waits forever, as if no none was serving the mirror in the IPFS network.]]></description>
+		<content:encoded><![CDATA[<p>Yesterday the IPFS mirror repo was loading correctly, but now it&#8217;s not. It just waits forever, as if no none was serving the mirror in the IPFS network.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Tony Su</title>
+		<link>https://lizards.opensuse.org/2019/04/03/experimental-opensuse-mirror-via-ipfs/#comment-16566</link>
+		<dc:creator><![CDATA[Tony Su]]></dc:creator>
+		<pubDate>Wed, 03 Apr 2019 23:57:15 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=13716#comment-16566</guid>
+		<description><![CDATA[OK, I see what&#039;s happening. It&#039;s not that IPFS is a P-P network but that you&#039;re implementing a locally running proxy server to transform the network connections, and using the /ipns/ prefix to designate an ipfs name lookup.
+
+OK, I&#039;ll take a look at this soon! Looks interesting! I think I remember when this was first mentioned years ago in an openSUSE Technical Forums post, and there was a short discussion of its benefits and possible drawbacks at the time. Will be interested in seeing how it&#039;s progressed.]]></description>
+		<content:encoded><![CDATA[<p>OK, I see what&#8217;s happening. It&#8217;s not that IPFS is a P-P network but that you&#8217;re implementing a locally running proxy server to transform the network connections, and using the /ipns/ prefix to designate an ipfs name lookup.</p>
+<p>OK, I&#8217;ll take a look at this soon! Looks interesting! I think I remember when this was first mentioned years ago in an openSUSE Technical Forums post, and there was a short discussion of its benefits and possible drawbacks at the time. Will be interested in seeing how it&#8217;s progressed.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Etam</title>
+		<link>https://lizards.opensuse.org/2019/04/03/experimental-opensuse-mirror-via-ipfs/#comment-16565</link>
+		<dc:creator><![CDATA[Etam]]></dc:creator>
+		<pubDate>Wed, 03 Apr 2019 21:17:06 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=13716#comment-16565</guid>
+		<description><![CDATA[Actually no. IPFS is a P2P network, quite similar to torrent. The repo URI refers to your local IPFS client.]]></description>
+		<content:encoded><![CDATA[<p>Actually no. IPFS is a P2P network, quite similar to torrent. The repo URI refers to your local IPFS client.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: lidel</title>
+		<link>https://lizards.opensuse.org/2019/04/03/experimental-opensuse-mirror-via-ipfs/#comment-16564</link>
+		<dc:creator><![CDATA[lidel]]></dc:creator>
+		<pubDate>Wed, 03 Apr 2019 18:42:22 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=13716#comment-16564</guid>
+		<description><![CDATA[FYSA there is IPFS Package Managers Working Group 
+that aims to improve IPFS experience for use cases like this
+
+https://github.com/ipfs/package-managers
+
+Reach out to them if you have any issues / questions / suggestions / experience reports to share – it will be really appreciated :)]]></description>
+		<content:encoded><![CDATA[<p>FYSA there is IPFS Package Managers Working Group<br />
+that aims to improve IPFS experience for use cases like this</p>
+<p><a href="https://github.com/ipfs/package-managers" rel="nofollow">https://github.com/ipfs/package-managers</a></p>
+<p>Reach out to them if you have any issues / questions / suggestions / experience reports to share – it will be really appreciated 🙂</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Tony Su</title>
+		<link>https://lizards.opensuse.org/2019/04/03/experimental-opensuse-mirror-via-ipfs/#comment-16563</link>
+		<dc:creator><![CDATA[Tony Su]]></dc:creator>
+		<pubDate>Wed, 03 Apr 2019 18:39:32 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=13716#comment-16563</guid>
+		<description><![CDATA[I think your repo URI shouldn&#039;t be localhost (127.0.0.1)...
+:)
+
+That&#039;s something to keep in mind even when developing and testing, the localhost interface is completely different than the LAN interface which in some cases can be a drastic difference (eg configuring a website&#039;s address). And, to be even more sure it&#039;s a good idea to publicly deploy before even starting to write the final draft so you&#039;re working off a final, Production configuration.]]></description>
+		<content:encoded><![CDATA[<p>I think your repo URI shouldn&#8217;t be localhost (127.0.0.1)&#8230;<br />
+🙂</p>
+<p>That&#8217;s something to keep in mind even when developing and testing, the localhost interface is completely different than the LAN interface which in some cases can be a drastic difference (eg configuring a website&#8217;s address). And, to be even more sure it&#8217;s a good idea to publicly deploy before even starting to write the final draft so you&#8217;re working off a final, Production configuration.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Etam</title>
+		<link>https://lizards.opensuse.org/2019/04/03/experimental-opensuse-mirror-via-ipfs/#comment-16562</link>
+		<dc:creator><![CDATA[Etam]]></dc:creator>
+		<pubDate>Wed, 03 Apr 2019 16:43:49 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=13716#comment-16562</guid>
+		<description><![CDATA[Great! I&#039;ll give it a try.
+
+Suggestion: instead of putting &quot;/ipfs/&quot; link in DNS and updating it with script, you can put once an &quot;/ipns/&quot; link, that references an &quot;/ipfs/&quot; link and can be updated.
+
+https://docs.ipfs.io/guides/concepts/ipns/
+https://docs.ipfs.io/reference/api/cli/#ipfs-name]]></description>
+		<content:encoded><![CDATA[<p>Great! I&#8217;ll give it a try.</p>
+<p>Suggestion: instead of putting &#8220;/ipfs/&#8221; link in DNS and updating it with script, you can put once an &#8220;/ipns/&#8221; link, that references an &#8220;/ipfs/&#8221; link and can be updated.</p>
+<p><a href="https://docs.ipfs.io/guides/concepts/ipns/" rel="nofollow">https://docs.ipfs.io/guides/concepts/ipns/</a><br />
+<a href="https://docs.ipfs.io/reference/api/cli/#ipfs-name" rel="nofollow">https://docs.ipfs.io/reference/api/cli/#ipfs-name</a></p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

@@ -1,0 +1,75 @@
+#coding:utf-8
+import yui
+
+factory = yui.YUI.widgetFactory()
+dialog = factory.createMainDialog()
+
+
+#######
+# GUI #
+#######
+
+#
+# What do we need ?
+# a VBOX ! dialog can hold only 1 widget, a VBox stacks multiple widgets vertically
+mainVBox = factory.createVBox(dialog)
+#
+# a HBox for the upper part
+upperHBox = factory.createHBox(mainVBox)
+upperHBox.setWeight(1, 10) # 1 = vertical, 10 % size
+#
+# a Logwindow for the output
+
+lowerLog = factory.createLogView(mainVBox, "Output", 4, 200)
+lowerLog.setWeight(1, 90) # 1 = vertical, 90 % size
+#
+# let's add the input/combo/buttons to #1
+#
+# Input
+myInput = factory.createInputField(upperHBox, "Repository URL")
+myInput.setValue("http://software.opensuse.org/repositories/home:/dl9pf:/yuitest/openSUSE_11.0/")
+myInput.setStretchable( 0, True ) # stretch the inputbox (0 = horizontally)
+#
+# ComboBox
+myComboBox = factory.createComboBox(upperHBox, "Repository type")
+myComboBox.addItem("RPM-MD")
+myComboBox.setNotify()
+#
+# "Go"-Button
+myGO = factory.createPushButton(upperHBox, "GO!")
+myGO.setStretchable( 1, True ) # strech it vertically
+#
+# Close
+Close = factory.createPushButton(mainVBox, "Close")
+
+
+#############
+# EVENTLOOP #
+#############
+#
+while True:
+    # wait for the next event and return it
+    event = dialog.waitForEvent()
+    if not event: # no event ? skip !
+        continue
+    #
+    # [x] in the top right corner ;)
+    if event.eventType() == yui.YEvent.CancelEvent: 
+        dialog.destroy() # bail out
+        break
+    #
+    # check widgets …
+    if event.widget() == myGO:
+        # read input again
+        repoString = myInput.value()
+        lowerLog.appendLines( str( "Repository URL set to : "+str(repoString) ) )
+        lowerLog.appendLines("\n")
+        #todo:
+        #checkRepo()
+        #getRepoData()
+        #listRepo()
+    #
+    # Close / Quit
+    if event.widget() == Close:
+        dialog.destroy() # bail out
+        break

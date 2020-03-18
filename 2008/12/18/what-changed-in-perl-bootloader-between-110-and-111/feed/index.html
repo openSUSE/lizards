@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	
+	>
+<channel>
+	<title>Comments on: What changed in perl-Bootloader between 11.0 and 11.1</title>
+	<atom:link href="https://lizards.opensuse.org/2008/12/18/what-changed-in-perl-bootloader-between-110-and-111/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org/2008/12/18/what-changed-in-perl-bootloader-between-110-and-111/</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 17:50:09 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>By: josef reidinger</title>
+		<link>https://lizards.opensuse.org/2008/12/18/what-changed-in-perl-bootloader-between-110-and-111/#comment-567</link>
+		<dc:creator><![CDATA[josef reidinger]]></dc:creator>
+		<pubDate>Mon, 22 Dec 2008 09:51:43 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=323#comment-567</guid>
+		<description><![CDATA[There are few reasons. First is that this check is more high-level, where I don&#039;t know what bootloader I have (and this is problem, because for elilo also doesn&#039;t exist /boot/grub). Checking if exist some kernel file is present is also not success, as during install there is nothing. What I must found is if user have separated boot, because that partition mask underlaid /boot. Checking fstab is for me the best way, because if you have separated boot which you want use, fstab is natural way to mark it and use only mount /mnt to attach it. And also installer create this entry (no if you don&#039;t want automount you simple add noauto. Of course if you have more ideas how detect separated boot, which is not mounted, I welcome it.]]></description>
+		<content:encoded><![CDATA[<p>There are few reasons. First is that this check is more high-level, where I don&#8217;t know what bootloader I have (and this is problem, because for elilo also doesn&#8217;t exist /boot/grub). Checking if exist some kernel file is present is also not success, as during install there is nothing. What I must found is if user have separated boot, because that partition mask underlaid /boot. Checking fstab is for me the best way, because if you have separated boot which you want use, fstab is natural way to mark it and use only mount /mnt to attach it. And also installer create this entry (no if you don&#8217;t want automount you simple add noauto. Of course if you have more ideas how detect separated boot, which is not mounted, I welcome it.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Rob</title>
+		<link>https://lizards.opensuse.org/2008/12/18/what-changed-in-perl-bootloader-between-110-and-111/#comment-566</link>
+		<dc:creator><![CDATA[Rob]]></dc:creator>
+		<pubDate>Mon, 22 Dec 2008 02:21:26 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=323#comment-566</guid>
+		<description><![CDATA[Very intersting Jozef, I commented in factory list on the XFS boot thread, about some historical things.
+
+Something I don&#039;t understand, is why you try to look in fstab(5) to see if /boot is mounted, when you could simply access a directly to see if it exists /boot/grub say.  If it&#039;s not there, then you know the kernel rpm update will fail.  That&#039;s only 1 simple system call to.
+
+When I filed a bug on old 10.3 kernel update, it was the reporting back to user angle that seemed like it could be tricky, as presumably the magic would be contained within the rpm&#039;s.]]></description>
+		<content:encoded><![CDATA[<p>Very intersting Jozef, I commented in factory list on the XFS boot thread, about some historical things.</p>
+<p>Something I don&#8217;t understand, is why you try to look in fstab(5) to see if /boot is mounted, when you could simply access a directly to see if it exists /boot/grub say.  If it&#8217;s not there, then you know the kernel rpm update will fail.  That&#8217;s only 1 simple system call to.</p>
+<p>When I filed a bug on old 10.3 kernel update, it was the reporting back to user angle that seemed like it could be tricky, as presumably the magic would be contained within the rpm&#8217;s.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: josef reidinger</title>
+		<link>https://lizards.opensuse.org/2008/12/18/what-changed-in-perl-bootloader-between-110-and-111/#comment-564</link>
+		<dc:creator><![CDATA[josef reidinger]]></dc:creator>
+		<pubDate>Sun, 21 Dec 2008 12:07:29 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=323#comment-564</guid>
+		<description><![CDATA[Those debates lead to better code and thats really important ;)]]></description>
+		<content:encoded><![CDATA[<p>Those debates lead to better code and thats really important 😉</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Bernhard Walle</title>
+		<link>https://lizards.opensuse.org/2008/12/18/what-changed-in-perl-bootloader-between-110-and-111/#comment-563</link>
+		<dc:creator><![CDATA[Bernhard Walle]]></dc:creator>
+		<pubDate>Sun, 21 Dec 2008 12:02:08 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=323#comment-563</guid>
+		<description><![CDATA[Also a big thank-you from me. Even if we had a heated debate about serial consoles and about &quot;esoteric mount points in /boot&quot; ;-) I really appreciate your and Jozefs work on the bootloader code! Especially the test suite and the improved documentation is clearly a step in the right direction in terms of maintainability of the code base.]]></description>
+		<content:encoded><![CDATA[<p>Also a big thank-you from me. Even if we had a heated debate about serial consoles and about &#8220;esoteric mount points in /boot&#8221; 😉 I really appreciate your and Jozefs work on the bootloader code! Especially the test suite and the improved documentation is clearly a step in the right direction in terms of maintainability of the code base.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Andreas Jaeger</title>
+		<link>https://lizards.opensuse.org/2008/12/18/what-changed-in-perl-bootloader-between-110-and-111/#comment-554</link>
+		<dc:creator><![CDATA[Andreas Jaeger]]></dc:creator>
+		<pubDate>Thu, 18 Dec 2008 20:32:11 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=323#comment-554</guid>
+		<description><![CDATA[You&#039;ve made great progress with the bootloader - thanks for sharing this!]]></description>
+		<content:encoded><![CDATA[<p>You&#8217;ve made great progress with the bootloader &#8211; thanks for sharing this!</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Martin Vidner</title>
+		<link>https://lizards.opensuse.org/2008/12/18/what-changed-in-perl-bootloader-between-110-and-111/#comment-553</link>
+		<dc:creator><![CDATA[Martin Vidner]]></dc:creator>
+		<pubDate>Thu, 18 Dec 2008 18:41:19 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=323#comment-553</guid>
+		<description><![CDATA[Wow! There is so much interesting detail in this post! You have actually restored my trust in the bootloader code.]]></description>
+		<content:encoded><![CDATA[<p>Wow! There is so much interesting detail in this post! You have actually restored my trust in the bootloader code.</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>linpac &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/linpac/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Linking Buildservice packages with exact revisions</title>
+		<link>https://lizards.opensuse.org/2009/02/06/linking-buildservice-packages-with-exact-revisions/</link>
+		<pubDate>Fri, 06 Feb 2009 08:57:53 +0000</pubDate>
+		<dc:creator><![CDATA[kl_eisbaer]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[linpac]]></category>
+		<category><![CDATA[osc]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=410</guid>
+		<description><![CDATA[During the &#8220;cleanup&#8221; of the HP-Education repository, I used a very interesting feature of the openSUSE Build Service: linking against revisions. Sometimes, you want to patch a package from another repository to build with special features enabled or disabled. The Build Service allows you to link the package from this other repository (and avoid wasting [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>During the &#8220;cleanup&#8221; of the HP-Education repository, I used a very interesting feature of the openSUSE Build Service: linking against revisions.</p>
+<p>Sometimes, you want to patch a package from another repository to build with special features enabled or disabled. The Build Service allows you to link the package from this other repository (and avoid wasting space by duplicating the sources) and add your patches.</p>
+<p>Now think about a patch against a special version of a package &#8211; and you know that you don&#8217;t want a package with a newer version in your repository for a foreseeable time. But if you use the plain link command of the Build Service, the linked package in your repository will get updated if the original package in the original project is updated.</p>
+<p>Luckily, the buildservice allows you to link against a &#8220;frozen&#8221; state of a package: it&#8217;s source-revision. People already knowing any revision control systems like Subversion also know that the revision of a source is increased each time, a new change is submitted. And that&#8217;s what we need now: link against a special revision of the package from the other repository and apply our patch against it. The webclient currently doesn&#8217;t support such special features, but with osc it&#8217;s very easy.<br />
+<span id="more-410"></span><br />
+First, check the needed revision in the original project:<br />
+<code><br />
+cd Education/MultiplicationStation<br />
+osc info<br />
+</code><br />
+<code><br />
+Project name: Education<br />
+Package name: MultiplicationStation<br />
+Path: /home/data/SVN/Education/MultiplicationStation<br />
+API URL: https://api.opensuse.org<br />
+Source URL: https://api.opensuse.org/source/Education/MultiplicationStation<br />
+srcmd5: 484c329659d613e3bbdd515a1a8d1099<br />
+Revision: 10<br />
+Link info: None<br />
+</code><br />
+Now create a link with this (or any further) revision to your new project:<br />
+<code><br />
+osc linkpac -r 10 Education MultiplicationStation isv:hp:education<br />
+</code><br />
+..and in the resulting &#8220;_link&#8221; file in your new project, you&#8217;ll find:<br />
+<code><br />
+&lt;link project="Education" package="MultiplicationStation" rev="10"&gt;<br />
+&lt;patches&gt;<br />
+&lt;!-- &lt;apply name="patch" /&gt; --&gt;<br />
+&lt;!-- &lt;topadd&gt;%define build_with_feature_x 1&lt;/topadd&gt; --&gt;<br />
+&lt;/patches&gt;<br />
+&lt;/link&gt;<br />
+</code><br />
+So your linked package will always use the source revision 10 of the original project. Let&#8217;s start applying patches&#8230;</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

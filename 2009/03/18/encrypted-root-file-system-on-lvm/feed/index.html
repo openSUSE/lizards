@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	
+	>
+<channel>
+	<title>Comments on: encrypted root file system on LVM</title>
+	<atom:link href="https://lizards.opensuse.org/2009/03/18/encrypted-root-file-system-on-lvm/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org/2009/03/18/encrypted-root-file-system-on-lvm/</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 17:50:09 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>By: Earl Ruby</title>
+		<link>https://lizards.opensuse.org/2009/03/18/encrypted-root-file-system-on-lvm/#comment-1033</link>
+		<dc:creator><![CDATA[Earl Ruby]]></dc:creator>
+		<pubDate>Tue, 16 Jun 2009 15:06:17 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=603#comment-1033</guid>
+		<description><![CDATA[You need to re-add it to menu.lst and re-run mkinitrd. If you updated your kernel and then rebooting failed, boot off the SUSE Live CD disk, fire up Gnome Terminal, and:
+
+&lt;code&gt;
+cryptsetup luksOpen /dev/sda2 root
+&lt;/code&gt;
+
+Enter decrypt password. Then:
+
+&lt;code&gt;
+mount /dev/mapper/system-root /mnt
+mount /dev/mapper/system-usr /mnt/usr
+mount /dev/sda1 /mnt/boot
+for i in dev sys proc; do mount --bind /$i /mnt/$i; done
+chroot /mnt
+&lt;/code&gt;
+
+Add &quot;luks_root=/dev/sda2&quot; to /boot/grub/menu.lst, then re-run mkinitrd. 
+
+To keep kernel updates from messing up your system again, add the string &quot;luks_root=/dev/sda2&quot; to the end of the DEFAULT_APPEND and FAILSAFE_APPEND lines in /etc/sysconfig/bootloader.]]></description>
+		<content:encoded><![CDATA[<p>You need to re-add it to menu.lst and re-run mkinitrd. If you updated your kernel and then rebooting failed, boot off the SUSE Live CD disk, fire up Gnome Terminal, and:</p>
+<p><code><br />
+cryptsetup luksOpen /dev/sda2 root<br />
+</code></p>
+<p>Enter decrypt password. Then:</p>
+<p><code><br />
+mount /dev/mapper/system-root /mnt<br />
+mount /dev/mapper/system-usr /mnt/usr<br />
+mount /dev/sda1 /mnt/boot<br />
+for i in dev sys proc; do mount --bind /$i /mnt/$i; done<br />
+chroot /mnt<br />
+</code></p>
+<p>Add &#8220;luks_root=/dev/sda2&#8221; to /boot/grub/menu.lst, then re-run mkinitrd. </p>
+<p>To keep kernel updates from messing up your system again, add the string &#8220;luks_root=/dev/sda2&#8221; to the end of the DEFAULT_APPEND and FAILSAFE_APPEND lines in /etc/sysconfig/bootloader.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Earl Ruby</title>
+		<link>https://lizards.opensuse.org/2009/03/18/encrypted-root-file-system-on-lvm/#comment-1032</link>
+		<dc:creator><![CDATA[Earl Ruby]]></dc:creator>
+		<pubDate>Tue, 16 Jun 2009 14:57:56 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=603#comment-1032</guid>
+		<description><![CDATA[One step you need to add: People need to modify the /etc/sysconfig/bootloader configuration file and add the string &quot;luks_root=/dev/sda2&quot; to the end of both the DEFAULT_APPEND and FAILSAFE_APPEND lines, otherwise the next time the system updates the kernel it will not include this setting in /boot/grub/menu.lst file and the system fail to boot.]]></description>
+		<content:encoded><![CDATA[<p>One step you need to add: People need to modify the /etc/sysconfig/bootloader configuration file and add the string &#8220;luks_root=/dev/sda2&#8221; to the end of both the DEFAULT_APPEND and FAILSAFE_APPEND lines, otherwise the next time the system updates the kernel it will not include this setting in /boot/grub/menu.lst file and the system fail to boot.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: mapia</title>
+		<link>https://lizards.opensuse.org/2009/03/18/encrypted-root-file-system-on-lvm/#comment-918</link>
+		<dc:creator><![CDATA[mapia]]></dc:creator>
+		<pubDate>Tue, 28 Apr 2009 22:06:28 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=603#comment-918</guid>
+		<description><![CDATA[I can confirm that this is the only necesary change. My problem arose because I added an additional grub item and I forgot to specify the initrd. Beginner error sorry.]]></description>
+		<content:encoded><![CDATA[<p>I can confirm that this is the only necesary change. My problem arose because I added an additional grub item and I forgot to specify the initrd. Beginner error sorry.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: mapia</title>
+		<link>https://lizards.opensuse.org/2009/03/18/encrypted-root-file-system-on-lvm/#comment-917</link>
+		<dc:creator><![CDATA[mapia]]></dc:creator>
+		<pubDate>Tue, 28 Apr 2009 21:25:29 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=603#comment-917</guid>
+		<description><![CDATA[Sorry i think I expressed myself here a bit unprecise. I did not use the initial menu.lst instead I edited the newly created menu.lst file with the reference to the new kernel and added luks_root=/dev/sda3 (in my case) and luks=root. Still after the reboot I&#039;m no more prompted for th eluks password]]></description>
+		<content:encoded><![CDATA[<p>Sorry i think I expressed myself here a bit unprecise. I did not use the initial menu.lst instead I edited the newly created menu.lst file with the reference to the new kernel and added luks_root=/dev/sda3 (in my case) and luks=root. Still after the reboot I&#8217;m no more prompted for th eluks password</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Ludwig Nussel</title>
+		<link>https://lizards.opensuse.org/2009/03/18/encrypted-root-file-system-on-lvm/#comment-916</link>
+		<dc:creator><![CDATA[Ludwig Nussel]]></dc:creator>
+		<pubDate>Tue, 28 Apr 2009 13:34:36 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=603#comment-916</guid>
+		<description><![CDATA[You can&#039;t use the old menu.lst as the file name of the kernel has changed. You just need to add the luks_root=/dev/sda2 parameter in the new file again.]]></description>
+		<content:encoded><![CDATA[<p>You can&#8217;t use the old menu.lst as the file name of the kernel has changed. You just need to add the luks_root=/dev/sda2 parameter in the new file again.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Ludwig Nussel</title>
+		<link>https://lizards.opensuse.org/2009/03/18/encrypted-root-file-system-on-lvm/#comment-915</link>
+		<dc:creator><![CDATA[Ludwig Nussel]]></dc:creator>
+		<pubDate>Tue, 28 Apr 2009 13:33:26 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=603#comment-915</guid>
+		<description><![CDATA[it&#039;s a hack to trick mkinitrd into using luks (root_luks=1) for the device in the variable &#039;luks_root&#039; (due to luks=root). See /lib/mkinitrd/scripts/setup-luks.sh]]></description>
+		<content:encoded><![CDATA[<p>it&#8217;s a hack to trick mkinitrd into using luks (root_luks=1) for the device in the variable &#8216;luks_root&#8217; (due to luks=root). See /lib/mkinitrd/scripts/setup-luks.sh</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: mapia</title>
+		<link>https://lizards.opensuse.org/2009/03/18/encrypted-root-file-system-on-lvm/#comment-914</link>
+		<dc:creator><![CDATA[mapia]]></dc:creator>
+		<pubDate>Tue, 28 Apr 2009 11:52:46 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=603#comment-914</guid>
+		<description><![CDATA[Since the latest kernel update my system is not booting anymore even after restoring menu.lst. Is it possible that the order of loading necesary files changed?]]></description>
+		<content:encoded><![CDATA[<p>Since the latest kernel update my system is not booting anymore even after restoring menu.lst. Is it possible that the order of loading necesary files changed?</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: mapia</title>
+		<link>https://lizards.opensuse.org/2009/03/18/encrypted-root-file-system-on-lvm/#comment-913</link>
+		<dc:creator><![CDATA[mapia]]></dc:creator>
+		<pubDate>Tue, 28 Apr 2009 11:48:03 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=603#comment-913</guid>
+		<description><![CDATA[Hi,
+
+can you explain a bit more in detail why 
+Create /etc/sysconfig/initrd with the following two lines:
+root_luks=1
+luks=root
+
+is necesary and what it is doing. Is it just necesary for the making of the new initrd or also during the startup?]]></description>
+		<content:encoded><![CDATA[<p>Hi,</p>
+<p>can you explain a bit more in detail why<br />
+Create /etc/sysconfig/initrd with the following two lines:<br />
+root_luks=1<br />
+luks=root</p>
+<p>is necesary and what it is doing. Is it just necesary for the making of the new initrd or also during the startup?</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Ludwig Nussel</title>
+		<link>https://lizards.opensuse.org/2009/03/18/encrypted-root-file-system-on-lvm/#comment-879</link>
+		<dc:creator><![CDATA[Ludwig Nussel]]></dc:creator>
+		<pubDate>Thu, 09 Apr 2009 09:19:49 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=603#comment-879</guid>
+		<description><![CDATA[Additional note for those trying it: Beware of kernel updates. The luks_root option seems to get lost so check your menu.lst before rebooting:
+https://bugzilla.novell.com/show_bug.cgi?id=490045]]></description>
+		<content:encoded><![CDATA[<p>Additional note for those trying it: Beware of kernel updates. The luks_root option seems to get lost so check your menu.lst before rebooting:<br />
+<a href="https://bugzilla.novell.com/show_bug.cgi?id=490045" rel="nofollow">https://bugzilla.novell.com/show_bug.cgi?id=490045</a></p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Andreas Stieger</title>
+		<link>https://lizards.opensuse.org/2009/03/18/encrypted-root-file-system-on-lvm/#comment-859</link>
+		<dc:creator><![CDATA[Andreas Stieger]]></dc:creator>
+		<pubDate>Tue, 31 Mar 2009 16:53:31 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=603#comment-859</guid>
+		<description><![CDATA[Works before leaving language/keyboard layout screen when you &quot;modprobe dm-crypt&quot; and &quot;modprobe aes&quot;. Doing it a screen later locked the disk device for some reason.]]></description>
+		<content:encoded><![CDATA[<p>Works before leaving language/keyboard layout screen when you &#8220;modprobe dm-crypt&#8221; and &#8220;modprobe aes&#8221;. Doing it a screen later locked the disk device for some reason.</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

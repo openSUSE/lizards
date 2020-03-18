@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>genesi &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/genesi/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>openSUSE ARM image</title>
+		<link>https://lizards.opensuse.org/2012/01/21/opensuse-arm-image/</link>
+		<comments>https://lizards.opensuse.org/2012/01/21/opensuse-arm-image/#comments</comments>
+		<pubDate>Sat, 21 Jan 2012 18:10:06 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[arm7]]></category>
+		<category><![CDATA[efikaMX]]></category>
+		<category><![CDATA[genesi]]></category>
+		<category><![CDATA[openSUSE@ARM]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8446</guid>
+		<description><![CDATA[When I wrote this week, how I ran openSUSE on my genesi smarttop some people asked for a ready-to-use image. After spending less than 8 hours fiddling with u-boot-scripts, partition tables, tuning ext3 and initrds, it was done&#8230; and is now so easy: wget http://www.zq1.de/efika.img.xz # 83MB xz -cd efika.img.xz &#124; dd of=/dev/sdX bs=1M with [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>When I wrote this week, <a href="http://lizards.opensuse.org/2012/01/19/running-opensuse-on-arm/">how I ran openSUSE on my genesi smarttop</a> some people asked for a ready-to-use image. After spending less than 8 hours fiddling with u-boot-scripts, partition tables, tuning ext3 and initrds, it was done&#8230; and is now so easy:</p>
+<blockquote><p>wget http://www.zq1.de/efika.img.xz # 83MB<br />
+xz -cd efika.img.xz | dd of=/dev/sdX bs=1M</p></blockquote>
+<p>with sdX being the device name of your SD-card (e.g. &#8220;mmcblk0&#8221; on the smarttop itself) with at least 1GB (actually 1024000000 bytes) of free space.</p>
+<p>When inserted at boot, it should just boot up within 23 seconds and let you login as root with password &#8220;linux&#8221; on SSH, serial and with a USB-keyboard on HDMI. I spent some effort on putting as few packages as possible into it. Still, you have zypper to install packages and nano to edit files.</p>
+<p>There is still a known hangup when you try to reboot. Workaround is: init 2 ; sleep 12 ; killall rsyslogd ; umount /boot/ ; mount -o remount,ro / ; reboot</p>
+<p>As it still uses the original linux-2.6.31 kernel, it has another bug that also happens with pre-installed Ubuntu: sometimes (in ~40% of cases), boot stopps early, before graphics is initialized, when the last line on serial is &#8220;console handover: boot [ttymxc0] -&gt; real [tty1]&#8221;. Try turning it off and on again.</p>
+<p>This should allow you to have a whole lot of fun&#8230;</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2012/01/21/opensuse-arm-image/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>running openSUSE on ARM</title>
+		<link>https://lizards.opensuse.org/2012/01/19/running-opensuse-on-arm/</link>
+		<comments>https://lizards.opensuse.org/2012/01/19/running-opensuse-on-arm/#comments</comments>
+		<pubDate>Thu, 19 Jan 2012 21:11:58 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[arm7]]></category>
+		<category><![CDATA[efikaMX]]></category>
+		<category><![CDATA[genesi]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8410</guid>
+		<description><![CDATA[This week I finally got my genesi efika MX box. By default it has on old Ubuntu version installed on its internal IDE-attached 8GB SSD. It features 512 MB RAM and a 800 MHz ARMv7 CPU. Using a HDMI-cable and an HDMI-DVI-Adaptor I got it connected to a monitor, plugged in a USB keyboard+mouse and [&#8230;]]]></description>
+				<content:encoded><![CDATA[<div class="mceTemp">
+<dl>
+<dt><img src="http://www.zq1.de/%7Ebernhard/images/efikamx.jpg" alt="" width="647" height="1000" /></dt>
+<dd></dd>
+</dl>
+</div>
+<p>This week I finally got my <a href="http://www.genesi-usa.com/products/efika">genesi efika MX</a> box. By default it has on old Ubuntu version installed on its internal IDE-attached 8GB SSD. It features 512 MB RAM and a 800 MHz ARMv7 CPU.</p>
+<p>Using a HDMI-cable and an HDMI-DVI-Adaptor I got it connected to a monitor, plugged in a USB keyboard+mouse and it pretty much worked out of the box with WLAN,Ethernet,X11 (except for a bug that causes it to force you to change PW on every console login). How boring.</p>
+<p>Having read about recent progress with openSUSE on ARM I wanted the excitement of running it on this box.</p>
+<p><a href="http://michal.hrusecky.net/2011/10/opensuse-arm-chroot-less-then-alpha/">Michal&#8217;s image and script</a> (now in alpha) was very helpful to get me started within 15 minutes.</p>
+<p>If you have any (e.g. x86) openSUSE system running, there is another easy way to create a working ARM chroot-environment:</p>
+<blockquote><p>zypper ar http://download.opensuse.org/repositories/openSUSE:/Tools:/Unstable/openSUSE_12.1/openSUSE:Tools:Unstable.repo<br />
+zypper install qemu osc<br />
+osc co openSUSE:Factory:ARM bash<br />
+cd openSUSE:Factory:ARM/bash<br />
+edit bash.spec # add lines with your packages like BuildRequires: zypper,vim<br />
+osc build &#8211;no-verify &#8211;clean standard armv7l</p></blockquote>
+<p>If it worked well, /var/tmp/build-root/ should contain a chroot environment. E.g. you can run</p>
+<blockquote><p>file /var/tmp/build-root/bin/bash<br />
+/var/tmp/build-root/bin/bash: ELF 32-bit LSB executable, ARM, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.16, BuildID[sha1]=0xed9ca12f44c8591560d780cf807b6b6cf8ca8873, stripped</p></blockquote>
+<p>I partitioned my SD-card into two partitions. The first one for /boot with ext2 (needs only 150MB) and the second one for / to contain the rootfs. Be sure to have barrier=0 in your fstab for all ext[34] partitions so that writing to SD will not be as slow. The default U-Boot configuration first checks on the first partition of an SD-card for boot.scr which is a uImage-formatted version of a U-boot script. I copied all of Ubuntu&#8217;s /boot and /lib/modules/, slightly adapted their boot.script file to have root=/dev/mmcblk0p2 and uImage/uInitrd-2.6.31.14.26-efikamx as kernel/initrd, dropped &#8220;quiet splash&#8221; and added &#8220;console=ttymxc0,115200&#8221; to see more of the boot and ran a line from <a href="http://archlinuxarm.org/platforms/armv7/pandaboard">another helpful site</a>:</p>
+<blockquote><p>mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n &#8220;my boot script&#8221; -d boot.script boot.scr<br />
+echo mxc0:S12345:respawn:/sbin/agetty -L 115200 ttymxc0 vt102 &gt;&gt; /etc/inittab # for serial console</p></blockquote>
+<p>However, this failed to boot. Using the serial debug console, I could see U-boot trying to load the boot.scr but it was thinking it was zero bytes for some strange reason. Re-creating my /boot partition as a raw copy of /dev/sda1 with my adaptions ontop finally gave me an SD-card that <strong>just boots</strong> openSUSE Factory on ARM with framebuffer console on HDMI/DVI.</p>
+<p>Find more ARM-related info on our <a href="http://en.opensuse.org/Portal:ARM">openSUSE ARM Portal</a></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2012/01/19/running-opensuse-on-arm/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+	</channel>
+</rss>

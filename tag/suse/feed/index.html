@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>suse &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/suse/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>GNOME3 iso by fcrozat and ATI radeon driver&#8230; a quick easy fix!</title>
+		<link>https://lizards.opensuse.org/2011/04/10/gnome3-iso-by-fcrozat-and-ati-radeon-driver-a-quick-easy-fix/</link>
+		<comments>https://lizards.opensuse.org/2011/04/10/gnome3-iso-by-fcrozat-and-ati-radeon-driver-a-quick-easy-fix/#comments</comments>
+		<pubDate>Sun, 10 Apr 2011 17:05:08 +0000</pubDate>
+		<dc:creator><![CDATA[Nelson Marques]]></dc:creator>
+				<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[DRM]]></category>
+		<category><![CDATA[gnome-shell]]></category>
+		<category><![CDATA[gnome3]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[power]]></category>
+		<category><![CDATA[radeon]]></category>
+		<category><![CDATA[settings]]></category>
+		<category><![CDATA[suse]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7149</guid>
+		<description><![CDATA[Hi all, For some time I wanted to check out GNOME3 and gnome-shell&#8230; My current chipset is ATI M92 RV710 and while the thermal performance with the proprietary driver is somewhat what I expect, the open source radeon driver does overheat my laptop a lot compared to flgrx. For the time being, fglrx isn&#8217;t really [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi all,</p>
+<p>For some time I wanted to check out GNOME3 and gnome-shell&#8230; My current chipset is ATI M92 RV710 and while the thermal performance with the proprietary driver is somewhat what I expect, the open source radeon driver does overheat my laptop a lot compared to flgrx. For the time being, fglrx isn&#8217;t really a choice because it just borgs the &#8216;activities&#8217; bar on top&#8230; And until ATI fixes their driver, there&#8217;s no other choice than running with the standard radeon drm driver, which does provide a very pleasant experience with GNOME3 / gnome-shell.</p>
+<p>For all that matters, KMS is to be enabled, period, full stop. And from this point&#8230; we have two options regarding power management:</p>
+<p>1. Dynamic Frequency switching (not really working for me);<br />
+2. Profile based frequency switching (does provide what I need);</p>
+<p>For all that matters regarding &#8216;profile based frequency switching&#8217; we have 5 profiles available:</p>
+<ul>
+<li>&#8220;default&#8221; uses the default clocks and does not change the power state. This is the default behavior.</li>
+<li>&#8220;auto&#8221; selects between &#8220;mid&#8221; and &#8220;high&#8221; power states based on the whether the system is on battery power or not. The &#8220;low&#8221; power state are selected when the monitors are in the dpms off state.</li>
+<li>&#8220;low&#8221; forces the gpu to be in the low power state all the time. Note that &#8220;low&#8221; can cause display problems on some laptops; this is why auto only uses &#8220;low&#8221; when displays are off.</li>
+<li>&#8220;mid&#8221; forces the gpu to be in the &#8220;mid&#8221; power state all the time. The &#8220;low&#8221; power state is selected when the monitors are in the dpms off state.</li>
+<li>&#8220;high&#8221; forces the gpu to be in the &#8220;high&#8221; power state all the time. The &#8220;low&#8221; power state is selected when the monitors are in the dpms off state.</li>
+</ul>
+<p>Now, what I did might not be an option to everyone, but for sure it does provide a nice solution for my problem&#8230; So be mindful of that&#8230; this is a personal preference based on the fact that I don&#8217;t require intensive GPU usage, neither I run intensive GPU requiring applications within GNOME3/gnome-shell (I have a normal openSUSE 11.4 with GNOME 2.32.x with fglrx dual boot config for those apps).</p>
+<p>The first thing we might want to do is to switch to profile based frequency switching&#8230; how do we this? As root:</p>
+<p>[code] echo profile &gt; /sys/class/drm/card0/device/power_method[/code]</p>
+<p>Now we have to pick one of those 5 profiles&#8230; and since I&#8217;ve already stated&#8230; I want the &#8216;low&#8217; profile since I don&#8217;t really do much intensive GPU work&#8230;</p>
+<p>[code] echo low &gt; /sys/class/drm/card0/device/power_profile[/code]</p>
+<p>Now&#8230; you might want to check out the different profiles and the different clocks used&#8230; this can be done through:</p>
+<p>[code] ﻿cat /sys/kernel/debug/dri/0/radeon_pm_info[/code]</p>
+<p>and will report something like this:</p>
+<p>[code]﻿linux-331w:~ # cat /sys/kernel/debug/dri/0/radeon_pm_info<br />
+default engine clock: 680000 kHz<br />
+current engine clock: 299530 kHz<br />
+default memory clock: 800000 kHz<br />
+current memory clock: 249750 kHz<br />
+voltage: 900 mV<br />
+PCIE lanes: 16[/code]</p>
+<p>This one is using the &#8216;low&#8217; profile&#8230; Feel free to test stuff around and find which one better answers your needs&#8230; Also there&#8217;s far more that can be done&#8230; I hope this helps ATI users with DRM driver to bring out the best of your system and improves your GNOME3 / gnome-shell experience, at so that you can run it with good thermal performance without fglrx.</p>
+<p>NM</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2011/04/10/gnome3-iso-by-fcrozat-and-ati-radeon-driver-a-quick-easy-fix/feed/</wfw:commentRss>
+		<slash:comments>4</slash:comments>
+		</item>
+		<item>
+		<title>openSUSE Forums – Tighter Integration with the openSUSE Board</title>
+		<link>https://lizards.opensuse.org/2010/02/11/opensuse-forums-%e2%80%93-tighter-integration-with-the-opensuse-board-2/</link>
+		<pubDate>Thu, 11 Feb 2010 15:53:50 +0000</pubDate>
+		<dc:creator><![CDATA[Carl Fletcher]]></dc:creator>
+				<category><![CDATA[Forums]]></category>
+		<category><![CDATA[forum]]></category>
+		<category><![CDATA[openSUSE forum]]></category>
+		<category><![CDATA[suse]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=3219</guid>
+		<description><![CDATA[After a review by the openSUSE board and some significant changes in the administration, the openSUSE forums is well placed to provide sterling support to it&#8217;s users. The openSUSE forums team can be seen here: Forum Team A general drawing together of all the openSUSE community (including the forums), will mean better communication over all [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>After a review by the openSUSE board and some significant changes in the administration, the openSUSE forums is well placed to provide sterling support to it&#8217;s users. The openSUSE forums team can be seen here: <a href="http://en.opensuse.org/Forum_Team">Forum Team</a><br />
+A general drawing together of all the openSUSE community (including the forums), will mean better communication over all the areas, this should translate in to improved support for the users. The forum now has language specific areas: <a href="http://forums.opensuse.org/">Forum</a><br />
+And a Wiki area too. This will compliment the enormous work being done in the Wiki to improve user support. Both have their compliment of Forum specific Moderators. Here at openSUSE forum we really go the extra mile to help you.<br />
+A big thank you goes out to the openSUSE board for their help over recent months. All here in the forum look forward to working along with the rest of the community.</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>I am going to Encuentro Linux 2009!</title>
+		<link>https://lizards.opensuse.org/2009/10/21/i-am-going-to-encuentro-linux-2009/</link>
+		<pubDate>Wed, 21 Oct 2009 02:35:16 +0000</pubDate>
+		<dc:creator><![CDATA[Ricardo Varas Santana]]></dc:creator>
+				<category><![CDATA[Events]]></category>
+		<category><![CDATA[Marketing]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[suse]]></category>
+		<category><![CDATA[suse studio]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=2356</guid>
+		<description><![CDATA[Yes, I am going to Encuentro Linux 2009, and so does openSUSE!. This year the most important Linux event in Chile will be held in Valparaiso and Viña del Mar at the same time. I&#8217;ll be giving a presentation on SUSE Studio (if you didn&#8217;t already know 😉 ) on Saturday 24th, 10:00 &#8211; 11:10 [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Yes, I am going to Encuentro Linux 2009, and so does openSUSE!. This year the most important Linux event in Chile will be held in <a href="http://en.wikipedia.org/wiki/Valpara%C3%ADso">Valparaiso</a> and <a href="http://en.wikipedia.org/wiki/Vi%C3%B1a_Del_Mar">Viña del Mar</a> at the same time. I&#8217;ll be giving a presentation on SUSE Studio (if you didn&#8217;t already know <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> ) on Saturday 24th, 10:00 &#8211; 11:10 AM. Of course I am taking all openSUSE 11.1 DVDs I have left, and will be a great oportunity to show on my notebook  what&#8217;s coming for 11.2.</p>
+<p><img class="aligncenter size-full wp-image-213" src="http://ricardovs.wordpress.com/files/2009/10/yovoy1.png" alt="yovoy1" width="199" height="121" /></p>
+<p>More information (in spanish only) <a href="http://2009.encuentrolinux.cl/">here</a>. See you there!.</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

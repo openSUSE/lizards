@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>openqa &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/openqa/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Highlights of YaST Development Sprint 85</title>
+		<link>https://lizards.opensuse.org/2019/09/26/highlights-of-yast-development-sprint-85/</link>
+		<pubDate>Thu, 26 Sep 2019 08:22:24 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+		<category><![CDATA[bonding]]></category>
+		<category><![CDATA[graph]]></category>
+		<category><![CDATA[networking]]></category>
+		<category><![CDATA[openqa]]></category>
+		<category><![CDATA[refactoring]]></category>
+		<category><![CDATA[resolver]]></category>
+		<category><![CDATA[storage]]></category>
+		<category><![CDATA[vlan]]></category>
+		<category><![CDATA[zoom]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=14083</guid>
+		<description><![CDATA[Encryption got so many improvements that we are writing a separate post (stay tuned). Refactored Network on its way to Tumbleweed. When you fix a corner case, automatic tests will break in a different corner. Not only in flight simulators but also in storage device graphs it matters which way is up and which is [&#8230;]]]></description>
+				<content:encoded><![CDATA[<ul>
+<li><a href="#FIXME">Encryption</a> got so many improvements that we are writing a separate post (stay tuned).</li>
+<li><a href="#s85-net">Refactored Network on its way to Tumbleweed</a>.</li>
+<li>When you fix a corner case, <a href="#s85-openqa">automatic tests will break in a different corner</a>.</li>
+<li>Not only in flight simulators but also in storage device graphs <a href="#s85-zoom">it matters which way is up and which is down</a>.</li>
+</ul>
+<h3 id="refactored-network-on-its-way-to-tumbleweed">Refactored Network on its way to Tumbleweed<a name="s85-net"></a></h3>
+<p>A few weeks ago we submitted the first round of changes to the network module to Tumbleweed. At that point, it was still using the old data model for most operations (except routing and DNS handling) and a lot of work remained to be done.</p>
+<p>We have been working hard on improving the overall quality of this module and we will submit an updated (and much improved) version in the upcoming days. To summarize, here are some highlights:</p>
+<ul>
+<li>Completed the new data model (support for TUN/TAP, bridges, bonding, VLANs, etc.).</li>
+<li>New wireless configuration workflow.</li>
+<li>Revamped support for interface renaming and driver assignment, including better udev rule handling.</li>
+<li>Fixed <code>/etc/hosts</code> handling when switching from static to DHCP based configuration.</li>
+<li>Many small fixes in several areas.</li>
+</ul>
+<p>Are we done with the refactoring? No, we are still working on improving S390 support and fixing small issues, but most of the work is already done.</p>
+<p>Of course, as soon as we finish, we will publish a blog entry with the gory details. But, as we know that you love screenshots, let us show you a handful of them.</p>
+<p>Although we have not introduced big user interface changes, we have tried to improve small things, like properly displaying whether an interface belongs to a VLAN or hiding the &quot;Hardware&quot; tab for virtual interfaces.</p>
+<div class="figure"><a href="//lizards.opensuse.org/wp-content/uploads/2019/09/s85-network-ng-enslaved.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/09/s85-network-ng-enslaved-300x217.png" alt="" width="300" height="217" class="aligncenter size-medium wp-image-14085" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/09/s85-network-ng-enslaved-300x217.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/09/s85-network-ng-enslaved-768x557.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/09/s85-network-ng-enslaved-1024x742.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2019/09/s85-network-ng-enslaved.png 1025w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<div class="figure"><a href="//lizards.opensuse.org/wp-content/uploads/2019/09/s85-network-ng-bond.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/09/s85-network-ng-bond-300x217.png" alt="" width="300" height="217" class="aligncenter size-medium wp-image-14086" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/09/s85-network-ng-bond-300x217.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/09/s85-network-ng-bond-768x557.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/09/s85-network-ng-bond-1024x742.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2019/09/s85-network-ng-bond.png 1025w" sizes="(max-width: 300px) 100vw, 300px" /></a>
+</div>
+<h3 id="dns-resolution-not-working-during-installation-or-openqa-is-different">DNS resolution not working during installation, or: openQA is different<a name="s85-openqa"></a></h3>
+<p>When we got a bug report that DNS resolution was not working during installation (since SLE-15 apparently), a solution seemed straightforward: <code>/run/netconfig/resolv.conf</code> was missing because the <code>/run</code> directory was not mirrored (bind-mounted) into the target system. That&#8217;s a task that used to be done by yast-storage in times before SLE-15 and was for some unknown reason forgotten when we implemented yast-storage-ng. A <a href="https://github.com/yast/yast-storage-ng/pull/958">one-line fix</a> was easily done, tested, and submitted.</p>
+<p>Or so it seemed.</p>
+<p>A few days later we got reports from SLE <a href="https://openqa.opensuse.org/">openQA</a> that tests started to fail with this patch. Nothing networking related but the installation did not finish because the 10 seconds countdown dialog (&#8216;going to reboot&#8217;) at the very end of the installation was frozen. The UI didn&#8217;t accept any input whatsoever. But whatever we tried, the issue was not reproducible outside openQA. <a href="https://en.opensuse.org/openSUSE:Report_a_YaST_bug">YaST logs</a> from openQA showed that <code>/run</code> got mounted as planned and was cleanly unmounted at the end of the installation &#8211; before that frozen dialog. So no clue so far and the issue was set aside for a while. Until the same reports came in from Tumbleweed testing. It was clearly linked to this one-line patch. But how?</p>
+<p>It stayed a mystery until a chat with an openQA expert shed some light on the issue. What we <em>thought</em> was happening was: openQA stopped the dialog (by pressing a button) and when it tried to go on the OK button did not respond anymore. What we learned <em>does</em> actually happen is this: openQA stops the dialog, then <a href="https://github.com/os-autoinst/os-autoinst-distri-opensuse/blob/5ab5f605c178189a0cadc40624e2b76ae61e29c9/tests/installation/logs_from_installation_system.pm#L34">switches from X to the text console</a>, <a href="https://github.com/os-autoinst/os-autoinst-distri-opensuse/blob/5ab5f605c178189a0cadc40624e2b76ae61e29c9/tests/installation/logs_from_installation_system.pm#L57">collects logs</a>, switches back to X, and <em>then</em> the UI does not respond anymore. So that was quite an essential point missing.</p>
+<p>And with this it was easily reproduced outside openQA: the X logs showed that the X server lost all its input devices after the switch. And that was because someone had deleted the whole <code>/run</code> directory. The YaST logs didn&#8217;t contain a hint (of course not, would have been too easy) but grepping the sources found the place where YaST deleted the directory.</p>
+<p>The code had been added after complaints that the installation left a cluttered <code>/run</code> directory &#8211; of course the installation did leave files there, since it was forgotten to bind-mount the directory. So once the mentioned patch bind-mounted it again the deletion code cleaned up not <code>/run</code> in the installation target system but the real <code>/run</code> as well &#8211; cutting off the X server from the outside world resulting in freezing the openQA test.</p>
+<p>And the moral of <a href="https://github.com/yast/yast-installation/pull/811">the story</a> is: probably none. But it highlights again that the automated test setup can have unexpected feedback on the test itself. Luckily in this case, as the issue would not have been noticed otherwise.</p>
+<h3 id="computer-enlarge-the-device-graph">Computer, Enlarge the Device Graph<a name="s85-zoom"></a></h3>
+<p>The partitioner module has a graphical view to help you see the relations in more complex storage setups:</p>
+<div class="figure"><a href="//lizards.opensuse.org/wp-content/uploads/2019/09/s85-scrolldir.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/09/s85-scrolldir-300x232.png" alt="" width="300" height="232" class="aligncenter size-medium wp-image-14087" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/09/s85-scrolldir-300x232.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/09/s85-scrolldir-768x594.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/09/s85-scrolldir.png 807w" sizes="(max-width: 300px) 100vw, 300px" /></a>
+</div>
+<p>If you turn the mouse scroll wheel up or down, we will zoom the view in or out. Now the direction matches the behavior in web browsers and online maps, previously we had it the wrong way around.</p>
+<p><strong>Update</strong>: during proofreading, a team mate told me: &quot;A device graph? That&#8217;s not a device graph. <a href="https://www.youtube.com/watch?v=POJtaO2xB_o">THAT&#8217;s</a> a device graph:&quot;</p>
+<div class="figure"><a href="//lizards.opensuse.org/wp-content/uploads/2019/09/s85-thats-a-graph.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/09/s85-thats-a-graph-1024x80.png" alt="" width="1024" height="80" class="aligncenter size-large wp-image-14088" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/09/s85-thats-a-graph-1024x80.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2019/09/s85-thats-a-graph-300x24.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/09/s85-thats-a-graph-768x60.png 768w" sizes="(max-width: 1024px) 100vw, 1024px" /></a>
+</div>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>What happened @ FOSSCOMM 2015, Athens Nov 6-8</title>
+		<link>https://lizards.opensuse.org/2015/11/12/fosscomm-2015-athens-nov-6-8/</link>
+		<pubDate>Thu, 12 Nov 2015 13:21:58 +0000</pubDate>
+		<dc:creator><![CDATA[Efstathios Iosifidis]]></dc:creator>
+				<category><![CDATA[Ambassadors]]></category>
+		<category><![CDATA[Events]]></category>
+		<category><![CDATA[Marketing]]></category>
+		<category><![CDATA[Athens]]></category>
+		<category><![CDATA[conference]]></category>
+		<category><![CDATA[Enlightenment]]></category>
+		<category><![CDATA[FOSSCOMM]]></category>
+		<category><![CDATA[Greek community]]></category>
+		<category><![CDATA[Leap]]></category>
+		<category><![CDATA[openqa]]></category>
+		<category><![CDATA[report]]></category>
+		<category><![CDATA[Tumbleweed]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11564</guid>
+		<description><![CDATA[The 8th Free and Open Source Software Communities Meeting (FOSSCOMM) took place in Athens (Greece), November 6-8th 2015 at the Technical Educational Institute of Athens. The Conference started early on Saturday morning welcoming the participants and with the key note. Various presentations about open source software, hardware constructions and some workshops took place. Presentations such [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><a title="DSC_0746" href="https://www.flickr.com/photos/eiosifidis/22937556695/in/album-72157660299594107/"><img class=" aligncenter" src="https://farm1.staticflickr.com/584/22937556695_aa0f2f7d66_n.jpg" alt="DSC_0746" width="320" height="213" /></a></p>
+<p>The 8th Free and Open Source Software Communities Meeting (<a href="http://fosscomm.teiath.gr/" target="_blank">FOSSCOMM</a>) took place in Athens (Greece), November 6-8th 2015 at the <a href="http://www.teiath.gr/articles.php?id=98&amp;lang=el" target="_blank">Technical Educational Institute of Athens</a>.</p>
+<p>The Conference started early on Saturday morning welcoming the participants and with the key note. Various presentations about open source software, hardware constructions and some workshops took place. Presentations such as Raspberry Pi arcade, openstack, OSGeo, ownCloud, Bitcoin and many more were quite interested by the visitors.</p>
+<p><a title="DSC_0716" href="https://www.flickr.com/photos/eiosifidis/22316436533/in/album-72157660299594107/"><img class=" aligncenter" src="https://farm1.staticflickr.com/670/22316436533_ee99406122_n.jpg" alt="DSC_0716" width="320" height="213" /></a></p>
+<p>Greek openSUSE community was there with a booth and some presentations. On Saturday Alex P. Natsios presented “Enlightment on openSUSE”, an alternative GUI, and the other presentation was about “openQA”. Since openSUSE Leap 42.1 was very fresh, Alexandros Vennos took the opportunity to present what are openSUSE Leap 42.1 and Tumbleweed, the differences and what to install on what occasions. Presentation had title “openSUSE – Leaping Ahead”.</p>
+<p><a title="DSC_0709" href="https://www.flickr.com/photos/eiosifidis/22911595656/in/album-72157660299594107/"><img class=" aligncenter" src="https://farm6.staticflickr.com/5644/22911595656_3e32100290_n.jpg" alt="DSC_0709" width="320" height="213" /></a></p>
+<p>The booth was quite crowded. We had some left over DVDs of 13.2 but we proposed the visitors to install Leap 42.1. The question we were asked most was what is the difference between openSUSE Leap and Tubleweed and why to install and on what ocasion. We even created couple of bootable USBs from the ISOs of Leap. We had a Banana Pi running Tumbleweed with MATE playing a video loop of openSUSE Leap 42.1 KDE review. We gave almost all of our promo materials to the visitors since they were interested on openSUSE.</p>
+<p>For more pictures check <a href="https://www.flickr.com/groups/fosscomm2015/" target="_blank">Flickr</a></p>
+<p><a title="DSC_0736" href="https://www.flickr.com/photos/eiosifidis/22314845674/in/album-72157660299594107/"><img class=" aligncenter" src="https://farm1.staticflickr.com/640/22314845674_3595973cbf_n.jpg" alt="DSC_0736" width="320" height="213" /></a></p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>another way to access a cloud VM&#8217;s VNC console</title>
+		<link>https://lizards.opensuse.org/2014/02/08/another-way-to-access-a-cloud-vms-vnc-console/</link>
+		<pubDate>Sat, 08 Feb 2014 08:14:58 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[cloud]]></category>
+		<category><![CDATA[openqa]]></category>
+		<category><![CDATA[openstack]]></category>
+		<category><![CDATA[websocket]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10538</guid>
+		<description><![CDATA[If you have used a cloud, that was based on OpenStack, you will have seen the dashboard including a web-based VNC access using noVNC + WebSockets. However, it was not possible to access this VNC directly (e.g. with my favourite gvncviewer from the gtk-vnc-tools package), because the actual compute nodes are hidden and accessing them [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>If you have used a cloud, that was based on OpenStack, you will have seen the dashboard including a web-based VNC access using noVNC + WebSockets.<br />
+However, it was not possible to access this VNC directly (e.g. with my favourite gvncviewer from the gtk-vnc-tools package), because the actual compute nodes are hidden and accessing them would circumvent authentication, too.</p>
+<p>I want this for the option to add an OpenStack-backend to openQA, my OS-autotesting framework, which emulates a user by using a few primitives: grabbing screenshots and typing keys (can be done through VNC), powering up a machine(=nova boot), inserting/ejecting an installation medium (=nova volume-attach / volume-detach).</p>
+<p>To allow for this, I wrote a small perl script, that translates a TCP-connection into a WebSocket-connection.<br />
+It is installed like this<br />
+<code>git clone https://github.com/bmwiedemann/connectionproxy.git<br />
+sudo /sbin/OneClickInstallUI http://multiymp.zq1.de/perl-Protocol-WebSocket?base=http://download.opensuse.org/repositories/devel:languages:perl</code></p>
+<p>and is used like this<br />
+<code>nova get-vnc-console $YOURINSTANCE novnc<br />
+perl wsconnectionproxy.pl --port 5942 --to http://cloud.example.com:6080/vnc_auto.html?token=73a3e035-cc28-49b4-9013-a9692671788e<br />
+gvncviewer localhost:42</code></p>
+<p>I hope this neat code will be useful for other people and tasks as well and wish you a lot of fun with it.</p>
+<p>Some technical details:</p>
+<ul>
+<li>The code is able to handle multiple connections in a single thread using select.</li>
+<li>HTTPS is not supported in the code, but likely could be done with stunnel.</li>
+<li>WebSocket-code was written in 3h.</li>
+<li>noVNC tokens expire after a few minutes.</li>
+</ul>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

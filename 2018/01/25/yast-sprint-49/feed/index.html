@@ -1,0 +1,675 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	
+	>
+<channel>
+	<title>Comments on: Highlights of YaST Development Sprint 49</title>
+	<atom:link href="https://lizards.opensuse.org/2018/01/25/yast-sprint-49/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org/2018/01/25/yast-sprint-49/</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 17:50:09 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>By: Eliasse</title>
+		<link>https://lizards.opensuse.org/2018/01/25/yast-sprint-49/#comment-15806</link>
+		<dc:creator><![CDATA[Eliasse]]></dc:creator>
+		<pubDate>Fri, 26 Jan 2018 16:07:24 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12957#comment-15806</guid>
+		<description><![CDATA[Hi guys,
+
+I am using openSUSE Tumbleweed and since a recent update of my system including the new YaST-packages, YaST is failing to load the modules Packages, AddOnProduct and ProductLicense when the commands single_sw and repositories are launched. I get the following error message: 2018-01-26 16:52:41  tuxeli.suse(9063) [Ruby] bin/y2start:18 y2base called with [&quot;repositories&quot;, &quot;qt&quot;, &quot;-name&quot;, &quot;YaST2&quot;, &quot;-icon&quot;, &quot;yast&quot;]
+2018-01-26 16:52:41  tuxeli.suse(9063) [ui-component] YUIComponentCreator.cc(createInternal):124 Creating UI component for &quot;&quot;
+2018-01-26 16:52:41  tuxeli.suse(9063) [ui] YSettings.cc(setProgDir):61 Set progDir to &quot;/usr/share/YaST2&quot;
+2018-01-26 16:52:41  tuxeli.suse(9063) [ui] YSettings.cc(setProgDir):62 progDir is now locked.
+2018-01-26 16:52:41  tuxeli.suse(9063) [ui] YSettings.cc(setLocaleDir):147 Set localeDir to &quot;/usr/share/YaST2/locale&quot;
+2018-01-26 16:52:41  tuxeli.suse(9063) [ui] YSettings.cc(setLocaleDir):148 localeDir is now locked.
+2018-01-26 16:52:41  tuxeli.suse(9063) [ui] YPath.cc(YPath):49 Given filename: libyui-qt.so.8
+2018-01-26 16:52:41  tuxeli.suse(9063) [ui] YSettings.cc(progDir):74 progDir: &quot;/usr/share/YaST2&quot;
+2018-01-26 16:52:41  tuxeli.suse(9063) [ui] YPath.cc(YPath):65 Preferring subdir: /usr/share/YaST2
+2018-01-26 16:52:41  tuxeli.suse(9063) [ui] YPath.cc(YPath):66 Subdir given with filename: 
+2018-01-26 16:52:41  tuxeli.suse(9063) [ui] YPath.cc(YPath):67 Looking for: libyui-qt.so.8
+2018-01-26 16:52:41  tuxeli.suse(9063) [ui] YPath.cc(lsDir):138 Looking in /usr/lib64/yui
+2018-01-26 16:52:41  tuxeli.suse(9063) [ui] YPath.cc(YPath):118 Found libyui-qt.so.8 in /usr/lib64/yui
+2018-01-26 16:52:41  tuxeli.suse(9063) [ui] YUI.cc(YUI):77 This is libyui 3.4.0
+2018-01-26 16:52:41  tuxeli.suse(9063) [ui] YUI.cc(YUI):78 Creating UI with threads
+2018-01-26 16:52:41  tuxeli.suse(9063) [qt-ui] YQUI.cc(YQUI):100 This is libyui-qt 2.47.3
+2018-01-26 16:52:41  tuxeli.suse(9063) [qt-ui] YQUI.cc(qMessageHandler):648  QStandardPaths: wrong ownership on runtime directory /run/user/1000, 1000 instead of 0
+2018-01-26 16:52:41  tuxeli.suse(9063) [qt-styler] QY2Styler.cc(loadStyleSheet):141 Couldn&#039;t open style sheet &quot;/usr/share/YaST2/theme/current/wizard/style.qss&quot;
+2018-01-26 16:52:41  tuxeli.suse(9063) [qt-ui] YQUI.cc(processCommandLineArgs):269 Qt argument: /usr/bin/ruby.ruby2.5
+2018-01-26 16:52:41  tuxeli.suse(9063) [qt-ui] YQUI.cc(processCommandLineArgs):269 Qt argument: /usr/lib/YaST2/bin/y2start
+2018-01-26 16:52:41  tuxeli.suse(9063) [qt-ui] YQUI.cc(processCommandLineArgs):269 Qt argument: repositories
+2018-01-26 16:52:41  tuxeli.suse(9063) [qt-ui] YQUI.cc(processCommandLineArgs):269 Qt argument: qt
+2018-01-26 16:52:41  tuxeli.suse(9063) [qt-ui] YQUI.cc(calcDefaultSize):412 Default size: 896 x 697
+2018-01-26 16:52:41  tuxeli.suse(9063) [qt-ui] YQApplication.cc(loadPredefinedQtTranslations):133 Selected language: de_DE
+2018-01-26 16:52:41  tuxeli.suse(9063) [qt-ui] YQApplication.cc(loadPredefinedQtTranslations):137 Qt locale directory not set - no translations for predefined Qt dialogs
+2018-01-26 16:52:41  tuxeli.suse(9063) [qt-ui] YQUI.cc(initUI):246 YQUI initialized. Thread ID: 0x0x7f1aaf3f3700
+2018-01-26 16:52:41  tuxeli.suse(9063) [ui] YCP_UI.cc(SetApplicationTitle):1722 Setting application title to &#039;&quot;YaST2 - repositories @ tuxeli.suse&quot;&#039;
+2018-01-26 16:52:41  tuxeli.suse(9063) [Interpreter] bin/y2start:58 Calling YaST client repositories
+2018-01-26 16:52:41  tuxeli.suse(9063) [Ruby] yast/wfm.rb:296 Call client /usr/share/YaST2/clients/repositories.rb
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] PkgModule.cc(instance):68 Redirecting ZYPP log to y2log
+2018-01-26 16:52:41  tuxeli.suse(9063) [Ruby] modules/PackageCallbacks.rb:136 PackageCallbacks constructor
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2650 Pkg Builtin called: CallbackProcessStart
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2653 Pkg Builtin called: CallbackProcessProgress
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2656 Pkg Builtin called: CallbackProcessNextStage
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2659 Pkg Builtin called: CallbackProcessDone
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2665 Pkg Builtin called: CallbackStartProvide
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2668 Pkg Builtin called: CallbackProgressProvide
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2671 Pkg Builtin called: CallbackDoneProvide
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2674 Pkg Builtin called: CallbackStartPackage
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2680 Pkg Builtin called: CallbackProgressPackage
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2683 Pkg Builtin called: CallbackDonePackage
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2686 Pkg Builtin called: CallbackPkgGpgCheck
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2694 Pkg Builtin called: CallbackStartDeltaDownload
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2697 Pkg Builtin called: CallbackProgressDeltaDownload
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2700 Pkg Builtin called: CallbackProblemDeltaDownload
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2703 Pkg Builtin called: CallbackFinishDeltaDownload
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2707 Pkg Builtin called: CallbackStartDeltaApply
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2710 Pkg Builtin called: CallbackProgressDeltaApply
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2713 Pkg Builtin called: CallbackProblemDeltaApply
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2716 Pkg Builtin called: CallbackFinishDeltaApply
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2602 Pkg Builtin called: CallbackSourceCreateStart
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2605 Pkg Builtin called: CallbackSourceCreateProgress
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2608 Pkg Builtin called: CallbackSourceCreateError
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2611 Pkg Builtin called: CallbackSourceCreateEnd
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2614 Pkg Builtin called: CallbackSourceCreateInit
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2617 Pkg Builtin called: CallbackSourceCreateDestroy
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2626 Pkg Builtin called: CallbackSourceProbeStart
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2629 Pkg Builtin called: CallbackSourceProbeFailed
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2632 Pkg Builtin called: CallbackSourceProbeSucceeded
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2635 Pkg Builtin called: CallbackSourceProbeProgress
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2638 Pkg Builtin called: CallbackSourceProbeError
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2641 Pkg Builtin called: CallbackSourceProbeEnd
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2725 Pkg Builtin called: CallbackSourceReportStart
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2728 Pkg Builtin called: CallbackSourceReportProgress
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2731 Pkg Builtin called: CallbackSourceReportError
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2737 Pkg Builtin called: CallbackSourceReportEnd
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2743 Pkg Builtin called: CallbackSourceReportInit
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2746 Pkg Builtin called: CallbackSourceReportDestroy
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2754 Pkg Builtin called: CallbackProgressReportStart
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2760 Pkg Builtin called: CallbackProgressReportProgress
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2766 Pkg Builtin called: CallbackProgressReportEnd
+2018-01-26 16:52:41  tuxeli.suse(9063) [Ruby] packages/file_conflict_callbacks.rb:56 Registering file conflict callbacks
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] packages/file_conflict_callbacks.rb:58 Pkg Builtin called: CallbackFileConflictStart
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] packages/file_conflict_callbacks.rb:59 Pkg Builtin called: CallbackFileConflictProgress
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] packages/file_conflict_callbacks.rb:61 Pkg Builtin called: CallbackFileConflictReport
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] packages/file_conflict_callbacks.rb:63 Pkg Builtin called: CallbackFileConflictFinish
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2796 Pkg Builtin called: CallbackAuthentication
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2808 Pkg Builtin called: CallbackAcceptUnsignedFile
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2814 Pkg Builtin called: CallbackAcceptUnknownGpgKey
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2823 Pkg Builtin called: CallbackImportGpgKey
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2829 Pkg Builtin called: CallbackAcceptVerificationFailed
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2835 Pkg Builtin called: CallbackTrustedKeyAdded
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2841 Pkg Builtin called: CallbackTrustedKeyRemoved
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2847 Pkg Builtin called: CallbackAcceptFileWithoutChecksum
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2853 Pkg Builtin called: CallbackAcceptWrongDigest
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2859 Pkg Builtin called: CallbackAcceptUnknownDigest
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2500 Pkg Builtin called: CallbackMediaChange
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2506 Pkg Builtin called: CallbackSourceChange
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2525 Pkg Builtin called: CallbackScriptStart
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2528 Pkg Builtin called: CallbackScriptProgress
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2531 Pkg Builtin called: CallbackScriptProblem
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2534 Pkg Builtin called: CallbackScriptFinish
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2536 Pkg Builtin called: CallbackMessage
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2544 Pkg Builtin called: CallbackStartScanDb
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2545 Pkg Builtin called: CallbackProgressScanDb
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2548 Pkg Builtin called: CallbackErrorScanDb
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2551 Pkg Builtin called: CallbackDoneScanDb
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2568 Pkg Builtin called: CallbackInitDownload
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2569 Pkg Builtin called: CallbackStartDownload
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2572 Pkg Builtin called: CallbackProgressDownload
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2578 Pkg Builtin called: CallbackDoneDownload
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2581 Pkg Builtin called: CallbackDestDownload
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2582 Pkg Builtin called: CallbackStartRefresh
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2583 Pkg Builtin called: CallbackDoneRefresh
+2018-01-26 16:52:41  tuxeli.suse(9063) [Ruby] modules/ProductControl.rb:1193 Candidates: [&quot;/y2update/control.xml&quot;, &quot;/control.xml&quot;, &quot;/etc/YaST2/control.xml&quot;]
+2018-01-26 16:52:41  tuxeli.suse(9063) [Ruby] modules/ProductControl.rb:1201 Reading control file: /etc/YaST2/control.xml
+2018-01-26 16:52:41  tuxeli.suse(9063) [Ruby] modules/XML.rb:135 Reading /etc/YaST2/control.xml
+2018-01-26 16:52:41  tuxeli.suse(9063) [agent-xml] XmlAgent.cc(Read):751 Setting XML generic error handler
+2018-01-26 16:52:41  tuxeli.suse(9063) [agent-xml] XmlAgent.cc(Read):786 Freeing generic XML error handler
+2018-01-26 16:52:41  tuxeli.suse(9063) [Ruby] modules/Encoding.rb:77 list [&quot;charmap=\&quot;UTF-8\&quot;&quot;, &quot;&quot;]
+2018-01-26 16:52:41  tuxeli.suse(9063) [Ruby] modules/Encoding.rb:80 list [&quot;charmap=\&quot;UTF-8\&quot;&quot;]
+2018-01-26 16:52:41  tuxeli.suse(9063) [Ruby] modules/Encoding.rb:84 enc &quot;UTF-8&quot;
+2018-01-26 16:52:41  tuxeli.suse(9063) [Ruby] modules/Encoding.rb:86 enc UTF-8
+2018-01-26 16:52:41  tuxeli.suse(9063) [Ruby] modules/Encoding.rb:89 encoding UTF-8
+2018-01-26 16:52:42  tuxeli.suse(9063) [Y2Ruby] binary/Y2RubyUtils.cc(y2_require):26 cannot require yast:undefined method `split&#039; for nil:NilClass at /usr/share/YaST2/lib/y2country/language_dbus.rb:55:in `read_locale_conf&#039;
+2018-01-26 16:52:42  tuxeli.suse(9063) [Y2Ruby] binary/Y2RubyUtils.cc(y2_require):26 cannot require yast:undefined method `message&#039; for nil:NilClass at /usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import_pure&#039;
+2018-01-26 16:52:42  tuxeli.suse(9063) [Y2Ruby] binary/Y2RubyComponent.cc(import):100 Reporting runtime error for import of module &#039;ProductLicense&#039; message &#039;undefined method `message&#039; for nil:NilClass&#039;
+2018-01-26 16:52:42  tuxeli.suse(9063) [Interpreter] yast/i18n.rb:135 Runtime error when loading module &#039;ProductLicense&#039;
+2018-01-26 16:52:42  tuxeli.suse(9063) [Y2Ruby] binary/Y2RubyUtils.cc(y2_require):26 cannot require yast:Failed to load Module &#039;ProductLicense&#039; due to: undefined method `message&#039; for nil:NilClass at /usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import_pure&#039;
+2018-01-26 16:52:42  tuxeli.suse(9063) [Y2Ruby] binary/Y2RubyComponent.cc(import):100 Reporting runtime error for import of module &#039;AddOnProduct&#039; message &#039;Failed to load Module &#039;ProductLicense&#039; due to: undefined method `message&#039; for nil:NilClass&#039;
+2018-01-26 16:52:42  tuxeli.suse(9063) [Interpreter] yast/i18n.rb:135 Runtime error when loading module &#039;AddOnProduct&#039;
+2018-01-26 16:52:42  tuxeli.suse(9063) [Ruby] yast/builtins.rb:586 tostring builtin called on wrong type Class
+2018-01-26 16:52:42  tuxeli.suse(9063) [Ruby] yast/wfm.rb:253 Client /usr/share/YaST2/clients/repositories.rb failed with &#039;Failed to load Module &#039;AddOnProduct&#039; due to: Failed to load Module &#039;ProductLicense&#039; due to: undefined method `message&#039; for nil:NilClass&#039; (RuntimeError).
+Backtrace:
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import_pure&#039;
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import&#039;
+/usr/share/YaST2/modules/ProductLicense.rb:22:in `main&#039;
+/usr/share/YaST2/modules/ProductLicense.rb:1630:in `&#039;
+/usr/share/YaST2/modules/ProductLicense.rb:6:in `&#039;
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import_pure&#039;
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import&#039;
+/usr/share/YaST2/modules/AddOnProduct.rb:47:in `main&#039;
+/usr/share/YaST2/modules/AddOnProduct.rb:2160:in `&#039;
+/usr/share/YaST2/modules/AddOnProduct.rb:7:in `&#039;
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import_pure&#039;
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import&#039;
+/usr/share/YaST2/include/packager/repositories_include.rb:20:in `initialize_packager_repositories_include&#039;
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:151:in `include&#039;
+/usr/share/YaST2/lib/packager/clients/repositories.rb:51:in `main&#039;
+/usr/share/YaST2/clients/repositories.rb:15:in `&#039;
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/wfm.rb:301:in `eval&#039;
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/wfm.rb:301:in `run_client&#039;
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/wfm.rb:206:in `call_builtin&#039;
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/wfm.rb:206:in `call_builtin_wrapper&#039;
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/wfm.rb:195:in `CallFunction&#039;
+/usr/lib/YaST2/bin/y2start:58:in `&#039;
+2018-01-26 16:52:42  tuxeli.suse(9063) [Ruby] yast/wfm.rb:276 Internal error. Please report a bug report with logs.
+Run save_y2logs to get complete logs.
+Details: Failed to load Module &#039;AddOnProduct&#039; due to: Failed to load Module &#039;ProductLicense&#039; due to: undefined method `message&#039; for nil:NilClass
+Caller:  /usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import_pure&#039;
+2018-01-26 16:52:42  tuxeli.suse(9063) [ui] YPushButton.cc(setRole):170 Guessing function key F10 for YPushButton &quot;OK&quot; at 0x7f1aa81232c0 from button role YOKButton
+2018-01-26 16:53:27  tuxeli.suse(9063) [Interpreter] bin/y2start:58 Called YaST client returned.
+2018-01-26 16:53:27  tuxeli.suse(9063) [qt-ui] YQUI.cc(qMessageHandler):648  QObject::killTimer: Timers cannot be stopped from another thread
+2018-01-26 16:53:27  tuxeli.suse(9063) [qt-ui] YQUI.cc(qMessageHandler):648  QObject::~QObject: Timers cannot be stopped from another thread
+2018-01-26 16:53:27  tuxeli.suse(9063) [Y2Ruby] binary/YRuby.cc(~YRuby):117 Shutting down ruby interpreter.
+2018-01-26 16:53:30  tuxeli.suse(9191) [Ruby] bin/y2start:18 y2base called with [&quot;sw_single&quot;, &quot;qt&quot;, &quot;-name&quot;, &quot;YaST2&quot;, &quot;-icon&quot;, &quot;yast&quot;]
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui-component] YUIComponentCreator.cc(createInternal):124 Creating UI component for &quot;&quot;
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YSettings.cc(setProgDir):61 Set progDir to &quot;/usr/share/YaST2&quot;
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YSettings.cc(setProgDir):62 progDir is now locked.
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YSettings.cc(setLocaleDir):147 Set localeDir to &quot;/usr/share/YaST2/locale&quot;
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YSettings.cc(setLocaleDir):148 localeDir is now locked.
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YPath.cc(YPath):49 Given filename: libyui-qt.so.8
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YSettings.cc(progDir):74 progDir: &quot;/usr/share/YaST2&quot;
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YPath.cc(YPath):65 Preferring subdir: /usr/share/YaST2
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YPath.cc(YPath):66 Subdir given with filename: 
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YPath.cc(YPath):67 Looking for: libyui-qt.so.8
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YPath.cc(lsDir):138 Looking in /usr/lib64/yui
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YPath.cc(YPath):118 Found libyui-qt.so.8 in /usr/lib64/yui
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YUI.cc(YUI):77 This is libyui 3.4.0
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YUI.cc(YUI):78 Creating UI with threads
+2018-01-26 16:53:30  tuxeli.suse(9191) [qt-ui] YQUI.cc(YQUI):100 This is libyui-qt 2.47.3
+2018-01-26 16:53:30  tuxeli.suse(9191) [qt-ui] YQUI.cc(qMessageHandler):648  QStandardPaths: wrong ownership on runtime directory /run/user/1000, 1000 instead of 0
+2018-01-26 16:53:30  tuxeli.suse(9191) [qt-styler] QY2Styler.cc(loadStyleSheet):141 Couldn&#039;t open style sheet &quot;/usr/share/YaST2/theme/current/wizard/style.qss&quot;
+2018-01-26 16:53:30  tuxeli.suse(9191) [qt-ui] YQUI.cc(processCommandLineArgs):269 Qt argument: /usr/bin/ruby.ruby2.5
+2018-01-26 16:53:30  tuxeli.suse(9191) [qt-ui] YQUI.cc(processCommandLineArgs):269 Qt argument: /usr/lib/YaST2/bin/y2start
+2018-01-26 16:53:30  tuxeli.suse(9191) [qt-ui] YQUI.cc(processCommandLineArgs):269 Qt argument: sw_single
+2018-01-26 16:53:30  tuxeli.suse(9191) [qt-ui] YQUI.cc(processCommandLineArgs):269 Qt argument: qt
+2018-01-26 16:53:30  tuxeli.suse(9191) [qt-ui] YQUI.cc(calcDefaultSize):412 Default size: 896 x 697
+2018-01-26 16:53:30  tuxeli.suse(9191) [qt-ui] YQApplication.cc(loadPredefinedQtTranslations):133 Selected language: de_DE
+2018-01-26 16:53:30  tuxeli.suse(9191) [qt-ui] YQApplication.cc(loadPredefinedQtTranslations):137 Qt locale directory not set - no translations for predefined Qt dialogs
+2018-01-26 16:53:30  tuxeli.suse(9191) [qt-ui] YQUI.cc(initUI):246 YQUI initialized. Thread ID: 0x0x7fbfe42fa700
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YCP_UI.cc(SetApplicationTitle):1722 Setting application title to &#039;&quot;YaST2 - sw_single @ tuxeli.suse&quot;&#039;
+2018-01-26 16:53:30  tuxeli.suse(9191) [Interpreter] bin/y2start:58 Calling YaST client sw_single
+2018-01-26 16:53:30  tuxeli.suse(9191) [Ruby] yast/wfm.rb:296 Call client /usr/share/YaST2/clients/sw_single.rb
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] PkgModule.cc(instance):68 Redirecting ZYPP log to y2log
+2018-01-26 16:53:30  tuxeli.suse(9191) [Ruby] modules/PackageCallbacks.rb:136 PackageCallbacks constructor
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2650 Pkg Builtin called: CallbackProcessStart
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2653 Pkg Builtin called: CallbackProcessProgress
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2656 Pkg Builtin called: CallbackProcessNextStage
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2659 Pkg Builtin called: CallbackProcessDone
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2665 Pkg Builtin called: CallbackStartProvide
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2668 Pkg Builtin called: CallbackProgressProvide
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2671 Pkg Builtin called: CallbackDoneProvide
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2674 Pkg Builtin called: CallbackStartPackage
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2680 Pkg Builtin called: CallbackProgressPackage
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2683 Pkg Builtin called: CallbackDonePackage
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2686 Pkg Builtin called: CallbackPkgGpgCheck
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2694 Pkg Builtin called: CallbackStartDeltaDownload
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2697 Pkg Builtin called: CallbackProgressDeltaDownload
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2700 Pkg Builtin called: CallbackProblemDeltaDownload
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2703 Pkg Builtin called: CallbackFinishDeltaDownload
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2707 Pkg Builtin called: CallbackStartDeltaApply
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2710 Pkg Builtin called: CallbackProgressDeltaApply
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2713 Pkg Builtin called: CallbackProblemDeltaApply
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2716 Pkg Builtin called: CallbackFinishDeltaApply
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2602 Pkg Builtin called: CallbackSourceCreateStart
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2605 Pkg Builtin called: CallbackSourceCreateProgress
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2608 Pkg Builtin called: CallbackSourceCreateError
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2611 Pkg Builtin called: CallbackSourceCreateEnd
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2614 Pkg Builtin called: CallbackSourceCreateInit
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2617 Pkg Builtin called: CallbackSourceCreateDestroy
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2626 Pkg Builtin called: CallbackSourceProbeStart
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2629 Pkg Builtin called: CallbackSourceProbeFailed
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2632 Pkg Builtin called: CallbackSourceProbeSucceeded
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2635 Pkg Builtin called: CallbackSourceProbeProgress
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2638 Pkg Builtin called: CallbackSourceProbeError
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2641 Pkg Builtin called: CallbackSourceProbeEnd
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2725 Pkg Builtin called: CallbackSourceReportStart
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2728 Pkg Builtin called: CallbackSourceReportProgress
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2731 Pkg Builtin called: CallbackSourceReportError
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2737 Pkg Builtin called: CallbackSourceReportEnd
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2743 Pkg Builtin called: CallbackSourceReportInit
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2746 Pkg Builtin called: CallbackSourceReportDestroy
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2754 Pkg Builtin called: CallbackProgressReportStart
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2760 Pkg Builtin called: CallbackProgressReportProgress
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2766 Pkg Builtin called: CallbackProgressReportEnd
+2018-01-26 16:53:30  tuxeli.suse(9191) [Ruby] packages/file_conflict_callbacks.rb:56 Registering file conflict callbacks
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] packages/file_conflict_callbacks.rb:58 Pkg Builtin called: CallbackFileConflictStart
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] packages/file_conflict_callbacks.rb:59 Pkg Builtin called: CallbackFileConflictProgress
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] packages/file_conflict_callbacks.rb:61 Pkg Builtin called: CallbackFileConflictReport
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] packages/file_conflict_callbacks.rb:63 Pkg Builtin called: CallbackFileConflictFinish
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2796 Pkg Builtin called: CallbackAuthentication
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2808 Pkg Builtin called: CallbackAcceptUnsignedFile
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2814 Pkg Builtin called: CallbackAcceptUnknownGpgKey
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2823 Pkg Builtin called: CallbackImportGpgKey
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2829 Pkg Builtin called: CallbackAcceptVerificationFailed
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2835 Pkg Builtin called: CallbackTrustedKeyAdded
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2841 Pkg Builtin called: CallbackTrustedKeyRemoved
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2847 Pkg Builtin called: CallbackAcceptFileWithoutChecksum
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2853 Pkg Builtin called: CallbackAcceptWrongDigest
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2859 Pkg Builtin called: CallbackAcceptUnknownDigest
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2500 Pkg Builtin called: CallbackMediaChange
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2506 Pkg Builtin called: CallbackSourceChange
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2525 Pkg Builtin called: CallbackScriptStart
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2528 Pkg Builtin called: CallbackScriptProgress
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2531 Pkg Builtin called: CallbackScriptProblem
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2534 Pkg Builtin called: CallbackScriptFinish
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2536 Pkg Builtin called: CallbackMessage
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2544 Pkg Builtin called: CallbackStartScanDb
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2545 Pkg Builtin called: CallbackProgressScanDb
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2548 Pkg Builtin called: CallbackErrorScanDb
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2551 Pkg Builtin called: CallbackDoneScanDb
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2568 Pkg Builtin called: CallbackInitDownload
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2569 Pkg Builtin called: CallbackStartDownload
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2572 Pkg Builtin called: CallbackProgressDownload
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2578 Pkg Builtin called: CallbackDoneDownload
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2581 Pkg Builtin called: CallbackDestDownload
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2582 Pkg Builtin called: CallbackStartRefresh
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2583 Pkg Builtin called: CallbackDoneRefresh
+2018-01-26 16:53:30  tuxeli.suse(9191) [Ruby] modules/Misc.rb:188 .&quot;/etc/os-release&quot;.&quot;NAME&quot;: &#039;openSUSE Tumbleweed&#039;
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YCP_UI.cc(SetApplicationIcon):1705 Setting application icon to &quot;/usr/share/YaST2/theme/current/icons/64x64/apps/yast.png&quot;
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YSettings.cc(localeDir):162 localeDir: &quot;/usr/share/YaST2/locale&quot;
+2018-01-26 16:53:30  tuxeli.suse(9191) [qt-ui] YQUI.cc(qMessageHandler):638  Registering  QWidget(0x7fbfdc2283a0, name=&quot;work_area&quot;)  for parent  YQWizard(0x7fbfdc147ec0, name=&quot;wizard&quot;) 
+2018-01-26 16:53:30  tuxeli.suse(9191) [qt-ui] YQUI.cc(qMessageHandler):638 
+2018-01-26 16:53:30  tuxeli.suse(9191) [qt-ui] YQUI.cc(qMessageHandler):648  QLayout: Attempting to add QLayout &quot;&quot; to QFrame &quot;&quot;, which already has a layout
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YPushButton.cc(setFunctionKey):202 Guessing button role YHelpButton for YPushButton &quot;Hilfe&quot; at 0x7fbfdc1db870 from function key F1
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YPushButton.cc(setFunctionKey):202 Guessing button role YCancelButton for YPushButton &quot;Abbrechen&quot; at 0x7fbfdc2e06c0 from function key F9
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YPushButton.cc(setFunctionKey):202 Guessing button role YOKButton for YPushButton &quot;Weiter&quot; at 0x7fbfdc44d5f0 from function key F10
+2018-01-26 16:53:31  tuxeli.suse(9191) [ui] YCP_UI.cc(SetApplicationTitle):1722 Setting application title to &#039;&quot;YaST2&quot;&#039;
+2018-01-26 16:53:31  tuxeli.suse(9191) [Ruby] modules/Progress.rb:344 Progress::New(Software-Manager wird gestartet, 2, [&quot;Zielsystem initialisieren&quot;, &quot;Konfigurierte Repositorys laden&quot;])
+2018-01-26 16:53:31  tuxeli.suse(9191) [Ruby] modules/ProductControl.rb:1193 Candidates: [&quot;/y2update/control.xml&quot;, &quot;/control.xml&quot;, &quot;/etc/YaST2/control.xml&quot;]
+2018-01-26 16:53:31  tuxeli.suse(9191) [Ruby] modules/ProductControl.rb:1201 Reading control file: /etc/YaST2/control.xml
+2018-01-26 16:53:31  tuxeli.suse(9191) [Ruby] modules/XML.rb:135 Reading /etc/YaST2/control.xml
+2018-01-26 16:53:31  tuxeli.suse(9191) [agent-xml] XmlAgent.cc(Read):751 Setting XML generic error handler
+2018-01-26 16:53:31  tuxeli.suse(9191) [agent-xml] XmlAgent.cc(Read):786 Freeing generic XML error handler
+2018-01-26 16:53:31  tuxeli.suse(9191) [Ruby] modules/Encoding.rb:77 list [&quot;charmap=\&quot;UTF-8\&quot;&quot;, &quot;&quot;]
+2018-01-26 16:53:31  tuxeli.suse(9191) [Ruby] modules/Encoding.rb:80 list [&quot;charmap=\&quot;UTF-8\&quot;&quot;]
+2018-01-26 16:53:31  tuxeli.suse(9191) [Ruby] modules/Encoding.rb:84 enc &quot;UTF-8&quot;
+2018-01-26 16:53:31  tuxeli.suse(9191) [Ruby] modules/Encoding.rb:86 enc UTF-8
+2018-01-26 16:53:31  tuxeli.suse(9191) [Ruby] modules/Encoding.rb:89 encoding UTF-8
+2018-01-26 16:53:31  tuxeli.suse(9191) [Y2Ruby] binary/Y2RubyUtils.cc(y2_require):26 cannot require yast:undefined method `split&#039; for nil:NilClass at /usr/share/YaST2/lib/y2country/language_dbus.rb:55:in `read_locale_conf&#039;
+2018-01-26 16:53:31  tuxeli.suse(9191) [Y2Ruby] binary/Y2RubyUtils.cc(y2_require):26 cannot require yast:undefined method `message&#039; for nil:NilClass at /usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import_pure&#039;
+2018-01-26 16:53:31  tuxeli.suse(9191) [Y2Ruby] binary/Y2RubyComponent.cc(import):100 Reporting runtime error for import of module &#039;ProductLicense&#039; message &#039;undefined method `message&#039; for nil:NilClass&#039;
+2018-01-26 16:53:31  tuxeli.suse(9191) [Interpreter] yast/i18n.rb:135 Runtime error when loading module &#039;ProductLicense&#039;
+2018-01-26 16:53:31  tuxeli.suse(9191) [Y2Ruby] binary/Y2RubyUtils.cc(y2_require):26 cannot require yast:Failed to load Module &#039;ProductLicense&#039; due to: undefined method `message&#039; for nil:NilClass at /usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import_pure&#039;
+2018-01-26 16:53:31  tuxeli.suse(9191) [Y2Ruby] binary/Y2RubyComponent.cc(import):100 Reporting runtime error for import of module &#039;AddOnProduct&#039; message &#039;Failed to load Module &#039;ProductLicense&#039; due to: undefined method `message&#039; for nil:NilClass&#039;
+2018-01-26 16:53:31  tuxeli.suse(9191) [Interpreter] yast/i18n.rb:135 Runtime error when loading module &#039;AddOnProduct&#039;
+2018-01-26 16:53:31  tuxeli.suse(9191) [Y2Ruby] binary/Y2RubyUtils.cc(y2_require):26 cannot require yast:Failed to load Module &#039;AddOnProduct&#039; due to: Failed to load Module &#039;ProductLicense&#039; due to: undefined method `message&#039; for nil:NilClass at /usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import_pure&#039;
+2018-01-26 16:53:31  tuxeli.suse(9191) [Y2Ruby] binary/Y2RubyComponent.cc(import):100 Reporting runtime error for import of module &#039;Packages&#039; message &#039;Failed to load Module &#039;AddOnProduct&#039; due to: Failed to load Module &#039;ProductLicense&#039; due to: undefined method `message&#039; for nil:NilClass&#039;
+2018-01-26 16:53:31  tuxeli.suse(9191) [Interpreter] yast/i18n.rb:135 Runtime error when loading module &#039;Packages&#039;
+2018-01-26 16:53:31  tuxeli.suse(9191) [Ruby] yast/builtins.rb:586 tostring builtin called on wrong type Class
+2018-01-26 16:53:31  tuxeli.suse(9191) [Ruby] yast/wfm.rb:253 Client /usr/share/YaST2/clients/sw_single.rb failed with &#039;Failed to load Module &#039;Packages&#039; due to: Failed to load Module &#039;AddOnProduct&#039; due to: Failed to load Module &#039;ProductLicense&#039; due to: undefined method `message&#039; for nil:NilClass&#039; (RuntimeError).
+Backtrace:
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import_pure&#039;
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import&#039;
+/usr/share/YaST2/modules/ProductLicense.rb:22:in `main&#039;
+/usr/share/YaST2/modules/ProductLicense.rb:1630:in `&#039;
+/usr/share/YaST2/modules/ProductLicense.rb:6:in `&#039;
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import_pure&#039;
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import&#039;
+/usr/share/YaST2/modules/AddOnProduct.rb:47:in `main&#039;
+/usr/share/YaST2/modules/AddOnProduct.rb:2160:in `&#039;
+/usr/share/YaST2/modules/AddOnProduct.rb:7:in `&#039;
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import_pure&#039;
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import&#039;
+/usr/share/YaST2/modules/Packages.rb:53:in `main&#039;
+/usr/share/YaST2/modules/Packages.rb:2850:in `&#039;
+/usr/share/YaST2/modules/Packages.rb:10:in `&#039;
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import_pure&#039;
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import&#039;
+/usr/share/YaST2/clients/sw_single.rb:515:in `StartSWSingle&#039;
+/usr/share/YaST2/clients/sw_single.rb:72:in `main&#039;
+/usr/share/YaST2/clients/sw_single.rb:801:in `&#039;
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/wfm.rb:301:in `eval&#039;
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/wfm.rb:301:in `run_client&#039;
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/wfm.rb:206:in `call_builtin&#039;
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/wfm.rb:206:in `call_builtin_wrapper&#039;
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/wfm.rb:195:in `CallFunction&#039;
+/usr/lib/YaST2/bin/y2start:58:in `&#039;
+2018-01-26 16:53:31  tuxeli.suse(9191) [Ruby] yast/wfm.rb:276 Internal error. Please report a bug report with logs.
+Run save_y2logs to get complete logs.
+Details: Failed to load Module &#039;Packages&#039; due to: Failed to load Module &#039;AddOnProduct&#039; due to: Failed to load Module &#039;ProductLicense&#039; due to: undefined method `message&#039; for nil:NilClass
+Caller:  /usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import_pure&#039;]]></description>
+		<content:encoded><![CDATA[<p>Hi guys,</p>
+<p>I am using openSUSE Tumbleweed and since a recent update of my system including the new YaST-packages, YaST is failing to load the modules Packages, AddOnProduct and ProductLicense when the commands single_sw and repositories are launched. I get the following error message: 2018-01-26 16:52:41  tuxeli.suse(9063) [Ruby] bin/y2start:18 y2base called with [&#8220;repositories&#8221;, &#8220;qt&#8221;, &#8220;-name&#8221;, &#8220;YaST2&#8221;, &#8220;-icon&#8221;, &#8220;yast&#8221;]<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [ui-component] YUIComponentCreator.cc(createInternal):124 Creating UI component for &#8220;&#8221;<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [ui] YSettings.cc(setProgDir):61 Set progDir to &#8220;/usr/share/YaST2&#8221;<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [ui] YSettings.cc(setProgDir):62 progDir is now locked.<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [ui] YSettings.cc(setLocaleDir):147 Set localeDir to &#8220;/usr/share/YaST2/locale&#8221;<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [ui] YSettings.cc(setLocaleDir):148 localeDir is now locked.<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [ui] YPath.cc(YPath):49 Given filename: libyui-qt.so.8<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [ui] YSettings.cc(progDir):74 progDir: &#8220;/usr/share/YaST2&#8221;<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [ui] YPath.cc(YPath):65 Preferring subdir: /usr/share/YaST2<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [ui] YPath.cc(YPath):66 Subdir given with filename:<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [ui] YPath.cc(YPath):67 Looking for: libyui-qt.so.8<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [ui] YPath.cc(lsDir):138 Looking in /usr/lib64/yui<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [ui] YPath.cc(YPath):118 Found libyui-qt.so.8 in /usr/lib64/yui<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [ui] YUI.cc(YUI):77 This is libyui 3.4.0<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [ui] YUI.cc(YUI):78 Creating UI with threads<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [qt-ui] YQUI.cc(YQUI):100 This is libyui-qt 2.47.3<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [qt-ui] YQUI.cc(qMessageHandler):648  QStandardPaths: wrong ownership on runtime directory /run/user/1000, 1000 instead of 0<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [qt-styler] QY2Styler.cc(loadStyleSheet):141 Couldn&#8217;t open style sheet &#8220;/usr/share/YaST2/theme/current/wizard/style.qss&#8221;<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [qt-ui] YQUI.cc(processCommandLineArgs):269 Qt argument: /usr/bin/ruby.ruby2.5<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [qt-ui] YQUI.cc(processCommandLineArgs):269 Qt argument: /usr/lib/YaST2/bin/y2start<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [qt-ui] YQUI.cc(processCommandLineArgs):269 Qt argument: repositories<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [qt-ui] YQUI.cc(processCommandLineArgs):269 Qt argument: qt<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [qt-ui] YQUI.cc(calcDefaultSize):412 Default size: 896 x 697<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [qt-ui] YQApplication.cc(loadPredefinedQtTranslations):133 Selected language: de_DE<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [qt-ui] YQApplication.cc(loadPredefinedQtTranslations):137 Qt locale directory not set &#8211; no translations for predefined Qt dialogs<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [qt-ui] YQUI.cc(initUI):246 YQUI initialized. Thread ID: 0x0x7f1aaf3f3700<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [ui] YCP_UI.cc(SetApplicationTitle):1722 Setting application title to &#8216;&#8221;YaST2 &#8211; repositories @ tuxeli.suse&#8221;&#8216;<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Interpreter] bin/y2start:58 Calling YaST client repositories<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Ruby] yast/wfm.rb:296 Call client /usr/share/YaST2/clients/repositories.rb<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] PkgModule.cc(instance):68 Redirecting ZYPP log to y2log<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Ruby] modules/PackageCallbacks.rb:136 PackageCallbacks constructor<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2650 Pkg Builtin called: CallbackProcessStart<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2653 Pkg Builtin called: CallbackProcessProgress<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2656 Pkg Builtin called: CallbackProcessNextStage<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2659 Pkg Builtin called: CallbackProcessDone<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2665 Pkg Builtin called: CallbackStartProvide<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2668 Pkg Builtin called: CallbackProgressProvide<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2671 Pkg Builtin called: CallbackDoneProvide<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2674 Pkg Builtin called: CallbackStartPackage<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2680 Pkg Builtin called: CallbackProgressPackage<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2683 Pkg Builtin called: CallbackDonePackage<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2686 Pkg Builtin called: CallbackPkgGpgCheck<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2694 Pkg Builtin called: CallbackStartDeltaDownload<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2697 Pkg Builtin called: CallbackProgressDeltaDownload<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2700 Pkg Builtin called: CallbackProblemDeltaDownload<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2703 Pkg Builtin called: CallbackFinishDeltaDownload<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2707 Pkg Builtin called: CallbackStartDeltaApply<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2710 Pkg Builtin called: CallbackProgressDeltaApply<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2713 Pkg Builtin called: CallbackProblemDeltaApply<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2716 Pkg Builtin called: CallbackFinishDeltaApply<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2602 Pkg Builtin called: CallbackSourceCreateStart<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2605 Pkg Builtin called: CallbackSourceCreateProgress<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2608 Pkg Builtin called: CallbackSourceCreateError<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2611 Pkg Builtin called: CallbackSourceCreateEnd<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2614 Pkg Builtin called: CallbackSourceCreateInit<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2617 Pkg Builtin called: CallbackSourceCreateDestroy<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2626 Pkg Builtin called: CallbackSourceProbeStart<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2629 Pkg Builtin called: CallbackSourceProbeFailed<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2632 Pkg Builtin called: CallbackSourceProbeSucceeded<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2635 Pkg Builtin called: CallbackSourceProbeProgress<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2638 Pkg Builtin called: CallbackSourceProbeError<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2641 Pkg Builtin called: CallbackSourceProbeEnd<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2725 Pkg Builtin called: CallbackSourceReportStart<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2728 Pkg Builtin called: CallbackSourceReportProgress<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2731 Pkg Builtin called: CallbackSourceReportError<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2737 Pkg Builtin called: CallbackSourceReportEnd<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2743 Pkg Builtin called: CallbackSourceReportInit<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2746 Pkg Builtin called: CallbackSourceReportDestroy<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2754 Pkg Builtin called: CallbackProgressReportStart<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2760 Pkg Builtin called: CallbackProgressReportProgress<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2766 Pkg Builtin called: CallbackProgressReportEnd<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Ruby] packages/file_conflict_callbacks.rb:56 Registering file conflict callbacks<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] packages/file_conflict_callbacks.rb:58 Pkg Builtin called: CallbackFileConflictStart<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] packages/file_conflict_callbacks.rb:59 Pkg Builtin called: CallbackFileConflictProgress<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] packages/file_conflict_callbacks.rb:61 Pkg Builtin called: CallbackFileConflictReport<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] packages/file_conflict_callbacks.rb:63 Pkg Builtin called: CallbackFileConflictFinish<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2796 Pkg Builtin called: CallbackAuthentication<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2808 Pkg Builtin called: CallbackAcceptUnsignedFile<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2814 Pkg Builtin called: CallbackAcceptUnknownGpgKey<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2823 Pkg Builtin called: CallbackImportGpgKey<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2829 Pkg Builtin called: CallbackAcceptVerificationFailed<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2835 Pkg Builtin called: CallbackTrustedKeyAdded<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2841 Pkg Builtin called: CallbackTrustedKeyRemoved<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2847 Pkg Builtin called: CallbackAcceptFileWithoutChecksum<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2853 Pkg Builtin called: CallbackAcceptWrongDigest<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2859 Pkg Builtin called: CallbackAcceptUnknownDigest<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2500 Pkg Builtin called: CallbackMediaChange<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2506 Pkg Builtin called: CallbackSourceChange<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2525 Pkg Builtin called: CallbackScriptStart<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2528 Pkg Builtin called: CallbackScriptProgress<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2531 Pkg Builtin called: CallbackScriptProblem<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2534 Pkg Builtin called: CallbackScriptFinish<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2536 Pkg Builtin called: CallbackMessage<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2544 Pkg Builtin called: CallbackStartScanDb<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2545 Pkg Builtin called: CallbackProgressScanDb<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2548 Pkg Builtin called: CallbackErrorScanDb<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2551 Pkg Builtin called: CallbackDoneScanDb<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2568 Pkg Builtin called: CallbackInitDownload<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2569 Pkg Builtin called: CallbackStartDownload<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2572 Pkg Builtin called: CallbackProgressDownload<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2578 Pkg Builtin called: CallbackDoneDownload<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2581 Pkg Builtin called: CallbackDestDownload<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2582 Pkg Builtin called: CallbackStartRefresh<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Pkg] modules/PackageCallbacks.rb:2583 Pkg Builtin called: CallbackDoneRefresh<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Ruby] modules/ProductControl.rb:1193 Candidates: [&#8220;/y2update/control.xml&#8221;, &#8220;/control.xml&#8221;, &#8220;/etc/YaST2/control.xml&#8221;]<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Ruby] modules/ProductControl.rb:1201 Reading control file: /etc/YaST2/control.xml<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Ruby] modules/XML.rb:135 Reading /etc/YaST2/control.xml<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [agent-xml] XmlAgent.cc(Read):751 Setting XML generic error handler<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [agent-xml] XmlAgent.cc(Read):786 Freeing generic XML error handler<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Ruby] modules/Encoding.rb:77 list [&#8220;charmap=\&#8221;UTF-8\&#8221;&#8221;, &#8220;&#8221;]<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Ruby] modules/Encoding.rb:80 list [&#8220;charmap=\&#8221;UTF-8\&#8221;&#8221;]<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Ruby] modules/Encoding.rb:84 enc &#8220;UTF-8&#8221;<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Ruby] modules/Encoding.rb:86 enc UTF-8<br />
+2018-01-26 16:52:41  tuxeli.suse(9063) [Ruby] modules/Encoding.rb:89 encoding UTF-8<br />
+2018-01-26 16:52:42  tuxeli.suse(9063) [Y2Ruby] binary/Y2RubyUtils.cc(y2_require):26 cannot require yast:undefined method `split&#8217; for nil:NilClass at /usr/share/YaST2/lib/y2country/language_dbus.rb:55:in `read_locale_conf&#8217;<br />
+2018-01-26 16:52:42  tuxeli.suse(9063) [Y2Ruby] binary/Y2RubyUtils.cc(y2_require):26 cannot require yast:undefined method `message&#8217; for nil:NilClass at /usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import_pure&#8217;<br />
+2018-01-26 16:52:42  tuxeli.suse(9063) [Y2Ruby] binary/Y2RubyComponent.cc(import):100 Reporting runtime error for import of module &#8216;ProductLicense&#8217; message &#8216;undefined method `message&#8217; for nil:NilClass&#8217;<br />
+2018-01-26 16:52:42  tuxeli.suse(9063) [Interpreter] yast/i18n.rb:135 Runtime error when loading module &#8216;ProductLicense&#8217;<br />
+2018-01-26 16:52:42  tuxeli.suse(9063) [Y2Ruby] binary/Y2RubyUtils.cc(y2_require):26 cannot require yast:Failed to load Module &#8216;ProductLicense&#8217; due to: undefined method `message&#8217; for nil:NilClass at /usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import_pure&#8217;<br />
+2018-01-26 16:52:42  tuxeli.suse(9063) [Y2Ruby] binary/Y2RubyComponent.cc(import):100 Reporting runtime error for import of module &#8216;AddOnProduct&#8217; message &#8216;Failed to load Module &#8216;ProductLicense&#8217; due to: undefined method `message&#8217; for nil:NilClass&#8217;<br />
+2018-01-26 16:52:42  tuxeli.suse(9063) [Interpreter] yast/i18n.rb:135 Runtime error when loading module &#8216;AddOnProduct&#8217;<br />
+2018-01-26 16:52:42  tuxeli.suse(9063) [Ruby] yast/builtins.rb:586 tostring builtin called on wrong type Class<br />
+2018-01-26 16:52:42  tuxeli.suse(9063) [Ruby] yast/wfm.rb:253 Client /usr/share/YaST2/clients/repositories.rb failed with &#8216;Failed to load Module &#8216;AddOnProduct&#8217; due to: Failed to load Module &#8216;ProductLicense&#8217; due to: undefined method `message&#8217; for nil:NilClass&#8217; (RuntimeError).<br />
+Backtrace:<br />
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import_pure&#8217;<br />
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import&#8217;<br />
+/usr/share/YaST2/modules/ProductLicense.rb:22:in `main&#8217;<br />
+/usr/share/YaST2/modules/ProductLicense.rb:1630:in `&#8217;<br />
+/usr/share/YaST2/modules/ProductLicense.rb:6:in `&#8217;<br />
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import_pure&#8217;<br />
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import&#8217;<br />
+/usr/share/YaST2/modules/AddOnProduct.rb:47:in `main&#8217;<br />
+/usr/share/YaST2/modules/AddOnProduct.rb:2160:in `&#8217;<br />
+/usr/share/YaST2/modules/AddOnProduct.rb:7:in `&#8217;<br />
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import_pure&#8217;<br />
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import&#8217;<br />
+/usr/share/YaST2/include/packager/repositories_include.rb:20:in `initialize_packager_repositories_include&#8217;<br />
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:151:in `include&#8217;<br />
+/usr/share/YaST2/lib/packager/clients/repositories.rb:51:in `main&#8217;<br />
+/usr/share/YaST2/clients/repositories.rb:15:in `&#8217;<br />
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/wfm.rb:301:in `eval&#8217;<br />
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/wfm.rb:301:in `run_client&#8217;<br />
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/wfm.rb:206:in `call_builtin&#8217;<br />
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/wfm.rb:206:in `call_builtin_wrapper&#8217;<br />
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/wfm.rb:195:in `CallFunction&#8217;<br />
+/usr/lib/YaST2/bin/y2start:58:in `&#8217;<br />
+2018-01-26 16:52:42  tuxeli.suse(9063) [Ruby] yast/wfm.rb:276 Internal error. Please report a bug report with logs.<br />
+Run save_y2logs to get complete logs.<br />
+Details: Failed to load Module &#8216;AddOnProduct&#8217; due to: Failed to load Module &#8216;ProductLicense&#8217; due to: undefined method `message&#8217; for nil:NilClass<br />
+Caller:  /usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import_pure&#8217;<br />
+2018-01-26 16:52:42  tuxeli.suse(9063) [ui] YPushButton.cc(setRole):170 Guessing function key F10 for YPushButton &#8220;OK&#8221; at 0x7f1aa81232c0 from button role YOKButton<br />
+2018-01-26 16:53:27  tuxeli.suse(9063) [Interpreter] bin/y2start:58 Called YaST client returned.<br />
+2018-01-26 16:53:27  tuxeli.suse(9063) [qt-ui] YQUI.cc(qMessageHandler):648  QObject::killTimer: Timers cannot be stopped from another thread<br />
+2018-01-26 16:53:27  tuxeli.suse(9063) [qt-ui] YQUI.cc(qMessageHandler):648  QObject::~QObject: Timers cannot be stopped from another thread<br />
+2018-01-26 16:53:27  tuxeli.suse(9063) [Y2Ruby] binary/YRuby.cc(~YRuby):117 Shutting down ruby interpreter.<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Ruby] bin/y2start:18 y2base called with [&#8220;sw_single&#8221;, &#8220;qt&#8221;, &#8220;-name&#8221;, &#8220;YaST2&#8221;, &#8220;-icon&#8221;, &#8220;yast&#8221;]<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui-component] YUIComponentCreator.cc(createInternal):124 Creating UI component for &#8220;&#8221;<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YSettings.cc(setProgDir):61 Set progDir to &#8220;/usr/share/YaST2&#8221;<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YSettings.cc(setProgDir):62 progDir is now locked.<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YSettings.cc(setLocaleDir):147 Set localeDir to &#8220;/usr/share/YaST2/locale&#8221;<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YSettings.cc(setLocaleDir):148 localeDir is now locked.<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YPath.cc(YPath):49 Given filename: libyui-qt.so.8<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YSettings.cc(progDir):74 progDir: &#8220;/usr/share/YaST2&#8221;<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YPath.cc(YPath):65 Preferring subdir: /usr/share/YaST2<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YPath.cc(YPath):66 Subdir given with filename:<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YPath.cc(YPath):67 Looking for: libyui-qt.so.8<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YPath.cc(lsDir):138 Looking in /usr/lib64/yui<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YPath.cc(YPath):118 Found libyui-qt.so.8 in /usr/lib64/yui<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YUI.cc(YUI):77 This is libyui 3.4.0<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YUI.cc(YUI):78 Creating UI with threads<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [qt-ui] YQUI.cc(YQUI):100 This is libyui-qt 2.47.3<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [qt-ui] YQUI.cc(qMessageHandler):648  QStandardPaths: wrong ownership on runtime directory /run/user/1000, 1000 instead of 0<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [qt-styler] QY2Styler.cc(loadStyleSheet):141 Couldn&#8217;t open style sheet &#8220;/usr/share/YaST2/theme/current/wizard/style.qss&#8221;<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [qt-ui] YQUI.cc(processCommandLineArgs):269 Qt argument: /usr/bin/ruby.ruby2.5<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [qt-ui] YQUI.cc(processCommandLineArgs):269 Qt argument: /usr/lib/YaST2/bin/y2start<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [qt-ui] YQUI.cc(processCommandLineArgs):269 Qt argument: sw_single<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [qt-ui] YQUI.cc(processCommandLineArgs):269 Qt argument: qt<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [qt-ui] YQUI.cc(calcDefaultSize):412 Default size: 896 x 697<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [qt-ui] YQApplication.cc(loadPredefinedQtTranslations):133 Selected language: de_DE<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [qt-ui] YQApplication.cc(loadPredefinedQtTranslations):137 Qt locale directory not set &#8211; no translations for predefined Qt dialogs<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [qt-ui] YQUI.cc(initUI):246 YQUI initialized. Thread ID: 0x0x7fbfe42fa700<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YCP_UI.cc(SetApplicationTitle):1722 Setting application title to &#8216;&#8221;YaST2 &#8211; sw_single @ tuxeli.suse&#8221;&#8216;<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Interpreter] bin/y2start:58 Calling YaST client sw_single<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Ruby] yast/wfm.rb:296 Call client /usr/share/YaST2/clients/sw_single.rb<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] PkgModule.cc(instance):68 Redirecting ZYPP log to y2log<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Ruby] modules/PackageCallbacks.rb:136 PackageCallbacks constructor<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2650 Pkg Builtin called: CallbackProcessStart<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2653 Pkg Builtin called: CallbackProcessProgress<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2656 Pkg Builtin called: CallbackProcessNextStage<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2659 Pkg Builtin called: CallbackProcessDone<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2665 Pkg Builtin called: CallbackStartProvide<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2668 Pkg Builtin called: CallbackProgressProvide<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2671 Pkg Builtin called: CallbackDoneProvide<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2674 Pkg Builtin called: CallbackStartPackage<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2680 Pkg Builtin called: CallbackProgressPackage<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2683 Pkg Builtin called: CallbackDonePackage<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2686 Pkg Builtin called: CallbackPkgGpgCheck<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2694 Pkg Builtin called: CallbackStartDeltaDownload<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2697 Pkg Builtin called: CallbackProgressDeltaDownload<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2700 Pkg Builtin called: CallbackProblemDeltaDownload<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2703 Pkg Builtin called: CallbackFinishDeltaDownload<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2707 Pkg Builtin called: CallbackStartDeltaApply<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2710 Pkg Builtin called: CallbackProgressDeltaApply<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2713 Pkg Builtin called: CallbackProblemDeltaApply<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2716 Pkg Builtin called: CallbackFinishDeltaApply<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2602 Pkg Builtin called: CallbackSourceCreateStart<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2605 Pkg Builtin called: CallbackSourceCreateProgress<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2608 Pkg Builtin called: CallbackSourceCreateError<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2611 Pkg Builtin called: CallbackSourceCreateEnd<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2614 Pkg Builtin called: CallbackSourceCreateInit<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2617 Pkg Builtin called: CallbackSourceCreateDestroy<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2626 Pkg Builtin called: CallbackSourceProbeStart<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2629 Pkg Builtin called: CallbackSourceProbeFailed<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2632 Pkg Builtin called: CallbackSourceProbeSucceeded<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2635 Pkg Builtin called: CallbackSourceProbeProgress<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2638 Pkg Builtin called: CallbackSourceProbeError<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2641 Pkg Builtin called: CallbackSourceProbeEnd<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2725 Pkg Builtin called: CallbackSourceReportStart<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2728 Pkg Builtin called: CallbackSourceReportProgress<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2731 Pkg Builtin called: CallbackSourceReportError<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2737 Pkg Builtin called: CallbackSourceReportEnd<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2743 Pkg Builtin called: CallbackSourceReportInit<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2746 Pkg Builtin called: CallbackSourceReportDestroy<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2754 Pkg Builtin called: CallbackProgressReportStart<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2760 Pkg Builtin called: CallbackProgressReportProgress<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2766 Pkg Builtin called: CallbackProgressReportEnd<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Ruby] packages/file_conflict_callbacks.rb:56 Registering file conflict callbacks<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] packages/file_conflict_callbacks.rb:58 Pkg Builtin called: CallbackFileConflictStart<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] packages/file_conflict_callbacks.rb:59 Pkg Builtin called: CallbackFileConflictProgress<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] packages/file_conflict_callbacks.rb:61 Pkg Builtin called: CallbackFileConflictReport<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] packages/file_conflict_callbacks.rb:63 Pkg Builtin called: CallbackFileConflictFinish<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2796 Pkg Builtin called: CallbackAuthentication<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2808 Pkg Builtin called: CallbackAcceptUnsignedFile<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2814 Pkg Builtin called: CallbackAcceptUnknownGpgKey<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2823 Pkg Builtin called: CallbackImportGpgKey<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2829 Pkg Builtin called: CallbackAcceptVerificationFailed<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2835 Pkg Builtin called: CallbackTrustedKeyAdded<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2841 Pkg Builtin called: CallbackTrustedKeyRemoved<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2847 Pkg Builtin called: CallbackAcceptFileWithoutChecksum<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2853 Pkg Builtin called: CallbackAcceptWrongDigest<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2859 Pkg Builtin called: CallbackAcceptUnknownDigest<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2500 Pkg Builtin called: CallbackMediaChange<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2506 Pkg Builtin called: CallbackSourceChange<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2525 Pkg Builtin called: CallbackScriptStart<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2528 Pkg Builtin called: CallbackScriptProgress<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2531 Pkg Builtin called: CallbackScriptProblem<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2534 Pkg Builtin called: CallbackScriptFinish<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2536 Pkg Builtin called: CallbackMessage<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2544 Pkg Builtin called: CallbackStartScanDb<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2545 Pkg Builtin called: CallbackProgressScanDb<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2548 Pkg Builtin called: CallbackErrorScanDb<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2551 Pkg Builtin called: CallbackDoneScanDb<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2568 Pkg Builtin called: CallbackInitDownload<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2569 Pkg Builtin called: CallbackStartDownload<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2572 Pkg Builtin called: CallbackProgressDownload<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2578 Pkg Builtin called: CallbackDoneDownload<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2581 Pkg Builtin called: CallbackDestDownload<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2582 Pkg Builtin called: CallbackStartRefresh<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Pkg] modules/PackageCallbacks.rb:2583 Pkg Builtin called: CallbackDoneRefresh<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [Ruby] modules/Misc.rb:188 .&#8221;/etc/os-release&#8221;.&#8221;NAME&#8221;: &#8216;openSUSE Tumbleweed&#8217;<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YCP_UI.cc(SetApplicationIcon):1705 Setting application icon to &#8220;/usr/share/YaST2/theme/current/icons/64&#215;64/apps/yast.png&#8221;<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YSettings.cc(localeDir):162 localeDir: &#8220;/usr/share/YaST2/locale&#8221;<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [qt-ui] YQUI.cc(qMessageHandler):638  Registering  QWidget(0x7fbfdc2283a0, name=&#8221;work_area&#8221;)  for parent  YQWizard(0x7fbfdc147ec0, name=&#8221;wizard&#8221;)<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [qt-ui] YQUI.cc(qMessageHandler):638<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [qt-ui] YQUI.cc(qMessageHandler):648  QLayout: Attempting to add QLayout &#8220;&#8221; to QFrame &#8220;&#8221;, which already has a layout<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YPushButton.cc(setFunctionKey):202 Guessing button role YHelpButton for YPushButton &#8220;Hilfe&#8221; at 0x7fbfdc1db870 from function key F1<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YPushButton.cc(setFunctionKey):202 Guessing button role YCancelButton for YPushButton &#8220;Abbrechen&#8221; at 0x7fbfdc2e06c0 from function key F9<br />
+2018-01-26 16:53:30  tuxeli.suse(9191) [ui] YPushButton.cc(setFunctionKey):202 Guessing button role YOKButton for YPushButton &#8220;Weiter&#8221; at 0x7fbfdc44d5f0 from function key F10<br />
+2018-01-26 16:53:31  tuxeli.suse(9191) [ui] YCP_UI.cc(SetApplicationTitle):1722 Setting application title to &#8216;&#8221;YaST2&#8243;&#8216;<br />
+2018-01-26 16:53:31  tuxeli.suse(9191) [Ruby] modules/Progress.rb:344 Progress::New(Software-Manager wird gestartet, 2, [&#8220;Zielsystem initialisieren&#8221;, &#8220;Konfigurierte Repositorys laden&#8221;])<br />
+2018-01-26 16:53:31  tuxeli.suse(9191) [Ruby] modules/ProductControl.rb:1193 Candidates: [&#8220;/y2update/control.xml&#8221;, &#8220;/control.xml&#8221;, &#8220;/etc/YaST2/control.xml&#8221;]<br />
+2018-01-26 16:53:31  tuxeli.suse(9191) [Ruby] modules/ProductControl.rb:1201 Reading control file: /etc/YaST2/control.xml<br />
+2018-01-26 16:53:31  tuxeli.suse(9191) [Ruby] modules/XML.rb:135 Reading /etc/YaST2/control.xml<br />
+2018-01-26 16:53:31  tuxeli.suse(9191) [agent-xml] XmlAgent.cc(Read):751 Setting XML generic error handler<br />
+2018-01-26 16:53:31  tuxeli.suse(9191) [agent-xml] XmlAgent.cc(Read):786 Freeing generic XML error handler<br />
+2018-01-26 16:53:31  tuxeli.suse(9191) [Ruby] modules/Encoding.rb:77 list [&#8220;charmap=\&#8221;UTF-8\&#8221;&#8221;, &#8220;&#8221;]<br />
+2018-01-26 16:53:31  tuxeli.suse(9191) [Ruby] modules/Encoding.rb:80 list [&#8220;charmap=\&#8221;UTF-8\&#8221;&#8221;]<br />
+2018-01-26 16:53:31  tuxeli.suse(9191) [Ruby] modules/Encoding.rb:84 enc &#8220;UTF-8&#8221;<br />
+2018-01-26 16:53:31  tuxeli.suse(9191) [Ruby] modules/Encoding.rb:86 enc UTF-8<br />
+2018-01-26 16:53:31  tuxeli.suse(9191) [Ruby] modules/Encoding.rb:89 encoding UTF-8<br />
+2018-01-26 16:53:31  tuxeli.suse(9191) [Y2Ruby] binary/Y2RubyUtils.cc(y2_require):26 cannot require yast:undefined method `split&#8217; for nil:NilClass at /usr/share/YaST2/lib/y2country/language_dbus.rb:55:in `read_locale_conf&#8217;<br />
+2018-01-26 16:53:31  tuxeli.suse(9191) [Y2Ruby] binary/Y2RubyUtils.cc(y2_require):26 cannot require yast:undefined method `message&#8217; for nil:NilClass at /usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import_pure&#8217;<br />
+2018-01-26 16:53:31  tuxeli.suse(9191) [Y2Ruby] binary/Y2RubyComponent.cc(import):100 Reporting runtime error for import of module &#8216;ProductLicense&#8217; message &#8216;undefined method `message&#8217; for nil:NilClass&#8217;<br />
+2018-01-26 16:53:31  tuxeli.suse(9191) [Interpreter] yast/i18n.rb:135 Runtime error when loading module &#8216;ProductLicense&#8217;<br />
+2018-01-26 16:53:31  tuxeli.suse(9191) [Y2Ruby] binary/Y2RubyUtils.cc(y2_require):26 cannot require yast:Failed to load Module &#8216;ProductLicense&#8217; due to: undefined method `message&#8217; for nil:NilClass at /usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import_pure&#8217;<br />
+2018-01-26 16:53:31  tuxeli.suse(9191) [Y2Ruby] binary/Y2RubyComponent.cc(import):100 Reporting runtime error for import of module &#8216;AddOnProduct&#8217; message &#8216;Failed to load Module &#8216;ProductLicense&#8217; due to: undefined method `message&#8217; for nil:NilClass&#8217;<br />
+2018-01-26 16:53:31  tuxeli.suse(9191) [Interpreter] yast/i18n.rb:135 Runtime error when loading module &#8216;AddOnProduct&#8217;<br />
+2018-01-26 16:53:31  tuxeli.suse(9191) [Y2Ruby] binary/Y2RubyUtils.cc(y2_require):26 cannot require yast:Failed to load Module &#8216;AddOnProduct&#8217; due to: Failed to load Module &#8216;ProductLicense&#8217; due to: undefined method `message&#8217; for nil:NilClass at /usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import_pure&#8217;<br />
+2018-01-26 16:53:31  tuxeli.suse(9191) [Y2Ruby] binary/Y2RubyComponent.cc(import):100 Reporting runtime error for import of module &#8216;Packages&#8217; message &#8216;Failed to load Module &#8216;AddOnProduct&#8217; due to: Failed to load Module &#8216;ProductLicense&#8217; due to: undefined method `message&#8217; for nil:NilClass&#8217;<br />
+2018-01-26 16:53:31  tuxeli.suse(9191) [Interpreter] yast/i18n.rb:135 Runtime error when loading module &#8216;Packages&#8217;<br />
+2018-01-26 16:53:31  tuxeli.suse(9191) [Ruby] yast/builtins.rb:586 tostring builtin called on wrong type Class<br />
+2018-01-26 16:53:31  tuxeli.suse(9191) [Ruby] yast/wfm.rb:253 Client /usr/share/YaST2/clients/sw_single.rb failed with &#8216;Failed to load Module &#8216;Packages&#8217; due to: Failed to load Module &#8216;AddOnProduct&#8217; due to: Failed to load Module &#8216;ProductLicense&#8217; due to: undefined method `message&#8217; for nil:NilClass&#8217; (RuntimeError).<br />
+Backtrace:<br />
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import_pure&#8217;<br />
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import&#8217;<br />
+/usr/share/YaST2/modules/ProductLicense.rb:22:in `main&#8217;<br />
+/usr/share/YaST2/modules/ProductLicense.rb:1630:in `&#8217;<br />
+/usr/share/YaST2/modules/ProductLicense.rb:6:in `&#8217;<br />
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import_pure&#8217;<br />
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import&#8217;<br />
+/usr/share/YaST2/modules/AddOnProduct.rb:47:in `main&#8217;<br />
+/usr/share/YaST2/modules/AddOnProduct.rb:2160:in `&#8217;<br />
+/usr/share/YaST2/modules/AddOnProduct.rb:7:in `&#8217;<br />
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import_pure&#8217;<br />
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import&#8217;<br />
+/usr/share/YaST2/modules/Packages.rb:53:in `main&#8217;<br />
+/usr/share/YaST2/modules/Packages.rb:2850:in `&#8217;<br />
+/usr/share/YaST2/modules/Packages.rb:10:in `&#8217;<br />
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import_pure&#8217;<br />
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import&#8217;<br />
+/usr/share/YaST2/clients/sw_single.rb:515:in `StartSWSingle&#8217;<br />
+/usr/share/YaST2/clients/sw_single.rb:72:in `main&#8217;<br />
+/usr/share/YaST2/clients/sw_single.rb:801:in `&#8217;<br />
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/wfm.rb:301:in `eval&#8217;<br />
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/wfm.rb:301:in `run_client&#8217;<br />
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/wfm.rb:206:in `call_builtin&#8217;<br />
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/wfm.rb:206:in `call_builtin_wrapper&#8217;<br />
+/usr/lib64/ruby/vendor_ruby/2.5.0/yast/wfm.rb:195:in `CallFunction&#8217;<br />
+/usr/lib/YaST2/bin/y2start:58:in `&#8217;<br />
+2018-01-26 16:53:31  tuxeli.suse(9191) [Ruby] yast/wfm.rb:276 Internal error. Please report a bug report with logs.<br />
+Run save_y2logs to get complete logs.<br />
+Details: Failed to load Module &#8216;Packages&#8217; due to: Failed to load Module &#8216;AddOnProduct&#8217; due to: Failed to load Module &#8216;ProductLicense&#8217; due to: undefined method `message&#8217; for nil:NilClass<br />
+Caller:  /usr/lib64/ruby/vendor_ruby/2.5.0/yast/yast.rb:178:in `import_pure&#8217;</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	
+	>
+<channel>
+	<title>Comments on: running openSUSE on ARM</title>
+	<atom:link href="https://lizards.opensuse.org/2012/01/19/running-opensuse-on-arm/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org/2012/01/19/running-opensuse-on-arm/</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 17:50:09 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>By: hron84</title>
+		<link>https://lizards.opensuse.org/2012/01/19/running-opensuse-on-arm/#comment-6561</link>
+		<dc:creator><![CDATA[hron84]]></dc:creator>
+		<pubDate>Wed, 25 Jan 2012 19:05:05 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8410#comment-6561</guid>
+		<description><![CDATA[The barrier=0 can help in case of CF card too? We&#039;d like use this for our embedded solution.]]></description>
+		<content:encoded><![CDATA[<p>The barrier=0 can help in case of CF card too? We&#8217;d like use this for our embedded solution.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Bernhard Wiedemann</title>
+		<link>https://lizards.opensuse.org/2012/01/19/running-opensuse-on-arm/#comment-6540</link>
+		<dc:creator><![CDATA[Bernhard Wiedemann]]></dc:creator>
+		<pubDate>Fri, 20 Jan 2012 09:09:58 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8410#comment-6540</guid>
+		<description><![CDATA[for reference - serial bootloader output, that can even help you make bootable SD-card images without debug board:
+
+U-Boot 2009.01-2.0.6-efikamx (Nov 02 2010 - 17:13:53)
+
+CPU:   Freescale i.MX51 family 3.0V at 800 MHz
+mx51 pll1: 800MHz
+mx51 pll2: 665MHz
+mx51 pll3: 216MHz
+ipg clock     : 66500000Hz
+ipg per clock : 665000000Hz
+uart clock    : 66500000Hz
+cspi clock    : 54000000Hz
+Board: MX51 Efika MX 3.0 [POR]
+DRAM:  512 MB
+JEDEC ID: 0xbf:0x25:0x4a
+Reading SPI NOR flash 0x40000 [0x10000 bytes] -&#062; ram 0x975f06e8
+.SUCCESS
+
+*** Warning - bad CRC, using default environment
+
+In:    serial
+Out:   serial
+Err:   serial
+board id: 1.0.1, rev1.3
+Boot Source: SPI NOR FLASH BOOT
+Boot Cmd: for device in &quot;mmc ide&quot;; do if strcmp ${device} == mmc; then; mmcinit; setenv units &quot;0 1&quot;; else; setenv units &quot;0&quot;; fi; for interface in ${units}; do if strcmp ${device} == mmc; then mmcprobe ${interface}; else; ide reset; fi; for fs in &quot;ext2 fat&quot;; do setenv loadcmd &quot;${fs}load ${device} 0:1&quot;; if ${loadcmd} ${scriptaddr} boot.scr; then; if imi ${scriptaddr}; then; autoscr ${scriptaddr}; fi; fi; done; done; done;
+Hit any key to stop autoboot:  0
+U-Boot#printenv
+bootdelay=3
+baudrate=115200
+loadaddr=0x90007FC0
+firmware_version=20101102171353
+uboot_addr=0x00000000
+uboot_size=0x00040000
+env_addr=0x00040000
+kerneladdr=0x90007FC0
+scriptaddr=0x91000000
+ramdiskaddr=0x92000000
+console=ttymxc0,115200
+model=mx
+bootcmd=for device in &quot;mmc ide&quot;; do if strcmp ${device} == mmc; then; mmcinit; setenv units &quot;0 1&quot;; else; setenv units &quot;0&quot;; fi; for interface in ${units}; do if strcmp ${device} == mmc; then mmcprobe ${interface}; else; ide reset; fi; for fs in &quot;ext2 fat&quot;; do setenv loadcmd &quot;${fs}load ${device} 0:1&quot;; if ${loadcmd} ${scriptaddr} boot.scr; then; if imi ${scriptaddr}; then; autoscr ${scriptaddr}; fi; fi; done; done; done;
+stdin=serial
+stdout=serial
+stderr=serial
+
+Environment size: 706/65532 bytes
+U-Boot#]]></description>
+		<content:encoded><![CDATA[<p>for reference &#8211; serial bootloader output, that can even help you make bootable SD-card images without debug board:</p>
+<p>U-Boot 2009.01-2.0.6-efikamx (Nov 02 2010 &#8211; 17:13:53)</p>
+<p>CPU:   Freescale i.MX51 family 3.0V at 800 MHz<br />
+mx51 pll1: 800MHz<br />
+mx51 pll2: 665MHz<br />
+mx51 pll3: 216MHz<br />
+ipg clock     : 66500000Hz<br />
+ipg per clock : 665000000Hz<br />
+uart clock    : 66500000Hz<br />
+cspi clock    : 54000000Hz<br />
+Board: MX51 Efika MX 3.0 [POR]<br />
+DRAM:  512 MB<br />
+JEDEC ID: 0xbf:0x25:0x4a<br />
+Reading SPI NOR flash 0x40000 [0x10000 bytes] -&gt; ram 0x975f06e8<br />
+.SUCCESS</p>
+<p>*** Warning &#8211; bad CRC, using default environment</p>
+<p>In:    serial<br />
+Out:   serial<br />
+Err:   serial<br />
+board id: 1.0.1, rev1.3<br />
+Boot Source: SPI NOR FLASH BOOT<br />
+Boot Cmd: for device in &#8220;mmc ide&#8221;; do if strcmp ${device} == mmc; then; mmcinit; setenv units &#8220;0 1&#8221;; else; setenv units &#8220;0&#8221;; fi; for interface in ${units}; do if strcmp ${device} == mmc; then mmcprobe ${interface}; else; ide reset; fi; for fs in &#8220;ext2 fat&#8221;; do setenv loadcmd &#8220;${fs}load ${device} 0:1&#8221;; if ${loadcmd} ${scriptaddr} boot.scr; then; if imi ${scriptaddr}; then; autoscr ${scriptaddr}; fi; fi; done; done; done;<br />
+Hit any key to stop autoboot:  0<br />
+U-Boot#printenv<br />
+bootdelay=3<br />
+baudrate=115200<br />
+loadaddr=0x90007FC0<br />
+firmware_version=20101102171353<br />
+uboot_addr=0x00000000<br />
+uboot_size=0x00040000<br />
+env_addr=0x00040000<br />
+kerneladdr=0x90007FC0<br />
+scriptaddr=0x91000000<br />
+ramdiskaddr=0x92000000<br />
+console=ttymxc0,115200<br />
+model=mx<br />
+bootcmd=for device in &#8220;mmc ide&#8221;; do if strcmp ${device} == mmc; then; mmcinit; setenv units &#8220;0 1&#8221;; else; setenv units &#8220;0&#8221;; fi; for interface in ${units}; do if strcmp ${device} == mmc; then mmcprobe ${interface}; else; ide reset; fi; for fs in &#8220;ext2 fat&#8221;; do setenv loadcmd &#8220;${fs}load ${device} 0:1&#8221;; if ${loadcmd} ${scriptaddr} boot.scr; then; if imi ${scriptaddr}; then; autoscr ${scriptaddr}; fi; fi; done; done; done;<br />
+stdin=serial<br />
+stdout=serial<br />
+stderr=serial</p>
+<p>Environment size: 706/65532 bytes<br />
+U-Boot#</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

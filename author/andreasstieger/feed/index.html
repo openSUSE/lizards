@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>AndreasStieger &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/author/andreasstieger/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Developing with OpenSSL 1.1.x on openSUSE Leap</title>
+		<link>https://lizards.opensuse.org/2017/08/18/developing-with-openssl-1-1-x-on-opensuse-leap/</link>
+		<comments>https://lizards.opensuse.org/2017/08/18/developing-with-openssl-1-1-x-on-opensuse-leap/#comments</comments>
+		<pubDate>Fri, 18 Aug 2017 14:06:30 +0000</pubDate>
+		<dc:creator><![CDATA[AndreasStieger]]></dc:creator>
+				<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Security]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12701</guid>
+		<description><![CDATA[The SUSE OpenSSL maintainers are hard at work to migrate openSUSE Tumbleweed and SUSE Linux Enterprise 15 to use OpenSSL 1.1 by default. Some work remains, see boo#1042629. Here is how you can use OpenSSL 1.1 in parallel to the 1.0 version on openSUSE Leap for development and run-time: zypper ar --refresh --check obs://security:tls security_tls [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The SUSE OpenSSL maintainers are hard at work to migrate openSUSE Tumbleweed and SUSE Linux Enterprise 15 to use OpenSSL 1.1 by default. Some work remains, see <a href="https://bugzilla.opensuse.org/show_bug.cgi?id=1042629">boo#1042629</a>.</p>
+<p>Here is how you can use OpenSSL 1.1 in parallel to the 1.0 version on openSUSE Leap for development and run-time:<br />
+<span id="more-12701"></span></p>
+<p><code>zypper ar --refresh --check obs://security:tls security_tls</code><br />
+<code>zypper in --from security_tls openssl libopenssl-devel</code></p>
+<p>This replaces the following:</p>
+<p><code>The following 3 NEW packages are going to be installed:<br />
+  libopenssl-1_1_0-devel libopenssl1_1_0 openssl-1_1_0</p>
+<p>The following 2 packages are going to be upgraded:<br />
+  libopenssl-devel openssl</p>
+<p>The following 2 packages are going to change architecture:<br />
+  libopenssl-devel  x86_64 -&gt; noarch<br />
+  openssl           x86_64 -&gt; noarch</p>
+<p>The following 2 packages are going to change vendor:<br />
+  libopenssl-devel  openSUSE -&gt; obs://build.opensuse.org/security<br />
+  openssl           openSUSE -&gt; obs://build.opensuse.org/security</code></p>
+<p>This will retain a working OpenSSL 1.0 run-time, and the two versions can be used in parallel. As you can see, the <code>openssl</code> and <code>libopenssl-devel</code> turn into non-architecture specific meta-packages.</p>
+<p>Verify the installed command line version:</p>
+<p><code>openssl version<br />
+OpenSSL 1.1.0f-fips  25 May 2017</code></p>
+<p>To revert:</p>
+<p><code>zypper in --from update --oldpackage openssl -libopenssl1_1_0</code></p>
+<p>Accept the default conflict resolutions to switch back to the distribution packages.</p>
+<p>Have the best of success porting your code to support OpenSSL 1.1. The upstream wiki has a good article on the <a href="https://wiki.openssl.org/index.php/OpenSSL_1.1.0_Changes">OpenSSL 1.1 API changes</a>.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2017/08/18/developing-with-openssl-1-1-x-on-opensuse-leap/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Increase the thread/process limit for Chrome and Chromium to prevent &#8220;unable to create process&#8221; errors</title>
+		<link>https://lizards.opensuse.org/2017/07/25/increase-the-threadprocess-limit-for-chrome-and-chromium-to-prevent-unable-to-create-process-errors/</link>
+		<pubDate>Tue, 25 Jul 2017 09:16:42 +0000</pubDate>
+		<dc:creator><![CDATA[AndreasStieger]]></dc:creator>
+				<category><![CDATA[Uncategorized]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12616</guid>
+		<description><![CDATA[Browsers like Chrome, Chromium and Mozilla Firefox have moved to running tabs in separate threads and processes, to increase performance and responsiveness and to reduce the effects of crashes in one tab. Occasionally, this exhausts the default limit on the amount of processes and threads that a user can have running. Determine the maximum number [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Browsers like Chrome, Chromium and Mozilla Firefox have moved to running tabs in separate threads and processes, to increase performance and responsiveness and to reduce the effects of crashes in one tab.</p>
+<p>Occasionally, this exhausts the default limit on the amount of processes and threads that a user can have running.</p>
+<p>Determine the maximum number of processes and threads in a user session:</p>
+<p><code>$ ulimit -u<br />
+1200</code></p>
+<p>The SUSE defaults are configured in <code>/etc/security/limits.conf</code>:</p>
+<p><code># harden against fork-bombs<br />
+*               hard    nproc           1700<br />
+*               soft    nproc           1200<br />
+root            hard    nproc           3000<br />
+root            soft    nproc           1850</code></p>
+<p>In the above, <code>*</code> the catch-all for all users.</p>
+<p>To raise the limit for a particular user, you can either edit <code>/etc/security/limits.conf</code> or create a new file <code>/etc/security/limits.d/nproc.conf</code>. Here is an example for <code>/etc/security/limits.d/nproc.conf</code> raising the limit for the user <code>jdoe</code> to 8k/16k threads and processes:</p>
+<p><code>jdoe        soft    nproc   8192<br />
+jdoe        hard    nproc   16384</code></p>
+<p>If you want to do that for a whole group, use the <code>@</code> prefix:</p>
+<p><code>@powerusers        soft    nproc   8192<br />
+@powerusers        hard    nproc   16384</code></p>
+<p>In either case, this change is effective only for the next shell or login session.</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Manual encryption partition setup for stronger full disk encryption</title>
+		<link>https://lizards.opensuse.org/2017/05/26/manual-paritioning-crypttab/</link>
+		<pubDate>Fri, 26 May 2017 12:02:42 +0000</pubDate>
+		<dc:creator><![CDATA[AndreasStieger]]></dc:creator>
+				<category><![CDATA[Security]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12518</guid>
+		<description><![CDATA[When installing openSUSE or SUSE Linux Enterprise, YaST is able to configure encrypted LVM using LUKS for full disk encryption. The default configuration is aes-xts-plain64 using a 256 bit master key. However, due to how the XTC mode splits the key into two halves, this reduces the effective key size used for AES to 128 [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>When installing openSUSE or SUSE Linux Enterprise, YaST is able to configure encrypted LVM using LUKS for full disk encryption. The default configuration is <code>aes-xts-plain64</code> using a 256 bit master key. However, due to how the XTC mode splits the key into two halves, this reduces the effective key size used for AES to 128 Bits.</p>
+<p>In order to use a 512 bit key for 256 effective AES, one needs to perform manual formatting prior to installation:<br />
+<code>cryptsetup LuksFormat --key-size 512 /dev/sda1</code><br />
+However the installer suffers from <a href="https://bugzilla.opensuse.org/show_bug.cgi?id=1030299">boo#1030299</a> which prevents it from writing an entry to <code>/etc/crypttab</code> in this instance. This results in a system that is unable to boot after installation.</p>
+<p>The work-around is as follows: Boot into the rescue system, open the crypto device and enter the installed system as a chroot:</p>
+<p><code>cryptsetup luksOpen /dev/sda1 crypto<br />
+mount /dev/mapper/system-root /mnt<br />
+for X in proc dev sys; do mount -bind /$ /mnt/$X; done<br />
+chroot /mnt</code></p>
+<p>(This example assumes <code>/dev/sda1</code> to be the crypto device, and an LVM VG named <em>system</em> with a LV named <em>root</em>, and no separate <code>/boot</code>.)</p>
+<p>Then in the chroot, edit <code>/etc/crypttab</code> to have the following line:</p>
+<p><code>crypto /dev/sda1 none none</code></p>
+<p>See <code>man crypttab</code> for additional settings and options. To finalize, regenerate the initrd and reboot</p>
+<p><code>mkinitrd<br />
+exit<br />
+reboot</code></p>
+<p>A future rewrite of the YaST storage abstraction layer is planned which should address this issue.</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Uninstall a patch using zypper</title>
+		<link>https://lizards.opensuse.org/2016/07/11/zypper-patch-uninstall-rollback/</link>
+		<pubDate>Mon, 11 Jul 2016 12:35:32 +0000</pubDate>
+		<dc:creator><![CDATA[AndreasStieger]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11887</guid>
+		<description><![CDATA[Maintenance and security updates for the stable openSUSE Leap releases are automatically tested using OpenQA, and also receive community testing prior to release. In addition, many updates to openSUSE Leap are inherited from SUSE&#8217;s enterprise products, where they already receive thorough review, and automated as well as manual testing. Should anything go wrong, here is [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Maintenance and security updates for the stable openSUSE Leap releases are automatically tested using OpenQA, and also receive community testing prior to release. In addition, many updates to openSUSE Leap are inherited from <a href="https://www.suse.com/">SUSE&#8217;s enterprise products</a>, where they already receive thorough review, and automated as well as manual testing.</p>
+<p>Should anything go wrong, here is how to &#8220;uninstall&#8221; an online update using <code>zypper</code>.</p>
+<p><code>zypper in --oldpackage ` \<br />
+zypper info -t patch --conflicts openSUSE-2016-XXX | \<br />
+grep " &lt; &quot; | while read NAME C VERSION; do \<br />
+    rpm --quiet -q --queryformat &quot;%{name}\n&quot; $NAME &amp;&amp; echo &quot;${NAME}&lt;${VERSION}&quot;; \<br />
+done`</code></p>
+<p>Replace <code>openSUSE-2016-XXX</code> with the update in question. All involved packages are installed in a prior version. This, of course, is an alternative to using Btrfs snapshots. Note that the update will be offered again.</p>
+<p>If you want to help review proposed online updates, just check the &#8220;untested updates&#8221; repo in YaST or add one of the <a href="http://download.opensuse.org/update/leap/42.1-test/" target="_blank"><code>-test</code></a> repositories to receive updates early.</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>mounting TrueCrypt volumes in GNU/Linux using cryptsetup</title>
+		<link>https://lizards.opensuse.org/2014/01/12/mounting-truecrypt-volumes-in-gnulinux-using-cryptsetup/</link>
+		<pubDate>Sun, 12 Jan 2014 13:30:37 +0000</pubDate>
+		<dc:creator><![CDATA[AndreasStieger]]></dc:creator>
+				<category><![CDATA[Security]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10417</guid>
+		<description><![CDATA[cryptsetup as of 1.6, which shipped in openSUSE 13.1, is able to mount TrueCrypt volumes without the use of TrueCrypt code otherwise, which I previously noted is problematic due to it&#8217;s license, at least for inclusion in the openSUSE distribution. Here, then, is how you mount it: cryptsetup open --type tcrypt /var/run/media/username/volume_name encrypted_volume mount /dev/mapper/encrypted_volume [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><a href="https://code.google.com/p/cryptsetup/" target="_blank">cryptsetup</a> as of 1.6, which shipped in openSUSE 13.1, is able to mount <a href="https://www.truecrypt.org/" target="_blank">TrueCrypt</a> volumes without the use of TrueCrypt code otherwise, which <a href="//lizards.opensuse.org/2011/03/06/license-implications-when-packaging-truecrypt/" title="license implications when packaging TrueCrypt">I previously noted is problematic due to it&#8217;s license</a>, at least for inclusion in the openSUSE distribution.</p>
+<p>Here, then, is how you mount it:</p>
+<p><code>cryptsetup open --type tcrypt /var/run/media/username/volume_name encrypted_volume<br />
+mount /dev/mapper/encrypted_volume /mnt</code></p>
+<p>For read only access, add <code>--readonly</code> and <code>-o ro</code> respectively. When done:</p>
+<p><code>umount /mnt<br />
+cyrptsetup close encrypted_volume</code></p>
+<p>See <code>man 8 cryptsetup</code> for all details and options.</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Apache Subversion 1.8 preview packages</title>
+		<link>https://lizards.opensuse.org/2013/04/15/apache-subversion-1-8-preview-packages/</link>
+		<pubDate>Mon, 15 Apr 2013 20:45:54 +0000</pubDate>
+		<dc:creator><![CDATA[AndreasStieger]]></dc:creator>
+				<category><![CDATA[Packaging]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9365</guid>
+		<description><![CDATA[RPM packages of what will become Apache Subversion 1.8 fairly soon are now available for testing on all current releases of openSUSE and SLE 11. Note that in this release, serf will replace neon as the default HTTP library, to the extend that the latter is removed completely. I wrote about ra_serf before and added [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>RPM packages of what will become <a href="https://subversion.apache.org/docs/release-notes/1.8.html">Apache Subversion 1.8</a> fairly soon are now available for testing on all current releases of openSUSE and SLE 11.</p>
+<p>Note that in this release, serf will replace neon as the default HTTP library, to the extend that the latter is removed completely. I <a href="//lizards.opensuse.org/2011/04/26/subversion-with-libserf/" title="subversion with libserf">wrote about</a> <a href="//lizards.opensuse.org/2012/03/15/subversion-with-libserf-continued/" title="subversion with libserf – continued"> <code>ra_serf</code> before</a> and added support for it in recent packages. You can test this now with either 1.7 or 1.8 if you are concerned about performance in your network. Please note that for servers running httpd and <code>mod_dav_svn</code>, increasing <em>MaxKeepAliveRequests</em> is highly recommended.</p>
+<p><ins datetime="2013-06-18T21:36:36+00:00">Update: Apache Subversion 1.8 is now released. You can find maintained packages via the <a href="http://software.opensuse.org/package/subversion">software search</a> in the <a href="https://build.opensuse.org/package/show?project=devel%3Atools%3Ascm%3Asvn&amp;package=subversion">devel:tools:scm:svn</a> project.</ins> This will be part of the next release of openSUSE.</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>xtrabackup for MySQL</title>
+		<link>https://lizards.opensuse.org/2012/10/14/xtrabackup-for-mysql/</link>
+		<pubDate>Sun, 14 Oct 2012 11:03:11 +0000</pubDate>
+		<dc:creator><![CDATA[AndreasStieger]]></dc:creator>
+				<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Server]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9045</guid>
+		<description><![CDATA[If you run data-driven applications like me, you are probably already running some kind of backup and have plans for disaster recovery. I hope you are not still using SQL dumps? I have been using Percona XtraBackup professionally for MySQL backups for a while now. Especially if your database access is highly transactional you will [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>If you run data-driven applications like me, you are probably already running some kind of backup and have plans for disaster recovery. I hope you are not still using SQL dumps?</p>
+<p>I have been using <a href="http://www.percona.com/doc/percona-xtrabackup/" target="_blank">Percona XtraBackup</a> professionally for MySQL backups for a while now. Especially if your database access is highly transactional you will find it useful that you can get consistent non-blocking, non-purging backups while continuing to serve transactions. Who wants downtime anyway?</p>
+<p>Under the hood the software will take a dirty copy of the InnoDB tablespaces on disk, and extract binary logs required to bring all of these to a specific point in time, or rather LSN, using a patched version of the mysqld binary. The preparation / restore requires applying the binary log to the files which results in MySQL tablespaces and binary log files equivalent to how they would have been with a clean MySQL shutdown.</p>
+<p>Mixing transactional with non-transactional database engines is possible if you are willing to accept some blocking time while backing them up. If you are using MySQL replication, you can also use this to create a new slave from either a master or to clone a slave from another without downtime of either.</p>
+<p>The upgrade to the 2.0 series adds, among other things, parallel IO and parallel compression. This requires a new streaming file format <a href="http://www.percona.com/doc/percona-xtrabackup/xbstream/xbstream.html" target="_blank">xbstream</a> in addition the previous tar. Think of it as a tar with multiple input pipes.</p>
+<p>I added the <a href="http://software.opensuse.org/package/xtrabackup" target="_blank">xtrabackup package</a> to openSUSE, it is available in the <a href="https://build.opensuse.org/package/show?project=server%3Adatabase&amp;package=xtrabackup" target="_blank">server:database project</a> (<a href="http://download.opensuse.org/repositories/server:/database/" target="_blank">repo</a>, <a href="http://download.opensuse.org/repositories/home:/AndreasStieger:/xtrabackup-SLE/" target="_blank">SLE 11</a>) right now and will also be part of the next openSUSE release.</p>
+<p>Remember that these are only tools. Love your data and protect your business. A copy is not a backup. A backup that isn&#8217;t monitored for success is not a backup. A backup that is not proven to restore successfully is <em>barely</em> a backup.</p>
+<p><a href="http://en.opensuse.org/User:AndreasStieger" target="_blank">Contact me</a> if you need help setting this up.</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>subversion with libserf &#8211; continued</title>
+		<link>https://lizards.opensuse.org/2012/03/15/subversion-with-libserf-continued/</link>
+		<comments>https://lizards.opensuse.org/2012/03/15/subversion-with-libserf-continued/#comments</comments>
+		<pubDate>Thu, 15 Mar 2012 09:06:23 +0000</pubDate>
+		<dc:creator><![CDATA[AndreasStieger]]></dc:creator>
+				<category><![CDATA[Packaging]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8588</guid>
+		<description><![CDATA[Further about my work on packages for Apache Subversion with support for serf / libserf / ra_serf, that repository access module was not made default in the 1.7 release after all. Anyway, version 1.0.13 of serf is now available in devel:libraries:c_c++ with the intention of getting this into and in Factory. You will find current [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Further about my work on <a href="http://lizards.opensuse.org/2011/04/26/subversion-with-libserf/">packages for Apache Subversion with support for <code>serf</code> / <code>libserf</code> / <code>ra_serf</code></a>, that repository access module was <a href="http://subversion.apache.org/docs/release-notes/1.7.html#serf">not made default in the 1.7 release after all</a>. Anyway, version 1.0.<del datetime="2012-05-27T09:18:29+00:00">1</del><ins datetime="2012-05-27T09:18:29+00:00">3</ins> of serf is now available in <a href="https://build.opensuse.org/package/show?package=libserf&amp;project=devel%3Alibraries%3Ac_c%2B%2B">devel:libraries:c_c++</a> <del datetime="2012-05-27T09:18:29+00:00">with the intention of getting this into</del> <ins datetime="2012-05-27T09:18:29+00:00">and in </ins> Factory. You will find current Apache Subversion packages with fixed conditional compilation against serf in <del datetime="2012-05-27T09:18:29+00:00"><a href="https://build.opensuse.org/project/packages?project=home%3AAndreasStieger%3Asvnserf">home:AndreasStieger:serf</a></del> <del datetime="2012-05-31T21:25:42+00:00"><ins datetime="2012-05-27T09:18:29+00:00"><a href="http://download.opensuse.org/repositories/home:/AndreasStieger:/branches:/devel:/tools:/scm:/svn/">home:AndreasStieger:branches:devel:tools:scm:svn</a></ins></del> <ins datetime="2012-05-31T21:25:42+00:00"><a href="http://download.opensuse.org/repositories/devel:/tools:/scm:/svn/">devel:tools:scm:svn</a></ins> for testing.</p>
+<p><ins datetime="2012-05-27T09:18:29+00:00">Updated 27/05/2012: repository locations</ins><br />
+<ins datetime="2012-05-31T21:25:42+00:00">And again after <a href="https://build.opensuse.org/request/show/122507">SR#122507</a> was accepted.</ins></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2012/03/15/subversion-with-libserf-continued/feed/</wfw:commentRss>
+		<slash:comments>4</slash:comments>
+		</item>
+		<item>
+		<title>subversion with libserf</title>
+		<link>https://lizards.opensuse.org/2011/04/26/subversion-with-libserf/</link>
+		<pubDate>Tue, 26 Apr 2011 22:09:05 +0000</pubDate>
+		<dc:creator><![CDATA[AndreasStieger]]></dc:creator>
+				<category><![CDATA[Packaging]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7242</guid>
+		<description><![CDATA[I packaged subversion to built against libserf in addition to neon. This adds a second repository access module to handle http and https schemes with potential improvements. To enable, install the packages from my home repository See updated package location. To enable, adjust your ~/.subversion/servers file: [global] http-library = serf Beyond this, the package tracks [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I packaged subversion to built against <a href="http://code.google.com/p/serf/">libserf</a> in addition to neon. This adds a second repository access module to handle http and https schemes with potential improvements. <del datetime="2012-03-15T08:56:41+00:00">To enable, install the packages from my <a href="http://download.opensuse.org/repositories/home:/AndreasStieger/">home repository</a> </del> <ins datetime="2012-03-15T08:56:41+00:00">See <a href="http://lizards.opensuse.org/2012/03/15/subversion-with-libserf-continued/">updated package location</a>.</ins> </p>
+<p>To enable, adjust your <code>~/.subversion/servers</code> file:</p>
+<p><code><br />
+[global]<br />
+http-library = serf<br />
+</code></p>
+<p>Beyond this, the package tracks the <a href="https://build.opensuse.org/package/show?package=subversion&amp;project=devel%3Atools%3Ascm%3Asvn">package</a> from <a href="https://build.opensuse.org/project/show?project=devel%3Atools%3Ascm%3Asvn">devel:tools:scm:svn</a>.</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>license implications when packaging TrueCrypt</title>
+		<link>https://lizards.opensuse.org/2011/03/06/license-implications-when-packaging-truecrypt/</link>
+		<comments>https://lizards.opensuse.org/2011/03/06/license-implications-when-packaging-truecrypt/#comments</comments>
+		<pubDate>Sun, 06 Mar 2011 13:42:45 +0000</pubDate>
+		<dc:creator><![CDATA[AndreasStieger]]></dc:creator>
+				<category><![CDATA[Packaging]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=6736</guid>
+		<description><![CDATA[license implications when packaging non-OSI approved software TrueCrypt for openSUSE]]></description>
+				<content:encoded><![CDATA[<p>I use an encrypted USB stick to carry credentials and data for production servers I look after when I&#8217;m on call. One requirement was portability between my work (Windows) and home (GNU/Linux) desktops, so <a href="http://www.truecrypt.org/">TrueCrypt</a> came to mind. I <a href="http://en.opensuse.org/Portal:Packaging">packaged</a> it all up an applied some patches to fix compiler issues and warnings. The <a href="http://www.truecrypt.org/legal/license">TrueCrypt license</a>, however, is not <a href="http://www.opensource.org/licenses/index.html">OSI-approved</a>, and as such the program cannot be built in the <a href="http://en.opensuse.org/Portal:Build_Service">openSUSE build service</a> (see <a href="http://en.opensuse.org/openSUSE:Build_Service_application_blacklist">blacklist</a>, <a href="http://lists.opensuse.org/opensuse-buildservice/2008-10/msg00055.html">discussion</a>).</p>
+<p>I almost forgot about the whole thing until I upgraded the package for new dependencies in the upcoming release of openSUSE 11.4. I talked with people over at <a href="http://packman.links2linux.org/">packman</a>, a popular 3rd-party repository for software not included in openSUSE proper for one reason or another. We analysed the license a bit and concluded that if we shipped binaries built from non-pristine sources, the product would have to be re-branded as per the requirements of their license. I am usually pragmatic about these things as long as FLOSS and non-FLOSS licences can be adhered to, but didn&#8217;t want to go the route <a href="http://en.wikipedia.org/wiki/Mozilla_Corporation_software_rebranded_by_the_Debian_project">Debian took with Firefox</a> et al.</p>
+<p>We contacted the TrueCrypt developers on this issue, we&#8217;ll see what comes out of that. Until then, if someone wants to build this package, here is what you need:</p>
+<p><a href="http://paste.opensuse.org/57235480">truecrypt.spec</a><br />
+<a href="http://paste.opensuse.org/97571864">truecrypt.desktop</a><br />
+<a href="http://paste.opensuse.org/31118229">truecrypt-tc_token_err.patch</a><br />
+<a href="http://paste.opensuse.org/32381059">truecrypt-NULL_PTR-redefinition-warning.patch</a><br />
+<a href="http://paste.opensuse.org/89997853">truecrypt-undefined-operation-warning.patch</a></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2011/03/06/license-implications-when-packaging-truecrypt/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+	</channel>
+</rss>

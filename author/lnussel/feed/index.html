@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0"
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -9,19 +8,119 @@
 	>
 
 <channel>
-	<title>openSUSE Lizards &#187; lnussel</title>
-	<atom:link href="http://lizards.opensuse.org/author/lnussel/feed/" rel="self" type="application/rss+xml" />
-	<link>http://lizards.opensuse.org</link>
+	<title>lnussel &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/author/lnussel/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
 	<description>Blogs and Ramblings of the openSUSE Members</description>
-	<lastBuildDate>Mon, 24 Mar 2014 12:46:00 +0000</lastBuildDate>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
 	<language>en-US</language>
-		<sy:updatePeriod>hourly</sy:updatePeriod>
-		<sy:updateFrequency>1</sy:updateFrequency>
-	<generator>http://wordpress.org/?v=3.8.1</generator>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
 	<item>
+		<title>using YaST firstboot wizard in WSL</title>
+		<link>https://lizards.opensuse.org/2019/11/21/using-yast-firstboot-wizard-in-wsl/</link>
+		<comments>https://lizards.opensuse.org/2019/11/21/using-yast-firstboot-wizard-in-wsl/#comments</comments>
+		<pubDate>Thu, 21 Nov 2019 12:29:04 +0000</pubDate>
+		<dc:creator><![CDATA[lnussel]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Uncategorized]]></category>
+		<category><![CDATA[YaST]]></category>
+		<category><![CDATA[WSL]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=14173</guid>
+		<description><![CDATA[When starting a WSL distribution for the first time, a text prompt for user name and password appears: The code for that is partially in the Windows launcher. The Windows side actually prompts for the user name: https://github.com/microsoft/WSL-DistroLauncher/blob/master/DistroLauncher/DistroLauncher.cpp#L44 and passes it to &#8216;adduser&#8217;: https://github.com/microsoft/WSL-DistroLauncher/blob/1f8551f7e2ea22bba2e6fb02f01e7a5f7fb757f3/DistroLauncher/DistributionInfo.cpp#L14 That seems to be a Debian specific tool that also prompts [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>When starting a WSL distribution for the first time, a text prompt for user name and password appears:</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/10/wsl-u.png"><img class="alignnone size-medium wp-image-14137" src="//lizards.opensuse.org/wp-content/uploads/2019/10/wsl-u-300x52.png" alt="" width="300" height="52" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/10/wsl-u-300x52.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/10/wsl-u-768x133.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/10/wsl-u.png 769w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>The code for that is partially in the Windows launcher. The Windows side actually prompts for the user name:<br />
+<a href="https://github.com/microsoft/WSL-DistroLauncher/blob/master/DistroLauncher/DistroLauncher.cpp#L44">https://github.com/microsoft/WSL-DistroLauncher/blob/master/DistroLauncher/DistroLauncher.cpp#L44</a></p>
+<p>and passes it to &#8216;adduser&#8217;:<br />
+<a href="https://github.com/microsoft/WSL-DistroLauncher/blob/1f8551f7e2ea22bba2e6fb02f01e7a5f7fb757f3/DistroLauncher/DistributionInfo.cpp#L14">https://github.com/microsoft/WSL-DistroLauncher/blob/1f8551f7e2ea22bba2e6fb02f01e7a5f7fb757f3/DistroLauncher/DistributionInfo.cpp#L14</a></p>
+<p>That seems to be a Debian specific tool that also prompts for a password. We don&#8217;t have it in openSUSE. When done, the Windows part actually calls into the Linux environment again with &#8216;id -u&#8217; to get the uid of the added user:<br />
+<a href="https://github.com/microsoft/WSL-DistroLauncher/blob/1f8551f7e2ea22bba2e6fb02f01e7a5f7fb757f3/DistroLauncher/DistributionInfo.cpp#L44">https://github.com/microsoft/WSL-DistroLauncher/blob/1f8551f7e2ea22bba2e6fb02f01e7a5f7fb757f3/DistroLauncher/DistributionInfo.cpp#L44</a></p>
+<p>So in order to also prompt for the password we&#8217;d have to write a wrapper like the Debian one or implement another prompt in the launcher. Implementing such a prompt in Windows code seems boring to me. When writing a wrapper, I&#8217;d do something dialog based to make it look more fancy. There&#8217;s already <a href="https://github.com/openSUSE/jeos-firstboot">jeos-firstboot</a> that does something similar already and more. But then the WSL image doesn&#8217;t have to be really minimal, which means we have YaST!</p>
+<p>So even though WSL doesn&#8217;t really boot as it has no systemd it would be still possible to run the YaST firstboot wizard on first start. What modules it launches is configurable via xml file. So leaving out hardware/VM specific things like network configuration it works pretty well:</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-1.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-1-300x234.png" alt="" width="300" height="234" class="alignnone size-medium wp-image-14183" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-1-300x234.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-1-768x600.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-1.png 800w" sizes="(max-width: 300px) 100vw, 300px" /></a><br />
+<a href="//lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-2.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-2-300x234.png" alt="" width="300" height="234" class="alignnone size-medium wp-image-14185" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-2-300x234.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-2-768x600.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-2.png 800w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-3.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-3-300x234.png" alt="" width="300" height="234" class="alignnone size-medium wp-image-14186" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-3-300x234.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-3-768x600.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-3.png 800w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-4.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-4-300x234.png" alt="" width="300" height="234" class="alignnone size-medium wp-image-14187" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-4-300x234.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-4-768x600.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/11/firstboot-4.png 800w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>For the launcher to know the name of the created user a small <a href="https://build.opensuse.org/package/view_file/Virtualization:WSL/yast2-firstboot-wsl/firstboot_write_wsl.rb?expand=1">YaST module</a> was needed to write the name into /run/wsl_firstboot_uid. The launcher fetches it from there.</p>
+<p>Using the YaST firstboot wizard also allows to use e.g. the existing registration dialogs on SLE or add other useful configuration steps. One feature I have in mind would be for example is the role selection screen to offer some pre defined package selections for WSL use cases.</p>
+<p>Tumbleweed and Leap appx files to test this are available from <a href="https://download.opensuse.org/repositories/Virtualization:/WSL/">download.opensuse.org</a>. Keep in mind that one needs to <a href="https://en.opensuse.org/WSL/Manual_Installation">import the certificates</a> used by OBS for signing first.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2019/11/21/using-yast-firstboot-wizard-in-wsl/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>openSUSE WSL images in OBS</title>
+		<link>https://lizards.opensuse.org/2019/10/09/opensuse-wsl-images-in-obs/</link>
+		<pubDate>Wed, 09 Oct 2019 14:17:44 +0000</pubDate>
+		<dc:creator><![CDATA[lnussel]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=14127</guid>
+		<description><![CDATA[A fundamental concept of all openSUSE packages as well as any image offered for download is a fully transparent, reproducible and automatic build and development process based on sources. In openSUSE developers do not perform manual builds on some specially crafted machine in their basement and then upload the result somewhere. Instead all sources are [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>A fundamental concept of all openSUSE packages as well as any image offered for download is a fully transparent, reproducible and automatic build and development process based on sources.</p>
+<p>In openSUSE developers do not perform manual builds on some specially crafted machine in their basement and then upload the result somewhere. Instead all sources are stored in a version control system inside the <a href="https://openbuildservice.org/">open build service</a> (OBS) instance at <a href="https://build.opensuse.org/">build.opensuse.org</a>. OBS then automatically builds the sources including all dependencies according to defined build instructions (eg spec files for rpms). OBS also automatically adds cryptographic signatures to files that support it to make sure nobody can tamper with those files.</p>
+<p>The WSL appx files are basically zip files that contain a tarball of a Linux system (like a container) and a Windows exe file, the so called launcher. Building a container is something OBS can already do fully automatic by means of <a href="http://osinside.github.io/kiwi/">Kiwi</a>. The launcher as well as the final appx however is typically built on a Windows machine using Visual Studio by the developer.</p>
+<p>Since the goal of the openSUSE WSL offering is to have the appx files officially and automatically be produced along with other images such as the DVD installer, Live images or containers, the appx files have to be built from sources in OBS.</p>
+<p>Fortunately there&#8217;s already a <a href="http://www.mingw.org/">MinGW</a> cross toolchain <a href="https://build.opensuse.org/project/show/windows:mingw:win64">packaged as rpms OBS</a> and a <a href="https://github.com/facebook/fb-util-for-appx">tool to generate appx files on Linux</a>.</p>
+<p>Combining that all together OBS can actually build the WSL appx from sources. The current state of development can be found in the <a href="https://build.opensuse.org/project/show/Virtualization:WSL">Virtualization:WSL</a> project in OBS. The generated appx files are published on <a href="https://download.opensuse.org/repositories/Virtualization:/WSL/">download.opensuse.org</a>.<br />
+The current images for <a href="https://download.opensuse.org/repositories/Virtualization:/WSL/openSUSE_Leap_15.2/openSUSE-Leap-15.2-Alpha.appx">Leap 15.2 Alpha</a> and <a href="https://download.opensuse.org/repositories/Virtualization:/WSL/openSUSE_Tumbleweed/openSUSE-Tumbleweed.appx">Tumbleweed</a> there are good enough for some testing already so please go ahead and do so, feedback welcome!<br />
+Note that since the appx files are signed by OBS rather than Microsoft, there are a <a href="https://en.opensuse.org/WSL/Manual_Installation">few steps required</a> to install them.</p>
+<p>Going forward there is still quite some work needed to polish this up. Kiwi for example can&#8217;t build the appx directly itself but rather the fb-util-for-appx is called by a spec file. That requires some hacks with the OBS project config to work. On Linux side there&#8217;s currently no password set for the root user, so we need a better &#8220;first boot&#8221; solution. More details on that in a later article. Meanwhile, remember to have a lot of fun&#8230;</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Testing Android in openQA</title>
+		<link>https://lizards.opensuse.org/2015/01/06/testing-android-in-openqa/</link>
+		<pubDate>Tue, 06 Jan 2015 15:37:27 +0000</pubDate>
+		<dc:creator><![CDATA[lnussel]]></dc:creator>
+				<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[Uncategorized]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11153</guid>
+		<description><![CDATA[The other day Richard described in his blog how how he used openQA to test drive Fedora. Around the same time I read about Android x86 and saw that they offer iso images for download. So I wondered how hard it would be to get that one tested in openQA. To find out I installed [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The other day Richard described in his <a title="Richard's blog" href="https://sysrich.co.uk/?p=303">blog</a> how how he used openQA to test drive Fedora. Around the same time I read about <a href="http://www.android-x86.org/">Android x86</a> and saw that they offer iso images for download. So I wondered how hard it would be to get that one tested in openQA.<br />
+<span id="more-11153"></span><br />
+To find out I <a href="http://www.suse.de/~lnussel/setupgrubfornfsinstall.html">installed</a> a current <a href="https://en.opensuse.org/Portal:Tumbleweed">Tumbleweed</a> snapshot in qemu. Installing openQA in the VM is straight forward with the provided packages, following the instrucutions at <a href="https://github.com/os-autoinst/openQA">GitHub</a>.</p>
+<p>Keep in mind that nested virtualization needs to be turned on to be able to run the openQA worker inside qemu (pass nested=1 to kvm_intel resp kvm_amd). To conveniently access the web interface, vnc and ssh I added &#8220;-net&#8221; &#8220;user,hostfwd=tcp::8888-:80,hostfwd=tcp::5091-:5091,hostfwd=tcp::2222-:22&#8221; to the qemu command line.</p>
+<p>As soon as openQA is up and running the remaining steps are easy:</p>
+<ul>
+<li>add the sample Android test cases I created:
+<pre>
+# cd /var/lib/openqa/tests
+# git clone -b android-4.4 git://github.com/lnussel/os-autoinst-distri-android.git android-4.4
+# chown geekotest android-4.4/needles
+</pre>
+</li>
+<li>import the job templates so openQA learns what to do with Android iso images
+<pre>
+# android-4.4/templates
+</pre>
+</li>
+<li><a href="http://www.android-x86.org/download">Download android-x86-4.4-r2.iso</a> and store it in /var/lib/openQA/factory/iso</li>
+<li>register the iso image with openQA:
+<pre>
+# /usr/share/openqa/script/client isos post \
+    ISO=android-x86-4.4-r2.iso \
+    DISTRI=android VERSION=4.4 ARCH=i586 \
+    FLAVOR=live BUILD=0002
+</pre>
+</li>
+</ul>
+<p>Voilà! If everything went right openQA should now have created a job and the worker should start processing it.</p>
+<p>Here are some screenshots and a video of my test run:<br />
+<a href="//lizards.opensuse.org/wp-content/uploads/2015/01/openqa-android-02.png"><img src="//lizards.opensuse.org/wp-content/uploads/2015/01/openqa-android-02-300x169.png" alt="openqa-android-02" width="300" height="169" class="alignnone size-medium wp-image-11155" srcset="https://lizards.opensuse.org/wp-content/uploads/2015/01/openqa-android-02-300x169.png 300w, https://lizards.opensuse.org/wp-content/uploads/2015/01/openqa-android-02-1024x578.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2015/01/openqa-android-02.png 1180w" sizes="(max-width: 300px) 100vw, 300px" /></a> <a href="//lizards.opensuse.org/wp-content/uploads/2015/01/openqa-android-01.png"><img src="//lizards.opensuse.org/wp-content/uploads/2015/01/openqa-android-01-300x183.png" alt="openqa-android-01" width="300" height="183" class="alignnone size-medium wp-image-11154" srcset="https://lizards.opensuse.org/wp-content/uploads/2015/01/openqa-android-01-300x183.png 300w, https://lizards.opensuse.org/wp-content/uploads/2015/01/openqa-android-01-1024x625.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2015/01/openqa-android-01.png 1126w" sizes="(max-width: 300px) 100vw, 300px" /></a><br />
+<div style="width: 640px;" class="wp-video"><!--[if lt IE 9]><script>document.createElement('video');</script><![endif]-->
+<video class="wp-video-shortcode" id="video-11153-1" width="640" height="360" preload="metadata" controls="controls"><source type="video/ogg" src="//lizards.opensuse.org/wp-content/uploads/2015/01/openqa-android.ogv?_=1" /><a href="//lizards.opensuse.org/wp-content/uploads/2015/01/openqa-android.ogv">//lizards.opensuse.org/wp-content/uploads/2015/01/openqa-android.ogv</a></video></div></p>
+<p>Looks like the emulator in the Android SDK is also qemu based. So theoretically it shouldn&#8217;t be hard to integrate that one into openQA in order to actually test on emulated phones as well.</p>
+]]></content:encoded>
+			</item>
+		<item>
 		<title>Configuring an IPv6 DSL connection</title>
-		<link>http://lizards.opensuse.org/2011/01/19/configuring-an-ipv6-dsl-connection/</link>
-		<comments>http://lizards.opensuse.org/2011/01/19/configuring-an-ipv6-dsl-connection/#comments</comments>
+		<link>https://lizards.opensuse.org/2011/01/19/configuring-an-ipv6-dsl-connection/</link>
 		<pubDate>Wed, 19 Jan 2011 14:46:12 +0000</pubDate>
 		<dc:creator><![CDATA[lnussel]]></dc:creator>
 				<category><![CDATA[Network]]></category>
@@ -43,13 +142,11 @@
 <li>Done! You may now use cinternet or qinternet to dial in and enjoy the (rather empty) IPv6 internet.</li>
 </ol>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2011/01/19/configuring-an-ipv6-dsl-connection/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
+			</item>
 		<item>
 		<title>updated permissions handling in 11.4</title>
-		<link>http://lizards.opensuse.org/2010/11/24/updated-permissions-handling-in-11-4/</link>
-		<comments>http://lizards.opensuse.org/2010/11/24/updated-permissions-handling-in-11-4/#comments</comments>
+		<link>https://lizards.opensuse.org/2010/11/24/updated-permissions-handling-in-11-4/</link>
+		<comments>https://lizards.opensuse.org/2010/11/24/updated-permissions-handling-in-11-4/#comments</comments>
 		<pubDate>Wed, 24 Nov 2010 12:51:35 +0000</pubDate>
 		<dc:creator><![CDATA[lnussel]]></dc:creator>
 				<category><![CDATA[Base System]]></category>
@@ -63,13 +160,12 @@
 <p>There have been complaints that every SuSEconfig run also calls SuSEconfig.permissions which leads to changed file permissions at unexpected times. Therefore I&#8217;ve modified SuSEconfig.permissions to only actually set permissions when called explicitly (ie SuSEconfig &#8211;module permissions). When called by a generic SuSEconfig run SuSEconfig.permissions now only shows files with wrong permissions but doesn&#8217;t actually fix them anymore.</p>
 <p>Since packages that have files with special permission handling do call SuSEconfig.permissions explicitly via %run_permissions in %post the change above alone isn&#8217;t sufficient to avoid surprises. Therefore I&#8217;ve introduced the new macro <a href="http://en.opensuse.org/openSUSE:Packaging_Conventions_RPM_Macros#.25set_permissions">%set_permissions</a>. This macro expects file names as arguments. Only permissions of those files are adjusted then. To notify packagers of that new method an rpmlint check now issues an informal message if %run_permissions is used.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2010/11/24/updated-permissions-handling-in-11-4/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2010/11/24/updated-permissions-handling-in-11-4/feed/</wfw:commentRss>
 		<slash:comments>2</slash:comments>
 		</item>
 		<item>
 		<title>Hackweek V: mkdiststats</title>
-		<link>http://lizards.opensuse.org/2010/06/16/hackweek-v-mkdiststats/</link>
-		<comments>http://lizards.opensuse.org/2010/06/16/hackweek-v-mkdiststats/#comments</comments>
+		<link>https://lizards.opensuse.org/2010/06/16/hackweek-v-mkdiststats/</link>
 		<pubDate>Wed, 16 Jun 2010 15:00:09 +0000</pubDate>
 		<dc:creator><![CDATA[lnussel]]></dc:creator>
 				<category><![CDATA[Build Service]]></category>
@@ -105,13 +201,11 @@ building packages at each point in time</p>
 You need an account in the openSUSE build service as mkdiststats<br />
 uses osc to download dependency information.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2010/06/16/hackweek-v-mkdiststats/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
+			</item>
 		<item>
 		<title>Check your WPA2 Enterprise setup</title>
-		<link>http://lizards.opensuse.org/2010/04/20/check-your-wpa2-enterprise-setup/</link>
-		<comments>http://lizards.opensuse.org/2010/04/20/check-your-wpa2-enterprise-setup/#comments</comments>
+		<link>https://lizards.opensuse.org/2010/04/20/check-your-wpa2-enterprise-setup/</link>
+		<comments>https://lizards.opensuse.org/2010/04/20/check-your-wpa2-enterprise-setup/#comments</comments>
 		<pubDate>Tue, 20 Apr 2010 14:00:40 +0000</pubDate>
 		<dc:creator><![CDATA[lnussel]]></dc:creator>
 				<category><![CDATA[Security]]></category>
@@ -130,13 +224,13 @@ any &#8220;Subject&#8221; or &#8220;Common Name&#8221; that has to match. Networ
 example doesn&#8217;t even allow to enter the latter.<br />
 <a href="http://www.suse.de/~lnussel/The_Evil_Twin_problem_with_WPA2-Enterprise_v1.1.pdf">Read more</a> in the paper I&#8217;ve written.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2010/04/20/check-your-wpa2-enterprise-setup/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2010/04/20/check-your-wpa2-enterprise-setup/feed/</wfw:commentRss>
 		<slash:comments>1</slash:comments>
 		</item>
 		<item>
 		<title>A distro without packages?</title>
-		<link>http://lizards.opensuse.org/2009/10/30/a-distro-without-packages/</link>
-		<comments>http://lizards.opensuse.org/2009/10/30/a-distro-without-packages/#comments</comments>
+		<link>https://lizards.opensuse.org/2009/10/30/a-distro-without-packages/</link>
+		<comments>https://lizards.opensuse.org/2009/10/30/a-distro-without-packages/#comments</comments>
 		<pubDate>Fri, 30 Oct 2009 10:31:07 +0000</pubDate>
 		<dc:creator><![CDATA[lnussel]]></dc:creator>
 				<category><![CDATA[Distribution]]></category>
@@ -146,13 +240,13 @@ example doesn&#8217;t even allow to enter the latter.<br />
 		<description><![CDATA[Yesterday i noticed that openal-soft on 11.2 is broken, it just locks up with current pulseaudio. It&#8217;s not surprising noone noticed as there are no packages in Factory that use it anymore. Even Chromium BSU which roughly has a 0% chance that it will ever need maintenance, security or otherwise was dropped from Factory and [&#8230;]]]></description>
 				<content:encoded><![CDATA[<p>Yesterday i noticed that openal-soft on 11.2 is broken, it just locks up with current pulseaudio. It&#8217;s not surprising noone noticed as there are no packages in Factory that use it anymore. Even Chromium BSU which roughly has a 0% chance that it will ever need maintenance, security or otherwise was dropped from Factory and moved to the build service games dumpsi^Wrepo. Please, put your packages back to Factory. Chances that people find and use the software are much bigger if the distro has it rather than some random build service repo. Yes, there are some rules you have to follow then but that&#8217;s also a sign of quality for our users. Yes, it won&#8217;t be the latest and greatest version always but that doesn&#8217;t matter for most packages. So please put your packages back to Factory [unless they are full of security bugs ;-)], a distro without packages is not useful.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2009/10/30/a-distro-without-packages/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/10/30/a-distro-without-packages/feed/</wfw:commentRss>
 		<slash:comments>3</slash:comments>
 		</item>
 		<item>
 		<title>Firewall Zone Switcher Updated</title>
-		<link>http://lizards.opensuse.org/2009/08/28/firewall-zone-switcher-updated/</link>
-		<comments>http://lizards.opensuse.org/2009/08/28/firewall-zone-switcher-updated/#comments</comments>
+		<link>https://lizards.opensuse.org/2009/08/28/firewall-zone-switcher-updated/</link>
+		<comments>https://lizards.opensuse.org/2009/08/28/firewall-zone-switcher-updated/#comments</comments>
 		<pubDate>Fri, 28 Aug 2009 07:58:10 +0000</pubDate>
 		<dc:creator><![CDATA[lnussel]]></dc:creator>
 				<category><![CDATA[Network]]></category>
@@ -166,18 +260,18 @@ allows to enable the system tray icon and optionally also enables<br />
 starting the applet on log-in. Furthermore the daemon now uses<br />
 PolicyKit for access control and the applet supports i18n.<br />
 <span id="more-2033"></span><br />
-<img src="http://lizards.opensuse.org/wp-content/uploads/2009/08/fwzs1.png" alt="fwzs1" width="480" height="350" class="alignnone size-full wp-image-2030" /><br />
-<img src="http://lizards.opensuse.org/wp-content/uploads/2009/08/fwzs2.png" alt="fwzs2" width="480" height="350" class="alignnone size-full wp-image-2031" /><br />
-<img src="http://lizards.opensuse.org/wp-content/uploads/2009/08/fwzs3.png" alt="fwzs3" width="480" height="350" class="alignnone size-full wp-image-2032" /></p>
+<img src="http://lizards.opensuse.org/wp-content/uploads/2009/08/fwzs1.png" alt="fwzs1" width="480" height="350" class="alignnone size-full wp-image-2030" srcset="https://lizards.opensuse.org/wp-content/uploads/2009/08/fwzs1.png 480w, https://lizards.opensuse.org/wp-content/uploads/2009/08/fwzs1-300x218.png 300w" sizes="(max-width: 480px) 100vw, 480px" /><br />
+<img src="http://lizards.opensuse.org/wp-content/uploads/2009/08/fwzs2.png" alt="fwzs2" width="480" height="350" class="alignnone size-full wp-image-2031" srcset="https://lizards.opensuse.org/wp-content/uploads/2009/08/fwzs2.png 480w, https://lizards.opensuse.org/wp-content/uploads/2009/08/fwzs2-300x218.png 300w" sizes="(max-width: 480px) 100vw, 480px" /><br />
+<img src="http://lizards.opensuse.org/wp-content/uploads/2009/08/fwzs3.png" alt="fwzs3" width="480" height="350" class="alignnone size-full wp-image-2032" srcset="https://lizards.opensuse.org/wp-content/uploads/2009/08/fwzs3.png 480w, https://lizards.opensuse.org/wp-content/uploads/2009/08/fwzs3-300x218.png 300w" sizes="(max-width: 480px) 100vw, 480px" /></p>
 <p>Packages for openSUSE 11.1 are available from the <a href="http://software.opensuse.org/ymp/home:lnussel:fwzs/openSUSE_11.1/fwzs.ymp">openSUSE build service</a>. You also need to update SuSEfirewall2 from that repo. Source code repo is available at <a href="http://gitorious.org/opensuse/fwzs">gitorious</a>.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2009/08/28/firewall-zone-switcher-updated/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/08/28/firewall-zone-switcher-updated/feed/</wfw:commentRss>
 		<slash:comments>6</slash:comments>
 		</item>
 		<item>
 		<title>Firewall Zone Switcher</title>
-		<link>http://lizards.opensuse.org/2009/07/10/1453/</link>
-		<comments>http://lizards.opensuse.org/2009/07/10/1453/#comments</comments>
+		<link>https://lizards.opensuse.org/2009/07/10/1453/</link>
+		<comments>https://lizards.opensuse.org/2009/07/10/1453/#comments</comments>
 		<pubDate>Fri, 10 Jul 2009 11:57:42 +0000</pubDate>
 		<dc:creator><![CDATA[lnussel]]></dc:creator>
 				<category><![CDATA[Network]]></category>
@@ -211,157 +305,11 @@ build service</a>. You also need to update SuSEfirewall2 from that<br />
 repo. Source code repo is available at <a href="http://gitorious.org/opensuse/fwzs">gitorious</a>.<br />
 Keep in mind that the app as well as the patch to SuSEfirewall2 are just proof<br />
 of concept ie experimental so there will be bugs. Feedback welcome nevertheless<br />
- <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif" alt=":-)" class="wp-smiley" /> </p>
-<p><img src="http://lizards.opensuse.org/wp-content/uploads/2009/07/fwzs.png" alt="fwzs" width="393" height="227" class="alignnone size-full wp-image-1452" /></p>
+<img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p><img src="http://lizards.opensuse.org/wp-content/uploads/2009/07/fwzs.png" alt="fwzs" width="393" height="227" class="alignnone size-full wp-image-1452" srcset="https://lizards.opensuse.org/wp-content/uploads/2009/07/fwzs.png 393w, https://lizards.opensuse.org/wp-content/uploads/2009/07/fwzs-300x173.png 300w" sizes="(max-width: 393px) 100vw, 393px" /></p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2009/07/10/1453/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/07/10/1453/feed/</wfw:commentRss>
 		<slash:comments>10</slash:comments>
-		</item>
-		<item>
-		<title>encrypted root file system on LVM</title>
-		<link>http://lizards.opensuse.org/2009/03/18/encrypted-root-file-system-on-lvm/</link>
-		<comments>http://lizards.opensuse.org/2009/03/18/encrypted-root-file-system-on-lvm/#comments</comments>
-		<pubDate>Wed, 18 Mar 2009 15:50:44 +0000</pubDate>
-		<dc:creator><![CDATA[lnussel]]></dc:creator>
-				<category><![CDATA[Security]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=603</guid>
-		<description><![CDATA[openSUSE 11.1 doesn&#8217;t officially support an encrypted root file system which also means YaST doesn&#8217;t allow to create such a setup. By manually creating an encrypted partition and putting LVM into the encrypted container it&#8217;s however possible to trick YaST into accepting that as root file system. In the following example I assume that the [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>openSUSE 11.1 doesn&#8217;t officially support an encrypted root file<br />
-system which also means YaST doesn&#8217;t allow to create such a setup.</p>
-<p>By manually creating an encrypted partition and putting LVM into the<br />
-encrypted container it&#8217;s however possible to trick YaST into<br />
-accepting that as root file system.<br />
-<span id="more-603"></span><br />
-In the following example I assume that the system has one harddisk,<br />
-/dev/sda. We use a /boot (100MB), swap (500MB), / (4GB) and /usr<br />
-(remaining space) partition. For your own setup you have to adapt<br />
-the device names and sizes of course. </p>
-<p>
-Start the installation by e.g. booting the openSUSE 11.1<br />
-installation DVD. After you&#8217;ve selected your language and keyboard<br />
-layout switch to a text console (ctrl-alt-f2).</p>
-<p>
-Use e.g. fdisk to create two partitions:</p>
-<ul>
-<li>/dev/sda1, 100MB for /boot</li>
-<li>/dev/sda2, remaining space</li>
-</ul>
-<p>Now create and open a LUKS volume on /dev/sda2:<br />
-<code>cryptsetup luksFormat /dev/sda2<br />
-cryptsetup luksOpen /dev/sda2 root<br />
-</code></p>
-<p>After that create the logical volumes inside the encrypted<br />
-container:</p>
-<p><code>pvcreate /dev/mapper/root<br />
-vgcreate system /dev/mapper/root<br />
-lvcreate -L 500M -n swap system<br />
-lvcreate -L 4G -n root system<br />
-lvcreate -l 100%FREE -n usr system<br />
-</code></p>
-<p>Continue the installation, go to the expert partitioner and format</p>
-<ul>
-<li>/dev/sda1 for /boot</li>
-<li>/dev/mapper/system-swap for swap</li>
-<li>/dev/mapper/system-root for /</li>
-<li>/dev/mapper/system-usr for /usr</li>
-</ul>
-<p>You may need to order YaST to re-read the harddisk layout in order<br />
-for it to display the volume groups.</p>
-<p>
-When the initial installation is nearly finished and counts down<br />
-until reboot stop the timer. We need some hacks to tell the initrd<br />
-that we need luks. So go to a text console again and mount<br />
-the new system and chroot into it:</p>
-<p><code>mount /dev/mapper/system-root /mnt<br />
-mount /dev/mapper/system-usr /mnt/usr<br />
-mount /dev/sda1 /mnt/boot<br />
-for i in dev sys proc; do mount --bind /$i /mnt/$i; done<br />
-chroot /mnt<br />
-</code></p>
-<p>Create /etc/sysconfig/initrd with the following two lines:<br />
-<code>root_luks=1<br />
-luks=root<br />
-</code></p>
-<p>in /boot/grub/menu.lst append the following to the kernel command line:<br />
-<code>luks_root=/dev/sda2<br />
-</code></p>
-<p>now run mkinitrd<br />
-<code>mkinitrd<br />
-</code></p>
-<p>it should print &#8216;luks&#8217; and &#8216;lvm2&#8242; in the features line<br />
-<em><br />
-Update: kernel updates will revert the changes to menu.lst. To<br />
-prevent that edit /etc/sysconfig/bootloader. Search for _APPEND<br />
-variables (DEFAULT_APPEND, FAILSAFE_APPEND) and add<br />
-luks_root=/dev/sda2 there as well. Thanks Earl Ruby for that<br />
-hint!<br />
-</em></p>
-<p>
-log out of the chroot and continue the reboot. If YaST does not<br />
-really reboot but uses kexec to directly start the kernel things<br />
-won&#8217;t work the first time. Just press ctrl-alt-del to perform a real<br />
-reboot while it unsuccessfully tries to find the root partition then.</p>
-<p>
-If after a real reboot the initrd still drops you to a shell after a<br />
-long timeout instead of prompting for the password use the following<br />
-commands to unlock the crypted partition:</p>
-<p><code>cryptsetup luksOpen /dev/sda2 root<br />
-vgchange -a y system<br />
-</code></p>
-<p>then press ctrl-d to continue booting.</p>
-<p>Good luck and please don&#8217;t blame me for any breakage. I haven&#8217;t tried to use this in production either yet.</p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2009/03/18/encrypted-root-file-system-on-lvm/feed/</wfw:commentRss>
-		<slash:comments>14</slash:comments>
-		</item>
-		<item>
-		<title>Conditional features aka &#8220;use flags&#8221;</title>
-		<link>http://lizards.opensuse.org/2008/09/12/conditional-features-aka-use-flags/</link>
-		<comments>http://lizards.opensuse.org/2008/09/12/conditional-features-aka-use-flags/#comments</comments>
-		<pubDate>Fri, 12 Sep 2008 12:42:29 +0000</pubDate>
-		<dc:creator><![CDATA[lnussel]]></dc:creator>
-				<category><![CDATA[Build Service]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=176</guid>
-		<description><![CDATA[In a coordinated effort with Manfred Tremmel, the xine maintainer at Packman, we&#8217;ve reworked the xine spec file. Most of it can now be shared between Packman and openSUSE Factory so packaging work doesn&#8217;t need to be duplicated. The spec file now makes heavy use of conditional build macros to enable or disable certain features. [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>In a coordinated effort with Manfred Tremmel, the xine maintainer at Packman, we&#8217;ve reworked the xine spec file. Most of it can now be shared between Packman and openSUSE Factory so packaging work doesn&#8217;t need to be duplicated. The spec file now makes heavy use of conditional build macros to enable or disable certain features.<span id="more-176"></span><br />
-For openSUSE we do not want to (or can&#8217;t) ship certain features. For example we decided that the arts plugin isn&#8217;t of much use and therefore only adds an unecessary build dependeny on openSUSE. Packman however wants to offer all featues and therefore ship the arts plugin. To resolve that conflict the arts plugin ended up in it&#8217;s own subpackage but buidling it is disabled by default. To enable arts support locally Manfred can call rpmbuild (or the openSUSE build script) with the parameters &#8220;&#8211;with arts&#8221; . It&#8217;s not necessary to edit the spec file anymore. That &#8211;with switch works because the spec file uses some rpm macros that change things depending on whether arts support was requested. Hopefully other packages that can be built with different features but need to be shipped on openSUSE with a certain configuration will pick up this mechanism too. So let&#8217;s explain how it works.</p>
-<p>The spec file starts with <code>%bcond_with arts</code><br />
-at the top. That basically tells rpmbuild to define a global macro &#8220;with_arts&#8221; if &#8220;&#8211;with arts&#8221; was specified. Later we have<br />
-<code>%if %{with arts}<br />
-BuildRequires:  arts-devel<br />
-%endif</code><br />
-That means we depend on arts-devel only if requested. Similar blocks are used to enable or disable the subpackage, files section etc.</p>
-<p>Other features like e.g. pulseaudio are enabled by default but allow disabling using e.g. &#8220;rpmbuild &#8211;without pulseaudio&#8221;. The macro to get that behavior is &#8220;%bcond_without pulseaudio&#8221;.</p>
-<p>So how to make use of that in the build service?</p>
-<p>Let&#8217;s assume you have a project &#8220;artsfans&#8221; where you compile packages without pulseaudio but with arts support and want a xine-lib that matches this configuration. First you need to modify your project config and define macros that disable pulseaudio and enable arts. Run <code>meta prjconf artsfans -e</code> and enter the following:<br />
-<code>%define _without_pulseaudio 1<br />
-%define _with_arts 1<br />
-Macros:<br />
-%_without_pulseaudio 1<br />
-%_with_arts 1</code></p>
-<p>Then link xine-lib from Factory into your project:<br />
-<code>osc linkpac openSUSE:Factory xine-lib artsfans</code> and watch your xine building with arts support. Piece of cake, isn&#8217;t it? <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /> </p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2008/09/12/conditional-features-aka-use-flags/feed/</wfw:commentRss>
-		<slash:comments>2</slash:comments>
-		</item>
-		<item>
-		<title>Install openSUSE without burning CDs</title>
-		<link>http://lizards.opensuse.org/2008/06/20/install-opensuse-without-burning-cds/</link>
-		<comments>http://lizards.opensuse.org/2008/06/20/install-opensuse-without-burning-cds/#comments</comments>
-		<pubDate>Fri, 20 Jun 2008 13:59:59 +0000</pubDate>
-		<dc:creator><![CDATA[lnussel]]></dc:creator>
-				<category><![CDATA[Systems Management]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=74</guid>
-		<description><![CDATA[You run Linux already but want to install 11.0? DVD image takes too long to download? Don&#8217;t want to waste a CD for the mini iso? A router connects you to the internet? Check out setupgrubfornfsinstall. It&#8217;s a dialog based shell script to prepare remote network installations. It was primarily made for use in LANs [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>You run Linux already but want to install 11.0? DVD image takes too long to download? Don&#8217;t want to waste a CD for the mini iso? A router connects you to the internet? </p>
-<p>Check out <a href="http://www.suse.de/~lnussel/setupgrubfornfsinstall.html">setupgrubfornfsinstall</a>. It&#8217;s a dialog based shell script to prepare remote network installations. It was primarily made for use in LANs but now also supports direct installation from opensuse.org. Just run the script, select 11.0 and it will download the kernel and initrd used for installation. After that it adds an entry to your boot loaders&#8217; config file with proper parameters. Reboot, select the new entry and the installation starts.</p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2008/06/20/install-opensuse-without-burning-cds/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
 		</item>
 	</channel>
 </rss>

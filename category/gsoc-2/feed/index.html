@@ -1,0 +1,608 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>GSOC &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/category/gsoc-2/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Highlights of YaST development sprint 24</title>
+		<link>https://lizards.opensuse.org/2016/09/07/highlights-of-yast-development-sprint-24/</link>
+		<pubDate>Wed, 07 Sep 2016 15:53:59 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[GSOC]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11959</guid>
+		<description><![CDATA[We are back to this blog after another three weeks of (mainly) bug-fixing. In the previous post we promised some news about the self-update functionality and about the LVM support in the new storage stack. We have that&#8230; and much more! So this will be a long post, but it also hides some gems. You [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>We are back to this blog after another three weeks of (mainly) bug-fixing. In the <a href="https://lizards.opensuse.org/?p=11935">previous post</a> we promised some news about the self-update functionality and about the LVM support in the new storage stack. We have that&#8230; and much more!</p>
+<p>So this will be a long post, but it also hides some gems. You will have to keep reading in order to find them.</p>
+<h3>Self-update improvements</h3>
+<p>We have already mentioned in several previous reports the new self-update feature in YaST, which allows updating the installer itself before performing installation of the system.</p>
+<p>But it turned out that the initial implementation had an important drawback. The self-update process happened after having performed some of the installation steps. Then, after updating the installer it was restarted and several of those steps lost their configuration or simply did their operations twice.</p>
+<p>After some discussions we decided to move the self-update step earlier, at the very beginning. For downloading the updates we basically need just working network connection and initialized package management. So we moved the self-update step after the initial automatic network setup (DHCP) and added package initialization to the self-update step.</p>
+<p><img src="//lizards.opensuse.org/wp-content/uploads/2016/09/c9d6beac-6e93-11e6-853b-62063269b7dd.gif" alt="The self-update in action" /></p>
+<p>As you can see the self-update step is the very first step in the installation workflow, the language selection and the EULA dialog is displayed <i>after</i> the self update is finished and YaST is restarted. That means all the following steps do not need to remember their state as they will not be called twice after the restart.</p>
+<p>The disadvantage is that we had to drop some features. The self-update step happens before the language selection and the optional disk activation. That means by default the self-update progress (and potential error messages) will be displayed in English. But you can still use the &#8220;language&#8221; boot option and set the language manually via <i>linuxrc</i>.</p>
+<p>On the bright side, we fixed like half a dozen of reported bugs just by relocating the self-update process. So we are pretty sure it&#8217;s worth the price.</p>
+<p>For more details see the updated <a href="https://github.com/yast/yast-installation/blob/master/doc/SELF_UPDATE.md">documentation</a>.</p>
+<h3>Gem one: using the <code>info</code> boot parameter</h3>
+<p>The <code>info</code> boot parameter is a pretty old <i>linuxrc</i> option but it is probably not known well. The parameter is an URL which points to a text file which can contain more boot options.</p>
+<p>When we tested the updated self-update described above we needed to build a driver update disk and pass several boot options. To avoid repeating the same options on the boot command line and to share the boot options across the team we created an <code>info.txt</code> file with content like</p>
+<pre>
+insecure=1
+startshell=1
+dud=ftp://example.com/self_update.dud
+</pre>
+<p>Then you simply boot the installation with <code>info=ftp://example.com/info.txt</code> and <i>linuxrc</i> will read the additional parameters from the file. This can save you a lot of typing, especially if you need to repeat the tests many times.</p>
+<h3>Fixed a security bug for 7 (yes, seven) different SLE releases</h3>
+<p>Some weeks ago, during a routine code review, our security experts found a vulnerability in YaST&#8217;s libstorage related to the way we provide the encryption passwords to some external commands. It is debatable how dangerous this threat really is. It was never a problem during system installation, but it would affect admins who create encrypted partitions (mostly encrypted LVM physical volumes) or crypto files in the installed system.</p>
+<p>A potential attacker with access to <code>/tmp</code> could intercept the password in the very precise moment in which the &#8220;cryptsetup&#8221; or &#8220;losetup&#8221; command are invoked by YaST. It&#8217;s really only a matter of milliseconds. But we don&#8217;t want to take any risks, however small they may be.</p>
+<p>So not only did we fix that for the current code streams, we backported it to all the SLE releases out there that are still supported (even though in some cases it&#8217;s just a single customer) &#8211; back to SLES-10 SP3 from late 2009. That meant backporting the fix to no less than 7 SLE releases (for Leap, those fixes are picked automatically).</p>
+<p>As you can imagine, this got more difficult the farther back in history we went: In a central library like libstorage, things are constantly changing because the tools and environment (kernel, udev, you name it) are constantly changing. There was only a single case where the patch applied cleanly; in all other cases, it involved massive manual work (including testing, of course).</p>
+<p>Was this fun? No, it certainly was not. It was a tedious and most frustrating experience. Do we owe it to our users (paying customers as well as community users) to fix security problems, however theoretical they are? Yes, of course. That&#8217;s why we do those things.</p>
+<h3>Storage reimplementation: every LVM piece in its place</h3>
+<p>As time permits, we keep adding new features to the future libstorage replacement. During previous sprints we added support to read and manipulate all kinds of LVM block devices (PVs, VGs and LVs) but an important aspect was missing: deciding the order of the operations is as important as performing them. We instructed the library about the dependencies between operations and implemented several automated test cases to ensure we don&#8217;t try to do not-so-smart things like removing a physical volume from a volume group and shrinking its logical volumes <i>afterwards</i>.</p>
+<p>The good thing about our automated test-cases is that they generate nice graph that are quite useful to illustrate blog posts. <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2016/09/complex1-action.png"><img src="//lizards.opensuse.org/wp-content/uploads/2016/09/complex1-action-300x48.png" alt="One of the several added test-cases" width="300" height="48" class="aligncenter size-medium wp-image-11972" srcset="https://lizards.opensuse.org/wp-content/uploads/2016/09/complex1-action-300x48.png 300w, https://lizards.opensuse.org/wp-content/uploads/2016/09/complex1-action-768x122.png 768w, https://lizards.opensuse.org/wp-content/uploads/2016/09/complex1-action-1024x163.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2016/09/complex1-action.png 1531w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3>Gem two: enjoy Google Summer of Code result</h3>
+<p>As you may know, openSUSE is one of the Free Software organizations selected to take part in Google Summer of Code 2016. For YaST that means we had the huge pleasure of having Joaquín Yeray as student. You can know more about him and his experience diving into YaST and Open Source in <a href="https://joaquinyeray.me/">his GSoC blog</a>. </p>
+<p>But the openSUSE community is not only gaining a new member, we also have a new YaST module. The <a href="https://software.opensuse.org/package/yast2-alternatives">yast2-alternatives</a> package has already been accepted into Tumbleweed and will be also part of Leap 42.2. So we have a new gadget in our beloved configuration Swiss Army knife!</p>
+<p>We liked Joaquín and his module so much that we are revamping the YaST development tutorial to be based on his module (instead of yast2-journal). He is already working on that, so hopefully we will have Joaquín around quite some time still. <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<h3>Unify license handling screens</h3>
+<p>We got a report about the license agreement screen in automatic installation (AutoYaST) being different to the one showed during common installation. So we decided to take a look to the problem and unify them. We are in a quite late phase of the development process of both the next SLE and the next Leap, so we decided to not unify the code but simply adapt one dialog to look like the other. Also we are after string freeze due to translations, so we had to use a trick and reuse another already translated text. We also took the opportunity to fix some small usability problems.</p>
+<p>This is one of those cases in which some images are worth a thousand words, so in order to understand what we did, take a look at the description of <a href="https://github.com/yast/yast-packager/pull/185">this pull request</a>, which includes many images (too many for this blog post).</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2016/09/1c218406-693c-11e6-9c81-578b7ce30864.png"><img src="//lizards.opensuse.org/wp-content/uploads/2016/09/1c218406-693c-11e6-9c81-578b7ce30864-300x230.png" alt="The new AutoYaST license screen" width="300" height="230" class="aligncenter size-medium wp-image-11965" srcset="https://lizards.opensuse.org/wp-content/uploads/2016/09/1c218406-693c-11e6-9c81-578b7ce30864-300x230.png 300w, https://lizards.opensuse.org/wp-content/uploads/2016/09/1c218406-693c-11e6-9c81-578b7ce30864-768x588.png 768w, https://lizards.opensuse.org/wp-content/uploads/2016/09/1c218406-693c-11e6-9c81-578b7ce30864-1024x784.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2016/09/1c218406-693c-11e6-9c81-578b7ce30864.png 1040w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3>Smarter check to avoid duplicated repositories</h3>
+<p>The openSUSE software server defines the online repositories which can be added during installation. The openSUSE DVD also specifies its own online repositories that are always added to the system. And these repositories overlap.</p>
+<p>In openSUSE 42.1 it happened that one repository was added twice, even though there was already a check to avoid that. So we investigated why.</p>
+<p>We found that the URLs for the problematic repository were not exactly the same, one of them had a trailing slash. Therefore we made the URL comparison more tolerant and if the URLs differ only by the trailing slash, they are still considered the same.</p>
+<p>After the fix all repositories are added only once, without any duplicates.</p>
+<h3>Gem three: we are looking for new teammates!</h3>
+<p>After 12 sprint reports, most readers would have already realized that the life as a full-time YaST developer is everything but boring&#8230; and that we are always pretty busy. The fun and the work are better when you share them so&#8230; <a href="https://jobs.suse.com/job/nuremberg/linux-c-ruby-hero-global-location/3486/2930771">we are looking for a new hero</a> to join us in our journey.</p>
+<p>Even if you don&#8217;t feel hacking in YaST would be your thing, maybe you are interested in any of the other <a href="https://www.suse.com/company/careers">jobs at SUSE</a>.</p>
+<h3>Improved documentation about YaST environment variables</h3>
+<p>The behaviour of YaST can be affected by several environment variables, but not all of them are well known by everybody. During this sprint we also decided to invest some time documenting them better. The resulting document will be soon properly integrated in our <a href="http://yast.github.io/documentation.html">centralized documentation for developers</a>, but you can sneak it already <a href="https://github.com/yast/yast.github.io/blob/master/doc/environment-variables.md">here</a>.</p>
+<h3>Branching Tumbleweed and the upcoming stable releases</h3>
+<p>Most of the features and bug-fixes we have blogged about in the last months were incorporated to Tumbleweed, the upcoming Leap 42.2 and the future SLE 12-SP2, since we always try to keep those three codebases as close as possible to each other.</p>
+<p>Now Leap 42.2 and SLE 12-SP2 are close enough to their release date, so we plan to be more conservative with the changes. At the end of this sprint we decided to branch the code for Tumbleweed and for the stable siblings. From now on, most exciting stuff will appear only in Tumbleweed, with SLE 12-SP2 and Leap 42.2 becoming more and more boring.</p>
+<h3>And the wheel keeps on turning</h3>
+<p>So that was a very minimal selection of the most interesting stuff from the just finished sprint. What comes next? Another sprint, of course! We have already planned some interesting stuff for it, like integrating the new partitioning proposal into the installer or finishing the <a href="https://hackweek.suse.com/14/projects/1522">ultra-cool UI designer</a> that was started during latest Hack Week.</p>
+<p>As always, you can follow development in a daily basis in the usual channels (<a href="irc://irc.opensuse.org/yast">#yast IRC channel</a> and the <a href="https://lists.opensuse.org/yast-devel/">yast-devel</a> mailing list) or wait another three weeks for the next sprint report. Meanwhile&#8230; have a lot of fun!</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>osc2: syntax update</title>
+		<link>https://lizards.opensuse.org/2012/08/16/osc2-syntax-update/</link>
+		<pubDate>Thu, 16 Aug 2012 11:18:59 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Hüwe]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[GSOC]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8943</guid>
+		<description><![CDATA[Hi, as I already I wrote in an earlier post the last week I worked on implementing osc2&#8217;s &#8220;request&#8221; command. In order to create a new submit request the user has to run osc request create --submit api://src_project/src_package api://tgt_project What&#8217;s still needed is a way to specify a revision of the src_package. It isn&#8217;t possible [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi,</p>
+<p>as I already I wrote in an earlier post the last week I worked on implementing osc2&#8217;s &#8220;request&#8221;<br />
+command. In order to create a new submit request the user has to run<br />
+<code>osc request create --submit api://src_project/src_package api://tgt_project</code><br />
+What&#8217;s still needed is a way to specify a revision of the src_package. It isn&#8217;t possible<br />
+to introduce a &#8220;&#8211;revision &#8221; option because it&#8217;s possible to specify multiple submit<br />
+actions for a request (so we can&#8217;t distinguish to which &#8211;submit action a revision<br />
+belongs to).<br />
+Finally I implemented darix&#8217; cool idea: simply use a svn-like syntax:<br />
+<code>osc request create --submit api://src_project/src_package@rev api://tgt_project</code></p>
+<p>Marcus</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>[gsoc] osc2 client &#8211; summary of week 12</title>
+		<link>https://lizards.opensuse.org/2012/08/15/gsoc-osc2-client-summary-of-week-12/</link>
+		<pubDate>Wed, 15 Aug 2012 15:40:49 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Hüwe]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[GSOC]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8936</guid>
+		<description><![CDATA[Hi, here’s a small summary of the 12th (coding) week. The last week I continued the work on the new user interface. As a result the &#8220;request&#8221; command is more or less implemented. Yesterday I pushed the current code and it&#8217;s also possible to play around with it: checkout the code [1] cd osc2/osc/cli export [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi,</p>
+<p>here’s a small summary of the 12th (coding) week. The last week I continued<br />
+the work on the new user interface. As a result the &#8220;request&#8221; command is more<br />
+or less implemented. Yesterday I pushed the current code and it&#8217;s also possible<br />
+to play around with it:</p>
+<ul>
+<li>checkout the code <a href="http://https://github.com/openSUSE/osc2">[1]</a></li>
+<li>cd osc2/osc/cli</li>
+<li>export PYTHONPATH=/path/to/osc2</li>
+<li>python cli.py -h (for more information)</li>
+</ul>
+<p>Example:<br />
+In order to list a request it is sufficient to run<br />
+&#8220;python cli.py request api://your_project&#8221; (Note: all https requests are<br />
+_insecure_ &#8211; so far the certificate etc. is not checked).</p>
+<p>Some implementation details:<br />
+In my last mail/post I described how a new (sub)command can be specified<br />
+so I&#8217;ll leave out the details here.<br />
+In the following I&#8217;ll shortly explain how the arguments specified by the<br />
+user at the commandline are passed to a function (which does the actual<br />
+work &#8211; like listing the requests).</p>
+<pre><code>
+class RequestList(CommandDescription, Request):
+    """
+    ...
+    """
+    cmd = 'list'
+    args = 'api://project?/package?'
+    opt_user = Option('U', 'user', 'list only requests for USER')
+    func = call(request.list)
+</code></pre>
+<p>As we can see the project and package parameters are optional. After<br />
+the parsing process a so called &#8220;info&#8221; object is returned which encapsulates<br />
+the specified arguments. Assume the user runs &#8220;request list api://test_prj&#8221;<br />
+then the info object has the following attributes:</p>
+<pre><code>
+    info.apiurl = the default apiurl
+    info.project = 'test_prj'
+    info.package = None
+</code></pre>
+<p>The question is how can we pass this data to the request.list function?<br />
+A simple (and naive) approach would be to simply pass the &#8220;info&#8221; object<br />
+to the request.list function that is &#8220;list&#8221; has the following signature<br />
+&#8220;def list(info)&#8221;. As a consequence inside the method we always have to<br />
+use &#8220;info.project&#8221;, &#8220;info.package&#8221; etc. which is a bit awkward &#8211; at least<br />
+for parameters which are quite frequently used in the method definition.</p>
+<p>So it would be nice if there&#8217;s a way to pass frequently used parameters<br />
+directly to the method (that is they&#8217;re declared as formal parameters<br />
+in the method definition) and infrequently used parameters can still be<br />
+accessed via the info object. Exactly like this it is currently<br />
+implementend in osc2.</p>
+<p>So the following signatures would be correct for our example:</p>
+<pre><code>
+    def list(project, package, info)
+    def list(project, package, user)
+    def list(project, package, user, info)
+    def list(project, info)
+    def list(info, project)
+    def list(project)  # using the info object is not mandatory
+    def list()  # quite useless...
+    ...
+</code></pre>
+<p>Invalid signatures:</p>
+<pre><code>
+    def list(prj, pkg, info)
+    def list(foo, info)
+    ...
+</code></pre>
+<p>So it is up to the developer how to define the signature of the<br />
+request.list function &#8211; it is not completely dictated by osc:)</p>
+<p>Marcus</p>
+<p>[1] <a href="http://https://github.com/openSUSE/osc2">https://github.com/openSUSE/osc2</a></p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>[gsoc] osc2 client &#8211; summary of week 11</title>
+		<link>https://lizards.opensuse.org/2012/08/07/gsoc-osc2-client-summary-of-week-11/</link>
+		<pubDate>Tue, 07 Aug 2012 22:18:46 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Hüwe]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[GSOC]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8923</guid>
+		<description><![CDATA[Hi, here&#8217;s a small summary of the 11th (coding) week. Last week I worked on implementing the new commandline interface. While doing so I faced several &#8220;issues&#8221;: How to combine argparse and our oscargs url-like syntax? Basically we have to run our oscargs parser on the result which is returned by argparse.ArgumentParser&#8217;s parse_args method. The [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi,</p>
+<p>here&#8217;s a small summary of the 11th (coding) week. Last week I worked on<br />
+implementing the new commandline interface. While doing so I faced several<br />
+&#8220;issues&#8221;:</p>
+<ul>
+<li>
+  How to combine argparse and our oscargs url-like syntax?<br />
+  Basically we have to run our oscargs parser on the result which is<br />
+  returned by argparse.ArgumentParser&#8217;s parse_args method. The problem is<br />
+  that both parsers have a different &#8220;syntax&#8221; that is using a naive approach<br />
+  will lead to some redundancies (we specify the ui twice: one time for<br />
+  argparse and one time for oscargs). In order to avoid this we need some<br />
+  &#8220;interface&#8221; to which the oscargs syntax is passed and which configures<br />
+  the argparse parser accordingly.
+</li>
+<li>
+  How to support custom commands?<br />
+  We also have to provide an &#8220;easy&#8221; way to specify custom commands.<br />
+  Additionally it might be handy if existing commands can be enhanced<br />
+  (either by adding additional options etc. or by adding a new subcommand<br />
+  etc.). The best would be if the user simply drop his/her plugins in a<br />
+  specific directory and osc will scan this directory and use the new<br />
+  plugins/commands.
+</li>
+<li>
+  Specifying the ui programmatically is somehow confusing/cluttered. It would<br />
+  be much better if the ui can be specified in a more &#8220;declarative&#8221; way<br />
+  without the syntactic &#8220;overhead&#8221; (well that&#8217;s a bit exaggerated) which<br />
+  is needed to configure the parser. Additionally it would be nice to have<br />
+  a convenient way to specify a multi line description for a command<br />
+  (hardcoding the str into the source makes the code &#8220;harder&#8221; to read).
+</li>
+</ul>
+<p>Finally I ended up with a small DSL which can be used to specify the<br />
+ui in a &#8220;declarative&#8221; way (the initial idea + syntax is taken from the<br />
+django framework (see <a href="https://docs.djangoproject.com/en/1.4/topics/db/models">[1]</a>)).</p>
+<p>Example:<br />
+Assume we want to implement a request command which consists (for the<br />
+sake of simplicity) of 2 subcommands &#8220;list&#8221; and &#8220;accept&#8221;. This can be<br />
+specified like the following:</p>
+<p><code><br />
+# file: osc/cli/request/ui.py</p>
+<p>class Request(CommandDescription, OscCommand):<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    """Show and modify requests."""<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    cmd = 'request'</p>
+<p>class RequestList(CommandDescription, Request):<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    """List requests.</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;    By default open requests for a specific project or package will be<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    listed.</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;    Examples:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    osc request list api://<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    osc request list api://project<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    osc request list api://project/package</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;    """<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    cmd = 'list'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    args = 'api://project?/package?'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    opt_user = Option('U', 'user', 'list only requests for USER')<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    opt_group = Option('G', 'group', 'list only requests for GROUP')<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    opt_state = Option('s', 'state', 'list only requests with state STATE',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     &nbsp;&nbsp;                  choices=['new', 'review', 'accepted', 'revoked',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     &nbsp;&nbsp;                                'declined', 'superseded'], action='append')<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    func = request_list</p>
+<p>class RequestAccept(CommandDescription, Request):<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    """Accept a specific request.</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;    ...</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;    """<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    cmd = 'accept'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    args = 'api://reqid'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    func = request_accept<br />
+</code></p>
+<p>In order to add the request command it is sufficient to add an<br />
+<code><br />
+&nbsp;&nbsp;&nbsp;&nbsp;    import osc.cli.request.ui<br />
+</code><br />
+statement to the main cli module. This produces the following output:<br />
+<code></p>
+<pre>
+marcus@linux:~/osc2/osc/cli&gt; python cli.py request -h
+usage: cli.py request [-h] {list,accept} ...
+
+Show and modify requests.
+
+positional arguments:
+  {list,accept}
+    list         List requests.
+    accept       Accept a specific request.
+
+optional arguments:
+  -h, --help     show this help message and exit
+marcus@linux:~/osc2/osc/cli&gt;
+</pre>
+<p></code><br />
+and<br />
+<code></p>
+<pre>
+marcus@linux:~/osc2/osc/cli&gt; python cli.py request list -h
+usage: cli.py request list [-h]
+                           [-s {new,review,accepted,revoked,declined,superseded}]
+                           [-G GROUP] [-U USER]
+                           api://project?/package?
+
+List requests.
+
+    By default open requests for a specific project or package will be
+    listed.
+
+    Examples:
+    osc request list api://
+    osc request list api://project
+    osc request list api://project/package
+
+positional arguments:
+  api://project?/package?
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -s {new,review,accepted,revoked,declined,superseded}, --state {new,review,accepted,revoked,declined,superseded}
+                        list only requests with state STATE
+  -G GROUP, --group GROUP
+                        list only requests for GROUP
+  -U USER, --user USER  list only requests for USER
+marcus@linux:~/osc2/osc/cli&gt;
+</pre>
+<p></code></p>
+<p>How does it work?<br />
+First of all each class which defines a command or subcommand has to inherit<br />
+from class &#8220;CommandDescription&#8221;. If a subcommand is to be defined it also<br />
+has to inherit from the &#8220;parent&#8221; command (that is in our example &#8220;RequestList&#8221;<br />
+and &#8220;RequestAccept&#8221; inherit from class &#8220;Request&#8221; (which in turn inherits from<br />
+class &#8220;OscCommand&#8221; (from this class all toplevel commands have to inherit))).<br />
+In short: with the help of the inheritance hierarchy it is possible to define<br />
+a command &lt;- subcommand hierarchy.</p>
+<p>Note: actually the classes &quot;RequestList&quot; and &quot;RequestAccept&quot; only inherit<br />
+from &quot;CommandDescription&quot;. The &quot;parent&quot; command base class is only needed<br />
+for a &quot;marking&quot; purpose (it is filtered out with the help of a metaclass<br />
+when the concrete class is &quot;constructed&quot; &#8211; I&#039;ll leave out the details for<br />
+now and may write a dedicated blogpost about it).</p>
+<p>Now the remaining task is to define and implement the commands (note: we will<br />
+definitely not finish the project on the &quot;suggested pencils down&quot; date and<br />
+use the week until the &quot;firm pencils down&quot; date for coding&#8230;).</p>
+<p>Marcus</p>
+<p>[1] <a href="https://docs.djangoproject.com/en/1.4/topics/db/models">https://docs.djangoproject.com/en/1.4/topics/db/models</a></p>
+<p>Here&#8217;s a small example how to modify an existing command:<br />
+<code><br />
+# plugins/myrequestaccept.py<br />
+from osc.cli.description import Option<br />
+import osc.cli.request.ui</p>
+<p>class MyRequestAccept(osc.cli.request.ui.RequestAccept):<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    # add a new option<br />
+&nbsp;&nbsp;&nbsp;&nbsp;    opt_foo = Option('f', 'foo', help='foo option')<br />
+</code></p>
+<p>This leads to<br />
+<code></p>
+<pre>
+marcus@linux:~/osc2/osc/cli&gt; python cli.py request accept -h
+usage: cli.py request accept [-h] [-f FOO] api://reqid
+
+positional arguments:
+  api://reqid
+
+optional arguments:
+  -h, --help         show this help message and exit
+  -f FOO, --foo FOO  foo option
+marcus@linux:~/osc2/osc/cli&gt;
+</pre>
+<p></code></p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>[gsoc] osc2 client &#8211; summary of week 9</title>
+		<link>https://lizards.opensuse.org/2012/07/23/gsoc-osc2-client-summary-of-week-9/</link>
+		<pubDate>Mon, 23 Jul 2012 18:50:22 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Hüwe]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[GSOC]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8833</guid>
+		<description><![CDATA[Hi, here&#8217;s a small summary of the 9th (coding) week. Last week I worked on the fetcher and cache manager code. In order to support all features some of the existing classes had to be enhanced with some more parameters. Done: cache manager code BinaryList class supports view=cpio RORemoteFile class supports lazy_open parameter (by default [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi,</p>
+<p>here&#8217;s a small summary of the 9th (coding) week. Last week I worked<br />
+on the fetcher and cache manager code. In order to support all<br />
+features some of the existing classes had to be enhanced with some<br />
+more parameters.</p>
+<p>Done:</p>
+<ul>
+<li>cache manager code</li>
+<li>BinaryList class supports view=cpio</li>
+<li>RORemoteFile class supports lazy_open<br />
+  parameter (by default the file is opened lazily that is when a<br />
+  read request is issued) (for the fetcher code we use<br />
+  lazy_open=False)</li>
+<li>minor changes in the httprequest module (AbstractHTTPRequest<br />
+  supports the same query parameter more than once)</li>
+<p>The fetcher code is more or less done (not yet committed) and will be<br />
+finished by friday evening (I&#8217;ve some exams this week&#8230;).</p>
+<p>Marcus</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>[gsoc] osc2 client &#8211; summary of week 8</title>
+		<link>https://lizards.opensuse.org/2012/07/16/gsoc-osc2-client-summary-of-week-8/</link>
+		<pubDate>Mon, 16 Jul 2012 19:51:22 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Hüwe]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[GSOC]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8800</guid>
+		<description><![CDATA[Hi, here&#8217;s a small summary of the 8th (coding) week. The last days I was working on getting build support into the osc2 library. I just checked in a BuildInfo and Builder class (+ testcases). Here&#8217;s a brief example how they can be used: # example how to use the Builder class builder = Builder(su_cmd=Builder.SUDO, [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi,</p>
+<p>here&#8217;s a small summary of the 8th (coding) week. The last days I<br />
+was working on getting build support into the osc2 library. I just<br />
+checked in a BuildInfo and Builder class (+ testcases). Here&#8217;s a<br />
+brief example how they can be used:<br />
+<code><br />
+  # example how to use the Builder class<br />
+  builder = Builder(su_cmd=Builder.SUDO, root='/var/tmp/build-root')<br />
+  builder.rpmlist = '/path/to/rpmlist'<br />
+  builder.dist = '/path/to/buildconfig'<br />
+  builder.without = 'feature1'<br />
+  builder.without += 'feature2'<br />
+  builder.arch = 'x86_64'<br />
+  # run the build:<br />
+  builder.run('/path/to/osc.spec')<br />
+  # this executes:<br />
+  sudo /usr/bin/build --arch x86_64 --dist /path/to/buildconfig \<br />
+&nbsp;&nbsp;    --root /var/tmp/build-root --rpmlist /path/to/rpmlist \<br />
+&nbsp;&nbsp;   --without feature1 --without feature2 /path/to/osc.spec<br />
+</code></p>
+<p>Basically Builder is just a wrapper around the build script<br />
+(all options will be passed to the build script; if an option contains<br />
+a &#8220;-&#8221; character like &#8220;vm-type&#8221; it can be set like this:<br />
+&#8220;binfo.vm_type = &#8216;xen'&#8221; (a &#8220;_&#8221; will be replaced with &#8220;-&#8220;)).</p>
+<p>Additionally here&#8217;s a small example how to utilize the BuildInfo<br />
+class:<br />
+<code><br />
+  # fname is a path to a spec file<br />
+  binfo = BuildInfo('openSUSE:Tools', 'osc', 'openSUSE_Factory', 'x86_64',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; filename=fname)<br />
+  # print preinstall packages<br />
+  for bdep in binfo.preinstall():<br />
+&nbsp;&nbsp;&nbsp;      print bdep.get('name'), bdep.get('version')<br />
+  # save binfo xml in a file<br />
+  binfo.write_to('/path/to/file.xml')<br />
+</code></p>
+<p>The next thing on my TODO is the fetcher and cachemanager code.</p>
+<p>Marcus</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>[gsoc] osc2 client &#8211; summary of week 7</title>
+		<link>https://lizards.opensuse.org/2012/07/11/gsoc-osc2-client-summary-of-week-7/</link>
+		<pubDate>Wed, 11 Jul 2012 13:26:40 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Hüwe]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[GSOC]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8788</guid>
+		<description><![CDATA[Hi, here&#8217;s a small summary of the 7th (coding) week. Last week I was really busy with university stuff (it was the second last week in the lecture period so I had to recap quite some stuff) and didn&#8217;t manage to work much on the GSoC project. I&#8217;m going work off the TODO this weekend. [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi,</p>
+<p>here&#8217;s a small summary of the 7th (coding) week. Last week<br />
+I was really busy with university stuff (it was the second<br />
+last week in the lecture period so I had to recap quite<br />
+some stuff) and didn&#8217;t manage to work much on the GSoC project.<br />
+I&#8217;m going work off the TODO this weekend.</p>
+<p>Marcus</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>[gsoc] osc2 client &#8211; summary of week 6</title>
+		<link>https://lizards.opensuse.org/2012/07/03/gsoc-osc2-client-summary-of-week-6/</link>
+		<pubDate>Tue, 03 Jul 2012 19:33:43 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Hüwe]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[GSOC]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8783</guid>
+		<description><![CDATA[Hi here&#8217;s a small summary of the 6th (coding) week. Last week I continued working on the build module and developed a concept for the package fetcher (and discussed some parts with darix:) ). The main idea is to modularize the fetcher code, verify code etc. Thus we have a fetcher class which takes care [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi</p>
+<p>here&#8217;s a small summary of the 6th (coding) week. Last week I<br />
+continued working on the build module and developed a concept<br />
+for the package fetcher (and discussed some parts<br />
+with darix:) ).<br />
+The main idea is to modularize the fetcher code, verify code etc.<br />
+Thus we have a fetcher class which takes care of retrieving the<br />
+packages. The fetcher class utilizes a &#8220;cache manager&#8221; which takes<br />
+care of storing the fetched packages on the filesystem. The goal is<br />
+that at some point in time one can exchange the &#8220;simple&#8221; cache manager<br />
+with a more &#8220;clever&#8221; cache manager (which for instance cleans up the<br />
+cache from time to time or only allows exactly one version of a<br />
+package in the cache etc.). In order to achieve this no code in the<br />
+fetcher has to be touched &#8211; instead it&#8217;s sufficient to pass a different<br />
+cache manager object to the fetcher.<br />
+Additionally the fetcher provides some hooks like pre, pre_fetch,<br />
+post_fetch and post. For instance a post_fetch hook can be used to<br />
+verify the just fetched package etc.</p>
+<p>TODO:<br />
+&#8211; write testcases and implement the concept from above</p>
+<p>If you have questions, suggestions etc. feel free to contact me:)</p>
+<p>Marcus</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>[gsoc] osc2 client &#8211; summary of week 5</title>
+		<link>https://lizards.opensuse.org/2012/06/26/gsoc-osc2-client-summary-of-week-5/</link>
+		<pubDate>Tue, 26 Jun 2012 17:46:44 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Hüwe]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[GSOC]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8763</guid>
+		<description><![CDATA[Hi, here&#8217;s a small summary of the 5th (coding) week. Last week I spent most of my time with working on the cpio module. Finally I ended up with a complete rewrite of osc&#8217;s &#8220;old&#8221; cpio module. The cpio implementation details are taken from the cpio 2.11 package. Currently only the &#8220;new ascii&#8221; format is [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi,</p>
+<p>here&#8217;s a small summary of the 5th (coding) week. Last week I spent<br />
+most of my time with working on the cpio module. Finally I ended<br />
+up with a complete rewrite of osc&#8217;s &#8220;old&#8221; cpio module. The<br />
+cpio implementation details are taken from the cpio 2.11 package.<br />
+Currently only the &#8220;new ascii&#8221; format is supported and we can<br />
+only handle regular files (this is sufficient for our needs). Here&#8217;s<br />
+a small example how to use it:<br />
+<code><br />
+# cpio_open is just a convenience method for CpioArchive(filename=fname)<br />
+with cpio_open(fname) as archive:<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;for archive_file in archive:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# print filename<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print archive_file.hdr.name<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# print contents<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print archive_file.read()<br />
+</code><br />
+It&#8217;s also possible to pass a file-like object to a CpioArchive<br />
+instance (in this case we do not need to use the with statement).<br />
+Also it can be &#8220;easily&#8221; enhanced to support different cpio formats<br />
+(one just have to write the specific ArchiveReader and ArchiveWriter<br />
+classes:) ). The code is available at <a href="https://github.com/openSUSE/osc2/blob/master/osc/util/cpio.py">[1]</a> and the testcases at <a href="https://github.com/openSUSE/osc2/blob/master/test/util/test_cpio.py">[2]</a>.</p>
+<p>Todo for this week:<br />
+* finish the build module<br />
+* start with working on the package fetching code</p>
+<p>Marcus</p>
+<p>[1] <a href="https://github.com/openSUSE/osc2/blob/master/osc/util/cpio.py">https://github.com/openSUSE/osc2/blob/master/osc/util/cpio.py</a><br />
+[2] <a href="https://github.com/openSUSE/osc2/blob/master/test/util/test_cpio.py">https://github.com/openSUSE/osc2/blob/master/test/util/test_cpio.py</a></p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>[gsoc] osc2 client &#8211; summary of week 3 and 4</title>
+		<link>https://lizards.opensuse.org/2012/06/19/gsoc-osc2-client-summary-of-week-3-and-4/</link>
+		<pubDate>Tue, 19 Jun 2012 18:25:55 +0000</pubDate>
+		<dc:creator><![CDATA[Marcus Hüwe]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[GSOC]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8748</guid>
+		<description><![CDATA[Hi, here&#8217;s a small summary of the 3rd and 4th (coding) week . First of all I wasn&#8217;t able to do lots of work in week 3 and 4 so I&#8217;m still working on the new build module for the osc2 library. The initial plan was to copy/reuse some of the existing modules from the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi,</p>
+<p>here&#8217;s a small summary of the 3rd and 4th (coding) week . First of all I<br />
+wasn&#8217;t able to do lots of work in week 3 and 4 so I&#8217;m still working on<br />
+the new build module for the osc2 library.<br />
+The initial plan was to copy/reuse some of the existing modules from the<br />
+(old) &#8220;osc&#8221; like the cpio <a href="https://github.com/openSUSE/osc/blob/master/osc/util/cpio.py">[1]</a> and packagequery modules. But I decided to<br />
+refactor/rewrite cpio module for the following reasons:</p>
+<ul>
+<li>&#8220;save&#8221; disc space:<br />
+In our scenario we retrieve a cpio archive from the api (which contains<br />
+binary packages for example). The old cpio module expects a filename<br />
+in order to &#8220;unpack&#8221; the archive &#8211; that is the file has to be stored on<br />
+disc first. Consequently approximately 2 * of free disc<br />
+space is needed.<br />
+The new idea is that we pass a file-like object (in our case an object<br />
+which inherits from &#8220;AbstractHTTPResponse&#8221;) to the cpio module and<br />
+unpack the archive &#8220;on the fly&#8221; (without storing the http response<br />
+on disc first).</li>
+<li>have testcases:<br />
+The old cpio module has no testcases (because some time ago I didn&#8217;t<br />
+follow the TDD approach;) ). For nearly all modules in osc2 there exist<br />
+testcases (white-box tests) thus it would be nice if we have some<br />
+testcases for the cpio module, too (theoretically we could add some<br />
+black-box tests (the current methods aren&#8217;t really testable thus<br />
+white-box tests aren&#8217;t possible)).</li>
+<li>have a nice pythonic interface:<br />
+The new interface will look like this:<br />
+<code><br />
+from cpio import cpio_open<br />
+# let "f" be a file-like object (for instance a http response)<br />
+with cpio_open(fobj=f) as cpio_archive:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;for a_file in cpio_archive:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# store file (with correct permissions etc.) in os.curdir<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a_file.write(os.curdir)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# alternatively it's also possible to read some data (instead of<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# writing it to disc) via a_file.read(len)<br />
+</code><br />
+We will also support a plain filename in cpio_open.</li>
+</ul>
+<p>Currently the cpio module will only support the &#8220;new ascii&#8221; (ascii SVR4<br />
+no CRC) format and regular files (that&#8217;s sufficient for our needs). But<br />
+it will be possible to simply pass in a class for a different format<br />
+(that is no code has to be altered in order to support a new format).</p>
+<p>Finally this will be finished by the end of this week.<br />
+If you have any questions or suggestions please tell me:)</p>
+<p>Marcus</p>
+<p>[1] <a href="https://github.com/openSUSE/osc/blob/master/osc/util/cpio.py">https://github.com/openSUSE/osc/blob/master/osc/util/cpio.py</a></p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

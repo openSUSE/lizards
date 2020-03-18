@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	
+	>
+<channel>
+	<title>Comments on: Highlights of YaST Development Sprint 64</title>
+	<atom:link href="https://lizards.opensuse.org/2018/10/09/yast-sprint-64/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org/2018/10/09/yast-sprint-64/</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 17:50:09 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>By: Knut Anderssen</title>
+		<link>https://lizards.opensuse.org/2018/10/09/yast-sprint-64/#comment-16130</link>
+		<dc:creator><![CDATA[Knut Anderssen]]></dc:creator>
+		<pubDate>Thu, 25 Oct 2018 12:21:48 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=13402#comment-16130</guid>
+		<description><![CDATA[Hi Frank,
+
+First of all, thanks for the feedback.
+
+As Ancor already replied, a YaST interface for configuring firewalld is in its way and we probably will blog about it very soon.
+
+About your comments:
+
+1) Completely agree, firewall-config does not permit to configure the firewall when it is not running having to move to the command line in order to be able to configure it.
+
+2) Well, with firewalld you have a permanent and runtime configuration, so you could apply the changes in runtime and if all is fine then make these changes permanent with the runtime-to-permanent call. 
+
+If I&#039;m not wrong there is no an option to write the iptables rules temporally until you confirm  all was fine (safe-reload)
+
+Saying that, the new YaST UI will work only with the permanent configuration which means that your changes will be applied to runtime when writing, ie you probably could lock yourself also out. So, maybe this safety writing could be a nice feature to have when we support multiple configurations.
+
+3) We hope that the new YaST UI makes the firewalld configuration more familiar to YaST users and easier to work with. Although take in account that the old interface was very tied to the SuSEfirewall2 configuration and the new design was influenced by the way firewalld is defining it.]]></description>
+		<content:encoded><![CDATA[<p>Hi Frank,</p>
+<p>First of all, thanks for the feedback.</p>
+<p>As Ancor already replied, a YaST interface for configuring firewalld is in its way and we probably will blog about it very soon.</p>
+<p>About your comments:</p>
+<p>1) Completely agree, firewall-config does not permit to configure the firewall when it is not running having to move to the command line in order to be able to configure it.</p>
+<p>2) Well, with firewalld you have a permanent and runtime configuration, so you could apply the changes in runtime and if all is fine then make these changes permanent with the runtime-to-permanent call. </p>
+<p>If I&#8217;m not wrong there is no an option to write the iptables rules temporally until you confirm  all was fine (safe-reload)</p>
+<p>Saying that, the new YaST UI will work only with the permanent configuration which means that your changes will be applied to runtime when writing, ie you probably could lock yourself also out. So, maybe this safety writing could be a nice feature to have when we support multiple configurations.</p>
+<p>3) We hope that the new YaST UI makes the firewalld configuration more familiar to YaST users and easier to work with. Although take in account that the old interface was very tied to the SuSEfirewall2 configuration and the new design was influenced by the way firewalld is defining it.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Ancor González</title>
+		<link>https://lizards.opensuse.org/2018/10/09/yast-sprint-64/#comment-16113</link>
+		<dc:creator><![CDATA[Ancor González]]></dc:creator>
+		<pubDate>Tue, 23 Oct 2018 11:56:33 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=13402#comment-16113</guid>
+		<description><![CDATA[Sorry but I don’t know whether there are further details in your forum post since I can’t read German.
+
+About the Partitioner, we are working hard to make it a much better tool for the upcoming Leap 15.1. Have you reported the errors at bugzilla.opensuse.org? It’s almost impossible to fix things with vague sentences like “crashed twice” or “delivered reproducibly wrong values when reading in the existing config”. It would be MUCH better to have bug reports including the logs of the installation, so we can now what went wrong in your case.
+
+About the unpleasant default UI of Firewalld, we agree and we are developing a YaST interface to configure Firewalld in a way that is more familiar to YaST users. It will be available in Leap 15.1 and also (in a reduced version) as a maintenance update for Leap 15.0.]]></description>
+		<content:encoded><![CDATA[<p>Sorry but I don’t know whether there are further details in your forum post since I can’t read German.</p>
+<p>About the Partitioner, we are working hard to make it a much better tool for the upcoming Leap 15.1. Have you reported the errors at bugzilla.opensuse.org? It’s almost impossible to fix things with vague sentences like “crashed twice” or “delivered reproducibly wrong values when reading in the existing config”. It would be MUCH better to have bug reports including the logs of the installation, so we can now what went wrong in your case.</p>
+<p>About the unpleasant default UI of Firewalld, we agree and we are developing a YaST interface to configure Firewalld in a way that is more familiar to YaST users. It will be available in Leap 15.1 and also (in a reduced version) as a maintenance update for Leap 15.0.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Frank Berger</title>
+		<link>https://lizards.opensuse.org/2018/10/09/yast-sprint-64/#comment-16105</link>
+		<dc:creator><![CDATA[Frank Berger]]></dc:creator>
+		<pubDate>Mon, 22 Oct 2018 07:37:04 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=13402#comment-16105</guid>
+		<description><![CDATA[Hello,
+
+I am currently (just today) trying to install Leap 15 remote on a server located at Hetzner. I have been writing about my desastrous experiences here: https://forums.opensuse.org/showthread.php/533525-Erfahrungen-mit-remote-Installation-auf-Hetzner-Rechnern
+
+My concrete problem is right now that I am trying to configure the firewall in YaST and it seems that this is not possible from remote, because:
+
+1) One cannot start and use the Firewall config software without first starting the firewall. What a crap!
+
+2) I had done this in a previous installation attempt but after starting the firewall I had no more chance to log into this box via VNC.
+
+*** So my question is: How can one configure the firewall remotely without the risk of locking oneself out? ***
+
+3) My comment about the new firewall tool from Red Hat: This UI is extremely unclear, non-intuitive and no documentation or help is available. I regard this as the by far morst idiotic tool at all and I am NOT anlone with this opinion as I found many very critical comments. 
+
+It is inacceptable to supply such a tool without a PROPER documentation, which clearly explains the purpose of the various views.
+
+The seems to be NO way to enable or disable the entire Firewall (as was the case in the old tool). 
+
+This &quot;permanent / runtime&quot; button is a very bad idea, too, very confusing, desastrous UI.
+
+Why don&#039;t you supply/allow the old relatively good SuSe firewall tool?
+
+Partitioner
+-----------
+
+The partioner crashed twice during my remote installation attempts at Hetzner and delivered reproducably wrong values when reading in the exiting config into the partitioner.
+
+My overall strong impression is that the Leap 15 realease is instable and premature. 13.2 was by far better in many respects.
+
+If I had not been working with SuSe for many years, I would give it the boot.
+
+Frank]]></description>
+		<content:encoded><![CDATA[<p>Hello,</p>
+<p>I am currently (just today) trying to install Leap 15 remote on a server located at Hetzner. I have been writing about my desastrous experiences here: <a href="https://forums.opensuse.org/showthread.php/533525-Erfahrungen-mit-remote-Installation-auf-Hetzner-Rechnern" rel="nofollow">https://forums.opensuse.org/showthread.php/533525-Erfahrungen-mit-remote-Installation-auf-Hetzner-Rechnern</a></p>
+<p>My concrete problem is right now that I am trying to configure the firewall in YaST and it seems that this is not possible from remote, because:</p>
+<p>1) One cannot start and use the Firewall config software without first starting the firewall. What a crap!</p>
+<p>2) I had done this in a previous installation attempt but after starting the firewall I had no more chance to log into this box via VNC.</p>
+<p>*** So my question is: How can one configure the firewall remotely without the risk of locking oneself out? ***</p>
+<p>3) My comment about the new firewall tool from Red Hat: This UI is extremely unclear, non-intuitive and no documentation or help is available. I regard this as the by far morst idiotic tool at all and I am NOT anlone with this opinion as I found many very critical comments. </p>
+<p>It is inacceptable to supply such a tool without a PROPER documentation, which clearly explains the purpose of the various views.</p>
+<p>The seems to be NO way to enable or disable the entire Firewall (as was the case in the old tool). </p>
+<p>This &#8220;permanent / runtime&#8221; button is a very bad idea, too, very confusing, desastrous UI.</p>
+<p>Why don&#8217;t you supply/allow the old relatively good SuSe firewall tool?</p>
+<p>Partitioner<br />
+&#8212;&#8212;&#8212;&#8211;</p>
+<p>The partioner crashed twice during my remote installation attempts at Hetzner and delivered reproducably wrong values when reading in the exiting config into the partitioner.</p>
+<p>My overall strong impression is that the Leap 15 realease is instable and premature. 13.2 was by far better in many respects.</p>
+<p>If I had not been working with SuSe for many years, I would give it the boot.</p>
+<p>Frank</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

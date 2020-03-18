@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>comparison &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/comparison/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>LiveCDs</title>
+		<link>https://lizards.opensuse.org/2012/12/27/livecds/</link>
+		<comments>https://lizards.opensuse.org/2012/12/27/livecds/#comments</comments>
+		<pubDate>Thu, 27 Dec 2012 15:59:51 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[comparison]]></category>
+		<category><![CDATA[LiveCD]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9128</guid>
+		<description><![CDATA[As few of you might know, I made my own SUSE-based LiveCDs a while ago, using (like Knoppix) cloop compression with iso9660 and my own kernel code for file-based overlay to make it writeable. You might be amazed at how fast it runs in KVM. However, the kernel part has bit-rotten and there are other [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>As few of you might know, I made my own <a href="http://lsmod.de/bootcd/">SUSE-based LiveCDs</a> a while ago, using (like Knoppix) cloop compression with iso9660 and <a href="http://translucency.sourceforge.net/">my own kernel code</a> for file-based overlay to make it writeable. You might be amazed at how fast it runs in KVM. However, the kernel part has bit-rotten and there are other techniques out there today, so I took a look around at how others do their LiveCDs.</p>
+<p>But first some broader overview. To make a LiveCD, the biggest problem is that CDs are not writeable (and even modern Flash devices do not want to be written too much). Embedded devices using flash had the same problem. Various approaches have been used in the past to solve this:</p>
+<ul>
+<li>adapt all software to write into ram-disks e.g. by having symlinks (hard to create and maintain)</li>
+<li>load all software into RAM (only for small distributions)</li>
+<li>use file-based overlaying such as unionfs or aufs to have software write into RAM (lsof, pwd, and hardlinks can be tricky)</li>
+<li>use block-based overlaying (problem: can not easily free disk space again)</li>
+</ul>
+<p>Also compression is used to fit more onto a CD. And interestingly, this usually also speeds up booting because it is faster to read 10MB off a CD and decompress it into the original 30MB than to read 30MB from such a slow medium.</p>
+<p>Now, to the distributions.</p>
+<ul>
+<li>openSUSE has the classic DVD installs that use special <a href="https://build.opensuse.org/package/show?package=installation-images&amp;project=openSUSE%3AFactory">installation-images</a> and run in RAM and then there are the real LiveCDs that are created by our kiwi tool, use block-based overlaying and LZMA compression of a ext3 by means of our FUSE-based clicfs.</li>
+<li>All of the other distributions use squashfs for compression. <a href="http://www.mageia.org/downloads/">Mageia</a> employs dracut for initrd and unionfs for file-based overlaying</li>
+<li><a href="http://cdimage.debian.org/debian-cd/current-live/i386/bt-hybrid/">Debian</a> uses <a href="http://aufs.sourceforge.net/">aufs</a> for file-based overlaying</li>
+<li>Ubuntu uses overlayfs for file-based overlaying</li>
+<li><a href="https://fedoraproject.org/get-fedora">Fedora</a> uses an ext4 filesystem image contained in a squashfs with dm-snapshot for block-based overlaying, thus being most similar to openSUSE</li>
+</ul>
+<p>I also spent some time benchmarking (on my AMD A10-5800K) the various technologies with <a href="https://gist.github.com/4389034">a simple script</a> using Debians uncompressed rootfs of 495132 KiB as data.<br />
+squashfs supports three different compression methods: lzo, gzip and xz (aka LZMA).</p>
+<ul>
+<li>squashfs-lzo:  size:220992 compression:11.1MB/s decompression:134.4MB/s</li>
+<li>squashfs-gzip: size:203328 compression:15.5MB/s decompression:88.9MB/s</li>
+<li>squashfs-xz:   size:176064 compression:6.5MB/s  decompression:22.5MB/s</li>
+<li>cloop(gzip):   size:213348 compression:16.2MB/s decompression:49.6MB/s</li>
+<li>clicfs(xz):    size:185300 compression:16.7MB/s decompression:18.2MB/s</li>
+</ul>
+<p>This has some surprises: even when using the same compression method, sizes can differ by 5% and speed can differ even more.</p>
+<p>If you want to compare numbers on your system, memory throughput is also interesting:<br />
+# dd if=/dev/zero of=/dev/null bs=1M count=100000<br />
+104857600000 bytes (105 GB) copied, 12.4499 s, 8.4 GB/s</p>
+<p>Overall, clicfs is performing OK, considering that it already takes care of the overlaying, but for my own LiveCD I would prefer Debian&#8217;s method and I am wondering how it would work.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2012/12/27/livecds/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+	</channel>
+</rss>

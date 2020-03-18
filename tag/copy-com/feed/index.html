@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>copy.com &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/copy-com/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Run copy.com on your openSUSE Raspberry Pi</title>
+		<link>https://lizards.opensuse.org/2015/05/23/run-copy-com-on-your-opensuse-raspberry-pi/</link>
+		<pubDate>Sat, 23 May 2015 09:34:10 +0000</pubDate>
+		<dc:creator><![CDATA[Efstathios Iosifidis]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[arm6]]></category>
+		<category><![CDATA[cloud]]></category>
+		<category><![CDATA[copy.com]]></category>
+		<category><![CDATA[raspberry]]></category>
+		<category><![CDATA[Raspberry Pi]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11428</guid>
+		<description><![CDATA[A good question is why do you want to sync a folder on your Raspberry Pi with a cloud service. The answer is little complicated. It&#8217;s a subproject that I&#8217;m working on right now. I want to upload some data I&#8217;ll create on a Raspberry Pi (with limited size of SD card). The uploaded data [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>A good question is why do you want to sync a folder on your Raspberry Pi with a cloud service. The answer is little complicated. It&#8217;s a subproject that I&#8217;m working on right now. I want to upload some data I&#8217;ll create on a Raspberry Pi (with limited size of SD card). The uploaded data will be saved on other computer and the SD will be clear again to create new data.</p>
+<p>The cloud service I prefer is always ownCloud.<br />
+Here I used <a href="https://copy.com?r=bdjd4W" target="1">http://www.copy.com</a>. It provides 15GB of disk but you can increase it.</p>
+<p>First of all download the file</p>
+<blockquote><p>$ wget http://copy.com/install/linux/Copy.tgz</p></blockquote>
+<p>Then extract it</p>
+<blockquote><p>$ tar xzvf Copy* copy/armv6h/</p></blockquote>
+<p>This will create a folder called “copy,” and in it there will be three sub-folders: “armv6h,” “x86,” and “x86_64.” The first one contains the Copy client binaries for the Raspberry Pi, the second contains the Copy client for 32-bit Linux on a PC, and the third the same client but for 64-bit Linux PCs.</p>
+<blockquote><p>$ cd /copy/armv6h</p></blockquote>
+<p>Now there are 2 ways of using copy. The CopyCmd tool and CopyConsole.</p>
+<p><b>CopyCmd</b></p>
+<p>List of the directories</p>
+<blockquote><p>$ ./CopyCmd Cloud -username=user@gmail.com -password=&#8217;mypass&#8217; ls</p></blockquote>
+<p>Upload all content of local /home/user/directory/ to remote /directory</p>
+<blockquote><p>$ ./CopyCmd Cloud -username=user@gmail.com -password=&#8217;mypass&#8217; put -r /home/user/directory/ /directory</p></blockquote>
+<p><b>CopyConsole</b></p>
+<p>The CopyConsole tool keeps a folder on your Raspberry Pi synchronized with the data on Copy.com.<br />
+The sync app runs in the background and is started like this:</p>
+<blockquote><p>$ ./CopyConsole -daemon -username=user@gmail.com -password=&#8217;mypass&#8217; -root=/home/user/directory</p></blockquote>
+<p>This will sync the local /home/user/directory to copy.com. If you delete something from there, it&#8217;ll delete from local folder as well.</p>
+<p>Remeber to run this command everytime you restart your pi. It&#8217;s better to run it manually because there is username and password that are personal (unless you created an account just for your raspberry pi).</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

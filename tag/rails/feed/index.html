@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Rails &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/rails/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Temporary overwrite method for specific task</title>
+		<link>https://lizards.opensuse.org/2011/03/18/temporary-overwrite-method-for-specific-task/</link>
+		<comments>https://lizards.opensuse.org/2011/03/18/temporary-overwrite-method-for-specific-task/#comments</comments>
+		<pubDate>Fri, 18 Mar 2011 12:37:01 +0000</pubDate>
+		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
+				<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Rails]]></category>
+		<category><![CDATA[Ruby]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=6810</guid>
+		<description><![CDATA[Hi, today I must solve issue with not well structured code. Problem is that one method return last correct version, but in one specific case it needs to return newest version (even incorrect). There is many calls between top level method which know what needs to call and target method which is called from generic [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi,<br />
+today I must solve issue with not well structured code. Problem is that one method return last correct version, but in one specific case it needs to return newest version (even incorrect). There is many calls between top level method which know what needs to call and target method which is called from generic code. Now I need to fix it and code is not well tested and quite sensitive to changes ( this fix is fix of another fix :). So what is the safest way to change it?<br />
+I decide that the best solution which doesn&#8217;t change almost nothing ( but is suitable just for maintenance update, for trunk I create better solution ) is temporary overwrite of target method to change its behavior. Now how to do it?<br />
+There is simple example:</p>
+<pre>
+class T
+  def test
+    puts "test"
+  end
+
+  def lest
+    puts "lest"
+  end
+
+  def m
+    test
+  end
+end
+
+
+T.new.m
+T.send(:define_method,:m_a) { lest }
+T.send(:alias_method, :m_old, :m)
+T.send(:alias_method, :m, :m_a)
+T.new.m
+T.send(:alias_method, :m, :m_old)
+T.send(:undef_method, :m_a)
+T.send(:undef_method, :m_old)
+T.new.m
+</pre>
+<p>as you can see after modification class is exact same as before ( except if there is method a, but it is possible to handle it via introspection and dynamic choose of method). I don&#8217;t need to change whole stack of calls to add parameter or introduce new singleton class which can have flag.<br />
+I hope it help someone with his fix of not so well written piece of software.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2011/03/18/temporary-overwrite-method-for-specific-task/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>Status openFATE Milestone</title>
+		<link>https://lizards.opensuse.org/2010/08/06/status-openfate-milestone/</link>
+		<comments>https://lizards.opensuse.org/2010/08/06/status-openfate-milestone/#comments</comments>
+		<pubDate>Fri, 06 Aug 2010 13:07:26 +0000</pubDate>
+		<dc:creator><![CDATA[Klaas Freitag]]></dc:creator>
+				<category><![CDATA[Boosters]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[openFATE]]></category>
+		<category><![CDATA[Rails]]></category>
+		<category><![CDATA[Screening Team]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=4876</guid>
+		<description><![CDATA[Recently Henne Greenrock sent a status report about the Boosters Standup-Meeting here he said that nothing happened to the openFATE sprint. Well, that&#8217;s only partly true, so it seems to be time to take a closer look and revitalize the project openFATE a bit. What&#8217;s the matter with openFATE? We did a good start with [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Recently <a href="http://en.opensuse.org/User:Hennevogel">Henne Greenrock</a> sent a status report about the Boosters Standup-Meeting here he said that nothing happened to the <a href="http://features.opensuse.org">openFATE</a> sprint. Well, that&#8217;s only partly true, so it seems to be time to take a closer look and revitalize the project openFATE a bit.</p>
+<h3>What&#8217;s the matter with openFATE?</h3>
+<p>We did a good <a href="http://news.opensuse.org/2009/01/16/opensuse-project-opens-feature-tracking-with-openfate/">start</a> with openFATE to involve everybody who is interested into product planning. However, after the screening team was formed it turned out that some parts of the process are not yet working well. The biggest problem is still that the screening team members can not move features from state UNCONFIRMED to NEW which turned out to be crucial for a fluent process. So the Boosters picked up the task since we think this is a huge blocker to work together as a community effectivly.</p>
+<p>The <a href="http://en.opensuse.org/openSUSE:Openfate_screening">openFATE Screening Page</a> lists a few more details about the openFATE screening team and the issues. </p>
+<h3>How are we going to solve the issues?</h3>
+<p>The Screening Team Members need additional rights. We will create a user group &#8220;openFATE Screener&#8221; which gives people in it additional rights in openFATE. For the time being, the group will be maintained within openFATE. Once we have <a href="http://en.opensuse.org/openSUSE:Connect">connect.opensuse.org</a> in place, we will use it to maintain the group setting. The important bit here is to give the screeners group the ability to maintain itself, ie. add or remove members.</p>
+<p>Being a screener will enable people to change status of a feature from <em>UNCONFIRMED</em> to <em>NEW</em>. That is a responsible task because being in state NEW, the feature goes through the whole mill of the process, also through product and project management for SLE products. We have to make sure to have high quality features here.</p>
+<p>Futhermore the screeners will be able to add infoproviders to features in case they know who can help there which is also a very sensible task.</p>
+<p>Another part to work on are notifications. People should be notified when they get added to a feature. We use <a href="http://hermes.opensuse.org">Hermes</a> for that (which is already working) so the only issue is that if people who get added to a feature are not subscribed to the certain notifications in Hermes, they do not receive anything. Which is per purpose as we want to leave the control to the users. The solution to that is to inform the screeners about the Hermes subscription status of the people added. If somebody is not subscribed, its on the screener to talk to the guy and convince him to join into the openFATE game. I don&#8217;t think it makes sense to subscribe users silently because that would take away control over their subscriptions and messages get ignored as spam in the end.</p>
+<p>Last but not least we have to solve the &#8220;I am free, pick me!&#8221;-problem, which is about features that went through the decision process and would fit nicely into a product but have no developer implementing it yet. In the company process that means that a teamlead assigns a developer from his team on that. In the community we need to change that so that people can pick the feature themselves. That has some implications to the attached internal process, so that there are still some questions open. We have to investigate a bit on that.</p>
+<h3>What has happened so far?</h3>
+<p>I was able to change the keeperproxy, which is a security relevant proxy which filters data that is going to be exposed to the internet. Moreover I was kung-fuing through the Javascript in the openFATE webapp so that it is now possible to change the status if one is screener. I also added a screener attribute to the Person-Model in the openFATE rails app. Last but not least I added the basic API functionality to get and set subscriptions to Hermes.</p>
+<h3>What needs to be done?</h3>
+<p>Well, everything that is there is still rough and needs testing and polishing. Futhermore I added the remaining tasks to <a href="http://retro.opensuse.org">Retrospectiva</a>, please check there. </p>
+<p>As usual we&#8217;re happy about your input on this!</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2010/08/06/status-openfate-milestone/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+	</channel>
+</rss>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>benchmarking &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/benchmarking/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>zypper tab-completion and some thoughts</title>
+		<link>https://lizards.opensuse.org/2015/04/26/zypper-tab-completion-and-some-thoughts/</link>
+		<pubDate>Sun, 26 Apr 2015 19:45:11 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[bash]]></category>
+		<category><![CDATA[benchmarking]]></category>
+		<category><![CDATA[rpm]]></category>
+		<category><![CDATA[tab-completion]]></category>
+		<category><![CDATA[zypper]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11367</guid>
+		<description><![CDATA[Today I spent some hours implementing nice tab-completion for zypper. There was already a lot done 6 years ago, but the part about installing/removing packages was missing. Now the thinking part is about the speed. For the tab-completion I needed a list of installed packages and of course we have that in our RPM database [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Today I spent some hours implementing nice <a href="https://github.com/openSUSE/zypper/pull/66">tab-completion for zypper</a>. There was <a href="https://lizards.opensuse.org/2009/02/12/zypper-improved-bash-completion-and-practical-usage/">already a lot done 6 years ago</a>, but the part about installing/removing packages was missing.</p>
+<p>Now the thinking part is about the speed. For the tab-completion I needed a list of installed packages and of course we have that in our RPM database (using berkeley DB as a backend). However querying the list with rpm -qa already took over a second on a modern and fast system. On my poor netbook with a cold cache, it took 25 seconds (5 secs on second try with hot cache)&#8230; And the point is that you probably do not want to wait 5 seconds for your tab-completion to react.</p>
+<p>So to avoid this problem, I used caching via make to produce a better format (plain text). This is then post-processed with sed in a fraction of a second &#8211; a speedup factor somewhere between 15 and 150. This makes a big difference.</p>
+<p>In the end, I still wonder why plain text is so much faster than a DB. I guess, one reason is that the DB is optimized for retrieval of single values &#8211; e.g. rpm -q bash &#8211; this is very fast (but even there an egrep &#8220;^bash-[^-]+-[^-]+$&#8221; is more than twice as fast).</p>
+<p>I still want to optimize zypper for better speed, so that a search might some day return in under 2 seconds. One idea for that is to not parse all those config+repo files every time, but only when they change. It could use mmaped files under /var/cache/zypp* as memory to store the binary representations. Though it might become complicated, if dynamic structures such as linked lists are involved.</p>
+<p>The future will be interesting&#8230;</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

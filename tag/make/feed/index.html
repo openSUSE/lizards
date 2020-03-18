@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>make &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/make/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>openSUSE and GCC part 5: Make love me do</title>
+		<link>https://lizards.opensuse.org/2013/11/05/opensuse-and-gcc-part-5/</link>
+		<pubDate>Tue, 05 Nov 2013 07:03:08 +0000</pubDate>
+		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
+				<category><![CDATA[Education]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[C-Language]]></category>
+		<category><![CDATA[make]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10095</guid>
+		<description><![CDATA[In this point of time if you haven&#8217;t any idea what is pkg-config or GCC you should be reading this. Or if you still do please make sure you read about them from these blog posts. &#8216;Make&#8216; as a tool doesn&#8217;t do anything easier it just hides not-so-easy-part from eyes of public. &#8216;Make&#8217;-tool executes (in [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>In this point of time if you haven&#8217;t any idea what is <a href="http://www.freedesktop.org/wiki/Software/pkg-config/" title="pkg-config">pkg-config</a> or <a href="http://gcc.gnu.org/" title="the GNU Compiler Collection">GCC</a> you should be reading this. Or if you still do please make sure you read about them from these <a href="//lizards.opensuse.org/2013/10/15/opensuse-and-gcc-part-2/" title="openSUSE and GCC part 2: compiling ‘Hello World’">blog</a> <a href="//lizards.opensuse.org/2013/10/28/opensuse-and-gcc-part4/" title="openSUSE and GCC part 4: Pkg-config and what one can do with it">posts</a>. &#8216;<a href="https://www.gnu.org/software/make/" title="GNU Make">Make</a>&#8216; as a tool doesn&#8217;t do anything easier it just hides not-so-easy-part from eyes of public. &#8216;Make&#8217;-tool executes (in default) Makefile-script that should tell how to build your applications step by step. There is no guaranties that it&#8217;s easier to understand how it&#8217;s build or you to understand that after a while.<span id="more-10095"></span></p>
+<h2>What should I make then?</h2>
+<p>As &#8216;make&#8217; spreads <a href="https://en.wikipedia.org/wiki/Make_%28software%29" title="Make (software)">wide area of operating system</a> it&#8217;s not very new tool. You can use make in AIX, HP/UX, BSD variants, Linux, Windows or Solaris. Most of them they got their own make tool that got it&#8217;s own dialect. If you are not using AIX, HP-UX, Solaris or pure nmake from Visual Studio I recommend to learn GNU Make dialect. With that you can easily adapt those others. One can pretend that &#8216;make&#8217; is nearly programming language for building application.<br />
+Mostly because &#8216;make&#8217; ain&#8217;t cleanest way building applications there is also other tools as well: <a href="http://scons.org/" title="SCons">Python Scons</a>, <a href="https://ant.apache.org/" title="Apache Ant">Apache Ant</a> and <a href="http://cmake.org/" title="CMake">CMake</a> for example. They all are as powerful as &#8216;make&#8217; if compare them as building tools. You got to remeber Ant is mostly for Java applications but you can use it for anything if you are willing and SCons is general building tool. One can argue all the day and night which of them is the best. One thing is correct &#8216;make&#8217; <em>is not the cleanest</em> but is factory standard.</p>
+<h2>First forget everything</h2>
+<p>First thing I like to say about make is forget everything you have learned in your life. There is only one way on doing things in &#8216;make&#8217; and it&#8217;s only open for those who are true believers. Now forget those two sentences and you are in correct state of taking example building script as it is. This particular builds <a href="//lizards.opensuse.org/2013/10/28/opensuse-and-gcc-part4/" title="openSUSE and GCC part 4: Pkg-config and what one can do with it">last blogs</a> &#8216;SDL_image&#8217; example program. First we install make</p>
+<pre>
+zypper install make
+</pre>
+<p>then make script. Save this in sample directory/Folder as &#8216;SDL_DisplayBitmap.c&#8217; named &#8216;Makefile&#8217; (In this case capitals are needed). If you use pico/nano make sure intend tabs are tabs not spaces if they are converted make won&#8217;t work.</p>
+<pre>
+SRC := SDL_DisplayBitmap.c
+CFLAGS = $(shell pkg-config --cflags SDL_image)
+LIBS = $(shell pkg-config --libs SDL_image)
+
+all: 
+	@echo "Building with make is so fun"
+	gcc -o SDL_DisplayBitmap $(SRC) $(CFLAGS) $(LIBS)
+
+.PHONY: install clean
+
+clean:
+	rm -f SDL_DisplayBitmap
+
+install:
+	@echo "This just PHONY install target"
+</pre>
+<h2>What does it mean?</h2>
+<p>Okay let&#8217;s go line by line</p>
+<pre>
+SRC := SDL_DisplayBitmap.c
+</pre>
+<p>Variable that contains &#8216;SDL_DisplayBitmap.c&#8217;. Why it got &#8216;:=&#8217; and no &#8216;=&#8217; that&#8217;s is up to you find out.</p>
+<pre>
+CFLAGS = $(shell pkg-config --cflags SDL_image)
+LIBS = $(shell pkg-config --libs SDL_image)
+</pre>
+<p>This could be done in one variable but it&#8217;s easier to use in future if it&#8217;s divided in two. Tell to run &#8216;pkg-config&#8217;-tool and pass what ever is output to variable &#8216;CFLAGS&#8217; or &#8216;LIBS&#8217;. So they now have correct building flags and libraries.</p>
+<pre>
+all: 
+&lt;TAB&gt;@echo "Building with make is so fun"
+&lt;TAB&gt;gcc -o SDL_DisplayBitmap $(SRC) $(CFLAGS) $(LIBS)
+</pre>
+<p>Okay this is the main thing of &#8216;all:&#8217;-target. Traditionally there is &#8216;all&#8217;-target in &#8216;Makefile&#8217; to build applications from ground up.<br />
+Now be attended! <strong>Always use intending tabs before commands in &#8216;Makefile&#8217; no spaces</strong>. Okay? If &#8216;make&#8217;-tool says you are using spaces to intend convert them to tabs. &#8216;@&#8217;-mark is just don&#8217;t show what we are doing only print what is outputted to stdout and after that we compile using SRC, CFLAGS and LIBS variables. If you are using variable in Makefile it have to be &#8216;$(VARIABLENAME)&#8217; not &#8216;$VARIABLENAME&#8217; or &#8216;VARIABLENAME&#8217;. You can also use lowercase names but again tradition and habits comes in a way.</p>
+<pre>
+.PHONY: install clean
+
+clean:
+&lt;TAB&gt;rm -f SDL_DisplayBitmap
+
+install:
+&lt;TAB&gt;@echo "This just PHONY install target"
+</pre>
+<p>Normally there is clean and install targets available in every &#8216;Makefile&#8217;. It&#8217;s more easier your life stuff than must. I recommend to create them! It will not lead you to hate or suffering. These targets are easy to explain &#8216;clean&#8217;-target should get you source tree in state that if was before building and &#8216;install&#8217;-target should install your binary/binaries. Ahh.. and then there is &#8216;.PHONY&#8217; target is you really are interested <a href="https://www.gnu.org/software/make/manual/html_node/Phony-Targets.html" title=".PHONY Docs">read all about it from docs</a>.</p>
+<h2>How to make application</h2>
+<p>Copy Makefile to folder/directory you have &#8216;SDL_DisplayBitmap.c&#8217; and run</p>
+<pre>
+make
+</pre>
+<p>after that you should have binary &#8216;SDL_DisplayBitmap&#8217;. if you want to clean your source just run</p>
+<pre>
+make clean
+</pre>
+<p>This was just hands dirty example. Make is so much more and more complicated you ever can imagine. Next we jump into Autotools for couple of blogs as they use make as tools to build applications.</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

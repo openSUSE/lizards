@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>bugzilla &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/bugzilla/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>How to search more efficiently in Bugzilla with pybugz</title>
+		<link>https://lizards.opensuse.org/2008/06/19/how-to-search-more-efficiently-in-bugzilla-with-pybugz/</link>
+		<pubDate>Thu, 19 Jun 2008 06:58:39 +0000</pubDate>
+		<dc:creator><![CDATA[Thomas Schraitle]]></dc:creator>
+				<category><![CDATA[Accessibility]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[Usability]]></category>
+		<category><![CDATA[bugs]]></category>
+		<category><![CDATA[bugzilla]]></category>
+		<category><![CDATA[Python]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=70</guid>
+		<description><![CDATA[If you just want to search for bugs in Bugzilla, it's (a bit) painful: start the browser, type in the URL, insert your login and password and try to find out where to go. There is an easier way to do: pybugz for commandline lovers!]]></description>
+				<content:encoded><![CDATA[<p>If you just want to search for bugs in Bugzilla, it&#8217;s (a bit?) painful: start the browser, type in the URL, insert your login and password and try to find out where to go. There is an easier way to do: <a href="http://www.liquidx.net/pybugz/">pybugz</a> for commandline lovers!</p>
+<p>Thanks to Peter Poeml, get this very useful Python script from <a href="http://software.opensuse.org/search?baseproject=ALL&amp;p=1&amp;q=pybugz">here</a>. After you have installed it you need only two steps to configure it:</p>
+<ol>
+<li>
+<p>Create a file <span>~/.bzuser</span> and insert your Bugzilla login.</p>
+</li>
+<li>
+<p>Login into Bugzilla and insert your password. This creates the file <span>~/.bugz_cookie</span>:</p>
+<p><code>$  /usr/bin/bugz-login</code>
+</li>
+</ol>
+<p>The script knows several subcommands, its interface is similar to CVS or Subversion. You can search, get, post, modify, attach and download an attachment, all with this utility. For example, if you want all bugs about &#8220;XML&#8221;, regardless of the product or component, you just type:</p>
+<p> <code>$ bugz search xml</code></p>
+<p>That gives the following output:</p>
+<p> <code>&nbsp;* Using https://bugzilla.novell.com/<br />
+&nbsp;* Searching for 'XML'<br />
+&nbsp;[ deleted a lot of lines ]</code></p>
+<p>Maybe you want to narrow your search for KDE and specific products? No problem, here is an example:</p>
+<p> <code>$ bugz search KDE --product="openSUSE 11.0"<br />
+&nbsp;* Using https://bugzilla.novell.com/<br />
+&nbsp;* Searching for 'KDE' with the following options:<br />
+&nbsp;*    product              = ['openSUSE 11.0']<br />
+ 113512 kde-maintainers      Firefox in KDE - Only Uses GNOME Programs<br />
+ 170055 dmueller             Firefox sets desktop background for Gnome under KDE<br />
+ 176179 kde-maintainers      User can't edit properties for default notifications under KDE Storage Media and entries disepeared !<br />
+ 203548 sbrabec              workrave-kde is an empty applet by default<br />
+ [... and many more ...]</code></p>
+<p>Of course, if you know the bug number you can retrieve it with:</p>
+<p>  <code>$ bugz get 378240</code></p>
+<p>and it will list all the details of the bug. Very useful! I haven&#8217;t tried the other subcommands yet, but I think they are also very convenient.</p>
+<p>There are many more things to discover. So, when was your last time searching for bugs? <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Help With Bug Hunting</title>
+		<link>https://lizards.opensuse.org/2008/05/20/help-with-bug-hunting/</link>
+		<pubDate>Tue, 20 May 2008 11:34:40 +0000</pubDate>
+		<dc:creator><![CDATA[Andrew Wafaa]]></dc:creator>
+				<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[bugzilla]]></category>
+		<category><![CDATA[search]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=25</guid>
+		<description><![CDATA[So far from what I&#8217;ve heard and seen, people really like the upcoming 11.0 release &#8211; yes it is now only a month away 🙂 To try and make sure it is even better come release date the guys and gals need good bugreports, and preferably not duplicate bugs. One handy tool for searching for [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>So far from what I&#8217;ve heard and seen, people really like the upcoming 11.0 release &#8211; yes it is now only a month away <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>To try and make sure it is even better come release date the guys and gals need good bugreports, and preferably not duplicate bugs.  One handy tool for searching for your bug is <a href="http://mvidner.blogspot.com/2008/05/easier-bugzilla-search.html">Martin Vidner&#8217;s Bugzilla search tool</a>.  This has been formed into an <a href="http://www.opensearch.org/Home">OpenSearch</a> plugin by the maestro that is <a href="http://blogs.warwick.ac.uk/bweber">Benji</a>.</p>
+<p>Basically all you need to do is head over to <a href="http://benjiweber.co.uk/bugzillasearch.html">here</a> and then select your search engine drop down menu and choose &#8220;Add openSUSE 11.0 Bug Search&#8221;.  I have tried it in FireFox 2 and 3, but Konqueror should be pretty much the same.</p>
+<p>Thanks to Martin and Benji for this lovely facility, and now there is no excuse for not filing correct bug reports <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> Happy bug hunting.</p>
+<p><strong>UPDATE</strong><br />
+Thanks again to Benji, he has corrected my mistake for adding the search option in Konqueror.  Just do the following:<br />
+<em>settings -&gt; configure konqueror -&gt; web shortcuts -&gt; new</em><br />
+<a href="http://lizards.opensuse.org/wp-content/uploads/2008/05/konqueror_bnc.png"><img class="aligncenter size-full wp-image-27" src="http://lizards.opensuse.org/wp-content/uploads/2008/05/konqueror_bnc.png" alt="bnc search settings in konqueror" width="499" height="151" srcset="https://lizards.opensuse.org/wp-content/uploads/2008/05/konqueror_bnc.png 908w, https://lizards.opensuse.org/wp-content/uploads/2008/05/konqueror_bnc-300x91.png 300w" sizes="(max-width: 499px) 100vw, 499px" /></a></p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

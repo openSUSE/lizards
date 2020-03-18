@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>YaST2 &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/yast2/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>openSUSE and GCC part 1: getting started</title>
+		<link>https://lizards.opensuse.org/2013/10/07/opensuse-and-gcc-part1/</link>
+		<pubDate>Mon, 07 Oct 2013 08:41:01 +0000</pubDate>
+		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
+				<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[YaST]]></category>
+		<category><![CDATA[cross-development]]></category>
+		<category><![CDATA[Gcc]]></category>
+		<category><![CDATA[YaST2]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9978</guid>
+		<description><![CDATA[I try to explain in this series of blog entries how to install gcc (GNU C-Compiler) and what to do with it. I  also try to explain little make and CMake/Autotools. This is not very generic tutorial because I like to promote openSUSE as coding platform. Most of the tips goes just fine with every [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I try to explain in this series of blog entries how to install gcc (GNU C-Compiler) and what to do with it. I  also try to explain little make and CMake/Autotools. This is not very generic tutorial because I like to promote openSUSE as coding platform. Most of the tips goes just fine with every distro. For the first words I like to say one thing: openSUSE is excellent platform for C-coding. Though, you can choose your programming language  but this time I like to talk about GCC and specially C-Compiler. I&#8217;ll try to how to get there with these writings because I have noticed that this substance is getting less attention that it needs. Also noted that <a title="the GNU Compiler Collection" href="http://gcc.gnu.org/">GCC</a> anf <a title="https://www.gnu.org/gnu30/" href="https://www.gnu.org/gnu30/" target="_blank">GNU is 30 years</a> and I have used it almost 15 so time to share some information.<span id="more-9978"></span></p>
+<h2>openSUSE and Linux</h2>
+<p>This is for first timers with openSUSE and GCC not people who know how to use YaST and openSUSE. If you understand <em>openSUSE is Linux-kernel based <a title="Redhat Package Manager" href="http://en.wikipedia.org/wiki/RPM_Package_Manager" target="_blank">RPM</a> application distribution in common language openSUSE is Linux operating system</em> you shouldn&#8217;t be reading this it&#8217;s just waste of your time. If you are still reading you should understand  in deep openSUSE is GNU/Linux based operating system but let&#8217;s not get in to that battle.<br />
+So One can think Google Android as Google/Linux distribution (It&#8217;s also Linux say what you want). They took some tools from normal Linux distributions (there are common tools like GCC) and made rest from the scratch. Is it better or worst you have to choose that from you point of view.<br />
+If you come from BSD world for example Mac OS X or FreeBSD and have done some object-C or C (with or without command-line) you don&#8217;t have to forget everything just keep your mind open. If you popped just from Microsoft Windows world thought &#8216;hey I&#8217;ll start developing Linux/Android/Cross-platform apps.&#8217; you REALLY have to keep you mind open. Hey I was on Windows decade a go and I&#8217;m still alive in Linux world in base Microsoft Windows is <a title="http://en.wikipedia.org/wiki/POSIX" href="http://en.wikipedia.org/wiki/POSIX" target="_blank">POSIX</a> standard compliant like Linux.</p>
+<h2>Command-line (CLI) and Graphical User Interface (GUI)</h2>
+<p>All I&#8217;ll cover in these blog posts are Command-line examples. If you want to use IDE (Eclipse or such) go a head but I&#8217;ll like one to understand how everything really works. You don&#8217;t have to dream like those machines about cosmic <a title="Electric sheep" href="http://en.wikipedia.org/wiki/Electric_Sheep" target="_blank">electric sheeps</a> to understand command-line. You can get there also in Microsoft Windows world and you don&#8217;t have to ever get there in Linux if you don&#8217;t want to. I&#8217;ll just feel little bit safer if you or me understand how to install and compile applications on Linux with command line. <a title="CLI" href="http://www.freesoftwaremagazine.com/articles/command_line_intro" target="_blank">I won&#8217;t explain to you what is command-line</a> (CLI) and<a title="Tips" href="http://www.linuxcommand.org/" target="_blank"> how to get there from GUI (Graphical User Interface)</a> where you probably are reading this from you browser please surf to read the <a title="http://en.wikipedia.org/wiki/Command-line_interface" href="http://en.wikipedia.org/wiki/Command-line_interface" target="_blank">Wikipedia article about it</a>. If you didn&#8217;t understand anything what I just said you can blame me and take a break.</p>
+<h2>Install GCC on openSUSE</h2>
+<p>I assume that you have installed <a title="Download openSUSE" href="http://en.wikipedia.org/wiki/Command-line_interface" target="_blank">openSUSE</a>. If not download and install version that have GUI. Do it if you aren&#8217;t PRO or have some very very very very good reason (<a title="Install on Virtualbox" href="http://en.opensuse.org/SDB:VirtualBox_Installation" target="_blank">like running it on virtual machine</a> top of Windows then <a title="VMWare" href="http://www.vmware.com/" target="_blank">VMWare</a> and <a title="Oracle Virtualbox" href="https://www.virtualbox.org/" target="_blank">Virtualbox</a> are you way to go. <a title="QEMU is a generic and open source machine emulator and virtualizer" href="http://wiki.qemu.org/Main_Page" target="_blank">Qemu</a> works but you have be again very open minded).<br />
+But now you have running openSUSE system with nice <a title="KDE" href="http://www.kde.org/" target="_blank">KDE</a>/<a title="Gnome" href="http://www.gnome.org/" target="_blank">Gnome</a>/<a title="Xfce" href="http://www.xfce.org/" target="_blank">XFCE4</a>/<a title="LXDE" href="http://lxde.org/" target="_blank">LXDE</a> GUI look and If you were hacker you installed all you needed stuff when you installed openSUSE to hard drive. If you like me and didn&#8217;t keep reading. In openSUSE you can manage everything with <a title="YaST is the installation and configuration tool for openSUSE" href="http://en.opensuse.org/Portal:YaST" target="_blank">YaST</a> or you can choose the <span style="color: #ff0000">red pill</span> and see the true world.</p>
+<h2>YaST way</h2>
+<p>open YaST from application menu. You find it there just look for <img alt="Yast2" src="http://en.opensuse.org/images/thumb/f/f8/Icon-yast.png/128px-Icon-yast.png" width="32" height="32" />Logo under<strong> settings</strong>. Type in root password. Choose &#8216;<em>Software Managemen</em>t&#8217;. Now you can just type &#8216;gcc&#8217; in &#8216;<em>Find:</em>&#8216; box. I&#8217;ll just assume you install &#8216;<em>gcc</em>&#8216; by clicking box (there comes green right mark) front of it and then push Apply. It&#8217;s easy as that. Now you have C-compiler (no C++ or ADA) but no auto-tools or make (or Cmake/Scons).</p>
+<p>If you are on CLI you see <a title="New Curses" href="http://en.wikipedia.org/wiki/Ncurses" target="_blank">NCurses</a> based YaST:</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2013/10/gcc-blog1.png"><img class="alignnone size-medium wp-image-9987" alt="gcc-blog1" src="//lizards.opensuse.org/wp-content/uploads/2013/10/gcc-blog1-300x178.png" width="300" height="178" srcset="https://lizards.opensuse.org/wp-content/uploads/2013/10/gcc-blog1-300x178.png 300w, https://lizards.opensuse.org/wp-content/uploads/2013/10/gcc-blog1.png 482w" sizes="(max-width: 300px) 100vw, 300px" /></a> <a href="//lizards.opensuse.org/wp-content/uploads/2013/10/gcc-blog2.png"><img class="alignnone size-medium wp-image-9988" alt="gcc-blog2" src="//lizards.opensuse.org/wp-content/uploads/2013/10/gcc-blog2-300x176.png" width="300" height="176" srcset="https://lizards.opensuse.org/wp-content/uploads/2013/10/gcc-blog2-300x176.png 300w, https://lizards.opensuse.org/wp-content/uploads/2013/10/gcc-blog2.png 482w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h2>pure CLI way without YaST</h2>
+<p>Go to CLI (<a title="KDE Konsole" href="http://konsole.kde.org/">Konsole</a>/<a title="Gnome Terminal" href="http://en.wikipedia.org/wiki/GNOME_Terminal">Gnome-terminal</a>/<a title="Xorg Xterm" href="http://en.wikipedia.org/wiki/Xterm">xterm</a> or in to real CLI). You have to be use &#8216;root&#8217; or have sudo rights to do any wizardry that is explained here. So I assume you just are root just type</p>
+<pre>zypper install gcc</pre>
+<p>and answer &#8216;y&#8217; after it asks. It does the same as YaST.</p>
+<p>That is that for first blog. If everything went right Now you have Gnu C-Compiler available. next time I&#8217;ll explain what you can do with it.</p>
+<pre>Disclaimer: All the stuff here are my own opinions not openSUSE nor Linux community. I'm have used openSUSE or SuSE something over 10 years. I have made <a title="Ilmi Solutions Oy" href="http://ilmi.fi" target="_blank">professionally</a> many years of development with openSUSE so I know somethings but I don't know everything and I just try to get you along.</pre>
+<p>&nbsp;</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Mockup :: GNOME3 and YaST</title>
+		<link>https://lizards.opensuse.org/2011/04/30/mockup-gnome3-and-yast/</link>
+		<comments>https://lizards.opensuse.org/2011/04/30/mockup-gnome3-and-yast/#comments</comments>
+		<pubDate>Sat, 30 Apr 2011 22:47:10 +0000</pubDate>
+		<dc:creator><![CDATA[Nelson Marques]]></dc:creator>
+				<category><![CDATA[Accessibility]]></category>
+		<category><![CDATA[Artwork]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.1]]></category>
+		<category><![CDATA[administration]]></category>
+		<category><![CDATA[gnome-shell]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[mockup]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[YaST2]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7270</guid>
+		<description><![CDATA[With the release of GNOME3 I would assume that people are interested in seeing how YaST2 (suggestion: rename it to YaST3 !!) is going to take form with GTK3. Of course this means eventually writing another application in GTK3, hopefully different from the old gnome-control-panel &#8216;style&#8217; which was actually pretty confusion from the user point [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>With the release of GNOME3 I would assume that people are interested in seeing how YaST2 (suggestion: rename it to YaST3 !!) is going to take form with GTK3. Of course this means eventually writing another application in GTK3, hopefully different from the old gnome-control-panel &#8216;style&#8217; which was actually pretty confusion from the user point of view as it was far too close to gnome-control-center, thus confusing new comers.</p>
+<p>My suggestion (unaware if it&#8217;s possible or not) was probably to explore GNOME3 features to serve YaST integrated already with GNOME3. This could be an interesting approach as it would offer integration and some advantages:</p>
+<p>* Better integration with GNOME3 without having to write(/maintain another application;<br />
+* Take advantage of YaST2 modular structure;<br />
+* Present YaST in a prime space in GNOME3, thus offering a openSUSE differentiation point;<br />
+* No conflicts with possible KDE existing front-ends for YaST2;<br />
+* Improve users experience.</p>
+<p>My proposal would be something like (maybe to be served as an extension for gnome-shell). Please neglect my &#8216;lame&#8217; photo manipulation skills:</p>
+<div style="width: 723px" class="wp-caption aligncenter"><img src="http://susepaste.org/images/68933649.png" alt="" width="713" height="434" /><p class="wp-caption-text">Mockup: YaST2 on GNOME3</p></div>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2011/04/30/mockup-gnome3-and-yast/feed/</wfw:commentRss>
+		<slash:comments>8</slash:comments>
+		</item>
+		<item>
+		<title>Learning YaST (YCP language)</title>
+		<link>https://lizards.opensuse.org/2008/09/12/learning-yast-ycp-language/</link>
+		<comments>https://lizards.opensuse.org/2008/09/12/learning-yast-ycp-language/#comments</comments>
+		<pubDate>Fri, 12 Sep 2008 10:02:59 +0000</pubDate>
+		<dc:creator><![CDATA[Alexander Orlovskyy]]></dc:creator>
+				<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+		<category><![CDATA[trainee]]></category>
+		<category><![CDATA[y2base]]></category>
+		<category><![CDATA[YaST2]]></category>
+		<category><![CDATA[YCP]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=175</guid>
+		<description><![CDATA[My name is Alexander i`m a trainee at SUSE. In my blog i will write about my experience with learning YCP (YaST Control Language) First of all, most important part of learning is to have a good manual. Here you have some links to start: YCP book -&#62;must read! (up to date) YCP Reference book [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>My name is Alexander i`m a trainee at SUSE.</p>
+<p>In my blog i will write about my experience with learning YCP (<span class="emphasis"><em>YaST Control 		Language</em></span>)</p>
+<p>First of all, most important part of learning is to have a good manual.</p>
+<p>Here you have some links to start:</p>
+<p><a href="http://forgeftp.novell.com/yast/doc/SL11.1/tdg/index.html">YCP book -&gt;must read! (up to date)</a></p>
+<p><a href="http://forgeftp.novell.com/yast/doc/SL11.0/tdg/Book-YaSTReference.html">YCP Reference book </a></p>
+<p><a href="http://forgeftp.novell.com/yast/doc/SL11.0/tdg/Book-UIReference.html">YCP User interface referece book</a></p>
+<p><a href="http://en.opensuse.org/YaST/Tutorials/YaST_Development_in_General"> YaST Development in General</a></p>
+<p>Later i add additional info &#8230;..</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2008/09/12/learning-yast-ycp-language/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+	</channel>
+</rss>

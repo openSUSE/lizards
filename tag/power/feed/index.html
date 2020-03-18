@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>power &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/power/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>GNOME3 iso by fcrozat and ATI radeon driver&#8230; a quick easy fix!</title>
+		<link>https://lizards.opensuse.org/2011/04/10/gnome3-iso-by-fcrozat-and-ati-radeon-driver-a-quick-easy-fix/</link>
+		<comments>https://lizards.opensuse.org/2011/04/10/gnome3-iso-by-fcrozat-and-ati-radeon-driver-a-quick-easy-fix/#comments</comments>
+		<pubDate>Sun, 10 Apr 2011 17:05:08 +0000</pubDate>
+		<dc:creator><![CDATA[Nelson Marques]]></dc:creator>
+				<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[DRM]]></category>
+		<category><![CDATA[gnome-shell]]></category>
+		<category><![CDATA[gnome3]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[power]]></category>
+		<category><![CDATA[radeon]]></category>
+		<category><![CDATA[settings]]></category>
+		<category><![CDATA[suse]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7149</guid>
+		<description><![CDATA[Hi all, For some time I wanted to check out GNOME3 and gnome-shell&#8230; My current chipset is ATI M92 RV710 and while the thermal performance with the proprietary driver is somewhat what I expect, the open source radeon driver does overheat my laptop a lot compared to flgrx. For the time being, fglrx isn&#8217;t really [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi all,</p>
+<p>For some time I wanted to check out GNOME3 and gnome-shell&#8230; My current chipset is ATI M92 RV710 and while the thermal performance with the proprietary driver is somewhat what I expect, the open source radeon driver does overheat my laptop a lot compared to flgrx. For the time being, fglrx isn&#8217;t really a choice because it just borgs the &#8216;activities&#8217; bar on top&#8230; And until ATI fixes their driver, there&#8217;s no other choice than running with the standard radeon drm driver, which does provide a very pleasant experience with GNOME3 / gnome-shell.</p>
+<p>For all that matters, KMS is to be enabled, period, full stop. And from this point&#8230; we have two options regarding power management:</p>
+<p>1. Dynamic Frequency switching (not really working for me);<br />
+2. Profile based frequency switching (does provide what I need);</p>
+<p>For all that matters regarding &#8216;profile based frequency switching&#8217; we have 5 profiles available:</p>
+<ul>
+<li>&#8220;default&#8221; uses the default clocks and does not change the power state. This is the default behavior.</li>
+<li>&#8220;auto&#8221; selects between &#8220;mid&#8221; and &#8220;high&#8221; power states based on the whether the system is on battery power or not. The &#8220;low&#8221; power state are selected when the monitors are in the dpms off state.</li>
+<li>&#8220;low&#8221; forces the gpu to be in the low power state all the time. Note that &#8220;low&#8221; can cause display problems on some laptops; this is why auto only uses &#8220;low&#8221; when displays are off.</li>
+<li>&#8220;mid&#8221; forces the gpu to be in the &#8220;mid&#8221; power state all the time. The &#8220;low&#8221; power state is selected when the monitors are in the dpms off state.</li>
+<li>&#8220;high&#8221; forces the gpu to be in the &#8220;high&#8221; power state all the time. The &#8220;low&#8221; power state is selected when the monitors are in the dpms off state.</li>
+</ul>
+<p>Now, what I did might not be an option to everyone, but for sure it does provide a nice solution for my problem&#8230; So be mindful of that&#8230; this is a personal preference based on the fact that I don&#8217;t require intensive GPU usage, neither I run intensive GPU requiring applications within GNOME3/gnome-shell (I have a normal openSUSE 11.4 with GNOME 2.32.x with fglrx dual boot config for those apps).</p>
+<p>The first thing we might want to do is to switch to profile based frequency switching&#8230; how do we this? As root:</p>
+<p>[code] echo profile &gt; /sys/class/drm/card0/device/power_method[/code]</p>
+<p>Now we have to pick one of those 5 profiles&#8230; and since I&#8217;ve already stated&#8230; I want the &#8216;low&#8217; profile since I don&#8217;t really do much intensive GPU work&#8230;</p>
+<p>[code] echo low &gt; /sys/class/drm/card0/device/power_profile[/code]</p>
+<p>Now&#8230; you might want to check out the different profiles and the different clocks used&#8230; this can be done through:</p>
+<p>[code] ﻿cat /sys/kernel/debug/dri/0/radeon_pm_info[/code]</p>
+<p>and will report something like this:</p>
+<p>[code]﻿linux-331w:~ # cat /sys/kernel/debug/dri/0/radeon_pm_info<br />
+default engine clock: 680000 kHz<br />
+current engine clock: 299530 kHz<br />
+default memory clock: 800000 kHz<br />
+current memory clock: 249750 kHz<br />
+voltage: 900 mV<br />
+PCIE lanes: 16[/code]</p>
+<p>This one is using the &#8216;low&#8217; profile&#8230; Feel free to test stuff around and find which one better answers your needs&#8230; Also there&#8217;s far more that can be done&#8230; I hope this helps ATI users with DRM driver to bring out the best of your system and improves your GNOME3 / gnome-shell experience, at so that you can run it with good thermal performance without fglrx.</p>
+<p>NM</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2011/04/10/gnome3-iso-by-fcrozat-and-ati-radeon-driver-a-quick-easy-fix/feed/</wfw:commentRss>
+		<slash:comments>4</slash:comments>
+		</item>
+	</channel>
+</rss>

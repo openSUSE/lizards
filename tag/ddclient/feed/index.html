@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>ddclient &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/ddclient/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Install ddclient on your openSUSE Raspberry Pi</title>
+		<link>https://lizards.opensuse.org/2015/05/25/install-ddclient-on-your-opensuse-raspberry-pi/</link>
+		<pubDate>Mon, 25 May 2015 12:49:04 +0000</pubDate>
+		<dc:creator><![CDATA[Efstathios Iosifidis]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[arm6]]></category>
+		<category><![CDATA[ddclient]]></category>
+		<category><![CDATA[dynamic dns]]></category>
+		<category><![CDATA[raspberry]]></category>
+		<category><![CDATA[Raspberry Pi]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11434</guid>
+		<description><![CDATA[We&#8217;ve seen two Dynamic DNS clients. We&#8217;ll see another one here. 1. First of all, install the program. $ zypper in ddclient 2. Create the confing file $ nano /etc/ddclient.conf with the following content daemon=5m timeout=10 syslog=no # log update msgs to syslog #mail=root # mail all msgs to root #mail-failure=root # mail failed update [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>We&#8217;ve seen two Dynamic DNS clients. We&#8217;ll see another one here.</p>
+<p>1. First of all, install the program.</p>
+<blockquote><p>$ zypper in ddclient</p></blockquote>
+<p>2. Create the confing file</p>
+<blockquote><p>$ nano /etc/ddclient.conf</p></blockquote>
+<p>with the following content</p>
+<blockquote><p>daemon=5m<br />
+timeout=10<br />
+syslog=no # log update msgs to syslog<br />
+#mail=root # mail all msgs to root<br />
+#mail-failure=root # mail failed update msgs to root<br />
+pid=/var/run/ddclient.pid # record PID in file.<br />
+ssl=yes # use ssl-support. Works with<br />
+# ssl-library</p>
+<p>use=if, if=eth0<br />
+server=freedns.afraid.org<br />
+protocol=freedns<br />
+login=<b>login_name</b><br />
+password=<b>the_password</b><br />
+<b>somedomain</b>.mooo.com</p></blockquote>
+<p>Change the ones that are in bold letters.</p>
+<p>3. Start the service</p>
+<blockquote><p>$ systemctl enable ddclient</p></blockquote>
+<p>Reboot</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

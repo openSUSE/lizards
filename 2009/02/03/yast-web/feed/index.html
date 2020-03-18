@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	
+	>
+<channel>
+	<title>Comments on: YaST WEB</title>
+	<atom:link href="https://lizards.opensuse.org/2009/02/03/yast-web/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org/2009/02/03/yast-web/</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 17:50:09 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>By: Stefan Schubert</title>
+		<link>https://lizards.opensuse.org/2009/02/03/yast-web/#comment-798</link>
+		<dc:creator><![CDATA[Stefan Schubert]]></dc:creator>
+		<pubDate>Wed, 25 Feb 2009 21:01:16 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=396#comment-798</guid>
+		<description><![CDATA[Yes, you are right there is a user management in Webmin. That was my fault.
+BUT have a look to there homepage: http://doxfer.com/Webmin/WebminUsers
+As far I have understood Webmin is still running with root privileges:
+
+&quot;Because Webmin still runs with full root privileges even when used by a restricted user, it still has access to all the configuration files and commands that it needs.&quot;
+
+Due that they are not really convinced about that concept:
+
+&quot;You must be very careful when granting access to un-trusted Webmin users though, as even a small mistake in the access control configuration may allow the user to edit arbitrary files on your system or run commands as root. All it takes is a small hole for an attacker to sneak through and take total control of your system. Webmin&#039;s access control capabilities give you the power to lock down users, but only if used properly.&quot;
+
+So Webmin has the same problem as YaST: The complete application runs with root privileges. So from the security side this is horrible and will be not 
+useful for a server product. That&#039;s why we have not gone that way in YaST and that&#039;s the reason why YaST does not have a user management.
+
+Since the combination of pam,policyKit and DBUS we have the chance to close that gap.]]></description>
+		<content:encoded><![CDATA[<p>Yes, you are right there is a user management in Webmin. That was my fault.<br />
+BUT have a look to there homepage: <a href="http://doxfer.com/Webmin/WebminUsers" rel="nofollow">http://doxfer.com/Webmin/WebminUsers</a><br />
+As far I have understood Webmin is still running with root privileges:</p>
+<p>&#8220;Because Webmin still runs with full root privileges even when used by a restricted user, it still has access to all the configuration files and commands that it needs.&#8221;</p>
+<p>Due that they are not really convinced about that concept:</p>
+<p>&#8220;You must be very careful when granting access to un-trusted Webmin users though, as even a small mistake in the access control configuration may allow the user to edit arbitrary files on your system or run commands as root. All it takes is a small hole for an attacker to sneak through and take total control of your system. Webmin&#8217;s access control capabilities give you the power to lock down users, but only if used properly.&#8221;</p>
+<p>So Webmin has the same problem as YaST: The complete application runs with root privileges. So from the security side this is horrible and will be not<br />
+useful for a server product. That&#8217;s why we have not gone that way in YaST and that&#8217;s the reason why YaST does not have a user management.</p>
+<p>Since the combination of pam,policyKit and DBUS we have the chance to close that gap.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Lars</title>
+		<link>https://lizards.opensuse.org/2009/02/03/yast-web/#comment-780</link>
+		<dc:creator><![CDATA[Lars]]></dc:creator>
+		<pubDate>Sat, 21 Feb 2009 00:41:13 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=396#comment-780</guid>
+		<description><![CDATA[&#062; no user management and right access management.
+
+Sorry, this is wrong since at least the year 2001. Webmin allows to define users and groups as known on Unix/Linux machines. These users/groups can get &quot;acls&quot; depending on the implementation in the used modules. 
+
+So - for example - it&#039;s already possible with webmin to define a &quot;usermanager&quot; group, which is allowed to manage users on a machine, and add users to this group. It&#039;s even possible to allow just to add users instead of deleting or modifying existing ones. 
+
+From this point of view, webmin is very useful for server products as it allows a fine granulary access management for each module (and even the submodules) - more useful than YaST in it&#039;s current state.]]></description>
+		<content:encoded><![CDATA[<p>&gt; no user management and right access management.</p>
+<p>Sorry, this is wrong since at least the year 2001. Webmin allows to define users and groups as known on Unix/Linux machines. These users/groups can get &#8220;acls&#8221; depending on the implementation in the used modules. </p>
+<p>So &#8211; for example &#8211; it&#8217;s already possible with webmin to define a &#8220;usermanager&#8221; group, which is allowed to manage users on a machine, and add users to this group. It&#8217;s even possible to allow just to add users instead of deleting or modifying existing ones. </p>
+<p>From this point of view, webmin is very useful for server products as it allows a fine granulary access management for each module (and even the submodules) &#8211; more useful than YaST in it&#8217;s current state.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Duncan Mac-Vicar P.</title>
+		<link>https://lizards.opensuse.org/2009/02/03/yast-web/#comment-722</link>
+		<dc:creator><![CDATA[Duncan Mac-Vicar P.]]></dc:creator>
+		<pubDate>Thu, 05 Feb 2009 23:05:17 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=396#comment-722</guid>
+		<description><![CDATA[Hi Christopher.
+
+That is why there is a web service and a web client.
+
+On the desktop side the need is not that big like in the appliance market. Your own router usually requires turning it on and accessing it via a web browser to setup the basic stuff. People running appliances expect more or less the same.
+
+However, on the desktop side, having a web service allows applications, scripts and frontends to use simple http requests to get and set configuration (the web client is actually that, a very thin application doing http get&#039;s and post&#039;s to the service), while YaST retains all the business logic, and in a secure manner. This opens a new door to the community. You can use http from any language/platform out there.]]></description>
+		<content:encoded><![CDATA[<p>Hi Christopher.</p>
+<p>That is why there is a web service and a web client.</p>
+<p>On the desktop side the need is not that big like in the appliance market. Your own router usually requires turning it on and accessing it via a web browser to setup the basic stuff. People running appliances expect more or less the same.</p>
+<p>However, on the desktop side, having a web service allows applications, scripts and frontends to use simple http requests to get and set configuration (the web client is actually that, a very thin application doing http get&#8217;s and post&#8217;s to the service), while YaST retains all the business logic, and in a secure manner. This opens a new door to the community. You can use http from any language/platform out there.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Stefan Schubert</title>
+		<link>https://lizards.opensuse.org/2009/02/03/yast-web/#comment-716</link>
+		<dc:creator><![CDATA[Stefan Schubert]]></dc:creator>
+		<pubDate>Thu, 05 Feb 2009 09:12:55 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=396#comment-716</guid>
+		<description><![CDATA[subjective (which is discussable :-))
+======================================
+webmin is well a know administration tool for experts and NOT for &quot;normal&quot; users. 
+Additional, over the years I have gotten the impression that the devolopment of webmin
+has lost &quot;speed&quot;. See comment of Rob.
+
+objectiv
+==========
+webmin runs with &quot;root&quot; rights and cannot run with other user accounts. There is
+no user management and right access management.
+So, from the security side it is not useful for server products.]]></description>
+		<content:encoded><![CDATA[<p>subjective (which is discussable :-))<br />
+======================================<br />
+webmin is well a know administration tool for experts and NOT for &#8220;normal&#8221; users.<br />
+Additional, over the years I have gotten the impression that the devolopment of webmin<br />
+has lost &#8220;speed&#8221;. See comment of Rob.</p>
+<p>objectiv<br />
+==========<br />
+webmin runs with &#8220;root&#8221; rights and cannot run with other user accounts. There is<br />
+no user management and right access management.<br />
+So, from the security side it is not useful for server products.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: freyk</title>
+		<link>https://lizards.opensuse.org/2009/02/03/yast-web/#comment-715</link>
+		<dc:creator><![CDATA[freyk]]></dc:creator>
+		<pubDate>Thu, 05 Feb 2009 07:01:33 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=396#comment-715</guid>
+		<description><![CDATA[Why not using webmin as a base for the works on this  webbased yast?]]></description>
+		<content:encoded><![CDATA[<p>Why not using webmin as a base for the works on this  webbased yast?</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Christopher M. Hobbs</title>
+		<link>https://lizards.opensuse.org/2009/02/03/yast-web/#comment-713</link>
+		<dc:creator><![CDATA[Christopher M. Hobbs]]></dc:creator>
+		<pubDate>Wed, 04 Feb 2009 22:15:16 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=396#comment-713</guid>
+		<description><![CDATA[While I appreciate the development, I&#039;m not sure how much I dig this idea.  I like YaST as it stands, but I don&#039;t see a huge need for YaST web services.
+
+I suppose that as long as it doesn&#039;t run on startup out of the box, it wouldn&#039;t be a bad idea.  It&#039;s always good to give people options.
+
+You&#039;ve made some real progress here, keep up the great work!]]></description>
+		<content:encoded><![CDATA[<p>While I appreciate the development, I&#8217;m not sure how much I dig this idea.  I like YaST as it stands, but I don&#8217;t see a huge need for YaST web services.</p>
+<p>I suppose that as long as it doesn&#8217;t run on startup out of the box, it wouldn&#8217;t be a bad idea.  It&#8217;s always good to give people options.</p>
+<p>You&#8217;ve made some real progress here, keep up the great work!</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Rob</title>
+		<link>https://lizards.opensuse.org/2009/02/03/yast-web/#comment-710</link>
+		<dc:creator><![CDATA[Rob]]></dc:creator>
+		<pubDate>Wed, 04 Feb 2009 13:19:39 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=396#comment-710</guid>
+		<description><![CDATA[This is a horrible idea!  Webmin has been around for years, but not become a de facto standard.
+
+I really like fact that YaST will work with a terminal, and not require complicated client software like a web browser to function.]]></description>
+		<content:encoded><![CDATA[<p>This is a horrible idea!  Webmin has been around for years, but not become a de facto standard.</p>
+<p>I really like fact that YaST will work with a terminal, and not require complicated client software like a web browser to function.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Duncan Mac-Vicar P.</title>
+		<link>https://lizards.opensuse.org/2009/02/03/yast-web/#comment-704</link>
+		<dc:creator><![CDATA[Duncan Mac-Vicar P.]]></dc:creator>
+		<pubDate>Tue, 03 Feb 2009 16:53:34 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=396#comment-704</guid>
+		<description><![CDATA[You don&#039;t work in software development do you?
+
+http://www.joelonsoftware.com/articles/fog0000000069.html
+
+The YaST web service still reuses lot of knowledge encapsulated in the ycp modules. We are aiming for an evolution of YaST to the web world, an interoperable YaST.]]></description>
+		<content:encoded><![CDATA[<p>You don&#8217;t work in software development do you?</p>
+<p><a href="http://www.joelonsoftware.com/articles/fog0000000069.html" rel="nofollow">http://www.joelonsoftware.com/articles/fog0000000069.html</a></p>
+<p>The YaST web service still reuses lot of knowledge encapsulated in the ycp modules. We are aiming for an evolution of YaST to the web world, an interoperable YaST.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Andrew</title>
+		<link>https://lizards.opensuse.org/2009/02/03/yast-web/#comment-701</link>
+		<dc:creator><![CDATA[Andrew]]></dc:creator>
+		<pubDate>Tue, 03 Feb 2009 13:46:35 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=396#comment-701</guid>
+		<description><![CDATA[How about getting rid of YaST altogether?  I like that idea much better than this convoluted mess.  Keep it simple, stupid.]]></description>
+		<content:encoded><![CDATA[<p>How about getting rid of YaST altogether?  I like that idea much better than this convoluted mess.  Keep it simple, stupid.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Philip</title>
+		<link>https://lizards.opensuse.org/2009/02/03/yast-web/#comment-699</link>
+		<dc:creator><![CDATA[Philip]]></dc:creator>
+		<pubDate>Tue, 03 Feb 2009 12:08:48 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=396#comment-699</guid>
+		<description><![CDATA[This looks really cool!]]></description>
+		<content:encoded><![CDATA[<p>This looks really cool!</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

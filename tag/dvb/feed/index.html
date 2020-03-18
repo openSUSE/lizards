@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>dvb &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/dvb/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>getting my DVB-T card to work</title>
+		<link>https://lizards.opensuse.org/2014/03/06/getting-my-dvb-t-card-to-work/</link>
+		<pubDate>Thu, 06 Mar 2014 18:04:06 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[dvb]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10631</guid>
+		<description><![CDATA[Today I tried to get a DVB-T card to work with a new antenna on a new 13.1 install. I know it was working, because I ran it with 12.3 on this machine last year. hwinfo &#8211;tv showed Model: &#8220;Hauppauge computer works WinTV HVR-1110&#8221; Vendor: pci 0x1131 &#8220;Philips Semiconductors&#8221; Device: pci 0x7133 &#8220;SAA7131/SAA7133/SAA7135 Video Broadcast [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Today I tried to get a DVB-T card to work with a new antenna on a new 13.1 install.<br />
+I know it was working, because I ran it with 12.3 on this machine last year.</p>
+<p>hwinfo &#8211;tv<br />
+showed<br />
+  Model: &#8220;Hauppauge computer works WinTV HVR-1110&#8221;<br />
+  Vendor: pci 0x1131 &#8220;Philips Semiconductors&#8221;<br />
+  Device: pci 0x7133 &#8220;SAA7131/SAA7133/SAA7135 Video Broadcast Decoder&#8221;</p>
+<p>So after plugging everything in, I started kaffeine, which still knew about all local channels, but could not tune.<br />
+<a href="http://www.linuxtv.org/wiki/index.php/Hauppauge_WinTV-HVR-1110">http://www.linuxtv.org/wiki/index.php/Hauppauge_WinTV-HVR-1110</a> gave the important hint that one needs a firmware file. After that was in /lib/firmware/dvb-fe-tda10046.fw and after a reboot, came the next try. kaffeine now would show 99% SNR, so a good signal and even know about what is currently on air, however picture remained black.<br />
+kaffeine hinted that it needs extra software, but could not find it, even though packman repos were available (annoying bug).</p>
+<p><a href="http://opensuse-community.org/">http://opensuse-community.org/</a> finally helped &#8211; I needed the libxine2-codecs package from the packman repo.<br />
+Now everything is working after less than an hour.</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

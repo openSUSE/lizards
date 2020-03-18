@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	
+	>
+<channel>
+	<title>Comments on: LiveCD Performance (clicfs vs. SquashFS)</title>
+	<atom:link href="https://lizards.opensuse.org/2009/05/15/livecd-performance-clicfs-vs-squashfs/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org/2009/05/15/livecd-performance-clicfs-vs-squashfs/</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 17:50:09 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>By: Phillip Lougher</title>
+		<link>https://lizards.opensuse.org/2009/05/15/livecd-performance-clicfs-vs-squashfs/#comment-961</link>
+		<dc:creator><![CDATA[Phillip Lougher]]></dc:creator>
+		<pubDate>Sat, 16 May 2009 22:25:26 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1015#comment-961</guid>
+		<description><![CDATA[There&#039;s patches on squashfs-lzma.org.  They&#039;re IMO the best lzma patches available for Squashfs.  They&#039;re unfortunately not available for Squashfs 4.0, but could be adapted with a bit of work, if anyone was so inclined.  Unfortunately even updated to Squashfs 4.0, they&#039;ll never be suitable for mainline because they use their own lzma implementation.  A mainlinable lzma implementation has to be done differently, which is probably why the author of the patches says there&#039;s no longer any interest in developing separate patches against Squashfs 4.0.]]></description>
+		<content:encoded><![CDATA[<p>There&#8217;s patches on squashfs-lzma.org.  They&#8217;re IMO the best lzma patches available for Squashfs.  They&#8217;re unfortunately not available for Squashfs 4.0, but could be adapted with a bit of work, if anyone was so inclined.  Unfortunately even updated to Squashfs 4.0, they&#8217;ll never be suitable for mainline because they use their own lzma implementation.  A mainlinable lzma implementation has to be done differently, which is probably why the author of the patches says there&#8217;s no longer any interest in developing separate patches against Squashfs 4.0.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Jan Blunck</title>
+		<link>https://lizards.opensuse.org/2009/05/15/livecd-performance-clicfs-vs-squashfs/#comment-955</link>
+		<dc:creator><![CDATA[Jan Blunck]]></dc:creator>
+		<pubDate>Sat, 16 May 2009 14:12:48 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1015#comment-955</guid>
+		<description><![CDATA[I wasn&#039;t aware of the -sort option. Although this makes some adjustments necessary to the way we generate the ISO I&#039;ll probably give it a try next week.
+
+I adapted the mksquashfs tool to use LZMA instead of GZIP today. This reduces the size of the ISO image with SquashFS to 664M. I used a preset of 2 instead of Coolo who use 6 in clicfs. I&#039;ll post the patches later ... have to get the kernel part right first.]]></description>
+		<content:encoded><![CDATA[<p>I wasn&#8217;t aware of the -sort option. Although this makes some adjustments necessary to the way we generate the ISO I&#8217;ll probably give it a try next week.</p>
+<p>I adapted the mksquashfs tool to use LZMA instead of GZIP today. This reduces the size of the ISO image with SquashFS to 664M. I used a preset of 2 instead of Coolo who use 6 in clicfs. I&#8217;ll post the patches later &#8230; have to get the kernel part right first.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Phillip Lougher</title>
+		<link>https://lizards.opensuse.org/2009/05/15/livecd-performance-clicfs-vs-squashfs/#comment-952</link>
+		<dc:creator><![CDATA[Phillip Lougher]]></dc:creator>
+		<pubDate>Fri, 15 May 2009 16:19:18 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1015#comment-952</guid>
+		<description><![CDATA[A couple of points:
+
+
+Clicfs vs Squashfs:
+
+Time taken to boot is a function of the amount of I/O and the amount of seeking.  If clicfs was both significantly smaller through using lzma and optimised for seeking (I assume by ordering the files accessed at start-up together on disk), then it is hardly surprising that it was faster.  Use lzma in Squashfs, and use the -sort option to optimise the layout of files on disk, for a more meaningful benchmark.
+
+Cramfs vs Squashfs:
+
+Squashfs uses two techniques to get better data compression that cramfs, larger blocks, and tail end packing.  The max datablock size in cramfs is 4K, the max blocksize in Squashfs is 1M.  If you used the same block size in cramfs and squashfs, then it isn&#039;t surprising that tail end packing was what gave better compression.
+
+Gzip vs lzma:
+
+1. LZMA is effectively gzip with a large window size (1 Mbyte).  To get better compression with lzma you have to use large blocks (128K or larger).
+
+2. The gzip window size is 32K.  Compressing in blocks larger than 32K with gzip gains you very little.   
+
+So using 32K or smaller blocks in Squashfs, replacing gzip with lzma won&#039;t make much difference.  Using 128K blocks or larger lzma should make a difference.  The Slax liveCD author reported that lzma with 128K blocks produced significantly better compression than gzip.
+
+The default block size in Squashfs is 128K irrespective of what compression scheme is being used.]]></description>
+		<content:encoded><![CDATA[<p>A couple of points:</p>
+<p>Clicfs vs Squashfs:</p>
+<p>Time taken to boot is a function of the amount of I/O and the amount of seeking.  If clicfs was both significantly smaller through using lzma and optimised for seeking (I assume by ordering the files accessed at start-up together on disk), then it is hardly surprising that it was faster.  Use lzma in Squashfs, and use the -sort option to optimise the layout of files on disk, for a more meaningful benchmark.</p>
+<p>Cramfs vs Squashfs:</p>
+<p>Squashfs uses two techniques to get better data compression that cramfs, larger blocks, and tail end packing.  The max datablock size in cramfs is 4K, the max blocksize in Squashfs is 1M.  If you used the same block size in cramfs and squashfs, then it isn&#8217;t surprising that tail end packing was what gave better compression.</p>
+<p>Gzip vs lzma:</p>
+<p>1. LZMA is effectively gzip with a large window size (1 Mbyte).  To get better compression with lzma you have to use large blocks (128K or larger).</p>
+<p>2. The gzip window size is 32K.  Compressing in blocks larger than 32K with gzip gains you very little.   </p>
+<p>So using 32K or smaller blocks in Squashfs, replacing gzip with lzma won&#8217;t make much difference.  Using 128K blocks or larger lzma should make a difference.  The Slax liveCD author reported that lzma with 128K blocks produced significantly better compression than gzip.</p>
+<p>The default block size in Squashfs is 128K irrespective of what compression scheme is being used.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Jan Blunck</title>
+		<link>https://lizards.opensuse.org/2009/05/15/livecd-performance-clicfs-vs-squashfs/#comment-951</link>
+		<dc:creator><![CDATA[Jan Blunck]]></dc:creator>
+		<pubDate>Fri, 15 May 2009 13:16:20 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1015#comment-951</guid>
+		<description><![CDATA[The default blocksize used by squashfs-tools 4.0 is 128k. So this doesn&#039;t seem to help that much.]]></description>
+		<content:encoded><![CDATA[<p>The default blocksize used by squashfs-tools 4.0 is 128k. So this doesn&#8217;t seem to help that much.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Arnd Bergmann</title>
+		<link>https://lizards.opensuse.org/2009/05/15/livecd-performance-clicfs-vs-squashfs/#comment-950</link>
+		<dc:creator><![CDATA[Arnd Bergmann]]></dc:creator>
+		<pubDate>Fri, 15 May 2009 11:30:49 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1015#comment-950</guid>
+		<description><![CDATA[I once did some pretty exaustive tests with cramfs and squashfs in terms of space efficiency. It turned out that lzma compression in squashfs did not gain a single byte of extra space when using the same block size. The default block size for squashfs with lzma was significantly larger than for gz (128kb vs. 4kb or something). What gave squashfs the biggest advantage against cramfs was actually just the tail merging, all the other tricks it plays trying to reduce the size were close to zero.
+
+Maybe you should just try squashfs-rw with gz compression but a larger block size.]]></description>
+		<content:encoded><![CDATA[<p>I once did some pretty exaustive tests with cramfs and squashfs in terms of space efficiency. It turned out that lzma compression in squashfs did not gain a single byte of extra space when using the same block size. The default block size for squashfs with lzma was significantly larger than for gz (128kb vs. 4kb or something). What gave squashfs the biggest advantage against cramfs was actually just the tail merging, all the other tricks it plays trying to reduce the size were close to zero.</p>
+<p>Maybe you should just try squashfs-rw with gz compression but a larger block size.</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0"
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -9,19 +8,130 @@
 	>
 
 <channel>
-	<title>openSUSE Lizards &#187; Ruby</title>
-	<atom:link href="http://lizards.opensuse.org/tag/ruby/feed/" rel="self" type="application/rss+xml" />
-	<link>http://lizards.opensuse.org</link>
+	<title>Ruby &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/ruby/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
 	<description>Blogs and Ramblings of the openSUSE Members</description>
-	<lastBuildDate>Mon, 24 Mar 2014 12:46:00 +0000</lastBuildDate>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
 	<language>en-US</language>
-		<sy:updatePeriod>hourly</sy:updatePeriod>
-		<sy:updateFrequency>1</sy:updateFrequency>
-	<generator>http://wordpress.org/?v=3.8.1</generator>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
 	<item>
+		<title>zypper-upgraderepo 1.2 is out</title>
+		<link>https://lizards.opensuse.org/2019/02/23/zypper-upgraderepo-1-2-is-out/</link>
+		<comments>https://lizards.opensuse.org/2019/02/23/zypper-upgraderepo-1-2-is-out/#comments</comments>
+		<pubDate>Sat, 23 Feb 2019 15:26:03 +0000</pubDate>
+		<dc:creator><![CDATA[FabioMux]]></dc:creator>
+				<category><![CDATA[Software Management]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[Ruby]]></category>
+		<category><![CDATA[zypper]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=13401</guid>
+		<description><![CDATA[Fixes and updates applied with this second minor version improved and extended the main functions, let&#8217;s see what&#8217;s new. If you are new to the zypper-upgraderepo plugin, give a look to the previous article to better understand the mission and the basic usage. Repository check The first important change is inherent the way to check [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Fixes and updates applied with this second minor version improved and extended the main functions, let&#8217;s see what&#8217;s new.</p>
+<p>If you are new to the zypper-upgraderepo plugin, give a look to the <a href="//lizards.opensuse.org/2018/08/07/zypper-upgraderepo-plugin-is-here/">previous article</a> to better understand the mission and the basic usage.</p>
+<h3>Repository check</h3>
+<p>The first important change is inherent the way to check a valid repository:</p>
+<ul>
+<li>the HTTP request sent is <em>HEAD</em> instead of <em>GET</em> in order to have a more lightweight answer from the server, being the HTML page not included in the packet;</li>
+<li>the request point directly to the <em>repodata.xml</em> file instead of the folder, that because some server security setting could hide the directory listing and send back a 404 error although the repository works properly.</li>
+</ul>
+<h3>Check just a few repos</h3>
+<p>Most of the times we want to check the whole repository&#8217;s list at once, but sometimes we want to check few of them to see whether or not they are finally available or ready to be upgraded without looping through the whole list again and again. That&#8217;s where the <em>&#8211;only-repo</em> switch followed by a list of comma-separated numbers comes in help.</p>
+<div id="attachment_13541" style="width: 310px" class="wp-caption alignnone"><a href="//lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_120602.png"><img class="size-medium wp-image-13541" src="//lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_120602-300x182.png" alt="--only-repo switch" width="300" height="182" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_120602-300x182.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_120602-768x466.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_120602.png 992w" sizes="(max-width: 300px) 100vw, 300px" /></a><p class="wp-caption-text">&#8211;only-repo switch</p></div>
+<h3>All repo by default</h3>
+<p>The disabled repositories now are shown by default and a new column highlights which of them are enabled or not, keeping their number in sync with the <code>zypper lr</code> output. To see only the enabled ones just use the switch <em>&#8211;only-enabled.</em></p>
+<div id="attachment_13540" style="width: 310px" class="wp-caption alignnone"><a href="//lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_120224.png"><img class="size-medium wp-image-13540" src="//lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_120224-300x182.png" alt="Table view" width="300" height="182" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_120224-300x182.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_120224-768x466.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_120224.png 992w" sizes="(max-width: 300px) 100vw, 300px" /></a><p class="wp-caption-text">Table view</p></div>
+<h3>Report view</h3>
+<p>Beside the table view, the switch <em>&#8211;report</em> introduce a new pleasant view using just two columns and spanning the right cell to more rows in order to improve the number of info and the reading quality.</p>
+<div id="attachment_13542" style="width: 310px" class="wp-caption alignnone"><a href="//lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_160739.png"><img class="size-medium wp-image-13542" src="//lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_160739-300x182.png" alt="Report view" width="300" height="182" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_160739-300x182.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_160739-768x466.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/01/Screenshot_20181228_160739.png 992w" sizes="(max-width: 300px) 100vw, 300px" /></a><p class="wp-caption-text">Report view</p></div>
+<h3>Other changes</h3>
+<p>The procedure which tries to discover an alternative URL now dives back and forth the directory list in order to explore the whole tree of folders wherever the access is allowed by the server itself. The side effect is a general improvement also in repo downgrade.</p>
+<p>The output in upgrade mode is now verbose and shows a table similar to the checking one, giving details about the changed URLs in the details column.</p>
+<p>The server timeout error is now handled through the switch <em>&#8211;timeout</em> which allows tweaking the time before to consider an error any late answer from the server itself.</p>
+<h3>Final thoughts and what&#8217;s next</h3>
+<p>This plugin is practically completed, achieving all the goals needed for its main purpose no other relevant changes are scheduled, so I started thinking of other projects to work in my spare time.</p>
+<p>Among them, there is one I am interested in: bring the power of <a href="http://software.opensuse.org">openSUSE software search page</a> to the command line.</p>
+<p>However, there are some problems:</p>
+<ul>
+<li>This website doesn&#8217;t implement any web API so will be a lot of scraping job;</li>
+<li>There are missing packages while switching from the global research (selecting <em>All distribution</em>) to the specific distribution;</li>
+<li>Packages from Packman are not included.</li>
+</ul>
+<p>I have already got some ideas to solve them and did lay down several lines of code, so let&#8217;s see what happens!</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2019/02/23/zypper-upgraderepo-1-2-is-out/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>zypper-upgraderepo-plugin is here</title>
+		<link>https://lizards.opensuse.org/2018/08/07/zypper-upgraderepo-plugin-is-here/</link>
+		<comments>https://lizards.opensuse.org/2018/08/07/zypper-upgraderepo-plugin-is-here/#comments</comments>
+		<pubDate>Tue, 07 Aug 2018 18:55:25 +0000</pubDate>
+		<dc:creator><![CDATA[FabioMux]]></dc:creator>
+				<category><![CDATA[Software Management]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[Ruby]]></category>
+		<category><![CDATA[zypper]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=13239</guid>
+		<description><![CDATA[zypper-upgraderepo-plugin adds to zypper the ability to check the repository URLs either for the current version or the next release, and upgrade them all at once in order to upgrade the whole system from command line. This tool started as a personal project when a day I was in the need to upgrade my distro [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>zypper-upgraderepo-plugin adds to zypper the ability to check the repository URLs either for the current version or the next release, and upgrade them all at once in order to <a href="https://en.opensuse.org/SDB:System_upgrade">upgrade the whole system from command line</a>.</p>
+<p>This tool started as a personal project when a day I was in the need to upgrade my distro quicker than using a traditional ISO image, Zypper was the right tool but I got a little stuck when I had to handle repositories: some of them were not yet upgraded, others changed slightly in the URL path.</p>
+<p>Who knows how <em>to Bash</em> the problem is not exactly a nightmare, and so I did until I needed to make a step further.</p>
+<p>The result is <a href="https://rubygems.org/gems/zypper-upgraderepo">zypper-upgraderepo</a> Ruby gem which can be integrated as a zypper plugin just installing the zypper-upgraderepo-plugin package.</p>
+<h3>Installing zypper-upgraderepo-plugin</h3>
+<p>Installing <em>zypper-upgraderepo-plugin</em> is as easy as:</p>
+<ol>
+<li>Adding my repo:<br />
+<code>sudo zypper ar https://download.opensuse.org/repositories/home:/FabioMux/openSUSE_Leap_42.3/home:FabioMux.repo</code></li>
+<li>Install the package:<br />
+<code>sudo zypper in zypper-upgraderepo-plugin</code></li>
+</ol>
+<h3>How to use it</h3>
+<p>Sometime we want to know the status of current repositories, the command <em>zypper ref</em> does a similar job but it is primarily intended to update the repository&#8217;s data and that slow down a bit the whole process.<br />
+Instead we can type:<br />
+<code><br />
+$ zypper upgraderepo --check-current<br />
+</code><br />
+<a href="//lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174451.png"><img class="alignnone size-medium wp-image-13242" src="//lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174451-300x179.png" alt="" width="300" height="179" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174451-300x179.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174451-768x457.png 768w, https://lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174451-1024x610.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174451.png 1060w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>To know whether or not all the available repositories are <em>upgrade-ready</em>:<br />
+<code><br />
+$ zypper upgraderepo --check-next<br />
+</code><br />
+<a href="//lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174520.png"><img class="alignnone size-medium wp-image-13243" src="//lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174520-300x179.png" alt="" width="300" height="179" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174520-300x179.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174520-768x457.png 768w, https://lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174520-1024x610.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174520.png 1060w" sizes="(max-width: 300px) 100vw, 300px" /></a><br />
+As you can see from the example above all the enabled repositories are ready to upgrade except for the OSS repo which has a slightly different URL.<br />
+<code><br />
+# The URL used in the openSUSE Leap 42.3<br />
+http://download.opensuse.org/distribution/leap/42.3/repo/oss/suse/<br />
+# The suggested one for openSUSE Leap 15.0<br />
+http://download.opensuse.org/distribution/leap/15.0/repo/oss/<br />
+</code></p>
+<p>Let&#8217;s try again overriding the URL without make any real change:<br />
+<code><br />
+$ zypper upgraderepo --check-next \<br />
+--override-url 8,http://download.opensuse.org/distribution/leap/15.0/repo/oss/<br />
+</code><br />
+<a href="//lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174904.png"><img class="alignnone size-medium wp-image-13244" src="//lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174904-300x179.png" alt="" width="300" height="179" srcset="https://lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174904-300x179.png 300w, https://lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174904-768x457.png 768w, https://lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174904-1024x610.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2018/07/Screenshot_20180703_174904.png 1060w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Once everything is ok, and after performed a backup including all the repositories, it&#8217;s time to upgrade all the repository at once:<br />
+<code><br />
+$ sudo zypper upgraderepo --upgrade \<br />
+--override-url 8,http://download.opensuse.org/distribution/leap/15.0/repo/oss/<br />
+</code></p>
+<h3>Conclusions</h3>
+<p>That&#8217;s all with the basic commands, more information is available in the wiki page of <a href="https://github.com/fabiomux/zypper-upgraderepo/wiki">zypper-upgraderepo</a> gem where all the commands are intended with the only use of the gem, but installing the plugin they are also available as zypper subcommands like shown above, also a man page is available as<br />
+<code><br />
+$ zypper help upgraderepo<br />
+</code></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2018/08/07/zypper-upgraderepo-plugin-is-here/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
 		<title>wxRuby is now on BuildService</title>
-		<link>http://lizards.opensuse.org/2013/03/22/wxruby-is-now-on-buildservice/</link>
-		<comments>http://lizards.opensuse.org/2013/03/22/wxruby-is-now-on-buildservice/#comments</comments>
+		<link>https://lizards.opensuse.org/2013/03/22/wxruby-is-now-on-buildservice/</link>
 		<pubDate>Fri, 22 Mar 2013 09:29:12 +0000</pubDate>
 		<dc:creator><![CDATA[FabioMux]]></dc:creator>
 				<category><![CDATA[Build Service]]></category>
@@ -38,13 +148,11 @@
 <p>After some day spent to investigate about a possible upgrade of the SWIG dependency to the current 2.0 version, i produced some patches to fix this and the other annoying compiling errors, and finally, thanks to the Buildservice infrastructure, a wxRuby RPM compiled from sources with the relative patches are now availables for all openSUSE users!</p>
 <p>As far i googled this should be the first distro to have a precompiled and working wxruby gem among its repositories (being compiled from sources the gem is generated for 32 and 64 bits architecture from Buildservice itself), so Rubyists take a look on software.opensuse.org, select the package coming from my home project account and enjoy!</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/03/22/wxruby-is-now-on-buildservice/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
+			</item>
 		<item>
 		<title>YaST++: next step in system management</title>
-		<link>http://lizards.opensuse.org/2012/02/15/yast-next-step-in-system-management/</link>
-		<comments>http://lizards.opensuse.org/2012/02/15/yast-next-step-in-system-management/#comments</comments>
+		<link>https://lizards.opensuse.org/2012/02/15/yast-next-step-in-system-management/</link>
+		<comments>https://lizards.opensuse.org/2012/02/15/yast-next-step-in-system-management/#comments</comments>
 		<pubDate>Wed, 15 Feb 2012 10:07:46 +0000</pubDate>
 		<dc:creator><![CDATA[Jiří Suchomel]]></dc:creator>
 				<category><![CDATA[Systems Management]]></category>
@@ -62,21 +170,21 @@
 <blockquote><p>YLib::Users::read({})</p></blockquote>
 <p>you get the list of current users. If the script gets additional parameters, it can list e.g. all data about selected user, or only specific information about all:</p>
 <blockquote><p>&gt; ./users_read root<br />
-{&#8220;gid&#8221;=&gt;&#8221;0&#8243;, &#8220;name&#8221;=&gt;&#8221;root&#8221;, &#8220;uid&#8221;=&gt;&#8221;0&#8243;, &#8220;shell&#8221;=&gt;&#8221;/bin/bash&#8221;, &#8220;password&#8221;=&gt;&#8221;x&#8221;, &#8220;home&#8221;=&gt;&#8221;/root&#8221;}</p>
+{&#8220;gid&#8221;=&gt;&#8221;0&#8221;, &#8220;name&#8221;=&gt;&#8221;root&#8221;, &#8220;uid&#8221;=&gt;&#8221;0&#8221;, &#8220;shell&#8221;=&gt;&#8221;/bin/bash&#8221;, &#8220;password&#8221;=&gt;&#8221;x&#8221;, &#8220;home&#8221;=&gt;&#8221;/root&#8221;}</p>
 <p>&gt; ./users_read only name<br />
-{&#8220;result&#8221;=&gt;["Batch jobs daemon", "User for Avahi", "bin", "Daemon", "dnsmasq", "FTP account", "Games account", "User for haldaemon", "User for OpenLDAP", "LightDM daemon", "Printing daemon", "Mailer daemon", "Manual pages viewer", "User for D-Bus", "MySQL database admin", "News system", "user for nginx", "nobody", "NTP daemon", "User for build service backend", "openslp daemon", "PolicyKit", "Postfix Daemon", "PulseAudio daemon", "qemu user", "Router ADVertisement Daemon for", "root", "RealtimeKit", "Smart Card Reader", "user for smolt", "SSH daemon", "NFS statd daemon", "Novell Customer Center User", "TFTP account", "usbmuxd daemon", "Unix-to-Unix CoPy system", "WWW daemon apache", "User for YaST-Webservice", "LXDE Display Manager daemon"]}</p></blockquote>
+{&#8220;result&#8221;=&gt;[&#8220;Batch jobs daemon&#8221;, &#8220;User for Avahi&#8221;, &#8220;bin&#8221;, &#8220;Daemon&#8221;, &#8220;dnsmasq&#8221;, &#8220;FTP account&#8221;, &#8220;Games account&#8221;, &#8220;User for haldaemon&#8221;, &#8220;User for OpenLDAP&#8221;, &#8220;LightDM daemon&#8221;, &#8220;Printing daemon&#8221;, &#8220;Mailer daemon&#8221;, &#8220;Manual pages viewer&#8221;, &#8220;User for D-Bus&#8221;, &#8220;MySQL database admin&#8221;, &#8220;News system&#8221;, &#8220;user for nginx&#8221;, &#8220;nobody&#8221;, &#8220;NTP daemon&#8221;, &#8220;User for build service backend&#8221;, &#8220;openslp daemon&#8221;, &#8220;PolicyKit&#8221;, &#8220;Postfix Daemon&#8221;, &#8220;PulseAudio daemon&#8221;, &#8220;qemu user&#8221;, &#8220;Router ADVertisement Daemon for&#8221;, &#8220;root&#8221;, &#8220;RealtimeKit&#8221;, &#8220;Smart Card Reader&#8221;, &#8220;user for smolt&#8221;, &#8220;SSH daemon&#8221;, &#8220;NFS statd daemon&#8221;, &#8220;Novell Customer Center User&#8221;, &#8220;TFTP account&#8221;, &#8220;usbmuxd daemon&#8221;, &#8220;Unix-to-Unix CoPy system&#8221;, &#8220;WWW daemon apache&#8221;, &#8220;User for YaST-Webservice&#8221;, &#8220;LXDE Display Manager daemon&#8221;]}</p></blockquote>
 <p>YaST++ developement is in its early stage (even the name is not final), but we already have something to offer.</p>
 <p>Check the code and documentation at <a href="https://github.com/yast/yast--">github project</a>. There&#8217;s already a simple <a href="https://github.com/yast/yast--/wiki/Tutorial">tutorial</a> for those who want to try writing new parts.</p>
 <p>Download packages from <a href="https://build.opensuse.org/project/show?project=YaST%3AHead%3AYaST%2B%2B">Build Service project</a>.</p>
 <p>Comment/propose/oppose in public <a href="http://lists.opensuse.org/yast-devel/">YaST mailing list</a>.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2012/02/15/yast-next-step-in-system-management/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2012/02/15/yast-next-step-in-system-management/feed/</wfw:commentRss>
 		<slash:comments>12</slash:comments>
 		</item>
 		<item>
 		<title>Temporary overwrite method for specific task</title>
-		<link>http://lizards.opensuse.org/2011/03/18/temporary-overwrite-method-for-specific-task/</link>
-		<comments>http://lizards.opensuse.org/2011/03/18/temporary-overwrite-method-for-specific-task/#comments</comments>
+		<link>https://lizards.opensuse.org/2011/03/18/temporary-overwrite-method-for-specific-task/</link>
+		<comments>https://lizards.opensuse.org/2011/03/18/temporary-overwrite-method-for-specific-task/#comments</comments>
 		<pubDate>Fri, 18 Mar 2011 12:37:01 +0000</pubDate>
 		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
 				<category><![CDATA[Miscellaneous]]></category>
@@ -118,13 +226,12 @@ T.new.m
 <p>as you can see after modification class is exact same as before ( except if there is method a, but it is possible to handle it via introspection and dynamic choose of method). I don&#8217;t need to change whole stack of calls to add parameter or introduce new singleton class which can have flag.<br />
 I hope it help someone with his fix of not so well written piece of software.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2011/03/18/temporary-overwrite-method-for-specific-task/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2011/03/18/temporary-overwrite-method-for-specific-task/feed/</wfw:commentRss>
 		<slash:comments>2</slash:comments>
 		</item>
 		<item>
 		<title>Easy scripting actions with susestudio alias new rubygem studio_api</title>
-		<link>http://lizards.opensuse.org/2010/12/23/rubygem-studio_api/</link>
-		<comments>http://lizards.opensuse.org/2010/12/23/rubygem-studio_api/#comments</comments>
+		<link>https://lizards.opensuse.org/2010/12/23/rubygem-studio_api/</link>
 		<pubDate>Thu, 23 Dec 2010 17:37:45 +0000</pubDate>
 		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
 				<category><![CDATA[Miscellaneous]]></category>
@@ -202,13 +309,10 @@ How to install it:</p>
 <a href="http://rubygems.org/gems/studio_api">gem at rubygems.org</a></p>
 <p>Thanks for attention and I welcome any comments</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2010/12/23/rubygem-studio_api/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
+			</item>
 		<item>
 		<title>Recompiling wxRuby</title>
-		<link>http://lizards.opensuse.org/2010/09/04/recompiling-wxruby/</link>
-		<comments>http://lizards.opensuse.org/2010/09/04/recompiling-wxruby/#comments</comments>
+		<link>https://lizards.opensuse.org/2010/09/04/recompiling-wxruby/</link>
 		<pubDate>Sat, 04 Sep 2010 12:55:35 +0000</pubDate>
 		<dc:creator><![CDATA[FabioMux]]></dc:creator>
 				<category><![CDATA[Education]]></category>
@@ -260,8 +364,6 @@ rake</code></p>
 sudo gem install wxruby-2.0.1-x86-linux.gem</code></p>
 <p>Personally, I needed recompile wxRuby in openSUSE 11.2; with the new version (11.3) standard packages work fine, anyway i wished share my experience for someone could meet the same trouble in the future :))</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2010/09/04/recompiling-wxruby/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
+			</item>
 	</channel>
 </rss>

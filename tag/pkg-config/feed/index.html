@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>pkg-config &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/pkg-config/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>openSUSE and GCC part 4: Pkg-config and what one can do with it</title>
+		<link>https://lizards.opensuse.org/2013/10/28/opensuse-and-gcc-part4/</link>
+		<pubDate>Mon, 28 Oct 2013 16:37:38 +0000</pubDate>
+		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
+				<category><![CDATA[Education]]></category>
+		<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[C-Language]]></category>
+		<category><![CDATA[Gcc]]></category>
+		<category><![CDATA[pkg-config]]></category>
+		<category><![CDATA[rpm]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10083</guid>
+		<description><![CDATA[When I re-booted my blogging habits with very UN-sexy and technical topic &#8216;GNU C Compiler and how to make it with openSUSE&#8217;. I thought nobody bothers to read these because A) Everyone who reads openSUSE blogs are PRO B) everyone wants to do Javascript, Python or &#8216;Put your script language here not C. I can [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>When I re-booted my blogging habits with very UN-sexy and technical topic &#8216;GNU C Compiler and how to make it with openSUSE&#8217;. I thought nobody bothers to read these because A) Everyone who reads openSUSE blogs are PRO B) everyone wants to do Javascript, Python or &#8216;Put your script language here not C. I can tell actually C ain&#8217;t that bad you just have to shoot yourself to leg and then learn how to walk again.<br />
+Last blog entry was about &#8216;<a href="//lizards.opensuse.org/2013/10/22/opensuse-and-gcc-part-3/" title="openSUSE and GCC part 3: RPM devel packages">openSUSE and GCC part 3: RPM devel packages</a>&#8216; someone (thanks for pointing that out really!) noted that I should fix C-Code example I was stunned! There were someone that really readied blog entry. Okay he/she didn&#8217;t say did he/she like it but some one read it.<br />
+I have one real reason to this blog-stuff. I hope I have found something like this when I young and I was starting my journey in Linux land. Currently there is so many more people now in populating it and it&#8217;s coming up fast. So If you find errors or don&#8217;t understand something be welcome to ask or want to know about something specific let me know! Now we get on today’s topic that is &#8216;pkg-config and what one can do with it&#8217;.<span id="more-10083"></span></p>
+<h2>Pkg-config makes things easy/complicated (choose one)</h2>
+<p>You can live you whole C developer life with Linux and GCC without ever toughing &#8216;<a href="http://www.freedesktop.org/wiki/Software/pkg-config/" title="pkg-config">pkg-config</a>&#8216;. pkg-config is just something that can make you life easier with C. It&#8217;s not easy to say in couple of words what it does but closest I can get it provides information how to compile application with specific C-library. In other words if you <a href="//lizards.opensuse.org/2013/10/22/opensuse-and-gcc-part-3/" title="openSUSE and GCC part 3: RPM devel packages">read blog before</a> there were these bare &#8216;gcc&#8217; library entries in command-line (-lname stuff).<br />
+With more complicated libaries: like GTK+ or SDL you can get yourself wondering what libraries shall I include and what not that I can get my application build. Every self respecting developer wants to keep library dependencies as low as possible. So if you don&#8217;t want to wonder anymore you can use &#8216;pkg-config&#8217;.</p>
+<h3>So what it really does?</h3>
+<p>Last time I promised SDL_image 1.2 example as it&#8217;s little bit more complicated to get build. Actually it&#8217;s not that complicated but it&#8217;s simple example library and you get nice GUI stuff. First we have to zypper or YaST pkg-config, unzip and SDL_image-devel packages so we can use and link against SDL_image.</p>
+<pre>
+zypper install pkg-config SDL_image-devel unzip
+</pre>
+<p>after you have managed to install it you can download this blog example application made by <em>Ryan Clark</em> from here: &#8216;<a href="http://content.gpwiki.org/images/2/2f/SDL_DisplayBitmap.zip" title="SDL_DisplayBitmap.zip">SDL_DisplayBitmap.zip</a>&#8216;. It comes from nice <a href="http://content.gpwiki.org/index.php/SDL" title="SDL ">SDL gaming wiki</a> (<a href="http://content.gpwiki.org/index.php/SDL:Tutorials:Displaying_a_Bitmap" title="Displaying a Bitmap">This tutorial actually</a>) and so if you are interested making games with <a href="http://www.libsdl.org/" title="Simple Direct Layer">SDL 1.2 or 2.0</a> you should pop there. You can download files and unzip it or you can crap same source below and save it as &#8216;SDL_DisplayBitmap.c&#8217; if you do that remember to have some <a href="http://www.fileformat.info/format/bmp/egff.htm">BMP-image</a> in same directory where you compile named: &#8216;<em>image.bmp</em>&#8216;. Real nerds goes with unzip. If you do it <b>like me</b> it goes like this.</p>
+<pre>
+unzip SDL_DisplayBitmap.zip
+cd SDL_DisplayBitmap
+</pre>
+<p>Or code for copying</p>
+<pre>
+// THIS WORK, INCLUDING THE SOURCE CODE, DOCUMENTATION
+// AND RELATED MEDIA AND DATA, IS PLACED INTO THE PUBLIC DOMAIN.
+//
+// THE ORIGINAL AUTHOR IS RYAN CLARK.
+//
+// THIS SOFTWARE IS PROVIDED AS-IS WITHOUT WARRANTY
+// OF ANY KIND, NOT EVEN THE IMPLIED WARRANTY OF
+// MERCHANTABILITY. THE AUTHOR OF THIS SOFTWARE,
+// ASSUMES _NO_ RESPONSIBILITY FOR ANY CONSEQUENCE
+// RESULTING FROM THE USE, MODIFICATION, OR
+// REDISTRIBUTION OF THIS SOFTWARE.
+
+#include &lt;stdlib.h&gt;
+#include &lt;SDL/SDL.h&amp;lgt;
+
+int main(int argc, char *argv[])
+{
+	SDL_Surface *screen;	//This pointer will reference the backbuffer
+	SDL_Surface *image;	//This pointer will reference our bitmap sprite
+	SDL_Surface *temp;	//This pointer will temporarily reference our bitmap sprite
+	SDL_Rect src, dest;	//These rectangles will describe the source and destination regions of our blit
+	
+	//We must first initialize the SDL video component, and check for success
+	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+		printf("Unable to initialize SDL: %s\n", SDL_GetError());
+		return 1;
+	}
+	
+	//When this program exits, SDL_Quit must be called
+	atexit(SDL_Quit);
+	
+	//Set the video mode to fullscreen 640x480 with 16bit colour and double-buffering
+	screen = SDL_SetVideoMode(640, 480, 16, SDL_DOUBLEBUF | SDL_FULLSCREEN);
+	if (screen == NULL) {
+		printf("Unable to set video mode: %s\n", SDL_GetError());
+		return 1;
+	}
+	
+	//Load the bitmap into a temporary surface, and check for success
+	temp = SDL_LoadBMP("image.bmp");
+	if (temp == NULL) {
+		printf("Unable to load bitmap: %s\n", SDL_GetError());
+		return 1;
+	}
+	
+	//Convert the surface to the appropriate display format
+	image = SDL_DisplayFormat(temp);
+	
+	//Release the temporary surface
+	SDL_FreeSurface(temp);
+	
+	//Construct the source rectangle for our blit
+	src.x = 0;
+	src.y = 0;
+	src.w = image-&gt;w;	//Use image-&gt;w to display the entire width of the image
+	src.h = image-&gt;h;	//Use image-&gt;h to display the entire height of the image
+	
+	//Construct the destination rectangle for our blit
+	dest.x = 100;		//Display the image at the (X,Y) coordinates (100,100)
+	dest.y = 100;
+	dest.w = image-&gt;w;	//Ensure the destination is large enough for the image's entire width/height
+	dest.h = image-&gt;h;
+	
+	//Blit the image to the backbuffer
+	SDL_BlitSurface(image, &amp;src, screen, &amp;dest);
+	
+	//Flip the backbuffer to the primary
+	SDL_Flip(screen);
+	
+	//Wait for 2500ms (2.5 seconds) so we can see the image
+	SDL_Delay(2500);
+	
+	//Release the surface
+	SDL_FreeSurface(image);
+	
+	//Return success!
+	return 0;
+}
+</pre>
+<p>I chose this one because it doesn&#8217;t have any compiling aid for poor fellow in ZIP. So we can compile it in openSUSE and most of Linux distros like this:</p>
+<pre>
+gcc -o SDL_Display Bitmap SDL_DisplayBitmap.c $(pkg-config --libs --cflags SDL_image)
+./SDL_Display
+</pre>
+<p>You should just see nice spaceship for 2.5 seconds nothing more or you own nice BMP-image.</p>
+<h2>Do I have to be BASH wizard and what even is BASH?</h2>
+<p>If you are reading this in openSUSE you probably use <a href="http://en.wikipedia.org/wiki/Bash_%28Unix_shell%29" title="BASH">BASH (Bourne Again Shell)</a> and that is all I want to say about that. It&#8217;s not the topic and you can forget all about it. You don&#8217;t have to be wizard of BASH to understand what happens in that sentence above. again we are compiling with &#8216;<em>gcc</em>&#8216; file named &#8216;<em>SDL_DisplayBitmap.c</em>&#8216; to binary &#8216;<em>SDL_DisplayBitmap</em>&#8216;. New stuff starts after that. It just tells to BASH ask from &#8216;pkg-config&#8217; libraries and needed c-flags that comes with SDL_image and attach them here. If you just run you get something like this</p>
+<pre>
+pkg-config --libs --cflags SDL_image
+-D_GNU_SOURCE=1 -D_REENTRANT -I/usr/include/SDL  -lSDL_image -lSDL -lpthread
+</pre>
+<p>So compile string is actual then</p>
+<pre>
+gcc -o SDL_Display Bitmap SDL_DisplayBitmap.c -D_GNU_SOURCE=1 -D_REENTRANT -I/usr/include/SDL  -lSDL_image -lSDL -lpthread
+</pre>
+<p>But in every distro tends to tune these cflags stuff and every release of &#8216;SDL_image&#8217; can tune needed libraries. This what you don&#8217;t want to know anything about! You don&#8217;t want to hassle openSUSE&#8217;s or Fedora&#8217;s or Ubuntu&#8217;s global building flags or include neither library locations by hand. You should just go with the automatic &#8216;pkg-config&#8217; way.  If I can give you one bit of advise other than always use suncream for libraries have &#8216;pkg-config&#8217;-config files and use them. Next we get on &#8216;make&#8217; and Makefiles. As I&#8217;m too lazy to copy&#8217;n&#8217;paste my &#8216;<em>gcc</em>&#8216; strings here.</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

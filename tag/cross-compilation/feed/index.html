@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>cross-compilation &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/cross-compilation/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>UnReal World RPG and propiertary applications in linux ecosystem</title>
+		<link>https://lizards.opensuse.org/2014/10/24/unreal-world-rpg-and-propiertary-applications-in-linux-ecosystem/</link>
+		<pubDate>Fri, 24 Oct 2014 08:49:37 +0000</pubDate>
+		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[cross-compilation]]></category>
+		<category><![CDATA[SDL]]></category>
+		<category><![CDATA[UnReal World]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11059</guid>
+		<description><![CDATA[While ago new version 3.19 of UnReal World RPG was released. It was very smooth release in my part. Everything was working as expected. Packages were build to several platforms that were planned. Those platforms were Ubuntu 10.04, 12.04, 14.04 and openSUSE 12.2,12.3,13.1 all there packages build from openSUSE 13.1 base distribution. Nobody found nothing [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>While ago new version 3.19 of <a title="UnReal World RPG" href="http://unrealworld.fi">UnReal World RPG</a> was released. It was very smooth release in my part. Everything was working as expected. Packages were build to several platforms that were planned. Those platforms were Ubuntu 10.04, 12.04, 14.04 and openSUSE 12.2,12.3,13.1 all there packages build from openSUSE 13.1 base distribution. Nobody found nothing to complain about binary packages before someone launched them on Arch distribution.<span id="more-11059"></span></p>
+<h2>Good, Bad and Ugly CURL</h2>
+<p><a title="LibCURL" href="http://curl.haxx.se/libcurl/">Curl</a> is nice library for transferring anything from anywhere that have some kind of protocol over internet. It&#8217;s been stable for ages and have nice programming interface. So we thought this is easy new dependency for URW. We should know better.</p>
+<p>User installed Ubuntu deb package and tried to launch URW in Arch received error  that was:</p>
+<pre>/usr/lib/libcurl.so.4: version `CURL_OPENSSL_3' not found</pre>
+<p>Ok very nice and constructive error message. What to do? This in the dark side of Linux knowledge. If you search from web what this means you <a href="https://bbs.archlinux.org/viewtopic.php?id=156301">will</a> <a href="http://pa.lennardf1989.com/Tracker/index.php?do=details&amp;task_id=1864">notice</a> <a href="http://forums.kleientertainment.com/topic/30739-crash-cant-start-the-game-on-archlinux-problem-with-libcurlso4/">there</a> <a href="http://yabb.jriver.com/interact/index.php?topic=84334.0">is</a> <a href="http://forum.star-conflict.com/index.php?/topic/24066-how-to-fix-the-curl-openssl-3-issue/">plenty</a> <a href="http://forum.star-conflict.com/index.php?/topic/22923-game-requires-outdated-version-of-libcurlopenssl/">of</a> <a href="http://forum.star-conflict.com/index.php?/topic/22923-game-requires-outdated-version-of-libcurlopenssl/">packages </a>that suffers from this. mostly they are proprietary like URW and build to work with Ubuntu and don&#8217;t work with Arch. It has something to do with openSSL and how old it is but that is far I debugged it.</p>
+<h2>ARGH ARCH!</h2>
+<p>So I installed Arch Virtualbox and started to research on this. So how to find it there &#8216;<strong>CURL_OPENSSL_3</strong>&#8216; in libcurl.so.4 or not. use &#8216;<em>strings&#8217;</em> command (now you should say, &#8220;elementary dear Watson&#8221;, so you you don&#8217;t look stupid).</p>
+<pre>strings /usr/lib/libcurl.so.4 | grep CURL_OPENSSL_3</pre>
+<p>And no there is nothing with that name but</p>
+<pre>strings /usr/lib/libcurl.so.4 | grep CURL_OPENSSL_</pre>
+<p>Gives a shot. There is &#8216;<strong>CURL_OPENSSL_4</strong>&#8216; so what to do? You can&#8217;t do nothing if you don&#8217;t get very hazardous. You can sed &#8216;<strong>CURL_OPENSSL_4</strong>&#8216;  to &#8216;<strong>CURL_OPENSSL_3</strong>&#8216; but there is no promises it will work and it&#8217;s not very convenient.</p>
+<p>You can get Ubuntu deb, extract curl.so out of it and use <a href="http://stackoverflow.com/questions/13428910/how-to-set-the-environmental-variable-ld-library-path-in-linux">LD_LIBRARY_PATH</a>-variable (how to do that?  or use OpenSUSE version of URW that works out-of-the-box.</p>
+<p>Nor of them is very elegant. Probably we&#8217;ll have to start building Arch package also because that is most elegant version of this.</p>
+<p>&nbsp;</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>openSUSE@ARM/GSoC: Cross-compilation &#038; speedup</title>
+		<link>https://lizards.opensuse.org/2009/06/16/opensusearmgsoc-cross-compilation-speedup/</link>
+		<comments>https://lizards.opensuse.org/2009/06/16/opensusearmgsoc-cross-compilation-speedup/#comments</comments>
+		<pubDate>Tue, 16 Jun 2009 14:13:04 +0000</pubDate>
+		<dc:creator><![CDATA[Jan-Simon Möller]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[cross-compilation]]></category>
+		<category><![CDATA[cross-development]]></category>
+		<category><![CDATA[embedded]]></category>
+		<category><![CDATA[gsoc]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[openSUSE@ARM]]></category>
+		<category><![CDATA[Toolchain]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1282</guid>
+		<description><![CDATA[This weeks topic was the integration of the cross-compilation mode into the build environment. But it&#8217;s more than just a cross-toolchain &#8211; it&#8217;s a speed-boost for our ARM build environment. As of today, the source is deployed in the repository Base:build:arm:cross. It&#8217;s not fully bootstrapped because of the current high load and the upcoming downtime [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>This weeks topic was the integration of the cross-compilation mode into the build environment. But it&#8217;s more than just a cross-toolchain &#8211; it&#8217;s a speed-boost for our ARM build environment. As of today, the source is deployed in the repository Base:build:arm:cross. It&#8217;s not fully bootstrapped because of the current high load and the upcoming downtime &#8211; so watch out for changes there and in Base:build:arm.</p>
+<p>But what are these &#8220;speedup&#8217;s&#8221; ? First, you&#8217;ve to know that in our build environment the ARM binaries are executed through an emulation-layer. This works on the cost of speed. The goal is now, to exchange some key parts in a transparent manner with native x86 binaries: no emulation, no slowdown. Sounds reasonable, but is it easily possible ?<br />
+I had to take care not to mix stuff too much because the environment would break. But now I&#8217;ve to say:  WOW, this worked incredibly well  <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> .</p>
+<p>The distinctive feature of our approach in comparison to usual cross-build environments is that we use the best of native environment emulation and the speed of cross-compilation. <em>Because of this combination we don&#8217;t have to patch the individual packages to make them cross-compilation ready</em>. This is a <em>new way of cross-compiling</em> suitable also for large number of packages. A detailed overview about the different crossbuild types can be found on <a href="http://en.opensuse.org/Build_Service/Concepts/CrossDevelopment" target="_blank">this page</a>.<br />
+Another feature to note is that <em>the exchanged binaries</em> (replacing ARM with x86 in the build environment) <em>also don&#8217;t need heavy patching and there&#8217;s no need to compile them as static binaries</em>. All of them are normal distribution packages.</p>
+<p>A switch in the project enables/disables the new features. With the new changes in place, the speed could be vastly increased. Some figures:<br />
+* package rpm<br />
+* package glibc w/o locales</p>
+<table border="0" cellspacing="0" rules="none">
+<col width="86"></col>
+<col width="86"></col>
+<col width="136"></col>
+<col width="128"></col>
+<col width="86"></col>
+<col width="86"></col>
+<col width="110"></col>
+<tbody>
+<tr>
+<td colspan="7" width="717" height="17" align="center" valign="middle">Build time in minutes</td>
+</tr>
+<tr>
+<td height="17" align="center"></td>
+<td align="center">x86 native</td>
+<td align="center">armv5tel native</td>
+<td align="center">armv5tel cross</td>
+<td align="center"></td>
+<td align="center">factor native</td>
+<td align="center">factor cross</td>
+</tr>
+<tr>
+<td height="17" align="left">rpm</td>
+<td align="center">8</td>
+<td align="center">107</td>
+<td align="center">17</td>
+<td align="center"></td>
+<td align="center">13,38</td>
+<td align="center">2,13</td>
+</tr>
+<tr>
+<td height="17" align="left">glibc</td>
+<td align="center">33</td>
+<td align="center">505</td>
+<td align="center">63</td>
+<td align="center"></td>
+<td align="center">15,3</td>
+<td align="center">1,91</td>
+</tr>
+</tbody>
+</table>
+<p><img class="aligncenter size-full wp-image-1331" src="http://lizards.opensuse.org/wp-content/uploads/2009/06/stats_html_46617482.jpg" alt="overview cross-environment" width="663" height="636" srcset="https://lizards.opensuse.org/wp-content/uploads/2009/06/stats_html_46617482.jpg 663w, https://lizards.opensuse.org/wp-content/uploads/2009/06/stats_html_46617482-300x287.jpg 300w" sizes="(max-width: 663px) 100vw, 663px" /></p>
+<p>Thats a drop from about x15 to x2 in comparison to the native x86 build-time !! See it yourself when the &#8220;crosscompiled&#8221; repo in Base:build:arm is up and running.</p>
+<p>In other words: &#8220;Warp 5, Mr. Sulu !&#8221; <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/06/16/opensusearmgsoc-cross-compilation-speedup/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+	</channel>
+</rss>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>curlwwwfs &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/curlwwwfs/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>How to peek into remote isos</title>
+		<link>https://lizards.opensuse.org/2012/07/17/how-to-peek-into-remote-isos/</link>
+		<comments>https://lizards.opensuse.org/2012/07/17/how-to-peek-into-remote-isos/#comments</comments>
+		<pubDate>Tue, 17 Jul 2012 06:18:39 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Apache]]></category>
+		<category><![CDATA[Network]]></category>
+		<category><![CDATA[curlwwwfs]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8814</guid>
+		<description><![CDATA[When people want to provide a collection of files, they sometimes choose to do so by providing a .iso image file. But if you only want to look what files are in there or only need a few files, e.g. kernel and initrd for PXE-booting, you still had to download the whole thing to loop-mount [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>When people want to provide a collection of files, they sometimes choose to do so by providing a .iso image file. But if you only want to look what files are in there or only need a few files, e.g. kernel and initrd for PXE-booting, you still had to download the whole thing to loop-mount it.</p>
+<p>But you don&#8217;t have to anymore. Because modern web servers support delivering only parts of a file (using the &#8220;Range&#8221; header field), that allowed me to implement curlwwwfs that mounts remote HTTP directories into your local filesystem. And then you can use fuseiso on top to access the actual content within the .iso. All without root access.</p>
+<p>This is how it works:</p>
+<p>First you have to install the required packages (replace 12.2 with your version of openSUSE (or if you use a different Linux distribution, do git clone git://github.com/bmwiedemann/curlwwwfs and &#8220;make install&#8221; in there)):</p>
+<p>zypper ar http://download.opensuse.org/repositories/home:/bmwiedemann/openSUSE_12.2/home:bmwiedemann.repo</p>
+<p>zypper in curlwwwfs fuseiso</p>
+<p># Then you start it:</p>
+<p>mkdir mnthttp mntiso</p>
+<p>curlwwwfs http://zq1.de/bootcd mnthttp &amp;</p>
+<p>ls -la mnthttp/</p>
+<p>fuseiso mnthttp/bmwinux-8.2-040808.iso mntiso</p>
+<p>cat mntiso/isolinux/isolinux.cfg</p>
+<p># and later you clean it up with</p>
+<p>fusermount -u mntiso</p>
+<p>fusermount -u mnthttp</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2012/07/17/how-to-peek-into-remote-isos/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+	</channel>
+</rss>

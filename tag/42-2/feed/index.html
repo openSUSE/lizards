@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>42.2 &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/42-2/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>AMD/ATI Catalyst fglrx rpms, end of an era!</title>
+		<link>https://lizards.opensuse.org/2016/12/07/amdati-catalyst-fglrx-rpms-end-of-an-era/</link>
+		<comments>https://lizards.opensuse.org/2016/12/07/amdati-catalyst-fglrx-rpms-end-of-an-era/#comments</comments>
+		<pubDate>Wed, 07 Dec 2016 20:09:48 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.1]]></category>
+		<category><![CDATA[12.2]]></category>
+		<category><![CDATA[12.3]]></category>
+		<category><![CDATA[13.1]]></category>
+		<category><![CDATA[13.2]]></category>
+		<category><![CDATA[42.1]]></category>
+		<category><![CDATA[42.2]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[fglrx]]></category>
+		<category><![CDATA[Tumbleweed]]></category>
+		<category><![CDATA[unified]]></category>
+		<category><![CDATA[xorg]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12178</guid>
+		<description><![CDATA[Long time not talking about fglrx rpm, mostly because they&#8217;ve got no update since last December 2015. Short Summary In a word as hundred, fglrx is now a dead horse! We had the hope of getting it working for Leap 42.2 in October, but except freezing kernel and xorg, you will not get what you [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Long time not talking about fglrx rpm, mostly because they&#8217;ve got no update since last December 2015.</p>
+<h3 style="color:red">Short Summary</h3>
+<p>In a word as hundred, fglrx is now a dead horse!</p>
+<p><img src="https://image.slidesharecdn.com/090214failsoftwaredevelopment-1234881541128932-3/95/090214-fail-software-development-6-728.jpg?cb=1234860218" alt="Dead horse" /></p>
+<p>We had the hope of getting it working for Leap 42.2 in October, but except freezing kernel and xorg, you will not get what you would expect: a stable xorg session</p>
+<p><strong>Say goodbye fglrx!, repeat after me, goodbye fglrx.</strong></p>
+<blockquote><p>If you are locked down and forced for any reasons to use fglrx with your gpu, and are still using 42.1, then don&#8217;t upgrade to 42.2, without a plan B</p></blockquote>
+<p>It has no more support from AMD upstream, and that&#8217;s it!, if someone want to break its computer, it&#8217;s still possible to pick the last files and try it by yourself, but the repository will never contain it for 42.2 (see below how-to)</p>
+<p>That&#8217;s said, I&#8217;m not still sure, to keep for a long time the repository, I&#8217;ve been managing since 6 years now.</p>
+<h3>A bit of history</h3>
+<p>In 2010, when we were working hard to get 11.1 out, the news that no supported ATI (at that time) will be available for end-users, as we have for nvidia gpu</p>
+<p>I didn&#8217;t check back the irc log, but we were a few, that would like to have this still available, by pure commodity. Especially that I&#8217;ve just exchanged a non working gpu by my new hd5750.</p>
+<p>I remember the first chaotic steps, how to build that, and create repeating builds, what about the license? Did we have the right to offer a pre-build rpm etc. I spent some time fixing all of this stuff.<br />
+And start the build on real hardware. Hey afterward kvm was really in infancy stage.
+</p>
+<p>Release after release amd/ati and openSUSE, the driver was build, on hardware for each supported distribution. When beginning of 2013 Sebastian Siebert, who got some direct contacts with AMD, release<br />
+his own script, we collaborate to have the possibility to build on virtual machines, which allow me to simplify the build process, as having on kvm for each openSUSE release supported.
+</p>
+<p>Afterward, AMD start to split fglrx with the fglrx for HD5xx and above, and fglrx-legacy. So 2 drivers to maintain, but as always with proprietary software, the legacy version became rapidly obsolete,<br />
+and non usable. Not that bad, in the meantime the AMD effort on the free and open source radeon driver, quickly overcome the performance of legacy.</p>
+<p>Still from 2013, to 2016 I&#8217;ve been able to propose ready to use rpm for several version of openSUSE&#8217;s distributions. I think the repository serve quite well end users, and I never got big flames.</p>
+<p>I can&#8217;t avoid to mention the openSUSE powered server and sponsored by <a href="http://www.ioda-net.ch">Ioda-Net Sàrl</a> that has serve this objective so well during that time frame.</p>
+<h3>Future of the repository</h3>
+<p>Now that fglrx is becoming obsolete, I think seriously about why the repository online should stay online.</p>
+<p>At openSUSE project level, we still have 13.1, 13.2, 42.1 and 42.2 that are mostly active. 13.1 is already almost out of the game of evergreen,<br />
+13.2 will follow soon, and I don&#8217;t know yet the exact plan for 42.1, but it will certainly go out of maintenance in less than a year.
+</p>
+<p>If you feel or have the need of the repository, please express that in the comments below.</p>
+<h3>Wait there&#8217;s amd-gpu-pro, no?</h3>
+<p>Yeap there&#8217;s a closed driver, called amd-gpu-pro, available, for newer cards. But there&#8217;s two things that bring me out of the game, first I don&#8217;t have those newer gpu,<br />
+and don&#8217;t have the need to replace my hd5750 for the moment. The second and certainly the most important, those drivers are only available for Ubuntu or at least in .deb format.</p>
+<p>I will certainly not help proprietary crap, if I don&#8217;t have a solid base to work with, and a bit of help from their side. I wish good luck to those who want to try those drivers,<br />
+I&#8217;ve got a look inside, and got a blame face.</p>
+<h3>For crazy, and those who don&#8217;t love their computer</h3>
+<p>So you want to loose your time? you can! I&#8217;ve kept <a href="http://geeko.ioda.net/mirror/amd-fglrx/raw-src">in raw-src directory</a> all the script used to build the driver.<br />
+They differ a bit compared to <a href="http://www.sebastian-siebert.de/">Sebastian Siebert last version</a> in the sense of making Leap 422 as a possible target.<br />
+If you dig a bit around, you should be able to build them, but you&#8217;re alone on that way, you&#8217;ve been warned!
+</p>
+<p>I&#8217;m not against a republished version, if someone find a way to make them working, just drop me a message.</p>
+<p>That&#8217;s all for this journey, Have Fun! <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2016/12/07/amdati-catalyst-fglrx-rpms-end-of-an-era/feed/</wfw:commentRss>
+		<slash:comments>15</slash:comments>
+		</item>
+		<item>
+		<title>Proprietary AMD/ATI Catalyst fglrx 15.12 rpms released for LEAP 42.2</title>
+		<link>https://lizards.opensuse.org/2016/10/15/proprietary-amdati-catalyst-fglrx-15-12-rpms-released-for-leap-42-2/</link>
+		<comments>https://lizards.opensuse.org/2016/10/15/proprietary-amdati-catalyst-fglrx-15-12-rpms-released-for-leap-42-2/#comments</comments>
+		<pubDate>Sat, 15 Oct 2016 16:16:18 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[42.2]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[fglrx]]></category>
+		<category><![CDATA[xorg]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12052</guid>
+		<description><![CDATA[Warnings There’s no warranties the drivers will work, for you! If you are satisfied with the open-source radeon drivers, don’t risk to break your computer ! Still there will NEVER be a fglrx driver for recent kernel and xorg. So if one of those component change in Leap fglrx will be broken. Actual situation Since [&#8230;]]]></description>
+				<content:encoded><![CDATA[<h3>Warnings</h3>
+<p>There’s no warranties the drivers will work, for you!</p>
+<p>If you are satisfied with the open-source radeon drivers,<span style="color: #ff0000"> <b>don’t risk to break your computer !<br />
+</b></span></p>
+<p>Still there will NEVER be a fglrx driver for recent kernel and xorg. So if one of those component change in Leap fglrx will be broken.</p>
+<h3>Actual situation</h3>
+<p>Since last december, AMD doesn&#8217;t published any update about fglrx so the version is still the 15.12.302 published. A few days ago our beloved Leap release manager Ludwig ask me by email, if there will be an available drivers for Leap 42.2.</p>
+<p>Today, after hacking a bit the last Sebastian Siebert&#8217;s script I&#8217;ve been able to build the drivers for Leap 42.2 RC1, and the driver install fine, and xorg start on my HD5750 (but that&#8217;s all what I can tell).</p>
+<p>I will rebuild the driver once Leap 42.2 will hit its final stage.</p>
+<h3>Repository</h3>
+<pre>zypper ar -cfg -n FGLRX http://geeko.ioda.net/mirror/amd-fglrx/openSUSE_Leap_42.2/ FLGRX
+
+zypper -v refresh -f FGLRX
+
+zypper -v install fglrx64_amdcccle_SUSE422 fglrx64_core_SUSE422 fglrx64_graphics_SUSE422  fglrx64_opencl_SUSE422 fglrx64_xpic_SUSE422</pre>
+<h3>Future</h3>
+<p>AMD has stopped any development for FGLRX, so it is already considered obsolete. But on the other side they make a lot of effort to bring radeon and amdgpu (the free and open source driver) to a decent performance level.</p>
+<p>I don&#8217;t have that much usage anymore of my AMD gpu powered computer, and my HD5750 is now 8 years old already, so I can&#8217;t promise to be able to follow up with changes.</p>
+<h3>Cleanup</h3>
+<p>I removed all the obsoletes packages letting only the last one for each openSUSE version still available. Also the server has no more copy of openSUSE github artwork. If this missing to someone, don&#8217;t hesitate to ask.</p>
+<p>Have fun</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2016/10/15/proprietary-amdati-catalyst-fglrx-15-12-rpms-released-for-leap-42-2/feed/</wfw:commentRss>
+		<slash:comments>6</slash:comments>
+		</item>
+	</channel>
+</rss>

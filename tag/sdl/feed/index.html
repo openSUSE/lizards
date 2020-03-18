@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>SDL &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/sdl/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Linux audio library smackdown part3: SDL</title>
+		<link>https://lizards.opensuse.org/2015/02/05/linux-audio-library-smackdown-part3-sdl/</link>
+		<comments>https://lizards.opensuse.org/2015/02/05/linux-audio-library-smackdown-part3-sdl/#comments</comments>
+		<pubDate>Thu, 05 Feb 2015 07:00:42 +0000</pubDate>
+		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
+				<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Audio]]></category>
+		<category><![CDATA[SDL]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11228</guid>
+		<description><![CDATA[How many of you remember Loki Games/Entertaiment/Software? Hands up  now! I&#8217;m still waiting.. wuhuu hands up now! Loki.. Loki! Oh still no hands.. what a pity (Damn how old Am I?). Ok I Admit! It was before Steam, before Internet was this huge fast beast for watching videos, telling how you are doing right now [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>How many of you remember <a title="Loki Games" href="http://en.wikipedia.org/wiki/Loki_Software">Loki Games/Entertaiment/Software</a>? Hands up  now! I&#8217;m still waiting.. wuhuu hands up now! Loki.. Loki! Oh still no hands.. what a pity <small>(Damn how old Am I?)</small>. Ok I Admit! It was before Steam, before Internet was this huge fast beast for watching videos, telling how you are doing right now and sharing photos.</p>
+<p>Loki only shipped CD&#8217;s for installing your application and there wasn&#8217;t hot fixes waiting when you got CD from post or yes there where but I had to wait and wait for 200 MB blob to download for ages with my 57600 modem. All the time I thought that I&#8217;ll boot Windows for playing Castle Wolfestein. It was long before before Linux have any gaming community what so ever. There weren&#8217;t Firefox or Chrome available and Google was just starting to own our lifes.  So it was dark days of late &#8217;90 (we had electricity thanks for asking).</p>
+<p>Loki was founded on 1998 and  it got on bankruptcy on 2001 after IT bubble blowed. Loki changed Linux in good way. One thing that they left behind was called <a title="SDL" href="http://www.libsdl.org/">Simple Direct Layer</a> (SDL1). SDL layer sits top on Xorg that makes creating games more ease. You can port your game to Windows and Mac OS X with little effort. Current version of SDL is SDL2.</p>
+<p>Good thing about SDL is that it abstracts drawing to screen in Windows, Mac OS X and X-windows. SDL1 was all about pixel buffers but SDL2 is all about surfaces and acceleration. It support many more OSes but that&#8217;s not the what we are looking at today. So how do you playing audio out of SDL1/2?. Good thing is audio interface stayed same through conversion from SDL1 to SDL2. They only added few bugs and float point audio in SDL2.  <em>SDL1 have recording but I didn&#8217;t manage to make it work so if anyone with more patience than me can lead me to correct path I would be happy puppy. </em>Here is SDL Github location: <a title="SDL example" href="https://github.com/illuusio/linux-audio-example/tree/master/sdl">https://github.com/illuusio/linux-audio-example/tree/master/sdl</a><span id="more-11228"></span></p>
+<h2>Simple Direct Layer API</h2>
+<p><strong>Supported outputs:</strong> Alsa, Oss, Pulseaudio, Mac OS X, Windows, iOS, Android<br />
+<strong>License:</strong> SDL1 GNU Lesser General Public License 2.1 and SDL2 ZLib license</p>
+<p>SDL API is like name says very simple and it&#8217;s very popular toolkit. SDL can be found on every bigger Linux distribution out of box (at least SDL1 and SDL2 is fast spreading). SDL can be used for graphics, input and audio. SDL API is actually almost dead simple. Support for audio outputs if very good on Linux and things are like if it&#8217;s working on Linux it works on Mac OS X and Windows the same.  Playing audio was so easy that I get frustrated when I tried to make recording example. I even read the source code how it should be done and yes It doesn&#8217;t work with SDL2 that what I learner but I couldn&#8217;t get it working in SDL1 nether.<br />
+SDL audio API is fully and only callback based. You give your callback function and it just get called when SDL feels audio should be played. After that you feed the correct type output as much callback asks and then you wait another callback to feed more. Simple and very efficient.<br />
+If you compare callback system to Pulseaudio with SDL you can&#8217;t get no information what ALSA, Pulseaudio or OSS is doing. You just feed and they just get played out of speakers. If audio is that what makes your game rock then SDL could be what you want.</p>
+<div align="center">
+<table style="width: 50%">
+<tbody>
+<tr align="center">
+<td bgcolor="#404040">Sound card or chip</td>
+</tr>
+<tr align="center">
+<td>↑</td>
+</tr>
+<tr align="center">
+<td bgcolor="#585858">ALSA kernel drv</td>
+</tr>
+<tr align="center">
+<td>↑</td>
+</tr>
+<tr align="center">
+<td bgcolor="#585858">ALSA or Pulseaudio or OSS C API</td>
+</tr>
+<tr align="center">
+<td>↑</td>
+</tr>
+<tr align="center">
+<td bgcolor="#707070">SDL 1/2 audio C API</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2>SDL audio for whom.</h2>
+<p>It&#8217;s for people who don&#8217;t need much or don&#8217;t have interested how audio get played. People who likes to get audio out with ease and fast. Currently SDL development is under Steam umbrella so they have some commercial interest with it. SDL1 was licensed with<a title="LGPL 2.0" href="http://en.wikipedia.org/wiki/GNU_Lesser_General_Public_License"> LGPL+2.0</a> and SDL2 is under <a title="Zlib license" href="http://en.wikipedia.org/wiki/Zlib_License">Zlib license</a> which mostly same like than MIT-license. SDL is also mostly rock solid, sanely licensed (SDL2) and used by many many Indie (<a title="The UnReal World RPG" href="http://unrealworld.fi/">The UnReal World RPG</a> if I have to mention one Indie game that I know well) and not so Indie games. Biggest problem with whole SDL is lack of documentation. There is wiki but if there is no question you crawler through web and test everything you find along if it solves your problem. Development is also little bit slow and fixing bugs are not getting fixed in fast but if you can live with that it&#8217;s all yours!</p>
+<p><strong>Summary:</strong> Very simple to get audio out of speaker. Not for high-end or surround sound but mostly for games or playing videos this is excellent! Learning curve is non exist or  there is small: you got to understand C well to work with SDL. Works with IOS and Android so if you are on cross platform this can help you out.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2015/02/05/linux-audio-library-smackdown-part3-sdl/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>UnReal World RPG and propiertary applications in linux ecosystem part SDL2</title>
+		<link>https://lizards.opensuse.org/2014/11/14/unreal-world-rpg-and-propiertary-applications-in-linux-ecosystem-part-sdl2/</link>
+		<pubDate>Fri, 14 Nov 2014 03:54:57 +0000</pubDate>
+		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
+				<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[games]]></category>
+		<category><![CDATA[SDL]]></category>
+		<category><![CDATA[UnReal World]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11090</guid>
+		<description><![CDATA[So last time I was on top of Curl and what problems can come out when you are using it through out different distributions. After that struggle UnReal World RPG have been ported to SDL2. It&#8217;s used by Steam so it should we available every distribution you can dream of. How wrong I can be [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><a title="UnReal World RPG and propiertary applications in linux ecosystem" href="//lizards.opensuse.org/2014/10/24/unreal-world-rpg-and-propiertary-applications-in-linux-ecosystem/">So last time I was on top of Curl</a> and what problems can come out when you are using it through out different distributions. After that struggle <a title="The UnReal World RPG" href="http://unrealworld.fi">UnReal World RPG</a> have been ported to <a title="SDL2" href="http://www.libsdl.org/download-2.0.php">SDL2</a>. It&#8217;s used by Steam so it should we available every distribution you can dream of. How wrong I can be and how correct I am!<span id="more-11090"></span></p>
+<h2>openSUSE situation</h2>
+<p>openSUSE 12.3 or 13.1 doesn&#8217;t have SDL2 from basic installation. openSUSE 13.2 and tubleweed are ok . So how to solve this without some ugly static compile hacks? One solutions is to make user fetch it from OBS and Games repository that have SDL2 for openSUSE 12.3 and 13.1.</p>
+<pre>zypper ar http://download.opensuse.org/repositories/games/openSUSE_12.3/games.repo
+zypper ref
+zypper install libSDL2
+</pre>
+<p>Or make them do it YaST. It&#8217;s rather easy and most of the people can do (if they have skills to install openSUSE).</p>
+<h2>Ubuntu situation</h2>
+<p>There is SDL2 for Ubuntu 13.10 and above. Problem is that Ubuntu policy is that two LTS should be supported. So in this time they are 12.04 and 14.04. Last one is no problem. SDL2 is installable with no hustle but Ubuntu 12.04, 12.10 or 13.04 are more problematic. Again problem solve by asking people to fetch stuff from other place that normal repository. <a title="SDL2 for Ubuntu" href="https://launchpad.net/~zoogie/+archive/ubuntu/sdl2-snapshots">Michael Imamura</a> packs debs for 12.04 till 14.04 so you can make them get them there.</p>
+<h2>Debian situation</h2>
+<p>In Upcoming Debian 8 there is SDL2 packages but with Debian stable 7 you must use <a title="Wheezy-backports" href="http://backports.debian.org/">Wheezy-backports</a> to achieve these.</p>
+<h2>Fedora situation</h2>
+<p><a title="SDL2 on Fedora" href="https://apps.fedoraproject.org/packages/SDL2">Fedora should be ok</a>.</p>
+<h2>Arch situation</h2>
+<p>Arch is up-to-date distribution so you just start using.</p>
+<p>I&#8217;m still wondering this static linking stuff. It has some good points. Time will tell when new release forms up!</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>UnReal World RPG and propiertary applications in linux ecosystem</title>
+		<link>https://lizards.opensuse.org/2014/10/24/unreal-world-rpg-and-propiertary-applications-in-linux-ecosystem/</link>
+		<pubDate>Fri, 24 Oct 2014 08:49:37 +0000</pubDate>
+		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[cross-compilation]]></category>
+		<category><![CDATA[SDL]]></category>
+		<category><![CDATA[UnReal World]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11059</guid>
+		<description><![CDATA[While ago new version 3.19 of UnReal World RPG was released. It was very smooth release in my part. Everything was working as expected. Packages were build to several platforms that were planned. Those platforms were Ubuntu 10.04, 12.04, 14.04 and openSUSE 12.2,12.3,13.1 all there packages build from openSUSE 13.1 base distribution. Nobody found nothing [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>While ago new version 3.19 of <a title="UnReal World RPG" href="http://unrealworld.fi">UnReal World RPG</a> was released. It was very smooth release in my part. Everything was working as expected. Packages were build to several platforms that were planned. Those platforms were Ubuntu 10.04, 12.04, 14.04 and openSUSE 12.2,12.3,13.1 all there packages build from openSUSE 13.1 base distribution. Nobody found nothing to complain about binary packages before someone launched them on Arch distribution.<span id="more-11059"></span></p>
+<h2>Good, Bad and Ugly CURL</h2>
+<p><a title="LibCURL" href="http://curl.haxx.se/libcurl/">Curl</a> is nice library for transferring anything from anywhere that have some kind of protocol over internet. It&#8217;s been stable for ages and have nice programming interface. So we thought this is easy new dependency for URW. We should know better.</p>
+<p>User installed Ubuntu deb package and tried to launch URW in Arch received error  that was:</p>
+<pre>/usr/lib/libcurl.so.4: version `CURL_OPENSSL_3' not found</pre>
+<p>Ok very nice and constructive error message. What to do? This in the dark side of Linux knowledge. If you search from web what this means you <a href="https://bbs.archlinux.org/viewtopic.php?id=156301">will</a> <a href="http://pa.lennardf1989.com/Tracker/index.php?do=details&amp;task_id=1864">notice</a> <a href="http://forums.kleientertainment.com/topic/30739-crash-cant-start-the-game-on-archlinux-problem-with-libcurlso4/">there</a> <a href="http://yabb.jriver.com/interact/index.php?topic=84334.0">is</a> <a href="http://forum.star-conflict.com/index.php?/topic/24066-how-to-fix-the-curl-openssl-3-issue/">plenty</a> <a href="http://forum.star-conflict.com/index.php?/topic/22923-game-requires-outdated-version-of-libcurlopenssl/">of</a> <a href="http://forum.star-conflict.com/index.php?/topic/22923-game-requires-outdated-version-of-libcurlopenssl/">packages </a>that suffers from this. mostly they are proprietary like URW and build to work with Ubuntu and don&#8217;t work with Arch. It has something to do with openSSL and how old it is but that is far I debugged it.</p>
+<h2>ARGH ARCH!</h2>
+<p>So I installed Arch Virtualbox and started to research on this. So how to find it there &#8216;<strong>CURL_OPENSSL_3</strong>&#8216; in libcurl.so.4 or not. use &#8216;<em>strings&#8217;</em> command (now you should say, &#8220;elementary dear Watson&#8221;, so you you don&#8217;t look stupid).</p>
+<pre>strings /usr/lib/libcurl.so.4 | grep CURL_OPENSSL_3</pre>
+<p>And no there is nothing with that name but</p>
+<pre>strings /usr/lib/libcurl.so.4 | grep CURL_OPENSSL_</pre>
+<p>Gives a shot. There is &#8216;<strong>CURL_OPENSSL_4</strong>&#8216; so what to do? You can&#8217;t do nothing if you don&#8217;t get very hazardous. You can sed &#8216;<strong>CURL_OPENSSL_4</strong>&#8216;  to &#8216;<strong>CURL_OPENSSL_3</strong>&#8216; but there is no promises it will work and it&#8217;s not very convenient.</p>
+<p>You can get Ubuntu deb, extract curl.so out of it and use <a href="http://stackoverflow.com/questions/13428910/how-to-set-the-environmental-variable-ld-library-path-in-linux">LD_LIBRARY_PATH</a>-variable (how to do that?  or use OpenSUSE version of URW that works out-of-the-box.</p>
+<p>Nor of them is very elegant. Probably we&#8217;ll have to start building Arch package also because that is most elegant version of this.</p>
+<p>&nbsp;</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Emscripten and openSUSE: Hands on.. Hands up!</title>
+		<link>https://lizards.opensuse.org/2014/03/24/emscripten-and-opensuse-hands-on-hands-up/</link>
+		<pubDate>Mon, 24 Mar 2014 08:09:43 +0000</pubDate>
+		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
+				<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[emscripten]]></category>
+		<category><![CDATA[SDL]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10686</guid>
+		<description><![CDATA[I can code with javascript and I&#8217;m fairly good at it (not marvelous just brialiant!). If you have read some of my resent blog post I think in C/C++/Perl or Bash. I also have some kind of a hobby to help out with UnReal world RPG game. Mostly my part is to make it work [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><img src="https://github-camo.global.ssl.fastly.net/b13f9c10472ae855af98d549d5bb47c3b3ec486c/687474703a2f2f646c2e64726f70626f782e636f6d2f752f38303636343934362f656d736372697074656e5f6c6f676f2e6a7067" width="700" height="250" alt="Emscripten logo" class="alignnone" /><br />
+I can code with javascript and I&#8217;m fairly good at it (not marvelous just brialiant!). If you have read some of my resent <a href="//lizards.opensuse.org/2013/10/15/opensuse-and-gcc-part-2/" title="openSUSE and GCC part 2: compiling ‘Hello World’">blog</a> <a href="//lizards.opensuse.org/2013/11/12/opensuse-and-gcc-part-6/" title="openSUSE and GCC part 6: Introduction to autotools">post</a> I think in C/C++/Perl or Bash. I also have some kind of a hobby to help out with <a href="http://unrealworld.fi">UnReal world RPG</a> game. Mostly my part is to make it work with *nix platform (mainly Linux and Mac OS X).<br />
+As we have seen world is moving fast forward towards web. It&#8217;s  the-place-to-be for everyone. There is huge potential for players just wandering around and yelling for pleasure to play UrW! So I thought let&#8217;s see if we could port SDL to javascript/Flash or something straight from same source. after tiny amount of searching I popped up <a href="https://github.com/kripken/emscripten" title="Emscripten">Emscripten</a>.<span id="more-10686"></span></p>
+<h2>Emscripten in nutshell</h2>
+<p>Emscripten is stated in their Github page (which seems to be only place to reach this project) like this:</p>
+<pre>
+Emscripten is an LLVM-to-JavaScript compiler. It takes LLVM bitcode - which can be generated from C/C++, using llvm-gcc or clang, or any other language that can be converted into LLVM - and compiles that into JavaScript, which can be run on the web (or anywhere else JavaScript can run).
+</pre>
+<p>So in other words you can your existing C++ or C source code and compile it (with minor changes) to javascript pseudocode with LLVM back-end. I thought it can&#8217;t be working and started digging further.</p>
+<h2>How to test it on openSUSE</h2>
+<p>If you have openSUSE 12.3 or above you are good to go or you need to install LLVM 3.2 or above from OBS. You can do it with zypper like this:</p>
+<pre>
+zypper install llvm llvm-devel llvm-clang llvm-clang-devel git nodejs
+</pre>
+<p>Ain&#8217;t Clang just another C-compiler? So why not use GCC? Answer is  LLVM is very flexible system (GCC is kinda married to C/C++. even there is many other backends) that turns code to <a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree" title="Abstract syntax tree">Abstract syntax tree</a> and then back-end compiles it to binary (which can anything from machine code to some of your favorite byte code like Java/C#). So in other words you have parser (clang) and you write back-end to generate code (javascript) quite easily (in theory). I think it was kind idea behind GCC in version 3.0 but as said it doesn&#8217;t work as seamlessly as it works in LLVM. Another strong point with LLVM is license. (L)GPL is fine license but if you have compiler you license should be as free as it gets.</p>
+<h2>So HOW TO TEST IT?</h2>
+<p>I haven&#8217;t got time to make rpm-package from Emscripten because I&#8217;m still learning by myself but I&#8217;ll share now what I have learned:</p>
+<ul>
+<li><a href="https://github.com/kripken/emscripten">Read documentatio</a>n</li>
+<li><a href="https://github.com/kripken/emscripten/wiki/Tutorial">Read documentation</a></li>
+<li><a href="http://kripken.github.io/clangor/demo.html">Read documentation</a></li>
+</ul>
+<p>Ok now you have read Emscripten documentation and you have clang, nodejs and git installed. Clone the Emscripten Git-repo</p>
+<pre>
+git clone https://github.com/kripken/emscripten.git
+</pre>
+<p>If you just want to test something you can follow this tutorial: <a href="http://sol.gfxile.net/emscripten/">http://sol.gfxile.net/emscripten/</a> so you get the idea. This how far I&#8217;ll take you this time. I&#8217;ll figure out some SDL examples to be ported (since UnReal World RPG uses SDL) in near future so stay tuned. </p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

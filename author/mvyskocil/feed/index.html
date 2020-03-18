@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0"
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -9,19 +8,19 @@
 	>
 
 <channel>
-	<title>openSUSE Lizards &#187; Michal Vyskocil</title>
-	<atom:link href="http://lizards.opensuse.org/author/mvyskocil/feed/" rel="self" type="application/rss+xml" />
-	<link>http://lizards.opensuse.org</link>
+	<title>Michal Vyskocil &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/author/mvyskocil/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
 	<description>Blogs and Ramblings of the openSUSE Members</description>
-	<lastBuildDate>Mon, 24 Mar 2014 12:46:00 +0000</lastBuildDate>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
 	<language>en-US</language>
-		<sy:updatePeriod>hourly</sy:updatePeriod>
-		<sy:updateFrequency>1</sy:updateFrequency>
-	<generator>http://wordpress.org/?v=3.8.1</generator>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
 	<item>
 		<title>Optimizing a boot time, aka 2 second boot (part 2)</title>
-		<link>http://lizards.opensuse.org/2012/07/31/optimizing-a-boot-time-aka-2-second-boot-part-2/</link>
-		<comments>http://lizards.opensuse.org/2012/07/31/optimizing-a-boot-time-aka-2-second-boot-part-2/#comments</comments>
+		<link>https://lizards.opensuse.org/2012/07/31/optimizing-a-boot-time-aka-2-second-boot-part-2/</link>
+		<comments>https://lizards.opensuse.org/2012/07/31/optimizing-a-boot-time-aka-2-second-boot-part-2/#comments</comments>
 		<pubDate>Tue, 31 Jul 2012 14:31:27 +0000</pubDate>
 		<dc:creator><![CDATA[Michal Vyskocil]]></dc:creator>
 				<category><![CDATA[Uncategorized]]></category>
@@ -80,7 +79,7 @@ Startup finished in 2719ms (kernel) + 4333ms (userspace) = 7052ms
 <h2>Way more changes</h2>
 <p>Then the systemd-modules-load.service delay a boot as it block sysinit.service, when basic boot ends. I read strace carefully, but it only load microcode_ctl module, but that took few seconds to be done. Thus I gently masked it.</p>
 <p>The next change is backport from Factory package <a href="https://build.opensuse.org/package/view_file?file=fix-tty-startup.patch&amp;package=systemd&amp;project=Base%3ASystem&amp;rev=f86a82d5af52fca8da6eeb91059d24fb" title="fix-tty-startup.patch"></a> &#8211; this reduce the delay caused by all those tty devices to appear. Fortunately this will be part of next openSUSE as it is an upstream patch.</p>
-<p>And as a last thing I wrote a simple xdm.service, instead of a big xdm init script. It will definitely need more love, but for me just works <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /> </p>
+<p>And as a last thing I wrote a simple xdm.service, instead of a big xdm init script. It will definitely need more love, but for me just works <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
 <pre>
 cat /etc/systemd/system/xdm.service
 [Unit]
@@ -124,13 +123,13 @@ Startup finished in 726ms (kernel) + 1502ms (initramfs) + 1112ms (userspace) = 3
 <p>This is the diagram of the really fast boot</p>
 <p><img src="http://lizards.opensuse.org/wp-content/uploads/2012/07/plot0005.gif" alt="openSUSE 12.2 close to two second boot as possible" /></p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2012/07/31/optimizing-a-boot-time-aka-2-second-boot-part-2/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2012/07/31/optimizing-a-boot-time-aka-2-second-boot-part-2/feed/</wfw:commentRss>
 		<slash:comments>5</slash:comments>
 		</item>
 		<item>
 		<title>Optimizing a boot time, aka 2 second boot</title>
-		<link>http://lizards.opensuse.org/2012/07/26/optimizing-a-boot-time-aka-2-second-boot/</link>
-		<comments>http://lizards.opensuse.org/2012/07/26/optimizing-a-boot-time-aka-2-second-boot/#comments</comments>
+		<link>https://lizards.opensuse.org/2012/07/26/optimizing-a-boot-time-aka-2-second-boot/</link>
+		<comments>https://lizards.opensuse.org/2012/07/26/optimizing-a-boot-time-aka-2-second-boot/#comments</comments>
 		<pubDate>Thu, 26 Jul 2012 13:30:07 +0000</pubDate>
 		<dc:creator><![CDATA[Michal Vyskocil]]></dc:creator>
 				<category><![CDATA[Base System]]></category>
@@ -268,13 +267,13 @@ $ systemd-analyze
 <p>There are a lot of factors slowing our boot &#8211; reducing it to 8 seconds is not that bad. One have to go carefully through blame and plot output to see what delays his computer in start. I would say making NetworkManager default one at least when installing laptop pattern would be nice and simple change as well as continue on <em>&#8220;systemdifization&#8221;</em> of openSUSE.</p>
 <p>There are few other tricks, which get us closer to the target time, but I&#8217;ll post them next day.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2012/07/26/optimizing-a-boot-time-aka-2-second-boot/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2012/07/26/optimizing-a-boot-time-aka-2-second-boot/feed/</wfw:commentRss>
 		<slash:comments>12</slash:comments>
 		</item>
 		<item>
 		<title>Quick tip: Novell Bugzilla and Klipper</title>
-		<link>http://lizards.opensuse.org/2009/12/22/quick-tip-novell-bugzilla-and-klipper/</link>
-		<comments>http://lizards.opensuse.org/2009/12/22/quick-tip-novell-bugzilla-and-klipper/#comments</comments>
+		<link>https://lizards.opensuse.org/2009/12/22/quick-tip-novell-bugzilla-and-klipper/</link>
+		<comments>https://lizards.opensuse.org/2009/12/22/quick-tip-novell-bugzilla-and-klipper/#comments</comments>
 		<pubDate>Tue, 22 Dec 2009 08:34:03 +0000</pubDate>
 		<dc:creator><![CDATA[Michal Vyskocil]]></dc:creator>
 				<category><![CDATA[Accessibility]]></category>
@@ -310,13 +309,13 @@ firefox https://bugzilla.novell.com/show_bug.cgi?id=${1#*#}
 <img src="http://lizards.opensuse.org/wp-content/uploads/2009/12/klipper1.png" alt="" /></p>
 <p>One disadvantage of this method is that Klipper opens popup window only near its status icon in systemtray. It would be more useful to show it near current mouse position.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2009/12/22/quick-tip-novell-bugzilla-and-klipper/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/12/22/quick-tip-novell-bugzilla-and-klipper/feed/</wfw:commentRss>
 		<slash:comments>3</slash:comments>
 		</item>
 		<item>
 		<title>New pm-utils for openSUSE</title>
-		<link>http://lizards.opensuse.org/2009/11/25/new-pm-utils-for-opensuse/</link>
-		<comments>http://lizards.opensuse.org/2009/11/25/new-pm-utils-for-opensuse/#comments</comments>
+		<link>https://lizards.opensuse.org/2009/11/25/new-pm-utils-for-opensuse/</link>
+		<comments>https://lizards.opensuse.org/2009/11/25/new-pm-utils-for-opensuse/#comments</comments>
 		<pubDate>Wed, 25 Nov 2009 12:50:59 +0000</pubDate>
 		<dc:creator><![CDATA[Michal Vyskocil]]></dc:creator>
 				<category><![CDATA[Base System]]></category>
@@ -349,13 +348,13 @@ SLEEP_MODULE="uswsusp"<br />
 <p>You can type more methods, which will be called, so SLEEP_MODULE=&#8221;kernel uswsusp&#8221; will use kernel and if it fail, or not available, it call uswsusp. Please note that config files are read in C sort order, so names matters.</p>
 <p>So please install new pm-utils and test it and tell me if you found any regression (please inform me about a regressions only, I cannot fix generic suspend problems).</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2009/11/25/new-pm-utils-for-opensuse/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/11/25/new-pm-utils-for-opensuse/feed/</wfw:commentRss>
 		<slash:comments>2</slash:comments>
 		</item>
 		<item>
 		<title>Smarter osc commit</title>
-		<link>http://lizards.opensuse.org/2009/08/03/smarter-osc-commit/</link>
-		<comments>http://lizards.opensuse.org/2009/08/03/smarter-osc-commit/#comments</comments>
+		<link>https://lizards.opensuse.org/2009/08/03/smarter-osc-commit/</link>
+		<comments>https://lizards.opensuse.org/2009/08/03/smarter-osc-commit/#respond</comments>
 		<pubDate>Mon, 03 Aug 2009 15:55:37 +0000</pubDate>
 		<dc:creator><![CDATA[Michal Vyskocil]]></dc:creator>
 				<category><![CDATA[Build Service]]></category>
@@ -427,13 +426,13 @@ So after selecting e, the list of files is opened in your EDITOR</p>
 <p>
 BTW: Of course this feature can be suppressed by new -f/&#8211;force option.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2009/08/03/smarter-osc-commit/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/08/03/smarter-osc-commit/feed/</wfw:commentRss>
 		<slash:comments>0</slash:comments>
 		</item>
 		<item>
 		<title>Hackweek IV: Novell Bugzilla access from command line</title>
-		<link>http://lizards.opensuse.org/2009/07/29/hackweek-iv-novell-bugzilla-access-from-command-line/</link>
-		<comments>http://lizards.opensuse.org/2009/07/29/hackweek-iv-novell-bugzilla-access-from-command-line/#comments</comments>
+		<link>https://lizards.opensuse.org/2009/07/29/hackweek-iv-novell-bugzilla-access-from-command-line/</link>
+		<comments>https://lizards.opensuse.org/2009/07/29/hackweek-iv-novell-bugzilla-access-from-command-line/#comments</comments>
 		<pubDate>Wed, 29 Jul 2009 07:33:03 +0000</pubDate>
 		<dc:creator><![CDATA[Michal Vyskocil]]></dc:creator>
 				<category><![CDATA[Distribution]]></category>
@@ -501,13 +500,13 @@ bugzilla --bztype NovellBugzilla --user mvyskocil --password xxxxxx info -p
 </pre>
 <p>which might be hard to parse in other language. But it provides a lot of functionality, so for other informations about usage, please use man bugzilla.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2009/07/29/hackweek-iv-novell-bugzilla-access-from-command-line/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/07/29/hackweek-iv-novell-bugzilla-access-from-command-line/feed/</wfw:commentRss>
 		<slash:comments>2</slash:comments>
 		</item>
 		<item>
 		<title>Netbeans 6.5 is going to Factory</title>
-		<link>http://lizards.opensuse.org/2009/06/04/netbeans-65-is-going-to-factory/</link>
-		<comments>http://lizards.opensuse.org/2009/06/04/netbeans-65-is-going-to-factory/#comments</comments>
+		<link>https://lizards.opensuse.org/2009/06/04/netbeans-65-is-going-to-factory/</link>
+		<comments>https://lizards.opensuse.org/2009/06/04/netbeans-65-is-going-to-factory/#comments</comments>
 		<pubDate>Thu, 04 Jun 2009 10:58:11 +0000</pubDate>
 		<dc:creator><![CDATA[Michal Vyskocil]]></dc:creator>
 				<category><![CDATA[Build Service]]></category>
@@ -522,13 +521,13 @@ bugzilla --bztype NovellBugzilla --user mvyskocil --password xxxxxx info -p
 <p>In a meanwhile the netbeans for openSUSE Factory and 11.1 is available in <a href="http://download.opensuse.org/repositories/Java:/packages/">Java:packages</a> BuildService repository, so feel free to install and test it.</p>
 <p><img src="http://lizards.opensuse.org/wp-content/uploads/2009/06/netbeans.png" alt="" /></p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2009/06/04/netbeans-65-is-going-to-factory/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/06/04/netbeans-65-is-going-to-factory/feed/</wfw:commentRss>
 		<slash:comments>6</slash:comments>
 		</item>
 		<item>
 		<title>Suppressing KeyboardInterrupt traceback in Python</title>
-		<link>http://lizards.opensuse.org/2009/05/04/supressing-keyboardinterrupt-traceback-in-python/</link>
-		<comments>http://lizards.opensuse.org/2009/05/04/supressing-keyboardinterrupt-traceback-in-python/#comments</comments>
+		<link>https://lizards.opensuse.org/2009/05/04/supressing-keyboardinterrupt-traceback-in-python/</link>
+		<comments>https://lizards.opensuse.org/2009/05/04/supressing-keyboardinterrupt-traceback-in-python/#respond</comments>
 		<pubDate>Mon, 04 May 2009 11:18:39 +0000</pubDate>
 		<dc:creator><![CDATA[Michal Vyskocil]]></dc:creator>
 				<category><![CDATA[Miscellaneous]]></category>
@@ -578,13 +577,13 @@ def suppress_keyboard_interrupt_message():
 <p>Function <strong>suppress_keyboard_interrupt_message</strong> (it is really nice name, don&#8217;t it ;-)) stores an existing hook and register an inner function <strong>new_hook</strong> as a new one. Advantage is that <strong>old_excepthook</strong> exists only in a scope of this function, so you don&#8217;t need use global variables for it.</p>
 <p><em>Update: typos fixed</em></p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2009/05/04/supressing-keyboardinterrupt-traceback-in-python/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/05/04/supressing-keyboardinterrupt-traceback-in-python/feed/</wfw:commentRss>
 		<slash:comments>0</slash:comments>
 		</item>
 		<item>
 		<title>Ruby style method injection in Python</title>
-		<link>http://lizards.opensuse.org/2009/04/29/ruby-style-method-injection-in-python/</link>
-		<comments>http://lizards.opensuse.org/2009/04/29/ruby-style-method-injection-in-python/#comments</comments>
+		<link>https://lizards.opensuse.org/2009/04/29/ruby-style-method-injection-in-python/</link>
+		<comments>https://lizards.opensuse.org/2009/04/29/ruby-style-method-injection-in-python/#comments</comments>
 		<pubDate>Wed, 29 Apr 2009 13:38:07 +0000</pubDate>
 		<dc:creator><![CDATA[Michal Vyskocil]]></dc:creator>
 				<category><![CDATA[Miscellaneous]]></category>
@@ -711,13 +710,13 @@ print aBar.do_foo()
 <p>
 When you run the code, you will see that funcToMethod adds a new method to Foo class and this changes both existing and new instances as Ruby does too. And subclassing is not a problem, they are be affected too.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2009/04/29/ruby-style-method-injection-in-python/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/04/29/ruby-style-method-injection-in-python/feed/</wfw:commentRss>
 		<slash:comments>14</slash:comments>
 		</item>
 		<item>
 		<title>How to track changes in packages: osc vc</title>
-		<link>http://lizards.opensuse.org/2009/04/21/how-to-track-changes-in-packages-osc-vc/</link>
-		<comments>http://lizards.opensuse.org/2009/04/21/how-to-track-changes-in-packages-osc-vc/#comments</comments>
+		<link>https://lizards.opensuse.org/2009/04/21/how-to-track-changes-in-packages-osc-vc/</link>
+		<comments>https://lizards.opensuse.org/2009/04/21/how-to-track-changes-in-packages-osc-vc/#respond</comments>
 		<pubDate>Tue, 21 Apr 2009 07:59:30 +0000</pubDate>
 		<dc:creator><![CDATA[Michal Vyskocil]]></dc:creator>
 				<category><![CDATA[Build Service]]></category>
@@ -748,7 +747,7 @@ pass = password
 email = user@defined.email
 </pre>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2009/04/21/how-to-track-changes-in-packages-osc-vc/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/04/21/how-to-track-changes-in-packages-osc-vc/feed/</wfw:commentRss>
 		<slash:comments>0</slash:comments>
 		</item>
 	</channel>

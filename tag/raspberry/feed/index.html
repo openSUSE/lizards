@@ -1,0 +1,607 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>raspberry &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/raspberry/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Install ddclient on your openSUSE Raspberry Pi</title>
+		<link>https://lizards.opensuse.org/2015/05/25/install-ddclient-on-your-opensuse-raspberry-pi/</link>
+		<pubDate>Mon, 25 May 2015 12:49:04 +0000</pubDate>
+		<dc:creator><![CDATA[Efstathios Iosifidis]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[arm6]]></category>
+		<category><![CDATA[ddclient]]></category>
+		<category><![CDATA[dynamic dns]]></category>
+		<category><![CDATA[raspberry]]></category>
+		<category><![CDATA[Raspberry Pi]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11434</guid>
+		<description><![CDATA[We&#8217;ve seen two Dynamic DNS clients. We&#8217;ll see another one here. 1. First of all, install the program. $ zypper in ddclient 2. Create the confing file $ nano /etc/ddclient.conf with the following content daemon=5m timeout=10 syslog=no # log update msgs to syslog #mail=root # mail all msgs to root #mail-failure=root # mail failed update [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>We&#8217;ve seen two Dynamic DNS clients. We&#8217;ll see another one here.</p>
+<p>1. First of all, install the program.</p>
+<blockquote><p>$ zypper in ddclient</p></blockquote>
+<p>2. Create the confing file</p>
+<blockquote><p>$ nano /etc/ddclient.conf</p></blockquote>
+<p>with the following content</p>
+<blockquote><p>daemon=5m<br />
+timeout=10<br />
+syslog=no # log update msgs to syslog<br />
+#mail=root # mail all msgs to root<br />
+#mail-failure=root # mail failed update msgs to root<br />
+pid=/var/run/ddclient.pid # record PID in file.<br />
+ssl=yes # use ssl-support. Works with<br />
+# ssl-library</p>
+<p>use=if, if=eth0<br />
+server=freedns.afraid.org<br />
+protocol=freedns<br />
+login=<b>login_name</b><br />
+password=<b>the_password</b><br />
+<b>somedomain</b>.mooo.com</p></blockquote>
+<p>Change the ones that are in bold letters.</p>
+<p>3. Start the service</p>
+<blockquote><p>$ systemctl enable ddclient</p></blockquote>
+<p>Reboot</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Upgrade your openSUSE Raspberry Pi from 13.1 to 13.2</title>
+		<link>https://lizards.opensuse.org/2015/05/24/upgrade-your-opensuse-raspberry-pi-from-13-1-to-13-2/</link>
+		<pubDate>Sun, 24 May 2015 09:59:06 +0000</pubDate>
+		<dc:creator><![CDATA[Efstathios Iosifidis]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[13.1]]></category>
+		<category><![CDATA[13.2]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[arm6]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[raspberry]]></category>
+		<category><![CDATA[Raspberry Pi]]></category>
+		<category><![CDATA[upgrade]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11431</guid>
+		<description><![CDATA[We&#8217;ve seen how to create an SD card. I used the 13.1 version. The wiki page https://en.opensuse.org/HCL:Raspberry_Pi is not very clear (to me) about resize partitions. So I tried to upgrade the version 13.1. Here what I did. 1. Check if the update repository already exists and is enabled. $ zypper repos &#8211;uri You should [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>We&#8217;ve seen <a href="https://lizards.opensuse.org/2015/05/18/create-an-sd-card-for-your-raspberry-pi-b-and-b/" target="1">how to create an SD card</a>. I used the <a href="http://download.opensuse.org/repositories/devel:/ARM:/13.1:/Contrib:/RaspberryPi/images/" target="1">13.1 version</a>. The wiki page <a href="https://en.opensuse.org/HCL:Raspberry_Pi" target="1">https://en.opensuse.org/HCL:Raspberry_Pi</a> is not very clear (to me) about resize partitions. So I tried to upgrade the version 13.1. Here what I did.</p>
+<p>1. Check if the update repository already exists and is enabled.</p>
+<blockquote><p>$ zypper repos &#8211;uri</p></blockquote>
+<p>You should have the following enabled</p>
+<blockquote><p>3 | openSUSE-13.1-repo-update | openSUSE-13.1-repo-update    | Yes            | Yes      | http://download.opensuse.org/ports/update/13.1/</p></blockquote>
+<p>If not, then add it</p>
+<blockquote><p>$ zypper addrepo &#8211;check &#8211;refresh &#8211;name &#8216;openSUSE-13.1-Update&#8217; http://download.opensuse.org/update/13.1/ repo-update</p></blockquote>
+<p>2. Refresh and update your system</p>
+<blockquote><p>$ zypper ref &amp;&amp; zypper update</p></blockquote>
+<p>3. Remove all third party/OBS repos you no longer need.</p>
+<blockquote><p>$ zypper lr</p>
+<p># Remove with</p>
+<p>$ zypper rr (alias or number)</p></blockquote>
+<p>4. Change all remaining repo URLs to the new version of the distribution (needs to be run as root).</p>
+<blockquote><p>$ cp -Rv /etc/zypp/repos.d /etc/zypp/repos.d.Old</p></blockquote>
+<p>5. Change the repos.</p>
+<blockquote><p>$ sed -i &#8216;s/13\.1/13.2/g&#8217; /etc/zypp/repos.d/*</p></blockquote>
+<p>6. Refresh new repositories (you might be asked to accept new gpg key)</p>
+<blockquote><p>$ zypper ref</p></blockquote>
+<p>If you haven&#8217;t removed third party/OBS repositories you may encounter some errors as these repositories may not exist yet or they may have different unguessable URL. It is always recommended to remove them and add their newer version after upgrade. </p>
+<p>7. Upgrade</p>
+<blockquote><p>$ zypper dup</p></blockquote>
+<p>Now you have to wait. Reboot at the end, just to be sure that everything went smooth.</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Run copy.com on your openSUSE Raspberry Pi</title>
+		<link>https://lizards.opensuse.org/2015/05/23/run-copy-com-on-your-opensuse-raspberry-pi/</link>
+		<pubDate>Sat, 23 May 2015 09:34:10 +0000</pubDate>
+		<dc:creator><![CDATA[Efstathios Iosifidis]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[arm6]]></category>
+		<category><![CDATA[cloud]]></category>
+		<category><![CDATA[copy.com]]></category>
+		<category><![CDATA[raspberry]]></category>
+		<category><![CDATA[Raspberry Pi]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11428</guid>
+		<description><![CDATA[A good question is why do you want to sync a folder on your Raspberry Pi with a cloud service. The answer is little complicated. It&#8217;s a subproject that I&#8217;m working on right now. I want to upload some data I&#8217;ll create on a Raspberry Pi (with limited size of SD card). The uploaded data [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>A good question is why do you want to sync a folder on your Raspberry Pi with a cloud service. The answer is little complicated. It&#8217;s a subproject that I&#8217;m working on right now. I want to upload some data I&#8217;ll create on a Raspberry Pi (with limited size of SD card). The uploaded data will be saved on other computer and the SD will be clear again to create new data.</p>
+<p>The cloud service I prefer is always ownCloud.<br />
+Here I used <a href="https://copy.com?r=bdjd4W" target="1">http://www.copy.com</a>. It provides 15GB of disk but you can increase it.</p>
+<p>First of all download the file</p>
+<blockquote><p>$ wget http://copy.com/install/linux/Copy.tgz</p></blockquote>
+<p>Then extract it</p>
+<blockquote><p>$ tar xzvf Copy* copy/armv6h/</p></blockquote>
+<p>This will create a folder called “copy,” and in it there will be three sub-folders: “armv6h,” “x86,” and “x86_64.” The first one contains the Copy client binaries for the Raspberry Pi, the second contains the Copy client for 32-bit Linux on a PC, and the third the same client but for 64-bit Linux PCs.</p>
+<blockquote><p>$ cd /copy/armv6h</p></blockquote>
+<p>Now there are 2 ways of using copy. The CopyCmd tool and CopyConsole.</p>
+<p><b>CopyCmd</b></p>
+<p>List of the directories</p>
+<blockquote><p>$ ./CopyCmd Cloud -username=user@gmail.com -password=&#8217;mypass&#8217; ls</p></blockquote>
+<p>Upload all content of local /home/user/directory/ to remote /directory</p>
+<blockquote><p>$ ./CopyCmd Cloud -username=user@gmail.com -password=&#8217;mypass&#8217; put -r /home/user/directory/ /directory</p></blockquote>
+<p><b>CopyConsole</b></p>
+<p>The CopyConsole tool keeps a folder on your Raspberry Pi synchronized with the data on Copy.com.<br />
+The sync app runs in the background and is started like this:</p>
+<blockquote><p>$ ./CopyConsole -daemon -username=user@gmail.com -password=&#8217;mypass&#8217; -root=/home/user/directory</p></blockquote>
+<p>This will sync the local /home/user/directory to copy.com. If you delete something from there, it&#8217;ll delete from local folder as well.</p>
+<p>Remeber to run this command everytime you restart your pi. It&#8217;s better to run it manually because there is username and password that are personal (unless you created an account just for your raspberry pi).</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Make your openSUSE Raspberry Pi a seedbox</title>
+		<link>https://lizards.opensuse.org/2015/05/22/make-your-opensuse-raspberry-pi-a-seedbox/</link>
+		<pubDate>Fri, 22 May 2015 12:23:54 +0000</pubDate>
+		<dc:creator><![CDATA[Efstathios Iosifidis]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[android]]></category>
+		<category><![CDATA[raspberry]]></category>
+		<category><![CDATA[Raspberry Pi]]></category>
+		<category><![CDATA[SAMBA]]></category>
+		<category><![CDATA[seedbox]]></category>
+		<category><![CDATA[torrent]]></category>
+		<category><![CDATA[transmission]]></category>
+		<category><![CDATA[vftpd]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11426</guid>
+		<description><![CDATA[Raspberry Pi is a quite slow ARM board, compared to other boards. Even if you compare Raspberry Pi B+ against Raspberry Pi 2. So maybe one of the best use of RasPi is to make it seedbox. Let&#8217;s say you&#8217;re at the office and a friend tells you to test a distro. You can login [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Raspberry Pi is a quite slow ARM board, compared to other boards. Even if you compare Raspberry Pi B+ against Raspberry Pi 2. So maybe one of the best use of RasPi is to make it seedbox. Let&#8217;s say you&#8217;re at the office and a friend tells you to test a distro. You can login to your home Raspberry Pi seedbox and add the torrent file there.</p>
+<p>Here I will show you how to setup Transmission, vftpd and suggestions for Android programs.<br />
+First of all, download and create the openSUSE SD card (resize your SD card to full size or you can mount the extra size as extra partition. Since it&#8217;s not something important, then you can use full size of your SD card).<br />
+Then setup the dynamic dns service (see previous posts).<br />
+Finally set a static IP (to use it with port forward of your router).</p>
+<p><b>INSTALL TRANSMISSION</b></p>
+<p>First install transmission:</p>
+<blockquote><p>$ zypper in transmission transmission-daemon</p></blockquote>
+<p>Create 2 folders for incomplete torrents and completed torrents:</p>
+<blockquote><p>$ mkdir -p /torrents/incomplete &amp;&amp; mkdir /torrents/complete</p></blockquote>
+<p>Configure proper permissions for transmission:</p>
+<blockquote><p>$ chgrp transmission /torrents/incomplete<br />
+$ chgrp transmission /torrents/complete<br />
+$ chmod 770 /torrents/incomplete<br />
+$ chmod 777 /torrents/complete</p></blockquote>
+<p><span id="more-11426"></span><br />
+Now edit transmission <b>settings.json</b> file using:</p>
+<blockquote><p>$ cp /var/lib/transmission/.config/transmission/settings.json /var/lib/transmission/.config/transmission/settings.json.old<br />
+$ rm /var/lib/transmission/.config/transmission/settings.json</p>
+<p>and </p>
+<p>$ nano /var/lib/transmission/.config/transmission/settings.json</p></blockquote>
+<p>Here is the content of your file:</p>
+<blockquote><p>{<br />
+&#8220;alt-speed-down&#8221;: 50,<br />
+&#8220;alt-speed-enabled&#8221;: false,<br />
+&#8220;alt-speed-time-begin&#8221;: 540,<br />
+&#8220;alt-speed-time-day&#8221;: 127,<br />
+&#8220;alt-speed-time-enabled&#8221;: false,<br />
+&#8220;alt-speed-time-end&#8221;: 1020,<br />
+&#8220;alt-speed-up&#8221;: 50,<br />
+&#8220;bind-address-ipv4&#8221;: &#8220;0.0.0.0&#8221;,<br />
+&#8220;bind-address-ipv6&#8221;: &#8220;::&#8221;,<br />
+&#8220;blocklist-enabled&#8221;: false,<br />
+&#8220;blocklist-url&#8221;: &#8220;http://www.example.com/blocklist&#8221;,<br />
+&#8220;cache-size-mb&#8221;: 4,<br />
+&#8220;dht-enabled&#8221;: false,<br />
+&#8220;download-dir&#8221;: &#8220;/torrents/complete&#8221;,<br />
+&#8220;download-limit&#8221;: 100,<br />
+&#8220;download-limit-enabled&#8221;: 0,<br />
+&#8220;download-queue-enabled&#8221;: true,<br />
+&#8220;download-queue-size&#8221;: 5,<br />
+&#8220;encryption&#8221;: 1,<br />
+&#8220;idle-seeding-limit&#8221;: 30,<br />
+&#8220;idle-seeding-limit-enabled&#8221;: false,<br />
+&#8220;incomplete-dir&#8221;: &#8220;/torrents/incomplete&#8221;,<br />
+&#8220;incomplete-dir-enabled&#8221;: true,<br />
+&#8220;lpd-enabled&#8221;: false,<br />
+&#8220;max-peers-global&#8221;: 200,<br />
+&#8220;message-level&#8221;: 2,<br />
+&#8220;peer-congestion-algorithm&#8221;: &#8220;&#8221;,<br />
+&#8220;peer-limit-global&#8221;: 91,<br />
+&#8220;peer-limit-per-torrent&#8221;: 150,<br />
+&#8220;peer-port&#8221;: 51413,<br />
+&#8220;peer-port-random-high&#8221;: 65535,<br />
+&#8220;peer-port-random-low&#8221;: 49152,<br />
+&#8220;peer-port-random-on-start&#8221;: false,<br />
+&#8220;peer-socket-tos&#8221;: &#8220;default&#8221;,<br />
+&#8220;pex-enabled&#8221;: false,<br />
+&#8220;port-forwarding-enabled&#8221;: true,<br />
+&#8220;preallocation&#8221;: 1,<br />
+&#8220;prefetch-enabled&#8221;: 1,<br />
+&#8220;queue-stalled-enabled&#8221;: true,<br />
+&#8220;queue-stalled-minutes&#8221;: 30,<br />
+&#8220;ratio-limit&#8221;: 2,<br />
+&#8220;ratio-limit-enabled&#8221;: false,<br />
+&#8220;rename-partial-files&#8221;: true,<br />
+&#8220;rpc-authentication-required&#8221;: true,<br />
+&#8220;rpc-bind-address&#8221;: &#8220;0.0.0.0&#8221;,<br />
+&#8220;rpc-enabled&#8221;: true,<br />
+&#8220;rpc-password&#8221;: &#8220;{2dc2c41724aab07ccc301e97f56360cb35f8ba1fGVVrdHDX&#8221;,<br />
+&#8220;rpc-port&#8221;: 9091,<br />
+&#8220;rpc-url&#8221;: &#8220;/transmission/&#8221;,<br />
+&#8220;rpc-username&#8221;: &#8220;transmission&#8221;,<br />
+&#8220;rpc-whitelist&#8221;: &#8220;*.*.*.*&#8221;,<br />
+&#8220;rpc-whitelist-enabled&#8221;: false,<br />
+&#8220;scrape-paused-torrents-enabled&#8221;: true,<br />
+&#8220;script-torrent-done-enabled&#8221;: false,<br />
+&#8220;script-torrent-done-filename&#8221;: &#8220;&#8221;,<br />
+&#8220;seed-queue-enabled&#8221;: false,<br />
+&#8220;seed-queue-size&#8221;: 10,<br />
+&#8220;speed-limit-down&#8221;: 250,<br />
+&#8220;speed-limit-down-enabled&#8221;: true,<br />
+&#8220;speed-limit-up&#8221;: 0,<br />
+&#8220;speed-limit-up-enabled&#8221;: true,<br />
+&#8220;start-added-torrents&#8221;: true,<br />
+&#8220;trash-original-torrent-files&#8221;: false,<br />
+&#8220;umask&#8221;: 18,<br />
+&#8220;upload-limit&#8221;: 100,<br />
+&#8220;upload-limit-enabled&#8221;: 0,<br />
+&#8220;upload-slots-per-torrent&#8221;: 14,<br />
+&#8220;utp-enabled&#8221;: true<br />
+}</p></blockquote>
+<p><code>Username: transmission<br />
+Password: transmission<br />
+Port: 9091</code></p>
+<p>Start and enable the service.</p>
+<blockquote><p>$ systemctl start transmission-daemon<br />
+$ systemctl enable transmission-daemon</p></blockquote>
+<p>You&#8217;re done. All you have to do is to open your browser to <b>http://RASPI.IP.ADDRESS:9091/</b> and use the login/password (default for above config <i>transmission/transmission</i>)</p>
+<p><b><a href="http://www.unixmen.com/setup-ftp-server-opensuse-13-213-1/" target="1">INSTALL FTP SERVER</a></b></p>
+<p>Let&#8217;s say that the file is i your pi disk. You&#8217;re not at home. How can you check it? Maybe the easiest way is to setup an FTP server. Maybe the best program is vsftpd. You can install it:</p>
+<blockquote><p>$ zypper in ftp vsftpd</p></blockquote>
+<p>Create a folder for ftp users (if it&#8217;s not there).</p>
+<blockquote><p>$ mkdir /srv/ftp</p></blockquote>
+<p>Create a group called ftp-users.</p>
+<blockquote><p>$ groupadd ftp-users</p></blockquote>
+<p>Create a sample user called seedbox with home directory /srv/ftp/, and assign the user to ftp-users group.</p>
+<blockquote><p>$ useradd -g ftp-users -d /srv/ftp/ seedbox</p></blockquote>
+<p>Set password for the new user.</p>
+<blockquote><p>$ passwd seedbox</p></blockquote>
+<p>Now you should change few things:</p>
+<blockquote><p>$ nano /etc/vsftpd.conf</p></blockquote>
+<p>And uncomment:</p>
+<blockquote><p>local_enable=YES<br />
+write_enable=YES</p></blockquote>
+<p>Start the service and you&#8217;re done:</p>
+<blockquote><p>$ systemctl start vsftpd</p>
+<p>$ systemctl enable vsftpd</p></blockquote>
+<p>Personally I use the program <a href="https://filezilla-project.org/" target="1">filezilla</a> but you can also use the Firefox addon <a href="https://addons.mozilla.org/el/firefox/addon/fireftp/" target="1">FireFTP</a>.</p>
+<p><b>INSTALL SAMBA</b></p>
+<p>OK, you installed torrent server. How can you access the downloaded files from your computer? Well it&#8217;s easy. Just install SAMBA. For that reason, I followed the tutorial <a href="http://www.megaleecher.net/Adding_External_USB_Disk_Drive_Storage_On_RasPi" target="1">here</a>.</p>
+<p>First of all, install SAMBA.</p>
+<blockquote><p>$ zypper in samba</p></blockquote>
+<p>Then all you have to do is to change SAMBA configuration file.</p>
+<blockquote><p>$ cp /etc/samba/smb.conf /etc/samba/smb.cnf<br />
+$ nano /etc/samba/smb.cnf</p></blockquote>
+<p>Just add the following lines:</p>
+<blockquote><p>[Seedbox]<br />
+comment = Public Shares<br />
+path = /torrents/complete<br />
+writeable = Yes<br />
+only guest = Yes<br />
+create mask = 0777<br />
+directory mask = 0777<br />
+browseable = Yes<br />
+public = yes</p></blockquote>
+<p>You should restart SAMBA or you can reboot your Pi.</p>
+<blockquote><p>$ systemctl start smb nmb</p>
+<p>$ systemctl enable smb nmb</p></blockquote>
+<p>Now you can access your Pi from Nautilus (<a href="http://www.cyberciti.biz/tips/browse-a-samba-or-ms-windows-share-in-nautilus.html" target="1">check here how to do that</a>).</p>
+<p><b>Android</b></p>
+<p>If you want to use it via android phone/tablet, you can use the program <a href="https://play.google.com/store/apps/details?id=com.neogb.rtac" target="1">Remote Transmission</a></p>
+<p><a href="https://lh3.ggpht.com/_hZ3551L5UR_QgrVqPYLnW_Eno04O3aVb9EEW4kluP1V84sVnQ0Y1UvHksGNYdtKStM"><img alt="Android's Remote Transmission" src="https://lh3.ggpht.com/_hZ3551L5UR_QgrVqPYLnW_Eno04O3aVb9EEW4kluP1V84sVnQ0Y1UvHksGNYdtKStM" /></a></p>
+<p>More applications are <a href="https://play.google.com/store/apps/details?id=org.transdroid.lite" target="1">Transdrone</a> and <a href="https://play.google.com/store/apps/details?id=net.torrenttoise.free" target="1">TorrentToise</a>.</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Set static IP on your openSUSE Raspberry Pi</title>
+		<link>https://lizards.opensuse.org/2015/05/21/set-static-ip-on-your-opensuse-raspberry-pi/</link>
+		<pubDate>Thu, 21 May 2015 16:08:23 +0000</pubDate>
+		<dc:creator><![CDATA[Efstathios Iosifidis]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[arm6]]></category>
+		<category><![CDATA[raspberry]]></category>
+		<category><![CDATA[Raspberry Pi]]></category>
+		<category><![CDATA[static ip]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11424</guid>
+		<description><![CDATA[To set a static IP in Debian based distros is easy. Just change a file (/etc/network/interfaces). In openSUSE is easier. Everything can be done under YaST. 1. Open YaST and go to Network Devices&#62;Network Settings. 2. Then choose Statically Assigned IP Address (move with tab button and click on space button). Give the static IP [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>To set a static IP in Debian based distros is easy. Just change a file (<b>/etc/network/interfaces</b>).<br />
+In openSUSE is easier. Everything can be done under YaST.</p>
+<p>1. Open YaST and go to <b>Network Devices&gt;Network Settings</b>.</p>
+<p><a href="https://www.dropbox.com/s/8wiijkjjadsphfs/1.png?raw=1" target="1"><img src="https://www.dropbox.com/s/8wiijkjjadsphfs/1.png?raw=1" height="80%" width="80%" /></a></p>
+<p>2. Then choose <b>Statically Assigned IP Address</b> (move with tab button and click on space button). Give the static IP you want and as Subnet Mask, 255.255.255.0. Press Next (press enter).</p>
+<p><a href="https://www.dropbox.com/s/bg0lwzyfozcjkap/2.png?raw=1" target="1"><img src="https://www.dropbox.com/s/bg0lwzyfozcjkap/2.png?raw=1" height="80%" width="80%" /></a></p>
+<p>3. You&#8217;ll see an overview of the ethernet card.</p>
+<p><a href="https://www.dropbox.com/s/esav8q5irs9kw6q/3.png?raw=1" target="1"><img src="https://www.dropbox.com/s/esav8q5irs9kw6q/3.png?raw=1" height="80%" width="80%" /></a></p>
+<p>4. Go to <b>Hostname/DNS</b> and add Google&#8217;s DNS servers (optional).</p>
+<p><a href="https://www.dropbox.com/s/75xe4zornhttjzb/4.png?raw=1" target="1"><img src="https://www.dropbox.com/s/75xe4zornhttjzb/4.png?raw=1" height="80%" width="80%" /></a></p>
+<p>5. Next, go to <b>Routing</b> and add your router ip (usually 192.168.1.1).</p>
+<p><a href="https://www.dropbox.com/s/kfl6pk4jb17ab3s/5.png?raw=1" target="1"><img src="https://www.dropbox.com/s/kfl6pk4jb17ab3s/5.png?raw=1" height="80%" width="80%" /></a></p>
+<p>Now press OK, reboot and try to login again with SSH.</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>inadyn and openSUSE Raspberry Pi</title>
+		<link>https://lizards.opensuse.org/2015/05/20/inadyn-and-opensuse-raspberry-pi/</link>
+		<pubDate>Wed, 20 May 2015 11:53:16 +0000</pubDate>
+		<dc:creator><![CDATA[Efstathios Iosifidis]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[arm6]]></category>
+		<category><![CDATA[dynamic dns]]></category>
+		<category><![CDATA[inadyn]]></category>
+		<category><![CDATA[openSUSE@ARM]]></category>
+		<category><![CDATA[raspberry]]></category>
+		<category><![CDATA[Raspberry Pi]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11414</guid>
+		<description><![CDATA[We&#8217;ve seen how to install no-ip. Fortunately, there&#8217;s not only this service but other services too. Just for reference, here are some (not only free): http://www.dyndns.org http://freedns.afraid.org http://www.zoneedit.com http://www.no-ip.com http://www.easydns.com http://www.tzo.com http://www.3322.org http://www.dnsomatic.com http://www.tunnelbroker.net http://dns.he.net/ http://www.dynsip.org http://www.sitelutions.com http://www.dnsexit.com http://www.changeip.com http://www.zerigo.com http://www.dhis.org https://nsupdate.info http://duckdns.org https://www.loopia.com https://www.namecheap.com https://domains.google.com https://www.ovh.com https://www.dtdns.com http://giradns.com Let&#8217;s see one of them https://freedns.afraid.org. [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>We&#8217;ve seen how to <a href="https://lizards.opensuse.org/2015/05/19/no-ip-and-opensuse-raspberry-pi/" target="_blank">install no-ip</a>.<br />
+Fortunately, there&#8217;s not only this service but other services too. Just for reference, here are some (not only free):</p>
+<p><a href="http://www.dyndns.org" target="_blank">http://www.dyndns.org</a><br />
+<a href="http://freedns.afraid.org" target="_blank">http://freedns.afraid.org</a><br />
+<a href="http://www.zoneedit.com" target="_blank">http://www.zoneedit.com</a><br />
+<a href="http://www.no-ip.com" target="_blank">http://www.no-ip.com</a><br />
+<a href="http://www.easydns.com" target="_blank">http://www.easydns.com</a><br />
+<a href="http://www.tzo.com" target="_blank">http://www.tzo.com</a><br />
+<a href="http://www.3322.org" target="_blank">http://www.3322.org</a><br />
+<a href="http://www.dnsomatic.com" target="_blank">http://www.dnsomatic.com</a><br />
+<a href="http://www.tunnelbroker.net" target="_blank">http://www.tunnelbroker.net</a><br />
+<a href="http://dns.he.net/" target="_blank">http://dns.he.net/</a><br />
+<a href="http://www.dynsip.org" target="_blank">http://www.dynsip.org</a><br />
+<a href="http://www.sitelutions.com" target="_blank">http://www.sitelutions.com</a><br />
+<a href="http://www.dnsexit.com" target="_blank">http://www.dnsexit.com</a><br />
+<a href="http://www.changeip.com" target="_blank">http://www.changeip.com</a><br />
+<a href="http://www.zerigo.com" target="_blank">http://www.zerigo.com</a><br />
+<a href="http://www.dhis.org" target="_blank">http://www.dhis.org</a><br />
+<a href="https://nsupdate.info" target="_blank">https://nsupdate.info</a><br />
+<a href="http://duckdns.org" target="_blank">http://duckdns.org</a><br />
+<a href="https://www.loopia.com" target="_blank">https://www.loopia.com</a><br />
+<a href="https://www.namecheap.com" target="_blank">https://www.namecheap.com</a><br />
+<a href="https://domains.google.com" target="_blank">https://domains.google.com</a><br />
+<a href="https://www.ovh.com" target="_blank">https://www.ovh.com</a><br />
+<a href="https://www.dtdns.com" target="_blank">https://www.dtdns.com</a><br />
+<a href="http://giradns.com" target="_blank">http://giradns.com</a></p>
+<p>Let&#8217;s see one of them <a href="https://freedns.afraid.org" target="1">https://freedns.afraid.org</a>. After you register, go to Dynamic DNS link (on the left top box-for members).<br />
+Add your host with type A and subdomain and domain what you like as host.</p>
+<p>Now there&#8217;s going to be a list of your host names. Right click on the <b>Direct Link</b> and copy the link. You should keep the alpha-numeric key. The address will be something like http://freedns.afraid.org/dynamic/update.php?<b>[alpha-numeric-key]</b></p>
+<p>Now it&#8217;s time to install the client. I&#8217;ve found it from <a href="https://github.com/troglobit/inadyn" target="1">https://github.com/troglobit/inadyn</a>.</p>
+<p>1. First of all, install the needed programs to build the service.</p>
+<blockquote><p>$ zypper in gcc-c++ gcc git libopenssl-devel make nano</p></blockquote>
+<p>2. Then</p>
+<blockquote><p>$ mkdir inadyn</p>
+<p>$ cd inadyn</p></blockquote>
+<p>3. Download the program from <a href="ftp://troglobit.com/inadyn/" target="1">ftp://troglobit.com/inadyn/</a></p>
+<blockquote><p>$ wget <a href="ftp://troglobit.com/inadyn/inadyn-1.99.9.tar.xz" target="1">ftp://troglobit.com/inadyn/inadyn-1.99.9.tar.xz</a></p></blockquote>
+<p>and decompress it</p>
+<blockquote><p>$ tar xvfJ inadyn-1.99.9.tar.xz</p></blockquote>
+<p>4. Go to the directory</p>
+<blockquote><p>$ cd inadyn-1.99.9</p></blockquote>
+<p>5. Compile and install</p>
+<blockquote><p>$ make</p>
+<p>$ make install</p></blockquote>
+<p>6. Create the confing file</p>
+<blockquote><p>$ nano /etc/inadyn.conf</p></blockquote>
+<p>with the following content</p>
+<p><code>--username <b>USERNAME</b><br />
+--password <b>PASSWORD</b><br />
+--update_period 3600<br />
+--forced_update_period 14400<br />
+--alias <b>HOSTNAME,alphanumeric key</b><br />
+--background<br />
+--dyndns_system default@freedns.afraid.org<br />
+--syslog</code></p>
+<p>The bold words are the ones you should change. Remember the alphanumeric key is the one you got from right click on the <b>Direct Link</b>.</p>
+<p>7. Start the client. Create the service file. </p>
+<blockquote><p>$ nano /usr/lib/systemd/system/inadyn.service</p></blockquote>
+<p>8. Add the following content.</p>
+<blockquote><p>[Unit]<br />
+Description=inadyn Dynamic DNS Update Client<br />
+After=network.target</p>
+<p>[Service]<br />
+Type=forking<br />
+ExecStart=/usr/local/sbin/inadyn</p>
+<p>[Install]<br />
+WantedBy=multi-user.target</p></blockquote>
+<p>9. Start the service</p>
+<blockquote><p>$ systemctl start inadyn.service</p></blockquote>
+<p>and enable the service</p>
+<blockquote><p>$ systemctl enable inadyn.service</p></blockquote>
+<p>10. Reboot and check if the service is running.</p>
+<blockquote><p>$ ps -A | grep inadyn</p></blockquote>
+<p>you should get results something like:</p>
+<p><code>1526 ?        00:00:00 inadyn</code></p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>no-ip and openSUSE Raspberry Pi</title>
+		<link>https://lizards.opensuse.org/2015/05/19/no-ip-and-opensuse-raspberry-pi/</link>
+		<pubDate>Tue, 19 May 2015 13:03:36 +0000</pubDate>
+		<dc:creator><![CDATA[Efstathios Iosifidis]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[no-ip]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[raspberry]]></category>
+		<category><![CDATA[Raspberry Pi]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11411</guid>
+		<description><![CDATA[We&#8217;ve seen how to install openSUSE image on the SD card. Next step is to be sure that we can have access from outside our house (since most of the times, Raspberry Pi is located at home). To do that we use Dynamic DNS services. A free service (so far) is No-IP. Most of the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>We&#8217;ve seen how to <a href="https://lizards.opensuse.org/2015/05/18/create-an-sd-card-for-your-raspberry-pi-b-and-b/" target="_blank">install openSUSE image on the SD card</a>.<br />
+Next step is to be sure that we can have access from outside our house (since most of the times, Raspberry Pi is located at home).</p>
+<p>To do that we use Dynamic DNS services. A free service (so far) is <a href="http://www.noip.com/" target="1">No-IP</a>. Most of the routers support it. You can use your router&#8217;s service. But what if you want 2 different host names on the same IP? Let&#8217;s say you have different ARM boards on the same router or you have a server etc.</p>
+<p>1. First of all, install the needed programs to build the service (<a href="https://lizards.opensuse.org/2015/03/26/compile-znc-irc-bouncer-on-raspberry-pi/" target="1">same as I did with ZNC</a>)</p>
+<blockquote><p>zypper in gcc-c++ gcc git libopenssl-devel make nano</p></blockquote>
+<p>2. Then</p>
+<blockquote><p>mkdir noip</p>
+<p>cd noip</p></blockquote>
+<p>3. Download the program</p>
+<blockquote><p>wget <a href="http://www.no-ip.com/client/linux/noip-duc-linux.tar.gz" target="1">http://www.no-ip.com/client/linux/noip-duc-linux.tar.gz</a></p></blockquote>
+<p>and decompress it</p>
+<blockquote><p>tar vzxf noip-duc-linux.tar.gz</p></blockquote>
+<p>4. Go to the directory</p>
+<blockquote><p>cd noip-2.1.9-1</p></blockquote>
+<p>5. Compile and install</p>
+<blockquote><p>make</p>
+<p>make install</p></blockquote>
+<p>While it install’s the software you will prompted to enter the username &amp; password. Once that is done it will ask you teh refresh interval … leave it.. to have the default value. You are required to answer some more questions … just ans NO an d you should be good to go.</p>
+<p>6. Start the client</p>
+<blockquote><p>/usr/local/bin/noip2</p></blockquote>
+<p>To check if the service is running, use the command:</p>
+<blockquote><p>/usr/local/bin/noip2 -S</p></blockquote>
+<p>and the results should be like</p>
+<p><code>1 noip2 process active.</p>
+<p>Process 1516, started as noip2, (version 2.1.9)<br />
+Using configuration from /usr/local/etc/no-ip2.conf<br />
+Last IP Address set EXTERNAL IP<br />
+Account USERNAME<br />
+configured for:<br />
+host  HOSTNAME<br />
+Updating every 30 minutes via /dev/eth0 with NAT enabled.</code></p>
+<p><b>Auto start the client on reboot</b></p>
+<p>But what if you reboot? You want to start the client everytime you reboot. This can be done with systemd.</p>
+<p>1. Create the service file. </p>
+<blockquote><p>nano /usr/lib/systemd/system/noip.service</p></blockquote>
+<p>2. Add the following content.</p>
+<blockquote><p>[Unit]<br />
+Description=No-IP Dynamic DNS Update Client<br />
+After=network.target</p>
+<p>[Service]<br />
+Type=forking<br />
+ExecStart=/usr/local/bin/noip2</p>
+<p>[Install]<br />
+WantedBy=multi-user.target</p></blockquote>
+<p>3. Start the service</p>
+<blockquote><p>systemctl start noip.service</p></blockquote>
+<p>and enable the service</p>
+<blockquote><p>systemctl enable noip.service</p></blockquote>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Create an SD card for your Raspberry Pi B and B+</title>
+		<link>https://lizards.opensuse.org/2015/05/18/create-an-sd-card-for-your-raspberry-pi-b-and-b/</link>
+		<pubDate>Mon, 18 May 2015 12:07:40 +0000</pubDate>
+		<dc:creator><![CDATA[Efstathios Iosifidis]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[openSUSE 13.1]]></category>
+		<category><![CDATA[raspberry]]></category>
+		<category><![CDATA[Raspberry Pi]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11404</guid>
+		<description><![CDATA[Most of the projects around the Internet use Raspbian as main Raspberry Pi distro. Unfortunately, Raspbian doesn&#8217;t work for me. Minibian worked. So I serched other distros. My favourite is Arch Linux because there are plenty of programs that I need for projects, but it needs some extra steps from terminal to create the SD. [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Most of the projects around the Internet use Raspbian as main Raspberry Pi distro. Unfortunately, Raspbian doesn&#8217;t work for me. <a href="https://minibianpi.wordpress.com/" target="1">Minibian</a> worked. So I serched other distros. My favourite is <a href="http://archlinuxarm.org/platforms/armv6/raspberry-pi" target="1">Arch Linux</a> because there are plenty of programs that I need for projects, but it needs some extra steps from terminal to create the SD.</p>
+<p>Here we&#8217;ll see how to create an SD card of openSUSE. There are plenty of information at the wiki page <a href="https://en.opensuse.org/HCL:Raspberry_Pi" target="1">https://en.opensuse.org/HCL:Raspberry_Pi<br />
+</a>. I&#8217;ll collect the information I need for projects, I&#8217;ll write next.</p>
+<p>I used 13.1 as distro because it&#8217;s easier for me to resize the SD card. </p>
+<p>1. Download the image (<a href="http://download.opensuse.org/repositories/devel:/ARM:/13.1:/Contrib:/RaspberryPi/images/openSUSE-13.1-ARM-JeOS-raspberrypi.armv7l.raw.xz" target="1">openSUSE-13.1-ARM-JeOS-raspberrypi.armv7l.raw.xz</a>) from here:</p>
+<p><a href="http://download.opensuse.org/repositories/devel:/ARM:/13.1:/Contrib:/RaspberryPi/images/" target="1">http://download.opensuse.org/repositories/devel:/ARM:/13.1:/Contrib:/RaspberryPi/images/</a></p>
+<p>decompress the image.</p>
+<p>2. Find the device name of your card</p>
+<blockquote><p>cat /proc/partitions</p></blockquote>
+<p>usually it&#8217;s going to be <i>/dev/mmcblk0</i>.</p>
+<p>and create the card (as root)</p>
+<blockquote><p>sudo dd if=openSUSE-13.1*.raw.xz of=/dev/mmcblk0 bs=4M;sync
+</p></blockquote>
+<p>3. Since I didn&#8217;t use a monitor (HDMI or DVI), I had to do some extra steps before boot my raspberry pi.</p>
+<p>a. Delete the file <b>/var/lib/YaST2/reconfig_system</b> to start headless.<br />
+b. Resize the ext4 partition with Gparted.</p>
+<p>4. When boot the Raspberry Pi, use the following</p>
+<p><b>ssh root@IP</b></p>
+<blockquote><p>user: root<br />
+password: linux</p></blockquote>
+<p>Now the first command will be</p>
+<blockquote><p>zypper ref</p></blockquote>
+<p>and then update</p>
+<blockquote><p>zypper up</p></blockquote>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Compile ZNC (IRC Bouncer) on Raspberry Pi</title>
+		<link>https://lizards.opensuse.org/2015/03/26/compile-znc-irc-bouncer-on-raspberry-pi/</link>
+		<pubDate>Thu, 26 Mar 2015 10:44:18 +0000</pubDate>
+		<dc:creator><![CDATA[Efstathios Iosifidis]]></dc:creator>
+				<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Server]]></category>
+		<category><![CDATA[IRC Bouncer]]></category>
+		<category><![CDATA[raspberry]]></category>
+		<category><![CDATA[ZNC]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11303</guid>
+		<description><![CDATA[There are many IRC Bouncers . My favourite one is ZNC. ZNC installation on server is a simple thing (zypper in znc). But what if you don&#8217;t have a server (avoid all the costs)? The best solution is a Raspberry Pi (it doesn&#8217;t matter if it&#8217;s B, B+, 2). It&#8217;s small, no power consumption, can [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>There are many <a href="http://en.wikipedia.org/wiki/BNC_%28software%29#IRC" target="_blank">IRC Bouncers</a> . My favourite one is ZNC. ZNC installation on server is a simple thing (<strong>zypper in znc</strong>). But what if you don&#8217;t have a server (avoid all the costs)? The best solution is a Raspberry Pi (it doesn&#8217;t matter if it&#8217;s B, B+, 2). It&#8217;s small, no power consumption, can easily setup as home small server. The only thing that it might disturb you, is the lights.</p>
+<p>First of all, check out how you can install openSUSE on <a href="https://en.opensuse.org/HCL:Raspberry_Pi" target="1">Raspberry Pi</a>.</p>
+<p>Now, you have to compile ZNC. There&#8217;s no package in the repositories. If developers read this, please please make an ARM package. Please!!!</p>
+<p>First of all, you have to install the following packages (that&#8217;s what I did):</p>
+<blockquote><p>zypper in gcc-c++ gcc git libopenssl-devel make</p></blockquote>
+<p>Now, let&#8217;s download the <a href="http://znc.in/releases/" target="_blank">last release</a> (you can find the whole procedure at <a href="http://wiki.znc.in/Installation#Source_Tarball" target="_blank">official page</a>)</p>
+<blockquote><p>wget http://znc.in/releases/znc-latest.tar.gz</p></blockquote>
+<p>Then untar the file:</p>
+<blockquote><p>tar -xzvf znc*.*gz</p></blockquote>
+<p>Then you have to do some steps that usually do when you compile:</p>
+<blockquote><p>cd znc*</p></blockquote>
+<p>and run the command</p>
+<blockquote><p>./configure</p></blockquote>
+<p>Next command will take a lot of time to finish</p>
+<blockquote><p>make</p></blockquote>
+<p>When it&#8217;s over, run the final command:</p>
+<blockquote><p>make install</p></blockquote>
+<p>You&#8217;re ready to use it. Now <em>login as user</em> and run the command:</p>
+<blockquote><p>znc &#8211;makeconf</p></blockquote>
+<p>If you have an older configuration, you can use it (run only the command <strong>znc</strong>).</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>How I ran openSUSE on a Nexus 7</title>
+		<link>https://lizards.opensuse.org/2013/09/22/how-i-ran-opensuse-on-a-nexus-7/</link>
+		<pubDate>Sun, 22 Sep 2013 09:21:22 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[nexus]]></category>
+		<category><![CDATA[raspberry]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9935</guid>
+		<description><![CDATA[The Nexus 7 (2012 version) is a 7 inch tablet by Google+Asus. The nice thing about it is, that it has an unlockable bootloader. Also it has an armv7 CPU and we built openSUSE for this CPU for some years. I had one such device with a broken display, so doing some more risky things [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The Nexus 7 (2012 version) is a 7 inch tablet by Google+Asus.<br />
+The nice thing about it is, that it has an unlockable bootloader. Also it has an armv7 CPU and we built openSUSE for this CPU for some years. I had one such device with a broken display, so doing some more risky things with it seemed to be appropriate.<br />
+I wanted to run my own software on it. Running openSUSE in a chroot (change-root) environment is usually a lot easier than replacing the whole system, so this is where I went.</p>
+<p>First, I needed two tools. One is the &#8220;adb&#8221; &#8211; Android DeBug tool from the official sdk and the other is &#8220;fastboot&#8221; which was hard to find, so I <a href="http://www.zq1.de/bernhard/mirror/android/fastboot.zip">mirror it here</a>.<br />
+I got me the stable ROM from <a href="http://wiki.cyanogenmod.org/w/Grouper_Info">http://wiki.cyanogenmod.org/w/Grouper_Info</a> and followed their installation instructions. adb shell only seemed to work while in bootloader (which you reach by holding Volume-Down+Power during boot)<br />
+The hardest part was to <a href="http://developer.android.com/tools/device.html#setting-up">re-enable USB-debugging</a> by going into Settings/About tablet and tapping Build-Number seven times.</p>
+<p>Also before zapping everything that was there, I did in adb shell : <code>cp -a /system/app /sdcard/</code><br />
+and back later.<br />
+So after following all the other installation steps, I had cyanogenmod booting. I attached a bluetooth keyboard so that I can better type. The ROM comes with a terminal app, which I opened. type <code>su -</code> to become root after a security popup.<br />
+Now, I downloaded my lastest Raspberry-Pi image from <a href="http://www.zq1.de/bernhard/linux/opensuse/">http://www.zq1.de/bernhard/linux/opensuse/</a>. This is under /sdcard/Download where I unpacked it with xz -d<br />
+Then comes the tricky part. The image has a partition table, but here we just need the root filesystem. With <code>fdisk -lu</code> we can see that it starts at sector 309248. One could copy out that part with dd or use a loop device with offset like this:<br />
+<code>#!/system/xbin/sh<br />
+mknod /dev/loop0 b 7 0<br />
+losetup -d /dev/loop0 # cleanup of previous try<br />
+losetup -o `expr 512 \* 309248` /dev/loop0 rasp*img<br />
+mkdir -p mnt<br />
+mount -t ext2 /dev/loop0 mnt<br />
+</code></p>
+<p>Now we have access to the openSUSE files under mnt.<br />
+In there I created me a chroot.sh:<br />
+<code>#!/system/xbin/sh<br />
+for m in proc sys dev ; do    mount -o bind /$m $m ; done<br />
+HOME=/root PATH=/sbin:/usr/sbin:/usr/local/sbin:/root/bin:/usr/local/bin:/usr/bin:/bin:/usr/bin/X11:/usr/X11R6/bin /system/xbin/chroot . bin/bash<br />
+for m in proc sys dev ; do    umount $m ; done<br />
+</code></p>
+<p>With that, the only remaining thing to do was to add a nameserver line to /etc/resolv.conf before I could use zypper to install software e.g. <code>zypper install yast2-network yast2-ncurses</code>.<br />
+Running <code>yast lan</code> on the Nexus 7 <a href="https://plus.google.com/photos/108928462394474625418/albums/5701558097275278593/5926357383234418210">gives nice sight</a>.</p>
+<p>I guess one could also use <a href="http://download.opensuse.org/ports/armv7hl/distribution/12.3/images/openSUSE-12.3-ARM-JeOS-rootfs.armv7l-1.12.1-Build47.1.tbz">the armv7 rootfs</a> to have software built for armv7 instead of the compatible armv6. But for me it does not matter much.</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>compiz unity openSUSE Ubuntu development build service 11.4 beta Desktop world domination &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/compiz-unity-opensuse-ubuntu-development-build-service-11-4-beta-desktop-world-domination/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Unity on openSUSE: UPDATE</title>
+		<link>https://lizards.opensuse.org/2011/01/30/unity-on-opensuse-update/</link>
+		<pubDate>Sun, 30 Jan 2011 20:08:28 +0000</pubDate>
+		<dc:creator><![CDATA[Nelson Marques]]></dc:creator>
+				<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[compiz unity openSUSE Ubuntu development build service 11.4 beta Desktop world domination]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=6538</guid>
+		<description><![CDATA[Unity works as a plugin for Compiz using the glib mainloop. Currently the development version of Compiz available in OBS X11:Compiz already provides this requirement (glib mainloop) as a plugin. This version and two git snapshots I&#8217;ve builded were crashing heavilly, so I&#8217;ve decided to take  a closer look into Ubuntu&#8217;s packages and build from [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Unity works as a plugin for Compiz using the glib mainloop. Currently the development version of Compiz available in OBS X11:Compiz already provides this requirement (glib mainloop) as a plugin. This version and two git snapshots I&#8217;ve builded were crashing heavilly, so I&#8217;ve decided to take  a closer look into Ubuntu&#8217;s packages and build from their sources on my devel project. This has proven wise as their snapshots (2010-11-25) with their patches removed the crashes on compiz.</p>
+<p>The patches applied include the new unity-window-decorator which works fine. Here&#8217;s a small screenshot of GNOME&#8217;s System Monitor using Unity&#8217;s window decorator (which relies on a patch on metacity to enable UX Shadows).</p>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2011/01/Screenshot-System-Monitor.png"><img class="aligncenter size-full wp-image-6539" src="http://lizards.opensuse.org/wp-content/uploads/2011/01/Screenshot-System-Monitor.png" alt="" width="552" height="514" srcset="https://lizards.opensuse.org/wp-content/uploads/2011/01/Screenshot-System-Monitor.png 552w, https://lizards.opensuse.org/wp-content/uploads/2011/01/Screenshot-System-Monitor-300x279.png 300w" sizes="(max-width: 552px) 100vw, 552px" /></a>The theme for this screenshot is Ambiance (also from Ubuntu) with a changed color scheme. This shot was taken on M6 with the newest FireGL drivers from ATI. I&#8217;ve noticed some changes on the blur effects on this driver, but I really can&#8217;t develop much.</p>
+<p>I haven&#8217;t seen crashes on individual components when I test them (ex: unity-panel-service and unity-window-decorator), which seems to be a good pointer.</p>
+<p>Currently I&#8217;m working out in porting the Unity wrapper and some scripts from Ubuntu to the reality on openSUSE as many files seem to be distributed on the filesystem in very different places. Just to name an example&#8230; compiz on openSUSE currently stores it&#8217;s profiles and stuff on $HOME/.config/compiz-1, and Unity is searching those files on $HOME/.compiz-1, and as such, fails to find them. This is where I&#8217;m currently placing my efforts. This should fix soon the &#8216;unity&#8217; wrapper.</p>
+<p>To make this short&#8230; Compiz isn&#8217;t crashing anymore or seg faulting, and Unity is picking up the information required from different file locations on the file system. Once fixed, we should have a running Unity for BETA soon.</p>
+<p>My very special thanks to Malcolm Lewis for making the integration of Unity with Compiz possible in a very nice way and for fixing many bugs that allowed us to successfully build this packages.</p>
+<p>As soon as we have more developments, those will be posted.</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

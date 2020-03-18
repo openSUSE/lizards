@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>google earth 6.0 &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/google-earth-6-0/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>GoogleEarth 6.0 running in opensuse 11.4 factory 64Bits</title>
+		<link>https://lizards.opensuse.org/2010/12/01/googleearth-6-0-running-in-opensuse-11-4-factory-64bits/</link>
+		<comments>https://lizards.opensuse.org/2010/12/01/googleearth-6-0-running-in-opensuse-11-4-factory-64bits/#comments</comments>
+		<pubDate>Wed, 01 Dec 2010 20:00:03 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Factory]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[google earth 6.0]]></category>
+		<category><![CDATA[openSUSE]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=5981</guid>
+		<description><![CDATA[Sometimes we need some of those applications running under our favorite OS. If you can stick with marble. So the new googleearth 6.0 version hit the street. And if like me you want to give it a try, there&#8217;s some tricks to make it installing under your 64bits opensuse factory. My first attempt just result [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Sometimes we need some of those applications running under our favorite OS. If you can stick with <a href="http://kde.org/applications/education/marble/">marble</a>.</p>
+<p>So the new googleearth 6.0 version hit the street. And if like me you want to give it a try, there&#8217;s some tricks to make it installing under your 64bits opensuse factory.</p>
+<p>My first attempt just result in a nice crash &#8230; </p>
+<pre style="font-size:x-small">
+h GoogleEarthLinux6.0.bin 
+Verifying archive integrity... All good.
+Uncompressing Google Earth for GNU/Linux 6.0.0.1735..............................................................
+I/O error : No such file or directory
+setup.data/setup.xml:1: parser error : Document is empty
+
+^
+setup.data/setup.xml:1: parser error : Start tag expected, '&lt;&#039; not found
+
+^
+*** glibc detected *** setup.data/bin/Linux/amd64/setup.gtk2: free(): invalid pointer: 0xbabababa ***
+======= Backtrace: =========
+/lib/libc.so.6(+0x6df6b)[0xf6c64f6b]
+/lib/libc.so.6(cfree+0xd9)[0xf6c69ab9]
+setup.data/bin/Linux/amd64/setup.gtk2[0x8074214]
+/usr/lib/libxml2.so.2(+0x5131b)[0xf768531b]
+======= Memory map: ========
+08048000-08091000 r-xp 00000000 fd:01 1752187                            /tmp/selfgz99614152/setup.data/bin/Linux/x86/setup.gtk2
+...
+</pre>
+<p>
+<a href="http://lizards.opensuse.org/wp-content/uploads/2010/12/googleearth6-in-action.png"><img src="http://lizards.opensuse.org/wp-content/uploads/2010/12/googleearth6-in-action-300x206.png" alt="Google Eartch 6 In action" width="300" height="206" class="alignmiddle size-medium wp-image-5984" srcset="https://lizards.opensuse.org/wp-content/uploads/2010/12/googleearth6-in-action-300x206.png 300w, https://lizards.opensuse.org/wp-content/uploads/2010/12/googleearth6-in-action.png 968w" sizes="(max-width: 300px) 100vw, 300px" /></a><br />
+So I found that can be helpful, during the transition phase to have a package for openSUSE.<br />
+<br />
+Here&#8217;s the recipe.
+</p>
+<p>1: get the binary</p>
+<pre>
+wget http://dl.google.com/earth/client/current/GoogleEarthLinux.bin
+</pre>
+<p>2: extract it to a temp directory</p>
+<pre>sh GoogleEarthLinux.bin --target GoogleEarthFixed</pre>
+<p>3: replace the defective gtk2 setup thing</p>
+<pre>mv ./GoogleEarthFixed/setup.data/bin/Linux/x86/setup.gtk ./GoogleEarthFixed/setup.data/bin/Linux/x86/setup.gtk2</pre>
+<p>4: Launch the installer<br />
+4a : as root for system wide install</p>
+<pre>su -l
+./GoogleEarthFixed/setup.sh
+</pre>
+<p>4b : as normal user to have it installed inside your own home</p>
+<pre>./GoogleEarthFixed/setup.sh</pre>
+<p>5: Cleaning !<br />
+If you don&#8217;t need anymore.</p>
+<pre>
+rm -Rf ./GoogleEarthFixed
+rm ./GoogleEarthLinux.bin 
+</pre>
+<p>I would thanks people posting this <a href="http://www.howtoforge.com/how-to-install-google-earth-on-ubuntu-10.10#comment-26209">comment</a></p>
+<p>The method should also work for the older 5.2 version </p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2010/12/01/googleearth-6-0-running-in-opensuse-11-4-factory-64bits/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+	</channel>
+</rss>

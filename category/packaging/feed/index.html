@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0"
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -9,643 +8,679 @@
 	>
 
 <channel>
-	<title>openSUSE Lizards &#187; Packaging</title>
-	<atom:link href="http://lizards.opensuse.org/category/packaging/feed/" rel="self" type="application/rss+xml" />
-	<link>http://lizards.opensuse.org</link>
+	<title>Packaging &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/category/packaging/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
 	<description>Blogs and Ramblings of the openSUSE Members</description>
-	<lastBuildDate>Mon, 24 Mar 2014 12:46:00 +0000</lastBuildDate>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
 	<language>en-US</language>
-		<sy:updatePeriod>hourly</sy:updatePeriod>
-		<sy:updateFrequency>1</sy:updateFrequency>
-	<generator>http://wordpress.org/?v=3.8.1</generator>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
 	<item>
-		<title>Cloudy with a touch of Green</title>
-		<link>http://lizards.opensuse.org/2014/03/19/cloudy-with-a-touch-of-green/</link>
-		<comments>http://lizards.opensuse.org/2014/03/19/cloudy-with-a-touch-of-green/#comments</comments>
-		<pubDate>Wed, 19 Mar 2014 19:08:27 +0000</pubDate>
-		<dc:creator><![CDATA[rjschwei]]></dc:creator>
-				<category><![CDATA[Distribution]]></category>
-		<category><![CDATA[Infrastructure]]></category>
-		<category><![CDATA[Packaging]]></category>
-		<category><![CDATA[azure]]></category>
-		<category><![CDATA[cloud]]></category>
-		<category><![CDATA[EC2]]></category>
-		<category><![CDATA[gce]]></category>
-		<category><![CDATA[openSUSE 13.1]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10678</guid>
-		<description><![CDATA[Finally there is some news regarding our public cloud presence and openSUSE 13.1. We now have openSUSE 13.1 images published in Amazon EC2, Google Compute Engine, and Windows Azure. Well, that&#8217;s the announcement, but would make for a rather short blog. Thus, let me talk a bit about how this all works and speculate a [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>Finally there is some news regarding our public cloud presence and openSUSE 13.1. We now have openSUSE 13.1 images published in Amazon EC2, Google Compute Engine, and Windows Azure.</p>
-<p>Well, that&#8217;s the announcement, but would make for a rather short blog. Thus, let me talk a bit about how this all works and speculate a bit why we&#8217;ve not been all that good with getting stuff out into the public cloud.</p>
-<p>Let me start with the speculation part, i.e. hindrances in getting openSUSE images published. In general to get anything into a public cloud one has to have an account. This implies that you hand over your credit card number to the cloud provider and they charge you for the resources you use. Resources in the public cloud are anything and everything that has something to do with data. Compute resources, i.e. the size of an instance w.r.t. memory and number of CPUs are priced differently. Sending data across the network to and from your instances incurs network charges and of course storing stuff in the cloud is not free either. Thus, while anyone can put an image into the cloud and publish it, this service costs the person money, granted not necessarily a lot, but it is a monthly recurring out of pocket expense.</p>
-<p>Then there always appears to be the &#8220;official&#8221; apprehension, meaning if person X publishes an openSUSE image from her/his account what makes it &#8220;official&#8221;. Well first we have the problem that the &#8220;official&#8221; stamp is really just an imaginary hurdle. An image that gets published by me is no more or less &#8220;official&#8221; than any other images. I am after all not the release manager or have any of my fingers in the openSUSE release in any way. I do have access to the SUSE accounts and can publish from there and I guess that makes the images &#8220;official&#8221;. But please do not get any ideas about &#8220;official&#8221; images, they do not exist.</p>
-<p>Last but not least there is a technical hurdle. Building images in OBS is not necessarily for the faint of heart. Additionally there is a bunch of other stuff that goes along with cloud images. Once you have one it still has to get into the cloud of choice, which requires tools etc.</p>
-<p>That&#8217;s enough speculation as to why or why not it may have taken us a bit longer than others, and just for the record we did have openSUSE 12.1 and openSUSE 12.2 images in Amazon. With that lets talk about what is going on.</p>
-<p>We have a project in OBS now, actually it has been there for a while, <a href="https://build.opensuse.org/project/show/Cloud:Images" title="Cloud:Images">Cloud:Images</a> that is intended to be used to build openSUSE cloud images. The GCE image that is public and the Amazon image that is public both came from this project. The Azure image that is currently public is one built with SUSE Studio but will at some point also stem from the Cloud:Images OBS project.</p>
-<p>Each cloud framework has it&#8217;s own set of tools. The tools are separated into two categories, initialization tools and command line tools. The initialization tools are tools that reside inside the image and these are generally services that interact with the cloud framework. For example <a href="http://cloudinit.readthedocs.org/en/latest/" title="cloud-init">cloud-init</a> is such an initialization tool and it is used in OpenStack images, Amazon images, and Windows Azure images. The command line tools let you interact with the cloud framework to start and stop instances for example. All these tools get built in the <a href="https://build.opensuse.org/project/show/Cloud:Tools" title="Cloud:Tools">Cloud:Tools</a> project in OBS. From there you can install the command line tools into your system and interact with the cloud framework they support. I am also trying to get all these tools into <a href="https://build.opensuse.org/project/show/openSUSE:Factory" title="openSUSE:Factory">openSUSE:Factory</a> to make things a bit easier for image building and cloud interaction come 13.2.</p>
-<p>With this lets take a brief closer look at each framework, in alphabetical order no favoritism here.</p>
-<p><strong>Amazon EC2</strong></p>
-<p>An openSUSE 13.1 image is available in all regions, the AMI (Amazon Machine Image) IDs are as follows:</p>
-<p>sa-east-1       =&gt;  ami-2101a23c<br />
-ap-northeast-1  =&gt;  ami-bde999bc<br />
-ap-southeast-2  =&gt;  ami-b165fc8b<br />
-ap-southeast-1  =&gt;  ami-e2e7b6b0<br />
-eu-west-1       =&gt;  ami-7110ec06<br />
-us-west-1       =&gt;  ami-44ae9101<br />
-us-west-2       =&gt;  ami-f0402ec0<br />
-us-east-1       =&gt;  ami-ff0e0696</p>
-<p>These images use cloud-init as opposed to the &#8220;suse-ami-tools&#8221; that has been used previously and is no longer available in OBS. The cloud-init package is developed in launchpad and was started by the Canonical folks. Unfortunately to contribute you have to sign the Canonical Contributor Agreement (CCA). If you do not want to sign it or cannot sign it for company reasons you can still send stuff to the package and I&#8217;ll try and get the stuff integrated upstream. For the interaction with Amazon we have the <a href="http://aws.amazon.com/cli/" title="aws-cli">aws-cli</a> package. The &#8220;aws&#8221; command line client supersedes all the ec2-*-tools and is an integrated package that can interact with all Amazon services, not just EC2. It is well documented fully open source and hosted on <a href="https://github.com/aws/aws-cli" title="github">github</a>. The aws-cli package replaces the previously maintained ec2-api-tools package which I have removed from OBS.</p>
-<p><strong>Google Compute Engine</strong></p>
-<p>In GCE things work by name and the openSUSE 13.1 image is named opensuse131-20140227 and is available in all regions. Google images use a number of tools for initialization, google-daemon and google-startup-scripts. All the Google specific tools are in the Cloud:Tools project. Interaction with GCE is handled with two commands, gcutil and gsutil, both provided by the google-cloud-sdk package. As the name suggests google-cloud-sdk has the goal to unify the various Google tools, same basic idea as aws-cli, and Google is working on the unification. Unfortunately they have decided to do this on their own and there is no public project for google-cloud-sdk which makes contributing a bit difficult to say the least. The <a href="https://github.com/GoogleCloudPlatform/gsutil" title="gsutil">gsutil</a> code is hosted on github, thus at least contributing to gsutil is straight forward. Both utilities, gsutil for storage and gcutil for interacting with GCE are well documented.</p>
-<p>In GCE we also were able to stand up openSUSE mirrors. These have been integrated into our <a href="https://en.opensuse.org/MirrorBrain" title="mirrorbrain">mirrorbrain</a> infrastructure and are already being used quite heavily. The infrastructure team is taking care of the monitoring and maintenance and that deserves a big THANK YOU from my side. The nice thing about hosting the mirrors in GCE is that when you run an openSUSE instance in GCE you will not have to pay for network charges to pull your updated packages and things are really fast as the update server is located in the same data center as your instance.</p>
-<p><strong>Windows Azure</strong></p>
-<p>As mentioned previously the current image we have in Azure is based on a build from SUSE Studio. It does not yet contain cloud-init and only has <a href="https://github.com/WindowsAzure/WALinuxAgent" title="WALinuxAgent">WALinuxAgent</a> integrated. This implies that processing of user data is not possible in the image. User data processing requires cloud-init and I just put the finishing touches on cloud-init this week. Anyway, the image in Azure works just fine, and I have no time line when we might replace it with an image that contains cloud-init in addition to WALinuxAgent.</p>
-<p>Interacting with Azure is a bit more cumbersome than with the other cloud frameworks. Well, let me qualify this with, if you want packages. The Azure command line tools are implemented using nodejs and are integrated into the <a href="https://www.npmjs.org/" title="npm">npm</a> nodejs package system. Thus, you can use npm to install everything you need. The nodejs implementation provides a bit of a problem in that we hardly have a nodejs infrastructure in the project. I have started packaging the dependencies, but there is a large number and thus this will take a while. Who would ever implement&#8230;.. but that&#8217;s a different topic.</p>
-<p>That&#8217;s where we are today. There is plenty of work left to do. For example we should unify the &#8220;generic&#8221; OpenStack image in Cloud:Images with the HP specific one, the HP cloud is based on OpenStack, and also get an openSUSE image published in the HP cloud. There&#8217;s tons of packaging left to do for nodejs modules to support the azure-cli tool. It would be great if we could have openSUSE mirrors in EC2 and Azure to avoid network charges for those using openSUSE images in those clouds. This requires discussions with Amazon and Microsoft, basically we need to be able to run those services for free, which implies that both would become sponsors of our project just like Google has become a sponsor of our project by letting us run the openSUSE mirrors in GCE.</p>
-<p>So if you are interested in cloud and public cloud stuff get involved, there is plenty of work and lots of opportunities. If you just want to use the images in the public cloud go ahead, that&#8217;s why they are there. If you want to build on the images we have in OBS and customize them in your own project feel free and use them as you see fit.</p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2014/03/19/cloudy-with-a-touch-of-green/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
-		<item>
-		<title>osc build with kvm on an encrypted volume group</title>
-		<link>http://lizards.opensuse.org/2014/03/15/osc-build-with-kvm-on-an-encrypted-volume-group/</link>
-		<comments>http://lizards.opensuse.org/2014/03/15/osc-build-with-kvm-on-an-encrypted-volume-group/#comments</comments>
-		<pubDate>Sat, 15 Mar 2014 17:34:14 +0000</pubDate>
-		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
-				<category><![CDATA[Base System]]></category>
-		<category><![CDATA[Distribution]]></category>
-		<category><![CDATA[Kernel]]></category>
-		<category><![CDATA[Packaging]]></category>
-		<category><![CDATA[Uncategorized]]></category>
-		<category><![CDATA[Build]]></category>
-		<category><![CDATA[kvm]]></category>
-		<category><![CDATA[osc]]></category>
-		<category><![CDATA[virtio]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10665</guid>
-		<description><![CDATA[How-to build a initrd-virtio on a fully encrypted volume group If like me you care about your data stored on your laptop, you certainly use a fully encrypted (excepted /boot) configuration based on lvm. In my case I also like to create, build, fix packages locally with our tool osc. I&#8217;ve plenty of power, beefy [&#8230;]]]></description>
-				<content:encoded><![CDATA[<h1>How-to build a initrd-virtio on a fully encrypted volume group</h1>
-<p>If like me you care about your data stored on your laptop, you certainly use a fully encrypted (excepted /boot) configuration based on lvm.</p>
-<p>In my case I also like to create, build, fix packages locally with our tool osc. I&#8217;ve plenty of power, beefy ssd, so I dedicate a logical lvm for building cleanly package with qemu-kvm configuration, like <a href="http://build.opensuse.org">obs</a> does</p>
-<h2>Prepare the kvm building system</h2>
-<p>As root you create 2 lvm volume with lvcreate, one will be the build root, the other one will be the additional swap</p>
-<p>In ~/.oscrc I enable the following parameters</p>
-<pre>
-build-type = kvm
-build-device = /dev/mapper/vg0-lvobsbuild
-build-swap = /dev/mapper/vg1-lvobsswap
-build-memory = 4096
-build-vmdisk-rootsize = 16000
-build-vmdisk-swapsize = 4000
-build-vmdisk-filesystem = ext4
-</pre>
-<p>You just have to adjust the Memory quantity and the device to what you create for your own environment.</p>
-<p><span id="more-10665"></span></p>
-<h2>Building with qemu-kvm</h2>
-<p>Once the preparation is done you could try to build a package</p>
-<pre>
-Skipping verification of package signatures due to secure VM build
-Writing build configuration
-Running build
-No initrd that provides virtio support found. virtio accelleration disabled.
-Run the following command as root to enable virtio:
- "env" "rootfstype=ext4" "mkinitrd" "-d" "/dev/null" "-m" "ext3 ext4 btrfs reiserfs binfmt_misc virtio_pci virtio_blk" "-k" "/boot/vmlinuz" "-i" "/boot/initrd-3.13.6-1.g4727218-desktop-virtio"
-VM_IMAGE: /dev/mapper/vg0-lvobsbuild, VM_SWAP: /dev/mapper/vg1-lvobsswap
-Creating ext4 filesystem on /dev/mapper/vg0-lvobsbuild
-tune2fs 1.42.8 (20-Jun-2013)
-Setting maximal mount count to -1
-mkswap /dev/mapper/vg1-lvobsswap
-Setting up swapspace version 1, size = 4194300 KiB
-no label, UUID=935f0e2d-52d7-4013-8a7f-7d48c813a482
-logging output to /tmp/obsbuild/.build.log...
-</pre>
-<p>As you can see, it warn you that you could create a -virtio initrd to use virtio acceleration (who contribute a patch for the typo <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif" alt=":-)" class="wp-smiley" /><br />
-<br />But the command line is not completely correct in our case. It need the -d to be filled with the lvm buildroot to work as expected. If you successfully create the initrd-virtio you still will face a number of trouble, due to the way mkinitrd work.
-</p>
-<h2>Defeating the errors</h2>
-<p>You remember that we have a fully encrypted volume group, and as a clever tool mkinitrd will feed the initrd with all the tools needed to boot your system.<br />
-<br />But that mean it will forget the lv buildroot we ask, and will put unnecessary tools and options.
-</p>
-<p>Typical errors with a non optimized -virtio initrd</p>
-<pre>
-[    3s] /usr/bin/qemu-kvm -no-reboot -nographic -vga none -net none -cpu host -kernel /boot/vmlinuz -initrd /boot/initrd-3.13.6-1.g4727218-desktop -append root=/dev/sda panic=1 quiet no-kvmclock nmi_watchdog=0 rw elevator=noop console=ttyS0 init=/.build/build -m 4096 -hda /dev/mapper/vg0-lvobsbuild -drive file=/dev/mapper/vg1-lvobsswap,if=ide,index=1,cache=none -smp 8
-[    9s] FATAL: Error inserting nvidia (/lib/modules/3.13.6-1.g4727218-desktop/updates/nvidia.ko): No such device
-[    9s]   WARNING: Failed to connect to lvmetad: No such file or directory. Falling back to internal scanning.
-[    9s]   Volume group "vg0" not found
-[    9s]   WARNING: Failed to connect to lvmetad: No such file or directory. Falling back to internal scanning.
-[    9s]   Volume group "vg0" not found
-[    9s] *** Note: only US keyboard layout is supported.
-[    9s] *** Please ensure that the password is typed correctly.
-[   41s] Waiting for device /dev/disk/by-id/ata-Corsair_Force_GT_blah-part2 to appear: ..............................Unlocking cr_sda2 (/dev/disk/by-id/ata-Corsair_Force_GT_blah-part2)
-[   41s] Device /dev/disk/by-id/ata-Corsair_Force_GT_blah-part2 doesn't exist or access denied.
-[   41s] Trying manual resume from /dev/vg0/lvswap
-[   41s] resume device /dev/vg0/lvswap not found (ignoring)
-[   41s] Trying manual resume from /dev/vg0/lvswap
-[   41s] resume device /dev/vg0/lvswap not found (ignoring)
-[   73s] Waiting for device /dev/sda to appear: ..............................Could not find /dev/sda.
-[   73s] Want me to fall back to /dev/vg0/lvsuse? (Y/n)
-</pre>
-<p><b>Rescue</b> you have as root to kill all build process.</p>
-<pre>for P in $(ps auxw| grep build | grep -v grep | awk {'print $2'} );do kill $P;done</pre>
-<p>
-<h2>Find a solution</h2>
-<p>We want an optimized -virtio initrd, which filter all the lvm and crypting tools we don&#8217;t need. Also there&#8217;s no need to encumber it with graphic blob.<br />
-Then I create a small script I&#8217;ve called patch-initrd-virtio (source below) which exactly do that work anytime I&#8217;ve a kernel change.<br />
-As it need to be run by root only, I normally place it in /root/bin/
-</p>
-<h2>patch-initrd-virtio sources</h2>
-<pre>
-#!/usr/bin/env bash
-
-# WTF License 1.0 
-# Author Bruno Friedmann tigerfoot (at) opensuse.org
-
-# Usage : this script will create an optimized virtio initrd without
-# lvm, crypt, gfx tool
-# by using the actual /boot/initrd symlink you have.
-# Edit the 2 devices you target to use 
-# 
-DEVBUILD='/dev/vg0/lvobsbuild'
-DEVSWAP='/dev/vg1/lvobsswap'
-
-nokms(){
-sed -i '/^NO_KMS_IN_INITRD/s/no/yes/' /etc/sysconfig/kernel
-}
-
-kms(){
-sed -i '/^NO_KMS_IN_INITRD/s/yes/no/' /etc/sysconfig/kernel
-}
-
-echo "cleanup /tmp"
-rm -fr /tmp/initrd*
-
-# Patch the virtio initrd
-if [ -z "$1" ];then
-export VER=`uname -r`
-else
-export VER="$1"
-fi
-export INITRD="/boot/initrd-$VER-virtio"
-echo "Setting nokms"
-nokms
-
-echo "Building -virtio initrd ..."
-"env" "rootfstype=ext4,resume=$DEVSWAP,rootdev=$DEVBUILD,udevtimeout=2,udev_timeout=2,nosplash,noluks" "mkinitrd" "-B" "-d" "$DEVBUILD" "-m" "ext4 btrfs binfmt_misc virtio_pci virtio_blk" "-k" "/boot/vmlinuz-$VER" "-i" "$INITRD"
-
-ls -l $INITRD
-
-echo "Setting kms"
-kms
-
-# copy the *.virtio initrd to /tmp
-cp -vfa $INITRD /tmp/initrd-virtio.gz
-
-# ungzip it gzip -d initrd
-cd /tmp
-mkdir initrd.build
-gzip -d initrd-virtio.gz
-
-cd initrd.build
-
-# uncpio cpio -id &lt; ../initrd
-cpio -id  ../initrd
-rm -fv ../initrd-virtio
-echo "rebuilding initrd ..."
-find . | cpio --create --format='newc' &gt; ../initrd-virtio
-cd ../
-echo "Compressing initrd ..."
-# Install pigz if you want to save half an hour of your life.
-if [ -x /usr/bin/pigz ];then
- pigz -9v initrd-virtio
-else
- gzip -9v initrd-virtio
-fi
-# copy to /boot
-cp -v initrd-virtio.gz $INITRD
-echo "Done ..."
-
-</pre>
-<h2>Usage of patch-initrd-virtio</h2>
-<p>Here&#8217;s the result of a run</p>
-<pre>
-cleanup /tmp
-Setting nokms
-Building -virtio initrd ...
-
-Kernel image:   /boot/vmlinuz-3.13.6-1.g4727218-desktop
-Initrd image:   /boot/initrd-3.13.6-1.g4727218-desktop-virtio
-Root device:    /dev/vg0/lvobsbuild (mounted on / as ext4)
-Resume device:  /dev/vg0/lvswap
-enabling LUKS support for /dev/disk/by-id/ata-Corsair_Force_GT_blah-part2 (cr_sda2)
-Microcode: Adding Intel microcode 06-2a-07
-Kernel Modules: thermal_sys thermal processor fan libcrc32c xor raid6_pq btrfs binfmt_misc virtio virtio_ring virtio_pci virtio_blk dm-mod dm-crypt dm-log dm-region-hash dm-mirror dm-snapshot scsi_dh scsi_dh_hp_sw scsi_dh_alua scsi_dh_rdac scsi_dh_emc xhci-hcd hid-logitech-dj hid-holtek-kbd hid-lenovo-tpkbd hid-ortek hid-roccat hid-roccat-common hid-roccat-arvo hid-roccat-isku hid-samsung ohci-pci linear arc4 sha256_generic cryptd crct10dif-pclmul crc32-pclmul crc32c-intel ghash-clmulni-intel aes-x86_64 glue_helper gf128mul lrw ablk_helper aesni-intel
-Features:       acpi dm intel_microcode block usb lvm2 luks btrfs resume.userspace resume.kernel
-Did not refresh the bootloader. You might need to refresh it manually.
--rw------- 1 root root 29338540 Mar 15 18:18 /boot/initrd-3.13.6-1.g4727218-desktop-virtio
-Setting kms
-‘/boot/initrd-3.13.6-1.g4727218-desktop-virtio’ -&gt; ‘/tmp/initrd-virtio.gz’
-160249 blocks
-removed ‘./boot/71-luks.sh’
-removed ‘./config/luks.sh’
-removed ‘../initrd-virtio’
-rebuilding initrd ...
-160239 blocks
-Compressing initrd ...
-initrd-virtio to initrd-virtio.gz
-‘initrd-virtio.gz’ -&gt; ‘/boot/initrd-3.13.6-1.g4727218-desktop-virtio’
-Done ...
-</pre>
-<h2>Finally start a build with -virtio activated</h2>
-<p>So with our new optimized initrd-virtio we can restart a fully qemu-kvm build with osc build &#8211;clean</p>
-<pre>
-Skipping verification of package signatures due to secure VM build
-Writing build configuration
-Running build
-VM_IMAGE: /dev/mapper/vg0-lvobsbuild, VM_SWAP: /dev/mapper/vg1-lvobsswap
-Creating ext4 filesystem on /dev/mapper/vg0-lvobsbuild
-tune2fs 1.42.8 (20-Jun-2013)
-Setting maximal mount count to -1
-mkswap /dev/mapper/vg1-lvobsswap
-mkswap: /dev/mapper/vg1-lvobsswap: warning: wiping old swap signature.
-Setting up swapspace version 1, size = 4194300 KiB
-no label, UUID=c19c873b-2b6c-4200-9575-a60adc581204
-logging output to /tmp/obsbuild/.build.log...
-[    0s] Using BUILD_ROOT=/tmp/obsbuild/.mount
-[    0s] Using BUILD_ARCH=x86_64:i686:i586:i486:i386
-[    0s] Doing kvm build in /dev/mapper/vg0-lvobsbuild
-[    0s] 
-[    0s] 
-[    0s] c-3po.labaroche.ioda.net started "build postgresql-plr.spec" at Sat Mar 15 17:27:18 UTC 2014.
-[    0s] 
-[    0s] 
-[    0s] processing specfile /home/bruno/openSUSE/obs/home:bruno_friedmann:branches:openSUSE:12.3:Update/postgresql-plr.openSUSE_12.3_Update/postgresql-plr.spec ...
-[    0s] running changelog2spec --target rpm --file /home/bruno/openSUSE/obs/home:bruno_friedmann:branches:openSUSE:12.3:Update/postgresql-plr.openSUSE_12.3_Update/postgresql-plr.spec
-[    0s] init_buildsystem --configdir /usr/lib/build/configs --cachedir /var/cache/build --prepare --clean --rpmlist /tmp/rpmlist.Vy31Li /home/bruno/openSUSE/obs/home:bruno_friedmann:branches:openSUSE:12.3:Update/postgresql-plr.openSUSE_12.3_Update/postgresql-plr.spec ...
-[    1s] cycle: pam -&gt; permissions -&gt; coreutils
-[    1s]   breaking dependency permissions -&gt; coreutils
-[    1s] [1/29] preinstalling filesystem...
-
-</pre>
-<p>Hope this give you the taste of building!</p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2014/03/15/osc-build-with-kvm-on-an-encrypted-volume-group/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
-		<item>
-		<title>Goodbye EC2 Tools Long Live AWS Tools</title>
-		<link>http://lizards.opensuse.org/2014/02/26/goodbye-ec2-tools-long-live-aws-tools/</link>
-		<comments>http://lizards.opensuse.org/2014/02/26/goodbye-ec2-tools-long-live-aws-tools/#comments</comments>
-		<pubDate>Wed, 26 Feb 2014 20:06:08 +0000</pubDate>
-		<dc:creator><![CDATA[rjschwei]]></dc:creator>
-				<category><![CDATA[Packaging]]></category>
-		<category><![CDATA[Systems Management]]></category>
-		<category><![CDATA[AWS]]></category>
-		<category><![CDATA[cloud]]></category>
-		<category><![CDATA[EC2]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10613</guid>
-		<description><![CDATA[For quite some time we had a package named ec2-api-tools in the Cloud:EC2 project and I suspect many that work with EC2 had found the package and were using the ec2-* commands to manage stuff in EC2. Along with the ec2-api-tools Amazon maintained a separate ec2-* tool set for various services. Keeping up with the [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>For quite some time we had a package named ec2-api-tools in the Cloud:EC2 project and I suspect many that work with EC2 had found the package and were using the ec2-* commands to manage stuff in EC2. Along with the ec2-api-tools Amazon maintained a separate ec2-* tool set for various services. Keeping up with the armada of Amazon developers is not easy and thus the other ec2-* tool sets never got packaged.</p>
-<p>Now a new integrated set of tools is available called with the &#8220;aws&#8221; command and provided by the aws-cli package. The package is available from the Cloud:Tools project and a submit request to Factory is pending. The new package does not obsolete the ec2-api-tools package as there is no issue with having both packages installed. However, I did take the liberty to remove the ec2-api-tool package from the Cloud:EC2 project as it would no longer receive updates considering that we have a nice new tool that unifies all Amazon services. The documentation for the new command can be found <a href="http://aws.amazon.com/documentation/cli/" title="here"></a>.</p>
-<p>The aws code is hosted on github and thus contribution of fixes is easy and that is another big plus over the ec2-* tool sets.</p>
-<p>Yes, and of course we need to get openSUSE 13.1 into EC2, and I am working on that, stay tuned&#8230;.</p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2014/02/26/goodbye-ec2-tools-long-live-aws-tools/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
-		<item>
-		<title>spec-cleaner: hide all your precious cruft!</title>
-		<link>http://lizards.opensuse.org/2014/01/31/spec-cleaner-hide-all-your-precious-cruft/</link>
-		<comments>http://lizards.opensuse.org/2014/01/31/spec-cleaner-hide-all-your-precious-cruft/#comments</comments>
-		<pubDate>Fri, 31 Jan 2014 08:33:31 +0000</pubDate>
-		<dc:creator><![CDATA[calumma]]></dc:creator>
+		<title>openSUSE OBS git mirror</title>
+		<link>https://lizards.opensuse.org/2019/09/13/opensuse-obs-git-mirror/</link>
+		<comments>https://lizards.opensuse.org/2019/09/13/opensuse-obs-git-mirror/#comments</comments>
+		<pubDate>Fri, 13 Sep 2019 19:42:12 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
 				<category><![CDATA[Build Service]]></category>
 		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
 		<category><![CDATA[Packaging]]></category>
-		<category><![CDATA[Quality Assurance]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10484</guid>
-		<description><![CDATA[As we stated in our communication over the time, our team&#8217;s main focus for foreseeable future is Factory and how to manage all those contributions. Goal is not to increase the number of SRs that is coming to Factory, but to make sure we can process more and to make sure we see even well [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>As we stated in our communication over the time, our team&#8217;s main focus for foreseeable future is Factory and how to manage all those contributions. Goal is <strong>not</strong> to increase the number of SRs that is coming to Factory, but to make sure we can process more and to make sure we see even well hidden consequences to make sure that Factory is &#8220;stable&#8221; and &#8220;usable&#8221;.</p>
-<p><img src="//lizards.opensuse.org/wp-content/uploads/2014/01/sprayg-263x300.jpg" alt="sprayg" width="263" height="300" class="alignright size-medium wp-image-10485" />
-<p>Not really part of our current sprints, but something that will hopefully help us is <i>spec-cleaner</i> that Tomáš Chvátal and Tomáš Čech were working on lately during their free time/hackweek. What is it trying to address? Currently, there are some packaging guidelines, but when you write a spec file for your software, you still have plenty of choices. How do you order all the information in the header? Do you use curly brackets around macros? Do you use macros? Which ones do you use and which not? Do you use binaries in dependencies? Package config? Perl symbols? Package names? There is <i>format_spec_file</i> obs service that tries to unify a little bit the coding style but leaves quite some of the stuff up to you. Not necessarily a bad thing, but if you have to compare changes and review packages that are using completely different coding styles the process becomes harder and slower.</p>
-<p><i>spec-cleaner</i> is <i>format_spec_file</i> taken to another level. It tries to unify coding style as much as it can. It uses consistent conventions, makes most of the decisions mentioned previously for you and if you already decided for one way in the past, it will try to convert your spec file to follow the conventions that it specifies. It&#8217;s not enforcing anything, it&#8217;s standalone script and therefore you don&#8217;t have to be worried that you spec file will be out of your control. You can run it, verify the result (actually, you should verify the results as there might still be some bugs) and commit it to OBS. If we all do it, our packages will all look more alike and it will be easier to read and review them.</p>
-<p>How to try it? How to help? Well, code is on <a href="https://github.com/openSUSE/spec-cleaner">GitHub</a> and packages are in <a href="https://build.opensuse.org/package/show/openSUSE:Tools/spec-cleaner">OBS</a>. You may have a version of it in your distribution, but that one is heavily outdated (even the 13.1 version), so add openSUSE:Tools repo and try the version from there.</p>
-<pre>zypper ar -f obs://openSUSE:Tools/openSUSE_13.1 openSUSE-Tools
-zypper in spec-cleaner</pre>
-<p>You can then go to some local checkout and try what changes does it propose for your spec file. Easiest way is to just let it do stuff by calling it and taking a look at changes afterwards.</p>
-<pre>spec-cleaner -p -i *.spec
-osc diff</pre>
-<p>If it works, great, we will have more unified spec files. If it doesn&#8217;t, file a  <a href="https://github.com/openSUSE/spec-cleaner/issues">bug</a> <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_wink.gif" alt=";-)" class="wp-smiley" /> </p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2014/01/31/spec-cleaner-hide-all-your-precious-cruft/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
-		<item>
-		<title>Unterstanding the nvidia driver process</title>
-		<link>http://lizards.opensuse.org/2014/01/15/unterstanding-the-nvidia-driver-process/</link>
-		<comments>http://lizards.opensuse.org/2014/01/15/unterstanding-the-nvidia-driver-process/#comments</comments>
-		<pubDate>Wed, 15 Jan 2014 15:59:59 +0000</pubDate>
-		<dc:creator><![CDATA[calumma]]></dc:creator>
-				<category><![CDATA[Base System]]></category>
-		<category><![CDATA[Boosters]]></category>
-		<category><![CDATA[Distribution]]></category>
-		<category><![CDATA[Packaging]]></category>
-		<category><![CDATA[Toolchain]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10402</guid>
-		<description><![CDATA[The NVIDIA drivers for openSUSE 13.1 took a while to appear. Many users have asked why this was and we&#8217;d like to explain what happened and what we plan to do to prevent this in the future. This post was written with input from the openSUSE developers who maintain these drivers at SUSE and work [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p><a href="http://www.muktware.com/2013/12/nvidia-drivers-now-available-opensuse-13-1/17381"><img src="//lizards.opensuse.org/wp-content/uploads/2014/01/Nvidia-300x168.jpg" alt="Nvidia pic from Muktware" width="300" height="168" class="alignright size-medium wp-image-10405" /></a><br />
-The NVIDIA drivers for openSUSE 13.1 took a while to appear. Many users have asked why this was and we&#8217;d like to explain what happened and what we plan to do to prevent this in the future. This post was written with input from the openSUSE developers who maintain these drivers at SUSE and work with NVIDIA to make them available for our users.</p>
-<h2>How it should work</h2>
-<p>Legally, the Linux kernel GPLv2 license leaves proprietary binary drivers in a bit of a tangle. While some claim it should be OK, others say not &#8211; and that is what most distributions currently assume: one can not ship a Linux distribution with proprietary, binary drivers. NVIDIA has agreed that our users can grab their drivers from the official NVIDIA servers. They are packaged by SUSE engineers however. They take care of both SLE and openSUSE proprietary driver packaging for NVIDIA hardware, and have contacts at NVIDIA who get the drivers up on their ftp mirrors.<br />
-<a href="http://opensuse-community.org/nvidia.ymp"><img src="//lizards.opensuse.org/wp-content/uploads/2014/01/Nvidia-1click.png" alt="Nvidia-1click" width="160" height="40" class="alignright size-full wp-image-10406" /></a><br />
-The packages are build on a dedicated system, but the package spec (skeleton for building) is in OBS &#8211; for example, <a href="https://build.opensuse.org/package/show/X11:Drivers:Video/nvidia-gfxG03">G03 is here</a>. Anybody could use these to build the nvidia driver locally (the nvidia binary driver is grabbed from the nvidia driver during building). The command sequence for local building can be found in <a href="https://build.opensuse.org/package/view_file/X11:Drivers:Video/nvidia-gfxG03/README?expand=1">the README</a>.</p>
-<p>Once the packages are build, they are send to NVIDIA, which signs the packages with their key and generates and signs repositories, making them available to the public.</p>
-<p>To note is the fact that this is all manual and takes a while on NVIDIA&#8217;s side (and ours). This of course is part of the reason why we don&#8217;t offer NVIDIA packages for Factory, our fast-rolling development repository.</p>
-<h2>What happened</h2>
-<p>What occurred for 13.1 is a typical case of &#8220;everything went wrong&#8221;.</p>
-<p>Up until a few weeks before the release, the driver did not build against the Linux Kernel version 3.11. NVIDIA warned against the use of a patch for this problem created by third parties so the driver team did not have a running build. Due to a holiday, it took a while to get the packages build and pushed to NVIDIA. Unfortunately, by the time this was done, the holiday period at NVIDIA blocked progress for another week. Once the package was signed, it took the webteam at NVIDIA another week to get the repository published. It all added up to almost a month and brought quite some inconvenience for users eager to use their latest NVIDIA cards with the latest openSUSE.</p>
-<p>About a week later, the openSUSE 13.1 NVIDIA drivers disappeared again from the nvidia servers for a day or so. We don&#8217;t know exactly what happened there, it might have simply been a server issue.</p>
-<h2>What we will do</h2>
-<p>The first and  most obvious thing to change would be to improve coordination. The developers taking care of the NVIDIA packages should be made aware as early as possible about the release planning and a replacement in case for holidays should be available. We noted this in our 13.1 release report and will make sure that there will be a <a href="http://progress.opensuse.org">task in our task tracker</a> for this for the next release. We also need to talk to NVIDIA about this to make sure that there, too, somebody can fill in for SUSE&#8217;s contacts.</p>
-<p>But there are also thoughts on how to improve further. Some of the current ideas:</p>
-<ul>
-<li>To get drivers for Factory the process needs more automation as the driver may break on kernel or X changes</li>
-<li>We could try to open the process and work with community members to secure the process in case the SUSE folks are unavailalbe</li>
-<li>It would be nice if we could make NVidia to see benefit of working more on the driver in openSUSE, e.g. by doing some testing</li>
-<li>We could write some scripts that check regularly whether repo and packages are still available and in a valid state (meta data matches available RPMs)</li>
-</ul>
-<p>We&#8217;ll have to see which of these we can implement, when and how. But rest assured that we will do what we can to prevent this in the future!</p>
-<p><img src="//lizards.opensuse.org/wp-content/uploads/2013/06/statistics-inside-212x300.png" alt="statistics with Geeko inside" width="212" height="300" class="alignright size-medium wp-image-9572" /><br />
-<h2>And the stats!</h2>
-<p>After a bit of a hiatus, we&#8217;re back with the numbers. Development has slowed down around new year and isn&#8217;t back to speed yet so the 10th spot is shared by quite a big group of people&#8230;</p>
-<p><!--<br />
-BODY,DIV,TABLE,THEAD,TBODY,TFOOT,TR,TH,TD,P { font-family:"Liberation Sans"; font-size:x-small }<br />
---></p>
-<table border="0" cellspacing="0">
-<tbody>
-<tr>
-<td align="LEFT" height="16">Spot</td>
-<td align="LEFT">Name</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">1</td>
-<td align="LEFT">Stephan Kulow</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">2</td>
-<td align="LEFT">Denisart Benjamin</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">3</td>
-<td align="LEFT">Tomáš Chvátal, Dirk Mueller, Michal Vyskocil</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">4</td>
-<td align="LEFT">Hrvoje Senjan</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">5</td>
-<td align="LEFT">Ciaran Farrell</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">6</td>
-<td align="LEFT">Petr Gajdos</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">7</td>
-<td align="LEFT">Lars Vogdt, Pascal Bleser</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">8</td>
-<td align="LEFT">Jan Engelhardt, Charles Arnold</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">9</td>
-<td align="LEFT">Andreas Stieger, Michal Marek, Niels Abspoel, Kyrill Detinov</td>
-</tr>
-<tr>
-<td align="RIGHT" height="17">10</td>
-<td align="LEFT">Dinar Valeev, Bjørn Lie, Ulrich Weigand, Tobias Klausmann, Marcus Meissner, Alexander Graf, Robert Schweikert, Martin Vidner</td>
-</tr>
-</tbody>
-</table>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2014/01/15/unterstanding-the-nvidia-driver-process/feed/</wfw:commentRss>
-		<slash:comments>1</slash:comments>
-		</item>
-		<item>
-		<title>openSUSE and GCC part 10: Distributing to other distributions than openSUSE with OBS</title>
-		<link>http://lizards.opensuse.org/2014/01/07/opensuse-and-gcc-part-10/</link>
-		<comments>http://lizards.opensuse.org/2014/01/07/opensuse-and-gcc-part-10/#comments</comments>
-		<pubDate>Tue, 07 Jan 2014 08:15:54 +0000</pubDate>
-		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
-				<category><![CDATA[lizards.openSUSE.org]]></category>
-		<category><![CDATA[Packaging]]></category>
-		<category><![CDATA[Programming]]></category>
-		<category><![CDATA[C-Language]]></category>
+		<category><![CDATA[Security]]></category>
+		<category><![CDATA[git]]></category>
+		<category><![CDATA[IPFS]]></category>
+		<category><![CDATA[mirror]]></category>
 		<category><![CDATA[obs]]></category>
 
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10387</guid>
-		<description><![CDATA[Last time I talked about OBS and how to compile your application that you have developed with GCC. OBS is much more than just a tool for compiling openSUSE additional packages. You can also compile Debian, Ubuntu, Arch and Fedora (and couple more) but why on earth you want to do that? Short answer: because [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p><a href="//lizards.opensuse.org/2013/12/11/opensuse-and-gcc-part-9/" title="openSUSE and GCC part 9: Open Build Service why should I use it?">Last time I talked about OBS</a> and how to compile your application that you have developed with GCC. <a href="http://openbuildservice.org/" title="Open Build Service">OBS</a> is much more than just a tool for compiling openSUSE additional packages. You can also compile <a href="http://debian.org" title="Debian ">Debian</a>, <a href="http://www.ubuntu.com/" title="Ubuntu linux">Ubuntu</a>, <a href="https://www.archlinux.org/" title="Arch Linux">Arch</a> and <a href="http://fedoraproject.org/" title="Fedora project">Fedora</a> (and couple more) but why on earth you want to do that? Short answer: because you can! Little bit longer answer: because you can and freedom is two way road. You can&#8217;t guess what Linux distribution or OS your user wants to use but you can make sure that you application is first class citizen in that Linux distribution.<span id="more-10387"></span> Of course You can use Fedora build service or Ubuntu launchpad but they are just for that distribution only. If it&#8217;s fine with you. Be happy and use these marvelous services. If you have woken up in night all sweat. Thinking all these openSUSE lizards that are unhappy because they can&#8217;t use your fabulous application.. it&#8217;s time to start sleeping well.</p>
-<h2>Fedora distribution or RHEL</h2>
-<p>RPM based Linux distributions are very easy with OBS. You just have to make SPEC file generic. If you like to do it right you should read <a href="http://en.opensuse.org/openSUSE:Build_Service_cross_distribution_howto" title="openSUSE:Build Service cross distribution howto">openSUSE:Build Service cross distribution howto</a> and learn how to do it.</p>
-<h2>OBS and DEB based distributions</h2>
-<p>This is little bit trickier but not much. You needed decent DSC-file (Most dsc files goes without changes. If you like to use Bzip2 file then you need to add &#8216;DEBTRANSFORM-TAR&#8217; in dsc-file) file and then you need &#8216;debian.tar.gz&#8217; in your project or &#8216;debian/&#8217;-dir in your project. What are files that you need in you debian package/dir? That is a very good question and it stays unanswered here because it&#8217;s not point of this blog. If you are curious enough you can always download &#8216;debian.tar.gz&#8217; from <a href="https://build.opensuse.org/package/show/home:illuusio:example/sdl_displaybitmap" title="OBS Example application">example application</a> and study files or look <a href="https://wiki.debian.org/HowToPackageForDebian" title="HowToPackageForDebian">Debian documentation</a> about it.</p>
-<h2>Arch</h2>
-<p>Arch is most unknown distribution for me but it has vibrant community and active development so providing packages to them is good thing. They seems to like live bleeding edge. So Just add Arch distribution in your project in OBS and then fill PKGBUILD-file with necessary lines and like magic you have Arch supported (<a href="https://build.opensuse.org/package/show/home:illuusio:example/sdl_displaybitmap" title="PKGBUILD">Look at example PKGBUILD-file if you don&#8217;t understand a thing</a>).</p>
-<p>This was it! No more articles about GCC or around it. Next I&#8217;ve going to dive low level Linux Multimedia especially in audio and FFmpeg (and how you do them in openSUSE). <a href="//lizards.opensuse.org/author/illuusio/" title="Blog">if you haven&#8217;t read rest of articles and you feel you missed something</a>. Go on a read them and if you missed good <a href="http://smithfarm-thebrain.blogspot.fi/2013/08/opensuse-packaging-workflow.html" title="OBS client OSC">OSC-blog you can read it too</a>.</p>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=14032</guid>
+		<description><![CDATA[There was some discussion about our OBS and how in contrast Gentoo, VoidLinux or Fedora used git to track packages. So I made an experimental openSUSE:Factory git mirror to see how well it goes and how using it feels. The repo currently needs around 1GB but will slowly grow over time. I did not want [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>There was some discussion about our OBS and how in contrast <a href="https://github.com/gentoo/gentoo">Gentoo</a>, <a href="https://github.com/void-linux/void-packages/tree/master/srcpkgs/aubio/">VoidLinux</a> or <a href="https://src.fedoraproject.org/rpms/aubio/tree/master">Fedora</a> used git to track packages.</p>
+<p>So I made an experimental <a href="https://github.com/bmwiedemann/openSUSE/">openSUSE:Factory git mirror</a> to see how well it goes and how using it feels.<br />
+The repo currently needs around 1GB but will slowly grow over time. I did not want to spend effort to import all history.</p>
+<p>Binary files are replaced by cryptographically secure symlinks into IPFS<br />
+and I am currently providing files up to 9MB there.</p>
+<p>If you can not run ipfs, you can still get these files through any of the public gateways like this:<br />
+<code>curl https://ipfs.io$(readlink packages/a/aubio/aubio-0.4.9.tar.bz2) &gt; OUTPUT</code></p>
+<p>So some benefits are already obvious.<br />
+It is now much easier to find and download our patches.<br />
+Downloading and seaching all of openSUSE is now much faster.<br />
+And it works even on Thursdays (when our maintenance window often causes OBS downtimes).</p>
+<p>It is meant to be a read-only mirror, so there is no point in opening pull-requests on github.</p>
+<p>I hope, you enjoy it and have a lot of fun&#8230;</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2014/01/07/opensuse-and-gcc-part-10/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
+			<wfw:commentRss>https://lizards.opensuse.org/2019/09/13/opensuse-obs-git-mirror/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
 		</item>
 		<item>
-		<title>Enter UnReal World RPG</title>
-		<link>http://lizards.opensuse.org/2013/12/19/enter-unreal-world-rpg/</link>
-		<comments>http://lizards.opensuse.org/2013/12/19/enter-unreal-world-rpg/#comments</comments>
-		<pubDate>Thu, 19 Dec 2013 18:57:47 +0000</pubDate>
-		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
-				<category><![CDATA[Desktop]]></category>
-		<category><![CDATA[lizards.openSUSE.org]]></category>
+		<title>Highlights of the Latest YaST Development Sprints</title>
+		<link>https://lizards.opensuse.org/2019/06/25/yast-sprints-77-79/</link>
+		<pubDate>Tue, 25 Jun 2019 09:33:05 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
 		<category><![CDATA[Packaging]]></category>
 		<category><![CDATA[Programming]]></category>
-		<category><![CDATA[games]]></category>
-		<category><![CDATA[UnReal World]]></category>
+		<category><![CDATA[Software Management]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
 
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10329</guid>
-		<description><![CDATA[When I was kid Commodore 64 was big thing and I played &#8216;Gateway to Apshai&#8216; hour after hour. It really hit me. Others liked Ultimas but &#8216;Gateway to Apshai&#8217; was THE thing to me. Years after C64 was gone with the wind I found world of Rogue, Omega and Nethack. Sweetest of them was Omega. [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>When I was kid Commodore 64 was big thing and I played &#8216;<a href="http://www.youtube.com/watch?v=JCsQsKaMAek" title="Gateway to Apshai youtube">Gateway to Apshai</a>&#8216; hour after hour. It really hit me. Others liked Ultimas but &#8216;Gateway to Apshai&#8217; was THE thing to me. Years after C64 was gone with the wind I found world of <a href="http://en.wikipedia.org/wiki/Rogue_%28video_game%29" title="Rogue">Rogue</a>, <a href="http://roguebasin.roguelikedevelopment.org/index.php?title=Omega" title="Omega">Omega</a> and <a href="http://www.nethack.org/" title="Nethack">Nethack</a>. Sweetest of them was Omega. Omega&#8217;s World map was big and you could do what ever you like and wander around and you didn&#8217;t have to fight all the time. As this was a long, long time ago none of those games are no more in active development but Sami Maaranen is still developing unique northern hemisphere survival game called <a href="http://www.unrealworld.fi/" title="UnReal World RPG">UnReal World RPG</a>.<br />
-<img src="http://media.indiedb.com/cache/images/games/1/17/16794/thumb_300x150/mainscreen318b3.PNG" alt="UnReal World RPG 3.18beta3 start screen" /><img src="http://media.indiedb.com/cache/images/games/1/17/16794/thumb_300x150/urw318-restock.png" alt="UnReal World RPG 3.18beta3" /><br />
-See bigger pictures at <a href="http://www.indiedb.com/games/the-unreal-world" title="IndieDB UnReal World RPG">IndieDB</a><br />
-<span id="more-10329"></span></p>
-<h2>UnReal World RPG</h2>
-<p>What makes UnReal World RPG so unique? Game is huge, difficult level is infernal and it&#8217;s all about survival in north (Iron-Age Finland actually). As said UnReal World RPG tries to be as quite realistic. You won&#8217;t find goblins nor elves around but UnReal World RPG gives you elks, mooses, bears, wolves, lynxes and really long dark cold winter. If you want to survive the arctic winter you have to try little bit harder (and you probably die). If you like to get into fight you probably die or you get serious wounds and you probably die soon because you can&#8217;t make fire.<br />
-Many times this game feels a bit sadistic in modeling how hard it have been in Iron-Age Finland but developer Sami Maaranen (and co-designer Erkka Lehmus) have spent lots of time studying about old ways crafting things, building traps and living off the land in general. As said before learning curve in this game is bit steep but there are plenty of &#8216;<a href="http://www.youtube.com/watch?v=OK7CXT67arU&amp;list=PLOCBEcNdfIeXVSaKDs97TMKlrdAGr72Pc" title="Let's Play UnReal World RPG">Let&#8217;s play</a>&#8216;-videos floating in Internet to help you out and you can&#8217;t find many games that gives you so much fun. So if you like survival games this is for you.</p>
-<h2>This sounds good</h2>
-<p>And it is. UnReal World RPG is not Open Source nor it&#8217;s Free Software but it&#8217;s free to play and download (no strings attached). Developer is only asking donations and if you like the game you should really consider to donate small amount to support the development.</p>
-<h2>Little bit deeper look</h2>
-<p>UnReal World, or shortly UrW, was first released in 1992 as more traditional fantasy roguelike game. Then it evolved and evolved steadily. URW started as MS DOS ascii based game after that was VGA/SVGA DOS upper memory semi graphics version. Third generation took URW to Windows world with SDL-library. At that point notorious rewrite of graphics, sounds and user interface was proceeded, but it was heavily tied to MS Windows world.</p>
-<h2>porting UnReal World RPG</h2>
-<p>In some point people started to tell in URW <a href="http://z3.invisionfree.com/UrW_forum/index.php?s=165de95ba5c0c30cbe32ddc45915032f&amp;act=idx" title="URW forum">forums</a> that they are playing URW in Wine (both Mac OS X and Linux). They were happy because it worked. Playing in Wine ain&#8217;t pleasant all the time as it&#8217;s with native game.<br />
-Porting SDL 1.2 game to another platform is really nice. It only does what it states. You don&#8217;t have to worry about internals and differences between platforms you just figure out differences and make sure everything is working smooth. Although MSVC is very different compiler C than GCC&#8217;s one. There is even huge difference between Mac OS X libc and Linux libc. Even little bit bumpy ride everything went well at the end and version 3.13 was first Linux and Mac OS X native version released.<br />
-Developing multiplatfrom has its&#8217; pains but now Linux and Mac OS X are released in same time as Windows version. I used openSUSE system as base Linux system for the port to Linux. Currently there is openSUSE RPM-version (Which is for Fedora also), Ubuntu/Debian DEB-version/Tar-ball and Mac OS X. Statistics show there is steadily growing phase of people coming from those platform to play URW. Only Ubuntu have currently 64-bit version because there is no demand on openSUSE or Fedora (people with Ubuntu just plays more games!).</p>
-<h2>Game ON!</h2>
-<p>If you don’t have anything else to do on your Christmas vacation: Go and grab <a href="http://www.unrealworld.fi/urw_linuxmirror.html" title="UnReal World RPG Linux download">UnReal World RPG new 3.18beta3</a> version when it&#8217;s hot hot hot. Find yourself building a cottage and swimming in lake or try to survive the arctic winter.</p>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=13843</guid>
+		<description><![CDATA[May and June have been, so far, interesting months for the YaST Team. We worked hard to polish the last details of the recently released openSUSE Leap 15.1, we attended the openSUSE Conference 2019 (with many fruitful conversations), we shared quite some time together around a table without computers (most of the time, we are [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>May and June have been, so far, interesting months for the YaST Team. We worked hard to polish the last details of the recently released openSUSE Leap 15.1, we attended the openSUSE Conference 2019 (with many fruitful conversations), we shared quite some time together around a table without computers (most of the time, we are a geographically distributed team), many team members enjoyed vacations (it&#8217;s spring time in Europe), we organized a Leap 15.1 <a href="https://lists.opensuse.org/opensuse-marketing/2019-06/msg00002.html">launch party with technical talks in Gran Canaria</a>&#8230; and we ran out of energy to also publish our traditional sprint reports in this blog.</p>
+<p>We will try to fix that with this blog post in which we will try to summarize some highlights from the latest three development sprints, namely the 77th, 78th and 79th. So be warned, this is going to be a loooong post.</p>
+<h3>Support for Multi-device Btrfs File Systems</h3>
+<p>We have been working steadily during the three sprints in implementing all the necessary bits to offer a good experience installing and upgrading an (open)SUSE system on top of several block devices by means of Btrfs RAID capabilities. That includes support in the Partitioner, in AutoYaST, in the storage guided setup and more.</p>
+<p>We decided that all that deserved a separate blog post. You can find here: <a href="https://lizards.opensuse.org/?p=13814">Getting Further with Btrfs in YaST</a>.</p>
+<h3>More Improvements for the Partitioner</h3>
+<p>That blog post mentions a couple of changes in the Partitioner that, although initially motivated by the introduction of multi-device Btrfs, go beyond that scope and are aimed to make the all the lists of devices more useful and informative.</p>
+<p>Traditionally the Partitioner used two separate columns &#8220;Type&#8221; and &#8220;FS Type&#8221; to describe the function of every device. That was sometimes hard to understand. Moreover, quite often the important information (like the relationship between a partition and its RAID or LVM) was simply missing in those tables.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/06/old_partitioner_table.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/06/old_partitioner_table-300x214.png" alt="Traditional devices table in the Partitioner" width="300" height="214" class="aligncenter size-medium wp-image-13846" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/06/old_partitioner_table-300x214.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/06/old_partitioner_table-768x549.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/06/old_partitioner_table.png 1023w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>We have merged those columns into a more informative one that identifies the devices and also gives an overview of the relationship between them at first glance. In addition, the table displaying all the system devices now includes multi-device file systems.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/06/new_partitioner_table.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/06/new_partitioner_table-300x215.png" alt="Revamped table of devices" width="300" height="215" class="aligncenter size-medium wp-image-13847" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/06/new_partitioner_table-300x215.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/06/new_partitioner_table-768x550.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/06/new_partitioner_table.png 1023w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3>Mitigating CPU vulnerabilities from YaST</h3>
+<p>If you are interested in security (or simply if you have not been living under a rock) you probably have heard about CPU based attacks like Spectre or Meltdown. The last year has seen a number of these CPU issues, all of them coming along with their own kernel options to change the Linux behavior in order to mitigate the security risks at a price of some performance loss.</p>
+<p>However, not all users know what affects their architectures or particular models of CPU and which kernel parameters to use to gain more performance if the security risk is acceptable for them.</p>
+<p>For that purpose, a new meta-option called &#8220;mitigations&#8221; was added to the Linux kernel. It allows to enable and disable at once several of those mitigations that prevent CPU attacks. See more information <a href="https://www.suse.com/support/kb/doc/?id=7023836">at this document</a> published by SUSE.</p>
+<p>We find that kernel option very useful, so we decided to provide an easy way for users to adjust it. Now the YaST bootloader screen contains a new setting which offers three pre-defined options and even a fourth one to let the users fine-tune the settings on their own. As you can see in the screenshot below, we have included extensive documentation in the help dialog, so you will not need to search for this blog post in the future.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/06/bootloader_mitigations.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/06/bootloader_mitigations-300x225.png" alt="" width="300" height="225" class="aligncenter size-medium wp-image-13849" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/06/bootloader_mitigations-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/06/bootloader_mitigations-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/06/bootloader_mitigations.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>It is also possible to modify this option directly from the installation summary. For that purpose, the &#8220;Firewall&#8221; section was renamed to &#8220;Security&#8221; and it now includes the possibility to tweak the CPU mitigation options, alongside the traditional settings for firewall and opening the SSH port.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/06/summary_mitigations.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/06/summary_mitigations-300x225.png" alt="CPU mitigations in the installation summary" width="300" height="225" class="aligncenter size-medium wp-image-13850" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/06/summary_mitigations-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/06/summary_mitigations-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/06/summary_mitigations.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Another success story of (open)SUSE offering a promptly solution for our users to easily adapt their systems to ever-changing complex needs.</p>
+<h3>Memory Optimizations during Installation</h3>
+<p>While the release of openSUSE Leap 15.1 was approaching, we got several bug reports stating the YaST installer used to freeze when using only 1GB RAM with online repositories (see <a href="https://bugzilla.suse.com/show_bug.cgi?id=1136051">bug#1136051</a>).</p>
+<p>It turned out that at some point YaST loads the details of <em>all available</em> packages. And that needs a lot of memory if you enable the online repositories during installation. For example the OSS Leap repository contains more than 35.000 binary packages!</p>
+<p>The problem was in the YaST internal API accessing the package manager library (<a href="https://github.com/openSUSE/libzypp">libzypp</a>). It did not allow to filter the objects, YaST had to read <em>all</em> objects and then do the filtering in the code. And for each object it returned <em>all</em> attributes, even those which were not needed (like the package description, full RPM name, etc&#8230;). All that data required a lot of memory.</p>
+<p>To fix that we have introduced new API calls that allow specifying more filters (like return all selected packages, packages from specific repository,&#8230;) and you can set which attributes should be returned. If you need to know only the name and the version then you will not get the other useless attributes. And to ease the usage of the new API in YaST we provided a nice object oriented wrapper written in Ruby.</p>
+<p>This optimization saves a lot of memory, 1GB of RAM should be enough for future installations with the online repositories, even if they grow even more.</p>
+<p>Unfortunately, we were only able to diagnose the problem and provide a solution a couple of weeks before the official release of Leap 15.1. Introducing a change in such a sensitive part of the installer was considered too risky (it would have invalidated many of the tests that had been already performed) so the installer included in openSUSE Leap 15.1 is still memory hungry if online repositories are used. For that release, we simply increased the official memory requirements to 1.5 GiB.</p>
+<h3>Online Migration from openSUSE Leap 15.1 to SLES15-SP1</h3>
+<p>For openSUSE Leap 15.0 it was only possible to migrate from Leap to SLES (SUSE Linux Enterprise Server) manually (see the <a href="https://www.suse.com/documentation/sles-15/book_sle_upgrade/data/sec_upgrade-online_opensuse_to_sle.html">documentation</a>). With Leap 15.1 the goal was to also support a migration using YaST. But we got a bug report saying the online migration from openSUSE Leap 15.1 to SLES15-SP1 displayed a wrong migration summary and didn&#8217;t work well.</p>
+<p>It turned out that YaST needed some small fixes to support this properly. The main problem was that YaST did not expect that the base product or the package vendor can be changed during online migration, so far it was only possible to upgrade to the next SLE service pack level. But that is fixed now.</p>
+<p>Wanna try the migration from openSUSE Leap 15.1 to SLES15-SP1? Then follow these steps.</p>
+<ol>
+<li>Install the <code>yast2-registration</code> and <code>yast2-migration</code> packages in the Leap 15.1 installation</li>
+<li>Make sure the latest online updates are installed (to install the fixes mentioned above)</li>
+<li>Start the YaST registration module and register the openSUSE Leap 15.1 product using your registration key</li>
+<li>Then start the YaST migration module, select the migration to SLES15-SP1</li>
+<li>(There might be reported some package dependency issues in the migration summary, go to the package manager and resolve them. Usually removing the old openSUSE package is the right solution.)</li>
+<li>Start the migration, the SLES packages will be downloaded and installed</li>
+<li>At the end the system will be rebooted to start the freshly installed SLES, enjoy! <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></li>
+<li>(It is recommended to review the orphaned packages, leftovers from the Leap installation, with the command <code>zypper packages --orphaned</code> and possibly remove them.)</li>
+</ol>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/06/leap_sles_migration.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/06/leap_sles_migration-300x207.png" alt="From Leap to SLES via YaST" width="300" height="207" class="aligncenter size-medium wp-image-13851" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/06/leap_sles_migration-300x207.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/06/leap_sles_migration-768x530.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/06/leap_sles_migration.png 872w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Please note that only minimal server installations of Leap are supported for upgrade, full installations especially with third party packages might not work correctly.</p>
+<h3>Why Cannot I Read the Logs?</h3>
+<p>Long time ago, the logs of any Linux system were spread over several files living under the <code>/var/log</code> subdirectory. YaST offers its &#8220;System Log&#8221; module to inspect those files in a convenient way. Since the introduction of Systemd and its journal, that information has been gradually moved to this new mechanism by default. And YaST offers its &#8220;Systemd Journal&#8221; module to inspect and query that journal.</p>
+<p>Both YaST modules can be executed by any user in the system, not only by root. That&#8217;s intentional because both the Systemd journal and the traditional Linux log files can register information targeted to unprivileged users. But there was some room for improvement in the error message displayed by both modules when such users were trying to access to protected information.</p>
+<p>This is how the new more explanatory message looks in the &#8220;System Log&#8221; module.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/06/view_anymsg-1.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/06/view_anymsg-1-300x235.png" alt="Explanatory pop-up for log viewer" width="300" height="235" class="aligncenter size-medium wp-image-13861" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/06/view_anymsg-1-300x235.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/06/view_anymsg-1.png 527w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>And this is the extended message for &#8220;Systemd Journal&#8221;, that now mentions the <code>systemd-journal</code> user&#8217;s group.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/06/journal.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/06/journal-300x158.png" alt="Improved message in the journal viewer" width="300" height="158" class="aligncenter size-medium wp-image-13862" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/06/journal-300x158.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/06/journal.png 363w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3>Another Day at the YaST Office: Adapting to Changes</h3>
+<p>As we usually remark in our blog posts, a significant part of the work of the YaST Team consist in keeping YaST in sync with the constant changes in the underlying system. Of course, these sprints were not an exception in that regard. Without trying to do an exhaustive list, let&#8217;s take a look to some of those adaptations since the mentioned underlying changes may be interesting for some readers.</p>
+<p>Turns out Systemd developers has decided to change the list of possible states for Systemd services. The <code>systemd-sigabrt</code> state is obsolete and a new <code>systemd-watchdog</code> one was added. In the YaST team we learned some time ago that the list of Systemd states changes more often than what most people would expect. As a consequence we have an automated check to detect these situations. The bell ringed, we adapted the code and everything keeps working.  </p>
+<p>Systemd is not the only technology that keeps evolving. Quite some time ago, <a href="https://www.suse.com/documentation/sles-15/book_rmt/data/book_rmt.html">RMT</a> replaced <a href="https://www.suse.com/documentation/sles-12/book_smt/data/book_smt.html">SMT</a> as the default proxy technologies for the <a href="https://scc.suse.com/">SUSE Customer Center</a>. Although both has coexisted for quite some time, from SLE-15 onward only RMT is offered. Thus we have adapted all the references to SMT that still existed in YaST. From now on, only RMT is mentioned to avoid confusion.</p>
+<p>Another common adaptation we have to perform in YaST is adjusting some module when the output of the command it runs under the hood has changed. Recently we found out the developers of the command <code>iscsiadm</code> has decided to use more than one exit code to indicate a successful execution (traditionally, only zero should mean that). After a long discussion, we decided to adapt YaST iSCSI to also be happy with the error code 21. What means for you? That future versions of YaST iSCSI should work faster in some situations, since the confusion will not longer result in a timeout. </p>
+<h3>YaST Firstboot: a Better Example File</h3>
+<p>Those were just some example of the many adaptations we did lately for changes in the system. But not all adjustments are motivated by external changes. We also realized the example configuration file provided by YaST Firstboot (at <code>/etc/YaST2/firstboot.xml</code>) needed some love. Due to the nature of YaST Firstboot, that file should be customized before using YaST Firstboot. But providing an example file with three different steps about acceptance of licenses (two of them enabled and the third one disabled) and other inconsistencies was definitely not helping anyone to understand how to use the module.</p>
+<p>In fact, the status of that default example configuration and of the documentation managed to confuse even SUSE&#8217;s quality assurance team. So we improved the example file shipped in the package to make it more realistic and we also updated the YaST Firstboot documentation to clarify how to use that file. Because not all improvements are always done by coding.</p>
+<h3>Leap 15.1&#8217;s Most Annoying Bug: Create Home as Btrfs Subvolume</h3>
+<p>As all openSUSE users should know, for every Leap release a page is created in the openSUSE wiki listing the so-called Most Annoying Bugs. Leap 15.1 was a very smooth release and this time <a href="https://en.opensuse.org/openSUSE:Most_annoying_bugs_15.1">the corresponding list</a> contains only one bug&#8230; and it&#8217;s a YaST one. <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f641.png" alt="&#x1f641;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>In an installed system, when YaST was creating a new user it was always trying to create its home directory as a Btrfs subvolume. Even in cases in which that was impossible. For example, if the directory to be created was not in a Btrfs file system.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/06/Writing_user_error.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/06/Writing_user_error-300x224.png" alt="Writing user error" width="300" height="224" class="aligncenter size-medium wp-image-13865" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/06/Writing_user_error-300x224.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/06/Writing_user_error-768x572.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/06/Writing_user_error.png 800w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Fortunately, the bug didn&#8217;t affect the installation process or AutoYaST. We created a fix that was quickly available as a maintenance update. So make sure your openSUSE system is updated before trying to create new users with YaST.</p>
+<h3>YaST Network refactoring: status report</h3>
+<p>Since we submitted the first bits of the yast2-network refactoring by the end of April, we have made quite some progress in this area. Although it is still an ongoing effort, we would like you to give you an update on the current state.</p>
+<p>We might say that we have been working on two different areas the user interface implementation and the future data model.</p>
+<p>About the user interface, the team has improved the code quite a lot to make it easier to maintain and extend. We have introduced some classes to de-couple the widgets from the data, and it pays off. Additionally, we have fixed some bugs (many of them related to validations), simplified the process of adding new devices and reorganized the hardware tab.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/06/network_new_hardware.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/06/network_new_hardware-300x239.png" alt="New hardware tab in YaST Network" width="300" height="239" class="aligncenter size-medium wp-image-13854" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/06/network_new_hardware-300x239.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/06/network_new_hardware-768x612.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/06/network_new_hardware.png 844w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Regarding the internal data model, we have been thinking about the best way to represent network configuration in an agnostic way so, in the future, we can not only support <a href="https://en.opensuse.org/Portal:Wicked" rel="nofollow">Wicked</a> but other options too (for the time being, the NetworkManager support is quite limited). If you are curious about the details, we have added a <a href="https://github.com/yast/yast-network/blob/network-ng/doc/network-ng.md">document describing the approach</a> to the repository.</p>
+<p>The new data model is already being used to handle DNS and Routing configuration. So if you are using Tumbleweed you have been already using the new network code for some weeks, including the UI enhancements presented in our <a href="https://lizards.opensuse.org/2019/04/30/highlights-of-yast-development-sprint-76/">latest post</a>.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/04/RoutingStandalone.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/04/RoutingStandalone-300x236.png" alt="New network routing dialog" width="300" height="236" class="aligncenter size-medium wp-image-13748" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/04/RoutingStandalone-300x236.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/04/RoutingStandalone.png 573w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Although the data model is so far only used in the mentioned parts, the plan is to submit to Tumbleweed a heavily refactored UI layer during next sprint. So stay tuned.</p>
+<h3>Added Appstream Metadata to the YaST Packages</h3>
+<p>The YaST package manager is not the only software manager in the (open)SUSE distributions. There are some more, like Discover in KDE or the GNOME software manager, not to mention the online <a href="https://software.opensuse.org/appstore">openSUSE appstore</a>.</p>
+<p>While the YaST manager is <em>package</em> oriented, those other software managers are <em>application</em> oriented. That makes a huge difference, especially for the beginner users.</p>
+<p>The full list of packages does not only include the applications (basically anything a user can start from the desktop), but also shared libraries, pieces that provide functionality for other applications or basic components needed for the system to work. With so many software packages (the openSUSE OSS repository contains over 35.000 of them!) it&#8217;s sometimes hard to find the software you need unless you know what you are looking for.</p>
+<p>To offer an application-oriented view on top of all that, the application managers need some special data describing the applications inside the packages. The data are located in the <code>/usr/share/metainfo/*.xml</code> files, if you are interested in the technical details check the <a href="https://www.freedesktop.org/wiki/Distributions/AppStream/" rel="nofollow">AppStream documentation</a> provided by the Freedesktop.org.</p>
+<p>Our absolutely awesome community contributor <a href="https://github.com/hellcp">Stasiek Michalski</a> (more famous by his nickname <a href="https://lcp.world/">lcp</a>) realized YaST was not offered in those application managers and decided to fix it. So he created an XML generator which collects the data from YaST packages and automagically generates the metainfo XML file needed by the other software managers.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/06/yast-in-gnome.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/06/yast-in-gnome-300x271.png" alt="YaST in GNOME Software" width="300" height="271" class="aligncenter size-medium wp-image-13856" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/06/yast-in-gnome-300x271.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/06/yast-in-gnome-768x693.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/06/yast-in-gnome-1024x924.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2019/06/yast-in-gnome.png 1072w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>As a result, the Gnome Software Manager, Discover and other software managers will offer YaST in Tumbleweed just as any user-oriented application. Thanks lcp!</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/06/yast-in-discover.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/06/yast-in-discover-300x244.png" alt="YaST in Discover" width="300" height="244" class="aligncenter size-medium wp-image-13857" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/06/yast-in-discover-300x244.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/06/yast-in-discover-768x624.png 768w, https://lizards.opensuse.org/wp-content/uploads/2019/06/yast-in-discover-1024x832.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2019/06/yast-in-discover.png 1072w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3>AutoYaST Pre-install Scripts &amp; Storage</h3>
+<p>AutoYaST has a special feature to allow users to customize the installation process and take control in different stages of the installation. For that, the AutoYaST profile offers a section where you can insert your custom scripts. There are <a href="https://www.suse.com/documentation/sles-15/singlehtml/book_autoyast/book_autoyast.html#createprofile.scripts">four types of scripts</a>: <em>pre-scripts</em>, <em>postpartitioning-scripts</em>, <em>chroot-scripts</em>, <em>post-scripts</em> and <em>init-scripts</em>.</p>
+<p>For the particular case of <em>pre-scripts</em>, <a href="https://www.suse.com/documentation/sles-15/singlehtml/book_autoyast/book_autoyast.html#pre-install.scripts">the documentation</a> states that &#8220;<em>It is also possible to change the partitioning in your pre-script</em>&#8220;. That means, for example, you could use a script to create a new partition or to configure some kind of technology. Therefore, it would be very convenient to re-analyze the storage devices after running the user pre-scripts. In fact, that was the default behavior in the old storage stack, but the new one was slightly modified to only re-analyze the system under certain conditions.</p>
+<p>But turns out some SLE customers were using pre-scripts to configure the behavior of <a href="https://en.wikipedia.org/wiki/Linux_DM_Multipath">multipath</a> and those changes were not being noticed by AutoYaST.</p>
+<p>The solution was quite trivial. We simply decided to always perform a new storage re-analysis after the AutoYaST pre-scripts. We did not find strong reasons to not do it and there should not be significant performance penalty.</p>
+<p>And, for the specific case of multipath, YaST now copies some configuration files (e.g., <em>/etc/multipath.conf</em> and <em>/etc/multipath/bindings</em>) to the target system when performing a new installation. Otherwise, the installed system would not contain the configuration applied during the installation.</p>
+<h3>Clarifying the Usage of Software Management Options</h3>
+<p>Our software manager is one of the most complex YaST modules, which makes some aspects of its usage not fully obvious for some users. You may have even notice that is the only YaST module in which the interface is clearly different when executed in text and graphical mode. Specially the menu at the top of the interface, which is organized in different sections.</p>
+<p>Some users where confused by the fact of some options not being persisted between different executions of the module. Those options are there to modify the current operation of the module, not to change the configuration of package management in the system.</p>
+<p>When executed in text mode that was clear because such options where labeled as &#8220;<i>temporary change</i>&#8221; but the graphical mode didn&#8217;t have any indication about it. As you can see in the following screenshot, that&#8217;s fixed now.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2019/06/sw_single.png"><img src="//lizards.opensuse.org/wp-content/uploads/2019/06/sw_single-300x192.png" alt="Temporary options in YaST Software" width="300" height="192" class="aligncenter size-medium wp-image-13875" srcset="https://lizards.opensuse.org/wp-content/uploads/2019/06/sw_single-300x192.png 300w, https://lizards.opensuse.org/wp-content/uploads/2019/06/sw_single.png 649w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3>Product License Hard to Understand? Try Another Language!</h3>
+<p>Some user reported that in the text-mode installation it was impossible to switch the language of a product license. Although during graphical installation everything works flawlessly, in text mode the language switching widget was there&#8230; but disabled.</p>
+<p>The point is that such behavior was not exactly a bug. It was in fact done on purpose. We decided to prevent such language change some time ago because on the Linux console we&#8217;re not able to display the characters of many languages. Hopefully some of our usual reader have just shout &#8220;that&#8217;s not true!&#8221; <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> Those users remember that in the <a href="https://lizards.opensuse.org/2018/11/20/yast-sprint-67/">report of our 67th sprint</a> we explained that now we always use <code>fbiterm</code> when installing in text mode in order to be able to display characters of almost every language.</p>
+<p>We are now able to display all languages that currently have license translations, so we have enabled the language switching widget and now both graphical installation and text-based one deliver an equivalent user experience.</p>
+<h3>More about languages</h3>
+<p>This is not the only change related to internationalization we did in these sprints. We also added a specific warning message for situations in which YaST is used to change the language of the system but there is no repository containing the needed translation packages. Something that obviously only affects users configuring system in very restricted environments.</p>
+<p>As you can see in this and other recent reports, we have to deal relatively often with difficulties related to translation and internationalization. To reduce the effect of those problems on our final users, we also added some extra mechanisms to detect internationalization errors introduced during development. Hopefully that will mean that in future reports the space dedicated to comment language-related problems gets shorter and shorter. <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> </p>
+<h3>And that was just a summary!</h3>
+<p>As long as this post looks, there are many interesting things we have done in these weeks we left out, intentionally or not. We definitely should avoid skipping three reports in a row in the future!</p>
+<p>This week it&#8217;s <a href="https://hackweek.suse.com/">Hack Week</a> at SUSE, which means regular YaST development will be put on hold&#8230; or will turn into something completely different. You never know what the result of a Hack Week can be!</p>
+<p>But in any case we will go back to our sprint-based pace in August. So expect a new blog post in three weeks. See you then!</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/12/19/enter-unreal-world-rpg/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
+			</item>
 		<item>
-		<title>Magic: It is now possible to use MS Silverlight based websites via pipelight</title>
-		<link>http://lizards.opensuse.org/2013/09/13/magic-it-is-now-possible-to-use-ms-silverlight-based-website-via-pipelight/</link>
-		<comments>http://lizards.opensuse.org/2013/09/13/magic-it-is-now-possible-to-use-ms-silverlight-based-website-via-pipelight/#comments</comments>
-		<pubDate>Fri, 13 Sep 2013 20:42:55 +0000</pubDate>
-		<dc:creator><![CDATA[Richard Bos]]></dc:creator>
-				<category><![CDATA[Build Service]]></category>
-		<category><![CDATA[Mono]]></category>
+		<title>Highlights of YaST development sprint 39</title>
+		<link>https://lizards.opensuse.org/2017/07/31/yast-sprint-39/</link>
+		<comments>https://lizards.opensuse.org/2017/07/31/yast-sprint-39/#comments</comments>
+		<pubDate>Mon, 31 Jul 2017 07:21:36 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
 		<category><![CDATA[Packaging]]></category>
-		<category><![CDATA[microsoft]]></category>
-		<category><![CDATA[pipelight]]></category>
-		<category><![CDATA[silverlight]]></category>
-		<category><![CDATA[wine]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
 
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9913</guid>
-		<description><![CDATA[It has long been a challenge to use MS Silverlight based websites on linux systems. Especially in The Netherlands this is a big hurdle as many (&#62;80%) of the secondary school websites that pupils must use to communicate with their school (for homework, marks, etc) are equipped with Silverlight. Yes, really&#8230; Fortunately at the end [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>It has long been a challenge to use MS Silverlight based websites on linux systems.  Especially in The Netherlands this is a big hurdle as many (&gt;80%) of the secondary school websites that pupils must use to communicate with their school (for homework, marks, etc) are equipped with Silverlight.  Yes, really&#8230; <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_sad.gif" alt=":(" class="wp-smiley" /> </p>
-<p>Fortunately at the end of August 2013 I discovered <a href="http://fds-team.de/cms/articles/2013-08/pipelight-using-silverlight-in-linux-browsers.html#section_1_4" title="An incredible solution ">pipelight</a>, a very smart idea to use MS Silverlight based website natively on Linux.  The problem was however to find a working pipelight package for openSUSE.  As there was none, I decided to build one myself using the incredible <a href="https://build.opensuse.org/">openSUSE Build Service</a>.  It was quite a quest to obtain a working package, but due to very good cooperation with the pipelight developers, I&#8217;m now able to present a working pipelight package to the openSUSE community.  Oh, and while working on the package I reported a bug via the bug report system, that was solved and published via an rpm package within 1 hour after reporting it (that was during out of office hours).  Indeed within 1 hour after reporting the problem it was; accepted, investigated, analysed, fixed, tested, handed over to me, packaged, tested and published!  The amazing world of Open Source Software!</p>
-<p>Pipelight works okay for the following sites (<a href="http://fds-team.de/cms/articles/2013-08/pipelight-using-silverlight-in-linux-browsers.html#section_5">among many others</a>): arte, LOVEFiLM, Netflix, Magister based NL schoolwebsites, WATCHEVER, etc.  View the complete list on the <a href="http://fds-team.de/cms/articles/2013-08/pipelight-using-silverlight-in-linux-browsers.html">pipelight website</a>.</p>
-<p>The <a href="http://fds-team.de/cms/articles/2013-08/pipelight-using-silverlight-in-linux-browsers.html#section_1_4">installation instructions</a> are on the pipelight website.  Be aware though, that pipelight requires the wine package that is provided via the home:rbos:pipelight repository.  With any other wine package, pipelight will (very likely) not work.  If you rely on your currently installed wine package and installed MS applications and are unsure that the wine package provided via the home:rbos:pipelight repository will leave your currently in use MS applications untouched: don&#8217;t install pipelight (or only after making very good backups).  You can always start by installing pipelight in a virtual machine.</p>
-<p>Have fun with pipelight.</p>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12623</guid>
+		<description><![CDATA[openSUSE 42.3 is out! Do you need some reading material while you wait for the download of the new release to finish? Don&#8217;t worry, we have the solution right here &#8211; another YaST team report. 😉 Several products in one installation medium Obviously, we stopped adding new features to SLE12-SP3 and Leap 42.3 some days [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>openSUSE 42.3 is out! Do you need some reading material while you wait for the download of the new release to finish? Don&#8217;t worry, we have the solution right here &#8211; another YaST team report. <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<h3>Several products in one installation medium</h3>
+<p>Obviously, we stopped adding new features to SLE12-SP3 and Leap 42.3 some days ago, because everything needed to be tested properly before the release. So now we are mainly looking into the future. And one of the plans for that future regarding SUSE Linux Enterprise (SLE) is offering several products packed in a single installation medium.</p>
+<p>SUSE offers several mission-specific products based on SLE and, so far, every product needs to be installed from its own medium (usually a DVD or a virtual image). So if you use SLE Server, SLE Desktop and SLE Server for SAP, you have to have three DVDs which is a bit cumbersome.</p>
+<p>After some discussions about the technical implementation details, we created a first prototype of the installer with an extra dialog that allows to select one of the detected products and continues the installation from there according to the installation workflow of the chosen product. It is still a proof of concept, but we can at least share screenshots showing how it looks for the time being.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2017/07/multi-product.png"><img src="//lizards.opensuse.org/wp-content/uploads/2017/07/multi-product-300x224.png" alt="The new product selection screen" width="300" height="224" class="aligncenter size-medium wp-image-12625" srcset="https://lizards.opensuse.org/wp-content/uploads/2017/07/multi-product-300x224.png 300w, https://lizards.opensuse.org/wp-content/uploads/2017/07/multi-product-768x574.png 768w, https://lizards.opensuse.org/wp-content/uploads/2017/07/multi-product-1024x765.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2017/07/multi-product.png 1027w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>So far, there are no plans to use the new feature in openSUSE, mainly because the project does not deliver separate mission-specific products in the same way than SUSE does with SUSE Linux Enterprise.</p>
+<h3>Storage reimplementation: numbers after repatriating the Expert Partitioner</h3>
+<p>In the <a href="https://lizards.opensuse.org/2017/06/16/yast-sprint-36/">Sprint 36 report</a> we presented the rewrite of the YaST Partitioner and we have been informing about its evolution in subsequent reports. We told you back then that we decided to split it in a separate <code>yast2-partitioner</code> package. But time has proved that decision to have too many drawbacks so we decided to bring the Partitioner back home, to <code>yast2-storage-ng</code>. As part of the process, we got rid of an old previous prototype of the Partitioner that was still lying in the <code>yast2-storage-ng</code> repository and some code that was there just to support that old prototype.</p>
+<p>You may be asking why is all that relevant. It is because that means the repository (and thus the package) is finally approaching the final structure it will have when released into Tumbleweed. And that implies that all the systems we use to automatically measure the quality and reliability of our repositories are now providing trustworthy results&#8230; as trustworthy as automatic quality evaluations can be.</p>
+<p>And according to those tools:</p>
+<ul>
+<li><a href="https://coveralls.io/github/yast/yast-storage-ng">93% of the code</a> in <code>yast2-storage-ng</code> is covered with automated unit tests in addition to openQA (this number is expected to raise in close future as we polish the new Partitioner),</li>
+<li><a href="https://codeclimate.com/github/yast/yast-storage-ng">Code Climate</a> reports a code quality GPA of 3.91 out of a possible maximum of 4</li>
+<li>and 76% of all the classes, modules and functions, including the internal ones, are properly documented (with that developer documentation being <a href="http://www.rubydoc.info/github/yast/yast-storage-ng/master">available here</a>, by the way).</li>
+</ul>
+<p>If you wonder about the numbers for the old codebase we want to replace, its code quality is 0.94 and only a 31% of it is covered by unit tests. A perfect example of legacy code.</p>
+<h3>Storage reimplementation: Btrfs subvolumes in AutoYaST</h3>
+<p>As reported in previous posts, the new storage stack can already process AutoYaST profiles including partitions, LVM and MD arrays, but some details are still missing. The first of those details we wanted to address was the definition and creation of subvolumes in a Btrfs file-system.</p>
+<p>Now it works according to the official documentation &#8211; both syntaxes for the <code>&lt;subvolumes&gt;</code> section are supported,  it never creates subvolumes that would be shadowed by any other mounted file-system and it uses the list in <code>control.xml</code> as fallback for the root partition if Btrfs is used but subvolumes are not specified.</p>
+<p>All that, as usual in the re-implemented stack, with fully tested and documented code.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2017/07/autoyast-subvolumes.png"><img src="//lizards.opensuse.org/wp-content/uploads/2017/07/autoyast-subvolumes-300x224.png" alt="Btrfs subvolumes support in AutoYaST" width="300" height="224" class="aligncenter size-medium wp-image-12650" srcset="https://lizards.opensuse.org/wp-content/uploads/2017/07/autoyast-subvolumes-300x224.png 300w, https://lizards.opensuse.org/wp-content/uploads/2017/07/autoyast-subvolumes-768x573.png 768w, https://lizards.opensuse.org/wp-content/uploads/2017/07/autoyast-subvolumes-1024x765.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2017/07/autoyast-subvolumes.png 1030w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3>Storage reimplementation: handle multipath I/O in the proposal</h3>
+<p>In the <a href="https://lizards.opensuse.org/2017/07/14/yast-sprint-38/">previous report</a> we showed you how the support for <a href="https://en.wikipedia.org/wiki/Multipath_I/O">Multipath I/O</a> looked at the library level, which usually means just geeky graphs. During this sprint, we have taught the installer to use that new library feature, so we now have real screenshots to show!</p>
+<p>During the installation, now multipath hardware is detected and the user is asked for activation.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2017/07/multipath-popup.png"><img src="//lizards.opensuse.org/wp-content/uploads/2017/07/multipath-popup-300x221.png" alt="Popup for activating Multipath I/O" width="300" height="221" class="aligncenter size-medium wp-image-12634" srcset="https://lizards.opensuse.org/wp-content/uploads/2017/07/multipath-popup-300x221.png 300w, https://lizards.opensuse.org/wp-content/uploads/2017/07/multipath-popup-768x566.png 768w, https://lizards.opensuse.org/wp-content/uploads/2017/07/multipath-popup.png 933w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>If the user agrees, the installer will never use the individual disk devices to propose a partitioning layout and it will not offer them as an option during the guided setup. The installer always works on the final (compound) multipath device, proposing the correct names for the partitions and so on (which, being a devicemapper device, follows a<br />
+different pattern when compared to raw devices).</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2017/07/multipath_proposal.png"><img src="//lizards.opensuse.org/wp-content/uploads/2017/07/multipath_proposal-300x225.png" alt="Suggested partitioning with multipath" width="300" height="225" class="aligncenter size-medium wp-image-12635" srcset="https://lizards.opensuse.org/wp-content/uploads/2017/07/multipath_proposal-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2017/07/multipath_proposal-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2017/07/multipath_proposal.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>The resulting system is still not fully bootable because <code>yast2-bootloader</code> has still not been adapted to this scenario. Very likely, something for the upcoming sprint, so stay tuned.</p>
+<h3>Support for Ruby 2.4</h3>
+<p>The world changes every day and we are always adapting YaST to remain shiny. The 2.4 version of Ruby is about to land in openSUSE Tumbleweed and is expected to be the default Ruby for SUSE Linux Enterprise 15 and openSUSE Leap 15. We found that some of the YaST packages were not fully ready for this new Ruby, so it was time for some tweaking.</p>
+<p>After dealing with quite some details too technical and boring for this blog (but feel free to ask if you want the gory bits), YaST is shining again in Factory, which means we are no longer blocking the adoption of Ruby 2.4 in Tumbleweed. </p>
+<h3>Add-on Creator and Product Creator</h3>
+<p>As our team keeps always developing new features, solving bugs, and receiving feedback, we always evaluate our priorities and product. Sometimes, during this evaluation, we see that some YaST modules do not bring enough value or do not shine enough as part of our standard package.</p>
+<p>After some evaluation, we come to announce that the modules <b>Add-on Creator</b> and <b>Product Creator</b> will no longer be part of YaST. These packages use Kiwi as backend and we have high competition on UI sides &#8211; SUSE Studio and Open Build Service. So it no longer makes sense to have these packages and we recommend for users of these modules to use one of the alternatives or Kiwi directly if you already have an XML definition file for Kiwi.</p>
+<h3>Adapting YaST to accept 12 digits Service Request Number</h3>
+<p>As Service Request Numbers can be now composed of 11 or 12 digits, instead of only 11 digits as before, we had to adapt YaST to handle this change. YaST module Support can now accept 11 or 12 digit service request numbers. We implemented such a change for all products dating back from SLE 10 SP3 until the most recent SUSE Linux versions. Updates with this change will be soon released.</p>
+<h3>Network Setup in the 1st Stage of Autoinstallation</h3>
+<p>The YaST installation used to have two stages, separated by a reboot. Starting with SLE 12 and openSUSE Leap 42.1 we have eliminated the<br />
+second stage. But it was still needed for AutoYaST, controlled by the setting</p>
+<p><code>&lt;profile&gt;&lt;general&gt;&lt;mode&gt;&lt;second_stage&gt;true | false&lt;/...&gt;</code></p>
+<p>We have fixed those parts of the networking setup and now you can explicitly set AutoYaST to not use a second stage anymore.</p>
+<h3>User settings in AutoYaST</h3>
+<p>An issue that we have found out is that GDM has problems with the system when different users have the same UIDs. If it happens, GDM does not start properly. As a solution, we decided that either UIDs will be defined in the AutoYaST configuration file for <b>ALL</b> users or this tag will not be used at all for <b>ALL</b> users since a mix of both can result into duplicate UIDs.</p>
+<h3>And we just keep YaSTing!</h3>
+<p>We hope you liked our report as much as we loved to build all of that. We&#8217;ll continue YaSTing so we can reach you again in two weeks with much more cool stuff to show.</p>
+<p>By now, enjoy your openSUSE 42.3 and all the cool features that came with it!</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/09/13/magic-it-is-now-possible-to-use-ms-silverlight-based-website-via-pipelight/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2017/07/31/yast-sprint-39/feed/</wfw:commentRss>
 		<slash:comments>3</slash:comments>
 		</item>
 		<item>
-		<title>Keeping Factory in shape</title>
-		<link>http://lizards.opensuse.org/2013/06/13/keeping-factory-in-shape/</link>
-		<comments>http://lizards.opensuse.org/2013/06/13/keeping-factory-in-shape/#comments</comments>
-		<pubDate>Thu, 13 Jun 2013 12:00:41 +0000</pubDate>
-		<dc:creator><![CDATA[calumma]]></dc:creator>
-				<category><![CDATA[Boosters]]></category>
-		<category><![CDATA[Build Service]]></category>
+		<title>Highlights of YaST development sprint 38</title>
+		<link>https://lizards.opensuse.org/2017/07/14/yast-sprint-38/</link>
+		<comments>https://lizards.opensuse.org/2017/07/14/yast-sprint-38/#comments</comments>
+		<pubDate>Fri, 14 Jul 2017 10:13:17 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Desktop]]></category>
 		<category><![CDATA[Distribution]]></category>
 		<category><![CDATA[Factory]]></category>
 		<category><![CDATA[Packaging]]></category>
-		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Software Management]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
 
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9497</guid>
-		<description><![CDATA[Michal Hrušecký has been helping out on maintaining Factory in shape and shares his experiences. Factory is development version of openSUSE and it is where the next openSUSE is taking form. Hundreds of packagers send packages into Factory to be integrated as a part of the new release and many more use Factory for testing [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p><em>Michal Hrušecký</em> has been helping out on maintaining Factory in shape and shares his experiences.</p>
-<p>Factory is development version of openSUSE and it is where the next openSUSE is taking form. Hundreds of packagers send packages into Factory to be integrated as a part of the new release and many more use Factory for testing or for their daily work. Thus it is really important to keep Factory rolling and usable. Everybody knows that <a href="http://news.opensuse.org/2007/08/09/people-of-opensuse-stephan-kulow/">Coolo</a> is the Factory master and he does everything to make next openSUSE be the best ever. But keeping factory in shape is really complicated and stressing task. There are dozens of request everyday and each one of them can potentially break something. So Factory can always use a pair of extra hands and for some time I have been one of them. I&#8217;d like to give you some insight in what we do, working on keeping Factory building and working.<span id="more-9497"></span></p>
-<p><a href="http://openbuildservice.org"><img class="alignright size-full wp-image-9543" alt="obs-logo" src="//lizards.opensuse.org/wp-content/uploads/2013/06/obs-logo.png" width="243" height="101" /></a></p>
-<h2>Keep it building</h2>
-<p>With a constant influx of newer and cooler versions of libraries and tools it is easy to break existing applications with shiny new software. So we always have some build failures in Factory. Part of our job is to resolve them because if it doesn&#8217;t build, you can&#8217;t test nor ship it. As developer, you may have seen submit request in various projects in OBS fixing builds for Factory. Everyday I take a look at a number of build failures, investigate why they are not building in Factory and try to do something about it.</p>
-<p>For example new version of the GNU C Compiler (GCC) is quite often more strict on includes, requiring developers to be more verbose about the exact internal and external libraries there applications require to be build. What used to build now doesn&#8217;t, because you are missing include files. The older GCC let you slip by, but now you have to fix it, build failure by build failure. Another example is GTK which keeps deprecating old API functions and you have to keep up and replace them with correct counterparts from the new API. Sometimes even the kernel changes API and third party modules stops building. All these errors will get eventually resolved upstream (if upstream is alive), but as we follow upstream quite closely before feature freeze, it may happen that we are first facing these issues because sometime we are the first ones who tried to compile this software using new GTK or the new GCC. Of course, we attempt to get these fixes back upstream and share them with other distributions where appropriate!</p>
-<div id="attachment_9541" style="width: 310px" class="wp-caption alignright"><a href="//lizards.opensuse.org/wp-content/uploads/2013/06/600px-Factory_workflow.png"><img class="size-medium wp-image-9541" alt="Factory_workflow" src="//lizards.opensuse.org/wp-content/uploads/2013/06/600px-Factory_workflow-300x176.png" width="300" height="176" /></a><p class="wp-caption-text">Image depicting the Factory Workflow</p></div>
-<h2>Test it</h2>
-<p>Another important part of working on a better Factory is testing. If everything builds, we&#8217;re happy. You might have heard the saying:</p>
-<blockquote><p><em> if it builds, ship it!</em></p></blockquote>
-<p>(un)fortunately, this isn&#8217;t Coolo&#8217;s idea of how the world works. In Factory, things not only have to build, but also work. Oh, AND conform to some stringent requirements. Here comes into play what most of our team was working on in the past months and what was <a href="For example new version of gcc is quite often more strict on includes.  What used to build now doesn't, because you are missing include files. Older gcc let you slip by, but now you have to fix it. Or GTK keeps deprecating old API functions and you have to keep up and replace them with correct counterparts from new API. Sometimes even kernel changes API and third party modules stops building. All these errors will get eventually resolved upstream (if upstream is alive), but as we follow upstream quite closely before feature freeze, it may happen that we are first facing these issues because sometime we are the first ones who tried to compile this software using new GTK and gcc.">described last week &#8211; openQA</a>. openQA tests the latest builds of openSUSE Factory, tries to install them and run tests on some applications as well. But still, not all failures from automatic testing are real failures. Sometimes application just changed too much to be covered by test. So from time to time we go through failing openQA tests, try to reproduce them, figure out what went wrong and either fix it or report it via bugzilla to the corresponding maintainer.</p>
-<h2>Concluding</h2>
-<p>Each of these tasks is relatively small (check why this test failed, fix this package to build with new gcc) but what makes it hard is the number of packages we&#8217;ve got and the constant inflow of changes. Also, because the issue can be all over the place, each and every one requires you to dive into an entirely new package, with new and interesting quirks, build systems, languages and more. It is a great way of getting to know a wide variety of packages and applications, finding a gem every now and then. But also implies a lot of work.</p>
-<p>Things will get slower and more stable after feature freeze when we will spend more time in the testing part, while today we mostly work on the build part. Still, Factory has to keep building, without that it becomes impossible to keep developing openSUSE. What we do, fixing these build errors, it might not be super visible, but it matters a lot.</p>
-<h2>Statistics</h2>
-<p>On a related note, we&#8217;d like to (re) introduce weekly Factory statistics! It has been a while since we had those, once upon a time courtesy of AJ and Guido. Now, Alberto provides them. Here you go, the top-fifteen contributors to openSUSE Factory last week (from Sunday June 2nd to to Sunday June 9th):<br />
-<a href="//lizards.opensuse.org/wp-content/uploads/2013/06/statistics-inside.png"><img src="//lizards.opensuse.org/wp-content/uploads/2013/06/statistics-inside-212x300.png" alt="statistics with Geeko inside" width="212" height="300" class="alignright size-medium wp-image-9572" /></a></p>
-<ol>
-<li>Dominique Leuenberger</li>
-<li>Tobias Klausmann</li>
-<li>Stefan Dirsch</li>
-<li>Peter Varkoly</li>
-<li>Stephan Kulow</li>
-<li>Marcus Meissner</li>
-<li>Michal Hrusecky</li>
-<li>Cristian Rodríguez</li>
-<li>Dirk Mueller</li>
-<li>Sascha Peilicke</li>
-<li>Kyrill Detinov</li>
-<li>Dr. Werner Fink</li>
-<li>Bjørn Lie</li>
-<li>Tomáš Chvátal</li>
-<li>Niels Abspoel</li>
-</ol>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12591</guid>
+		<description><![CDATA[Here we go again with a new report from the YaST trenches. This time with the storage reimplementation as the clear star of the show. Storage reimplementation: the proposal adapts, you succeed As we have announced in our previous sprints and as you probably already know, the YaST team is working hard to rewrite the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Here we go again with a new report from the YaST trenches. This time with the storage reimplementation as the clear star of the show.</p>
+<h3>Storage reimplementation: the proposal adapts, you succeed</h3>
+<p>As we have announced in our previous sprints and as you probably already know, the YaST team is working hard to rewrite the whole storage stack on time for SLE15 and openSUSE Leap 15. As part of this reimplementation we have designed a brand new storage proposal that automagically offers the user the best combination of partitions and LVM volumes based on the current configuration of the system and the user preferences.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2017/07/proposal.png"><img src="//lizards.opensuse.org/wp-content/uploads/2017/07/proposal-300x225.png" alt="The storage proposal in action" width="300" height="225" class="aligncenter size-medium wp-image-12592" srcset="https://lizards.opensuse.org/wp-content/uploads/2017/07/proposal-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2017/07/proposal-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2017/07/proposal.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>When we are working with very small disks or with special technologies like DASD (which doesn&#8217;t accept more than three partitions by device), the storage proposal might not be able to generate a valid initial proposal honoring the initial requirements of the product (e.g. creating a separate home partition and enabling btrfs snapshots for the root partition in the openSUSE Leap case). Now the proposal is not limited to fail when it is not possible to satisfy the default product requirements. Before giving up, the new system looks for alternatives, like discarding the separate home partition or disabling snapshots. Moreover, now the proposal is able to automatically adjust the size requirements not only for root, but also for swap and home. And, of course, the guided setup continues there for fine tuning the proposal settings.</p>
+<h3>Desktop selection improvements</h3>
+<p>As our usual readers also know, we recently introduced a more fair desktop selection screen for openSUSE, both Leap 42.3 and Tumbleweed. We used part of the latest sprint to implement some feedback we gathered about the wording and behavior of that dialog.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2017/07/desktop-selection.png"><img src="//lizards.opensuse.org/wp-content/uploads/2017/07/desktop-selection-300x225.png" alt="Revamped desktop selection screen" width="300" height="225" class="aligncenter size-medium wp-image-12593" srcset="https://lizards.opensuse.org/wp-content/uploads/2017/07/desktop-selection-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2017/07/desktop-selection-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2017/07/desktop-selection.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>That feedback gathering included some discussions on how to make user experience nicer after selecting one of the user interfaces available through the &#8220;custom&#8221; option. As a result, the awesome openSUSE crew created a new mechanism for selecting the default window manager on each graphical login, so YaST can delegate the details to the maintainers of those alternative interfaces.</p>
+<p>How everything works now? Glad you asked. <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>If the user select KDE or GNOME in the YaST dialog, <code>/etc/sysconfig/windowmanager</code> is configured to point to that desktop by default. If the &#8220;custom&#8221; option is selected, then YaST does not enforce any interface in that file and the new mechanism comes into play. It relies in the <code>default.desktop</code> file, which defines the default window manager and can be managed by the common <code>update-alternatives</code> workflow. Meaning it can be easily tweaked by the package maintainers and by the users, specially since YaST includes a nice module for managing alternatives.</p>
+<h3>Storage reimplementation: improvements in the expert partitioner</h3>
+<p>Although, as explained above, we keep improving the storage automatic proposal to support more and more situations, we cannot ignore that flexibility and adaptability have always been two of the flagships of (open)SUSE. And one of the most prominent examples is the YaST Expert Partitioner.</p>
+<p>As detailed in <a href="https://lizards.opensuse.org/2017/06/16/yast-sprint-36/">our report of the sprint 36</a>, we have been rewriting that powerful Swiss Army knife using the new storage stack but keeping the same user interface and functionality. So far, the new implementation was only able to display information about the existing partitions, LVM systems and MD RAIDs. But now we added many options to create, edit and delete partitions.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2017/07/expert-partitioner-inst.png"><img src="//lizards.opensuse.org/wp-content/uploads/2017/07/expert-partitioner-inst-300x225.png" alt="Using the expert partitioner during installation" width="300" height="225" class="aligncenter size-medium wp-image-12597" srcset="https://lizards.opensuse.org/wp-content/uploads/2017/07/expert-partitioner-inst-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2017/07/expert-partitioner-inst-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2017/07/expert-partitioner-inst.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>It is still a work in progress because the number of possibilities offered by the YaST Partitioner is sometimes overwhelming and implementing them all takes time, but it&#8217;s progressing nicely.</p>
+<p>Beside the improvements in the Partitioner itself, we also worked on its integration in the installation workflow. Now the Expert Partitioner can be used to refine the schema automatically proposed by the installer. As a bonus, the behavior of the &#8220;abort&#8221; and &#8220;finish&#8221; buttons has been improved in relation to the Expert Partitioner currently available in (open)SUSE, which historically shows a usability inconsistency there compared to the rest of the installation process.</p>
+<div style="width: 1024px;" class="wp-video"><!--[if lt IE 9]><script>document.createElement('video');</script><![endif]-->
+<video class="wp-video-shortcode" id="video-12591-1" width="1024" height="768" preload="metadata" controls="controls"><source type="video/webm" src="//lizards.opensuse.org/wp-content/uploads/2017/07/expert_partitioner_next.webm?_=1" /><a href="//lizards.opensuse.org/wp-content/uploads/2017/07/expert_partitioner_next.webm">//lizards.opensuse.org/wp-content/uploads/2017/07/expert_partitioner_next.webm</a></video></div>
+<h3>Fixed Automatic Patch Installation</h3>
+<p>In both SLE and openSUSE Leap, the online updates can be installed either manually or automatically at some regular intervals. For the automatic installation we provide the <code>yast2-online-update-configuration</code> package which provides a cron job script and an YaST module for configuring it (hint: it is not installed by default, you might give it a try, maybe it is something &#8220;new&#8221; for you).</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2017/07/yast-online-update.png"><img src="//lizards.opensuse.org/wp-content/uploads/2017/07/yast-online-update-300x242.png" alt="Configuring online updates via YaST" width="300" height="242" class="aligncenter size-medium wp-image-12595" srcset="https://lizards.opensuse.org/wp-content/uploads/2017/07/yast-online-update-300x242.png 300w, https://lizards.opensuse.org/wp-content/uploads/2017/07/yast-online-update.png 623w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>You can configure how often the patches should be installed or filter the patch categories in the YaST module, but we got a bug report saying that when multiple patch categories are selected only one is actually used.</p>
+<p>It turned out to be a trivial mistake in the cron job and we fixed it for SLE12-SP2 and Leap 42.2, as well as for the upcoming SLE12-SP3 and Leap 42.3. So if you use this module and want to use the category filter then it&#8217;s recommended to upgrade the package.</p>
+<h3>Storage reimplementation: many steps forward in the AutoYaST integration</h3>
+<p>And going back to our new storage stack, we keep working to integrate it better with other parts of YaST, specially AutoYaST. During this sprint we polished some rough edges and we added support for MD RAID. With all that, now is possible to automatically setup a system based on an AutoYaST profile containing any combination of partitions, LVM systems and MD arrays, including encryption at any of the levels.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2017/07/autoyast-raid-lvm.png"><img src="//lizards.opensuse.org/wp-content/uploads/2017/07/autoyast-raid-lvm-300x216.png" alt="AutoYaST summary of actions on partitions, MD RAID and  LVM" width="300" height="216" class="aligncenter size-medium wp-image-12602" srcset="https://lizards.opensuse.org/wp-content/uploads/2017/07/autoyast-raid-lvm-300x216.png 300w, https://lizards.opensuse.org/wp-content/uploads/2017/07/autoyast-raid-lvm-768x552.png 768w, https://lizards.opensuse.org/wp-content/uploads/2017/07/autoyast-raid-lvm.png 1012w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>But the relation of AutoYaST with the system works in both directions. Apart from being able to install a system based on an AutoYaST profile, it also offers the interface to export the current system configuration, including the storage layout, to a profile in order to reproduce the system later. During this sprint we also ported that logic to rely on the new storage layer.</p>
+<p>It was harder than it sounds, due to the need of keeping the backwards-compatibility with several behaviors that have been introduced along the AutoYaST history to adapt to several specific situations. On the bright side, the new code is easier to follow, includes behavior-driven automated tests (RSpec) and contains information about the rationale of each decision&#8230; which in some cases required some archaeology.</p>
+<h3>Storage reimplementation: fixed bootloader proposal in S/390 and PowerPC</h3>
+<p>Another part of YaST we are constantly working to integrate better with the new storage stack is <code>yast2-bootloader</code>. Although the new storage system was already able to correctly setup a valid disk layout for most situations and architectures (each one with it&#8217;s own requirements for booting), our bootloader module is still not fully compatible with the new system in all those scenarios.</p>
+<p>During this sprint, we adapted it to ensure all the combinations suggested by the new storage stack (partitions, LVM, encryption and so on) are correctly covered by YaST2-Bootloader. As a result, we can already say that our testing ISO images are fully installable in any x86_64, PowerPC and S/390 system by just clicking &#8220;next&#8221; a few times. And we have automated integration tests (a separate openQA instance) to ensure the resulting system boots just fine.</p>
+<h3>UDEV device id on PowerPC</h3>
+<p>We know some of our readers enjoy our more technical posts and like to lurk into the kitchen to see how we deal with all kind of surprises maintaining a complex tool like YaST. Today&#8217;s chapter in that regard started with a bug report about the bootloader being installed in the wrong device name (<code>/dev/vda</code> instead of <code>/dev/vdb</code>) in an emulated PowerPC machine in openQA.</p>
+<p>After a lot of investigation and with help from our PowerPC expert, we found the culprit, that turned out to be an emulator quirk. The next couple of paragraphs may be interesting or daunting, depending how much virtualization and PowerPC jargon you know. Be warned.</p>
+<p>On POWER, the PReP partition containing the bootloader has no unique identifier other than the serial number of the disk on which it created. QEMU virtualization does not provide any disk serial number when the user does not explicitly specify one. This means that the PReP partition in QEMU installation does not have any unique identification and the partition name may change when a disk is added or removed from the virtual machine or the storage configuration otherwise changes. This may lead to system errors related to bootloader installation and updates.</p>
+<p>It is recommended to assign a unique serial number to each disk in a QEMU virtual machine on POWER when it is expected the storage configuration of the virtual machine may change. Otherwise, there is nothing YaST or any other tool running within the virtual machine can do to avoid the problems. So this time we only did the investigation part, with the fix coming from the openQA side, which was improved to explicitly set serial numbers when needed.</p>
+<h3>Storage reimplementation: better support for advanced scenarios</h3>
+<p>As exposed above, our StorageNG testing image already works in all the supported architectures and in scenarios combining plain partitions, LVM, RAID and encryption in any way. But there are even more situations and technologies currently supported by YaST that we need to incorporate into the new stack.</p>
+<p>First of all, we used this sprint to add <a href="https://en.wikipedia.org/wiki/Multipath_I/O">Multipath I/O</a> support to the new libstorage. Now it can also be combined with all the other mentioned technologies (like having an LVM system on top of an encrypted multipath device), although the storage proposal still needs to be adapted to play nicely with preexisting multipath setups.</p>
+<p>As usual with the library stuff, the best &#8220;screenshot&#8221; we have to offer is one of its geeky autogenerated graphs.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2017/07/multipath.png"><img src="//lizards.opensuse.org/wp-content/uploads/2017/07/multipath-300x140.png" alt="A multipath layout in libstorage-ng" width="300" height="140" class="aligncenter size-medium wp-image-12605" srcset="https://lizards.opensuse.org/wp-content/uploads/2017/07/multipath-300x140.png 300w, https://lizards.opensuse.org/wp-content/uploads/2017/07/multipath-768x358.png 768w, https://lizards.opensuse.org/wp-content/uploads/2017/07/multipath-1024x477.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2017/07/multipath.png 1323w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Another scenario that goes beyond the most regular use cases is installing the system into a network storage device, instead of a local hard disk. Now, the new storage system can report whether a root filesystem via a network is used. When that happens, YaST sets the network interfaces with the start mode <code>nfsroot</code>, which is used to avoid interface shutdown and, therefore, the unavailability of the system.</p>
+<h3>That&#8217;s all, folks!</h3>
+<p>Once again, we omitted the boring parts about bugfixing (with <code>yast2-ntp-client</code> being the star in that regard) and similar stuff. We hope you enjoyed the report and we hope to reach you again in two weeks. Meanwhile&#8230;</p>
+<p>Have a lot of fun testing the Leap 42.3 pre-releases and reporting bugs!</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/06/13/keeping-factory-in-shape/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
+			<wfw:commentRss>https://lizards.opensuse.org/2017/07/14/yast-sprint-38/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
 		</item>
 		<item>
-		<title>openQA in openSUSE</title>
-		<link>http://lizards.opensuse.org/2013/06/06/openqa-in-opensuse/</link>
-		<comments>http://lizards.opensuse.org/2013/06/06/openqa-in-opensuse/#comments</comments>
-		<pubDate>Thu, 06 Jun 2013 12:00:26 +0000</pubDate>
-		<dc:creator><![CDATA[calumma]]></dc:creator>
+		<title>The issues with contributing to projects only once</title>
+		<link>https://lizards.opensuse.org/2017/06/04/the-issues-with-contributing-to-projects-only-once/</link>
+		<comments>https://lizards.opensuse.org/2017/06/04/the-issues-with-contributing-to-projects-only-once/#comments</comments>
+		<pubDate>Sun, 04 Jun 2017 04:06:31 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
 				<category><![CDATA[Build Service]]></category>
 		<category><![CDATA[Distribution]]></category>
-		<category><![CDATA[Factory]]></category>
-		<category><![CDATA[Infrastructure]]></category>
 		<category><![CDATA[Packaging]]></category>
-		<category><![CDATA[Quality Assurance]]></category>
-		<category><![CDATA[Uncategorized]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[contributing]]></category>
 
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9440</guid>
-		<description><![CDATA[Today, we&#8217;ve got for you an introduction of the teams&#8217; work on openQA by Alberto Planas Domínguez. The last 12.3 release was important for the openSUSE team for a number of reasons. One reason is that we wanted to integrate QA (Quality Assurance) into the release process in an early stage. You might remember that [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p><a href="//lizards.opensuse.org/wp-content/uploads/2013/05/factory-tested.png"><img class="size-full wp-image-9447 alignright" alt="factory-tested" src="//lizards.opensuse.org/wp-content/uploads/2013/05/factory-tested.png" width="217" height="232" /></a>Today, we&#8217;ve got for you an introduction of the teams&#8217; work on openQA by <em>Alberto Planas Domínguez</em>.</p>
-<p>The last 12.3 release was important for the openSUSE team for a number of reasons. One reason is that we wanted to integrate QA (Quality Assurance) into the release process in an early stage. You might remember that this release had UEFI and Secure Boot support coming and everybody had read the scary reports about badly broken machines that can only be fixed replacing the firmware. Obviously openSUSE can&#8217;t allow such things to happen to our user base, so we wanted to do more testing.<span id="more-9440"></span></p>
-<h2>Testing is hard</h2>
-<p>Testing a distribution seems easy at first sight:</p>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12523</guid>
+		<description><![CDATA[I work to improve the openSUSE Tumbleweed (GNU/)Linux distribution. Specifically I make sure that all packages can be built twice on different hosts and still produce identical results, which has multiple benefits. This generates a lot of patches in a single week. OBS Sometimes it is enough to adjust the .spec file &#8211; that is [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I work to improve the openSUSE Tumbleweed (GNU/)Linux distribution. Specifically I make sure that all packages can be built twice on different hosts and still produce identical results, which has <a href="https://reproducible-builds.org/docs/buy-in/">multiple benefits</a>. This generates <a href="https://reproducible.alioth.debian.org/blog/posts/109/">a lot of patches</a> in a single week.</p>
+<p><strong>OBS</strong><br />
+Sometimes it is enough to adjust the .spec file &#8211; that is a small text file usually specific to us. Then <a href="https://news.opensuse.org/2011/09/27/get-your-package-in-factory-for-12-1/">it is straight-forward</a></p>
 <ol>
-<li>Take the ISO of the last build and put it on the USB stick</li>
-<li>Boot from the USB</li>
-<li>Install and test</li>
-<li>&#8230;</li>
-<li>Profit!</li>
+<li>osc bco</li>
+<li>cd $PROJECT/$PACKAGE</li>
+<li>optional: spec_add_patch $MY.patch $SOME.spec</li>
+<li>edit *.spec</li>
+<li>osc build</li>
+<li>osc vc</li>
+<li>osc ci</li>
+<li>osc sr</li>
 </ol>
-<div id="attachment_9476" style="width: 310px" class="wp-caption alignright"><a href="//lizards.opensuse.org/wp-content/uploads/2013/06/factory.png"><img class="size-medium wp-image-9476 " title="testing in progress!" alt="testing in progress!" src="//lizards.opensuse.org/wp-content/uploads/2013/06/factory_crop-300x169.png" width="300" height="169" /></a><p class="wp-caption-text">testing in progress!</p></div>
-<p>But look a bit further and you will see that, actually, only the installation process itself is already a <a title="free dictionary on combinatorial" href="http://www.thefreedictionary.com/combinatorial" target="_blank">combinatorial</a> problem. In openSUSE we have different mediums (DVD, KDE and Gnome Live images, NET installation image and the new Rescue image), three official architectures (32 and 64 bits and ARMv7), a bunch of different file systems (Ext3 / Ext4, Btrfs, LVM with or without encryption, etc.), different boot loaders (GRUB 2, LILO, SHIM). <em>Yeah</em>&#8230; Even without doing the math you see that for only this small subset of variables we have hundreds of possible combinations. And this is just the installation process, we are not talking about the various desktops and applications or hardware like network interfaces or graphics cards here.</p>
-<h3>And we want continuous testing</h3>
-<p>And that is only the final testing round! If we want to be serious about QA and testing, we need to run the full test battery for every build that OBS generate for us, with extra attention to the Milestones, Betas and RC which are scheduled in the release road-map.</p>
-<p>We can of course attempt to optimize our testing approach. For example, if I am the maintainer of a package and I sure that my last version is working perfectly in Factory (because I tested it in my system, of course), do I really need to test this application again and again when a new ISO build is released? Unfortunately, we can <em>not</em> take a shortcut here. As Distribution, our job is integration and so we need to test the entire product again for every build. A single change in an external library or in any other package which I depend on can break my package. The interdependencies for a integration project of the size of openSUSE are so intricate that is faster to run the full test again. With this approach we are avoiding regressions in our distribution, important during development. But also a lot of work &#8211; who has time for all this testing?</p>
-<h2>OpenQA as a solution</h2>
-<p>For us, there&#8217;s no doubt about it: <a href="http://openqa.opensuse.org/">openQA</a> is the correct tool for this. openQA is already used to test certain parts of openSUSE, and has shown itself as a competent tool to test other distributions like Fedora or Debian.</p>
-<p>To experiment with openQA, the openSUSE team decided to launch a local implementation of the tool and start feeding it with 12.3 builds. But we soon ran into some limitation in the way we can express desired test outcomes in openQA and we got ideas on how to improve the detection of failed and succeeded tests. We also discovered that some tests in openQA had the bad habit of starting to work in <em>“monkey mode”</em> by simply sending commands and events to the virtual machine without checking if those interaction have expected behavior or not, losing track of the test progress.</p>
-<p>openQA has the great benefit of being open source so we can improve its usefulness for testing Factory. Moreover, the original author of openQA, Bernhard M. Wiedemann, is a very talented developer and works for SUSE so upstream is very close to us. So we decided to start hacking!<br />
-<a href="//lizards.opensuse.org/wp-content/uploads/2013/05/stopwatch.png"><img class="size-medium wp-image-9448 alignright" alt="stopwatch" src="//lizards.opensuse.org/wp-content/uploads/2013/05/stopwatch-227x300.png" width="113" height="150" /></a></p>
-<h2>openQA work</h2>
-<p>After the 12.3 release we decided to spend some quality time improving openQA as a team project. This was managed using the public Chili (a Redmine fork) project management web application. We published all the milestones, tasks, goals and documentation in the <a href="http://board.opensuse.org/projects/openqa-improvement/">&#8220;openQA improvement project&#8221;</a>. The management side of this project perhaps needs a different post, but for now we can say that we tried to develop it as open as possible. Of course you can get the full code from <a href="https://github.com/openSUSE-Team/">the openSUSE github account</a>.</p>
-<h2>Major changes</h2>
-<p>The main architectural changes implemented during our 10 weeks of coding on openQA can be summarized as follows:</p>
-<ul>
-<li>Integration with openCV</li>
-<li>Replacement of PPM graphic file format with PNG</li>
-<li>Introduced needles; test with better control of the state</li>
-<li>A proper job dispatcher for new test configurations</li>
-<li>Better internal scheduler, with snapshots and a way to skip tests</li>
-<li>Improvement in the communication between webUI and the virtual machine</li>
-</ul>
-<div id="attachment_9481" style="width: 310px" class="wp-caption alignright"><a href="//lizards.opensuse.org/wp-content/uploads/2013/06/needleeditor.png"><img class="size-medium wp-image-9481" title="The Needle editor in action" alt="The Needle editor in action" src="//lizards.opensuse.org/wp-content/uploads/2013/06/needleeditor_crop-300x204.png" width="300" height="204" /></a><p class="wp-caption-text">The Needle editor in action</p></div>
-<h3>openCV brings robust testing</h3>
-<p>The tests in openQA need to check what is happening in the virtual (or real) machine to verify results, and the main source of information is the output of the screen. This information is usually a graphical information: we can instruct QEMU (or Vbox) to retry screenshots in a periodic basis. To properly evaluate a test outcome we need to find some kind of information in those pictures, and for that we use the computer vision library openCV.</p>
-<p>With this library we can implement different methods to find relevant sections of the image, like buttons, error messages or text. These are then used for the test to get information about the actual environment of the installation process and to find out if the test passed or not. Previously, checksums on the images were used to determine outcomes. This led to many false positives (tests failing too often) due to simple theming and layout changes &#8211; a single pixel changing broke the test. openCV support was introduced earlier by Dominik Heidler to enable testing with noisy analogue VGA capture and we extended the usage of openCV matching to be more versatile, powerful and easier to use (both for test-module-writers and for maintainers).<br />
-<a href="http://www.flickr.com/photos/63567936@N00/4210167891/" title="Headless Horse by Perry McKenna, on Flickr"><img src="http://farm3.staticflickr.com/2632/4210167891_dbfe5d540f_n.jpg" width="320" height="192" class="alignright" alt="Finding the needle"></a></p>
-<h3>Introducing needles</h3>
-<p>openQA has been modified to use PNG instead of PPM files to store images to test against, improving performance but also enabling openQA to store certain meta-data within the images. This brings us to the most important improvement in openQA: the introduction of the needle. A needle is an PNG image with some meta-data associated (a JSON document). This meta-data describes one or multiple &#8216;regions of interest&#8217; (RoI) in the original image which can be used by the test to match the current screenshot. For example, if the installation is in the partition manager and we send the expected keystrokes to set Btrfs as our default file system, we can assert that this option is currently set using a needle where the RoI has the correct check box marked. In other words: we create a needle with an area covering the check box. The system will search this area in the current screen to assert that there is, somewhere, a check box with this label correctly marked. And will use openCV to make sure that slight changes in theming or layout will not result in a failed test.</p>
-<p>The needle concept is really powerful. When a test uses needles with multiple RoI&#8217;s, the system will try to match every area in the current screenshot, in whatever position. There are areas that can be excluded, and areas that can be processed using an OCR (Tesseract) to extract and match text from them.</p>
-<p>Thanks to needles we can now create tests that are always in a known state and they can inform complex decisions about the next step to take. For example, we can have tests that can detect and respond correctly when a sudo prompt appears suddenly, or where an error dialog appears when is not expected. More important, we can detect errors more quickly, aborting the installation process and pointing the developer to the exact error.</p>
-<h3>Faster testing with snapshots</h3>
-<div id="attachment_9477" style="width: 310px" class="wp-caption alignright"><a href="//lizards.opensuse.org/wp-content/uploads/2013/06/results.png"><img class="size-medium wp-image-9477" title="Test result overview" alt="Test result overview" src="//lizards.opensuse.org/wp-content/uploads/2013/06/results_crop-300x172.png" width="300" height="172" /></a><p class="wp-caption-text">Test result overview</p></div>
-<p>We also implemented a way to create snapshots of the virtual machine status. This is useful if we want to retry some tests, or start the test-set from a specific test. For example, if we are testing the Firefox web browser, we want to avoid all the installation tests, and maybe some of the tests related with other applications. With this snapshot feature, we can load the virtual machine in the state where Firefox can be tested immediately.</p>
-<h3>Improved web UI</h3>
-<p>The final major area of focus has been on the web interface. We designed a set of dialogs to create and edit needles. Using this editor we can also see why the current tests are failing, comparing the current screenshot with the different expected needles from the tests.</p>
-<p>Also, from the web interface we can control the execution of the virtual machine: signaling to stop or continue the execution. This is a feature that is useful when we want to create needles in an interactive way.</p>
-<h2>Upstream</h2>
-<p>We&#8217;re very happy that Bernhard has helped us, both with work and advice, to get these changes implemented. Several improvements were integrated in the <a href="https://github.com/bmwiedemann/os-autoinst/">current production version of openQA</a> and most of the more invasive ones are part of the V2 branch of openQA. We plan to sit together with Bernhard to see about deploying V2 to <a title="openQA in action" href="http://openqa.opensuse.org/results/" target="_blank">openqa.opensuse.org</a> for testing factory as soon as possible.</p>
-<p>There is still work to be done. For example, for full integration testing we need to expand on the current ability which allows to run the tests on real hardware. This will for example allow testing graphics and network cards. Also, writing proper documentation is on the todo list. For those interested in helping out putting openQA to work and keeping the quality of our distribution high, the <a title="openSUSE Conference site" href="http://conference.opensuse.org" target="_blank">openSUSE Conference</a> will feature a workshop on creating tests for Factory.</p>
+<p>And OBS will even auto-clean the branch when the submit-request is accepted. And it has a &#8216;tasks&#8217; page to see and track SRs in various stages. For the spec_add_patch to work, you need to do once<br />
+ln -s /usr/lib/build/spec_add_patch /usr/local/bin/</p>
+<p>When you want to contribute patches upstream, so that other distributions benefit from your improvements as well, then you first need to find out, where they collaborate. A good starting point is the URL field in the .spec file, but a google search for &#8216;contribute $PROJECT&#8217; often is better.</p>
+<p><strong>github</strong><br />
+Then there are those many projects hosted on github, where it is also pretty low effort, because I already have the account and it even remains signed in. But some repos on github are only read-only mirrors.</p>
+<ol>
+<li>check pull requests, if some have been merged recently</li>
+<li>fork the project</li>
+<li>git clone git@github.com:&#8230;</li>
+<li>cd $REPO</li>
+<li>edit $FILES</li>
+<li>git commit -a</li>
+<li>git push</li>
+<li>open pull request</li>
+<li>maybe have to sign a CLA for the project</li>
+<li>When change is accepted, delete fork to not clutter up repository list too much (on github under settings)</li>
+</ol>
+<p><strong>sourceforge</strong><br />
+The older brother of github. They integrate various ways of contributing. The easiest one is to open a Ticket (Patch or Bug) and attach the .patch you want them to merge with a good description. While many developers do not have the time and energy to debug every bug you file, applying patches is much easier, so gets your issue fixed with a higher chance.</p>
+<p><strong>devel Mailinglist</strong><br />
+Some projects collaborate mainly through their development MLs, then I need to</p>
+<ol>
+<li>subscribe</li>
+<li>confirm the subscription</li>
+<li>git format-patch origin/master</li>
+<li>git send-email &#8211;to $FOO-devel@&#8230; &#8211;from $MYSUBSCRIBEDEMAIL 000*.patch</li>
+<li>wait for replies</li>
+<li>if it is a high-volume ML, also add an IMAP folder and an entry to .procmailrc</li>
+<li>unsubscribe</li>
+<li>confirm</li>
+</ol>
+<p><strong>project bugtracker</strong><br />
+Like https://bugzilla.gnome.org/ https://bugs.python.org/ https://bugs.ruby-lang.org/ https://bz.apache.org/bugzilla/</p>
+<ol>
+<li>create unique email addr</li>
+<li>sign up for account</li>
+<li>add info to my account list</li>
+<li>optional: search for existing bug (90% of the time there is none)</li>
+<li>file bug</li>
+<li>attach patch</li>
+</ol>
+<p>So as you can see there is a wide range of ways. And most of them have some initial effort that you would only have once&#8230; But then I only contribute once per project, so I always pay that.</p>
+<p>Thus, please make it easy for people to contribute one simple fix.</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/06/06/openqa-in-opensuse/feed/</wfw:commentRss>
-		<slash:comments>4</slash:comments>
+			<wfw:commentRss>https://lizards.opensuse.org/2017/06/04/the-issues-with-contributing-to-projects-only-once/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Highlights of YaST development sprint 31</title>
+		<link>https://lizards.opensuse.org/2017/02/20/highlights-of-yast-development-sprint-31/</link>
+		<comments>https://lizards.opensuse.org/2017/02/20/highlights-of-yast-development-sprint-31/#comments</comments>
+		<pubDate>Mon, 20 Feb 2017 09:58:58 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Software Management]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[XFCE]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12303</guid>
+		<description><![CDATA[As we announced in the previous report, our 31th Scrum sprint was slightly shorter than the usual ones. But you would never say so looking to this blog post. We have a lot of things to talk you about! Teaching the installer self-update to be a better citizen As you may know, YaST includes a [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>As we announced in <a href="https://lizards.opensuse.org/?p=12263">the previous report</a>, our 31th Scrum sprint was slightly shorter than the usual ones. But you would never say so looking to this blog post. We have a lot of things to talk you about!</p>
+<h3>Teaching the installer self-update to be a better citizen</h3>
+<p>As you may know, YaST includes a <a href="https://fate.suse.com/319716">nice feature</a> which allows the installer to update itself in order to solve bugs in the installation media. This mechanism has been included in SUSE Linux Enterprise 12 SP2, although it&#8217;s not enabled by default (you need to pass an extra option <code>selfupdate=1</code> to make it work).</p>
+<p>So after getting some feedback, we&#8217;re working toward fixing some usability problems. The first of them is that, in some situations, the self-update mechanism is too intrusive.</p>
+<p>Consider the following scenario: you&#8217;re installing a system behind a firewall which prevents the machine to connect to the outside network. As the SUSE Customer Center will be unreachable, YaST complains about not being able to get the list of repositories for the self-update. And, after that, you get another complain because the fallback repository is not accessible. Two error messages and 2 timeouts.</p>
+<p>And the situation could be even worse if you don&#8217;t have access to a DNS server (add another error message).</p>
+<p>So after some discussion we&#8217;ve decided to show such errors only if the user has specified SMT or a custom self-update repository (which is also possible). In any other case, the error is logged and the self-update is skipped completely.</p>
+<p>You can find further information in our <a href="https://gist.github.com/imobachgs/cb03b6a87dd5e31c89a9463d30db4252">Self-Update Use Cases and Error Handling document</a>.</p>
+<p>During upcoming sprints, we&#8217;ll keep working on making the self-update feature great!</p>
+<h3>Configuring workers during CaaSP installation</h3>
+<p>While CaaSP release approaches, our team is still working hard to satisfy the new requirements. Thankfully, YaST is a pretty flexible tool and it allows us to change a lot of things.</p>
+<p>For CaaSP installation, YaST features a one-dialog installation screen. During this sprint, configuration of the <code>Worker</code> role has been implemented, including validation of the entered URL and writing the value to the installed system. You can check the animated screenshot for details.</p>
+<p><img src="//lizards.opensuse.org/wp-content/uploads/2017/02/worker.gif" alt="The CaaSP worker configuration" /></p>
+<h3>New desktop selection screen in openSUSE installer</h3>
+<p>The world of Linux desktop environments change relatively quick, with new options popping-up and some projects being abandoned. Thanks to the openSUSE&#8217;s community of packagers we have a lot of these new desktop environments available on the openSUSE distributions. But the status of those packages for openSUSE is also subject to changes: some desktop environments are poorly maintained while others have a strong and active group of packagers and maintainer behind.</p>
+<p>The YaST Team does not have enough overview and time to watch all these desktop environment and evaluate which one is ready or not for being in the installer&#8217;s desktop selection screen. So the openSUSE Release Team decided to replace this dialog with something a bit more generic but still useful for newcomers.</p>
+<p>They asked the YaST Team to come up with a new dialog featuring the two openSUSE main desktops (KDE Plasma and GNOME) and allowing the easy selection of other environments without reworking the dialog in the future. The goal of that new dialog was to replace the existing one you can see in the following screenshot.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2017/02/old_desktop.png"><img src="//lizards.opensuse.org/wp-content/uploads/2017/02/old_desktop-300x226.png" alt="The old desktop selection screen" width="300" height="226" class="aligncenter size-medium wp-image-12312" srcset="https://lizards.opensuse.org/wp-content/uploads/2017/02/old_desktop-300x226.png 300w, https://lizards.opensuse.org/wp-content/uploads/2017/02/old_desktop-768x579.png 768w, https://lizards.opensuse.org/wp-content/uploads/2017/02/old_desktop.png 1023w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>We decided the new dialog should rely on patterns for several reasons. The main one is that the set of patterns is under the close control of the openSUSE community, which looks more closely than us to the desktop environments and their integration into the distribution. Moreover, each pattern specifies its own icon and description that can be somehow re-used by the installer.</p>
+<p>We also took the opportunity to merge this almost empty and outdated dialog with the new one.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2017/02/old_repos.png"><img src="//lizards.opensuse.org/wp-content/uploads/2017/02/old_repos-300x226.png" alt="The old additional repositories screen" width="300" height="226" class="aligncenter size-medium wp-image-12313" srcset="https://lizards.opensuse.org/wp-content/uploads/2017/02/old_repos-300x226.png 300w, https://lizards.opensuse.org/wp-content/uploads/2017/02/old_repos-768x578.png 768w, https://lizards.opensuse.org/wp-content/uploads/2017/02/old_repos-1024x770.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2017/02/old_repos.png 1025w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Addons are no longer produced for openSUSE, so only the second checkbox made any sense nowadays. Moreover, the functionality of that second checkbox directly influence the available selection of patterns, so it made more sense to merge everything in a single screen that keeping an extra step in the installation just to accommodate a checkbox.</p>
+<p>So we sent a proposal for the new dialog to the opensuse-factory mailing list and, after implementing many of the ideas discussed there (like better wording or using a button instead of a checkbox for the online repositories), this is the new dialog that replaces the two ones mentioned above.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2017/02/new_desktop.png"><img src="//lizards.opensuse.org/wp-content/uploads/2017/02/new_desktop-300x225.png" alt="The new desktop selection dialog" width="300" height="225" class="aligncenter size-medium wp-image-12315" srcset="https://lizards.opensuse.org/wp-content/uploads/2017/02/new_desktop-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2017/02/new_desktop-768x577.png 768w, https://lizards.opensuse.org/wp-content/uploads/2017/02/new_desktop.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Selecting &#8220;custom&#8221; will take the users to the already existing patterns selection screen. Just in case you don&#8217;t remember how that screen looks like, you can check this image.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2017/02/patterns.png"><img src="//lizards.opensuse.org/wp-content/uploads/2017/02/patterns-300x225.png" alt="The patterns selection screen" width="300" height="225" class="aligncenter size-medium wp-image-12316" srcset="https://lizards.opensuse.org/wp-content/uploads/2017/02/patterns-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2017/02/patterns-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2017/02/patterns-1024x768.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2017/02/patterns.png 1025w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>If these screenshots are not enough to make your mind about the change, you can check the following animation, in which KDE Plasma is initially chosen to be changed at a later point (going back in the workflow) to LXQt.</p>
+<p><img src="//lizards.opensuse.org/wp-content/uploads/2017/02/desktop_animation.gif" alt="Desktop selection animation" /></p>
+<p>It will take some time before the changes hit the Tumbleweed installer, since they obviously have a non-trivial impact on the openQA tests, that will need some adaptation.</p>
+<p>We would like to thank everybody that contributed to this new feature by providing feedback and suggestions through the mailing list. Once again, the openSUSE community has proved to be simply awesome!</p>
+<h3>Storage reimplementation: improved handling of logical partitions</h3>
+<p>Our reimplementation of the storage layer keeps getting improvements here and there. With the base x86 case working, we are now implementing the tricky parts, like the partitions renumbering that takes place when dealing with logical partitions in a MBR style partition table.</p>
+<p>With GPT partition tables or with primary partitions in a MBR partition table, the partition gets a number (like sda1) when it&#8217;s created and keeps that number for its whole lifetime. But logical partition gets constantly renumbered when other partitions are created and destroyed. We need to know in advance what device name every partition will get in order to configure everything beforehand and only commit the changes to the disk when the user clicks in the &#8220;install&#8221; (during the installation process) or &#8220;commit&#8221; (if running the expert partitioner).</p>
+<p>Now, libstorage-ng is able to simulate in memory the re-numbering process, so we can calculate all the settings related to partitioning (like the configuration of the bootloader) before really touching the disk.</p>
+<h3>Making kdump work in CaaSP</h3>
+<p>When you enable the Kernel Crash Dump (kdump), you probably expect that you will get a kind of core dump, like you do for regular processes. What you might not expect is an automatic reboot. That is a nice bonus. If you are tired of waiting for an <em>actual</em> kernel crash, you can test your kdump setup by triggering a crash yourself. Just run this as root:</p>
+<pre>
+echo c &gt; /proc/sysrq-trigger</code>
+</pre>
+<p>The way kdump works is by allocating some extra memory at boot time and putting a second kernel+initrd there. When the main kernel realizes it is crashing, it transfers control (by kexec) to the other one, which has only one purpose, to dump the memory of the crashed kernel.</p>
+<p>In the upcoming Containers as a Service Platform, kdump was not working because the root filesystem is read-only there and we were not able to create the kdump initrd. We <a href="https://github.com/yast/yast-kdump/pull/73">fixed it</a> by creating it just after the RPMs are installed, when the FS is still read-write.</p>
+<h3>Fixes for Snapper in CaaSP</h3>
+<p>Kdump was not the only component affected by the fact of having a read-only filesystem in CaaSP. Snapper was also running into problems when trying to execute the <code>rollback</code> and <code>cleanup</code> operations. Now the problems are fixed. While working on that we did enough interesting findings to deserve a separate blog entry. So you can expect a new entry in the <a href="http://snapper.io/news.html">Snapper.io blog</a> soon.</p>
+<h3>Snapshot-related improvements in the expert partitioner</h3>
+<p>While we work on the new storage system, we are still taking care and improving the current one that will continue to be shipped with SLE12-SP3, SUSE CaaSP and openSUSE Leap 42.3. During this sprint we introduced a couple of usability improvements in the expert partitioner related to Btrfs subvolumes.</p>
+<p>First of all, we moved the &#8220;Enable Snapshots&#8221; checkbox that was pretty much hidden in the &#8220;Subvolume Handling&#8221; dialog to the place where it really belongs &#8211; below the selector of the file-system type.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2017/02/snapshots.png"><img src="//lizards.opensuse.org/wp-content/uploads/2017/02/snapshots-300x187.png" alt="New location for enabling snapshots" width="300" height="187" class="aligncenter size-medium wp-image-12327" srcset="https://lizards.opensuse.org/wp-content/uploads/2017/02/snapshots-300x187.png 300w, https://lizards.opensuse.org/wp-content/uploads/2017/02/snapshots-768x478.png 768w, https://lizards.opensuse.org/wp-content/uploads/2017/02/snapshots-1024x637.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2017/02/snapshots.png 1350w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>In addition, we added the warning you can see in the screenshot below for users enabling snapshots in a potentially problematic setup.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2017/02/snapshots-size-warning.png"><img src="//lizards.opensuse.org/wp-content/uploads/2017/02/snapshots-size-warning-300x186.png" alt="Warning for snapshots in a small partition" width="300" height="186" class="aligncenter size-medium wp-image-12328" srcset="https://lizards.opensuse.org/wp-content/uploads/2017/02/snapshots-size-warning-300x186.png 300w, https://lizards.opensuse.org/wp-content/uploads/2017/02/snapshots-size-warning-768x477.png 768w, https://lizards.opensuse.org/wp-content/uploads/2017/02/snapshots-size-warning-1024x635.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2017/02/snapshots-size-warning.png 1352w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3>Bring back the beta warning on CaaSP</h3>
+<p>And talking about warnings, we improved the CaaSP installation dialog to show the Alpha/Beta product warning at the beginning. After changing the CaaSP installation to use the all-in-one dialog <a href="https://lizards.opensuse.org/?p=12263">described in our previous post</a>, this feature was lost as it is part of the initial EULA dialog. Now it is back and the users should now properly see the current product status.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2017/02/caasp_warning.png"><img src="//lizards.opensuse.org/wp-content/uploads/2017/02/caasp_warning-300x225.png" alt="The CaaSP alpha/beta warning pop-up" width="300" height="225" class="aligncenter size-medium wp-image-12305" srcset="https://lizards.opensuse.org/wp-content/uploads/2017/02/caasp_warning-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2017/02/caasp_warning-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2017/02/caasp_warning.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3>Storage reimplementation: encrypted LVM proposal</h3>
+<p>Back to our storage layer reimplementation, the new system is now able to propose a setup with encrypted LVM. Since some sprints ago, we were already able to propose a partition-based and a LVM setup. That means the new proposal is now feature-pair with the old one, with the only exceptions of Btrfs sub-volumes (that shouldn&#8217;t be a big challenge) and s/390 storage (that is still not properly managed by the underlying libstorage-ng).</p>
+<p>The bright part is that the new code is written with re-usability in mind, which means implementing an encrypted partition-based proposal (with no LVM) would be trivial. The new code is 100% covered by automatic unit tests and scores to the top in all the automatic quality checkers we have run (like Rubycritics, CodeClimate, and Rubocop).</p>
+<p>So now we are prepared for whatever the future brings, having lost no single feature in the way.</p>
+<h3>Storage reimplementation: prototype if the UI for the proposal settings</h3>
+<p>The next challenge is to make the power of that new storage proposal available to the users through the user interface. In the <a href="https://lizards.opensuse.org/?p=12263">previous post</a> we presented the document describing the general ideas we wanted to discuss with UX experts.</p>
+<p>It&#8217;s our pleasure to announce we met the experts and we very easily reached an agreement on how the user interaction should be. During this sprint we already implemented a prototype of the future proposal settings wizard that is, as usual, included in our <a href="http://download.opensuse.org/repositories/YaST:/storage-ng/images/iso/">testing ISO</a>.</p>
+<p>Now that we have solid foundations, it&#8217;s very likely that the following sprint will result in the fully working wizard, with almost-final wording and design.</p>
+<h3>Support for CaaSP added to the AutoYaST integration tests</h3>
+<p>While fixing a problem with AutoYaST and CaaSP, we decided to extend our AutoYaST integration testing tool to support CaaSP. But, as a side effect, we also made some additional improvements that were long overdue (like improving the procedure to download ISOs, reducing timeouts, etc.).</p>
+<p>Now, our internal Jenkins instance takes care of running AutoYaST integration tests for the development version of CaaSP (as it already does for SLE 12 SP2).</p>
+<h3>Services manager moved to first auto-installation stage</h3>
+<p>AutoYaST allows to <a href="https://www.suse.com/documentation/sles-12/singlehtml/book_autoyast/book_autoyast.html#CreateProfile.Services">define a set of services</a> to be enabled/disabled in the installed system, applying this configuration during the 2nd stage (after the first reboot).</p>
+<p>Unfortunately, this approach won&#8217;t work for CaaSP because, in that case, the 2nd stage won&#8217;t be available. For that reason, during this sprint, we have adapted AutoYaST to write services configuration during 1st stage.</p>
+<p>As usual, not only CaaSP, but other future (open)SUSE versions will benefit of this change.</p>
+<h3>Faster YaST installation when the release notes cannot be downloaded</h3>
+<p>Sometimes a very small simple change in a program makes a very noticeable impact in its everyday use. That&#8217;s the case of a fix implemented during this sprint. YaST usually re-tries to download the distribution release notes several times if the first attempt was unsuccessful. Although that&#8217;s correct from a general point of view, there are cases in which retrying makes no sense and only delays the installation. We have now added failed DNS resolution to that list of cases, which should result in a noticeable faster installation in many scenarios.</p>
+<p>Moreover, in the case of AutoYaST we now skip downloading the release notes completely. Downloading them don&#8217;t make us much sense in the kind of unattended scenarios handled by AutoYaST and skipping this step and all the possible associated problems result in a more robust process.</p>
+<h3>Better continuous integration for Libyui</h3>
+<p>In the previous sprint we switched to Docker at Travis so we could build and test our packages in the native openSUSE system instead of the default Ubuntu. This sprint we did the same change also for the Libyui library which implements the UI part of YaST.</p>
+<p>Originally we could not build the Libyui packages at Travis as either the required build dependencies were missing or were present at a very old unusable version. With this switch we can easily use the latest packages from openSUSE Tumbleweed and thus enable Travis builds for all Libyui packages.</p>
+<h3>See you after Hack Week!</h3>
+<p>As already mentioned, this week is <a href="https://hackweek.suse.com/">Hack Week 15</a>! So our Scrum process will be on hold for some days. That doesn&#8217;t necessarily mean the YaST development will stall. Since there are quite some YaST-related projects in the Hack Week page, you can expect YaST to simply go in unexpected directions. <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>And remember Hack Week is not a SUSE internal initiative, we are open to collaboration from anybody within or outside the company. So jump in and have fun with us!</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2017/02/20/highlights-of-yast-development-sprint-31/feed/</wfw:commentRss>
+		<slash:comments>5</slash:comments>
+		</item>
+		<item>
+		<title>AMD Catalyst 15.12 for openSUSE – new makerpm-amd-script is available</title>
+		<link>https://lizards.opensuse.org/2016/03/17/amd-catalyst-15-12-for-opensuse-new-makerpm-amd-script-is-available/</link>
+		<comments>https://lizards.opensuse.org/2016/03/17/amd-catalyst-15-12-for-opensuse-new-makerpm-amd-script-is-available/#comments</comments>
+		<pubDate>Thu, 17 Mar 2016 18:41:13 +0000</pubDate>
+		<dc:creator><![CDATA[Sebastian Siebert]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.1]]></category>
+		<category><![CDATA[12.2]]></category>
+		<category><![CDATA[12.3]]></category>
+		<category><![CDATA[13.1]]></category>
+		<category><![CDATA[13.2]]></category>
+		<category><![CDATA[42.1]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[driver]]></category>
+		<category><![CDATA[fglrx]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[radeon]]></category>
+		<category><![CDATA[rpm]]></category>
+		<category><![CDATA[Tumbleweed]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11773</guid>
+		<description><![CDATA[AMD has released the new AMD Catalyst 15.12 (Radeon Crimson Edition). My script replaces the existing packaging script with an updated packaging script. It supports up to Kernel 4.5. (Official support up to Kernel 3.19) Important note: The driver does not work on openSUSE Tumbleweed. Unfortunately, the version of X-server is too new for the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>AMD has released the new AMD Catalyst 15.12 (Radeon Crimson Edition). My script replaces the existing packaging script with an updated packaging script. It supports up to Kernel 4.5. (Official support up to Kernel 3.19)</p>
+<p><strong>Important note:</strong> The driver does not work on openSUSE Tumbleweed. Unfortunately, the version of X-server is too new for the driver.</p>
+<p>SHA1 is obsolete by now. The script used SHA256 for integrity of the downloaded files.</p>
+<p>New Feature from packaging script:</p>
+<ul>
+<li>systemd support</li>
+</ul>
+<p>Resolved Issues:</p>
+<ul>
+<li>[SWDEV-82980] Ubuntu 15.10 fails when building the .deb packages</li>
+</ul>
+<p>Link: <a href="http://support.amd.com/en-us/kb-articles/Pages/AMDRadeonSoftwareCrimsonEdition15-12LINReleaseNotes.aspx">AMD Catalyst 15.12 Release Notes</a></p>
+<p>Downloads:</p>
+<ul>
+<li>Script: <a href="https://www.sebastian-siebert.de/downloads/makerpm-amd-15.12.sh" target="_blank">makerpm-amd-15.12.sh</a></li>
+<li>SHA1: <a href="https://www.sebastian-siebert.de/downloads/makerpm-amd-15.12.sh.sha256" target="_blank">makerpm-amd-15.12.sh.sha256</a></li>
+</ul>
+<p>Installation guide (English):<br />
+<a href="http://en.opensuse.org/SDB:AMD_fglrx#Building_the_rpm_yourself">http://en.opensuse.org/SDB:AMD_fglrx#Building_the_rpm_yourself</a></p>
+<p>Bruno Friedmann will build the new RPM packages in the fglrx repository. Stay tune!</p>
+<p>If you find any issue with the driver. Don’t hesitate to contact me. I am in contact with AMD and can forward your issue to the right place. Feedback are welcome.</p>
+<p>A report of your system is very helpful beside your feedback. You can generate it with the script:<br />
+<code>su -c 'sh makerpm-amd-15.12.sh -ur'</code></p>
+<p>Have a lot of fun!</p>
+<p>Sebastian<br />
+openSUSE member / Official AMD Packaging Script Maintainer for openSUSE<br />
+German Blog: <a href="https://www.sebastian-siebert.de/2016/03/17/opensuse-proprietaeren-grafik-treiber-amd-catalyst-15-12-als-rpm-installieren/">openSUSE – proprietären Grafik-Treiber AMD Catalyst 15.12 als RPM installieren</a></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2016/03/17/amd-catalyst-15-12-for-opensuse-new-makerpm-amd-script-is-available/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>Sugar on openSUSE</title>
+		<link>https://lizards.opensuse.org/2016/02/17/sugar-on-opensuse/</link>
+		<pubDate>Wed, 17 Feb 2016 14:25:18 +0000</pubDate>
+		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
+				<category><![CDATA[Derivative]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Education]]></category>
+		<category><![CDATA[Packaging]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11705</guid>
+		<description><![CDATA[Built openSUSE Leap based Sugar test images on SUSE Studio, get it from here. If you wish to get involved with the project maintaining packages, fixing/reporting bugs, follow the links on the X11:Sugar build service project page.]]></description>
+				<content:encoded><![CDATA[<p>Built openSUSE Leap based <a href="https://www.sugarlabs.org/">Sugar</a> test images on SUSE Studio, <a href="https://susestudio.com/a/F78UZ4/sugarsuse-leap-42-1">get it from here</a>.</p>
+<p>If you wish to get involved with the project maintaining packages, fixing/reporting bugs, follow the links on the <a href="https://build.opensuse.org/project/show/X11:Sugar">X11:Sugar</a> build service project page.</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Proprietary AMD/ATI Catalyst fglrx rpms new release 15.11 (15.300.1025-1)</title>
+		<link>https://lizards.opensuse.org/2015/12/06/proprietary-amdati-catalyst-fglrx-rpms-new-release-15-11-15-300-1025-1/</link>
+		<pubDate>Sun, 06 Dec 2015 19:37:24 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[XFCE]]></category>
+		<category><![CDATA[13.1]]></category>
+		<category><![CDATA[13.2]]></category>
+		<category><![CDATA[42.1]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[fglrx]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Tumbleweed]]></category>
+		<category><![CDATA[unified]]></category>
+		<category><![CDATA[xorg]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11582</guid>
+		<description><![CDATA[Time to get an update for fglrx: the new release has been build for 13.1, 13.2, Leap 42.1, and tumbleweed 20151201 Tumbleweed beware : broken Xorg It seems since the release, that a number of report of broken xorg with gdm, ssdm and so&#8230; segfaulting You can still use the previous version hanging on the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Time to get an update for fglrx: the new release has been build for 13.1, 13.2, Leap 42.1, and tumbleweed 20151201</p>
+<h1 style="color:red">Tumbleweed beware : broken Xorg</h1>
+<p>It seems since the release, that a number of report of broken xorg with gdm, ssdm and so&#8230; segfaulting</p>
+<p>You can still use the previous version hanging on the server. But I doubt it would work better</p>
+<p>As soon, with Sebastian Siebert we have a patch for, I will republish a new build</p>
+<p>Informations &amp; bugreport <a href="https://www.sebastian-siebert.de/2015/12/05/opensuse-proprietaeren-grafik-treiber-amd-catalyst-15-11-als-rpm-installieren">Sebastian&#8217;s blog</a> or <a href="https://lizards.opensuse.org/2015/12/05/amd-catalyst-15-11-for-opensuse-new-makerpm-amd-script-is-available/">lizards.o.o</a><br />
+<br />
+The proposed drivers support kernel up to version 4.4
+</p>
+<p>AMD release note <a href="http://support.amd.com/en-us/kb-articles/Pages/AMDRadeonSoftwareCrimsonEdition15-11LINReleaseNotes.aspx">available</p>
+<h4>Sebastien Siebert making script</h4>
+<p style="clear:both"><a href="http://www.sebastian-siebert.de/">Sebastian Siebert posts about fglrx</a></p>
+<p>If you have any problems with the driver, don&#8217;t be afraid to report to Sebastian (German and English bugreports are gladly accepted).<br />
+he will try, as far as I am able to reproduce the bug. Together with the necessary system information, he will go directly to the right place at AMD to have the bug fixed in the next driver release.<br />
+Thank you very much, Sebastian.
+</p>
+<p>See below what to do in case of troubles.</p>
+<p>Or you can also ping him on irc (freespacer)</p>
+<h4>Debugging troubles</h4>
+<p>I recommend in case of trouble the use of <a href="http://www.sebastian-siebert.de/downloads/makerpm-amd-15.11.sh">his script</a> which can collect the whole informations needed to help you. then you just have to issue a simple commande in console to collect all informations, you can review them, and finally transmit them.<br />
+Check the website to get the latest.
+</p>
+<pre>su -c 'sh makerpm-amd-15.11.sh -ur'
+The system report 'amd-report.txt' was generated.                                                                                                          [ OK ]
+Do you want to read the system report 'amd-report.txt' now? yes/no [y/n]: y
+Are you sure to upload the above-named system report to sprunge.us? yes/no [y/n]: y
+
+The report was uploaded to sprunge.us.
+   The link is:  <a href="http://sprunge.us/eMEB">http://sprunge.us/eMEB</a>
+</pre>
+<p>Copy paste the link in the comment zone of Sebastian post</p>
+<p>All proudly distributed by openSUSE powered server and sponsored by <a href="http://www.ioda-net.ch">Ioda-Net Sàrl</a></p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>AMD Catalyst 15.11 for openSUSE – new makerpm-amd-script is available</title>
+		<link>https://lizards.opensuse.org/2015/12/05/amd-catalyst-15-11-for-opensuse-new-makerpm-amd-script-is-available/</link>
+		<comments>https://lizards.opensuse.org/2015/12/05/amd-catalyst-15-11-for-opensuse-new-makerpm-amd-script-is-available/#comments</comments>
+		<pubDate>Sat, 05 Dec 2015 23:00:55 +0000</pubDate>
+		<dc:creator><![CDATA[Sebastian Siebert]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.1]]></category>
+		<category><![CDATA[12.2]]></category>
+		<category><![CDATA[12.3]]></category>
+		<category><![CDATA[13.1]]></category>
+		<category><![CDATA[13.2]]></category>
+		<category><![CDATA[42.1]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[driver]]></category>
+		<category><![CDATA[fglrx]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[radeon]]></category>
+		<category><![CDATA[rpm]]></category>
+		<category><![CDATA[Tumbleweed]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11579</guid>
+		<description><![CDATA[AMD has released the new AMD Catalyst 15.11 (Radeon Crimson Edition). My script replaces the existing packaging script with an updated packaging script. It supports up to Kernel 4.4. (Official support up to Kernel 3.19) I have adapted the AMD driver to the Kernel 4.4 (rc3). For the moment it works for Kernel 4.4-rc3. Unfortunately [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>AMD has released the new AMD Catalyst 15.11 (Radeon Crimson Edition). My script replaces the existing packaging script with an updated packaging script. It supports up to Kernel 4.4. (Official support up to Kernel 3.19)</p>
+<p>I have adapted the AMD driver to the Kernel 4.4 (rc3). For the moment it works for Kernel 4.4-rc3. Unfortunately the AMD driver has a compatibility issue in combination with the GNOME Desktopmanager and X-Server. As a workaround, I recommend for GNOME another Desktopmanager such as lightdm until the issue is hopefully fixed.</p>
+<p>Resolved Issues:</p>
+<ul>
+<li>[SWDEV-55204] Stuttering when running glxgears with VSync enabled</li>
+<li>[SWDEV-7339] Intermittent mouse cursor corruption</li>
+</ul>
+<p>Link: <a href="http://support.amd.com/en-us/kb-articles/Pages/AMDRadeonSoftwareCrimsonEdition15-11LINReleaseNotes.aspx">AMD Catalyst 15.11 Release Notes</a></p>
+<p>Downloads:</p>
+<ul>
+<li>Script: <a href="https://www.sebastian-siebert.de/downloads/makerpm-amd-15.11.sh" target="_blank">makerpm-amd-15.11.sh</a></li>
+<li>SHA1: <a href="https://www.sebastian-siebert.de/downloads/makerpm-amd-15.11.sh.sha1" target="_blank">makerpm-amd-15.11.sh.sha1</a></li>
+</ul>
+<p>Installation guide (English):<br />
+<a href="http://en.opensuse.org/SDB:AMD_fglrx#Building_the_rpm_yourself">http://en.opensuse.org/SDB:AMD_fglrx#Building_the_rpm_yourself</a></p>
+<p>Bruno Friedmann will build the new RPM packages in the fglrx repository. Stay tune!</p>
+<p>If you find any issue with the driver. Don’t hesitate to contact me. I am in contact with AMD and can forward your issue to the right place. Feedback are welcome.</p>
+<p>A report of your system is very helpful beside your feedback. You can generate it with the script:<br />
+<code>su -c 'sh makerpm-amd-15.11.sh -ur'</code></p>
+<p>Have a lot of fun!</p>
+<p>Sebastian<br />
+openSUSE member / Official AMD Packaging Script Maintainer for openSUSE<br />
+German Blog: <a href="https://www.sebastian-siebert.de/2015/12/05/opensuse-proprietaeren-grafik-treiber-amd-catalyst-15-11-als-rpm-installieren/">openSUSE – proprietären Grafik-Treiber AMD Catalyst 15.11 als RPM installieren</a></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2015/12/05/amd-catalyst-15-11-for-opensuse-new-makerpm-amd-script-is-available/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
 		</item>
 	</channel>
 </rss>

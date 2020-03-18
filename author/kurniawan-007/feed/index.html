@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0"
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -9,19 +8,18 @@
 	>
 
 <channel>
-	<title>openSUSE Lizards &#187; Bonnie Kurniawan</title>
-	<atom:link href="http://lizards.opensuse.org/author/kurniawan-007/feed/" rel="self" type="application/rss+xml" />
-	<link>http://lizards.opensuse.org</link>
+	<title>Bonnie Kurniawan &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/author/kurniawan-007/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
 	<description>Blogs and Ramblings of the openSUSE Members</description>
-	<lastBuildDate>Mon, 24 Mar 2014 12:46:00 +0000</lastBuildDate>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
 	<language>en-US</language>
-		<sy:updatePeriod>hourly</sy:updatePeriod>
-		<sy:updateFrequency>1</sy:updateFrequency>
-	<generator>http://wordpress.org/?v=3.8.1</generator>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
 	<item>
 		<title>OPENSUSE 11.3/SLES 11 ** INTEGRATING FREERADIUS TO LDAP SERVER</title>
-		<link>http://lizards.opensuse.org/2010/11/12/opensuse-11-3sles-11-integrating-freeradius-to-ldap-server/</link>
-		<comments>http://lizards.opensuse.org/2010/11/12/opensuse-11-3sles-11-integrating-freeradius-to-ldap-server/#comments</comments>
+		<link>https://lizards.opensuse.org/2010/11/12/opensuse-11-3sles-11-integrating-freeradius-to-ldap-server/</link>
 		<pubDate>Fri, 12 Nov 2010 15:19:12 +0000</pubDate>
 		<dc:creator><![CDATA[Bonnie Kurniawan]]></dc:creator>
 				<category><![CDATA[Server]]></category>
@@ -31,7 +29,7 @@
 				<content:encoded><![CDATA[<p><strong><em>FreeRADIUS</em></strong><em> is a </em><em>modular</em><em>, high performance free </em><em>RADIUS</em><em> suite developed and distributed under the </em><em>GNU General Public License, version 2</em><em>, and is free for download and use. The FreeRADIUS Suite includes a </em><em>RADIUS</em><em> server, a </em><em>BSD-licensed</em><em> RADIUS client library, a </em><em>PAM</em><em> library, an</em><em>Apache</em><em> </em><em>module</em><em>, and numerous additional RADIUS related utilities and development libraries </em>(<a href="http://en.wikipedia.org/wiki/FreeRADIUS" target="_self">wikipedia</a>)</p>
 <p><strong><em>Remote Authentication Dial In User Service</em></strong><em> (</em><strong><em>RADIUS</em></strong><em>) is a networking </em><em>protocol</em><em> that provides centralized Authentication, Authorization, and Accounting (</em><em>AAA</em><em>) management for computers to connect and use a network service. RADIUS was developed by Livingston Enterprises, Inc., in 1991 as an access server authentication and accounting protocol and later brought into the </em><em>Internet Engineering Task Force</em><em> (IETF) standards</em>(<a href="http://en.wikipedia.org/wiki/RADIUS" target="_self">wikipedia</a>)</p>
 <p><em>Well, then again a bit of introduction about &#8220;what is RADIUS ?&#8221; and the FreeRADIUS, the most popular OpenSource RADIUS Server :D.</em></p>
-<p>This tutorial based on an existing LDAP Server Configuration ( you can read this <a href="http://malayin.net/?p=152" target="_blank">post</a>) and it already has 1-2 users on it ( you can read this <a href="http://malayin.net/?p=373" target="_blank">post </a>again <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" />  ),  and this post is explain how-to integrate FreeRADIUS to read and use existing user on LDAP Server.</p>
+<p>This tutorial based on an existing LDAP Server Configuration ( you can read this <a href="http://malayin.net/?p=152" target="_blank">post</a>) and it already has 1-2 users on it ( you can read this <a href="http://malayin.net/?p=373" target="_blank">post </a>again <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> ),  and this post is explain how-to integrate FreeRADIUS to read and use existing user on LDAP Server.</p>
 <p>you can install the FreeRadius server on the<strong> same server</strong> or on a<strong> seperate server</strong> ( it&#8217;s your choice :p )</p>
 <ul>
 <li>Add the FreeRADIUS repository from software.opensuse.org</li>
@@ -52,10 +50,10 @@
 <div><em>ldap {</em></div>
 <div><em><br />
 </em></div>
-<div><em><strong>server = &#8220;192.168.0.30&#8243; </strong>&#8211; </em><strong>the LDAP Server</strong></div>
+<div><em><strong>server = &#8220;192.168.0.30&#8221; </strong>&#8212; </em><strong>the LDAP Server</strong></div>
 <div><em>#identity = &#8220;cn=Adminstrator,dc=malayin,dc=net&#8221;</em></div>
 <div><em>#password = admin</em></div>
-<div><em><strong>basedn = &#8220;dc=malayin,dc=net&#8221; &#8211; The Base DN LDAP Server</strong></em></div>
+<div><em><strong>basedn = &#8220;dc=malayin,dc=net&#8221; &#8212; The Base DN LDAP Server</strong></em></div>
 <div><em>#filter = &#8220;(uid=%{Stripped-User-Name:-%{User-Name}})&#8221;</em></div>
 <div><em><strong>filter = &#8220;(uid=%u)&#8221;</strong></em></div>
 <div><em>#base_filter = &#8220;(objectclass=radiusprofile)&#8221;</em></div>
@@ -85,7 +83,7 @@
 <div><em> </em><em>#  which are more standard.</em></div>
 <div><em> </em><em>#</em></div>
 <div><em> </em><em>#  It takes care of processing the &#8216;raddb/hints&#8217; and the</em></div>
-<div><em> </em><em>#  &#8217;raddb/huntgroups&#8217; files.</em></div>
+<div><em> </em><em>#  &#8216;raddb/huntgroups&#8217; files.</em></div>
 <div><em> </em><em>#</em></div>
 <div><em> </em><em>#  It also adds the %{Client-IP-Address} attribute to the request.</em></div>
 <div><em> </em><em>#preprocess</em></div>
@@ -112,7 +110,7 @@
 <div><em># digest</em></div>
 <div><em> </em><em>#</em></div>
 <div><em> </em><em>#  Look for IPASS style &#8216;realm/&#8217;, and if not found, look for</em></div>
-<div><em> </em><em>#  &#8217;@realm&#8217;, and decide whether or not to proxy, based on</em></div>
+<div><em> </em><em>#  &#8216;@realm&#8217;, and decide whether or not to proxy, based on</em></div>
 <div><em> </em><em>#  that.</em></div>
 <div><em># IPASS</em></div>
 <div><em> </em><em>#</em></div>
@@ -282,7 +280,7 @@
 <div><em> </em><em>acct_unique</em></div>
 <div><em> </em><em>#</em></div>
 <div><em> </em><em>#  Look for IPASS-style &#8216;realm/&#8217;, and if not found, look for</em></div>
-<div><em> </em><em>#  &#8217;@realm&#8217;, and decide whether or not to proxy, based on</em></div>
+<div><em> </em><em>#  &#8216;@realm&#8217;, and decide whether or not to proxy, based on</em></div>
 <div><em> </em><em>#  that.</em></div>
 <div><em> </em><em>#</em></div>
 <div><em> </em><em>#  Accounting requests are generally proxied to the same</em></div>
@@ -370,7 +368,7 @@
 <div><em># sql_log</em></div>
 <div><em> </em><em>#</em></div>
 <div><em> </em><em>#  Un-comment the following if you have set</em></div>
-<div><em> </em><em>#  &#8217;edir_account_policy_check = yes&#8217; in the ldap module sub-section of</em></div>
+<div><em> </em><em>#  &#8216;edir_account_policy_check = yes&#8217; in the ldap module sub-section of</em></div>
 <div><em> </em><em>#  the &#8216;modules&#8217; section.</em></div>
 <div><em> </em><em>#</em></div>
 <div><em><strong> </strong></em><em><strong>ldap</strong></em></div>
@@ -380,7 +378,7 @@
 <div><em> </em><em>#  post-auth section.</em></div>
 <div><em> </em><em>#</em></div>
 <div><em> </em><em>#  Add the ldap module name (or instance) if you have set</em></div>
-<div><em> </em><em>#  &#8217;edir_account_policy_check = yes&#8217; in the ldap module configuration</em></div>
+<div><em> </em><em>#  &#8216;edir_account_policy_check = yes&#8217; in the ldap module configuration</em></div>
 <div><em> </em><em>#</em></div>
 <div><em> </em><em>Post-Auth-Type REJECT {</em></div>
 <div><em> </em><em>attr_filter.access_reject</em></div>
@@ -401,8 +399,6 @@
 </ul>
 <p>You can see detail http://www.malayin.net</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2010/11/12/opensuse-11-3sles-11-integrating-freeradius-to-ldap-server/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
+			</item>
 	</channel>
 </rss>

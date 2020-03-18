@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>subversion &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/subversion/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Tip: Using KWallet or GNOME Keyring with Subversion</title>
+		<link>https://lizards.opensuse.org/2010/01/15/using-kwallet-or-gnome-keyring-with-subversion/</link>
+		<pubDate>Fri, 15 Jan 2010 08:47:14 +0000</pubDate>
+		<dc:creator><![CDATA[Thomas Schraitle]]></dc:creator>
+				<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Security]]></category>
+		<category><![CDATA[subversion]]></category>
+		<category><![CDATA[svn]]></category>
+		<category><![CDATA[tip]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=2961</guid>
+		<description><![CDATA[Subversion stores all its configuration and passwords under the ~/.subversion/ directory. Wouldn&#8217;t it be cool to have your passwords in KWallet or GNOME Keyring? Recently I found out, it is pretty simple. Do the following to use KWallet with Subversion: Install Subversion if you haven&#8217;t yet. 😉 Install the libsvn_auth_kwallet-1-0 or libsvn_auth_gnome_keyring-1-0 package, depending on [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><a title="Subversion" href="http://subversion.tigris.org" target="_blank">Subversion</a> stores all its configuration and passwords under the <tt>~/.subversion/</tt> directory. Wouldn&#8217;t it be cool to have your passwords in KWallet or GNOME Keyring? Recently I found out, it is pretty simple.</p>
+<p><span id="more-2961"></span></p>
+<p>Do the following to use KWallet with Subversion:</p>
+<ol>
+<li>Install Subversion if you haven&#8217;t yet. <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></li>
+<li>Install the <tt>libsvn_auth_kwallet-1-0</tt> or <tt>libsvn_auth_gnome_keyring-1-0</tt> package, depending on if you use KDE or GNOME.</li>
+<li>Open the file <tt>~/.subversion/config</tt> and search for the <tt>[auth]</tt> section.</li>
+<li>Uncomment the option <tt>password-stores</tt>. For example, if you use KDE only, the line looks like:
+<pre>password-stores = kwallet</pre>
+<p>It is possible to add both, KDE&#8217;s KWallet Manager and GNOME&#8217;s Keyring, separated by commas or spaces.</li>
+<li>If you have more than one wallet in your KWallet Manager, set the name with the <tt>kwallet-wallet</tt> option.</li>
+</ol>
+<p>Whenever you commit something in your SVN repository, SVN asks you for the password and stores it in the respective password store(s). In KDE&#8217;s KWallet Manager you get a new Subversion folder. (Probably similar in GNOME, but I haven&#8217;t tested it.)</p>
+<p>Have fun!</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

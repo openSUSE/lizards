@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>hardware &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/hardware/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Modding the openSUSE flashlight</title>
+		<link>https://lizards.opensuse.org/2009/01/19/modding-the-opensuse-flashlight/</link>
+		<comments>https://lizards.opensuse.org/2009/01/19/modding-the-opensuse-flashlight/#comments</comments>
+		<pubDate>Mon, 19 Jan 2009 01:30:34 +0000</pubDate>
+		<dc:creator><![CDATA[Juergen Weigert]]></dc:creator>
+				<category><![CDATA[Contrib]]></category>
+		<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[Marketing]]></category>
+		<category><![CDATA[Toolchain]]></category>
+		<category><![CDATA[fun]]></category>
+		<category><![CDATA[hardware]]></category>
+		<category><![CDATA[whitebalance]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=361</guid>
+		<description><![CDATA[The boxed version of openSUSE 11.1 comes bundled with a LED-flashlight. Nice black and sturdy aluminum, Modern design with 9 white LEDs, no old-fashioned bulb that would produce more heat than illumination. Not flimsy, not heavy, just practical and quite bright. Batteries included. Exactly what I like. But alas, this high-tech-toy is not perfect. The [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><a href="http://lizards.opensuse.org/wp-content/uploads/2009/01/1_side_view_r0017629.jpg"><img class="alignright size-medium wp-image-362" src="http://lizards.opensuse.org/wp-content/uploads/2009/01/1_side_view_r0017629-300x225.jpg" alt="The openSUSE flashlight" width="300" height="225" srcset="https://lizards.opensuse.org/wp-content/uploads/2009/01/1_side_view_r0017629-300x225.jpg 300w, https://lizards.opensuse.org/wp-content/uploads/2009/01/1_side_view_r0017629.jpg 380w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>The boxed version of openSUSE 11.1 comes bundled with a LED-flashlight. Nice black and sturdy aluminum, Modern design with 9 white LEDs, no old-fashioned bulb that would produce more heat than illumination. Not flimsy, not heavy, just practical and quite bright. Batteries included. Exactly what I like.</p>
+<p>But alas, this high-tech-toy is not perfect. The LEDs produce a strange unnatural light, which makes people look really sick. It gives a bluish-greenish tint to everything. This I don&#8217;t like. Okay, it is state of the art with regard to white LEDs, so this is no real reason to complain. Still, it leaves room for improvement.</p>
+<p>Let us adjust the color of the light, so that objects look more natural. This posting explains you how to do it in 3 easy (or 4 not so easy) steps.<br />
+<span id="more-361"></span></p>
+<h4>1 Disassembly</h4>
+<p>Unscrew the flashlight at the front end. Looking into the cap, you see a<br />
+printed circuit board (PCB) tucked down by a metal sheet ring.</p>
+<p>I used a pair of good and pointed pliers to bite a notch in the ring to make it collapse.  Then it can be pulled out easily. The PCB follows.</p>
+<h4>2 Reverse engineering</h4>
+<p><em>(This is the not so easy step. You can <a title="skip" href="#step3" target="_self">skip</a> it. Step 3 will tell you right away<br />
+what you need.)</em><br />
+Inspecting the PCB, I find no resistors there, all LEDs are in parallel and are directly connect to the switch and battery pack. The battery pack provides 3&#215;1.5 = 4.5 Volts &#8212; this is a bit too much for any LEDs. Blue and white ones have higheer voltages than other colors, but no datasheet I find for reference goes beyond 3.1V for white or 3.4V for blue.  An Ohmmeter tells us, that the push-button switch at the back is only a switch, no resistors there.  To see<br />
+what is really going on, we remove one of the LEDs, and solder a short length of thin two-wire cable in its place.</p>
+<p>We also solder a 1cm piece of flexible wire onto one of the outer pads of the PCB to make contact with the housing. With this, we can reassemble the flashlight without metal ring and front glass, pulling the wires through the now vacant opening in the reflector.<br />
+Switching on, we can measure 3.5V at the wires. So all the LEDs in parallel are strong enough to pull down the voltage to an almost sane value, exploiting the internal resistance of those cheap AAA cells. Good.</p>
+<p>I test one of my own white LEDs at the wires. It draws 35mA, which is above the nominal 20mA, but it seems to survive. Good.  It is definitly brighter than  the original LED, which only drew 18mA. Mine also has a larger viewing angle.</p>
+<p>With this information, we can estimate that the original LEDs are rated ca. 2000-3000mcd, 3.3V, 15mA, and have ca. 12° viewing angle.</p>
+<p>Now let us try to mix a more natural white.<br />
+A true white light radiates throughout the entire color spectrum. The human eye can adapt quite well to variations here. Covering a wide spectrum is important. Covering it evenly and without gaps is not.</p>
+<p>For judging color quality, I collected a few photos, paintings, magazines, books and several other colorful objects and a white sheet of paper on my desk. You may use different objects. The idea is to compare colors under several lighting conditions. First we study colors in daylight, then with artificial light, and finally with an old fashioned flashlight (with a light bulb).</p>
+<p>Now we test our flashlight and several different LEDs. We hold each LED in<br />
+parallel to the flashlight, and illuminate the objects and the piece of paper.  Covering the exta LED with a finger is a fast way to see what kind of difference we may get.</p>
+<p>The original impression was blue-ish. So let us start with yellow, the complementary color of blue.<br />
+First, we solder a yellow LED 10000mcd with an estimated 100 Ohm resistor to the wires. In my case it was not much effect. Doing some math, we find that we can risk a 47 Ohm resistor. Better, but red objects are still much to dark.<br />
+Next we test a red LED 12000mcd with 47 Ohm. Its viewing angle is wider and<br />
+the red was too strong for me. Back to 100 Ohm.  Colors are quite good, but everything has a pink-ish touch, when compared to artificial light.<br />
+Finally, we try an orange LED 8000mcd with 47 Ohm. that looks quite good to me. Your results may vary, depending on the exact type of LEDs you are using.<br />
+This LED has a nominal voltage of 2.0V and current of 20mA, so the nominal resistor value should be (3.5V-2.0V)*0.020mA = 75 Ohm.  Okay, It survived with 45 Ohms already, so we can try to lower the value a bit more (if we have one to spare). Let us try 30 Ohm for 5 minutes.</p>
+<p>It survives and does not get too hot. The colors are quite nice, although the beam has an orange halo due to the wider viewing angle of the new LED.</p>
+<p>We can cure this by replacing one (or a few) of the other LEDs with stronger white LEDs with the same 20° viewing angle as the orange LED has.</p>
+<p>I also noted that shadows had green and orange edges, as I was holding my orange LED next to the white LEDs. To avoid these colorful shadows, we should place the orange LED in the center of the others. To reduce the halo, we apply at least one new white LED.</p>
+<p>Now we have a plan.</p>
+<p><a name="step3"></a></p>
+<h4>3 Modding</h4>
+<p>Goal:</p>
+<p>Have <em>blue</em> counteracted by sufficient <em>orange</em>. We may not get a perfectly balanced <em>white</em> but that does not matter.</p>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2009/01/4_halo_r0017613.jpg"><img class="alignnone size-medium wp-image-364" src="http://lizards.opensuse.org/wp-content/uploads/2009/01/4_halo_r0017613-300x226.jpg" alt="Red and blue distribute differently" width="300" height="226" srcset="https://lizards.opensuse.org/wp-content/uploads/2009/01/4_halo_r0017613-300x226.jpg 300w, https://lizards.opensuse.org/wp-content/uploads/2009/01/4_halo_r0017613.jpg 380w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Material:</p>
+<ul>
+<li>One orange LED  4000-8000mcd, 20° viewing angle. 600-610nm, 2.0V (e.g. Art Nr. 15601 or 13601 from <a title="www.leds.de" href="http://www.leds.de" target="_blank">www.leds.de</a>)</li>
+<li>A small 30 Ohm resistor,  smd-version if you dare.</li>
+<li>Optionally one (or more) white LED(s) ca 7000mcd, 20° viewing angle, 3.1V (e.g. Art Nr. 15005 from <a title="www.leds.de" href="http://www.leds.de" target="_blank">www.leds.de</a>)</li>
+</ul>
+<p>All in all ca. 0.50 EUR. (Or ca. 2 EUR if you want to replace all white LEDs too.)</p>
+<p>Procedure:</p>
+<ul>
+<li>Remove the spring from the center pin by heating it with a soldering iron.</li>
+<li>Remove the center LED by heating both pins.</li>
+<li>Use a pointed knive to cut a gap into the circuit path leading from edge to center. Do not cut into your fingers. (Yes they are softer than the copper, but still, don&#8217;t do that.)</li>
+<li>Solder the 30 Ohm resistor across the gap. (Again, solder the copper, not your fingers, even if they have cuts by now.)</li>
+<li>Replace the center LED with the orange LED. The flat side (shorter wire) faces towards the resistor.</li>
+<li>Optionally replace some of the other LEDs bright white LEDs. The flat side<br />
+(shorter wire) faces outwards.</li>
+<li>Solder the spring back in place, make sure it does not touch the other center LED pin, where the resistor is.</li>
+</ul>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2009/01/2_pcb_r0017622.jpg"><img class="alignnone size-medium wp-image-363" src="http://lizards.opensuse.org/wp-content/uploads/2009/01/2_pcb_r0017622-300x225.jpg" alt="PCB with added resistor" width="300" height="225" srcset="https://lizards.opensuse.org/wp-content/uploads/2009/01/2_pcb_r0017622-300x225.jpg 300w, https://lizards.opensuse.org/wp-content/uploads/2009/01/2_pcb_r0017622.jpg 380w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h4>4 Re-Assembly</h4>
+<p>Take out the plastic glass from the cap, clean it. Put it back.<br />
+Fit the plastic reflector over the LEDs, this assembly into the cap.<br />
+Bring the metal ring back into shape. Maybe repair the ring by soldering.<br />
+Ideally, it snaps into the threading and can be screwed downwards.<br />
+If not, push it down onto the PCB using a screwdriver.<br />
+The ring should hold the PCB tight, we need good electrical contact<br />
+between the PCB and the housing.</p>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2009/01/3_leds_r0017620.jpg"><img class="alignnone size-medium wp-image-365" src="http://lizards.opensuse.org/wp-content/uploads/2009/01/3_leds_r0017620-300x225.jpg" alt="Center LED and top right LED exchanged" width="300" height="225" srcset="https://lizards.opensuse.org/wp-content/uploads/2009/01/3_leds_r0017620-300x225.jpg 300w, https://lizards.opensuse.org/wp-content/uploads/2009/01/3_leds_r0017620.jpg 380w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Test your flashlight.<br />
+Was it worth it?</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/01/19/modding-the-opensuse-flashlight/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>Smolt and openSUSE</title>
+		<link>https://lizards.opensuse.org/2008/12/01/smolt-and-opensuse/</link>
+		<comments>https://lizards.opensuse.org/2008/12/01/smolt-and-opensuse/#comments</comments>
+		<pubDate>Mon, 01 Dec 2008 10:46:33 +0000</pubDate>
+		<dc:creator><![CDATA[Klaas Freitag]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[hardware]]></category>
+		<category><![CDATA[infrastructure]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[smolt]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=289</guid>
+		<description><![CDATA[This morning I realised that openSUSE appears on the hardware database smolt the first time. We are introducing smolt with openSUSE 11.1 in the installation workflow. People can choose to send up their data to the smolt database. All that is of course done anonymously, the data is stored under a unique UUID which can [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>This morning I realised that openSUSE appears on the hardware database <a href="http://smolts.org/static/stats/stats.html">smolt</a> the first time. We are introducing smolt with openSUSE 11.1 in the installation workflow. People can choose to send up their data to the smolt database. All that is of course done anonymously, the data is stored under a unique UUID which can not be tracked back to the submitter (<a href="http://fedorahosted.org/smolt/wiki/PrivacyPolicy">Privacy Policy</a> here.)</p>
+<p>Smolt is a project started by Fedora to collect information about the hardware that is used with computers running Linux. We at (open-)SUSE were seeing this demand as well and also were discussing a solution. But it became clear quite quickly that it does not make sense to have a per-distro solution for that &#8211; if we want to have momentum with a hardware database a combined effort promisses the most.</p>
+<p>On Linuxtag 2007 I was first time involved in meetings were people from the Fedora project offered us to participate in smolt. It became clear that the idea behind smolt is what we also wanted. The working athmosphere was (and still is) open, friendly and productive and thus we decided to join in.  With openSUSE 11.0 we first time shipped a smolt client, but not in the installation workflow.</p>
+<p>Smolt isn&#8217;t finished yet. While it is a stable infrastructure thanks to <a href="http://fedoraproject.org/wiki/MikeMcGrath">Mike McGrath</a> and friends who work on it there are still some things that could be improved. Maybe there is somebody in the openSUSE community interesting in joining the smolt community and help? That would be great because the contributions from our side are still limited and I think it would be great if everybody would bring something to the party.</p>
+<p>Smolt is not limited to Fedora and openSUSE btw. Other distros are invited to participate as well. With that I think  smolt is a great thing for Linux overall. Hopefully some time in the future it will help us to convince more hardware manufacturers that supporting Linux is important for them.</p>
+<p>An interesting read is also <a href="http://www.linux.com/feature/118322">http://www.linux.com/feature/118322</a></p>
+<p>Ah &#8211; yes, of course you should not forget to actually <strong>use</strong> smolt and send up your hardware data when installing openSUSE &#8211; we can still climb up in the OS list on <a href="http://smolts.org/static/stats/stats.html">http://smolts.org/static/stats/stats.html</a> <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2008/12/01/smolt-and-opensuse/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+	</channel>
+</rss>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>registration &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/registration/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>YaST module the C++ way</title>
+		<link>https://lizards.opensuse.org/2008/07/15/yast-module-the-c-way/</link>
+		<comments>https://lizards.opensuse.org/2008/07/15/yast-module-the-c-way/#comments</comments>
+		<pubDate>Tue, 15 Jul 2008 16:24:44 +0000</pubDate>
+		<dc:creator><![CDATA[J. Daniel Schmidt]]></dc:creator>
+				<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[YaST]]></category>
+		<category><![CDATA[configuration]]></category>
+		<category><![CDATA[mod-ui]]></category>
+		<category><![CDATA[registration]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=99</guid>
+		<description><![CDATA[From May 30th to July 4th we had a YaST workshop in Nuremberg. The workshop was basically a hackshop as we wanted to work on cool and new things for YaST during this week. There is one big change in YaST in openSUSE 11.0 &#8211; yea, we found out that there are even more colors [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>From May 30th to July 4th we had a <a title="YaST Workshop" href="http://en.opensuse.org/YaST/Events/Workshop_Nuremberg_2008" target="_blank">YaST workshop</a> in Nuremberg. The workshop was basically a <em>hackshop</em> as we wanted to work on cool and new things for YaST during this week.</p>
+<p>There is one big change in YaST in openSUSE 11.0 &#8211; yea, we found out that there are even more <a title="openSUSE Factory" href="http://www.kdedevelopers.org/node/3143" target="_blank">colors</a> than <a title="openSUSE 11.0 review" href="http://www.theregister.co.uk/2008/06/18/open_suse_11_review/" target="_blank">gray</a>, ok &#8211; but there is one that is not really visible to the end-user. <a title="Stefan Hundhammer" href="http://en.opensuse.org/User:Sh-sh-sh" target="_blank">Stefan Hundhammer</a>, maintainer our YaST UI, completely separated the UI from the rest of the YaST infrastructure. This now makes it possible to use the UI directly, from anywhere, independent from our <em>YaST-own-language</em> <a title="YCP Reference" href="http://forgeftp.novell.com/yast/doc/SL11.0/tdg/Book-YaSTReference.html" target="_blank">YCP</a>. So with a team of four hackers we <a title="mod-ui module" href="http://en.opensuse.org/YaST/Research/mod-ui_module" target="_blank">wanted to prove</a> that we can write a YaST module in plain C++ using the new modularized UI directly. And here is the outcome:</p>
+<p>We went for rewriting the registration module (well, we chose it because I know it well, as I am the maintainer, and it will change anyhow for the next release). This module is not that integrated in the overall <em>YCP world</em>, so it should be feasible. First we had to find an alternative way to access system configuration files, as this is done by so-called <em>SCR agents</em> in YCP. To make life easier (and future development faster) we had to look for a replacement of our <a title="YCP Wizard Seqencer" href="http://forgeftp.novell.com/yast/doc/SL11.0/modules/Sequencer.html" target="_blank">YCP Wizard Seqencer</a>. And of course we redesigned all dialogs to make them more intuitive.</p>
+<p>We solved all the issues and now have</p>
+<ul>
+<li>a wrapper class for accessing different configuration files (currently only ini files)</li>
+<li>an automatic wizard sequencer equivalent (using the advantages of an object oriented language, btw YCP is not)</li>
+<li>three clear and intuitive dialogs, every user should understand</li>
+</ul>
+<p>And as everybody wants to see screenshots, here they are:</p>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2008/07/new_registration1.png"><img class="alignnone size-thumbnail wp-image-100" src="http://lizards.opensuse.org/wp-content/uploads/2008/07/new_registration1-150x150.png" alt="Configure Update Source" width="150" height="150" /></a><a href="http://lizards.opensuse.org/wp-content/uploads/2008/07/new_registration2.png"> <img class="alignnone size-thumbnail wp-image-101" src="http://lizards.opensuse.org/wp-content/uploads/2008/07/new_registration2-150x150.png" alt="Send Hardware Information" width="150" height="150" /> </a><a href="http://lizards.opensuse.org/wp-content/uploads/2008/07/new_registration3.png"><img class="alignnone size-thumbnail wp-image-102" src="http://lizards.opensuse.org/wp-content/uploads/2008/07/new_registration3-150x150.png" alt="Register for Installation Support" width="150" height="150" /></a></p>
+<p>The code is just a proof of concept and not yet reusable for new YaST modules but everything we wanted to show works great. We will continue to work on such kind of modules and in that process move the generic parts out into single libraries so that they can be reused and even may be exposed to scripting languages.</p>
+<p>Writing YaST module this way has lots of advantages</p>
+<ul>
+<li>YaST modules evolved into the object oriented world and can make use of it (the automatic sequencer is the first benefit)</li>
+<li>the code is reusable</li>
+<li>a huge bunch of documentation and lots of tools exist for C++</li>
+<li>its a compiled language and has a better performance than an interpreted one</li>
+<li>we can bind automatically to the most important scripting languages and give them access to the modules logic</li>
+</ul>
+<p>If you are interested in the source code, have a look at my <a title="svn repository" href="http://svn.opensuse.org/svn/yast/branches/tmp/jdsn/registration/" target="_blank">svn repo</a> and if you want to help join the team and contact us on our <a title="YaST Mailinglists" href="http://en.opensuse.org/YaST/Development/Mailinglists" target="_blank">mailinglist</a>.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2008/07/15/yast-module-the-c-way/feed/</wfw:commentRss>
+		<slash:comments>4</slash:comments>
+		</item>
+	</channel>
+</rss>

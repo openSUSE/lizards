@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>SSD &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/ssd/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>SSD configuration for openSUSE</title>
+		<link>https://lizards.opensuse.org/2015/02/06/ssd-configuration-for-opensuse/</link>
+		<comments>https://lizards.opensuse.org/2015/02/06/ssd-configuration-for-opensuse/#comments</comments>
+		<pubDate>Fri, 06 Feb 2015 19:04:12 +0000</pubDate>
+		<dc:creator><![CDATA[Efstathios Iosifidis]]></dc:creator>
+				<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[configuration]]></category>
+		<category><![CDATA[disk]]></category>
+		<category><![CDATA[SSD]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11246</guid>
+		<description><![CDATA[As you already know, there are mechanic disks and also SSD. There is the rumor that SSDs last for 5 years or up to 5 years. Read the openSUSE wiki page for more information about openSUSE and SSD. Here I&#8217;ll describe what I did to my SSD. RULE 1: Partitioning The first step is creating the right [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>As you already know, there are mechanic disks and also <a href="http://en.wikipedia.org/wiki/Solid-state_drive" target="_blank">SSD</a>. There is the rumor that SSDs last for 5 years or up to 5 years. Read the <a href="https://en.opensuse.org/SDB:SSD_performance" target="_blank">openSUSE wiki page</a> for more information about openSUSE and SSD.</p>
+<p>Here I&#8217;ll describe what I did to my SSD.</p>
+<p style="text-align: center"><strong>RULE 1: Partitioning</strong></p>
+<p>The first step is creating the right partitions. First of all, create the root partition (about 15-20GB is enough). Then create the home partition (/home). Finally leave about 7% of the disk unallocated. This will help your disk during write process. The right filesystem is ext4.</p>
+<p>If you have new computer, then you should have a partition <em>/boot/efi</em>. You don&#8217;t have to do any of the following configuration for that partition.</p>
+<p><em>BE CAREFUL:</em> Don&#8217;t create a swap partition. If you already have enough memory (4GB), you don&#8217;t need it. Swap memory is &#8220;destroying&#8221; your SSD. Finally, be careful of the file system, since openSUSE 13.2 uses BTRFS as default filesystem. Snapper will create snapshots, something that you don&#8217;t need.</p>
+<p><span id="more-11246"></span></p>
+<p style="text-align: center"><strong>RULE 2: fstab</strong></p>
+<p>Open fstab and make some changes there:</p>
+<blockquote><p>sudo nano /etc/fstab</p></blockquote>
+<p>Delete <em>relatime</em> (if any) and add <em>noatime</em></p>
+<p>Your fstab will look like</p>
+<blockquote><p>/dev/sdaX     /          ext4 noatime,acl,user_xattr 0 1<br />
+/dev/sdaY    /home ext4 noatime,acl,user_xattr 0 2</p></blockquote>
+<p>&nbsp;</p>
+<p>Now, move everything to RAM. You can do that by adding the following lines to fstab.</p>
+<blockquote><p>tmpfs /var/log tmpfs defaults,noatime,mode=0755 0 0<br />
+tmpfs /tmp tmpfs defaults,noatime,mode=1777 0 0<br />
+tmpfs /var/spool tmpfs defaults,noatime,mode=1777 0 0</p></blockquote>
+<p>To restore the folder structure within /var/log at each reboot, you add some lines to /etc/rc.local.</p>
+<blockquote><p>sudo nano /etc/rc.d/boot.local</p></blockquote>
+<p>Add the following lines, just above the line &#8220;exit 0&#8221; in that file (use copy/paste to avoid errors):</p>
+<blockquote><p>#<br />
+# Modification for SSD<br />
+for dir in apparmor apt cups dist-upgrade fsck gdm installer samba unattended-upgrades ;<br />
+do<br />
+if [ ! -e /var/log/$dir ] ; then<br />
+mkdir /var/log/$dir<br />
+fi<br />
+done</p></blockquote>
+<p style="text-align: center"><strong>RULE 3: Browsers</strong></p>
+<p style="text-align: left">You can limit the write actions of <em>Firefox</em> as follows.<br />
+1. Set the cache to 0:<br />
+Firefox menu button (with the three dashes on it) &#8211; Preferences &#8211; Advanced Tab Network section Cached Web Content: tick <em>Override automatic cache management</em> and set the cache to <em>0</em> MB.</p>
+<p>2. If you have installed Oracle Java, limit the write actions of the Java plugin:<br />
+launch the Java Control Panel &#8211; Tab General: Temporary Internet Files &#8211; Settings&#8230;  Remove the tick for: <em>Keep temporary files on my computer.</em></p>
+<p style="text-align: left">The write actions of <em>Google Chrome and Chromium</em> can be limited as follows.<br />
+1. Launch Chrome / Chromium.<br />
+2. Now press the F12 key, in order to open the developers&#8217; console. In that window you click on the gear wheel in the bottom right, in order to open the settings. See the screenshot below (click on it to enlarge it):</p>
+<p style="text-align: left">In the settings window you tick: <em>Disable cache</em>.</p>
+<p style="text-align: left">Press F12 again to close the developers&#8217; console.</p>
+<p style="text-align: center"><strong>RULE 4: SWAP</strong></p>
+<p style="text-align: left">As described at RULE 1, you shouldn&#8217;t add a swap partition. If you did (or did by automatic installation), you should disable it.</p>
+<p style="text-align: left">First of all, check the status:</p>
+<blockquote>
+<p style="text-align: left">cat /proc/sys/vm/swappiness</p>
+</blockquote>
+<p style="text-align: left">If the result is 60, then you should reduce to 1.</p>
+<blockquote>
+<p style="text-align: left">sudo nano /etc/sysctl.conf</p>
+</blockquote>
+<p style="text-align: left">and at the end of the file, add the following lines</p>
+<blockquote>
+<p style="text-align: left"># Sharply reduce swap inclination<br />
+vm.swappiness=1</p>
+</blockquote>
+<p style="text-align: center"><strong>RULE 5: HIBERNATION</strong></p>
+<p style="text-align: left">Hibernation causes a huge amount of write actions, which is very bad for an SSD. Make sure it&#8217;s disabled, by removing the package <em>pm-utils</em>.</p>
+<blockquote>
+<p style="text-align: left">sudo zypper rm pm-utils</p>
+</blockquote>
+<p style="text-align: center"><strong>RULE 6: TRIM</strong></p>
+<p style="text-align: left">The TRIM technology is like defragment on windows. It makes the disk faster. You can use 3 ways of running it. Usually, the command is <em>fstrim -v /</em> but when run it, I failed. So that&#8217;s why I added sudo, just to be sure.</p>
+<p style="text-align: left">1. As alias at .bashrc and run when you want.</p>
+<p style="text-align: left">Create an alias for both ext4 mounted partitions.</p>
+<blockquote>
+<p style="text-align: left">$ sudo /usr/sbin/fstrim -v /<br />
+$ sudo /usr/sbin/fstrim -v /home</p>
+</blockquote>
+<p style="text-align: left">2. Add the commands to <em>/etc/rc.d/boot.local</em> and run on each boot.</p>
+<p style="text-align: left">Just open the /etc/rc.d/boot.local</p>
+<blockquote>
+<p style="text-align: left">sudo nano /etc/rc.d/boot.local</p>
+</blockquote>
+<p style="text-align: left">and add the following line</p>
+<blockquote>
+<p style="text-align: left">sudo /usr/sbin/fstrim -v / &amp;&amp; sudo /usr/sbin/fstrim -v /home</p>
+</blockquote>
+<p style="text-align: left">3. If you run a server or something (your system is always on), then you have to use cron.</p>
+<blockquote>
+<p style="text-align: left">sudo nano /etc/cron.daily/trim</p>
+</blockquote>
+<p style="text-align: left">Then add the following lines</p>
+<blockquote>
+<p style="text-align: left">#!/bin/sh<br />
+sudo /usr/sbin/fstrim -v / &amp;&amp; sudo /usr/sbin/fstrim -v /home</p>
+</blockquote>
+<p style="text-align: left">and finally make it executable</p>
+<blockquote>
+<p style="text-align: left">sudo chmod +x /etc/cron.daily/trim</p>
+</blockquote>
+<p style="text-align: left">openSUSE will now perform the daily cron job automatically, at 06:25, or (when the computer isn&#8217;t on at that time), automatically at a later time on the same day.</p>
+<p style="text-align: center"><strong>RULE 7: I/O SCEDULER TO DEADLINE</strong></p>
+<p style="text-align: left">By default, openSUSE still uses the &#8220;old&#8221; I/O scheduler CFQ, which is only fine for conventional hard disks but not for SSD&#8217;s, which are being slowed down. So it&#8217;s wise when you have an SSD in your machine, to change the scheduler to Deadline, which is good for both SSD&#8217;s and conventional platter hard disks.</p>
+<p>You can realize this by changing the boot parameters of Grub. You can do that as follows.</p>
+<p>Check your current scheduler as follows:</p>
+<blockquote>
+<p style="text-align: left">cat /sys/block/sda/queue/scheduler</p>
+</blockquote>
+<p style="text-align: left">(if your drive isn&#8217;t sda, change the line accordingly)</p>
+<p>The output will probably be:</p>
+<blockquote>
+<p style="text-align: left">noop deadline [cfq]</p>
+</blockquote>
+<p style="text-align: left">Which means: cfq is active, but noop and deadline are also supported.</p>
+<p>Now type:</p>
+<blockquote>
+<p style="text-align: left">sudo nano /etc/default/grub</p>
+</blockquote>
+<p style="text-align: left">Find the line: <em>GRUB_CMDLINE_LINUX_DEFAULT=</em></p>
+<p style="text-align: left">This line may look like this (example):<br />
+<em>GRUB_CMDLINE_LINUX_DEFAULT=&#8221; resume=/dev/sda1 splash=silent quiet showopts&#8221;</em></p>
+<p>And add the option <strong>elevator=deadline</strong>.</p>
+<p style="text-align: left">Example:<br />
+<em>GRUB_CMDLINE_LINUX_DEFAULT=&#8221; resume=/dev/sda1 splash=silent quiet showopts elevator=deadline&#8221;</em></p>
+<p>Save the modified file and close it.</p>
+<p>Now update Grub for this change. In the terminal:</p>
+<blockquote>
+<p style="text-align: left">sudo grub2-mkconfig -o /boot/grub2/grub.cfg</p>
+</blockquote>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2015/02/06/ssd-configuration-for-opensuse/feed/</wfw:commentRss>
+		<slash:comments>4</slash:comments>
+		</item>
+	</channel>
+</rss>

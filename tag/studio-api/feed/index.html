@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>studio api &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/studio-api/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Easy scripting actions with susestudio alias new rubygem studio_api</title>
+		<link>https://lizards.opensuse.org/2010/12/23/rubygem-studio_api/</link>
+		<pubDate>Thu, 23 Dec 2010 17:37:45 +0000</pubDate>
+		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
+				<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Ruby]]></category>
+		<category><![CDATA[studio api]]></category>
+		<category><![CDATA[susestudio]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=6208</guid>
+		<description><![CDATA[Hi, Now I work for SLMS ( Suse Lifecycle Management Server ) project. It cooperate with SuSE studio and use its API. I get idea that more people could benefit from easy access to studio API from ruby so I extract functionality and improve behavior, documentation and testing and now there is new rubygem studio_api. [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi,<br />
+Now I work for SLMS ( Suse Lifecycle Management Server ) project. It cooperate with SuSE studio and use its API. I get idea that more people could benefit from easy access to studio API from ruby so I extract functionality and improve behavior, documentation and testing and now there is new rubygem studio_api.<br />
+Why you should use this gem?</p>
+<ul>
+<li> ActiveResource Behavior</li>
+<li> Actively maintained ( and will be due to SLMS support )</li>
+<li> Tightly developed with guys from studio team</li>
+<li> Well documented with yard</li>
+<li> Good test coverage</li>
+</ul>
+<p><span id="more-6208"></span><br />
+I think then a lot of glory words is better to show example. It is example based on example from documentation.<br />
+Example goal is simple. Create new appliance in studio, add own cool rpm and build appliance with it. It can be useful to test your new version of software in stable environment and have automatic appliance in which you can test it.</p>
+<pre>
+  require 'rubygems'
+  require 'studio_api'
+
+  # Fill up Studio credentials (user name, API key, API URL)
+  # See https://susestudio.com/user/show_api_key if you are using SUSE Studio online
+  connection = StudioApi::Connection.new('user', 'pwd', 'https://susestudio.com/api/v1/user')
+  # Setup the connection for all ActiveResource based class
+  StudioApi::Util.configure_studio_connection connection
+
+  # Find template with KDE4 for SLE11SP1
+  templates = StudioApi::TemplateSet.find(:all).find {|s| s.name == "default" }.template
+  template = templates.find { |t| t.name == "SLED 11 SP1, KDE 4 desktop" }
+  # clone template to new appliance
+  appliance = StudioApi::Appliance.clone template.appliance_id, :name =&gt; "New cool appliance", :arch =&gt; "i686"
+  puts "Created appliance #{appliance.inspect}"
+
+  #add own rpm built agains SLED11_SP1
+  File.open("/home/jreidinger/rpms/cool_rpm-1.0-1.60.noarch.rpm","r") do |f|
+    StudioApi::Rpm.upload f, "SLED11_SP1"
+  end
+  # and choose it in appliance ( and of course add repository with own rpms)
+  appliance.add_user_repository
+  appliance.add_package "cool_rpm", :version =&gt; "1.0-1.60"
+  #check if appliance is OK, like dependency problems with new rpm
+  if appliance.status.state != "ok"
+    raise "appliance is not OK - #{appliance.status.issues.inspect}"
+  end
+  
+  build = StudioApi::RunningBuild.new(:appliance_id =&gt; appliance.id, :image_type =&gt; "xen")
+  build.save
+  build.reload
+  while build.state != "finished"
+    puts "building (#{build.state}) - #{build.percent}%"
+    sleep 5
+    build.reload
+  end
+
+  final_build = StudioApi::Build.find build.id
+  puts "Appliance to download: #{final_build.download_url}"
+</pre>
+<p>So I hope that you like interface how I design it. Of course I welcome any suggestion how to improve it. You can use comments here, novell bugzilla or issues on github.<br />
+How to install it:</p>
+<ul>
+<li> In opensuse: <a href="http://software.opensuse.org/ymp/devel:languages:ruby:extensions/openSUSE_11.3/rubygem-studio_api.ymp?base=openSUSE%3A11.3&amp;query=rubygem-studio_api">1-click for 11.3</a> and <a href="http://software.opensuse.org/ymp/devel:languages:ruby:extensions/openSUSE_Factory/rubygem-studio_api.ymp?base=openSUSE%3AFactory&amp;query=rubygem-studio_api">1-click for factory</a></li>
+<li> alternative possible everywhere is to use<br />
+<code>gem install studio_api</code>
+</li>
+</ul>
+<p>At the end few useful links if you are interested:<br />
+<a href="https://github.com/jreidinger/studio_api">repository on github</a><br />
+<a href="http://rdoc.info/github/jreidinger/studio_api/master/frames">yard documentation</a><br />
+<a href="http://rubygems.org/gems/studio_api">gem at rubygems.org</a></p>
+<p>Thanks for attention and I welcome any comments</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

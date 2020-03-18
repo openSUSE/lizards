@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>DUD &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/dud/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Fun things to do with driver updates</title>
+		<link>https://lizards.opensuse.org/2017/04/25/fun-things-to-do-with-driver-updates-3/</link>
+		<pubDate>Tue, 25 Apr 2017 07:45:33 +0000</pubDate>
+		<dc:creator><![CDATA[Steffen Winterfeldt]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[DUD]]></category>
+		<category><![CDATA[installation]]></category>
+		<category><![CDATA[Linux]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12432</guid>
+		<description><![CDATA[Today: And what if I want to remove some files? It&#8217;s easy and obvious to add new files with a driver update (DUD). But what if you need to remove some files? Or, related: can you replace some read-only file by a writable copy? Let&#8217;s for this article assume you want to modify the Xorg [&#8230;]]]></description>
+				<content:encoded><![CDATA[<h3>Today: And what if I want to <i>remove</i> some files?</h3>
+<p>It&#8217;s easy and obvious to add new files with a driver update (DUD). But what if you need to <b>remove</b> some files? Or, related: can you replace some read-only file by a writable copy?</p>
+<p>Let&#8217;s for this article assume you want to modify the Xorg configuration. Say,<br />
+<code>/usr/share/X11/xorg.conf.d/10-evdev.conf</code> troubles you.</p>
+<p>The direct way would be to write an <code>update.pre</code> script than removes the file and include this into a DUD.</p>
+<p><code>update.pre</code> is run right after the DUD has updated the files in the installation system.</p>
+<p>For example:</p>
+<pre>
+echo \
+  rm /usr/share/X11/xorg.conf.d/10-evdev.conf \
+  &gt; update.pre
+mkdud --create test1.dud --dist tw --name "remove 10-evdev.conf" update.pre
+</pre>
+<p>But when we try <code>test1.dud</code> we run into this:</p>
+<pre>
+Driver Update: remove 10-evdev.conf
+Driver Updates added:
+  remove 10-evdev.conf
+[...]
+rm: cannot remove '/usr/share/X11/xorg.conf.d/10-evdev.conf': Read-only file system
+</pre>
+<p>So, we see the catch: much of the installation system resides on a read-only file system! You can&#8217;t just go and modify things.</p>
+<p>But how does the driver update process manage to add new files to the installation system then? It does so by restructuring the file system using symlinks. In the process all directories that need to be modified are replaced by writable copies.</p>
+<p>In other words: if you include the file you want to remove in the DUD &#8211; you will be able to remove it. It&#8217;s actually sufficient to include the directory the file resides in to make this work.</p>
+<p>So, let&#8217;s try this:</p>
+<pre>
+mkdir -p /tmp/dud/usr/share/X11/xorg.conf.d
+echo \
+  "rm /usr/share/X11/xorg.conf.d/10-evdev.conf" \
+  &gt; update.pre
+mkdud --create test2.dud --dist tw --name "remove 10-evdev.conf" update.pre /tmp/dud
+</pre>
+<p>Now we don&#8217;t get any error applying <code>test2.dud</code> and when we login to the installation system, we see:</p>
+<pre>
+console:vm9732:/ # ls -l /usr/share/X11/xorg.conf.d
+total 0
+console:vm9732:/ # 
+</pre>
+<blockquote>
+<h4>Tip</h4>
+<p>For easy testing a DUD, boot the machine with</p>
+<pre>
+startshell=1 sshd=1 password=*** dud=&lt;URL&gt;
+</pre>
+<p><code>startshell=1</code> wi ll stop the installation workflow after the installation system has been fully prepared just before <code>YaST</code> will be started. <code>sshd=1</code> will start an SSH daemon and you&#8217;ll be able to connect to the machine and look around.</p>
+</blockquote>
+<p>A similar trick can be used to make files writable (watch out for correct shell quoting):</p>
+<pre>
+mkdir -p /tmp/dud/usr/share/X11/xorg.conf.d
+echo \
+  cp --remove-destination '$(readlink -f /usr/share/X11/xorg.conf.d/10-evdev.conf)' \
+  /usr/share/X11/xorg.conf.d/10-evdev.conf \
+  &gt; update.pre
+mkdud --create test3.dud --dist tw --name "make 10-evdev.conf writable" update.pre /tmp/dud
+</pre>
+<p>We can verify the result:</p>
+<pre>
+console:vm9732:/ # ls -l /usr/share/X11/xorg.conf.d               
+total 4
+-rw-r--r-- 1 root root 1099 Apr 24 13:06 10-evdev.conf
+console:vm9732:/ #
+</pre>
+<p>The file is now writable.</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Fun things to do with driver updates</title>
+		<link>https://lizards.opensuse.org/2017/03/16/fun-things-to-do-with-driver-updates-2/</link>
+		<comments>https://lizards.opensuse.org/2017/03/16/fun-things-to-do-with-driver-updates-2/#comments</comments>
+		<pubDate>Thu, 16 Mar 2017 12:12:16 +0000</pubDate>
+		<dc:creator><![CDATA[Steffen Winterfeldt]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Uncategorized]]></category>
+		<category><![CDATA[DUD]]></category>
+		<category><![CDATA[installation]]></category>
+		<category><![CDATA[Linux]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12356</guid>
+		<description><![CDATA[Today: But what if I need a new kernel? A driver update (DUD) can of course update a single driver. But if that&#8217;s not enough and you need a whole new kernel to run an installation? There are two parts to solve: replace the kernel used during installation and get the new kernel installed We&#8217;ll [&#8230;]]]></description>
+				<content:encoded><![CDATA[<h3>Today: But what if I need a new kernel?</h3>
+<p>A driver update (<a href="https://en.opensuse.org/SDB:Linuxrc#p_dud">DUD</a>) can of course update a single driver. But if that&#8217;s not enough and you need a whole new kernel to run an installation?</p>
+<p>There are two parts to solve:</p>
+<ol>
+<li>replace the kernel used <b>during</b> installation and</li>
+<li>get the new kernel installed</li>
+</ol>
+<p>We&#8217;ll need two tools for this (both available in Tumbleweed or here: <a href="https://software.opensuse.org/package/mksusecd">mksusecd</a> and <a href="https://software.opensuse.org/package/mkdud">mkdud</a>).</p>
+<h4>1. Replace the kernel used during installation</h4>
+<p>For this it&#8217;s important to know which kernel packages you&#8217;ll actually need. Typically it will be <code>kernel-default</code> and <code>kernel-firmware</code>. But older SUSE distributions (SLE 11 comes to mind) had the kernel packages split into <code>kernel-default</code> and <code>kernel-default-base</code> &#8211; you&#8217;ll need them <b>both</b>.</p>
+<p>To make things confusing, modern SUSE distributions also have <code>kernel-default-base</code> &#8211; but it&#8217;s an <b>alternative</b> to <code>kernel-default</code>. In this case we <b>don&#8217;t</b> need it.</p>
+<p>If unsure, check <code>kernel-default</code>. If it contains the actual kernel (e.g. <code>/boot/vmlinuz</code>) then you <b>don&#8217;t</b> need <code>kernel-default-base</code>.</p>
+<p>On some architectures modules are also taken from <code>xen-kmp-default</code>. If that&#8217;s important for you, you can add this package to the kernel list as well.</p>
+<p>In fact you can add any number of kernel packages or kmps you like.</p>
+<p>In the past, sometimes a different kernel flavor was used. For example PowerPC had <code>kernel-ppc64</code> for a while. Simply use the flavor you need.</p>
+<p>It&#8217;s a good idea to gather all the kernel rpms into a single directory for easier use:</p>
+<pre>&gt; mkdir k
+&gt; cp kernel-default.rpm kernel-firmware.rpm k
+&gt; cp kernel-default-base.rpm k    # only if needed
+# add any kernel-related rpms you need
+</pre>
+<p>Then, take your SUSE installation iso and run</p>
+<pre>&gt; mksusecd --create new.iso \
+  --kernel k/* -- \
+  original_dvd1.iso
+</pre>
+<p>Note that the <code>--kernel</code> option accepts a variable number of arguments, so you have to add an isolated <code>--</code> to terminate the argument list properly.</p>
+<p>The output could look like this:</p>
+<pre>&gt; mksusecd --create new.iso \
+  --kernel k/* -- \
+  SLES-11-SP4-DVD-ppc64-GM-DVD1.iso
+kernel version: 3.0.101-63-ppc64 --&gt; 3.0.101-94-ppc64
+CHRP bootable (ppc64)
+building: 100%
+calculating sha1...
+</pre>
+<p>The command above will actually get the list of required modules from the old installation iso. If you are missing some driver or the new kernel comes with some additional driver, the module will not be added to the new iso.</p>
+<p>But there&#8217;s the <code>--modules</code> option. It will add the listed modules together with any implicitly required modules via module dependencies.</p>
+<p>For example, let&#8217;s add the <code>airport</code> wifi-module to our PowerPC iso:</p>
+<pre>&gt; mksusecd --create new.iso \
+  --kernel k/* \
+  --modules airport -- \
+  SLES-11-SP4-DVD-ppc64-GM-DVD1.iso
+kernel version: 3.0.101-63-ppc64 --&gt; 3.0.101-94-ppc64
+kernel modules added:
+  airport, cfg80211, orinoco
+CHRP bootable (ppc64)
+building: 100%
+calculating sha1...
+</pre>
+<p>As you can see, it automatically adds <code>orinoco</code> and <code>cfg80211</code> as well.</p>
+<h4>2. Get the new kernel installed</h4>
+<p>This is relatively simple. A driver update can do this:</p>
+<pre>&gt; mkdud --create foo.dud \
+  --dist sle11 \
+  --install repo \
+  k/*
+</pre>
+<p>This creates a driver update for SLE 11 (which also applies to SP4) and the kernel rpms are installed via an auto-generated add-on repo (<code>--install repo</code>).</p>
+<p>Now we have the driver update that installs our kernel packages. But how do we use it?</p>
+<p>We integrate it into our iso above!</p>
+<pre>&gt; mksusecd --create new.iso \
+  --initrd foo.dud \
+  --kernel k/* -- \
+  SLES-11-SP4-DVD-ppc64-GM-DVD1.iso
+</pre>
+<p><code>mksusecd</code> has an <code>--initrd</code> option that directly accepts driver updates and integrates them into the iso.</p>
+<h4>3. Can I have a choice?</h4>
+<p>Maybe you just want to test this new kernel or sometimes need the old one and sometimes the new one. Can you make an installation iso that lets you choose the kernel?</p>
+<p>Oh yes! <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<pre>&gt; mksusecd --create new.iso \
+  --add-entry 3.0.101-94 \
+  --initrd foo.dud \
+  --kernel k/* -- \
+  SLES-11-SP4-DVD-ppc64-GM-DVD1.iso
+</pre>
+<p>This does not replace the old kernel but <b>adds</b> a new boot entry <code>Installation - 3.0.101-94</code>.</p>
+<p>So you can install with old or the new kernel.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2017/03/16/fun-things-to-do-with-driver-updates-2/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Fun things to do with driver updates</title>
+		<link>https://lizards.opensuse.org/2017/02/16/fun-things-to-do-with-driver-updates/</link>
+		<comments>https://lizards.opensuse.org/2017/02/16/fun-things-to-do-with-driver-updates/#comments</comments>
+		<pubDate>Thu, 16 Feb 2017 14:42:30 +0000</pubDate>
+		<dc:creator><![CDATA[Steffen Winterfeldt]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[DUD]]></category>
+		<category><![CDATA[Linux]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12290</guid>
+		<description><![CDATA[Today: update the update process! Yesterday a colleague asked me if it would be possible to apply a driver update (DUD) to the rescue system. He wanted to use a new btrfsprogs package. My immediate reaction was: no, you can&#8217;t do it. But then, there&#8217;s no technical reason why it shouldn&#8217;t be possible &#8211; it actually nearly [&#8230;]]]></description>
+				<content:encoded><![CDATA[<h3>Today: update the update process!</h3>
+<p>Yesterday a colleague asked me if it would be possible to apply a driver update (<a href="https://en.opensuse.org/SDB:Linuxrc#p_dud">DUD</a>) to the rescue system. He wanted to use a new <code>btrfsprogs</code> package.</p>
+<p>My immediate reaction was: no, you can&#8217;t do it. But then, there&#8217;s no technical reason why it shouldn&#8217;t be possible &#8211; it actually <em>nearly</em> works. The updates are downloaded as usual &#8211; just not applied to the rescue system.</p>
+<p>So I thought: &#8220;Why not make a driver update so driver updates work also for the rescue system?&#8221;</p>
+<p>Here&#8217;s how I did it.</p>
+<p>First, let&#8217;s find out how driver updates are usually applied. The code is here:</p>
+<p><a href="https://github.com/openSUSE/installation-images/blob/master/data/root/etc/inst_setup#L84-L87">https://github.com/openSUSE/installation-images/blob/master/data/root/etc/inst_setup#L84-L87</a></p>
+<p>We need just these three lines:</p>
+<pre>for i in /update/[0-9]*/inst-sys ; do
+  [ -d "$i" ] &amp;&amp; adddir "$i" /
+done
+</pre>
+<p><code>linuxrc</code> downloads the driver updates and stores them in an <code>/update</code> directory. One (numbered) subdirectory for each update.</p>
+<p>It obviously uses some <code>adddir</code> script. So we&#8217;ll need it as well. Luckily, it&#8217;s not far away:</p>
+<p><a href="https://github.com/openSUSE/installation-images/blob/master/data/root/etc/adddir">https://github.com/openSUSE/installation-images/blob/master/data/root/etc/adddir</a></p>
+<p>Next, we&#8217;ll have to find the spot where the rescue system is set up. It&#8217;s done in this script:</p>
+<p><a href="https://github.com/openSUSE/installation-images/blob/master/data/initrd/scripts/prepare_rescue">https://github.com/openSUSE/installation-images/blob/master/data/initrd/scripts/prepare_rescue</a></p>
+<p>Let&#8217;s do some copy-and-paste programming and insert the above code near the end of the script. It then might look like this</p>
+<pre># driver update: add files to rescue system
+if [ -d /mounts/initrd/update ] ; then
+  cp -r /mounts/initrd/update /
+  for i in /update/[0-9]*/inst-sys ; do
+    [ -d "$i" ] &amp;&amp; /mounts/initrd/scripts/adddir "$i" /
+  done
+fi</pre>
+<p>Some notes:</p>
+<ul>
+<li>You have to know that <code>prepare_rescue</code> is run as the last thing before we exec to <code>init</code>. So everything is already in place, the left-over files from initrd are mounted at <code>/mounts/initrd</code> and will be removed at the end of the script.</li>
+<li>This means we have to copy our updates into the new root directory, else they will be lost.</li>
+<li>Also, we plan to make the <code>adddir</code> script available at <code>/scripts/adddir</code> by our driver update (see below).</li>
+</ul>
+<p>Now let&#8217;s create the driver update:</p>
+<pre>mkdud --create dud_for_rescue.dud \
+  --dist tw --dist leap42.1 --dist leap42.2 --dist sle12 \
+  --name 'Apply DUD also to rescue system' \
+  --exec 'cp adddir prepare_rescue /scripts' \
+  adddir prepare_rescue
+</pre>
+<p>Here&#8217;s what this call does, line-by-line:</p>
+<ul>
+<li>the fix works for all current SUSE distributions, so let&#8217;s support them</li>
+<li>give the driver update some nice name</li>
+<li>this command is run right after the driver update got loaded; we copy the scripts out of the driver update to their final location</li>
+<li>add <code>adddir</code> and our modified <code>prepare_rescue</code> script</li>
+</ul>
+<p>Here is the result: <a href="http://users.suse.com/~snwint/dud/dud_for_rescue.dud">dud_for_rescue.dud</a>.</p>
+<p>Now, back to the original problem: how to use this to update a package in the rescue system? That&#8217;s easy:</p>
+<pre>mkdud --create new_btrfs.dud \
+  --dist sle12 \
+  dud_for_rescue.dud btrfsprogs.rpm
+</pre>
+<p>creates a driver update (for SLE12) that updates <code>btrfsprogs</code> also in the rescue system.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2017/02/16/fun-things-to-do-with-driver-updates/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+	</channel>
+</rss>

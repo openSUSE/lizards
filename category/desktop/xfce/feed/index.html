@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0"
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -9,19 +8,441 @@
 	>
 
 <channel>
-	<title>openSUSE Lizards &#187; XFCE</title>
-	<atom:link href="http://lizards.opensuse.org/category/desktop/xfce/feed/" rel="self" type="application/rss+xml" />
-	<link>http://lizards.opensuse.org</link>
+	<title>XFCE &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/category/desktop/xfce/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
 	<description>Blogs and Ramblings of the openSUSE Members</description>
-	<lastBuildDate>Mon, 24 Mar 2014 12:46:00 +0000</lastBuildDate>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
 	<language>en-US</language>
-		<sy:updatePeriod>hourly</sy:updatePeriod>
-		<sy:updateFrequency>1</sy:updateFrequency>
-	<generator>http://wordpress.org/?v=3.8.1</generator>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
 	<item>
+		<title>Highlights of YaST development sprint 31</title>
+		<link>https://lizards.opensuse.org/2017/02/20/highlights-of-yast-development-sprint-31/</link>
+		<comments>https://lizards.opensuse.org/2017/02/20/highlights-of-yast-development-sprint-31/#comments</comments>
+		<pubDate>Mon, 20 Feb 2017 09:58:58 +0000</pubDate>
+		<dc:creator><![CDATA[Yast Team]]></dc:creator>
+				<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Software Management]]></category>
+		<category><![CDATA[Systems Management]]></category>
+		<category><![CDATA[XFCE]]></category>
+		<category><![CDATA[YaST]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12303</guid>
+		<description><![CDATA[As we announced in the previous report, our 31th Scrum sprint was slightly shorter than the usual ones. But you would never say so looking to this blog post. We have a lot of things to talk you about! Teaching the installer self-update to be a better citizen As you may know, YaST includes a [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>As we announced in <a href="https://lizards.opensuse.org/?p=12263">the previous report</a>, our 31th Scrum sprint was slightly shorter than the usual ones. But you would never say so looking to this blog post. We have a lot of things to talk you about!</p>
+<h3>Teaching the installer self-update to be a better citizen</h3>
+<p>As you may know, YaST includes a <a href="https://fate.suse.com/319716">nice feature</a> which allows the installer to update itself in order to solve bugs in the installation media. This mechanism has been included in SUSE Linux Enterprise 12 SP2, although it&#8217;s not enabled by default (you need to pass an extra option <code>selfupdate=1</code> to make it work).</p>
+<p>So after getting some feedback, we&#8217;re working toward fixing some usability problems. The first of them is that, in some situations, the self-update mechanism is too intrusive.</p>
+<p>Consider the following scenario: you&#8217;re installing a system behind a firewall which prevents the machine to connect to the outside network. As the SUSE Customer Center will be unreachable, YaST complains about not being able to get the list of repositories for the self-update. And, after that, you get another complain because the fallback repository is not accessible. Two error messages and 2 timeouts.</p>
+<p>And the situation could be even worse if you don&#8217;t have access to a DNS server (add another error message).</p>
+<p>So after some discussion we&#8217;ve decided to show such errors only if the user has specified SMT or a custom self-update repository (which is also possible). In any other case, the error is logged and the self-update is skipped completely.</p>
+<p>You can find further information in our <a href="https://gist.github.com/imobachgs/cb03b6a87dd5e31c89a9463d30db4252">Self-Update Use Cases and Error Handling document</a>.</p>
+<p>During upcoming sprints, we&#8217;ll keep working on making the self-update feature great!</p>
+<h3>Configuring workers during CaaSP installation</h3>
+<p>While CaaSP release approaches, our team is still working hard to satisfy the new requirements. Thankfully, YaST is a pretty flexible tool and it allows us to change a lot of things.</p>
+<p>For CaaSP installation, YaST features a one-dialog installation screen. During this sprint, configuration of the <code>Worker</code> role has been implemented, including validation of the entered URL and writing the value to the installed system. You can check the animated screenshot for details.</p>
+<p><img src="//lizards.opensuse.org/wp-content/uploads/2017/02/worker.gif" alt="The CaaSP worker configuration" /></p>
+<h3>New desktop selection screen in openSUSE installer</h3>
+<p>The world of Linux desktop environments change relatively quick, with new options popping-up and some projects being abandoned. Thanks to the openSUSE&#8217;s community of packagers we have a lot of these new desktop environments available on the openSUSE distributions. But the status of those packages for openSUSE is also subject to changes: some desktop environments are poorly maintained while others have a strong and active group of packagers and maintainer behind.</p>
+<p>The YaST Team does not have enough overview and time to watch all these desktop environment and evaluate which one is ready or not for being in the installer&#8217;s desktop selection screen. So the openSUSE Release Team decided to replace this dialog with something a bit more generic but still useful for newcomers.</p>
+<p>They asked the YaST Team to come up with a new dialog featuring the two openSUSE main desktops (KDE Plasma and GNOME) and allowing the easy selection of other environments without reworking the dialog in the future. The goal of that new dialog was to replace the existing one you can see in the following screenshot.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2017/02/old_desktop.png"><img src="//lizards.opensuse.org/wp-content/uploads/2017/02/old_desktop-300x226.png" alt="The old desktop selection screen" width="300" height="226" class="aligncenter size-medium wp-image-12312" srcset="https://lizards.opensuse.org/wp-content/uploads/2017/02/old_desktop-300x226.png 300w, https://lizards.opensuse.org/wp-content/uploads/2017/02/old_desktop-768x579.png 768w, https://lizards.opensuse.org/wp-content/uploads/2017/02/old_desktop.png 1023w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>We decided the new dialog should rely on patterns for several reasons. The main one is that the set of patterns is under the close control of the openSUSE community, which looks more closely than us to the desktop environments and their integration into the distribution. Moreover, each pattern specifies its own icon and description that can be somehow re-used by the installer.</p>
+<p>We also took the opportunity to merge this almost empty and outdated dialog with the new one.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2017/02/old_repos.png"><img src="//lizards.opensuse.org/wp-content/uploads/2017/02/old_repos-300x226.png" alt="The old additional repositories screen" width="300" height="226" class="aligncenter size-medium wp-image-12313" srcset="https://lizards.opensuse.org/wp-content/uploads/2017/02/old_repos-300x226.png 300w, https://lizards.opensuse.org/wp-content/uploads/2017/02/old_repos-768x578.png 768w, https://lizards.opensuse.org/wp-content/uploads/2017/02/old_repos-1024x770.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2017/02/old_repos.png 1025w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Addons are no longer produced for openSUSE, so only the second checkbox made any sense nowadays. Moreover, the functionality of that second checkbox directly influence the available selection of patterns, so it made more sense to merge everything in a single screen that keeping an extra step in the installation just to accommodate a checkbox.</p>
+<p>So we sent a proposal for the new dialog to the opensuse-factory mailing list and, after implementing many of the ideas discussed there (like better wording or using a button instead of a checkbox for the online repositories), this is the new dialog that replaces the two ones mentioned above.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2017/02/new_desktop.png"><img src="//lizards.opensuse.org/wp-content/uploads/2017/02/new_desktop-300x225.png" alt="The new desktop selection dialog" width="300" height="225" class="aligncenter size-medium wp-image-12315" srcset="https://lizards.opensuse.org/wp-content/uploads/2017/02/new_desktop-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2017/02/new_desktop-768x577.png 768w, https://lizards.opensuse.org/wp-content/uploads/2017/02/new_desktop.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>Selecting &#8220;custom&#8221; will take the users to the already existing patterns selection screen. Just in case you don&#8217;t remember how that screen looks like, you can check this image.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2017/02/patterns.png"><img src="//lizards.opensuse.org/wp-content/uploads/2017/02/patterns-300x225.png" alt="The patterns selection screen" width="300" height="225" class="aligncenter size-medium wp-image-12316" srcset="https://lizards.opensuse.org/wp-content/uploads/2017/02/patterns-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2017/02/patterns-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2017/02/patterns-1024x768.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2017/02/patterns.png 1025w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>If these screenshots are not enough to make your mind about the change, you can check the following animation, in which KDE Plasma is initially chosen to be changed at a later point (going back in the workflow) to LXQt.</p>
+<p><img src="//lizards.opensuse.org/wp-content/uploads/2017/02/desktop_animation.gif" alt="Desktop selection animation" /></p>
+<p>It will take some time before the changes hit the Tumbleweed installer, since they obviously have a non-trivial impact on the openQA tests, that will need some adaptation.</p>
+<p>We would like to thank everybody that contributed to this new feature by providing feedback and suggestions through the mailing list. Once again, the openSUSE community has proved to be simply awesome!</p>
+<h3>Storage reimplementation: improved handling of logical partitions</h3>
+<p>Our reimplementation of the storage layer keeps getting improvements here and there. With the base x86 case working, we are now implementing the tricky parts, like the partitions renumbering that takes place when dealing with logical partitions in a MBR style partition table.</p>
+<p>With GPT partition tables or with primary partitions in a MBR partition table, the partition gets a number (like sda1) when it&#8217;s created and keeps that number for its whole lifetime. But logical partition gets constantly renumbered when other partitions are created and destroyed. We need to know in advance what device name every partition will get in order to configure everything beforehand and only commit the changes to the disk when the user clicks in the &#8220;install&#8221; (during the installation process) or &#8220;commit&#8221; (if running the expert partitioner).</p>
+<p>Now, libstorage-ng is able to simulate in memory the re-numbering process, so we can calculate all the settings related to partitioning (like the configuration of the bootloader) before really touching the disk.</p>
+<h3>Making kdump work in CaaSP</h3>
+<p>When you enable the Kernel Crash Dump (kdump), you probably expect that you will get a kind of core dump, like you do for regular processes. What you might not expect is an automatic reboot. That is a nice bonus. If you are tired of waiting for an <em>actual</em> kernel crash, you can test your kdump setup by triggering a crash yourself. Just run this as root:</p>
+<pre>
+echo c &gt; /proc/sysrq-trigger</code>
+</pre>
+<p>The way kdump works is by allocating some extra memory at boot time and putting a second kernel+initrd there. When the main kernel realizes it is crashing, it transfers control (by kexec) to the other one, which has only one purpose, to dump the memory of the crashed kernel.</p>
+<p>In the upcoming Containers as a Service Platform, kdump was not working because the root filesystem is read-only there and we were not able to create the kdump initrd. We <a href="https://github.com/yast/yast-kdump/pull/73">fixed it</a> by creating it just after the RPMs are installed, when the FS is still read-write.</p>
+<h3>Fixes for Snapper in CaaSP</h3>
+<p>Kdump was not the only component affected by the fact of having a read-only filesystem in CaaSP. Snapper was also running into problems when trying to execute the <code>rollback</code> and <code>cleanup</code> operations. Now the problems are fixed. While working on that we did enough interesting findings to deserve a separate blog entry. So you can expect a new entry in the <a href="http://snapper.io/news.html">Snapper.io blog</a> soon.</p>
+<h3>Snapshot-related improvements in the expert partitioner</h3>
+<p>While we work on the new storage system, we are still taking care and improving the current one that will continue to be shipped with SLE12-SP3, SUSE CaaSP and openSUSE Leap 42.3. During this sprint we introduced a couple of usability improvements in the expert partitioner related to Btrfs subvolumes.</p>
+<p>First of all, we moved the &#8220;Enable Snapshots&#8221; checkbox that was pretty much hidden in the &#8220;Subvolume Handling&#8221; dialog to the place where it really belongs &#8211; below the selector of the file-system type.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2017/02/snapshots.png"><img src="//lizards.opensuse.org/wp-content/uploads/2017/02/snapshots-300x187.png" alt="New location for enabling snapshots" width="300" height="187" class="aligncenter size-medium wp-image-12327" srcset="https://lizards.opensuse.org/wp-content/uploads/2017/02/snapshots-300x187.png 300w, https://lizards.opensuse.org/wp-content/uploads/2017/02/snapshots-768x478.png 768w, https://lizards.opensuse.org/wp-content/uploads/2017/02/snapshots-1024x637.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2017/02/snapshots.png 1350w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>In addition, we added the warning you can see in the screenshot below for users enabling snapshots in a potentially problematic setup.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2017/02/snapshots-size-warning.png"><img src="//lizards.opensuse.org/wp-content/uploads/2017/02/snapshots-size-warning-300x186.png" alt="Warning for snapshots in a small partition" width="300" height="186" class="aligncenter size-medium wp-image-12328" srcset="https://lizards.opensuse.org/wp-content/uploads/2017/02/snapshots-size-warning-300x186.png 300w, https://lizards.opensuse.org/wp-content/uploads/2017/02/snapshots-size-warning-768x477.png 768w, https://lizards.opensuse.org/wp-content/uploads/2017/02/snapshots-size-warning-1024x635.png 1024w, https://lizards.opensuse.org/wp-content/uploads/2017/02/snapshots-size-warning.png 1352w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3>Bring back the beta warning on CaaSP</h3>
+<p>And talking about warnings, we improved the CaaSP installation dialog to show the Alpha/Beta product warning at the beginning. After changing the CaaSP installation to use the all-in-one dialog <a href="https://lizards.opensuse.org/?p=12263">described in our previous post</a>, this feature was lost as it is part of the initial EULA dialog. Now it is back and the users should now properly see the current product status.</p>
+<p><a href="//lizards.opensuse.org/wp-content/uploads/2017/02/caasp_warning.png"><img src="//lizards.opensuse.org/wp-content/uploads/2017/02/caasp_warning-300x225.png" alt="The CaaSP alpha/beta warning pop-up" width="300" height="225" class="aligncenter size-medium wp-image-12305" srcset="https://lizards.opensuse.org/wp-content/uploads/2017/02/caasp_warning-300x225.png 300w, https://lizards.opensuse.org/wp-content/uploads/2017/02/caasp_warning-768x576.png 768w, https://lizards.opensuse.org/wp-content/uploads/2017/02/caasp_warning.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<h3>Storage reimplementation: encrypted LVM proposal</h3>
+<p>Back to our storage layer reimplementation, the new system is now able to propose a setup with encrypted LVM. Since some sprints ago, we were already able to propose a partition-based and a LVM setup. That means the new proposal is now feature-pair with the old one, with the only exceptions of Btrfs sub-volumes (that shouldn&#8217;t be a big challenge) and s/390 storage (that is still not properly managed by the underlying libstorage-ng).</p>
+<p>The bright part is that the new code is written with re-usability in mind, which means implementing an encrypted partition-based proposal (with no LVM) would be trivial. The new code is 100% covered by automatic unit tests and scores to the top in all the automatic quality checkers we have run (like Rubycritics, CodeClimate, and Rubocop).</p>
+<p>So now we are prepared for whatever the future brings, having lost no single feature in the way.</p>
+<h3>Storage reimplementation: prototype if the UI for the proposal settings</h3>
+<p>The next challenge is to make the power of that new storage proposal available to the users through the user interface. In the <a href="https://lizards.opensuse.org/?p=12263">previous post</a> we presented the document describing the general ideas we wanted to discuss with UX experts.</p>
+<p>It&#8217;s our pleasure to announce we met the experts and we very easily reached an agreement on how the user interaction should be. During this sprint we already implemented a prototype of the future proposal settings wizard that is, as usual, included in our <a href="http://download.opensuse.org/repositories/YaST:/storage-ng/images/iso/">testing ISO</a>.</p>
+<p>Now that we have solid foundations, it&#8217;s very likely that the following sprint will result in the fully working wizard, with almost-final wording and design.</p>
+<h3>Support for CaaSP added to the AutoYaST integration tests</h3>
+<p>While fixing a problem with AutoYaST and CaaSP, we decided to extend our AutoYaST integration testing tool to support CaaSP. But, as a side effect, we also made some additional improvements that were long overdue (like improving the procedure to download ISOs, reducing timeouts, etc.).</p>
+<p>Now, our internal Jenkins instance takes care of running AutoYaST integration tests for the development version of CaaSP (as it already does for SLE 12 SP2).</p>
+<h3>Services manager moved to first auto-installation stage</h3>
+<p>AutoYaST allows to <a href="https://www.suse.com/documentation/sles-12/singlehtml/book_autoyast/book_autoyast.html#CreateProfile.Services">define a set of services</a> to be enabled/disabled in the installed system, applying this configuration during the 2nd stage (after the first reboot).</p>
+<p>Unfortunately, this approach won&#8217;t work for CaaSP because, in that case, the 2nd stage won&#8217;t be available. For that reason, during this sprint, we have adapted AutoYaST to write services configuration during 1st stage.</p>
+<p>As usual, not only CaaSP, but other future (open)SUSE versions will benefit of this change.</p>
+<h3>Faster YaST installation when the release notes cannot be downloaded</h3>
+<p>Sometimes a very small simple change in a program makes a very noticeable impact in its everyday use. That&#8217;s the case of a fix implemented during this sprint. YaST usually re-tries to download the distribution release notes several times if the first attempt was unsuccessful. Although that&#8217;s correct from a general point of view, there are cases in which retrying makes no sense and only delays the installation. We have now added failed DNS resolution to that list of cases, which should result in a noticeable faster installation in many scenarios.</p>
+<p>Moreover, in the case of AutoYaST we now skip downloading the release notes completely. Downloading them don&#8217;t make us much sense in the kind of unattended scenarios handled by AutoYaST and skipping this step and all the possible associated problems result in a more robust process.</p>
+<h3>Better continuous integration for Libyui</h3>
+<p>In the previous sprint we switched to Docker at Travis so we could build and test our packages in the native openSUSE system instead of the default Ubuntu. This sprint we did the same change also for the Libyui library which implements the UI part of YaST.</p>
+<p>Originally we could not build the Libyui packages at Travis as either the required build dependencies were missing or were present at a very old unusable version. With this switch we can easily use the latest packages from openSUSE Tumbleweed and thus enable Travis builds for all Libyui packages.</p>
+<h3>See you after Hack Week!</h3>
+<p>As already mentioned, this week is <a href="https://hackweek.suse.com/">Hack Week 15</a>! So our Scrum process will be on hold for some days. That doesn&#8217;t necessarily mean the YaST development will stall. Since there are quite some YaST-related projects in the Hack Week page, you can expect YaST to simply go in unexpected directions. <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>And remember Hack Week is not a SUSE internal initiative, we are open to collaboration from anybody within or outside the company. So jump in and have fun with us!</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2017/02/20/highlights-of-yast-development-sprint-31/feed/</wfw:commentRss>
+		<slash:comments>5</slash:comments>
+		</item>
+		<item>
+		<title>Proprietary AMD/ATI Catalyst fglrx rpms new release 15.11 (15.300.1025-1)</title>
+		<link>https://lizards.opensuse.org/2015/12/06/proprietary-amdati-catalyst-fglrx-rpms-new-release-15-11-15-300-1025-1/</link>
+		<pubDate>Sun, 06 Dec 2015 19:37:24 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[XFCE]]></category>
+		<category><![CDATA[13.1]]></category>
+		<category><![CDATA[13.2]]></category>
+		<category><![CDATA[42.1]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[fglrx]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Tumbleweed]]></category>
+		<category><![CDATA[unified]]></category>
+		<category><![CDATA[xorg]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11582</guid>
+		<description><![CDATA[Time to get an update for fglrx: the new release has been build for 13.1, 13.2, Leap 42.1, and tumbleweed 20151201 Tumbleweed beware : broken Xorg It seems since the release, that a number of report of broken xorg with gdm, ssdm and so&#8230; segfaulting You can still use the previous version hanging on the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Time to get an update for fglrx: the new release has been build for 13.1, 13.2, Leap 42.1, and tumbleweed 20151201</p>
+<h1 style="color:red">Tumbleweed beware : broken Xorg</h1>
+<p>It seems since the release, that a number of report of broken xorg with gdm, ssdm and so&#8230; segfaulting</p>
+<p>You can still use the previous version hanging on the server. But I doubt it would work better</p>
+<p>As soon, with Sebastian Siebert we have a patch for, I will republish a new build</p>
+<p>Informations &amp; bugreport <a href="https://www.sebastian-siebert.de/2015/12/05/opensuse-proprietaeren-grafik-treiber-amd-catalyst-15-11-als-rpm-installieren">Sebastian&#8217;s blog</a> or <a href="https://lizards.opensuse.org/2015/12/05/amd-catalyst-15-11-for-opensuse-new-makerpm-amd-script-is-available/">lizards.o.o</a><br />
+<br />
+The proposed drivers support kernel up to version 4.4
+</p>
+<p>AMD release note <a href="http://support.amd.com/en-us/kb-articles/Pages/AMDRadeonSoftwareCrimsonEdition15-11LINReleaseNotes.aspx">available</p>
+<h4>Sebastien Siebert making script</h4>
+<p style="clear:both"><a href="http://www.sebastian-siebert.de/">Sebastian Siebert posts about fglrx</a></p>
+<p>If you have any problems with the driver, don&#8217;t be afraid to report to Sebastian (German and English bugreports are gladly accepted).<br />
+he will try, as far as I am able to reproduce the bug. Together with the necessary system information, he will go directly to the right place at AMD to have the bug fixed in the next driver release.<br />
+Thank you very much, Sebastian.
+</p>
+<p>See below what to do in case of troubles.</p>
+<p>Or you can also ping him on irc (freespacer)</p>
+<h4>Debugging troubles</h4>
+<p>I recommend in case of trouble the use of <a href="http://www.sebastian-siebert.de/downloads/makerpm-amd-15.11.sh">his script</a> which can collect the whole informations needed to help you. then you just have to issue a simple commande in console to collect all informations, you can review them, and finally transmit them.<br />
+Check the website to get the latest.
+</p>
+<pre>su -c 'sh makerpm-amd-15.11.sh -ur'
+The system report 'amd-report.txt' was generated.                                                                                                          [ OK ]
+Do you want to read the system report 'amd-report.txt' now? yes/no [y/n]: y
+Are you sure to upload the above-named system report to sprunge.us? yes/no [y/n]: y
+
+The report was uploaded to sprunge.us.
+   The link is:  <a href="http://sprunge.us/eMEB">http://sprunge.us/eMEB</a>
+</pre>
+<p>Copy paste the link in the comment zone of Sebastian post</p>
+<p>All proudly distributed by openSUSE powered server and sponsored by <a href="http://www.ioda-net.ch">Ioda-Net Sàrl</a></p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Banana Pi M2 running openSUSE Tumbleweed</title>
+		<link>https://lizards.opensuse.org/2015/12/03/banana-pi-m2-running-opensuse-tumbleweed/</link>
+		<pubDate>Thu, 03 Dec 2015 05:33:19 +0000</pubDate>
+		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Derivative]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[XFCE]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[arm7]]></category>
+		<category><![CDATA[Banana Pi M2]]></category>
+		<category><![CDATA[Xfce]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11575</guid>
+		<description><![CDATA[Following up from my earlier post about openSUSE LTSP on Banana Pi, Nora Lee from the manufacturer of the board got in touch with me and sent me a couple of their new boards- Banana Pi M2, runs on A31s quad-core CPU and has 1G RAM, powerful enough to run openSUSE Tumbleweed with Xfce Desktop. [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Following up from my earlier post about <a href="https://lizards.opensuse.org/2014/12/16/ltsp-client-goes-banana-pi/">openSUSE LTSP on Banana Pi</a>, <a href="https://plus.google.com/102091635847832058268">Nora Lee</a> from the manufacturer of the board got in touch with me and sent me a couple of their new boards- <a href="http://www.bananapi.com/index.php/component/content/article?layout=edit&amp;id=73">Banana Pi M2,</a> runs on A31s quad-core CPU and has 1G RAM, powerful enough to run openSUSE Tumbleweed with Xfce Desktop.</p>
+<p>Here is how you can get openSUSE running on Banana Pi M2.</p>
+<p>* <a href="http://sourceforge.net/projects/cyberorg-home/files/opensuse-arm/openSUSE-Tumbleweed-Bpi-M2-Xfce.tar.xz/download">Download the image</a></p>
+<p>* Extract the archive to get openSUSE-Tumbleweed-Bpi-M2-Xfce.img</p>
+<p>* Dump openSUSE-Tumbleweed-Bpi-M2-Xfce.img on to a SD card<br />
+(dd if=/path/to/openSUSE-Tumbleweed-Bpi-M2-Xfce.img of=/dev/sdX bs=4M; sync #replace /dev/sdX with your actual SD card device)</p>
+<p>*  In case you have a bigger SD card, use yast2 disk(partitioner) to &#8220;expand&#8221; the second partition. You can use yast’s package manager to install more software. The default password for root is <strong>linux</strong>, you may want to change that first thing after booting.</p>
+<p>I am unable to get sound on this hardware, probably <a href="https://github.com/BPI-SINOVOIP/BPI-Mainline-bsp">their kernel</a> is missing sound related modules, if you figure out how to get sound working drop me a line so I can include it in next release.Everything else(wifi, hdmi out, USB ports etc) works well enough.</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>AMD Catalyst 15.3 Beta for openSUSE &#8211; new makerpm-amd-script is available</title>
+		<link>https://lizards.opensuse.org/2015/04/08/amd-catalyst-15-3-beta-for-opensuse-new-makerpm-amd-script-is-available/</link>
+		<comments>https://lizards.opensuse.org/2015/04/08/amd-catalyst-15-3-beta-for-opensuse-new-makerpm-amd-script-is-available/#comments</comments>
+		<pubDate>Wed, 08 Apr 2015 14:34:50 +0000</pubDate>
+		<dc:creator><![CDATA[Sebastian Siebert]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[XFCE]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.1]]></category>
+		<category><![CDATA[12.2]]></category>
+		<category><![CDATA[12.3]]></category>
+		<category><![CDATA[13.1]]></category>
+		<category><![CDATA[13.2]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[driver]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[radeon]]></category>
+		<category><![CDATA[rpm]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11327</guid>
+		<description><![CDATA[AMD has released the new AMD Catalyst 15.3 Beta. They have not yet released a public beta driver for all other distributions. It is currently available for Ubuntu. *sigh* So, it is a bit hard work to implement this in the makerpm-amd-script to replace the latest AMD Catalyst 14.12 with AMD Catalyst 15.3 Beta. So [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>AMD has released the new AMD Catalyst 15.3 Beta. They have not yet released a public beta driver for all other distributions. It is currently available for Ubuntu. *sigh* So, it is a bit hard work to implement this in the makerpm-amd-script to replace the latest AMD Catalyst 14.12 with AMD Catalyst 15.3 Beta. So do not confused if the script downloads the AMD Catalyst 14.12. <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>Unfortunately there is no release notes from AMD. This update can solve the issue with PowerXpress but I can not really verified this because lack of such hardware.</p>
+<p>Another side note I have implemented a workaround in the script to get the driver works with the GNOME Displaymanager + GNOME. It is a little cruel hack but it works for the moment. Thanks to the user that they posted the article in my blog. <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>For GNOME user with gdm: Execute the following command as root after the installation of the AMD driver and before restart the machine:<br />
+<code>sh makerpm-amd-15.3-beta.sh --install-gdm-fix</code><br />
+If you update the AMD driver, so the workaround does not work anymore. It is important that you do not delete the file /amd_xversion and is needed for the workaround.</p>
+<p>To revert the changes:<br />
+<code>sh makerpm-amd-15.3-beta.sh --uninstall-gdm-fix</code></p>
+<p>Before I forget it: All user from openSUSE Tumbleweed can also install the driver. But remember, Tumbleweed is under heavy development. I can not guarantee that the driver works in the future yet.</p>
+<p><strong>Downloads:</strong></p>
+<ul>
+<li>Script: <a href="https://www.sebastian-siebert.de/downloads/makerpm-amd-15.3-beta.sh">makerpm-amd-15.3-beta.sh</a></li>
+<li>SHA1: <a href="https://www.sebastian-siebert.de/downloads/makerpm-amd-15.3-beta.sh.sha1">makerpm-amd-15.3-beta.sh.sha1</a></li>
+</ul>
+<p>Installation guide (English):<br />
+<a href="http://en.opensuse.org/SDB:AMD_fglrx#Building_the_rpm_yourself">http://en.opensuse.org/SDB:AMD_fglrx#Building_the_rpm_yourself</a></p>
+<p>The above named installation guide is only for the stable driver but you can adapt it for the beta driver.</p>
+<p>Bruno Friedmann will build the new RPM packages in the fglrx repository. Stay tune!</p>
+<p>If you find any issue with the driver. Don&#8217;t hesitate to contact me. I am in contact with AMD and can forward your issue to the right place. Feedback are welcome.</p>
+<p>A report of your system is very helpful beside your feedback. You can generate it with the script:<br />
+<code>su -c 'sh makerpm-amd-15.3-beta.sh -ur'</code></p>
+<p>Have a lot of fun!</p>
+<p>Sebastian<br />
+openSUSE member / Official AMD Packaging Script Maintainer for openSUSE</p>
+<p>German Blog: <a href="https://www.sebastian-siebert.de/2015/04/08/opensuse-proprietaeren-grafik-treiber-amd-catalyst-15-3-beta-als-rpm-installieren/">openSUSE &#8211; proprietären Grafik-Treiber AMD Catalyst 15.3 Beta als RPM installieren</a></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2015/04/08/amd-catalyst-15-3-beta-for-opensuse-new-makerpm-amd-script-is-available/feed/</wfw:commentRss>
+		<slash:comments>5</slash:comments>
+		</item>
+		<item>
+		<title>New Proprietary AMD/ATI Catalyst omega fglrx 14.12 (14.501.1003-1) rpm released</title>
+		<link>https://lizards.opensuse.org/2014/12/13/new-proprietary-amdati-catalyst-omega-fglrx-14-12-14-501-1003-1-rpm-released/</link>
+		<comments>https://lizards.opensuse.org/2014/12/13/new-proprietary-amdati-catalyst-omega-fglrx-14-12-14-501-1003-1-rpm-released/#comments</comments>
+		<pubDate>Sat, 13 Dec 2014 16:43:10 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[XFCE]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.1]]></category>
+		<category><![CDATA[12.2]]></category>
+		<category><![CDATA[12.3]]></category>
+		<category><![CDATA[13.1]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[fglrx]]></category>
+		<category><![CDATA[Tumbleweed]]></category>
+		<category><![CDATA[xorg]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11102</guid>
+		<description><![CDATA[Hey Christmas time around! AMD give us a new version of fglrx, and Sebastian Siebert just release his script yesterday night. So I&#8217;ve prepared the new version available for openSUSE 11.4, 12.1, 12.2, 12.3, 13.1, 13.2 and Tumbleweed. Sebastian&#8217;s script contain a special patch for supporting kernel up to 3.17 and 3.18 version. I should [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hey Christmas time around! AMD give us a new version of fglrx, and Sebastian Siebert just release his script yesterday night.<br />
+So I&#8217;ve prepared the new version available for openSUSE 11.4, 12.1, 12.2, 12.3, 13.1, 13.2 and Tumbleweed.<br />
+Sebastian&#8217;s script contain a special patch for supporting kernel up to 3.17 and 3.18 version.<br />
+I should also share Sebastian&#8217;s surprize about the fact that this version didn&#8217;t got a beta/rc cycle&#8230;.
+</p>
+<p>I hope this release will give better results for all of you who own an apu (especially the recent one), and also fix a number of issue with the hybrid chipset intel cpu/amd gpu embedded.<br />
+<br />See below how to report issue on Sebastian blog.
+</p>
+<p><strong>It will be the last build for all openSUSE version below 13.1</strong> (except if patches are needed).<br />
+In January 12.3 support will definitively end. But I will let the drivers as is so you can still use them in case of.</p>
+<h3>Installation / update</h3>
+<p>Please refer to the wiki page <a href="http://en.opensuse.org/SDB:AMD_fglrx">SDB:AMD_fgrlx</a></p>
+<h3>New packaging schema</h3>
+<p>The driver is now splitted into different rpm that all need to be installed. Normally the necessary Require field is there and should happen automatically.</p>
+<p>My advise is to check if you have them all installed.</p>
+<p><strong>for 32 bits</strong></p>
+<pre>
+zypper install fglrx_xpic fglrx_core fglrx_graphics fglrx_amdcccle fglrx_opencl
+</pre>
+<p><strong>for 64 bits</strong></p>
+<pre>
+zypper install fglrx64_xpic fglrx64_core fglrx64_graphics fglrx64_amdcccle fglrx64_opencl
+</pre>
+<h3>A notice for Tumbleweed users</h3>
+<p>The new release has now its package correctly named, previously they were called SUSEFACTORY, with the new version the package will contain SUSETUMBLEWEED in their name</p>
+<p><span id="more-11102"></span></p>
+<h3>Release note about 14.12</h3>
+<p><a href="http://support.amd.com/en-us/kb-articles/Pages/AMDCatalystOmegaLINReleaseNotes.aspx" title="AMD Full release note">AMD Catalyst Full release note</a></p>
+<p><strong>New Features&#058;</strong><br />
+The following section provides a summary of new features in this driver version.</p>
+<pre>
+    OpenCL 2.0 support (requires 64-bit OS and compatible AMD Radeon™ R Series GPU)
+    VAAPI decoding support (H264, VC1, MPEG2, MPEG4)
+    Distribution specific package support for Ubuntu and Red Hat
+</pre>
+<p><strong>Resolved Issues&#058;</strong><br />
+This section provides information on resolved known issues in this release of the AMD Catalyst Linux Software Suite.</p>
+<pre>
+    [402835]: Unexpected pixmap's time stamp change on Ubuntu with composite enabled causes Linux Khronos CTS to randomly fail
+    [403420]: Driver install can sometimes have an error in Ubuntu 14.10 using GPL symbol before Kernel 3.16
+    [405011]: Driver installation may intermittently fail on Kernel 3.9.0
+    [409856]: Generate Distribution Specific Package' mode of Catalyst install does not create symbolic links for libGL
+    [407550]: Driver upgrade failed in Ubuntu with specific drivers
+</pre>
+<p><strong>Known Issues&#058;</strong><br />
+The following section provides a summary of open issues that may be experienced with the AMD Catalyst Linux Software Suite. </p>
+<pre>
+  [404829]: Horizontal flashing lines on second screen in a clone mode with V-Sync on using AMD Mobility Graphics with Switchable Intel Graphics
+  [404508]: Display takes a long time to redraw the screen after an S4 cycle
+</pre>
+<p>
+This Catalyst fglrx version support openSUSE version from 11.4 to 13.2 plus Tumbleweed (thus covering kernel to 3.18 series).<br />
+Again a special thanks to Sebastian Siebert for his effort on making this driver working under openSUSE and latest kernel.<br />
+Want to help, use the donate button on his <a href="http://www.sebastian-siebert.de/">blog page</a>
+</p>
+</p>
+<p><!--more--></p>
+<h4>Sebastien Siebert making script</h4>
+<p style="clear:both"><a href="http://www.sebastian-siebert.de/2014/12/12/opensuse-proprietaeren-grafik-treiber-amd-catalyst-14-12-als-rpm-installieren/">Sebastian Siebert post about 14.12</a></p>
+<p>Damn I&#8217;m impressed by the number of steam games tested there, I should try some of them during hollidays <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>If you have any problems with the driver, don&#8217;t be afraid to report to Sebastian (German and English bugreports are gladly accepted).<br />
+he will try, as far as I am able to reproduce the bug. Together with the necessary system information, he will go directly to the right place at AMD to have the bug fixed in the next driver release.<br />
+Thank you very much, Sebastian.
+</p>
+<p>See below what to do in case of troubles.</p>
+<h4>Debugging and reporting troubles</h4>
+<p>I recommend in case of trouble the use of <a href="http://www.sebastian-siebert.de/downloads/makerpm-amd-14.12.sh">his script</a> which can collect the whole informations needed to help you. then you just have to issue a simple commande in console to collect all informations, you can review them, and finally transmit them.<br />
+Check the website to get the latest.
+</p>
+<pre>su -c 'sh makerpm-amd-14.12.sh -ur'
+The system report 'amd-report.txt' was generated.                                                                                                          [ OK ]
+Do you want to read the system report 'amd-report.txt' now? yes/no [y/n]: y
+Are you sure to upload the above-named system report to sprunge.us? yes/no [y/n]: y
+
+The report was uploaded to sprunge.us.
+   The link is:  <a href="http://sprunge.us/eMEB">http://sprunge.us/eMEB</a>
+</pre>
+<p>Copy paste the link in the comment zone of Sebastian post</p>
+<h3>Reminder this drivers is only for radeon HD5xxx</h3>
+<p>This release concern only owners of radeon HD5xxx or above.<br />
+For older gpu, the fglrx-legacy is still there see wiki page at<a href="http://en.opensuse.org/SDB:AMD_fglrx_legacy">SDB:AMD_fgrlx_legacy</a>.<br />
+Beware of it obsolete status, and prefer the free open-source radeon driver which came out of the box from your openSUSE distribution.<br />
+For 12.3, and more true with 13.1+ the free radeon often offer a better experience than the old fglrx-legacy, especially for HD2xxx-HD4xxx range.
+</p>
+<h2>Humor : the never ending links</h2>
+<p>In 2014 April, I&#8217;ve decided to close the automatic redirection of http://geeko.ioda.net/mirror/ati after being obsolete for more than one year.<br />
+The reason was that there&#8217;s no safe way to drive people having a older Radeon HD card (series 2xxx to 4xxxx) to not use newer fglrx build.<br />
+<br />
+Guess what? I&#8217;m still seeing more than quarter billion hit on those address (for 12.1 to 13.1) <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /><br />
+<br />
+If you click on such link referring to this url, please do your best to fix thoses and check your or friends computer configurations <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" />
+</p>
+<h2>Mirror total Statistics</h2>
+<div style="width:90%">
+<table style="text-align:right">
+<thead>
+<tr style="text-align:center">
+<th width="80" bgcolor="#ECECEC">Month</th>
+<th width="80" bgcolor="#FFAA66">Unique visitors</th>
+<th width="80" bgcolor="#F4F090">Number of visits</th>
+<th width="80" bgcolor="#4477DD">Pages</th>
+<th width="80" bgcolor="#66DDEE">Hits</th>
+<th width="80" bgcolor="#2EA495">Bandwidth</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2011</td>
+<td>195,167</td>
+<td>537,369</td>
+<td>10.080M</td>
+<td>10.369M</td>
+<td>1,582.25 GB</td>
+</tr>
+<tr>
+<td>2012</td>
+<td>804,092</td>
+<td>2,014,942</td>
+<td>59.263M</td>
+<td>59.656M</td>
+<td>4,390.50 GB</td>
+</tr>
+<tr>
+<td>2013</td>
+<td>570,673</td>
+<td>1,834,450</td>
+<td>28.668M</td>
+<td>29.384M</td>
+<td>6,378.90 GB</td>
+</tr>
+<tr>
+<td>2014</td>
+<td>149,900</td>
+<td>448,086</td>
+<td>15,427M</td>
+<td>15.761M</td>
+<td>6,068.12 GB</td>
+</tr>
+</tbody>
+</table>
+<p>All proudly distributed by openSUSE powered server and sponsored by <a href="http://www.ioda-net.ch">Ioda-Net Sàrl</a></p>
+</div>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2014/12/13/new-proprietary-amdati-catalyst-omega-fglrx-14-12-14-501-1003-1-rpm-released/feed/</wfw:commentRss>
+		<slash:comments>22</slash:comments>
+		</item>
+		<item>
 		<title>openSUSE 12.3 on Android</title>
-		<link>http://lizards.opensuse.org/2013/05/09/opensuse-12-3-on-android/</link>
-		<comments>http://lizards.opensuse.org/2013/05/09/opensuse-12-3-on-android/#comments</comments>
+		<link>https://lizards.opensuse.org/2013/05/09/opensuse-12-3-on-android/</link>
+		<comments>https://lizards.opensuse.org/2013/05/09/opensuse-12-3-on-android/#comments</comments>
 		<pubDate>Thu, 09 May 2013 06:19:02 +0000</pubDate>
 		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
 				<category><![CDATA[Architectures]]></category>
@@ -46,13 +467,12 @@
 </tbody>
 </table>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/05/09/opensuse-12-3-on-android/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/05/09/opensuse-12-3-on-android/feed/</wfw:commentRss>
 		<slash:comments>9</slash:comments>
 		</item>
 		<item>
 		<title>openSUSE on phones/tablets</title>
-		<link>http://lizards.opensuse.org/2013/02/20/opensuse-on-phonestablets/</link>
-		<comments>http://lizards.opensuse.org/2013/02/20/opensuse-on-phonestablets/#comments</comments>
+		<link>https://lizards.opensuse.org/2013/02/20/opensuse-on-phonestablets/</link>
 		<pubDate>Wed, 20 Feb 2013 06:03:04 +0000</pubDate>
 		<dc:creator><![CDATA[Jigish Gohil]]></dc:creator>
 				<category><![CDATA[Architectures]]></category>
@@ -74,13 +494,11 @@
 <p>After exiting the chroot terminal, openSUSE services will be stopped, no changes to your android system is made.</p>
 <p>Have a lot of fun&#8230;</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/02/20/opensuse-on-phonestablets/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
+			</item>
 		<item>
 		<title>ATI/AMD catalyst fglrx legacy updated to new 13.1 version</title>
-		<link>http://lizards.opensuse.org/2013/01/24/atiamd-catalyst-fglrx-legacy-updated-to-new-13-1-version/</link>
-		<comments>http://lizards.opensuse.org/2013/01/24/atiamd-catalyst-fglrx-legacy-updated-to-new-13-1-version/#comments</comments>
+		<link>https://lizards.opensuse.org/2013/01/24/atiamd-catalyst-fglrx-legacy-updated-to-new-13-1-version/</link>
+		<comments>https://lizards.opensuse.org/2013/01/24/atiamd-catalyst-fglrx-legacy-updated-to-new-13-1-version/#comments</comments>
 		<pubDate>Thu, 24 Jan 2013 14:14:44 +0000</pubDate>
 		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
 				<category><![CDATA[GNOME]]></category>
@@ -114,13 +532,13 @@ For testing with the next openSUSE 12.3 just use the new openSUSE_12.3 repo
 <p>As I didn&#8217;t have a gpu card of this series, I can&#8217;t test it before publishing the rpm like for normal fglrx. If someone has a spare hd2xxx or hd4xxx, Could he(she) contact me?</p>
 <p>Have fun!</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/01/24/atiamd-catalyst-fglrx-legacy-updated-to-new-13-1-version/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/01/24/atiamd-catalyst-fglrx-legacy-updated-to-new-13-1-version/feed/</wfw:commentRss>
 		<slash:comments>7</slash:comments>
 		</item>
 		<item>
 		<title>Proprietary AMD/ATI Catalyst fglrx 13.1 (9.012-1) rpm released</title>
-		<link>http://lizards.opensuse.org/2013/01/21/proprietary-amdati-catalyst-fglrx-13-1-9-012-1-rpm-released/</link>
-		<comments>http://lizards.opensuse.org/2013/01/21/proprietary-amdati-catalyst-fglrx-13-1-9-012-1-rpm-released/#comments</comments>
+		<link>https://lizards.opensuse.org/2013/01/21/proprietary-amdati-catalyst-fglrx-13-1-9-012-1-rpm-released/</link>
+		<comments>https://lizards.opensuse.org/2013/01/21/proprietary-amdati-catalyst-fglrx-13-1-9-012-1-rpm-released/#comments</comments>
 		<pubDate>Mon, 21 Jan 2013 14:44:58 +0000</pubDate>
 		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
 				<category><![CDATA[GNOME]]></category>
@@ -198,7 +616,7 @@ Thank you very much, Sebastian.
 <p>or have a look at the previous article which describe also step by step the procedure<br />
 <a href="//lizards.opensuse.org/?p=8888">lizards.opensuse.org/?p=8888</a>
 </p>
-<div id="attachment_9219" style="width: 310px" class="wp-caption aligncenter"><a href="//lizards.opensuse.org/?attachment_id=9219" rel="attachment wp-att-9219"><img src="//lizards.opensuse.org/wp-content/uploads/2013/01/fglrx13.1-screenshot2-300x187.jpg" alt="fglrx &amp; 3d effects kde 4.9.5 on openSUSE 12.2" width="300" height="187" class="size-medium wp-image-9219" /></a><p class="wp-caption-text">fglrx &amp; 3d effects kde 4.9.5 on openSUSE 12.2</p></div>
+<div id="attachment_9219" style="width: 310px" class="wp-caption aligncenter"><a href="//lizards.opensuse.org/?attachment_id=9219" rel="attachment wp-att-9219"><img src="//lizards.opensuse.org/wp-content/uploads/2013/01/fglrx13.1-screenshot2-300x187.jpg" alt="fglrx &amp; 3d effects kde 4.9.5 on openSUSE 12.2" width="300" height="187" class="size-medium wp-image-9219" srcset="https://lizards.opensuse.org/wp-content/uploads/2013/01/fglrx13.1-screenshot2-300x187.jpg 300w, https://lizards.opensuse.org/wp-content/uploads/2013/01/fglrx13.1-screenshot2-1024x640.jpg 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a><p class="wp-caption-text">fglrx &amp; 3d effects kde 4.9.5 on openSUSE 12.2</p></div>
 <h4>Debugging troubles</h4>
 <p>I recommend in case of trouble the use of <a href="http://www.sebastian-siebert.de/downloads/makerpm-amd-13.1.sh">his script</a> which can collect the whole informations needed to help you. then you just have to issue a simple commande in console to collect all informations, you can review them, and finally transmit them.<br />
 Check the website to get the latest.
@@ -212,7 +630,7 @@ The report was uploaded to sprunge.us.
    The link is:  <a href="http://sprunge.us/eMEB">http://sprunge.us/eMEB</a>
 </pre>
 <p>Copy paste the link in the comment zone of Sebastian post</p>
-<div id="attachment_9221" style="width: 310px" class="wp-caption aligncenter"><a href="//lizards.opensuse.org/?attachment_id=9221" rel="attachment wp-att-9221"><img src="//lizards.opensuse.org/wp-content/uploads/2013/01/fglrx13.1-screenshot4-300x187.jpg" alt="flash film ( osc13 Thessaloniki teasing )" width="300" height="187" class="size-medium wp-image-9221" /></a><p class="wp-caption-text">flash film ( osc13 Thessaloniki teasing )</p></div>
+<div id="attachment_9221" style="width: 310px" class="wp-caption aligncenter"><a href="//lizards.opensuse.org/?attachment_id=9221" rel="attachment wp-att-9221"><img src="//lizards.opensuse.org/wp-content/uploads/2013/01/fglrx13.1-screenshot4-300x187.jpg" alt="flash film ( osc13 Thessaloniki teasing )" width="300" height="187" class="size-medium wp-image-9221" srcset="https://lizards.opensuse.org/wp-content/uploads/2013/01/fglrx13.1-screenshot4-300x187.jpg 300w, https://lizards.opensuse.org/wp-content/uploads/2013/01/fglrx13.1-screenshot4-1024x640.jpg 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a><p class="wp-caption-text">flash film ( osc13 Thessaloniki teasing )</p></div>
 <h2>Mirror Statistics</h2>
 <p>December 2011 as shown a big bump on the server : 50,212 unique visitor for a roughly 320GB traffic for the rpm</p>
 <p>1582GB has been distributed during 2011.</p>
@@ -336,13 +754,13 @@ The report was uploaded to sprunge.us.
 </div>
 <p>That&#8217;s all folks! Have fun!</p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2013/01/21/proprietary-amdati-catalyst-fglrx-13-1-9-012-1-rpm-released/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/01/21/proprietary-amdati-catalyst-fglrx-13-1-9-012-1-rpm-released/feed/</wfw:commentRss>
 		<slash:comments>2</slash:comments>
 		</item>
 		<item>
 		<title>AMD/ATI fglrx 8.951 Catalyst 12.3 rpms available for openSUSE 12.2, 12.1, 11.4, 11.3</title>
-		<link>http://lizards.opensuse.org/2012/03/30/amdati-fglrx-8-951-catalyst-12-3-rpms-available-for-opensuse-12-2-12-1-11-4-11-3/</link>
-		<comments>http://lizards.opensuse.org/2012/03/30/amdati-fglrx-8-951-catalyst-12-3-rpms-available-for-opensuse-12-2-12-1-11-4-11-3/#comments</comments>
+		<link>https://lizards.opensuse.org/2012/03/30/amdati-fglrx-8-951-catalyst-12-3-rpms-available-for-opensuse-12-2-12-1-11-4-11-3/</link>
+		<comments>https://lizards.opensuse.org/2012/03/30/amdati-fglrx-8-951-catalyst-12-3-rpms-available-for-opensuse-12-2-12-1-11-4-11-3/#comments</comments>
 		<pubDate>Fri, 30 Mar 2012 19:20:26 +0000</pubDate>
 		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
 				<category><![CDATA[Base System]]></category>
@@ -366,12 +784,12 @@ The packaging script was updated because I have a compile error when building a 
 Driver support now AMD Radeon HD 7950, HD 7970, HD 7990
 </p>
 <p>See more at <a href="http://www.sebastian-siebert.de/2012/03/29/opensuse-proprietaeren-grafik-treiber-amd-catalyst-12-3-als-rpm-installieren/">Sebastian&#8217;s blog</a>.<br />
-Don&#8217;t be shy, you can leave there the result of test in english too <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_biggrin.gif" alt=":D" class="wp-smiley" /><br />
+Don&#8217;t be shy, you can leave there the result of test in english too <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f600.png" alt="&#x1f600;" class="wp-smiley" style="height: 1em; max-height: 1em;" /><br />
 or ask in forums, irc and ping freespacer.<br />
 See below what to do in case of troubles.</p>
 <p>The rpms version 8.951 are available from Friday March 30th.</p>
 <p><span id="more-8604"></span><br />
-<a href="http://lizards.opensuse.org/wp-content/uploads/2012/03/fglrx12.3-screenshot2.png"><img src="http://lizards.opensuse.org/wp-content/uploads/2012/03/fglrx12.3-screenshot2-300x168.png" alt="" width="300" height="168" class="aligncenter size-medium wp-image-8608" /></a></p>
+<a href="http://lizards.opensuse.org/wp-content/uploads/2012/03/fglrx12.3-screenshot2.png"><img src="http://lizards.opensuse.org/wp-content/uploads/2012/03/fglrx12.3-screenshot2-300x168.png" alt="" width="300" height="168" class="aligncenter size-medium wp-image-8608" srcset="https://lizards.opensuse.org/wp-content/uploads/2012/03/fglrx12.3-screenshot2-300x168.png 300w, https://lizards.opensuse.org/wp-content/uploads/2012/03/fglrx12.3-screenshot2-1024x576.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
 <p>My advise is to firstly remove any existing version with zypper rm, then just zypper in the new version,<br />
 even if 8.930 was the first version I&#8217;ve seen able to upgrade correctly.<br />
 The 8.950 leave a file that need to be manually removed /etc/ati/amdpcsdb. The 8.951 fix that now.</p>
@@ -393,7 +811,7 @@ For 32bits system :<br />
 <h4>Installation</h4>
 <p style="font-weight:bold">Please refer to my <a href="http://lizards.opensuse.org/?p=6680">previous article</a> where all the installation procedure was explained.</p>
 <p>
-For a first installation, if you don&#8217;t remove radeon from the initrd, you will certainly get in trouble. Don&#8217;t thanks who removed that from the wiki. <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_sad.gif" alt=":-(" class="wp-smiley" />
+For a first installation, if you don&#8217;t remove radeon from the initrd, you will certainly get in trouble. Don&#8217;t thanks who removed that from the wiki. <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f641.png" alt="&#x1f641;" class="wp-smiley" style="height: 1em; max-height: 1em;" />
 </p>
 <h4>Caution</h4>
 <ul>
@@ -473,468 +891,10 @@ The report was uploaded to sprunge.us.
 </div>
 <p>That&#8217;s all folks! Have fun!</p>
 <p><span style="font-size: small;font-weight: bold">Have a lot of fun!</span><br />
-<span style="font-size: small">My month wishes : Now we get a G+ button spread! <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif" alt=":-)" class="wp-smiley" /> </span></p>
+<span style="font-size: small">My month wishes : Now we get a G+ button spread! <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></span></p>
 ]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2012/03/30/amdati-fglrx-8-951-catalyst-12-3-rpms-available-for-opensuse-12-2-12-1-11-4-11-3/feed/</wfw:commentRss>
+			<wfw:commentRss>https://lizards.opensuse.org/2012/03/30/amdati-fglrx-8-951-catalyst-12-3-rpms-available-for-opensuse-12-2-12-1-11-4-11-3/feed/</wfw:commentRss>
 		<slash:comments>2</slash:comments>
-		</item>
-		<item>
-		<title>Desktop Summit Berlin 2011 &#8211; Report</title>
-		<link>http://lizards.opensuse.org/2011/08/15/desktop-summit-berlin-2011-report/</link>
-		<comments>http://lizards.opensuse.org/2011/08/15/desktop-summit-berlin-2011-report/#comments</comments>
-		<pubDate>Mon, 15 Aug 2011 20:16:30 +0000</pubDate>
-		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
-				<category><![CDATA[Ambassadors]]></category>
-		<category><![CDATA[Boosters]]></category>
-		<category><![CDATA[Desktop]]></category>
-		<category><![CDATA[Distribution]]></category>
-		<category><![CDATA[Events]]></category>
-		<category><![CDATA[GNOME]]></category>
-		<category><![CDATA[KDE]]></category>
-		<category><![CDATA[Marketing]]></category>
-		<category><![CDATA[X.org]]></category>
-		<category><![CDATA[XFCE]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7762</guid>
-		<description><![CDATA[Desktop Summit Last minute team Monday before Desktop Summit, I&#8217;ve just learned that we (as openSUSE/SUSE) will not have the SuseStudio kiosk. Too bad, but Wednesday, I finally get confirmation from my customer, that the new hardware will not be delivered before Friday 12th. Ah ah good news. I will be able to go to [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p><a href="http://lizards.opensuse.org/wp-content/uploads/2011/08/DS2011banner.png"><img src="http://lizards.opensuse.org/wp-content/uploads/2011/08/DS2011banner.png" alt="" width="333" height="110" class="alignright size-full wp-image-7772" /></a><br />
-<h2>Desktop Summit</h2>
-<h3>Last minute team</h3>
-<p>
-Monday before Desktop Summit, I&#8217;ve just learned that we (as openSUSE/SUSE) will not have the SuseStudio kiosk.<br />
-Too bad, but Wednesday, I finally get confirmation from my customer, that the new hardware will not be delivered before Friday 12th. Ah ah good news. I will be able to go to Berlin. So I bought the last airplane ticket for Friday afternoon, and also the last bed at good price.
-</p>
-<p> I will be a Berliner for a few days! And fill the blanks to maintain our booth up and welcoming</p>
-<h3>Somethings has to be done? sometimes has been done!</h3>
-<p><span id="more-7762"></span></p>
-<ul>
-<li>Setup the booth each morning with goodies
-<li>Burning 120 usb SUSE key half Gnome3, half kde 4.6.5 reloaded 4 by 4 <a href="http://ajaeger.smugmug.com/Events/ds2011/18395330_DPDjcH#1430361760_65cMPVD">[picture]</a> + 1 nokia N97 mini with Gnome3 <a href="https://plus.google.com/109140068131989370067/posts/9vBiDdMbcCr">[story]</a>
-<li>Placing over 20 posters : RWX<sup>3</sup>, 11.4 Linux for open mind
-<li>Distributing almost one hundred DVD to attendees
-<li>Distributing around 100 usb keys
-<li>Distributing the only one green Geeko t-shirt we have
-<li>Help Jos to get the quadri-folio flyer printed
-<li>Shopping with Jos to buy 60 t-shirts for the football match (love the pink one)
-<li>Ensure those get printed in time for the match
-<li>Shopping 28 packs of ice to keep drinks fresh during soccer and volley parties
-<li>Helping some users with their laptop
-<li>Answer lots of questions
-<li>Put the good mood and Have fun button on
-<li>Get a long list of patches for the Cheat Sheet Poster (thx Bernhard) to be reported
-<li>Shoot all of what I can <a href="https://plus.google.com/photos/109140068131989370067/albums/5637501533194522193">my DS Album</a>
-</ul>
-<h3>Collaboration across the border</h3>
-<p>Discussing with Enlightment team <a href="http://www.enlightenment.org/">[website]</a> to convince them to use OBS and really give it a try, inviting them to join us at OSC11, and try to push them to become our fifth choice&#8217;s desktop.
-</p>
-<p>Invite also KolabSystem to join us, and let&#8217;s talk about using OBS, and how to have better interaction between us and them<br />
-I address here an official thanks to Georg C.F. Greve, Izabele and Co. who kindly stay awake during my last night in Berlin.
-</p>
-<p>Help Izabel Valverde to find a good wifi connection, and quiet place to finish her presentation. Yeap inside the University the wifi really sucks.</p>
-<p>Artwork : start to discuss with several people if we can build a real collaboration team about artwork. And try something really new and different for 12.1. Nothing is done yet, but future will tell me if I&#8217;m right or not<br />
- <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_biggrin.gif" alt=":D" class="wp-smiley" /> </p>
-<p>
-Wednesday ask nepomuk maintainer to have a look on some bugs hanging around : patches are waiting in git now <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_biggrin.gif" alt=":D" class="wp-smiley" />
-</p>
-<h3>People</h3>
-<p><img alt="Desktop Summit 2011 - Berlin - Group photo" src="https://lh4.googleusercontent.com/-lZ0gAMZjH_o/Tj6MqSvMKjI/AAAAAAAABPI/T_jjZbHS7uY/s640/11%2B-%2B1" class="alignright" width="320" height="240" /></p>
-<p>open source software is all about humans, and people after all
-<p>I really enjoy to meet in real life for the first time Frédéric Crozat, Ismail Dömnetz, Bin Lin, Riccardo Iaconelli, Georg C.F. Greve, Camila, Lamarque V, +100<br />
-See a lot of already known friends like Andreas Jaeger, Andrea Florio, Sacha Pellicke, Bernhard Wiederman, Will Stephenson, Jos, Izabele, Javier Lorente, Vincent Untz, Claudia Rauch, Aaron J. Seigo, my beloved greek team, Thomas Thym  +200 others
-</p>
-<p>Was really impressive, and I need to fix my memory who love to mix names and faces</p>
-<h3>Missed</h3>
-<p>Pretty much all talks <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_biggrin.gif" alt=":D" class="wp-smiley" /><br />
-I&#8217;m waiting the recorded sessions now.<br />
-Time to talk with all friends around.<br />
-The group photo, we were blocked at a slow pizzeria with Javier Lorente at that time. and they didn&#8217;t wait us!<br />
-A lot of People
-</p>
-<h3>Links</h3>
-<p><a href="http://ajaeger.smugmug.com/Events/ds2011/18395330_DPDjcH">Andreas Jaeger Album</a><br />
-<a href="https://plus.google.com/photos/116381667574498856310/albums/5637225108859383905">Efstathios Iosifidis&#8217;s album</a><br />
-<a href="https://plus.google.com/photos/109140068131989370067/albums/5637501533194522193">Bruno Friedmann&#8217;s Album</a></p>
-<p>A big big thanks to the organization team!</p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2011/08/15/desktop-summit-berlin-2011-report/feed/</wfw:commentRss>
-		<slash:comments>0</slash:comments>
-		</item>
-		<item>
-		<title>Wallpaper Community Pack #1</title>
-		<link>http://lizards.opensuse.org/2011/01/13/wallpaper-community-pack-1/</link>
-		<comments>http://lizards.opensuse.org/2011/01/13/wallpaper-community-pack-1/#comments</comments>
-		<pubDate>Thu, 13 Jan 2011 14:12:31 +0000</pubDate>
-		<dc:creator><![CDATA[Nelson Marques]]></dc:creator>
-				<category><![CDATA[Desktop]]></category>
-		<category><![CDATA[Distribution]]></category>
-		<category><![CDATA[GNOME]]></category>
-		<category><![CDATA[KDE]]></category>
-		<category><![CDATA[XFCE]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=6349</guid>
-		<description><![CDATA[I&#8217;ve received some emails and some positive feedback about one wallpaper I used for a couple of screenshot&#8217;s I&#8217;ve used in the past, including also information requests about where that very same wallpaper could be found. I&#8217;m happy people liked my choice. The wallpaper is question is the following, which can be found at gnome-look [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>I&#8217;ve received some emails and some positive feedback about one wallpaper I used for a couple of screenshot&#8217;s I&#8217;ve used in the past, including also information requests about where that very same wallpaper could be found. I&#8217;m happy people liked my choice.</p>
-<p>The wallpaper is question is the following, which can be found at <a href="http://gnome-look.org" target="_blank">gnome-look [dot] org</a>:</p>
-<div id="attachment_6350" style="width: 560px" class="wp-caption aligncenter"><a href="http://gnome-look.org/content/show.php/Green+Snake+HD?content=70282"><img class="size-full wp-image-6350" src="http://lizards.opensuse.org/wp-content/uploads/2011/01/snake.png" alt="" width="550" height="344" /></a><p class="wp-caption-text">Green Snake HD - by Kmurat @ gnome-art.org</p></div>
-<p>It is clear to me at this stage that Artwork has good demand and it&#8217;s a &#8216;value +&#8217; recognized by many users. Understanding this, I&#8217;ve decided two things:</p>
-<p>* GNOME:Ayatana will have a small Artwork Package by the Community, I&#8217;m currently contacting Kmurat to check if he can change the licence on this artwork piece (with over 20.000 downloads on gnome-art) so I can use it for distribution. Currently it&#8217;s licensed as CC BY-NC-ND, in which the NC can be probably a problem. Let&#8217;s wait a couple of days and see&#8230; Either way for those who asked for the source of this wallpaper, click on the image above.</p>
-<p>* I will create a small package with wallpapers from the community and make it available (for GNOME, KDE, etc) users.</p>
-<p>My intentions are to include a set of wallpapers (4/3, 16/9 and 16/10) of around 5/7 wallpapers from several artists and community contributors. The first person I&#8217;ve contacted regarding this was Javier Llorente, a openSUSE Artwork Team and KDE contributor, which donated and pointed some artwork. I&#8217;ve also sent a small email to <a href="http://tatica.org" target="_blank">María &#8216;Tatica&#8217; Leandro</a>, a contributor of Fedora Design Team from South America asking if she had something that she could share with us for this community package (I did loved some of her submissions into Fedora Art). Additionally, I&#8217;m also going to nag <a href="http://karl-tux-stadt.de" target="_blank">Sirko Kemter</a> (gnokii) for a contribution&#8230;</p>
-<p>Once this is assembled (already have 5 wallpapers) I&#8217;m going to package it, run a sanity check and prepare it for distribution&#8230;</p>
-<p><strong>UPDATE: </strong>María &#8216;Tatica&#8217; Leandro has answered positive to my email requesting for a donation, Sirko Kemter also answered positive.</p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2011/01/13/wallpaper-community-pack-1/feed/</wfw:commentRss>
-		<slash:comments>1</slash:comments>
-		</item>
-		<item>
-		<title>New software in build service</title>
-		<link>http://lizards.opensuse.org/2008/11/18/new-software-in-build-service/</link>
-		<comments>http://lizards.opensuse.org/2008/11/18/new-software-in-build-service/#comments</comments>
-		<pubDate>Tue, 18 Nov 2008 18:33:33 +0000</pubDate>
-		<dc:creator><![CDATA[Josef Reidinger]]></dc:creator>
-				<category><![CDATA[Build Service]]></category>
-		<category><![CDATA[GNOME]]></category>
-		<category><![CDATA[Packaging]]></category>
-		<category><![CDATA[XFCE]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=280</guid>
-		<description><![CDATA[I try testing xfce4 desktop and find some bugs. But I also find that some really interesting missing in opensuse build service, so I add two new applications to build service (gnome community repository&#8230;but now gaupol is available only in my personal repository, because in gnome pygtk wait for python 1.6) &#8211; osmo and gaupol. [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>I try testing xfce4 desktop and find some bugs. But I also find that some really interesting missing in opensuse build service, so I add two new applications to build service (<a href="http://download.opensuse.org/repositories/GNOME:/Community/openSUSE_Factory/">gnome community repository</a>&#8230;but now gaupol is available only in my <a href="http://download.opensuse.org/repositories/home:/jreidinger:/gaupol/openSUSE_Factory/">personal repository</a>, because in gnome pygtk wait for python 1.6) &#8211; <a href="http://clay.ll.pl/osmo/">osmo</a> and <a href="http://home.gna.org/gaupol/">gaupol</a>.<br />
- <span id="more-280"></span><br />
-I start with gaupol which I often use to correct subtitle timing. Yes it is subtitle editor, which support translating, previewing or converting between subtitle format. more info you can get on project website &#8211; <a href="http://home.gna.org/gaupol/">http://home.gna.org/gaupol/</a>. This package depends on python bindings of enchant library, so I also package that wrapper. And here is screenshot how it run on opensuse beta4 with xfce desktop:<br />
-<a href="http://lizards.opensuse.org/wp-content/uploads/2008/11/gaupol.png"><img class="alignnone size-medium wp-image-281" src="http://lizards.opensuse.org/wp-content/uploads/2008/11/gaupol-300x240.png" alt="gaupol screenshot" width="300" height="240" /></a><br />
-Second is osmo. This is personal organizer for your appointments or tasks. It is nice described in <a href="http://www.linux.com/feature/123837"> article on linux.com </a>. I only add to it that it is good integrated to xfce enviroment (see right up corner on screenshot) and I personally prefer it against orage which is xfce project. It depends only on library for synchronizing syncml and library for support icalendar Libical. And screenshot for osmo:<br />
-<a href="http://lizards.opensuse.org/wp-content/uploads/2008/11/osmo.png"><img class="alignnone size-medium wp-image-282" src="http://lizards.opensuse.org/wp-content/uploads/2008/11/osmo-300x240.png" alt="osmo" width="300" height="240" /></a></p>
-<p>This is my first work with build service and It take me two hour to package this applications. So don&#8217;t wait and also prepare your own package for software which you miss in opensuse. But at first try <a href="http://software.opensuse.org/search"> search </a>, if someone before you doesn&#8217;t make it and share his(her) work with you.</p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2008/11/18/new-software-in-build-service/feed/</wfw:commentRss>
-		<slash:comments>2</slash:comments>
-		</item>
-		<item>
-		<title>Follow The Netbook Road</title>
-		<link>http://lizards.opensuse.org/2008/11/06/follow-the-netbook-road/</link>
-		<comments>http://lizards.opensuse.org/2008/11/06/follow-the-netbook-road/#comments</comments>
-		<pubDate>Thu, 06 Nov 2008 18:27:58 +0000</pubDate>
-		<dc:creator><![CDATA[Andrew Wafaa]]></dc:creator>
-				<category><![CDATA[Distribution]]></category>
-		<category><![CDATA[GNOME]]></category>
-		<category><![CDATA[KDE]]></category>
-		<category><![CDATA[XFCE]]></category>
-		<category><![CDATA[install]]></category>
-		<category><![CDATA[netbook]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=274</guid>
-		<description><![CDATA[As many people will have noticed from my ramblings on twitter and identi.ca and also from my sporadic almost dumb sounding questions on IRC (thanks very much for your patience in IRC btw), I have been working on getting a usable installation of openSUSE on the eeePC 701 &#8211; both GNOME and KDE4. As I [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>As many people will have noticed from my ramblings on <a href="http://twitter.com/awafaa" title="My tweets">twitter</a> and <a href="http://identi.ca/awafaa" title="My dents">identi.ca</a> and also from my sporadic almost dumb sounding questions on IRC (thanks very much for your patience in IRC btw), I have been working on getting a usable installation of openSUSE on the eeePC 701 &#8211; both GNOME and KDE4.  As I have a 4GB SSD model my aim is to have a feature full install taking up no more than 2.6GB.  Yes I know this doesn&#8217;t help those with the 2GB model, but I&#8217;m scratching my own itch here ;).  Ultimately I would like to be able to create USB and CD images of the builds in time for 11.1&#8242;s release which is in about 43 days time, problem is KIWI does not like me <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_sad.gif" alt=":(" class="wp-smiley" />  but I will persevere and see what I can conjure up in time.  I am a happy user of openSUSE 11.0 with XFCE on my eeePC at the moment, but I fancy a bit of a challenge and a good dose of stress and anger trying to get it to work will be a welcome distraction from the stress and chaos I have to deal with at work <img src="http://lizards.opensuse.org/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" /> </p>
-<p>So what packages am I looking at putting on there? Below are a couple of tables of applications and what I have selected for each DE including ASUS eeePC related drivers (ACPI/Events) and also bluetooth; I have tried to stick to those that come with the DE e.g. all KDE apps are KDE4 variants, and if a DE provides an app for a function I try to use that.&#160; So the first iteration of the table is:</p>
-<table width="200" cellspacing="1" cellpadding="1" border="1">
-<tbody>
-<tr>
-<td>&#160;</td>
-<td><b>KDE</b></td>
-<td><b>GNOME</b></td>
-<td><b>XFCE</b></td>
-</tr>
-<tr>
-<td><i>Terminal</i></td>
-<td>Konsole</td>
-<td>GNOME-Terminal</td>
-<td>Terminal</td>
-</tr>
-<tr>
-<td><i>Text Editor</i></td>
-<td>Kwrite</td>
-<td>Gedit</td>
-<td>Mousepad</td>
-</tr>
-<tr>
-<td><i>Web Browser</i></td>
-<td>Konqueror</td>
-<td>Epiphany</td>
-<td>Epiphany</td>
-</tr>
-<tr>
-<td><i>File Manager</i></td>
-<td>Dolphin</td>
-<td>Nautilus</td>
-<td>Thunar</td>
-</tr>
-<tr>
-<td><i>Music Player</i></td>
-<td>Amarok2</td>
-<td>Banshee</td>
-<td>xfmedia</td>
-</tr>
-<tr>
-<td><i>Video Player</i></td>
-<td>Dragon Player</td>
-<td>Totem</td>
-<td>xfmedia</td>
-</tr>
-<tr>
-<td><i>PDF Viewer</i></td>
-<td>Okular</td>
-<td>Evince</td>
-<td>Evince</td>
-</tr>
-<tr>
-<td><i>IM client</i></td>
-<td>Kopete</td>
-<td>Pidgin</td>
-<td>Pidgin</td>
-</tr>
-<tr>
-<td><i>IRC client</i></td>
-<td>irssi</td>
-<td>Pidgin</td>
-<td>Pidgin</td>
-</tr>
-<tr>
-<td><i>Office Suite</i></td>
-<td>OOo</td>
-<td>OOo</td>
-<td>OOo</td>
-</tr>
-<tr>
-<td><i>E-mail</i></td>
-<td>Kmail</td>
-<td>Evolution</td>
-<td>Claws-Mail</td>
-</tr>
-<tr>
-<td><i>RSS</i></td>
-<td>Akregator</td>
-<td>Liferea</td>
-<td>Liferea</td>
-</tr>
-<tr>
-<td><i>Calendar</i></td>
-<td>Korganiser</td>
-<td>Evolution</td>
-<td>Orage</td>
-</tr>
-<tr>
-<td><i>Addressbook</i></td>
-<td>Kaddressbook</td>
-<td>Evolution</td>
-<td>Claws-Mail</td>
-</tr>
-<tr>
-<td><i>Flashplayer</i></td>
-<td>Yes</td>
-<td>Yes</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td><i>Java</i></td>
-<td>Java-1.6</td>
-<td>Java-1.6</td>
-<td>Java-1.6</td>
-</tr>
-<tr>
-<td><i>Codecs</i></td>
-<td>Xine</td>
-<td>Gstreamer</td>
-<td>Xine</td>
-</tr>
-<tr>
-<td><i>Photo Viewer</i></td>
-<td>Gwenview</td>
-<td>F-spot</td>
-<td>Ristretto</td>
-</tr>
-<tr>
-<td><i>FTP Client</i></td>
-<td>Dolphin</td>
-<td>Nautilus</td>
-<td>Gftp</td>
-</tr>
-<tr>
-<td><i>Networking</i></td>
-<td>NetworkManager</td>
-<td>NetworkManager</td>
-<td>NetworkManager</td>
-</tr>
-<tr>
-<td><i><b>Total Space Taken Up</b></i></td>
-<td><b>2.6GB / 2676552k</b></td>
-<td><b>2.7GB / 2752336k</b></td>
-<td><b>2.6GB / 2718412k</b></td>
-</tr>
-</tbody>
-</table>
-<p>&#160;</p>
-<p>As you can see KDE4 takes up the least amount of space followed by XFCE with GNOME dropping into third place.&#160; This surprised me as I actually expected XFCE to be way ahead in the lead.&#160; I then tried to minimise the number of applications and tried to use apps that could multi task, still prefering those that are included as part of the openSUSE distro:</p>
-<table width="200" cellspacing="1" cellpadding="1" border="1">
-<tbody>
-<tr>
-<td>&#160;</td>
-<td><b>KDE</b></td>
-<td><b>GNOME</b></td>
-<td><b>XFCE</b></td>
-</tr>
-<tr>
-<td><i>Terminal</i></td>
-<td>Konsole</td>
-<td>GNOME-Terminal</td>
-<td>Terminal</td>
-</tr>
-<tr>
-<td><i>Text Editor</i></td>
-<td>Kwrite</td>
-<td>Gedit</td>
-<td>Mousepad</td>
-</tr>
-<tr>
-<td><i>Web Browser</i></td>
-<td>Konqueror</td>
-<td>Epiphany</td>
-<td>Epiphany</td>
-</tr>
-<tr>
-<td><i>File Manager</i></td>
-<td>Dolphin</td>
-<td>Nautilus</td>
-<td>Thunar</td>
-</tr>
-<tr>
-<td><i>Music Player</i></td>
-<td>MPlayer</td>
-<td>Totem</td>
-<td>xfmedia</td>
-</tr>
-<tr>
-<td><i>Video Player</i></td>
-<td>MPlayer</td>
-<td>Totem</td>
-<td>xfmedia</td>
-</tr>
-<tr>
-<td><i>PDF Viewer</i></td>
-<td>Okular</td>
-<td>Evince</td>
-<td>Evince</td>
-</tr>
-<tr>
-<td><i>IM client</i></td>
-<td>Kopete</td>
-<td>Pidgin</td>
-<td>Pidgin</td>
-</tr>
-<tr>
-<td><i>IRC client</i></td>
-<td>irssi</td>
-<td>Pidgin</td>
-<td>Pidgin</td>
-</tr>
-<tr>
-<td><i>Office Suite</i></td>
-<td>OOo</td>
-<td>OOo</td>
-<td>OOo</td>
-</tr>
-<tr>
-<td><i>E-mail</i></td>
-<td>Kmail</td>
-<td>Claws-Mail</td>
-<td>Claws-Mail</td>
-</tr>
-<tr>
-<td><i>RSS</i></td>
-<td>Akregator</td>
-<td>Claws-Mail</td>
-<td>Claws-Mail</td>
-</tr>
-<tr>
-<td><i>Calendar</i></td>
-<td>Korganiser</td>
-<td>Claws-Mail</td>
-<td>Orage</td>
-</tr>
-<tr>
-<td><i>Addressbook</i></td>
-<td>Kaddressbook</td>
-<td>Claws-Mail</td>
-<td>Claws-Mail</td>
-</tr>
-<tr>
-<td><i>Flashplayer</i></td>
-<td>Yes</td>
-<td>Yes</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td><i>Java</i></td>
-<td>Java-1.6</td>
-<td>Java-1.6</td>
-<td>Java-1.6</td>
-</tr>
-<tr>
-<td><i>Codec Framework<br />
-            </i></td>
-<td>ffmpeg</td>
-<td>Gstreamer</td>
-<td>Xine</td>
-</tr>
-<tr>
-<td><i>Photo Viewer</i></td>
-<td>Gwenview</td>
-<td>Eye Of GNOME</td>
-<td>Ristretto</td>
-</tr>
-<tr>
-<td><i>FTP Client</i></td>
-<td>Dolphin</td>
-<td>Nautilus</td>
-<td>Gftp</td>
-</tr>
-<tr>
-<td><i>Networking</i></td>
-<td>NetworkManager</td>
-<td>NetworkManager</td>
-<td>NetworkManager</td>
-</tr>
-<tr>
-<td><i><b>Total Space Taken Up</b></i></td>
-<td><b>2.6GB / 2662540k<br />
-            </b></td>
-<td><b>2.6GB / 2682516k<br />
-            </b></td>
-<td><b>2.6GB / 2716364k<br />
-            </b></td>
-</tr>
-</tbody>
-</table>
-<p>As you can see KDE is still the leader, but GNOME has managed to close the gap significantly.</p>
-<p>You will notice that there are some notable applications missing from both tables, both from the Mozilla family &#8211; FireFox and Thunderbird.&#160; I chose not to use FireFox as the browser as I have been experiencing some icky lockups with it, and this is irrespective of platform.&#160; I decided against Thunderbird because it just did not like to display correctly on the 7&#8243; screen, even the version supplied by Xandros refused to display nicely.&#160; As KDE4 doesn&#8217;t have a native IRC client yet I have chosen irssi, i will update the list when a native KDE4 client is available &#8211; most likely <a href="http://quassel-irc.org/">Quassel</a>.&#160; Also as it stands Kaffeine is not available for KDE4 yet, when that happens I would imagine I would replace MPlayer with it.</p>
-<p>Both the GNOME and KDE4 builds were based on a minimal X install &#8211; for GNOME add gnome-panel and gnome-session; for for KDE add kdebase4-session, kdebase4-workspace and kde4-win; XFCE was based on the supplied pattern.&#160; One thing I did notice is that 11.1 (Beta4) seems to have put on a bit of weight in comparison to 11.0, a base install appears to be ~400MB more O_o.&#160; I am going to to do a verification shortly and file a bug so hopefully I can thin them out even further.</p>
-<p>If people have any recommendations or suggestions as to what applications to use, then please let me know.&#160; My next step is to create both ISO and USB images, any and all help would be much appreciated &#8211; <a href="http://www.susestudio.com/">SUSEStudio</a> access would be even better ;)&#160; This list is not meant to be the be all and end all, but more a matter of itch scratching.&#160; Yes I know I could reduce the space taken up if I didnt bother with any of that non-free codec crud, and drop flash from the equation, but I&#8217;m pragmatic and ultimately want to see people use openSUSE.&#160; Get them using our distro first, once thatis established then we can educate them on the ugly side of things.&#160; Once I manage to create the images with the above package list i will look at creating a completely free version with no colsed codecs/apps.</p>
-<p>Once again I&#8217;d like to thank all those on IRC for there help and advice &#8211; <a href="http://jprosevear.org/blog">JP Rosevear</a>, <a href="http://www.snorp.net/log">James Wilcox</a>, <a href="http://www.kdedevelopers.org/blog/457">Stephan Binner</a>, <a href="http://www.kdedevelopers.org/blog/77">Will Stephenson</a>, <a href="http://mschlander.wordpress.com/">Martin Schandler</a> and <a href="http://www.figuiere.net/hub/blog/" title="Diary of a CrazyFrench">Hubert Figuiere</a>.</p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2008/11/06/follow-the-netbook-road/feed/</wfw:commentRss>
-		<slash:comments>3</slash:comments>
-		</item>
-		<item>
-		<title>Xfce Project Status Report 06/2008</title>
-		<link>http://lizards.opensuse.org/2008/06/10/xfce-project-status-report-062008/</link>
-		<comments>http://lizards.opensuse.org/2008/06/10/xfce-project-status-report-062008/#comments</comments>
-		<pubDate>Tue, 10 Jun 2008 19:27:50 +0000</pubDate>
-		<dc:creator><![CDATA[Marcus Moeller]]></dc:creator>
-				<category><![CDATA[XFCE]]></category>
-
-		<guid isPermaLink="false">http://lizards.opensuse.org/?p=57</guid>
-		<description><![CDATA[As some of you might already have noticed, we are working on a better integration of Xfce in openSUSE. The aim of the Xfce Project is to establish Xfce as well-accepted desktop environment besides GNOME and KDE. We have already started building Xfce LiveCDs with KIWI but still fail in getting yast-live to work. Besides [&#8230;]]]></description>
-				<content:encoded><![CDATA[<p>As some of you might already have noticed, we are working on a better integration of Xfce in openSUSE. The aim of the <a href="http://en.opensuse.org/Xfce_Project" target="_blank">Xfce Project</a> is to establish Xfce as well-accepted desktop environment besides GNOME and KDE. We have already started building Xfce LiveCDs with KIWI but still fail in getting yast-live to work.</p>
-<p>Besides that we had some success in the re-design process, so this is how the upcoming Xfce in openSUSE might look like:</p>
-<p><a href="http://lizards.opensuse.org/wp-content/uploads/2008/06/xfce41.png"><img class="alignnone size-medium wp-image-58" src="http://lizards.opensuse.org/wp-content/uploads/2008/06/xfce41-300x187.png" alt="" width="300" height="187" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="http://lizards.opensuse.org/wp-content/uploads/2008/06/xfce4_21.png"><img class="alignnone size-medium wp-image-61" src="http://lizards.opensuse.org/wp-content/uploads/2008/06/xfce4_21-300x187.png" alt="" width="300" height="187" /></a></p>
-<p>Miguel Cruz has provided his great CrashBit theme and designed a few new icons to improve Xfce support.</p>
-<p>I have also finished a SLiM Display Manager theme and work on some packages for that. There is still a lot of work to be done and things to coordinate. We are going to set up a oS Xfce Mailing List soon, that all interested people should join. In the near future I am continuing to blog about the current development process, so stay tuned.</p>
-<p>Update: The Mailinglist is now availabl.: To subscribe send an eMail to: <a href="mailto:opensuse-xfce%2Bsubscribe@opensuse.org">opensuse-xfce+subscribe@opensuse.org</a></p>
-<p>I have also added an upgraded screenshot showing how it would look like using the Gilouche Window decoration.</p>
-<p>Marcus</p>
-]]></content:encoded>
-			<wfw:commentRss>http://lizards.opensuse.org/2008/06/10/xfce-project-status-report-062008/feed/</wfw:commentRss>
-		<slash:comments>10</slash:comments>
 		</item>
 	</channel>
 </rss>

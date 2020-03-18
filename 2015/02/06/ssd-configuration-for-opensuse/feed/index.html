@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	
+	>
+<channel>
+	<title>Comments on: SSD configuration for openSUSE</title>
+	<atom:link href="https://lizards.opensuse.org/2015/02/06/ssd-configuration-for-opensuse/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org/2015/02/06/ssd-configuration-for-opensuse/</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 17:50:09 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>By: Barry Weaver</title>
+		<link>https://lizards.opensuse.org/2015/02/06/ssd-configuration-for-opensuse/#comment-14717</link>
+		<dc:creator><![CDATA[Barry Weaver]]></dc:creator>
+		<pubDate>Sat, 07 Mar 2015 23:25:16 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11246#comment-14717</guid>
+		<description><![CDATA[Efstathios:
+
+Thank you for the great article.  I would like to point out an alternative mechanism to schedule fstrim (#6).  The util-linux package has a systemd timer in it for fstrim [1].  It is relatively new, so it may not be an option in all versions but it is available in openSUSE 13.2.
+
+All that is required for for the timer be enabled and active with systemctl is:
+$ systemctl enable fstrim.timer
+$ systemctl start fstrim.timer
+
+[1] https://github.com/karelzak/util-linux/blob/master/sys-utils/fstrim.timer]]></description>
+		<content:encoded><![CDATA[<p>Efstathios:</p>
+<p>Thank you for the great article.  I would like to point out an alternative mechanism to schedule fstrim (#6).  The util-linux package has a systemd timer in it for fstrim [1].  It is relatively new, so it may not be an option in all versions but it is available in openSUSE 13.2.</p>
+<p>All that is required for for the timer be enabled and active with systemctl is:<br />
+$ systemctl enable fstrim.timer<br />
+$ systemctl start fstrim.timer</p>
+<p>[1] <a href="https://github.com/karelzak/util-linux/blob/master/sys-utils/fstrim.timer" rel="nofollow">https://github.com/karelzak/util-linux/blob/master/sys-utils/fstrim.timer</a></p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Bruno Friedmann</title>
+		<link>https://lizards.opensuse.org/2015/02/06/ssd-configuration-for-opensuse/#comment-14690</link>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+		<pubDate>Thu, 12 Feb 2015 13:55:50 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11246#comment-14690</guid>
+		<description><![CDATA[First keeping a small swap partition is still recommended for performance usage.
+relatime is still a good choice as explained in previous comment
+Removing swap partition kill automatically the hibernation possibility.
+Your log in tmpfs good be and idea, but if there&#039;s a problem it will be hard to diagnose whatever.
+
+And you forget to add the most advisable idea : check and apply any mfg recommended firmware!
+Mfg have fixed numerous crash or prematurely dying ssd during the last few years.
+
+Before buying an ssd, try to discover (often hidden informations) the limit of write the model propose. You could be surpized :-) Some are good, other really bad. The last Samsung 850 1To for example wouldn&#039;t survive 1.5 year at the pace I use my laptop... Crucial M550 or older Corsair GT3 doesn&#039;t seems to suffer....
+
+My last advise is also the following, if you use encryption luks over your ssd, by default there&#039;s no trim/discard available by default on openSUSE. Be it a good idea for security, cause empty blocks will never get aligned, I&#039;m still not sure it is a good or wise default for ssd.
+
+In my case, every 1.5 years I totally secure erase the ssd, and restore my system on them afterwards.]]></description>
+		<content:encoded><![CDATA[<p>First keeping a small swap partition is still recommended for performance usage.<br />
+relatime is still a good choice as explained in previous comment<br />
+Removing swap partition kill automatically the hibernation possibility.<br />
+Your log in tmpfs good be and idea, but if there&#8217;s a problem it will be hard to diagnose whatever.</p>
+<p>And you forget to add the most advisable idea : check and apply any mfg recommended firmware!<br />
+Mfg have fixed numerous crash or prematurely dying ssd during the last few years.</p>
+<p>Before buying an ssd, try to discover (often hidden informations) the limit of write the model propose. You could be surpized 🙂 Some are good, other really bad. The last Samsung 850 1To for example wouldn&#8217;t survive 1.5 year at the pace I use my laptop&#8230; Crucial M550 or older Corsair GT3 doesn&#8217;t seems to suffer&#8230;.</p>
+<p>My last advise is also the following, if you use encryption luks over your ssd, by default there&#8217;s no trim/discard available by default on openSUSE. Be it a good idea for security, cause empty blocks will never get aligned, I&#8217;m still not sure it is a good or wise default for ssd.</p>
+<p>In my case, every 1.5 years I totally secure erase the ssd, and restore my system on them afterwards.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Frank</title>
+		<link>https://lizards.opensuse.org/2015/02/06/ssd-configuration-for-opensuse/#comment-14688</link>
+		<dc:creator><![CDATA[Frank]]></dc:creator>
+		<pubDate>Mon, 09 Feb 2015 17:10:09 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11246#comment-14688</guid>
+		<description><![CDATA[Hello: 
+
+I think that some applications need to take into account the changes that occur in their files.
+
+If it gets &#039;noatime&#039; changes in the inode is not going to produce, but if we put realtime, change only if the file is changed, if it is not, It would behave like noatime ; i think that for applications that need to be on the basis of the dates and the access time of files, i think that realtime is a better option.
+
+Even i do not know many of the improvements that can bring btrfs in configurations of SSD drives; but I think that these are some, To be able to rid some of the changes that are made in EXT4; by now not know them, but my fstab configuration for an SSD in BTRFS, that used for tests with VirtualBox is this:
+
+UUID d8c57867-8bad-41DB-85CF-219b41Eddd22 /home/frank/VBox_ssd btrfs discard realtime ssd 0 0
+
+Thank you for your article .
+
+I look forward to reading more about this topic.
+
+Greetings
+
+PD. Sorry if my English is not correct.]]></description>
+		<content:encoded><![CDATA[<p>Hello: </p>
+<p>I think that some applications need to take into account the changes that occur in their files.</p>
+<p>If it gets &#8216;noatime&#8217; changes in the inode is not going to produce, but if we put realtime, change only if the file is changed, if it is not, It would behave like noatime ; i think that for applications that need to be on the basis of the dates and the access time of files, i think that realtime is a better option.</p>
+<p>Even i do not know many of the improvements that can bring btrfs in configurations of SSD drives; but I think that these are some, To be able to rid some of the changes that are made in EXT4; by now not know them, but my fstab configuration for an SSD in BTRFS, that used for tests with VirtualBox is this:</p>
+<p>UUID d8c57867-8bad-41DB-85CF-219b41Eddd22 /home/frank/VBox_ssd btrfs discard realtime ssd 0 0</p>
+<p>Thank you for your article .</p>
+<p>I look forward to reading more about this topic.</p>
+<p>Greetings</p>
+<p>PD. Sorry if my English is not correct.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: ali</title>
+		<link>https://lizards.opensuse.org/2015/02/06/ssd-configuration-for-opensuse/#comment-14687</link>
+		<dc:creator><![CDATA[ali]]></dc:creator>
+		<pubDate>Mon, 09 Feb 2015 14:08:11 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11246#comment-14687</guid>
+		<description><![CDATA[and after all to care of ssd you can move it from your system
+or remove your os 
+or turn down your ssytem forever
+and be sure your ssd never be die ;)
+disable hibernate not good...
+disable  cahce not good...
+only make cache lower and slower...
+vm.swappiness=1 is good for example]]></description>
+		<content:encoded><![CDATA[<p>and after all to care of ssd you can move it from your system<br />
+or remove your os<br />
+or turn down your ssytem forever<br />
+and be sure your ssd never be die 😉<br />
+disable hibernate not good&#8230;<br />
+disable  cahce not good&#8230;<br />
+only make cache lower and slower&#8230;<br />
+vm.swappiness=1 is good for example</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

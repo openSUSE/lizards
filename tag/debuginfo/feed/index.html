@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Debuginfo &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/debuginfo/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>What&#8217;s New in 11.2: Install Debuginfo Package by build-id</title>
+		<link>https://lizards.opensuse.org/2009/04/27/whats-new-in-112-install-debuginfo-package-by-build-id/</link>
+		<pubDate>Mon, 27 Apr 2009 09:37:50 +0000</pubDate>
+		<dc:creator><![CDATA[Jan Blunck]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Toolchain]]></category>
+		<category><![CDATA[debugging]]></category>
+		<category><![CDATA[Debuginfo]]></category>
+		<category><![CDATA[zypper]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=816</guid>
+		<description><![CDATA[With the help of a unique identifier that is stored in every binary executable matching the executable, a coredump and the corresponding debuginfo together becomes really easy. You don&#8217;t need to know the package name and the version-release string to download and install the correct debuginfo package. This is achieved by extending the linker, some [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>With the help of a unique identifier that is stored in every binary executable matching the executable, a coredump and the corresponding debuginfo together becomes really easy. You don&#8217;t need to know the package name and the version-release string to download and install the correct debuginfo package. This is achieved by extending the linker, some additional tools and the package management itself.</p>
+<p><span id="more-816"></span></p>
+<p>The build id is a unique identifier stored in the <em>.note.gnu.build-id</em> note section of the executable file and loaded into the process image during run-time. Different means to compute the unique identifier are supported although the default setting is to use a 20 byte SHA1 hash of the unstripped executable (see ld linker documentation for further information about the <em>&#8211;build-id</em> option).</p>
+<p>To be able to read the build id from a core dump the kernel must include the ELF header pages in file-backed private memory areas (see documentation on <em>/proc/&lt;pid&gt;/coredump_filter</em>). This is the default setting on recent openSUSE kernel versions.</p>
+<p>Different tools can be used to print out the build-id. <em>eu-readelf</em> (from the elfutils package) prints the contents of the note sections given the <em>-n</em> option in a human readable fashion. <em>pbuildid</em> (from the ptools package) is prints the build-id from executables and from core files including the build-id of all loaded shared objects during the crash.</p>
+<p>Now, zypper can be asked to install the debuginfo package that provides the debuginfo for the given build-id.</p>
+<pre>
+# zypper install -C "debuginfo(build-id)=b75bab63c9a25eb13264bb95f1fef190e157f865"
+Loading repository data...
+Reading installed packages...
+Resolving package dependencies...
+
+The following NEW package is going to be installed:
+  bash-debuginfo
+
+
+Overall download size: 605.0 K. After the operation, additional 2.1 M will be used.
+Continue? [YES/no]: yes
+Retrieving package bash-debuginfo-3.2-148.2.x86_64 (1/1), 605.0 K (2.1 M unpacked)
+Retrieving: bash-debuginfo-3.2-148.2.x86_64.rpm [done]
+Installing: bash-debuginfo-3.2-148.2 [done]
+# 
+</pre>
+<p>If you are really lazy you can call the following script to do the job for you:</p>
+<pre>
+#!/bin/bash                                                                     
+#                                                                               
+# Sample script how to install debuginfo packages by build-id                   
+#                                                                               
+
+IDS=''
+for f in "$*"; do
+    case "$(file -L $f)" in
+        *ELF*)
+            IDS+="$(pbuildid $f 2&gt;/dev/null | awk '{print $NF}') "
+            ;;
+        *)  
+            ;;
+    esac
+done
+
+echo "Install Debuginfo for following build-ids: $IDS"
+
+CMDLINE=""
+for i in $IDS; do
+    CMDLINE+="debuginfo(build-id)=$i "
+done
+
+echo $CMDLINE | xargs zypper install -C
+</pre>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

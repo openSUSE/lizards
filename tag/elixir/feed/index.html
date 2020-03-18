@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>elixir &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/elixir/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Updated python-turbogears to 1.0.7</title>
+		<link>https://lizards.opensuse.org/2008/11/17/updated-python-turbogears-to-107/</link>
+		<pubDate>Mon, 17 Nov 2008 14:58:10 +0000</pubDate>
+		<dc:creator><![CDATA[Ciaran Farrell]]></dc:creator>
+				<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[elixir]]></category>
+		<category><![CDATA[Python]]></category>
+		<category><![CDATA[sqlalchemy]]></category>
+		<category><![CDATA[turbogears]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=278</guid>
+		<description><![CDATA[Last weekend I spent some time on getting python-turbogears to build for Factory. In the process, I came across a spec file error which was causing not only python-turbogears to fail on Factory, but also dozens of other python packages. The problem was the spec file line: %{__python} setup.py install &#8211;prefix=%{_prefix} &#8211;root=$RPM_BUILD_ROOT &#8211;record-rpm=INSTALLED_FILES Once I [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Last weekend I spent some time on getting <a title="python-turbogears" href="https://build.opensuse.org/package/show?package=python-turbogears&amp;project=devel%3Alanguages%3Apython" target="_blank">python-turbogears</a> to build for Factory. In the process, I came across a spec file error which was causing not only python-turbogears to fail on Factory, but also <a title="Dozens of python packages fail in Factory due to filelist problem" href="https://bugzilla.novell.com/show_bug.cgi?id=441794">dozens of other python packages</a>. The problem was the spec file line:</p>
+<blockquote><p>%{__python} setup.py install &#8211;prefix=%{_prefix} &#8211;root=$RPM_BUILD_ROOT &#8211;record-rpm=INSTALLED_FILES</p></blockquote>
+<p>Once I fixed this for python-turbogears and it&#8217;s dependent packages (the solution is to replace &#8211;record with &#8211;record-rpm), I was able to get version 1.0.6 building for Factory. There were a few other issues which needed to be resolved (some deprecated def as() functions in python-peak and python-ruledispatch were causing syntax errors on python 2.6 &#8211; because &#8216;as&#8217; is a reserved keyword), but finally I got it sorted out.</p>
+<p>Once python 1.0.6 was successfully building on Factory, I decided to update the package to the most recent stable version of the 1.0.x package line from <a title="TurboGears Python Web Framework" href="http://www.turbogears.org">http://www.turbogears.org</a> &#8211; 1.0.7. I had to rewrite the infamous cherrypy2 patch for 1.0.7 and also had to update the python-elixir package (the older 0.5 Elixir was incompatible with python-sqlalchemy &gt;= 5) but now it builds properly.<br />
+You can now download and install python-turbogears using:</p>
+<blockquote><p>zypper in python-turbogears</p></blockquote>
+<p>(if you have the devel:languages:python repository, of course).</p>
+<p>Thanks to <a title="Peter Poeml" href="http://lizards.opensuse.org/author/poeml/">Peter Poeml</a> for his help packaging and fixing bugs.</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Contrib &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/category/distribution/contrib/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Only for the brave, Proprietary AMD/ATI Catalyst fglrx 13.10 BETA2 (13.20.11-1) rpm released</title>
+		<link>https://lizards.opensuse.org/2013/10/06/only-for-the-brave-proprietary-amdati-catalyst-fglrx-13-10-beta2-13-20-11-1-rpm-released/</link>
+		<comments>https://lizards.opensuse.org/2013/10/06/only-for-the-brave-proprietary-amdati-catalyst-fglrx-13-10-beta2-13-20-11-1-rpm-released/#comments</comments>
+		<pubDate>Sun, 06 Oct 2013 14:49:43 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Contrib]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.1]]></category>
+		<category><![CDATA[12.2]]></category>
+		<category><![CDATA[12.3]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[Beta]]></category>
+		<category><![CDATA[fglrx]]></category>
+		<category><![CDATA[xorg]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9973</guid>
+		<description><![CDATA[Only for the brave, Proprietary AMD/ATI Catalyst fglrx 13.10 BETA2 (13.20.11-1) rpm released Notice This release concern only owners of radeon HD5xxx or above. And adventurous users who know how to deal with troubles. The majority could easily wait the final release, expected somewhat later even if it take a long time 🙂 This is [&#8230;]]]></description>
+				<content:encoded><![CDATA[<h1>Only for the brave, Proprietary AMD/ATI Catalyst fglrx 13.10 BETA2 (13.20.11-1) rpm released</h1>
+<h2>Notice</h2>
+<p>This release concern only owners of radeon HD5xxx or above. And adventurous users who know how to deal with troubles.<br />
+The majority could easily wait the final release, expected somewhat later even if it take a long time <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" />
+</p>
+<p>This is experimental &amp; BETA software, it could fix issues you encountered, but also can eat your kittens. You&#8217;ve been warned !<br />
+flgrx build for 3.11 series kernel ( Tumbleweed &amp; 13.1 ).<br />
+But this time I&#8217;ve to update the Sebastian script myself, so I consider also the package as beta stage.
+</p>
+<h3>Installing the new repository</h3>
+<p>Admitting you&#8217;ve the normal repository named FGLRX, (use zypper lr -d to find the number or name you give it). You have to start by disabling it<br />
+so you could fallback to it quickly. Open a root console or add sudo at your convenience and issue the following command:</p>
+<pre>zypper mr -dR FGLRX</pre>
+<p>The beta driver is available for 11.4 (evergreen kernel), 12.1, 12.2, 12.3, 13.1, Tumbleweed (12.3 based + kernel 3.11) at <a href="http://geeko.ioda.net/mirror/amd-fgrlx-beta/">amd-fglrx-beta</a></p>
+<p>To add another repository in the same console as root issue the following command which will install normally the right repository for your distribution</p>
+<pre>zypper ar -n FGLRX-BETA -cgf http://geeko.ioda.net/mirror/amd-fglrx-beta/openSUSE_`lsb-release -r | awk '{print $2}'` FGLRX-BETA</pre>
+<p><b>If you are using Tumbleweed</b> use this one</p>
+<pre>zypper ar -n FGLRX-BETA -cgf http://geeko.ioda.net/mirror/amd-fglrx-beta/openSUSE_Tumbleweed FGLRX-BETA</pre>
+<p>Now the update/upgrade process</p>
+<pre>zypper dup -r FGLRX-BETA</pre>
+<p>Let the system upgrade the package, and try to enjoy the new beta</p>
+<p><span id="more-9973"></span></p>
+<h2>Release note about 13.10 BETA2 and new repository</h2>
+<p>
+This BETA Catalyst fglrx version support openSUSE version from 11.4 to 13.1 (new repository) and also Tumbleweed (thus also kernel 3.11x series).<br />
+<br />
+We create a new repository, to avoid any mix between stable and beta. If you want to try it, you will have to disable the amd-fglrx, and install the<br />
+new repository. Also the signer of package have change and use now the generic builder gpg key at Ioda-Net. (gpg key id 65BE584C)
+</p>
+<h3>Release Note</h3>
+<p>A release note is available on <a href="http://support.amd.com/us/kbarticles/Pages/AMDCatalyst13-10LINBetaDriver.aspx">AMD website</a></p>
+<pre>
+Highlights of the AMD Catalyst™ 13.10 Beta Driver for Linux:
+This release of AMD Catalyst™ Linux introduces support for the following new features:
+
+    Not Applicable
+
+Resolved Issues:
+
+    [383176] System hang up when startx after setting up an Eyefinity desktop
+    [384193] Permission issue with procfs on kernel 3.10
+    [373812] System hang observed while running disaster stress test on Ubuntu 12.10
+    [383109] Hang is observed when running Unigine on Linux
+    [383573] AC/DC switching is not automatically detected
+    [383075] Laptop backlight adjustment is broken
+    [383430] Glxtest failures observed in log file with forcing on Anti-Aliasing
+    [383372] Cairo-dock is broken
+    [378333] Severe desktop corruption is observed when enabled compiz in certain cases
+    [384509] glClientWaitSync is waiting even when timeout is 0
+    [382494] C4Engine get corruption with GL_ARB_texture_array enabled
+
+Open Issues:
+
+·   Not Applicable
+</pre>
+<h3>Sebastien Siebert making script</h3>
+<p style="clear:both">This time Sebastian is doing work elsewhere, So I&#8217;ve adapted his beta1 to the new beta2</p>
+<p><a href="http://geeko.ioda.net/amd-fglrx-beta/raw-src/">Raw &amp; source for the script done</a></p>
+</p>
+<p>See below what to do in case of troubles.</p>
+<p>Or you can also ping him on irc (freespacer) or me (tigerfoot)</p>
+<h3>Debugging troubles</h3>
+<p>I recommend in case of trouble the use of <a href="http://geeko.ioda.net/amd-fglrx-beta/raw-src/makerpm-amd-13-10-beta2.sh">this script</a><br />
+which can collect the whole informations needed to help you. then you just have to issue a simple commande in console to collect all informations, you can review them, and finally transmit them.<br />
+Check the website to get the latest.
+</p>
+<pre>su -c 'sh makerpm-amd-13.10-beta2.sh -ur'
+The system report 'amd-report.txt' was generated.                                                                                                          [ OK ]
+Do you want to read the system report 'amd-report.txt' now? yes/no [y/n]: y
+Are you sure to upload the above-named system report to sprunge.us? yes/no [y/n]: y
+
+The report was uploaded to sprunge.us.
+   The link is:  <a href="http://sprunge.us/eMEB">http://sprunge.us/eMEB</a>
+</pre>
+<p>Copy paste the link in the comment zone of Sebastian post</p>
+<p>Thanks to <a href="http://www.ioda-net.ch">Ioda-Net Sàrl</a> which proudly offer bandwidth &amp; openSUSE powered server to serve you rpm.</p>
+</div>
+<p>Good tests, and don&#8217;t forget to give your feedback to AMD</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/10/06/only-for-the-brave-proprietary-amdati-catalyst-fglrx-13-10-beta2-13-20-11-1-rpm-released/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>New Raspberry Pi Image</title>
+		<link>https://lizards.opensuse.org/2013/09/07/new-raspberry-pi-image/</link>
+		<comments>https://lizards.opensuse.org/2013/09/07/new-raspberry-pi-image/#comments</comments>
+		<pubDate>Sat, 07 Sep 2013 12:41:10 +0000</pubDate>
+		<dc:creator><![CDATA[bmwiedemann]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Contrib]]></category>
+		<category><![CDATA[Factory]]></category>
+		<category><![CDATA[Hackweek]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Toolchain]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=9888</guid>
+		<description><![CDATA[update: new image with kernel-3.6 and minimal X11/icewm http://www.zq1.de/~bernhard/linux/opensuse/raspberrypi-opensuse-20130911x.img.xz (103MB) We got a new armv6 based image for the Raspberry Pi. This one is only 82MB compressed, so pretty minimalistic. http://www.zq1.de/~bernhard/linux/opensuse/raspberrypi-opensuse-20130907.img.xz The exciting new thing is that this was created using an alternative image building automatism which I wrote from scratch in three hours this [&#8230;]]]></description>
+				<content:encoded><![CDATA[<blockquote><p><strong>update:</strong> new image with kernel-3.6 and minimal X11/icewm http://www.zq1.de/~bernhard/linux/opensuse/raspberrypi-opensuse-20130911x.img.xz (103MB)</p></blockquote>
+<p>We got a new armv6 based image for the Raspberry Pi.<br />
+This one is only 82MB compressed, so pretty minimalistic.<br />
+http://www.zq1.de/~bernhard/linux/opensuse/raspberrypi-opensuse-20130907.img.xz</p>
+<p>The exciting new thing is that this was created using an alternative image building automatism which I wrote from scratch in three hours this morning.<br />
+The scripts can be found at<br />
+https://build.opensuse.org/package/show/devel:ARM:Factory:Contrib:RaspberryPi/altimagebuild<br />
+and are also embedded within the image under /home/abuild/rpmbuild/SOURCES/</p>
+<p>This means that everyone can now easily build his own images the way he likes and even branch and do submit requests for changes that are useful for others.<br />
+The way to use this is simple.<br />
+If you have 6GB RAM, you can speed things up with export OSC_BUILD_ROOT=/dev/shm/arm before you do<br />
+<code>osc co devel:ARM:Factory:Contrib:RaspberryPi altimagebuild<br />
+cd devel:ARM:Factory:Contrib:RaspberryPi/altimagebuild<br />
+bash -x main.sh<br />
+</code></p>
+<p>This pseudo-package does not easily build within OBS or osc alone because it needs root permissions for some of the steps (chroot, mknod, mount), which could only be workarounded with User-Mode-Linux or patching osc.<br />
+The build consists of three steps that can be seen in main.sh:</p>
+<ol>
+<li>First, osc build is used to pull in required packages and setup the armv6 rootfs.</li>
+<li>Second, mkrootfs.sh modifies a copy of the rootfs under .root to contain all required configs</li>
+<li>And finally, mkimage.sh takes the .root dir and creates a .img from it that can be booted</li>
+</ol>
+<p>This can build an image from scatch in three minutes. And my Raspberry Pi booted successfully with it within 55 seconds.</p>
+<p>There are some remaining open issues:</p>
+<ul>
+<li>the repo key is initially untrusted</li>
+<li><del datetime="2013-09-11T09:01:03+00:00">still uses old 3.1 kernel</del> &#8211; solved</li>
+<li>build scripts have no error handling</li>
+</ul>
+<p>Compared to the old image, this one has some advantages:</p>
+<ul>
+<li>It is easier to resize because the root partition is the last one</li>
+<li>Compressed image is much smaller</li>
+<li>Reproducible image build, so easy to customize</li>
+<li>It is armv6 with floating point support, so could be faster</li>
+<li>We have over 5200 successfully built packages from <a href="http://download.opensuse.org/ports/armv6hl/factory/repo/oss/">openSUSE:Factory:ARM</a><br />
+so for example you can install a minimalistic graphical environment with <code>zypper install xauth twm xorg-x11-server xinit</code> and start it with <code>startx</code>
+</li>
+</ul>
+<p>So if you wanted to play with openSUSE on RPi, you can do so right now and have a lot of fun.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2013/09/07/new-raspberry-pi-image/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>Repository GNOME:Contrib is dead</title>
+		<link>https://lizards.opensuse.org/2012/06/29/repository-gnomecontrib-is-dead/</link>
+		<pubDate>Fri, 29 Jun 2012 04:22:57 +0000</pubDate>
+		<dc:creator><![CDATA[badshah400]]></dc:creator>
+				<category><![CDATA[Contrib]]></category>
+		<category><![CDATA[GNOME]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8768</guid>
+		<description><![CDATA[An announcement for GNOME users in openSUSE: the repository GNOME:Contrib is now dead. This used to be the development branch of GNOME packages living in Contrib. Packages previously in this repository have all been pushed to Factory. If this is in the list of your subscribed repositories, please remove it now (using zypper rr &#60;reponame&#62; [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>An announcement for GNOME users in openSUSE: <strong>the repository <a title="GNOME:Contrib" href="http://download.opensuse.org/repositories/GNOME:/Contrib/">GNOME:Contrib</a> is now dead</strong>. This used to be the development branch of GNOME packages living in Contrib. Packages previously in this repository have all been pushed to Factory. If this is in the list of your subscribed repositories, please remove it now (using zypper rr &lt;reponame&gt; or from YaST, etc.), because the repository itself will be deleted from the download.opensuse.org server shortly.</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>ATI/AMD flgrx : status of the helping pledge</title>
+		<link>https://lizards.opensuse.org/2011/09/01/atiamd-flgrx-status-of-the-helping-pledge/</link>
+		<comments>https://lizards.opensuse.org/2011/09/01/atiamd-flgrx-status-of-the-helping-pledge/#comments</comments>
+		<pubDate>Thu, 01 Sep 2011 10:09:22 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Contrib]]></category>
+		<category><![CDATA[Events]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[fglrx]]></category>
+		<category><![CDATA[pledge]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7899</guid>
+		<description><![CDATA[Dear users of fglrx drivers (pre-packaged or .run installer) On 19th August I&#8217;ve opened a pledge see this article, and I&#8217;m give you today a refresh status : I personally already thanks of the actual donors. You rocks ! We are almost done at today, but almost is not done 🙂 So if you can [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Dear users of fglrx drivers (pre-packaged or .run installer)<br />
+On 19th August I&#8217;ve opened a pledge see <a href="http://lizards.opensuse.org/?p=7797">this article</a>, and I&#8217;m give you today a refresh status :<br />
+<a href='http://www.pledgie.com/campaigns/15879'><img alt='Click here to lend your support to: Funding ATI-AMD fglrx packager Sebastian Siebert and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/15879.png?skin_name=chrome' border='0' /></a></p>
+<p>I personally already thanks of the actual donors. You rocks !<br />
+We are almost done at today, but almost is not done <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /><br />
+<img style="float:right" src="http://counter.opensuse.org/conf/2011/small" /><br />
+So if you can spread the word a bit more, that&#8217;s would be really cool. My objective is been able to give the money back to Sebastian Siebert during our openSUSE conference. And so create a kind of ceremonial.</p>
+<p>Can I count on you ?<br />
+<br />&nbsp;</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2011/09/01/atiamd-flgrx-status-of-the-helping-pledge/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>ATI/AMD fglrx : giving back this time</title>
+		<link>https://lizards.opensuse.org/2011/08/19/atiamd-fglrx-giving-back-this-time/</link>
+		<pubDate>Fri, 19 Aug 2011 07:24:29 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Contrib]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[fglrx]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7797</guid>
+		<description><![CDATA[Dear flgrx&#8217;s users of rpm or ati-installer.run, this time I&#8217;m asking your help. Sebastian Siebert (freespacer) give his time to maintain the SuSE part inside the installer. Unfortunately he didn&#8217;t have high-end graphics card, nor double screen, and thus is not able to test nor report results to AMD. He&#8217;s also spending time on irc [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Dear flgrx&#8217;s users of rpm or ati-installer.run, this time I&#8217;m asking your help.<br />
+<a href="http://lizards.opensuse.org/wp-content/uploads/2011/08/geeko-huge-plush.jpg"><img src="http://lizards.opensuse.org/wp-content/uploads/2011/08/geeko-huge-plush.jpg" alt="geeko love" width="319" height="168" class="alignright size-full wp-image-7799" srcset="https://lizards.opensuse.org/wp-content/uploads/2011/08/geeko-huge-plush.jpg 319w, https://lizards.opensuse.org/wp-content/uploads/2011/08/geeko-huge-plush-300x157.jpg 300w" sizes="(max-width: 319px) 100vw, 319px" /></a><br />
+<a>Sebastian Siebert (freespacer)</a> give his time to maintain the SuSE part inside the installer. Unfortunately he didn&#8217;t have high-end graphics card, nor double screen, and thus is not able to test nor report results to AMD.<br />
+He&#8217;s also spending time on irc and forum to help users when things goes wrong. </p>
+<p>So how can we help him? Simply giving back a little amount of money, if you can afford it.<br />
+I&#8217;ve opened a pledgie for that : see the full explanation at<br />
+<a href="http://pledgie.com/campaigns/15879">pledgie.com/campaigns/15879</a>.</p>
+<p>I really count on you. Spread the word.</p>
+<p>ps : Catalyst 11.8 is out, stay tuned, I&#8217;ll be back this week-end.</p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Gnome3 launch party @ Zürich report</title>
+		<link>https://lizards.opensuse.org/2011/04/10/gnome3-launch-party-zurich-report/</link>
+		<pubDate>Sun, 10 Apr 2011 17:22:42 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Artwork]]></category>
+		<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Contrib]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Events]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Gnome 3]]></category>
+		<category><![CDATA[openSUSE 11.4]]></category>
+		<category><![CDATA[zürich]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7133</guid>
+		<description><![CDATA[Gnome3 launch party in Zürich, April 8th 2011 A group of 20 people met in ETHZ F26.3 room Friday afternoon (3pm to 7pm). To assist the Gnome 3 Launch party. We were expecting more people, but a so sunny weather, and a Monday off in Zürich doesn&#8217;t help to keep people inside after a long [&#8230;]]]></description>
+				<content:encoded><![CDATA[<h2>Gnome3 launch party in Zürich, April 8th 2011</h2>
+<div id="attachment_7168" style="width: 160px" class="wp-caption alignleft"><a href="http://lizards.opensuse.org/wp-content/uploads/2011/04/gnome3_zurich.jpg"><img src="http://lizards.opensuse.org/wp-content/uploads/2011/04/gnome3_zurich-150x150.jpg" alt="" width="150" height="150" class="size-thumbnail wp-image-7168" /></a><p class="wp-caption-text">ETHZ building</p></div>
+<p>A group of 20 people met in ETHZ F26.3 room Friday afternoon (3pm to 7pm). To assist the Gnome 3 Launch party. We were expecting more people, but a so sunny weather, and a Monday off in Zürich doesn&#8217;t help to keep people inside after a long winter. <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" />
+</p>
+<p>Marcus Moeller showed us a deep overview of the whole Gnome 3 desktop, with the strength and weakness (non yet finished features or controversial ones).</p>
+<p>Then there&#8217;s some talks about features, what will happen unity/ubuntu/gnome etc &#8230;</p>
+<p style="clear:both">On my side I did a late presentation about what&#8217;s openSUSE project is, and its associated SUPER COOL tools like <a href="http://build.opensuse.org">OBS</a> and <a href="http://www.susestudio.com">susestudio</a>.<br />
+It was supposed to last 15 minutes long. I was asked only Tuesday night to do it! But in fact we spend more than half an hour demoing obs and susestudio. Really was cool to do.
+</p>
+<p><a href="http://lizards.opensuse.org/wp-content/uploads/2011/04/gnome3_zurich_bf.jpg"><img src="http://lizards.opensuse.org/wp-content/uploads/2011/04/gnome3_zurich_bf-300x228.jpg" alt="openSUSE project presentation" width="300" height="228" class="alignnone size-medium wp-image-7170" srcset="https://lizards.opensuse.org/wp-content/uploads/2011/04/gnome3_zurich_bf-300x228.jpg 300w, https://lizards.opensuse.org/wp-content/uploads/2011/04/gnome3_zurich_bf.jpg 640w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>A special thanks to Biju Gopi Thilaka for setting up that party.</p>
+<p>Biju Gopi was kind enough to share his slides with us, so keep reading &#8230;</p>
+<p><span id="more-7133"></span></p>
+
+<a href='https://lizards.opensuse.org/2011/04/10/gnome3-launch-party-zurich-report/slide01/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2011/04/Slide01-150x150.png" class="attachment-thumbnail size-thumbnail" alt="" /></a>
+<a href='https://lizards.opensuse.org/2011/04/10/gnome3-launch-party-zurich-report/slide02/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2011/04/Slide02-150x150.png" class="attachment-thumbnail size-thumbnail" alt="" /></a>
+<a href='https://lizards.opensuse.org/2011/04/10/gnome3-launch-party-zurich-report/slide03/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2011/04/Slide03-150x150.png" class="attachment-thumbnail size-thumbnail" alt="" /></a>
+<a href='https://lizards.opensuse.org/2011/04/10/gnome3-launch-party-zurich-report/slide04/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2011/04/Slide04-150x150.png" class="attachment-thumbnail size-thumbnail" alt="" /></a>
+<a href='https://lizards.opensuse.org/2011/04/10/gnome3-launch-party-zurich-report/slide05/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2011/04/Slide05-150x150.png" class="attachment-thumbnail size-thumbnail" alt="" /></a>
+<a href='https://lizards.opensuse.org/2011/04/10/gnome3-launch-party-zurich-report/slide06/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2011/04/Slide06-150x150.png" class="attachment-thumbnail size-thumbnail" alt="" /></a>
+<a href='https://lizards.opensuse.org/2011/04/10/gnome3-launch-party-zurich-report/slide07/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2011/04/Slide07-150x150.png" class="attachment-thumbnail size-thumbnail" alt="" /></a>
+<a href='https://lizards.opensuse.org/2011/04/10/gnome3-launch-party-zurich-report/slide08/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2011/04/Slide08-150x150.png" class="attachment-thumbnail size-thumbnail" alt="" /></a>
+<a href='https://lizards.opensuse.org/2011/04/10/gnome3-launch-party-zurich-report/slide09/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2011/04/Slide09-150x150.png" class="attachment-thumbnail size-thumbnail" alt="" /></a>
+<a href='https://lizards.opensuse.org/2011/04/10/gnome3-launch-party-zurich-report/slide10/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2011/04/Slide10-150x150.png" class="attachment-thumbnail size-thumbnail" alt="" /></a>
+<a href='https://lizards.opensuse.org/2011/04/10/gnome3-launch-party-zurich-report/slide11/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2011/04/Slide11-150x150.png" class="attachment-thumbnail size-thumbnail" alt="" /></a>
+<a href='https://lizards.opensuse.org/2011/04/10/gnome3-launch-party-zurich-report/slide12/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2011/04/Slide12-150x150.png" class="attachment-thumbnail size-thumbnail" alt="" /></a>
+<a href='https://lizards.opensuse.org/2011/04/10/gnome3-launch-party-zurich-report/slide13/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2011/04/Slide13-150x150.png" class="attachment-thumbnail size-thumbnail" alt="" /></a>
+<a href='https://lizards.opensuse.org/2011/04/10/gnome3-launch-party-zurich-report/slide14/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2011/04/Slide14-150x150.png" class="attachment-thumbnail size-thumbnail" alt="" /></a>
+<a href='https://lizards.opensuse.org/2011/04/10/gnome3-launch-party-zurich-report/gnome3_zurich/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2011/04/gnome3_zurich-150x150.jpg" class="attachment-thumbnail size-thumbnail" alt="" /></a>
+<a href='https://lizards.opensuse.org/2011/04/10/gnome3-launch-party-zurich-report/gnome3_zurich_bf/'><img width="150" height="150" src="https://lizards.opensuse.org/wp-content/uploads/2011/04/gnome3_zurich_bf-150x150.jpg" class="attachment-thumbnail size-thumbnail" alt="openSUSE project presentation" /></a>
+
+<h3>Gnome3 resources</h3>
+<p>Go to <a href="http://www.gnome3.org">gnome3.org</a> website, to get a idea about the new features, you can eventually get the live cd (an openSUSE 11.4 32/64 bits) is proposed and a 32bits fedora latest
+</p>
+<p>I (with the help of Izabele Valverde in fact) also found this videos series on you tube.</p>
+<p><a href="http://www.youtube.com/watch?v=QSuRy7TRHPc"><img src="http://i2.ytimg.com/vi/QSuRy7TRHPc/default.jpg" alt="Gnome 3 Deeper Hardware integration" /> GNOME 3: Deeper Hardware Integration</a><br />
+<br />
+<a href="http://www.youtube.com/watch?v=hxOQj5eBRCY"><img src="http://i1.ytimg.com/vi/hxOQj5eBRCY/default.jpg" alt="App based window management" /> GNOME 3: App-based Window Management</a><br />
+<br />
+<a href="http://www.youtube.com/watch?v=t4fhsgZbgKk"><img src="http://i1.ytimg.com/vi/t4fhsgZbgKk/default.jpg" alt="Accessing app quickly" /> GNOME 3: Accessing Apps Quickly</a><br />
+<br />
+<a href="http://www.youtube.com/watch?v=lepXx1kDelo"><img src="http://i1.ytimg.com/vi/lepXx1kDelo/default.jpg" alt="fewer interruptions" /> GNOME 3: Fewer Interruptions</a><br />
+<br />
+<a href="http://www.youtube.com/watch?v=bRHAio98n-g"><img src="http://i3.ytimg.com/vi/bRHAio98n-g/default.jpg" alt="Creating a workspace" /> GNOME 3: Creating a Workspace</a><br />
+<br />
+<a href="http://www.youtube.com/watch?v=Ip9Bgjaspjs"><img src="http://i2.ytimg.com/vi/Ip9Bgjaspjs/default.jpg" alt="Creating workspace" /> GNOME 3: Working with Windows</a></p>
+<p>That&#8217;s all folks for this openSUSE Ambassador report</p>
+<p><span style="font-weight:bold">Nota : </span> just a word to my KDE&#8217;s relatives, no I didn&#8217;t nor will change my desktop. Gnome 3 looks pleasant but miss some keys features I need, and have under kde4 <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>openSUSE 11.4 &#038; cheat sheet poster + dvd in Linux Magazine</title>
+		<link>https://lizards.opensuse.org/2011/04/09/opensuse-11-4-cheat-sheet-poster-dvd-in-linux-magazine/</link>
+		<comments>https://lizards.opensuse.org/2011/04/09/opensuse-11-4-cheat-sheet-poster-dvd-in-linux-magazine/#comments</comments>
+		<pubDate>Sat, 09 Apr 2011 16:53:19 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Artwork]]></category>
+		<category><![CDATA[Boosters]]></category>
+		<category><![CDATA[Contrib]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Education]]></category>
+		<category><![CDATA[Marketing]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[cheatsheet]]></category>
+		<category><![CDATA[Linux Magazine]]></category>
+		<category><![CDATA[poster]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=7106</guid>
+		<description><![CDATA[If you don&#8217;t get it already our 11.4 DVD and a great double faced poster are here Linux-Maganize issue 126 Story board Everything starts with an envelope A good geek doesn&#8217;t spend time to open it Brand New, Get started sounds good! Open the mag, and you can&#8217;t escape it! 11.4 on the wall, Cool [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>If you don&#8217;t get it already our 11.4 DVD and a great double faced poster are here<br />
+<a href="http://www.linux-magazine.com/Issues/2011/126">Linux-Maganize issue 126</a><br />
+<span id="more-7106"></span></p>
+<h2>Story board</h2>
+<h3>Everything starts with an envelope</h3>
+<div id="attachment_7107" style="width: 160px" class="wp-caption alignleft"><a href="http://lizards.opensuse.org/wp-content/uploads/2011/04/Linux-Magazine-Apr2011_opensuse_01.jpg"><img src="http://lizards.opensuse.org/wp-content/uploads/2011/04/Linux-Magazine-Apr2011_opensuse_01-300x225.jpg" alt="" width="150" height="150" class="size-thumbnail wp-image-7107" /></a><p class="wp-caption-text">Hey the new issue (126) arrived today</p></div>
+<h3 style="clear:both">A good geek doesn&#8217;t spend time to open it</h3>
+<div id="attachment_7108" style="width: 160px" class="wp-caption alignleft"><a href="http://lizards.opensuse.org/wp-content/uploads/2011/04/Linux-Magazine-Apr2011_opensuse_02.jpg"><img src="http://lizards.opensuse.org/wp-content/uploads/2011/04/Linux-Magazine-Apr2011_opensuse_02-300x225.jpg" alt="" width="150" height="150" class="size-thumbnail wp-image-7108" /></a><p class="wp-caption-text">This issue contain the openSUSE 11.4 dvd</p></div>
+<h3 style="clear:both">Brand New, Get started sounds good!</h3>
+<div id="attachment_7109" style="width: 235px" class="wp-caption alignleft"><a href="http://lizards.opensuse.org/wp-content/uploads/2011/04/Linux-Magazine-Apr2011_opensuse_03.jpg"><img src="http://lizards.opensuse.org/wp-content/uploads/2011/04/Linux-Magazine-Apr2011_opensuse_03-225x300.jpg" alt="" width="225" height="300" class="size-medium wp-image-7109" srcset="https://lizards.opensuse.org/wp-content/uploads/2011/04/Linux-Magazine-Apr2011_opensuse_03-225x300.jpg 225w, https://lizards.opensuse.org/wp-content/uploads/2011/04/Linux-Magazine-Apr2011_opensuse_03-768x1024.jpg 768w, https://lizards.opensuse.org/wp-content/uploads/2011/04/Linux-Magazine-Apr2011_opensuse_03.jpg 960w" sizes="(max-width: 225px) 100vw, 225px" /></a><p class="wp-caption-text">Linux Magazine issue 126</p></div>
+<h3 style="clear:both">Open the mag, and you can&#8217;t escape it!</h3>
+<div id="attachment_7110" style="width: 310px" class="wp-caption alignleft"><a href="http://lizards.opensuse.org/wp-content/uploads/2011/04/Linux-Magazine-Apr2011_opensuse_04.jpg"><img src="http://lizards.opensuse.org/wp-content/uploads/2011/04/Linux-Magazine-Apr2011_opensuse_04-300x225.jpg" alt="" width="300" height="225" class="size-medium wp-image-7110" srcset="https://lizards.opensuse.org/wp-content/uploads/2011/04/Linux-Magazine-Apr2011_opensuse_04-300x225.jpg 300w, https://lizards.opensuse.org/wp-content/uploads/2011/04/Linux-Magazine-Apr2011_opensuse_04-1024x768.jpg 1024w, https://lizards.opensuse.org/wp-content/uploads/2011/04/Linux-Magazine-Apr2011_opensuse_04.jpg 1280w" sizes="(max-width: 300px) 100vw, 300px" /></a><p class="wp-caption-text">Not only the dvd, there's the famous poster</p></div>
+<h3 style="clear:both">11.4 on the wall, Cool Green!</h3>
+<div id="attachment_7111" style="width: 160px" class="wp-caption alignleft"><a href="http://lizards.opensuse.org/wp-content/uploads/2011/04/Linux-Magazine-Apr2011_opensuse_05.jpg"><img src="http://lizards.opensuse.org/wp-content/uploads/2011/04/Linux-Magazine-Apr2011_opensuse_05-225x300.jpg" alt="" width="150" height="150" class="size-thumbnail wp-image-7111" /></a><p class="wp-caption-text">first face 11.4 </p></div>
+<h3 style="clear:both">Let examine cheat-sheet</h3>
+<h4>Zypper</h4>
+<div id="attachment_7113" style="width: 160px" class="wp-caption alignnone"><a href="http://lizards.opensuse.org/wp-content/uploads/2011/04/Linux-Magazine-Apr2011_opensuse_06.jpg"><img src="http://lizards.opensuse.org/wp-content/uploads/2011/04/Linux-Magazine-Apr2011_opensuse_06-225x300.jpg" alt="" width="150" height="150" class="size-thumbnail wp-image-7113" /></a><p class="wp-caption-text">detailled view on openSUSE ressource</p></div>
+<h4>openSUSE resources</h4>
+<div id="attachment_7114" style="width: 160px" class="wp-caption alignnone"><a href="http://lizards.opensuse.org/wp-content/uploads/2011/04/Linux-Magazine-Apr2011_opensuse_07.jpg"><img src="http://lizards.opensuse.org/wp-content/uploads/2011/04/Linux-Magazine-Apr2011_opensuse_07-300x225.jpg" alt="" width="150" height="150" class="size-thumbnail wp-image-7114" /></a><p class="wp-caption-text">details about zypper on the cheatsheet face</p></div>
+<h4>global view</h4>
+<div id="attachment_7115" style="width: 160px" class="wp-caption alignnone"><a href="http://lizards.opensuse.org/wp-content/uploads/2011/04/Linux-Magazine-Apr2011_opensuse_08.jpg"><img src="http://lizards.opensuse.org/wp-content/uploads/2011/04/Linux-Magazine-Apr2011_opensuse_08-300x225.jpg" alt="" width="150" height="150" class="size-thumbnail wp-image-7115" /></a><p class="wp-caption-text">the full view of cheatsheet</p></div>
+<h2>Thanks</h2>
+<p>This poster wouldn&#8217;t exist without a big collaboration effort of several openSUSE members and contributors.</p>
+<div style="padding: 0.5em;margin: 0.5em 1.25em">
+<dl>
+<dt><span style="font-weight:bold;margin-bottom: 0.2em">Actors without any order :</span></dt>
+<dd>Chuck Payne (terrorpup)</dd>
+<dd>Andreas Jaeger (AJ)</dd>
+<dd>Carlos Ribeiro (CarlosRibeiro)</dd>
+<dd>Markus Feilner linuxnewmedia.de</dd>
+<dd>Henne Vogelsand (henne)</dd>
+<dd>Christian Ullrich linuxnewmedia.de</dd>
+<dd> Bryen Yunashko (suserocks)</dd>
+<dd>Javier Llorente (javier)</dd>
+<dd>Jos Poortvliet (jospoortvliet)</dd>
+<dd>Jacqueline Junghanns (suse.de)</dd>
+<dd>Bruno Friedmann (tigerfoot)</dd>
+</dl>
+</div>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2011/04/09/opensuse-11-4-cheat-sheet-poster-dvd-in-linux-magazine/feed/</wfw:commentRss>
+		<slash:comments>6</slash:comments>
+		</item>
+		<item>
+		<title>Default Wallpaper for GNOME:Ayatana</title>
+		<link>https://lizards.opensuse.org/2011/02/21/default-wallpaper-for-gnomeayatana/</link>
+		<comments>https://lizards.opensuse.org/2011/02/21/default-wallpaper-for-gnomeayatana/#comments</comments>
+		<pubDate>Mon, 21 Feb 2011 23:32:36 +0000</pubDate>
+		<dc:creator><![CDATA[Nelson Marques]]></dc:creator>
+				<category><![CDATA[Artwork]]></category>
+		<category><![CDATA[Contrib]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[GNOME]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=6693</guid>
+		<description><![CDATA[Not that I know a lot about Artwork or Wallpapers&#8230; For those, I am mainly a &#8216;customer&#8217; most of the times, and things get easy for&#8230; either I like it, or I don&#8217;t. There&#8217;s a lot of stuff available out there, and initially I loved the snake (I still do), but since I couldn&#8217;t distribute [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Not that I know a lot about Artwork or Wallpapers&#8230; For those, I am mainly a &#8216;customer&#8217; most of the times, and things get easy for&#8230; either I like it, or I don&#8217;t. There&#8217;s a lot of stuff available out there, and initially I loved the snake (I still do), but since I couldn&#8217;t distribute it due to licensing, I&#8217;ve spent a couple of hours looking for Artwork with a compatible license and contacted a few artists about licensing and the possibility of using/distributing their work.</p>
+<p>To distribute for GNOME:Ayatana on the 11.4 cycle, I&#8217;m going to use &#8216;Spaceman Goldrush Edition&#8217; from &#8216;mydarktime&#8217;, a German artist. I&#8217;m happy that mydarktime has been so kind in allowing openSUSE to distribute this package under CC-BY-SA. I will also take the opportunity to quote him:</p>
+<p>&#8220;(&#8230;)  I would be very pleased to see mine in it&#8221; (wallpaper pack on GNOME:Ayatana).</p>
+<p>I find this wallpaper very attractive and it doesn&#8217;t really tire me up from looking at it, which is really, really nice! I hope everyone else likes it also!</p>
+<p style="text-align: left"><a href="http://lizards.opensuse.org/wp-content/uploads/2011/02/spaceman_goldrush_1680.jpg"><img class="aligncenter size-medium wp-image-6694" src="http://lizards.opensuse.org/wp-content/uploads/2011/02/spaceman_goldrush_1680-300x187.jpg" alt="" width="600" height="374" srcset="https://lizards.opensuse.org/wp-content/uploads/2011/02/spaceman_goldrush_1680-300x187.jpg 300w, https://lizards.opensuse.org/wp-content/uploads/2011/02/spaceman_goldrush_1680-1024x640.jpg 1024w" sizes="(max-width: 600px) 100vw, 600px" /></a></p>
+<p style="text-align: left"><a href="http://mydarktime.deviantart.com/art/spaceman-169794648" target="_blank">Spaceman Goldrush Edition @ Deviant ART</a></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2011/02/21/default-wallpaper-for-gnomeayatana/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>BugDay</title>
+		<link>https://lizards.opensuse.org/2010/11/22/bugday/</link>
+		<pubDate>Mon, 22 Nov 2010 12:20:16 +0000</pubDate>
+		<dc:creator><![CDATA[Alexander Naumov]]></dc:creator>
+				<category><![CDATA[Contrib]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Quality Assurance]]></category>
+		<category><![CDATA[Usability]]></category>
+		<category><![CDATA[Community]]></category>
+		<category><![CDATA[fun]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=5893</guid>
+		<description><![CDATA[At the last openSUSE project meeting and after the discussion about &#8220;zombie&#8221; bugs on the opensuse-project mailing list, a small team of volunteers agreed to organize a Bug Day on Saturday, November 27th. What is a Bug Day? This is a day when many people from the community help to triage bugs in Bugzilla. It [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>At the last <a href="http://community.opensuse.org/meetings/opensuse-project/2010/opensuse-project.2010-11-17-16.08.html">openSUSE project meeting</a> and after the discussion about &#8220;zombie&#8221; bugs on the opensuse-project mailing list, a small team of volunteers agreed to organize a Bug Day on Saturday, November 27th. What is a Bug Day? This is a day when many people from the community help to triage bugs in <a href="bugzilla.novell.com">Bugzilla</a>. It is a good and easy way to get involved in the openSUSE project!</p>
+<p>Here is what you need to participate:<br />
+ &#8211; a recent version of openSUSE (11.3 or a milestone of 11.4). It&#8217;s okay to run openSUSE in a virtual machine.<br />
+ &#8211; an IRC client to interact with the other participants<br />
+ &#8211; good mood <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>A small team will organize the event by providing lists of bugs, and will be available to guide new contributors if needed. So it will be easy to help!</p>
+<p>For this specific Bug Day, we will focus on the &#8220;zombie&#8221; bug reports: those are reports against old versions of openSUSE (openSUSE 10.x and 11.0). As some reports might still be valid, we don&#8217;t want to close all of them automatically. We will therefore check all those reports to see if they are still valid in the latest version of openSUSE (11.3 or a milestone of 11.4). The goal is to close those bug reports if possible, or, if they are still valid, to move them to a current version of openSUSE so that they&#8217;re not lost in limbo. So during a full day, people come on irc and help each other triage bugs.</p>
+<p>Please note that this is only for openSUSE bugs (living in bugzilla.novell.com), but a solution for some bugs might be to forward them upstream.</p>
+<p>Come on #opensuse-bug (freenode) on a Saturday 27.11.2010, we&#8217;ll be glad to have you join the fun! <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Documentation</title>
+		<link>https://lizards.opensuse.org/2010/10/13/documentation/</link>
+		<comments>https://lizards.opensuse.org/2010/10/13/documentation/#comments</comments>
+		<pubDate>Wed, 13 Oct 2010 18:53:43 +0000</pubDate>
+		<dc:creator><![CDATA[Alexander Naumov]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Contrib]]></category>
+		<category><![CDATA[Documentation]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Usability]]></category>
+		<category><![CDATA[fun]]></category>
+		<category><![CDATA[hacking]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=5474</guid>
+		<description><![CDATA[Hi folks, this post is just request for all obs-packagers. Please, don&#8217;t forget write some documentation about your projects (which you maintain or develop). I mean, documentation for developers. This make more easy to understand logic of program, connection between some modules inside or interfaces between widget/applet and &#8220;system/hardware part&#8221;. For sure, comments in source [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Hi folks,</p>
+<p>this post is just request for all obs-packagers. Please, don&#8217;t forget write some documentation about your projects (which you maintain or develop). I mean, documentation for developers. This make more easy to understand logic of program, connection between some modules inside or interfaces between widget/applet and &#8220;system/hardware part&#8221;. For sure, comments in source code (or in changelog) help, but some times they give not so much clarity.</p>
+<p>This is not so complicated to write one-two pages about project, which you hack. This also can save time of new developers. They will not ask you about architecture of project, and that will save your time too <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>I don&#8217;t know how will be better to do it: use wiki (create a new page) or add just text-file in source project. Anyway it&#8217;s not so important where will be this documentation, main things that this documentation will be exist <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2010/10/13/documentation/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+	</channel>
+</rss>

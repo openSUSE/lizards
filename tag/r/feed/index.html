@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>R &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/r/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>new package postgresql-plr. Get the power of R inside your postgreSQL database</title>
+		<link>https://lizards.opensuse.org/2012/03/30/new-package-postgresql-plr-get-the-power-of-r-inside-your-postgresql-database/</link>
+		<pubDate>Fri, 30 Mar 2012 14:31:05 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[Server]]></category>
+		<category><![CDATA[Uncategorized]]></category>
+		<category><![CDATA[PostgreSQL]]></category>
+		<category><![CDATA[postgresql-plr]]></category>
+		<category><![CDATA[R]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=8597</guid>
+		<description><![CDATA[I&#8217;m pleased to introduce you to a new available package for postgreSQL database. The R procedural language extension developed by Joseph E Conway. R Procedural Language for PostgreSQL Introduction PL/R is a library which allow you to add the power of R statistical engine in your database. This article will show you how to add [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I&#8217;m pleased to introduce you to a new available package for postgreSQL database.<br />
+The R procedural language extension developed by Joseph E Conway.</p>
+<h2>R Procedural Language for PostgreSQL</h2>
+<h3>Introduction</h3>
+<p>PL/R is a library which allow you to add the power of R statistical engine in your database.<br />
+This article will show you how to add it and basic usage on a 12.1 installation.<br />
+(The package is also available for 11.4)</p>
+<p>Become familiar with the project and how it can help you.<br />
+The homepage project  : <a href="http://www.joeconway.com/plr/">www.joeconway.com/plr/</a></p>
+<p>We admit here, that you are able to manage a posgreSQL server instance, and have already one running.<br />
+<span id="more-8597"></span></p>
+<h3>Installation</h3>
+<p>Actually the pre-packaged rpms are available at<br />
+Repository for openSUSE 12.1:<br />
+http://software.opensuse.org/repositories/server:database:postgresql/openSUSE_12.1</p>
+<p>Repository for openSUSE 11.4:<br />
+http://software.opensuse.org/repositories/server:database:postgresql/openSUSE_11.4</p>
+<p>Packages are composed of postgresql-plr (containing only the necessary lib) and postgresql-plr-doc (the whole documentation and samples)</p>
+<h4 style="color:red">Disclaimer/Warning</h4>
+<p>This repository is the devel (but stable) repository for postgresql, using it can ask you to upgrade your postgresql installation to new version.<br />
+Take care to be sure, you can safely upgrade it (backups before), other software you need that are linked to previous version etc&#8230;</p>
+<p>Submission to factory/12.2 is pending &#8230;</p>
+<p>Adding the repository</p>
+<pre>
+zypper ar -f -c -n "server-database-postgresql" http://software.opensuse.org/repositories/server:database:postgresql/openSUSE_12.1 "server-database-postgresql"
+</pre>
+<p>If postgresql is already installed<br />
+Check upgrade process </p>
+<pre>
+zypper -v dup -D -r server-database-postgresql
+</pre>
+<p>Do the upgrade </p>
+<pre>
+zypper -v dup -r server-database-postgresql
+</pre>
+<p>Add postgresql-plr to the installation</p>
+<pre>
+zypper in postgresql-plr postgresql-plr-doc
+</pre>
+<h3>Create a PLR ready database</h3>
+<p>As postgresql superuser </p>
+<pre>
+createdb plrtest
+</pre>
+<p>Create the plr extension</p>
+<pre>psql -d plrtest</pre>
+<pre>CREATE EXTENSION plr;</pre>
+<p>Quick test if it works</p>
+<pre>
+-- first, define the language and functions.  Turn off echoing so that expected file
+-- does not depend on contents of plr.sql.
+--
+\set ECHO none
+-- check version
+SELECT plr_version();
+
+ plr_version 
+-------------
+ 08.03.00.13
+(1 row)
+</pre>
+<h3>Work with</h3>
+<p>If you install the package postresql-plr-doc you will have a file named plr.out which contain a lot of usefull examples.</p>
+<p>Connect to your plr ready db</p>
+<pre>psql -d plrtest</pre>
+<p>And run some of the example like </p>
+<pre>
+--
+-- test aggregates
+--
+create table foo(f0 int, f1 text, f2 float8) with oids;
+insert into foo values(1,'cat1',1.21);
+insert into foo values(2,'cat1',1.24);
+insert into foo values(3,'cat1',1.18);
+insert into foo values(4,'cat1',1.26);
+insert into foo values(5,'cat1',1.15);
+insert into foo values(6,'cat2',1.15);
+insert into foo values(7,'cat2',1.26);
+insert into foo values(8,'cat2',1.32);
+insert into foo values(9,'cat2',1.30);
+create or replace function r_median(_float8) returns float as 'median(arg1)' language 'plr';
+select r_median('{1.23,1.31,1.42,1.27}'::_float8);
+ r_median 
+----------
+     1.29
+(1 row)
+
+CREATE AGGREGATE median (sfunc = plr_array_accum, basetype = float8, stype = _float8, finalfunc = r_median);
+select f1, median(f2) from foo group by f1 order by f1;
+  f1  | median 
+------+--------
+ cat1 |   1.21
+ cat2 |   1.28
+(2 rows)
+
+create or replace function r_gamma(_float8) returns float as 'gamma(arg1)' language 'plr';
+select round(r_gamma('{1.23,1.31,1.42,1.27}'::_float8)::numeric,8);
+   round    
+------------
+ 0.91075486
+(1 row)
+
+CREATE AGGREGATE gamma (sfunc = plr_array_accum, basetype = float8, stype = _float8, finalfunc = r_gamma);
+select f1, round(gamma(f2)::numeric,8) from foo group by f1 order by f1;
+  f1  |   round    
+------+------------
+ cat1 | 0.91557649
+ cat2 | 0.93304093
+(2 rows)
+\q
+</pre>
+<h3>Play more</h3>
+<p>Have a look and build your own benchmark</p>
+<ul>
+<li><a href="http://www.postgresonline.com/journal/archives/188-plr_part1.html">http://www.postgresonline.com/journal/archives/188-plr_part1.html</a></li>
+<li><a href="http://www.postgresonline.com/journal/archives/189-plr_part2.html">http://www.postgresonline.com/journal/archives/189-plr_part2.html</a></li>
+<li><a href="http://www.postgresonline.com/journal/archives/190-plr_part3.html">http://www.postgresonline.com/journal/archives/190-plr_part3.html</a></li>
+<li>&nbsp;</li>
+<li><a href="http://www.postgresonline.com/journal/archives/67-Build-Median-Aggregate-Function-in-SQL.html">http://www.postgresonline.com/journal/archives/67-Build-Median-Aggregate-Function-in-SQL.html</a></li>
+</ul>
+<h3>Failures, bugs</h3>
+<p>If you find a defect in the package, please use traditional bug reporting at<br />
+<a href="https://bugzilla.novell.com/enter_bug.cgi?classification=7340&amp;product=openSUSE.org&amp;component=3rd%20party%20software&amp;assigned_to=max@suse.com&amp;cc=bruno@ioda-net.ch&amp;short_desc=server:database:postgresql/postgresql-plr:%20Bug"><br />
+bugzilla.novell.com</a></p>
+<p>This link contain the already pre-filled form and should help you to get quick answer.</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

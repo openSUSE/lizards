@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Installation Source &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/installation-source/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Installation Source creation status</title>
+		<link>https://lizards.opensuse.org/2008/06/06/instsource-creation/</link>
+		<comments>https://lizards.opensuse.org/2008/06/06/instsource-creation/#comments</comments>
+		<pubDate>Fri, 06 Jun 2008 15:17:32 +0000</pubDate>
+		<dc:creator><![CDATA[Jan-Christoph Bornschlegel]]></dc:creator>
+				<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Software Management]]></category>
+		<category><![CDATA[Imaging]]></category>
+		<category><![CDATA[Installation Source]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=48</guid>
+		<description><![CDATA[There is some work going on to put installation source creation functionality into kiwi. At the moment kiwi can use prepared installation sources such as: BuildService Repositories mounted DVDs FTP trees But what if you have a local Build Service building some binary only packages and you wish tp make a installable media set from, [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>There is some work going on to put installation source creation functionality into <strong>kiwi</strong>.<br />
+At the moment kiwi can use prepared installation sources such as:</p>
+<ul>
+<li>BuildService Repositories</li>
+<li>mounted DVDs</li>
+<li>FTP trees</li>
+</ul>
+<p>But what if you have a local Build Service building some binary only packages and you wish tp make a installable media set from, say, &#8220;SLES + binary only drivers&#8221;?<br />
+You can use the inter-BS-Connectivity feature to only build the drivers (and not the whole distribution) in your BS and then create an installation source from your main BS project.</p>
+<p>This is possible since release of the package <strong>kiwi-instsource</strong> which extends the functionality of the <em>config.xml</em>file to allow the compilation of an installation source from scratch.<br />
+Hereby &#8220;scratch&#8221; means directories containing <em>.rpm</em> and <em>.spm</em> files. Of course some information must be provided for the metadata creation &#8212; but this is also all in the config file (with one known exception &#8212; the PDB data).</p>
+<p>The rest is figuring out which packages must be on the installation source.<br />
+Since it is perfectly ok to have conflicting packages in instsources, there is no dependency check or package resolving in this stage. The information must come from the user.</p>
+<p>Therefore the package list may become rather long and I already plan to implement some simplification.<br />
+These plans include:</p>
+<ul>
+<li>allowing more than one &lt;repopackages&gt; section</li>
+<li>implement outsourcing blocks in separate files using XML functionality</li>
+</ul>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2008/06/06/instsource-creation/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+	</channel>
+</rss>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>embedded &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/embedded/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>openSUSE@ARM/GSoC: Cross-compilation &#038; speedup</title>
+		<link>https://lizards.opensuse.org/2009/06/16/opensusearmgsoc-cross-compilation-speedup/</link>
+		<comments>https://lizards.opensuse.org/2009/06/16/opensusearmgsoc-cross-compilation-speedup/#comments</comments>
+		<pubDate>Tue, 16 Jun 2009 14:13:04 +0000</pubDate>
+		<dc:creator><![CDATA[Jan-Simon Möller]]></dc:creator>
+				<category><![CDATA[Architectures]]></category>
+		<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Build Service]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[ARM]]></category>
+		<category><![CDATA[cross-compilation]]></category>
+		<category><![CDATA[cross-development]]></category>
+		<category><![CDATA[embedded]]></category>
+		<category><![CDATA[gsoc]]></category>
+		<category><![CDATA[openSUSE]]></category>
+		<category><![CDATA[openSUSE@ARM]]></category>
+		<category><![CDATA[Toolchain]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1282</guid>
+		<description><![CDATA[This weeks topic was the integration of the cross-compilation mode into the build environment. But it&#8217;s more than just a cross-toolchain &#8211; it&#8217;s a speed-boost for our ARM build environment. As of today, the source is deployed in the repository Base:build:arm:cross. It&#8217;s not fully bootstrapped because of the current high load and the upcoming downtime [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>This weeks topic was the integration of the cross-compilation mode into the build environment. But it&#8217;s more than just a cross-toolchain &#8211; it&#8217;s a speed-boost for our ARM build environment. As of today, the source is deployed in the repository Base:build:arm:cross. It&#8217;s not fully bootstrapped because of the current high load and the upcoming downtime &#8211; so watch out for changes there and in Base:build:arm.</p>
+<p>But what are these &#8220;speedup&#8217;s&#8221; ? First, you&#8217;ve to know that in our build environment the ARM binaries are executed through an emulation-layer. This works on the cost of speed. The goal is now, to exchange some key parts in a transparent manner with native x86 binaries: no emulation, no slowdown. Sounds reasonable, but is it easily possible ?<br />
+I had to take care not to mix stuff too much because the environment would break. But now I&#8217;ve to say:  WOW, this worked incredibly well  <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> .</p>
+<p>The distinctive feature of our approach in comparison to usual cross-build environments is that we use the best of native environment emulation and the speed of cross-compilation. <em>Because of this combination we don&#8217;t have to patch the individual packages to make them cross-compilation ready</em>. This is a <em>new way of cross-compiling</em> suitable also for large number of packages. A detailed overview about the different crossbuild types can be found on <a href="http://en.opensuse.org/Build_Service/Concepts/CrossDevelopment" target="_blank">this page</a>.<br />
+Another feature to note is that <em>the exchanged binaries</em> (replacing ARM with x86 in the build environment) <em>also don&#8217;t need heavy patching and there&#8217;s no need to compile them as static binaries</em>. All of them are normal distribution packages.</p>
+<p>A switch in the project enables/disables the new features. With the new changes in place, the speed could be vastly increased. Some figures:<br />
+* package rpm<br />
+* package glibc w/o locales</p>
+<table border="0" cellspacing="0" rules="none">
+<col width="86"></col>
+<col width="86"></col>
+<col width="136"></col>
+<col width="128"></col>
+<col width="86"></col>
+<col width="86"></col>
+<col width="110"></col>
+<tbody>
+<tr>
+<td colspan="7" width="717" height="17" align="center" valign="middle">Build time in minutes</td>
+</tr>
+<tr>
+<td height="17" align="center"></td>
+<td align="center">x86 native</td>
+<td align="center">armv5tel native</td>
+<td align="center">armv5tel cross</td>
+<td align="center"></td>
+<td align="center">factor native</td>
+<td align="center">factor cross</td>
+</tr>
+<tr>
+<td height="17" align="left">rpm</td>
+<td align="center">8</td>
+<td align="center">107</td>
+<td align="center">17</td>
+<td align="center"></td>
+<td align="center">13,38</td>
+<td align="center">2,13</td>
+</tr>
+<tr>
+<td height="17" align="left">glibc</td>
+<td align="center">33</td>
+<td align="center">505</td>
+<td align="center">63</td>
+<td align="center"></td>
+<td align="center">15,3</td>
+<td align="center">1,91</td>
+</tr>
+</tbody>
+</table>
+<p><img class="aligncenter size-full wp-image-1331" src="http://lizards.opensuse.org/wp-content/uploads/2009/06/stats_html_46617482.jpg" alt="overview cross-environment" width="663" height="636" srcset="https://lizards.opensuse.org/wp-content/uploads/2009/06/stats_html_46617482.jpg 663w, https://lizards.opensuse.org/wp-content/uploads/2009/06/stats_html_46617482-300x287.jpg 300w" sizes="(max-width: 663px) 100vw, 663px" /></p>
+<p>Thats a drop from about x15 to x2 in comparison to the native x86 build-time !! See it yourself when the &#8220;crosscompiled&#8221; repo in Base:build:arm is up and running.</p>
+<p>In other words: &#8220;Warp 5, Mr. Sulu !&#8221; <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f609.png" alt="&#x1f609;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/06/16/opensusearmgsoc-cross-compilation-speedup/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+	</channel>
+</rss>

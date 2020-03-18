@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>jshint &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/jshint/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Javascript tools in openSUSE round 1: JSHint</title>
+		<link>https://lizards.opensuse.org/2014/07/02/javascript-tools-in-opensuse-round-1-jshint/</link>
+		<pubDate>Wed, 02 Jul 2014 09:04:31 +0000</pubDate>
+		<dc:creator><![CDATA[Tuukka Pasanen]]></dc:creator>
+				<category><![CDATA[lizards.openSUSE.org]]></category>
+		<category><![CDATA[Miscellaneous]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[javascript]]></category>
+		<category><![CDATA[jshint]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10911</guid>
+		<description><![CDATA[Node.js is not getting as much attention in openSUSE community as it&#8217;s gaining foot in development world.  Node.js is not just fancy buzz word that I just to be couple years back. There is plethora of libraries and tools that you can use for Node.js development or web-coding. I have been in this Nnode.js dependency hell [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><a title="Node.js" href="http://nodejs.org/">Node.js</a> is not getting as much attention in openSUSE community as it&#8217;s gaining foot in development world.  Node.js is not just fancy buzz word that I just to be couple years back. There is plethora of libraries and tools that you can use for Node.js development or web-coding. I have been in this Nnode.js dependency hell (ok you can use npm if you like but if you like to make RPM-files you are in trouble) for a while but now I figured out most troubles and start using new tools! I copied most Node.js packaging stuff from Fedora as like Java Javascript is first class citizen of their ecosystem. I also added packages that were missing and updated and added and updated.<span id="more-10911"></span></p>
+<h1>JSHint</h1>
+<p>One can find JSHint from website <a title="JSHint website" href="http://http://jshint.com/">jshint.com</a> (or from Github:  <a title="JSHint Github repo" href="https://github.com/jshint/jshint/">https://github.com/jshint/jshint/</a>). JSHint is tool for linting Javascript. It has plenty of tips how to make your code work in every browser or how to be more compatible with <a title="Ecmascript" href="http://en.wikipedia.org/wiki/ECMAScript">Ecmascript-standard</a> or just make you code rock. While website version is neat and works as expected you can come in the point when you need local version. Then you just install Node.js and version for it from: <a title="Fedora node.js rpm packages" href="https://build.opensuse.org/project/show/home:illuusio:nodejs-fedora">https://build.opensuse.org/project/show/home:illuusio:nodejs-fedora</a> (they are pure openSUSE packages that are ported from Fedora project and I can image this is causing some cruel battles in court but you can use them if you wish.)</p>
+<h1>How does it work?</h1>
+<p>JSHint is very easy tool and it will drive you nuts because it will reveal all you bad habits to the World. Using it is simple as typing</p>
+<pre>jshint yourbestscript.js
+</pre>
+<p>For example <a title="LeafletJs" href="http://leafletjs.com/">Leaflet</a> 0.7.2 script gives errors like that (this is minified version)</p>
+<pre>leaflet.js: line 6, col 215, Missing semicolon.
+leaflet.js: line 6, col 385, Expected an assignment or function call and instead saw an expression.
+leaflet.js: line 6, col 386, Missing semicolon.
+leaflet.js: line 6, col 395, Missing semicolon.
+leaflet.js: line 6, col 534, Missing semicolon.
+leaflet.js: line 6, col 535, Missing semicolon.
+leaflet.js: line 6, col 623, Missing semicolon.
+leaflet.js: line 6, col 624, Missing semicolon.
+leaflet.js: line 6, col 777, Missing semicolon.
+leaflet.js: line 6, col 786, Missing semicolon.
+leaflet.js: line 6, col 942, Expected an assignment or function call and instead saw an expression.
+leaflet.js: line 6, col 943, Missing semicolon.
+leaflet.js: line 6, col 966, Missing semicolon.
+leaflet.js: line 6, col 967, Missing semicolon.
+leaflet.js: line 6, col 996, Missing semicolon.
+leaflet.js: line 6, col 1070, Missing semicolon.
+leaflet.js: line 6, col 1138, Missing semicolon.
+leaflet.js: line 6, col 1197, Missing semicolon.
+leaflet.js: line 6, col 1275, Missing semicolon.
+leaflet.js: line 6, col 1459, Missing semicolon.
+leaflet.js: line 6, col 1646, Missing semicolon.
+leaflet.js: line 6, col 1648, Missing semicolon.
+leaflet.js: line 6, col 1743, Missing semicolon.
+leaflet.js: line 6, col 1844, 'e' is already defined.
+leaflet.js: line 6, col 1929, Missing semicolon.
+leaflet.js: line 6, col 1949, 'i' is already defined.
+leaflet.js: line 6, col 1955, Missing '()' invoking a constructor.
+leaflet.js: line 6, col 2013, Missing semicolon.
+leaflet.js: line 6, col 2195, Missing semicolon.
+leaflet.js: line 6, col 2291, Missing semicolon.
+leaflet.js: line 6, col 2341, Expected an assignment or function call and instead saw an expression.
+leaflet.js: line 6, col 2342, Missing semicolon.
+leaflet.js: line 6, col 2342, Expected an assignment or function call and instead saw an expression.
+leaflet.js: line 6, col 2343, Missing semicolon.
+leaflet.js: line 6, col 2597, Expected an assignment or function call and instead saw an expression.
+leaflet.js: line 6, col 2598, Missing semicolon.
+leaflet.js: line 6, col 2652, Missing '()' invoking a constructor.
+leaflet.js: line 6, col 2682, Expected an assignment or function call and instead saw an expression.
+leaflet.js: line 6, col 2756, Expected an assignment or function call and instead saw an expression.
+leaflet.js: line 6, col 2986, Expected an assignment or function call and instead saw an expression.
+leaflet.js: line 6, col 3171, Expected an assignment or function call and instead saw an expression.
+leaflet.js: line 6, col 3241, Missing semicolon.
+leaflet.js: line 6, col 3245, Missing semicolon.
+leaflet.js: line 6, col 3301, Missing semicolon.
+leaflet.js: line 6, col 3370, Missing semicolon.
+leaflet.js: line 6, col 3507, Missing semicolon.
+leaflet.js: line 6, col 3597, Expected an assignment or function call and instead saw an expression.
+leaflet.js: line 6, col 3598, Missing semicolon.
+leaflet.js: line 6, col 3598, Expected an assignment or function call and instead saw an expression.
+leaflet.js: line 6, col 4018, Expected an assignment or function call and instead saw an expression.
+leaflet.js: line 6, col 4018, Too many errors. (66% scanned).
+</pre>
+<p>Line numbers are broken because as I said it&#8217;s minified version of Leaflet but you get the point. Now if you do Javascript there is no excuse to wait your customer, user, mom or lover to nag about how bad your code it you can check it and feel the pain. Next time I&#8217;ll make your code shine.</p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

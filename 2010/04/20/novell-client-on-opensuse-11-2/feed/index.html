@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	
+	>
+<channel>
+	<title>Comments on: Novell Client on openSUSE 11.2</title>
+	<atom:link href="https://lizards.opensuse.org/2010/04/20/novell-client-on-opensuse-11-2/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org/2010/04/20/novell-client-on-opensuse-11-2/</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 17:50:09 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>By: Wouter</title>
+		<link>https://lizards.opensuse.org/2010/04/20/novell-client-on-opensuse-11-2/#comment-1636</link>
+		<dc:creator><![CDATA[Wouter]]></dc:creator>
+		<pubDate>Fri, 30 Apr 2010 16:44:34 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=3750#comment-1636</guid>
+		<description><![CDATA[This may be off topic, but I use ncpfs, which is in the openSUSE distro, so no need to break dependency&#039;s, to mount NetWare volumes. Previously I&#039;ve used the Novell Client for Linux, but I think the only thing it ads to ncpfs is that it executes your login script. For me it&#039;s just as easy to set up the mounts I need myself.
+
+I do use the -N NFS option with ncpfs. This works better for OpenOffice.]]></description>
+		<content:encoded><![CDATA[<p>This may be off topic, but I use ncpfs, which is in the openSUSE distro, so no need to break dependency&#8217;s, to mount NetWare volumes. Previously I&#8217;ve used the Novell Client for Linux, but I think the only thing it ads to ncpfs is that it executes your login script. For me it&#8217;s just as easy to set up the mounts I need myself.</p>
+<p>I do use the -N NFS option with ncpfs. This works better for OpenOffice.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Ludwig Nussel</title>
+		<link>https://lizards.opensuse.org/2010/04/20/novell-client-on-opensuse-11-2/#comment-1604</link>
+		<dc:creator><![CDATA[Ludwig Nussel]]></dc:creator>
+		<pubDate>Wed, 21 Apr 2010 08:12:36 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=3750#comment-1604</guid>
+		<description><![CDATA[Do you really mess with your system like that? *shudder* Not
+surprising if you system breaks if you download random rpms off the
+internet and force them on the system, even bypassing rpm.
+
+I better don&#039;t comment on the product itself but I can tell you
+tricks how I would probably install it if I was forced to use it.
+The libbfd requirement can be satisfied by binutils from the
+official openSUSE 11.1 repo. So use that one instead of some random
+internet search result. libbfd is required by a library that has
+RPATH set to /opt/novell/xtier/lib (lib64 on x86_64). So you can
+copy the library there. That still bypasses package management but
+doesn&#039;t affect other parts of the system. To even fix that you could
+use mkbaselibs from the build package to repackage just the needed
+library:
+$ cat &#062; baselibs.conf &#060;&#060;EOF
+arch x86_64 targets x86_64
+arch i586 targets i586
+
+binutils
+ targetname libbfd-2_19
+ +/usr/lib(64)?/libbfd-2.19.so
+EOF
+$ /usr/lib/build/mkbaselibs -c baselibs.conf binutils-2.19-9.3.*.rpm
+# rpm -Uvh /usr/src/packages/RPMS/*/libbfd-2_19-2.19-9.3.*.rpm
+
+In case of ncl there&#039;s also an even easier way to install the
+product itself:
+
+# zypper ar iso:/?iso=/space/novell-client-2.0-sp2-sle11-i586.iso ncl
+# zypper in -t pattern novell-ncl]]></description>
+		<content:encoded><![CDATA[<p>Do you really mess with your system like that? *shudder* Not<br />
+surprising if you system breaks if you download random rpms off the<br />
+internet and force them on the system, even bypassing rpm.</p>
+<p>I better don&#8217;t comment on the product itself but I can tell you<br />
+tricks how I would probably install it if I was forced to use it.<br />
+The libbfd requirement can be satisfied by binutils from the<br />
+official openSUSE 11.1 repo. So use that one instead of some random<br />
+internet search result. libbfd is required by a library that has<br />
+RPATH set to /opt/novell/xtier/lib (lib64 on x86_64). So you can<br />
+copy the library there. That still bypasses package management but<br />
+doesn&#8217;t affect other parts of the system. To even fix that you could<br />
+use mkbaselibs from the build package to repackage just the needed<br />
+library:<br />
+$ cat &gt; baselibs.conf &lt;&lt;EOF<br />
+arch x86_64 targets x86_64<br />
+arch i586 targets i586</p>
+<p>binutils<br />
+ targetname libbfd-2_19<br />
+ +/usr/lib(64)?/libbfd-2.19.so<br />
+EOF<br />
+$ /usr/lib/build/mkbaselibs -c baselibs.conf binutils-2.19-9.3.*.rpm<br />
+# rpm -Uvh /usr/src/packages/RPMS/*/libbfd-2_19-2.19-9.3.*.rpm</p>
+<p>In case of ncl there&#039;s also an even easier way to install the<br />
+product itself:</p>
+<p># zypper ar iso:/?iso=/space/novell-client-2.0-sp2-sle11-i586.iso ncl<br />
+# zypper in -t pattern novell-ncl</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: smspvdm</title>
+		<link>https://lizards.opensuse.org/2010/04/20/novell-client-on-opensuse-11-2/#comment-1603</link>
+		<dc:creator><![CDATA[smspvdm]]></dc:creator>
+		<pubDate>Tue, 20 Apr 2010 19:32:26 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=3750#comment-1603</guid>
+		<description><![CDATA[It&#039;s just like Ford building a car and then offering a Ford radio that doesn&#039;t fit. 
+It will fit with a hammer and some tape though.]]></description>
+		<content:encoded><![CDATA[<p>It&#8217;s just like Ford building a car and then offering a Ford radio that doesn&#8217;t fit.<br />
+It will fit with a hammer and some tape though.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: smspvdm</title>
+		<link>https://lizards.opensuse.org/2010/04/20/novell-client-on-opensuse-11-2/#comment-1602</link>
+		<dc:creator><![CDATA[smspvdm]]></dc:creator>
+		<pubDate>Tue, 20 Apr 2010 19:14:15 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=3750#comment-1602</guid>
+		<description><![CDATA[Why don&#039;t they just build a version of the novell client for their *OWN* linux distribution (openSUSE) that just installs?
+I just don&#039;t get it.]]></description>
+		<content:encoded><![CDATA[<p>Why don&#8217;t they just build a version of the novell client for their *OWN* linux distribution (openSUSE) that just installs?<br />
+I just don&#8217;t get it.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Thomas T.</title>
+		<link>https://lizards.opensuse.org/2010/04/20/novell-client-on-opensuse-11-2/#comment-1601</link>
+		<dc:creator><![CDATA[Thomas T.]]></dc:creator>
+		<pubDate>Tue, 20 Apr 2010 18:54:18 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=3750#comment-1601</guid>
+		<description><![CDATA[Thanks for sharing!]]></description>
+		<content:encoded><![CDATA[<p>Thanks for sharing!</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

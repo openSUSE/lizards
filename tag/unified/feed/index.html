@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>unified &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/unified/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>AMD/ATI Catalyst fglrx rpms, end of an era!</title>
+		<link>https://lizards.opensuse.org/2016/12/07/amdati-catalyst-fglrx-rpms-end-of-an-era/</link>
+		<comments>https://lizards.opensuse.org/2016/12/07/amdati-catalyst-fglrx-rpms-end-of-an-era/#comments</comments>
+		<pubDate>Wed, 07 Dec 2016 20:09:48 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.1]]></category>
+		<category><![CDATA[12.2]]></category>
+		<category><![CDATA[12.3]]></category>
+		<category><![CDATA[13.1]]></category>
+		<category><![CDATA[13.2]]></category>
+		<category><![CDATA[42.1]]></category>
+		<category><![CDATA[42.2]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[fglrx]]></category>
+		<category><![CDATA[Tumbleweed]]></category>
+		<category><![CDATA[unified]]></category>
+		<category><![CDATA[xorg]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=12178</guid>
+		<description><![CDATA[Long time not talking about fglrx rpm, mostly because they&#8217;ve got no update since last December 2015. Short Summary In a word as hundred, fglrx is now a dead horse! We had the hope of getting it working for Leap 42.2 in October, but except freezing kernel and xorg, you will not get what you [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Long time not talking about fglrx rpm, mostly because they&#8217;ve got no update since last December 2015.</p>
+<h3 style="color:red">Short Summary</h3>
+<p>In a word as hundred, fglrx is now a dead horse!</p>
+<p><img src="https://image.slidesharecdn.com/090214failsoftwaredevelopment-1234881541128932-3/95/090214-fail-software-development-6-728.jpg?cb=1234860218" alt="Dead horse" /></p>
+<p>We had the hope of getting it working for Leap 42.2 in October, but except freezing kernel and xorg, you will not get what you would expect: a stable xorg session</p>
+<p><strong>Say goodbye fglrx!, repeat after me, goodbye fglrx.</strong></p>
+<blockquote><p>If you are locked down and forced for any reasons to use fglrx with your gpu, and are still using 42.1, then don&#8217;t upgrade to 42.2, without a plan B</p></blockquote>
+<p>It has no more support from AMD upstream, and that&#8217;s it!, if someone want to break its computer, it&#8217;s still possible to pick the last files and try it by yourself, but the repository will never contain it for 42.2 (see below how-to)</p>
+<p>That&#8217;s said, I&#8217;m not still sure, to keep for a long time the repository, I&#8217;ve been managing since 6 years now.</p>
+<h3>A bit of history</h3>
+<p>In 2010, when we were working hard to get 11.1 out, the news that no supported ATI (at that time) will be available for end-users, as we have for nvidia gpu</p>
+<p>I didn&#8217;t check back the irc log, but we were a few, that would like to have this still available, by pure commodity. Especially that I&#8217;ve just exchanged a non working gpu by my new hd5750.</p>
+<p>I remember the first chaotic steps, how to build that, and create repeating builds, what about the license? Did we have the right to offer a pre-build rpm etc. I spent some time fixing all of this stuff.<br />
+And start the build on real hardware. Hey afterward kvm was really in infancy stage.
+</p>
+<p>Release after release amd/ati and openSUSE, the driver was build, on hardware for each supported distribution. When beginning of 2013 Sebastian Siebert, who got some direct contacts with AMD, release<br />
+his own script, we collaborate to have the possibility to build on virtual machines, which allow me to simplify the build process, as having on kvm for each openSUSE release supported.
+</p>
+<p>Afterward, AMD start to split fglrx with the fglrx for HD5xx and above, and fglrx-legacy. So 2 drivers to maintain, but as always with proprietary software, the legacy version became rapidly obsolete,<br />
+and non usable. Not that bad, in the meantime the AMD effort on the free and open source radeon driver, quickly overcome the performance of legacy.</p>
+<p>Still from 2013, to 2016 I&#8217;ve been able to propose ready to use rpm for several version of openSUSE&#8217;s distributions. I think the repository serve quite well end users, and I never got big flames.</p>
+<p>I can&#8217;t avoid to mention the openSUSE powered server and sponsored by <a href="http://www.ioda-net.ch">Ioda-Net Sàrl</a> that has serve this objective so well during that time frame.</p>
+<h3>Future of the repository</h3>
+<p>Now that fglrx is becoming obsolete, I think seriously about why the repository online should stay online.</p>
+<p>At openSUSE project level, we still have 13.1, 13.2, 42.1 and 42.2 that are mostly active. 13.1 is already almost out of the game of evergreen,<br />
+13.2 will follow soon, and I don&#8217;t know yet the exact plan for 42.1, but it will certainly go out of maintenance in less than a year.
+</p>
+<p>If you feel or have the need of the repository, please express that in the comments below.</p>
+<h3>Wait there&#8217;s amd-gpu-pro, no?</h3>
+<p>Yeap there&#8217;s a closed driver, called amd-gpu-pro, available, for newer cards. But there&#8217;s two things that bring me out of the game, first I don&#8217;t have those newer gpu,<br />
+and don&#8217;t have the need to replace my hd5750 for the moment. The second and certainly the most important, those drivers are only available for Ubuntu or at least in .deb format.</p>
+<p>I will certainly not help proprietary crap, if I don&#8217;t have a solid base to work with, and a bit of help from their side. I wish good luck to those who want to try those drivers,<br />
+I&#8217;ve got a look inside, and got a blame face.</p>
+<h3>For crazy, and those who don&#8217;t love their computer</h3>
+<p>So you want to loose your time? you can! I&#8217;ve kept <a href="http://geeko.ioda.net/mirror/amd-fglrx/raw-src">in raw-src directory</a> all the script used to build the driver.<br />
+They differ a bit compared to <a href="http://www.sebastian-siebert.de/">Sebastian Siebert last version</a> in the sense of making Leap 422 as a possible target.<br />
+If you dig a bit around, you should be able to build them, but you&#8217;re alone on that way, you&#8217;ve been warned!
+</p>
+<p>I&#8217;m not against a republished version, if someone find a way to make them working, just drop me a message.</p>
+<p>That&#8217;s all for this journey, Have Fun! <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2016/12/07/amdati-catalyst-fglrx-rpms-end-of-an-era/feed/</wfw:commentRss>
+		<slash:comments>15</slash:comments>
+		</item>
+		<item>
+		<title>Proprietary AMD/ATI Catalyst fglrx rpms new release 15.11 (15.300.1025-1)</title>
+		<link>https://lizards.opensuse.org/2015/12/06/proprietary-amdati-catalyst-fglrx-rpms-new-release-15-11-15-300-1025-1/</link>
+		<pubDate>Sun, 06 Dec 2015 19:37:24 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Distribution]]></category>
+		<category><![CDATA[GNOME]]></category>
+		<category><![CDATA[KDE]]></category>
+		<category><![CDATA[Packaging]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[XFCE]]></category>
+		<category><![CDATA[13.1]]></category>
+		<category><![CDATA[13.2]]></category>
+		<category><![CDATA[42.1]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[fglrx]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Tumbleweed]]></category>
+		<category><![CDATA[unified]]></category>
+		<category><![CDATA[xorg]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=11582</guid>
+		<description><![CDATA[Time to get an update for fglrx: the new release has been build for 13.1, 13.2, Leap 42.1, and tumbleweed 20151201 Tumbleweed beware : broken Xorg It seems since the release, that a number of report of broken xorg with gdm, ssdm and so&#8230; segfaulting You can still use the previous version hanging on the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Time to get an update for fglrx: the new release has been build for 13.1, 13.2, Leap 42.1, and tumbleweed 20151201</p>
+<h1 style="color:red">Tumbleweed beware : broken Xorg</h1>
+<p>It seems since the release, that a number of report of broken xorg with gdm, ssdm and so&#8230; segfaulting</p>
+<p>You can still use the previous version hanging on the server. But I doubt it would work better</p>
+<p>As soon, with Sebastian Siebert we have a patch for, I will republish a new build</p>
+<p>Informations &amp; bugreport <a href="https://www.sebastian-siebert.de/2015/12/05/opensuse-proprietaeren-grafik-treiber-amd-catalyst-15-11-als-rpm-installieren">Sebastian&#8217;s blog</a> or <a href="https://lizards.opensuse.org/2015/12/05/amd-catalyst-15-11-for-opensuse-new-makerpm-amd-script-is-available/">lizards.o.o</a><br />
+<br />
+The proposed drivers support kernel up to version 4.4
+</p>
+<p>AMD release note <a href="http://support.amd.com/en-us/kb-articles/Pages/AMDRadeonSoftwareCrimsonEdition15-11LINReleaseNotes.aspx">available</p>
+<h4>Sebastien Siebert making script</h4>
+<p style="clear:both"><a href="http://www.sebastian-siebert.de/">Sebastian Siebert posts about fglrx</a></p>
+<p>If you have any problems with the driver, don&#8217;t be afraid to report to Sebastian (German and English bugreports are gladly accepted).<br />
+he will try, as far as I am able to reproduce the bug. Together with the necessary system information, he will go directly to the right place at AMD to have the bug fixed in the next driver release.<br />
+Thank you very much, Sebastian.
+</p>
+<p>See below what to do in case of troubles.</p>
+<p>Or you can also ping him on irc (freespacer)</p>
+<h4>Debugging troubles</h4>
+<p>I recommend in case of trouble the use of <a href="http://www.sebastian-siebert.de/downloads/makerpm-amd-15.11.sh">his script</a> which can collect the whole informations needed to help you. then you just have to issue a simple commande in console to collect all informations, you can review them, and finally transmit them.<br />
+Check the website to get the latest.
+</p>
+<pre>su -c 'sh makerpm-amd-15.11.sh -ur'
+The system report 'amd-report.txt' was generated.                                                                                                          [ OK ]
+Do you want to read the system report 'amd-report.txt' now? yes/no [y/n]: y
+Are you sure to upload the above-named system report to sprunge.us? yes/no [y/n]: y
+
+The report was uploaded to sprunge.us.
+   The link is:  <a href="http://sprunge.us/eMEB">http://sprunge.us/eMEB</a>
+</pre>
+<p>Copy paste the link in the comment zone of Sebastian post</p>
+<p>All proudly distributed by openSUSE powered server and sponsored by <a href="http://www.ioda-net.ch">Ioda-Net Sàrl</a></p>
+]]></content:encoded>
+			</item>
+		<item>
+		<title>Proprietary AMD/ATI Catalyst fglrx rpms released</title>
+		<link>https://lizards.opensuse.org/2014/03/23/proprietary-amdati-catalyst-fglrx-rpms-released/</link>
+		<pubDate>Sun, 23 Mar 2014 18:25:00 +0000</pubDate>
+		<dc:creator><![CDATA[Bruno Friedmann]]></dc:creator>
+				<category><![CDATA[Base System]]></category>
+		<category><![CDATA[Desktop]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[X.org]]></category>
+		<category><![CDATA[11.4]]></category>
+		<category><![CDATA[12.1]]></category>
+		<category><![CDATA[12.2]]></category>
+		<category><![CDATA[12.3]]></category>
+		<category><![CDATA[13.1]]></category>
+		<category><![CDATA[amd]]></category>
+		<category><![CDATA[ATI]]></category>
+		<category><![CDATA[fglrx]]></category>
+		<category><![CDATA[Tumbleweed]]></category>
+		<category><![CDATA[unified]]></category>
+		<category><![CDATA[xorg]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=10693</guid>
+		<description><![CDATA[Proprietary AMD/ATI Catalyst fglrx rpms released Patience is a virtue, especially with AMD gpu drivers, but today is the FGLRX day! Yesterday Sebastian Siebert has published new versions for almost everything (except legacy dead horse). So after 3 versions of the driver, compiled for 6 versions of openSUSE, under 2 arch, the rpms have been [&#8230;]]]></description>
+				<content:encoded><![CDATA[<h2>Proprietary AMD/ATI Catalyst fglrx rpms released</h2>
+<p>Patience is a virtue, especially with AMD gpu drivers, but today is the FGLRX day!</p>
+<p>Yesterday Sebastian Siebert has published new versions for almost everything (except legacy dead horse).</p>
+<p>So after 3 versions of the driver, compiled for 6 versions of openSUSE, under 2 arch, the rpms have been published today</p>
+<p>Question : how many compilation does that mean? <img src="https://s.w.org/images/core/emoji/2.2.1/72x72/1f642.png" alt="&#x1f642;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<h3>Résumé</h3>
+<h4># # AMD fglrx standard (HD5xxx+ radeon gpu) 13.251-4</h4>
+<p>So we got a new build of the 13.12 standard version, including support for newer 3.14x kernel.Available for openSUSE 11.4 to 13.1 plus Tumbleweed
+</p>
+<p><a href="http://geeko.ioda.net/mirror/amd-fglrx/">mirror link</a></p>
+<p>Informations &amp; bugreport <a href="http://www.sebastian-siebert.de/2013/12/21/opensuse-proprietaeren-grafik-treiber-amd-catalyst-13-12-als-rpm-installieren/">Sebastian&#8217;s blog</a></p>
+<h4># # AMD fglrx standard BETA 14.3V1.0 (HD5xxx+ radeon gpu)</h4>
+<p>Sebastian refresh the script to build the last beta offered by AMD</p>
+<p>If you feel brave enough to work them, the rpm are located at the repository address</p>
+<p><a href="http://geeko.ioda.net/mirror/amd-fglrx-beta/">beta mirror link</a></p>
+<p>Informations &amp; bugreport <a href="http://www.sebastian-siebert.de/2014/03/21/opensuse-proprietaeren-grafik-treiber-amd-catalyst-14-3-beta-v1-0-als-rpm-installieren/">Sebastian&#8217;s blog</a></p>
+<h4># # NEW AMD fglrx unified for FirePro &amp; FireMV gpu 13.251-1</h4>
+<p>Sebastian now offer also the support for the unified driver for FirePro &amp; FireMV gpu.<br />
+<br />The driver is also called fglrx, and you should not mix the different repository. So take care of that.<br />
+<br />We create a new repository you could use.
+</p>
+<p><a href="http://geeko.ioda.net/mirror/amd-fire-unified/">amd-fire-unified mirror link</a></p>
+<p>Informations &amp; bugreport <a href="http://www.sebastian-siebert.de/2014/03/21/opensuse-proprietaeren-grafik-treiber-amd-firepro-and-firemv-unified-driver-13-251-1-als-rpm-installieren/">Sebastian&#8217;s blog</a></p>
+<p><span id="more-10693"></span></p>
+<h3>Notices</h3>
+<p>This release concern only owners of radeon HD5xxx or above.<br />
+For older gpu, the fglrx-legacy is still 13.1, and thus didn&#8217;t work with openSUSE 12.3 or above.<br />
+<a href="http://en.opensuse.org/SDB:AMD_fglrx_legacy">SDB:AMD_fgrlx_legacy</a><br />
+Beware of that, and prefer the free open-source radeon driver which came out of the box from your openSUSE distribution.<br />
+For 12.3 and especially 13.1 the free radeon often offer a better experience than the old fglrx-legacy.
+</p>
+<h4>geeko.ioda.net got a new home</h4>
+<p>After more than 4 years of good service, our old server got retired. Since 10 days a new beefy server is in place to serve the community.<br />
+If you find any trouble using it, please just drop me an email.</p>
+<p>I&#8217;ve totally cleanup the old vhosts ftp.ioda.net, linux.ioda.net so update your bookmarks, and warn your friends.</p>
+<h4>Changing the signer of package</h4>
+<p>Last december, I&#8217;ve done a change with which key used for signing the package and repository. So you will need to trust the new key for the repository</p>
+<pre>
+zypper ref -f -r amd-fglrx
+Forcing raw metadata refresh
+Retrieving repository 'amd-fglrx' metadata ---------------------------------------------------------------------------------------------------------------------------------------------[\]
+
+New repository or package signing key received:
+Key ID: 484F703065BE584C
+Key Name: builder Ioda-Net (Building and signing packages build at Ioda-Net) 
+Key Fingerprint: 80D079EBFB1AB0FEE3CA41E6484F703065BE584C
+Key Created: lun 30 jui 2012 15:27:35 CEST
+Key Expires: sam 29 jui 2017 15:27:35 CEST
+Repository: amd-fglrx
+
+Do you want to reject the key, trust temporarily, or trust always? [r/t/a/? shows all options] (r): a
+</pre>
+<h4>Sebastien Siebert making script</h4>
+<p style="clear:both"><a href="http://www.sebastian-siebert.de/">Sebastian Siebert posts about fglrx</a></p>
+<p>If you have any problems with the driver, don&#8217;t be afraid to report to Sebastian (German and English bugreports are gladly accepted).<br />
+he will try, as far as I am able to reproduce the bug. Together with the necessary system information, he will go directly to the right place at AMD to have the bug fixed in the next driver release.<br />
+Thank you very much, Sebastian.
+</p>
+<p>See below what to do in case of troubles.</p>
+<p>Or you can also ping him on irc (freespacer)</p>
+<h4>Debugging troubles</h4>
+<p>I recommend in case of trouble the use of <a href="http://www.sebastian-siebert.de/downloads/makerpm-amd-13.12.sh">his script</a> which can collect the whole informations needed to help you. then you just have to issue a simple commande in console to collect all informations, you can review them, and finally transmit them.<br />
+Check the website to get the latest.
+</p>
+<pre>su -c 'sh makerpm-amd-13.12.sh -ur'
+The system report 'amd-report.txt' was generated.                                                                                                          [ OK ]
+Do you want to read the system report 'amd-report.txt' now? yes/no [y/n]: y
+Are you sure to upload the above-named system report to sprunge.us? yes/no [y/n]: y
+
+The report was uploaded to sprunge.us.
+   The link is:  <a href="http://sprunge.us/eMEB">http://sprunge.us/eMEB</a>
+</pre>
+<p>Copy paste the link in the comment zone of Sebastian post</p>
+<p>All proudly distributed by openSUSE powered server and sponsored by <a href="http://www.ioda-net.ch">Ioda-Net Sàrl</a></p>
+]]></content:encoded>
+			</item>
+	</channel>
+</rss>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	
+	>
+<channel>
+	<title>Comments on: Highlights of YaST Development Sprint 94</title>
+	<atom:link href="https://lizards.opensuse.org/2020/03/06/yast-sprint-94/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org/2020/03/06/yast-sprint-94/</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 17:50:09 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>By: Tony Su</title>
+		<link>https://lizards.opensuse.org/2020/03/06/yast-sprint-94/#comment-17602</link>
+		<dc:creator><![CDATA[Tony Su]]></dc:creator>
+		<pubDate>Fri, 06 Mar 2020 17:50:09 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=14350#comment-17602</guid>
+		<description><![CDATA[Noticed in my opening paragraph about XFCE running on Ubuntu that I didn&#039;t include it was in WSL... Which ordinarily supports only a text mode environment unless you set up an X server for itself]]></description>
+		<content:encoded><![CDATA[<p>Noticed in my opening paragraph about XFCE running on Ubuntu that I didn&#8217;t include it was in WSL&#8230; Which ordinarily supports only a text mode environment unless you set up an X server for itself</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Tony Su</title>
+		<link>https://lizards.opensuse.org/2020/03/06/yast-sprint-94/#comment-17601</link>
+		<dc:creator><![CDATA[Tony Su]]></dc:creator>
+		<pubDate>Fri, 06 Mar 2020 17:46:53 +0000</pubDate>
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=14350#comment-17601</guid>
+		<description><![CDATA[All very cool stuff...
+
+Before getting into the article itself,
+I&#039;d like to mention that yesterday I saw a very enterprising YouTube video that described how he set up an XFCE Desktop to run on Ubuntu... Which I thought was extraordinarily ambitious. IMO there would be extreme interest if anyone were to put in an effort to do same on openSUSE. IIRC involved installing an X Server I&#039;d never heard of before, then some further tinkering with X display configuration.
+
+Here is some immediate feedback and observation on this YaST Developmebt Sprint 94 article (Thx!)...
+
+Improved Compatibility with WSL
+I don&#039;t remember how long it took to install 15.1 WSL on my old system, it did take awhile but haven&#039;t checked on this recently. I did observe a CentOS installed on someone else&#039; system that took only about a minute. Noticed with pleasure the Microsoft store cleanup, removing the multiple old apps that pretty much all did the same thing.
+
+I took this opportunity to install WSL on a new system (Intel 8050 1.8mhz, 16GB Optane/1TB 7200 HDD), and it installed in 40 seconds. Inspecting YAST modules, I do suspect implements described improvements removing unnecessary modules but I suspect may have been overdone. I will personally review over next few days. Never know for sure if Optane has an effect, it has a 2x effect installing VBox packages but not always apparent when something is running first time.
+
+Noticed that WSL only has OSS and OSS update repos installed. Notable.
+
+I can&#039;t remember my first experience booting 42.3 the first time, so can&#039;t comment on firstboot performance, but is plenty fast after repos have been refreshed the first time.
+
+Interesting about removing systemd completely (running in Windows init).
+I seem to remember limited systemd commands working before, particularly checking status but problematic whether can start/stop. Now, nothing. 
+
+In fact,
+No services reported running even using the &quot;service --status-all&quot; command
+And, Partitioner is reading not just no devices but nothing at all (The module just runs with no content). I see at the bottom this is recognized and reason unknown.
+Interesting that &quot;journalctl&quot; is still in the system although it doesn&#039;t work because there is nothing to read.
+
+There is an urgent problem with system messages...
+Of course the journal and anything systemd related doesn&#039;t exist.
+But, there are no system logs in /var/log either (just some yast and other logs).
+You allowed the yast2-module to read system logs to remain, but when it&#039;s run, it&#039;s apparently only a pointer that installs the actual module and that in turn discovers there&#039;s nothing to read again.
+
+Bottom line, although I didn&#039;t check out the full extent of what was possible using systemd in WSL before, I don&#039;t remember running into so many issues, the ramifications of ripping out systemd is likely more extensive than realized.
+
+That&#039;s really cool about YaST identifying sysctl conflicts, AFAIK in general sysctl is the preferred way for low level custom modifications so that if there is a conflict(compare what would happen if the change is made directly to /etc/proc/), the modification will fail without borking the system but doesn&#039;t identify what the conflict might be (might be in the system logs)
+
+Much thx to all the hard work that went into these changes...]]></description>
+		<content:encoded><![CDATA[<p>All very cool stuff&#8230;</p>
+<p>Before getting into the article itself,<br />
+I&#8217;d like to mention that yesterday I saw a very enterprising YouTube video that described how he set up an XFCE Desktop to run on Ubuntu&#8230; Which I thought was extraordinarily ambitious. IMO there would be extreme interest if anyone were to put in an effort to do same on openSUSE. IIRC involved installing an X Server I&#8217;d never heard of before, then some further tinkering with X display configuration.</p>
+<p>Here is some immediate feedback and observation on this YaST Developmebt Sprint 94 article (Thx!)&#8230;</p>
+<p>Improved Compatibility with WSL<br />
+I don&#8217;t remember how long it took to install 15.1 WSL on my old system, it did take awhile but haven&#8217;t checked on this recently. I did observe a CentOS installed on someone else&#8217; system that took only about a minute. Noticed with pleasure the Microsoft store cleanup, removing the multiple old apps that pretty much all did the same thing.</p>
+<p>I took this opportunity to install WSL on a new system (Intel 8050 1.8mhz, 16GB Optane/1TB 7200 HDD), and it installed in 40 seconds. Inspecting YAST modules, I do suspect implements described improvements removing unnecessary modules but I suspect may have been overdone. I will personally review over next few days. Never know for sure if Optane has an effect, it has a 2x effect installing VBox packages but not always apparent when something is running first time.</p>
+<p>Noticed that WSL only has OSS and OSS update repos installed. Notable.</p>
+<p>I can&#8217;t remember my first experience booting 42.3 the first time, so can&#8217;t comment on firstboot performance, but is plenty fast after repos have been refreshed the first time.</p>
+<p>Interesting about removing systemd completely (running in Windows init).<br />
+I seem to remember limited systemd commands working before, particularly checking status but problematic whether can start/stop. Now, nothing. </p>
+<p>In fact,<br />
+No services reported running even using the &#8220;service &#8211;status-all&#8221; command<br />
+And, Partitioner is reading not just no devices but nothing at all (The module just runs with no content). I see at the bottom this is recognized and reason unknown.<br />
+Interesting that &#8220;journalctl&#8221; is still in the system although it doesn&#8217;t work because there is nothing to read.</p>
+<p>There is an urgent problem with system messages&#8230;<br />
+Of course the journal and anything systemd related doesn&#8217;t exist.<br />
+But, there are no system logs in /var/log either (just some yast and other logs).<br />
+You allowed the yast2-module to read system logs to remain, but when it&#8217;s run, it&#8217;s apparently only a pointer that installs the actual module and that in turn discovers there&#8217;s nothing to read again.</p>
+<p>Bottom line, although I didn&#8217;t check out the full extent of what was possible using systemd in WSL before, I don&#8217;t remember running into so many issues, the ramifications of ripping out systemd is likely more extensive than realized.</p>
+<p>That&#8217;s really cool about YaST identifying sysctl conflicts, AFAIK in general sysctl is the preferred way for low level custom modifications so that if there is a conflict(compare what would happen if the change is made directly to /etc/proc/), the modification will fail without borking the system but doesn&#8217;t identify what the conflict might be (might be in the system logs)</p>
+<p>Much thx to all the hard work that went into these changes&#8230;</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>

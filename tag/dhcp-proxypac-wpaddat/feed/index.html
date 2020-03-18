@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>DHCP proxy.pac wpad.dat &#8211; openSUSE Lizards</title>
+	<atom:link href="https://lizards.opensuse.org/tag/dhcp-proxypac-wpaddat/feed/" rel="self" type="application/rss+xml" />
+	<link>https://lizards.opensuse.org</link>
+	<description>Blogs and Ramblings of the openSUSE Members</description>
+	<lastBuildDate>Fri, 06 Mar 2020 11:29:40 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=4.7.5</generator>
+	<item>
+		<title>Sending Proxy Settings via DHCP</title>
+		<link>https://lizards.opensuse.org/2009/06/03/sending-proxy-settings-via-dhcp/</link>
+		<comments>https://lizards.opensuse.org/2009/06/03/sending-proxy-settings-via-dhcp/#comments</comments>
+		<pubDate>Wed, 03 Jun 2009 18:42:59 +0000</pubDate>
+		<dc:creator><![CDATA[kl_eisbaer]]></dc:creator>
+				<category><![CDATA[Network]]></category>
+		<category><![CDATA[YaST]]></category>
+		<category><![CDATA[DHCP proxy.pac wpad.dat]]></category>
+
+		<guid isPermaLink="false">http://lizards.opensuse.org/?p=1219</guid>
+		<description><![CDATA[It&#8217;s a bit &#8220;overdressed&#8221; for my little homenet, but playing around with DHCP, DNS and YaST is always interesting&#8230;. My DHCP Server at home is configured to use LDAP &#8211; and I&#8217;ve done the configuration via YaST. Now I read in some M$ pages, that it&#8217;s possible to tell the Clients via DHCP (and Apache) [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>It&#8217;s a bit &#8220;overdressed&#8221; for my little homenet, but playing around with DHCP, DNS and YaST is always interesting&#8230;.</p>
+<p>My DHCP Server at home is configured to use LDAP &#8211; and I&#8217;ve done the configuration via YaST. Now I read in some M$ pages, that it&#8217;s possible to tell the Clients via DHCP (and Apache) to use my Proxy server automatically. (Yes, my wife still needs Win** for her schoolwork.)</p>
+<p>First, I had to figure out how I can insert two &#8220;non standard&#8221; options into the LDAP configuration of the DHCP server. I called &#8220;yast2 dhcp-server&#8221; (thanks for the tab completion, btw!), marked the &#8220;Global Options&#8221; entry and clicked on &#8220;Edit&#8221; (not Add!). On the next page, click on &#8220;Add&#8221; to add a new Option. Just delete the first available entry &#8220;allow&#8221; and replace it with the full line as you would write it in dhcpd.conf. In my case, this is<br />
+<em>option wpad code 252 = text;</em><br />
+and<br />
+<em>option wpad &#8220;http://myserver/proxy.pac\n&#8221;;</em><br />
+(dunno if the &#8220;\n&#8221; is really needed). That&#8217;s the trick. Have a look at /var/log/messages in a separate terminal when you finish the yast2 dhcp-server module to catch possible errors.</p>
+<p>Now all what&#8217;s left is a running apache server on &#8220;myserver&#8221; delivering the &#8220;proxy.pac&#8221; file to your users. The file content is well known &#8211; and google would find hundreds of examples for you.</p>
+]]></content:encoded>
+			<wfw:commentRss>https://lizards.opensuse.org/2009/06/03/sending-proxy-settings-via-dhcp/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+	</channel>
+</rss>
